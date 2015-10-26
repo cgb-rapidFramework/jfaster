@@ -12,15 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
-import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.tag.core.easyui.TagUtil;
-import org.jeecgframework.web.system.pojo.base.TSDepart;
+import org.jeecgframework.platform.common.tag.easyui.TagUtil;
+import org.jeecgframework.platform.constant.Globals;
+import org.jeecgframework.web.command.util.hqlsearch.HqlGenerateUtil;
+import org.jeecgframework.web.common.controller.BaseController;
 import org.jeecgframework.web.system.service.SystemService;
-import org.jeecgframework.core.util.MyBeanUtils;
+
 
 import ${bussiPackage}.entity.${entityPackage}.${entityName}Entity;
 import ${bussiPackage}.service.${entityPackage}.${entityName}ServiceI;
@@ -73,7 +75,7 @@ public class ${entityName}Controller extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
+	 * @param ${entityName?uncap_first}
 	 */
 
 	@RequestMapping(params = "datagrid")
@@ -107,7 +109,7 @@ public class ${entityName}Controller extends BaseController {
 	/**
 	 * 添加${ftl_description}
 	 * 
-	 * @param ids
+	 * @param ${entityName?uncap_first}
 	 * @return
 	 */
 	@RequestMapping(params = "save")
