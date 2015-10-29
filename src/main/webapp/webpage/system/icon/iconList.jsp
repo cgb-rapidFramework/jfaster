@@ -3,11 +3,11 @@
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
 <div region="center" style="padding: 1px;">
-    <t:datagrid name="iconList" title="icon.list" actionUrl="iconController.do?datagrid" idField="id">
+    <t:datagrid name="iconList" title="icon.list" actionUrl="iconController.do?datagrid" idField="id" queryMode="group">
         <t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
         <t:dgCol title="common.icon.name" query="true" field="iconName"></t:dgCol>
         <t:dgCol title="common.icon.style" field="iconClas"></t:dgCol>
-        <t:dgCol title="common.icon.type" field="iconType" replace="system.icon_1,menu.icon_2,desktop.icon_3"></t:dgCol>
+        <t:dgCol title="common.icon.type" field="iconType" query="true" dictionary="icontype"></t:dgCol>
         <t:dgCol title="common.icon" field="iconPath" image="true" style="width:20px; height:20px;"></t:dgCol>
         <t:dgCol title="common.icon.type" field="extend"></t:dgCol>
         <t:dgCol title="common.operation" field="opt"></t:dgCol>

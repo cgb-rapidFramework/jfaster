@@ -52,7 +52,7 @@ public class BeanToTagUtils {
 			
 			IconBean TSIconDeskBean=new IconBean();
 			TSIcon conDeskBean=function.getTSIconDesk();
-			if(conDeskBean!=null){
+			if(StringUtil.isNotEmpty(conDeskBean)){
 				BeanUtils.copyProperties(conDeskBean, TSIconDeskBean);
 				functionBean.setTSIconDesk(TSIconDeskBean);
 			}

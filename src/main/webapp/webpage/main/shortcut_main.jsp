@@ -3,7 +3,7 @@
 <!DOCTYPE html >
 <html>
 <head>
-<title><t:mutiLang langKey="jeect.platform"/></title>
+<title><t:mutiLang langKey="common.platform"/></title>
 <t:base type="jquery,easyui,tools,DatePicker,autocomplete"></t:base>
 <link rel="shortcut icon" href="images/favicon.ico">
 <style type="text/css">
@@ -226,9 +226,7 @@ a:hover {
     <div align="center" style="color: #1fa3e5; padding-top: 2px">&copy;
         <t:mutiLang langKey="common.copyright"/>
         <span class="tip">
-            <a href="http://www.jeecg.org" title="JEECG Framework 3.4.3 GA">JEECG Framework 3.4.3GA</a>
-            <t:mutiLang langKey="common.browser"/>:
-            <a href="#" title="JEECG Framework 3.4.3 GA">JEECG Framework 3.4.3 GA</a>
+            <a href="http://www.hulasou.org" target="_blank" title="<t:mutiLang langKey="system.name" />"><t:mutiLang langKey="system.name" /></a>
         </span>
     </div>
 </div>

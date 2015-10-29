@@ -80,8 +80,8 @@
 <footer class="footer">
 <div class="container">
 <ul class="footer-links">
-	<li style="display: inline;">&copy; <t:mutiLang langKey="common.copyright"/><a href="http://www.jeecg.org" title="JEECG Framework 3.4.3 GA">JEECG Framework 3.4.3 GA</a></li>
-	<li style="display: inline;">&nbsp;<t:mutiLang langKey="common.copyright"/><t:mutiLang langKey="common.browser"/>:<a title="JEECG Framework 3.4.3 GA" href="http://www.jeecg.org">JEECG Framework 3.4.3 GA</a></li>
+	<li style="display: inline;">&copy; <t:mutiLang langKey="common.copyright"/><a href="http://www.jeecg.org" title="<t:mutiLang langKey="system.name" />"><t:mutiLang langKey="system.name" /></a></li>
+	<li style="display: inline;">&nbsp;<t:mutiLang langKey="common.copyright"/><t:mutiLang langKey="common.browser"/>:<a title="<t:mutiLang langKey="system.name" />" href="http://www.hulasou.com"><t:mutiLang langKey="system.name" /></a></li>
 </ul>
 </div>
 </footer>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div style="margin-top: 14px;text-align: center;">
-       欢迎来到，BMS开源之家
+       欢迎使用，BMS开源框架
 </div>
 <!-- <div style="margin-top: 14px;">
 <h3>简介</h3>
