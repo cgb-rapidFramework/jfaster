@@ -3,7 +3,7 @@
 <!DOCTYPE html >
 <html>
 <head>
-<title><t:mutiLang langKey="jeect.platform"/></title>
+<title><t:mutiLang langKey="common.platform"/></title>
 <t:base type="jquery,easyui,tools,DatePicker,autocomplete"></t:base>
 <link rel="shortcut icon" href="images/favicon.ico">
 <style type="text/css">
@@ -16,11 +16,9 @@ a:hover {
 	color: black;
 	text-decoration: none;
 }
-/*update-start--Author:zhangguoming  Date:20140622 for：左侧树调整：加大宽度、更换节点图标、修改选中颜色*/
 .tree-node-selected{
     background: #eaf2ff;
 }
-/*update-end--Author:zhangguoming  Date:20140622 for：左侧树调整：加大宽度、更换节点图标、修改选中颜色*/
 </style>
 <SCRIPT type="text/javascript">
 
@@ -126,7 +124,7 @@ a:hover {
 </head>
 <body class="easyui-layout" style="overflow-y: hidden" scroll="no">
 <!-- 顶部-->
-<div region="north" border="false" title="MAY开源系统" style="BACKGROUND: #E6E6FA; height: 85px; padding: 1px; overflow: hidden;">
+<div region="north" border="false" title="<t:mutiLang langKey="system.name"/>" style="BACKGROUND: #E6E6FA; height: 85px; padding: 1px; overflow: hidden;">
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
 <tr>
     <td align="left" style="vertical-align: text-bottom;"><img src="plug-in/login/images/head.png;"> <img src="plug-in/login/images/foot.png"></td>
@@ -206,9 +204,7 @@ a:hover {
     <div align="center" style="color: #CC99FF; padding-top: 2px">&copy;
         <t:mutiLang langKey="common.copyright"/>
         <span class="tip">
-            <a href="http://www.jeecg.org" title=" JEECG Framework 3.4.3 GA"> JEECG Framework 3.4.3 GA</a>
-            <t:mutiLang langKey="common.copyright"/>:
-            <a href="#" title=" JEECG Framework 3.4.3 GA">JEECG Framework 3.4.3 GA</a>
+            <a href="http://www.hulasou.com" title="<t:mutiLang langKey="system.name"/>"><t:mutiLang langKey="system.name"/> <t:mutiLang langKey="system.version"/></a>
         </span>
     </div>
 </div>

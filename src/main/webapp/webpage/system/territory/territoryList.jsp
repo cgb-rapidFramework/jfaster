@@ -4,10 +4,10 @@
 <div id="system_territory_territoryList" class="easyui-layout" fit="true">
 <div region="center" style="padding: 1px;"><t:datagrid name="territoryList" title="area.manage" actionUrl="territoryController.do?territoryGrid" idField="id" treegrid="true" pagination="false">
 	<t:dgCol title="common.id" field="id" treefield="id" hidden="true"></t:dgCol>
-	<t:dgCol title="area.name" field="territoryName" treefield="text"></t:dgCol>
-	<t:dgCol title="area.code" field="territorySrc" treefield="src"></t:dgCol>
-	<t:dgCol title="display.order" field="territorySort" treefield="order"></t:dgCol>
-	<t:dgCol title="common.operation" field="opt"></t:dgCol>
+	<t:dgCol title="area.name" field="territoryName" treefield="text" width="30"></t:dgCol>
+	<t:dgCol title="area.code" field="territorySrc" treefield="src" width="10"></t:dgCol>
+	<t:dgCol title="display.order" field="territorySort" treefield="order" width="10"></t:dgCol>
+	<t:dgCol title="common.operation" field="opt" width="10"></t:dgCol>
 	<t:dgDelOpt url="territoryController.do?del&id={id}" title="common.delete"></t:dgDelOpt>
 	<t:dgToolBar title="common.add.param" langArg="common.area" icon="icon-add" url="territoryController.do?addorupdate" funname="addFun"></t:dgToolBar>
 	<t:dgToolBar title="common.edit.param" langArg="common.area" icon="icon-edit" url="territoryController.do?addorupdate" funname="update"></t:dgToolBar>

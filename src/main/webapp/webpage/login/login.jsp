@@ -9,7 +9,7 @@ String langurl = "plug-in/mutiLang/" + lang +".js";
 
 <html>
 <head>
-<title></title>
+<title><t:mutiLang langKey="system.name"/></title>
 <link rel="shortcut icon" href="resources/fc/images/icon/favicon.ico">
 <script src=<%=langurl%> type="text/javascript"></script>
 <!--[if lt IE 9]>
@@ -132,11 +132,9 @@ label.iPhoneCheckLabelOn span {
 							<%-- 
                             <div style="float: left; margin-left: 30px;"><a href="init.jsp"><span class="f_help"><t:mutiLang langKey="common.init.data"/></span></a></div>
                             --%>
-							<%--update-begin--Author:ken  Date:20140629 for：添加语言选择--%>
 							<br>
 							<t:dictSelect id="langCode" field="langCode" typeGroupCode="lang"
 								hasLabel="false" defaultVal="zh-cn"></t:dictSelect>
-							<%--update-begin--Author:ken  Date:20140629 for：添加语言选择--%>
 						</div>
 						<div class="clear"></div>
 					</div>
@@ -152,9 +150,8 @@ label.iPhoneCheckLabelOn span {
 			&copy;
 			<t:mutiLang langKey="common.copyright" />
 			<span class="tip"><a href="#"
-				title=<t:mutiLang langKey="common.platform"/>><t:mutiLang langKey="common.platform"/></a> <t:mutiLang
-					langKey="common.browser.recommend" />:<a href="#"
-				title=<t:mutiLang langKey="common.platform"/>><t:mutiLang langKey="common.platform"/></a></span>
+				title=<t:mutiLang langKey="system.name"/>><t:mutiLang langKey="system.name"/><t:mutiLang langKey="system.version"/></a> <t:mutiLang
+					langKey="common.browser.recommend" />:<a href="#" title=<t:mutiLang langKey="system.name"/>><t:mutiLang langKey="system.name"/></a></span>
 		</div>
 	</div>
 	<!-- Link JScript-->

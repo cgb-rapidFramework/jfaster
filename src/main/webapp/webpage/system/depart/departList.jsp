@@ -7,11 +7,11 @@
                     actionUrl="departController.do?departgrid"
                     treegrid="true" idField="departid" pagination="false">
             <t:dgCol title="common.id" field="id" treefield="id" hidden="true"></t:dgCol>
-            <t:dgCol title="common.department.name" field="departname" treefield="text"></t:dgCol>
-            <t:dgCol title="position.desc" field="description" treefield="src"></t:dgCol>
-            <t:dgCol title="common.org.code" field="orgCode" treefield="fieldMap.orgCode"></t:dgCol>
-            <t:dgCol title="common.org.type" field="orgType" dictionary="orgtype" treefield="fieldMap.orgType"></t:dgCol>
-            <t:dgCol title="common.operation" field="opt"></t:dgCol>
+            <t:dgCol title="common.department.name" field="departname" treefield="text" width="20"></t:dgCol>
+            <t:dgCol title="position.desc" field="description" treefield="src" width="30"></t:dgCol>
+            <t:dgCol title="common.org.code" field="orgCode" treefield="fieldMap.orgCode" width="10"></t:dgCol>
+            <t:dgCol title="common.org.type" field="orgType" dictionary="orgtype" treefield="fieldMap.orgType" width="10"></t:dgCol>
+            <t:dgCol title="common.operation" field="opt" width="20"></t:dgCol>
             <t:dgDelOpt url="departController.do?del&id={id}" title="common.delete"></t:dgDelOpt>
             <t:dgFunOpt funname="queryUsersByDepart(id)" title="view.member"></t:dgFunOpt>
             <t:dgFunOpt funname="setRoleByDepart(id,text)" title="role.set"></t:dgFunOpt>

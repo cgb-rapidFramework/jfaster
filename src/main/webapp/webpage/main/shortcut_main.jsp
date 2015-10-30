@@ -3,7 +3,7 @@
 <!DOCTYPE html >
 <html>
 <head>
-<title><t:mutiLang langKey="common.platform"/></title>
+<title><t:mutiLang langKey="system.title"/></title>
 <t:base type="jquery,easyui,tools,DatePicker,autocomplete"></t:base>
 <link rel="shortcut icon" href="images/favicon.ico">
 <style type="text/css">
@@ -132,7 +132,7 @@ a:hover {
 <tr>
     <td align="left" style="vertical-align: text-bottom"><img src="plug-in/login/images/logo.jpg"> <!--
             <img src="plug-in/login/images/toplogo.png" width="550" height="52" alt="">-->
-        <div style="position: absolute; top: 75px; left: 33px;">BMS Framework <span style="letter-spacing: -1px;">bate-v1.0</span></div>
+        <div style="position: absolute; top: 75px; left: 33px;"><t:mutiLang langKey="system.name"/> <span style="letter-spacing: -1px;">bate-v1.0</span></div>
     </td>
     <td align="right" nowrap>
         <table border="0" cellpadding="0" cellspacing="0">

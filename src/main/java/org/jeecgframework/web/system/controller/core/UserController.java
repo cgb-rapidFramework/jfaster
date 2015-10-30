@@ -921,9 +921,7 @@ public class UserController extends BaseController {
 				j.setSuccess(Boolean.TRUE);
 				j.setMsg("样式修改成功，请刷新页面");
 			}
-            //update-start--Author:JueYue  Date:2014-5-28 for:风格切换,菜单懒加载失效的问题
             ClientManager.getInstance().getClient().getFunctions().clear();
-            //update-end--Author:JueYue  Date:2014-5-28 for:风格切换,菜单懒加载失效的问题
 		}else{
 			j.setMsg("请登录后再操作");
 		}

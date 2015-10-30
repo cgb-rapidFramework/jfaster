@@ -110,7 +110,7 @@ function typeGridTree_UpdateType() {
             <t:dgFunOpt funname="queryTypeValue(id,typegroupname)" title="common.type.view"></t:dgFunOpt>
             <t:dgToolBar title="common.add.param" langArg="lang.dictionary.type" icon="icon-add" url="systemController.do?aouTypeGroup" funname="add"></t:dgToolBar>
             <%--<t:dgToolBar title="common.add.param" langArg="lang.dictionary.value" icon="icon-add" funname="typeGridTree_AddType"></t:dgToolBar>--%>
-            <t:dgToolBar title="common.edit" icon="icon-edit" funname="typeGridTree_UpdateType"></t:dgToolBar>
+            <t:dgToolBar title="common.edit" langArg="lang.dictionary.type" icon="icon-edit" url="systemController.do?aouTypeGroup"  funname="update"></t:dgToolBar>
         </t:datagrid>
     </div>
 </div>

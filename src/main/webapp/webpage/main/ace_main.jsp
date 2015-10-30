@@ -5,7 +5,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title><t:mutiLang langKey="jeect.platform"/></title>
+		<title><t:mutiLang langKey="system.title"/></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<!-- bootstrap & fontawesome -->
 		<link rel="stylesheet" href="plug-in/ace/css/bootstrap.css" />
@@ -62,7 +62,7 @@
 					<a href="#" class="navbar-brand">
 						<small>
 							<!-- <i class="fa fa-leaf"></i> -->
-							JEECG 演示系统
+							<t:mutiLang langKey="system.name"/>
 						</small>
 					</a>
 					<!-- /section:basics/navbar.layout.brand -->
@@ -586,46 +586,35 @@
 												</li>
 											</ul>
 							<div id="tabs-1" style="padding:0px">
-						 		<iframe style="width:100%;height:700px;margin:0px;padding:0px" scrolling="auto" frameborder="0" id="center"  src="loginController.do?home" ></iframe>
+						 		<iframe style="width:100%;height:550px;margin:0px;padding:0px" scrolling="auto" frameborder="0" id="center"  src="loginController.do?home" ></iframe>
 							</div>
 					</div>
 					</div><!-- /.page-content-area -->
 				</div><!-- /.page-content -->
 			</div><!-- /.main-content -->
 
-
 			<div class="footer">
 				<div class="footer-inner">
 					<!-- #section:basics/footer -->
 					<div class="footer-content">
 						<span class="bigger-120">
-							<span class="blue bolder">JEECG</span>
-							Application &copy; 2013-2014
+							<span class="blue bolder"><t:mutiLang langKey="system.name"/></span>
+							<t:mutiLang langKey="system.version"/>
 						</span>
-
-						&nbsp; &nbsp;
 						<span class="action-buttons">
-							<a href="#">
-								<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
-							</a>
-
-							<a href="#">
-								<i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
-							</a>
-
-							<a href="#">
+						    <a href="#">
 								<i class="ace-icon fa fa-rss-square orange bigger-150"></i>
 							</a>
 						</span>
 					</div>
-
 					<!-- /section:basics/footer -->
 				</div>
 			</div>
-
+            <%--
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
 				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
 			</a>
+			--%>
 		</div><!-- /.main-container -->
 		<!-- basic scripts -->
 
@@ -641,20 +630,15 @@
 			<tr>
 				<td class="value"><input type="radio" value="default" name="indexStyle" /> <span>经典风格</span></td>
 			</tr>
-			<!--
 			<tr>
 				<td class="value"><input type="radio" value="bootstrap" name="indexStyle" /> <span>BootStrap风格</span></td>
 			</tr>
-			-->
-			<!-- update-start--Author:gaofeng  Date:2014-01-10 for:新增首页风格  -->
 			<tr>
 				<td class="value"><input type="radio" value="shortcut" name="indexStyle" /> <span>ShortCut风格</span></td>
 			</tr>
-			<!-- update-start--Author:gaofeng  Date:2014-01-24 for:新增首页风格  -->
 			<tr>
 				<td class="value"><input type="radio" value="sliding" name="indexStyle"  /><span>Sliding云桌面</span></td>
 			</tr>
-			<!-- update-end--Author:longjb  Date:2013-03-15 for:新增首页风格  -->	
 			<tr>
 				<td class="value"><input type="radio" value="ace" name="indexStyle"  /><span>ACE平面风格</span></td>
 			</tr>

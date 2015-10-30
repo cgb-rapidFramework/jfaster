@@ -63,7 +63,7 @@
             <option value="0" <c:if test="${function.functionType eq 0}">selected="selected"</c:if>>
                 <t:mutiLang langKey="funcType.page"/>
             </option>
-            <option value="1" <c:if test="${function.functionType>0}"> selected="selected"</c:if>>
+            <option value="1" <c:if test="${function.functionType eq 1}"> selected="selected"</c:if>>
                 <t:mutiLang langKey="funcType.from"/>
             </option>
         </select>

@@ -116,12 +116,9 @@ public class LoginController extends BaseController{
 		DataSourceContextHolder
 				.setDataSourceType(DataSourceType.dataSource_jeecg);
 		AjaxJson j = new AjaxJson();
-        // update-begin--Author:ken  Date:20140629 for：添加语言选择
         if (req.getParameter("langCode")!=null) {
         	req.getSession().setAttribute("lang", req.getParameter("langCode"));
         }
-		// update-end--Author:ken  Date:20140629 for：添加语言选择
-//        update-begin--Author:zhangguoming  Date:20140226 for：添加验证码
         String randCode = req.getParameter("randCode");
         if (StringUtils.isEmpty(randCode)) {
             j.setMsg(mutiLangService.getLang("common.enter.verifycode"));
@@ -131,7 +128,6 @@ public class LoginController extends BaseController{
             j.setMsg(mutiLangService.getLang("common.verifycode.error"));
             j.setSuccess(false);
         } else {
-//            update-end--Author:zhangguoming  Date:20140226 for：添加验证码
             int users = userService.getList(TSUser.class).size();
             
             if (users == 0) {
@@ -139,21 +135,15 @@ public class LoginController extends BaseController{
                 j.setSuccess(false);
             } else {
                 TSUser u = userService.checkUserExits(user);
-//                update-begin--Author:zhangguoming  Date:20140617 for：空指针bug
                 if(u == null) {
                     j.setMsg(mutiLangService.getLang("common.username.or.password.error"));
                     j.setSuccess(false);
                     return j;
                 }
-//                update-end--Author:zhangguoming  Date:20140617 for：空指针bug
                 TSUser u2 = userService.findEntity(TSUser.class, u.getId());
             
                 if (u != null&&u2.getStatus()!=0) {
-                    // if (user.getUserKey().equals(u.getUserKey())) {
-                   
-                	
                     if (true) {
-//                        update-start-Author:zhangguoming  Date:20140825 for：处理用户有多个组织机构的情况，以弹出框的形式让用户选择
                         Map<String, Object> attrMap = new HashMap<String, Object>();
                         j.setAttributes(attrMap);
 
@@ -172,7 +162,6 @@ public class LoginController extends BaseController{
 
                             saveLoginSuccessInfo(req, u2, orgId);
                         }
-//                        update-end-Author:zhangguoming  Date:20140825 for：处理用户有多个组织机构的情况，以弹出框的形式让用户选择
                     } else {
                         j.setMsg(mutiLangService.getLang("common.check.shield"));
                         j.setSuccess(false);
@@ -182,9 +171,7 @@ public class LoginController extends BaseController{
                     j.setSuccess(false);
                 }
             }
-//            update-begin--Author:zhangguoming  Date:20140226 for：添加验证码
         }
-//        update-end--Author:zhangguoming  Date:20140226 for：添加验证码
 		return j;
 	}
 

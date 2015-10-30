@@ -5,12 +5,12 @@
 <div region="center" style="padding: 1px;">
     <t:datagrid name="iconList" title="icon.list" actionUrl="iconController.do?datagrid" idField="id" queryMode="group">
         <t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
-        <t:dgCol title="common.icon.name" query="true" field="iconName"></t:dgCol>
-        <t:dgCol title="common.icon.style" field="iconClas"></t:dgCol>
-        <t:dgCol title="common.icon.type" field="iconType" query="true" dictionary="icontype"></t:dgCol>
-        <t:dgCol title="common.icon" field="iconPath" image="true" style="width:20px; height:20px;"></t:dgCol>
-        <t:dgCol title="common.icon.type" field="extend"></t:dgCol>
-        <t:dgCol title="common.operation" field="opt"></t:dgCol>
+        <t:dgCol title="common.icon.name" query="true" field="iconName" width="10"></t:dgCol>
+        <t:dgCol title="common.icon.style" field="iconClas" width="10"></t:dgCol>
+        <t:dgCol title="common.icon.type" field="iconType" width="10" query="true" dictionary="icontype"></t:dgCol>
+        <t:dgCol title="common.icon" field="iconPath"  width="10" image="true" style="width:20px; height:20px;"  funname="viewImage" ></t:dgCol>
+        <t:dgCol title="common.icon.type" field="extend" width="10"></t:dgCol>
+        <t:dgCol title="common.operation" field="opt" width="20"></t:dgCol>
         <t:dgDelOpt url="iconController.do?del&id={id}" title="common.delete"></t:dgDelOpt>
         <t:dgToolBar title="common.add.param" langArg="common.icon" icon="icon-add" url="iconController.do?addorupdate" funname="add"></t:dgToolBar>
         <t:dgToolBar title="common.edit.param" langArg="common.icon" icon="icon-edit" url="iconController.do?addorupdate" funname="update"></t:dgToolBar>
@@ -18,3 +18,9 @@
     </t:datagrid>
 </div>
 </div>
+
+<script type="text/javascript">
+    function viewImage(title,id,url){
+        createdetailwindow(title+"列表", url,600,520);
+    }
+</script>

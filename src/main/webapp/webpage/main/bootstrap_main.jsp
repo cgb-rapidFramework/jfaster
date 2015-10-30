@@ -3,7 +3,7 @@
 <!DOCTYPE html >
 <html>
 <head>
-<title><t:mutiLang langKey="jeect.platform"/></title>
+<title><t:mutiLang langKey="system.title"/></title>
 <t:base type="jquery,easyui,tools,DatePicker,autocomplete"></t:base>
 <link rel="stylesheet" href="plug-in/bootstrap/css/bootstrap.css" type="text/css"></link>
 <style type="text/css">
@@ -47,7 +47,7 @@
 <div id="header">
 <div class="navbar">
 <div class="navbar-inner">
-<div class="container-fluid"><a class="brand" href="http://www.jeecg.org" target="_blank"><t:mutiLang langKey="common.platform"/> &nbsp;&nbsp;<span class="slogan"></span></a>
+<div class="container-fluid"><a class="brand" href="http://www.hulasou.com" target="_blank"><t:mutiLang langKey="system.title"/> &nbsp;&nbsp;<span class="slogan"></span></a>
 <div class="nav-no-collapse bootstrap-menu">
 
 <ul class="nav pull-right usernav">
@@ -80,8 +80,7 @@
 <footer class="footer">
 <div class="container">
 <ul class="footer-links">
-	<li style="display: inline;">&copy; <t:mutiLang langKey="common.copyright"/><a href="http://www.jeecg.org" title="<t:mutiLang langKey="system.name" />"><t:mutiLang langKey="system.name" /></a></li>
-	<li style="display: inline;">&nbsp;<t:mutiLang langKey="common.copyright"/><t:mutiLang langKey="common.browser"/>:<a title="<t:mutiLang langKey="system.name" />" href="http://www.hulasou.com"><t:mutiLang langKey="system.name" /></a></li>
+	<li style="display: inline;">&copy; <t:mutiLang langKey="common.copyright"/><a href="http://www.hulasou.com" title="<t:mutiLang langKey="system.name" />"><t:mutiLang langKey="system.name" /></a></li>
 </ul>
 </div>
 </footer>
