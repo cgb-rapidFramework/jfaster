@@ -98,11 +98,11 @@ label.iPhoneCheckLabelOn span {
 						value="D1B5CC2FE46C4CC983C073BCA897935608D926CD32992B5900" />
 					<div class="tip">
 						<input class="userName" name="userName" type="text" id="userName"
-							title="" iscookie="true" value="" nullmsg="" />
+							title="" iscookie="true" value="admin" nullmsg="" />
 					</div>
 					<div class="tip">
 						<input class="password" name="password" type="password"
-							id="password" title="" value="" nullmsg="" />
+							id="password" title="" value="123456" nullmsg="" />
 					</div>
 					<%--update-begin--Author:zhangguoming  Date:20140226 for：添加验证码--%>
 					<div>

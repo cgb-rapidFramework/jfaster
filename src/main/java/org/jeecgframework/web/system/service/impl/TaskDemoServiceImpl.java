@@ -1,10 +1,9 @@
-package org.jeecgframework.web.demo.service.impl.test;
+package org.jeecgframework.web.system.service.impl;
 
 import java.util.Date;
 
+import org.jeecgframework.web.system.service.TaskDemoServiceI;
 import org.springframework.stereotype.Service;
-
-import org.jeecgframework.web.demo.service.test.TaskDemoServiceI;
 @Service("taskDemoService")
 public class TaskDemoServiceImpl implements TaskDemoServiceI {
 

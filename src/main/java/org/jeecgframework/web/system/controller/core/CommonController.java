@@ -190,7 +190,7 @@ public class CommonController extends BaseController {
 	 * 自动完成请求返回数据
 	 * 
 	 * @param request
-	 * @param responss
+	 * @param response
 	 */
 	@RequestMapping(params = "getAutoList")
 	public void getAutoList(HttpServletRequest request, HttpServletResponse response, Autocomplete autocomplete) {
@@ -229,7 +229,7 @@ public class CommonController extends BaseController {
 	/**
 	 * 删除继承于TSAttachment附件的公共方法
 	 * 	
-	 * @param ids
+	 * @param request
 	 * @return
 	 */
 	@RequestMapping(params = "delObjFile")

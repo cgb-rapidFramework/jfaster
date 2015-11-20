@@ -15,8 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
-import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
+
 import org.jeecgframework.web.system.entity.base.TSAttachment;
 import org.jeecgframework.web.system.entity.base.TSBaseUser;
 import org.jeecgframework.web.system.entity.base.TSDepart;
@@ -233,23 +232,7 @@ public class JeecgInitDB {
             rs=st.executeQuery(sql11);
             List cghead = new ArrayList();
             i=1;
-            while(rs.next())
-            {
-                CgFormHeadEntity head = new CgFormHeadEntity();
-                head.setId(i+"");
-                head.setTableName(rs.getString("table_name"));
-                head.setIsTree(rs.getString("is_tree"));
-                head.setIsPagination(rs.getString("is_pagination"));
-                head.setQuerymode(rs.getString("queryMode"));
-                head.setIsCheckbox(rs.getString("is_checkbox"));
-                head.setIsDbSynch(rs.getString("is_dbsynch"));
-                head.setContent(rs.getString("content"));
-                head.setJformVersion(rs.getString("JFORM_VERSION"));
-                head.setJformType(rs.getInt("jform_type"));
-                head.setColumns(getCgFormItem(sql10, rs.getString("id")));
-                cghead.add(head);
-                i++;
-            }
+
             root.put("cghead", cghead);
 //            rs=st.executeQuery(sql10);
 //            List cgfield = new ArrayList();
@@ -294,44 +277,6 @@ public class JeecgInitDB {
 	
 	
 	
-	/**
-	 * 获取表单字段方法
-	 * @param sql10
-	 * @param cgformhead_id
-	 * @return
-	 * @throws Exception
-	 */
-	public static List getCgFormItem(String sql10,String cgformhead_id) throws Exception{
-		Statement st =con.createStatement();
-		ResultSet rs = st.executeQuery(sql10+"'"+cgformhead_id.trim()+"'");
-        List cgfield = new ArrayList();
-        int i=1;
-        while(rs.next())
-        {
-        	CgFormFieldEntity filed = new CgFormFieldEntity();
-            filed.setFieldName(rs.getString("field_name"));
-            filed.setLength(rs.getInt("length"));
-            filed.setType(rs.getString("type"));
-            filed.setPointLength(rs.getInt("point_length"));
-            filed.setIsNull(rs.getString("is_null"));
-            filed.setIsKey(rs.getString("is_key"));
-            filed.setIsQuery(rs.getString("is_query"));
-            filed.setIsShow(rs.getString("is_show"));
-            filed.setShowType(rs.getString("show_type"));
-            filed.setOrderNum(rs.getInt("order_num"));
-            filed.setFieldHref(rs.getString("field_href"));
-            filed.setFieldLength(rs.getInt("field_length"));
-            filed.setFieldValidType(rs.getString("field_valid_type"));
-            filed.setQueryMode(rs.getString("query_mode"));
-            filed.setContent(rs.getString("content"));
-            filed.setDictTable(rs.getString("dict_table"));
-            filed.setDictField(rs.getString("dict_field"));
-            filed.setMainField(rs.getString("main_field"));
-            filed.setMainTable(rs.getString("main_table"));
-            cgfield.add(filed);
-            i++;
-        }
-        return cgfield;
-	}
+
 	
 }

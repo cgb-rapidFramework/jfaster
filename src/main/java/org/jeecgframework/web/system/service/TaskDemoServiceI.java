@@ -1,4 +1,4 @@
-package org.jeecgframework.web.demo.service.test;
+package org.jeecgframework.web.system.service;
 
 public interface TaskDemoServiceI {
 	

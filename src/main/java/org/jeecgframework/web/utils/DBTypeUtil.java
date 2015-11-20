@@ -5,7 +5,6 @@ package org.jeecgframework.web.utils;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 
-import org.jeecgframework.web.cgform.controller.autolist.CgAutoListController;
 import org.jeecgframework.web.system.listener.OnlineListener;
 
 /**

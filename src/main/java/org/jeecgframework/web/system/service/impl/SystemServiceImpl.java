@@ -19,7 +19,6 @@ import org.jeecgframework.platform.bean.TypeGroupBean;
 import org.jeecgframework.platform.container.SystemContainer.IconContainer;
 import org.jeecgframework.platform.container.SystemContainer.TypeGroupContainer;
 import org.jeecgframework.platform.util.BrowserUtils;
-import org.jeecgframework.web.system.dao.JeecgDictDao;
 import org.jeecgframework.web.system.entity.base.DictEntity;
 import org.jeecgframework.web.system.entity.base.TSFunction;
 import org.jeecgframework.web.system.entity.base.TSIcon;
@@ -44,8 +43,7 @@ import org.springframework.util.StringUtils;
 @Service("systemService")
 @Transactional
 public class SystemServiceImpl extends CommonServiceImpl implements SystemService {
-	@Autowired
-	private JeecgDictDao jeecgDictDao;
+
 	
 	@Autowired
 	private UserService userService;
@@ -56,13 +54,13 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	
 	public List<DictEntity> queryDict(String dicTable, String dicCode,String dicText){
 		List<DictEntity> dictList = null;
-		//step.1 如果没有字典表则使用系统字典表
-		if(StringUtil.isEmpty(dicTable)){
+		//step.1 如果没有字典表则使用系统字典表/*
+		/*if(StringUtil.isEmpty(dicTable)){
 			dictList = jeecgDictDao.querySystemDict(dicCode);
 		}else {
 			dicText = StringUtil.isEmpty(dicText, dicCode);
 			dictList = jeecgDictDao.queryCustomDict(dicTable, dicCode, dicText);
-		}
+		}*/
 		return dictList;
 	}
 
@@ -106,8 +104,8 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	/**
 	 * 根据类型分组编码和名称获取TypeGroup,如果为空则创建一个
 	 * 
-	 * @param typecode
-	 * @param typename
+	 * @param typegroupcode
+	 * @param typgroupename
 	 * @return
 	 */
 	public TSTypegroup getTypeGroup(String typegroupcode, String typgroupename) {
@@ -189,7 +187,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 
 	/**
 	 * 根据用户ID 和 菜单Id 获取 具有操作权限的按钮Codes
-	 * @param roleId
+	 * @param userId
 	 * @param functionId
 	 * @return
 	 */
@@ -336,7 +334,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	}
 	/**
 	 * 更新图标
-	 * @param icon
+	 * @param tsIcon
 	 */
 	public  void updateTSIcons(TSIcon tsIcon) {
 		IconBean icon=BeanToTagUtils.convertIcon(tsIcon);

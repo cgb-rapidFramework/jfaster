@@ -16,7 +16,6 @@ import org.jeecgframework.core.annotation.config.AutoMenuOperation;
 import org.jeecgframework.core.annotation.config.MenuCodeType;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.minidao.factory.PackagesToScanUtil;
 import org.jeecgframework.platform.bean.FunctionBean;
 import org.jeecgframework.web.system.entity.base.TSFunction;
 import org.jeecgframework.web.system.entity.base.TSIcon;
@@ -81,7 +80,8 @@ public class MenuInitServiceImpl extends CommonServiceImpl implements
 		}
 		
 		//扫描Src目录下
-		Set<Class<?>> classSet = PackagesToScanUtil.getClasses(".*");
+//		Set<Class<?>> classSet = PackagesToScanUtil.getClasses(".*");
+		Set<Class<?>> classSet =null;
 		for (Class<?> clazz : classSet) {
 			//判断当前类是否设置了菜单注解
 			//未设置菜单注解就算在该类的方法上设置了菜单操作按钮注解也不进行菜单操作按钮的匹配
