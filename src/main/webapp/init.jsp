@@ -12,14 +12,13 @@
     $.cookie(iconCookieKey, null);
     $.cookie(iconCookieKeyForSlider, null);
 </script>
-<%--update-end--Author:zhangguoming  Date:20140609 for：云桌面，清除桌面图标的cookie历史记录--%>
 <script type="text/javascript">
     window.setTimeout(function() {
         window.location.replace('repairController.do?repair');
-    }, 1000);
+    }, 10000);
 </script>
 </body>
 <head>
-<title>JEECG 初始化数据库</title>
+<title>BMS-正在为你初始化数据库....</title>
 </head>
 </html>

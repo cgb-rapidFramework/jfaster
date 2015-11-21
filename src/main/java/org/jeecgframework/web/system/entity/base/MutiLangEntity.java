@@ -168,7 +168,7 @@ public class MutiLangEntity implements java.io.Serializable {
 	 *方法: 取得java.util.Date
 	 *@return: java.util.Date  更新日期
 	 */
-	@Column(name ="UPDATE_DATE",nullable=false)
+	@Column(name ="UPDATE_DATE",nullable=true)
 	public java.util.Date getUpdateDate(){
 		return this.updateDate;
 	}
@@ -182,9 +182,9 @@ public class MutiLangEntity implements java.io.Serializable {
 	}
 	/**
 	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  更新人编号
+	 *@return: java.lang.String  更新人
 	 */
-	@Column(name ="UPDATE_BY",nullable=false,length=50)
+	@Column(name ="UPDATE_BY",nullable=true,length=50)
 	public java.lang.String getUpdateBy(){
 		return this.updateBy;
 	}
@@ -200,7 +200,7 @@ public class MutiLangEntity implements java.io.Serializable {
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  更新人姓名
 	 */
-	@Column(name ="UPDATE_NAME",nullable=false,length=50)
+	@Column(name ="UPDATE_NAME",nullable=true,length=50)
 	public java.lang.String getUpdateName(){
 		return this.updateName;
 	}

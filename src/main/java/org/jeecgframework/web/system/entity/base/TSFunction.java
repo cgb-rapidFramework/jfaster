@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.jeecgframework.core.common.entity.IdEntity;
 
@@ -39,8 +40,9 @@ public class TSFunction extends IdEntity implements java.io.Serializable {
         this.TSIconDesk = TSIconDesk;
     }
 	private List<TSFunction> TSFunctions = new ArrayList<TSFunction>();
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "iconid")
+//	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "iconid",updatable = false,insertable = false)
 	public TSIcon getTSIcon() {
 		return TSIcon;
 	}
@@ -114,5 +116,4 @@ public class TSFunction extends IdEntity implements java.io.Serializable {
 	public void setFunctionIframe(Short functionIframe) {
 		this.functionIframe = functionIframe;
 	}
-
 }

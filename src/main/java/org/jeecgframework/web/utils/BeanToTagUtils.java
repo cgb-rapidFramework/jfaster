@@ -46,18 +46,20 @@ public class BeanToTagUtils {
 			functionBean.setTSFunctions(BeanToTagUtils.convertFunctions(functionLists));
 			
 			//functionBean.setTSFunction(TSFunction);
-			IconBean iconBean=new IconBean();
-			BeanUtils.copyProperties(function.getTSIcon(), iconBean);
-			functionBean.setTSIcon(iconBean);
-			
-			IconBean TSIconDeskBean=new IconBean();
+			if(StringUtil.isNotEmpty(function.getTSIcon())){
+				IconBean iconBean=new IconBean();
+				BeanUtils.copyProperties(function.getTSIcon(), iconBean);
+				functionBean.setTSIcon(iconBean);
+			}
+
 			TSIcon conDeskBean=function.getTSIconDesk();
 			if(StringUtil.isNotEmpty(conDeskBean)){
+				IconBean TSIconDeskBean=new IconBean();
 				BeanUtils.copyProperties(conDeskBean, TSIconDeskBean);
 				functionBean.setTSIconDesk(TSIconDeskBean);
 			}
 		}
-		return functionBean;
+		  return functionBean;
 		}
 	
 	/**
