@@ -76,6 +76,15 @@ public class MutiLangController extends BaseController {
 	public void datagrid(MutiLangEntity mutiLang, HttpServletRequest request,
 			HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(MutiLangEntity.class, dataGrid);
+		if(StringUtil.isNotEmpty(mutiLang.getLangKey())){
+			cq.like("langKey", "%" +mutiLang.getLangKey() + "%");
+			mutiLang.setLangKey("");
+		}
+
+		if(StringUtil.isNotEmpty(mutiLang.getLangContext())){
+			cq.like("langContext", "%" +mutiLang.getLangContext() + "%");
+			mutiLang.setLangContext("");
+		}
 		// 查询条件组装器
 		org.jeecgframework.web.command.util.hqlsearch.HqlGenerateUtil.installHql(cq, mutiLang, request.getParameterMap());
 		this.mutiLangService.findDataGridReturn(cq, true);
