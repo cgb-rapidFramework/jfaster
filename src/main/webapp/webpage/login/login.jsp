@@ -9,7 +9,7 @@ String langurl = "plug-in/mutiLang/" + lang +".js";
 
 <html>
 <head>
-<title><t:mutiLang langKey="system.name"/></title>
+	<title><t:mutiLang langKey="system.title"/></title>
 <link rel="shortcut icon" href="resources/fc/images/icon/favicon.ico">
 <script src=<%=langurl%> type="text/javascript"></script>
 <!--[if lt IE 9]>
@@ -149,9 +149,8 @@ label.iPhoneCheckLabelOn span {
 		<div class="copyright">
 			&copy;
 			<t:mutiLang langKey="common.copyright" />
-			<span class="tip"><a href="#"
-				title=<t:mutiLang langKey="system.name"/>><t:mutiLang langKey="system.name"/><t:mutiLang langKey="system.version"/></a> <t:mutiLang
-					langKey="common.browser.recommend" />:<a href="#" title=<t:mutiLang langKey="system.name"/>><t:mutiLang langKey="system.name"/></a></span>
+			<span class="tip"><a href="#"	title=<t:mutiLang langKey="system.right"/>—<t:mutiLang langKey="system.name"/>><t:mutiLang langKey="system.right"/>—<t:mutiLang langKey="system.name"/> <t:mutiLang langKey="system.version"/></a> <t:mutiLang
+					langKey="common.browser.recommend" />:<a href="#" title=<t:mutiLang langKey="system.support"/>><t:mutiLang langKey="system.support"/></a></span>
 		</div>
 	</div>
 	<!-- Link JScript-->

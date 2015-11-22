@@ -1,9 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+		 pageEncoding="UTF-8"%>
+<%@include file="/context/mytags.jsp"%>
+<!DOCTYPE html>
+<%
+	String lang = org.jeecgframework.platform.util.BrowserUtils.getBrowserLanguage(request);
+	String langurl = "plug-in/mutiLang/" + lang +".js";
+%>
 <div style="margin-top: 14px;text-align: center;">
-       欢迎使用，BMS开源框架
+       欢迎使用，<t:mutiLang langKey="system.right"/>—<t:mutiLang langKey="system.name"/>
 </div>
 <!-- <div style="margin-top: 14px;">
-<h3>简介</h3>
+<h3>Bms开源系统简介</h3>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JEECG（J2EE Code Generation）是一款基于代码生成器的微云快速开发平台，引领新开发模式(智能开发\在线开发\插件开发)， 可以帮助解决Java项目60%的重复工作，让开发更多关注业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失灵活性。 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;JEECG快速开发宗旨是：简单功能由代码生成器生成使用; 复杂业务采用表单自定义，业务流程使用工作流来实现、扩展出任务接口，供开发编写业务逻辑。 实现了流程任务节点和任务接口的灵活配置，既保证了公司流程的保密性，又减少了开发人员的工作量</p>
 <h3>架构说明</h3>
@@ -29,11 +36,4 @@
 <div style="margin-top: 20px;">
 <h3>技术交流</h3>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本系统由JEECG开源社区提供，JEECG微云快速开发平台，永久开源免费，为大家提供最好的<b>企业二次开发平台</b></p>
-<ul>
-	<li>交流群:106259349, 106838471, 289782002</li>
-	<li>创始人：张代浩</li>
-	<li>邮箱 ：jeecg@sina.com</li>
-	<li>论坛 ：<a href="http://www.jeecg.org">www.jeecg.org</a></li>
-	<li>合作 ：开源资助 | 技术支持| 项目合作</li>
-</ul>
 </div> -->
