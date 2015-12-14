@@ -2,7 +2,6 @@
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 
-<%--update-start--Author:zhangguoming  Date:20140827 for：添加 组织机构查询条件--%>
 <script>
     $(function() {
         var datagrid = $("#userListtb");

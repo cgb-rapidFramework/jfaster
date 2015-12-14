@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <%
 	String lang = org.jeecgframework.platform.util.BrowserUtils.getBrowserLanguage(request);
-String langurl = "plug-in/mutiLang/" + lang +".js";
+    String langurl = "plug-in/mutiLang/" + lang +".js";
 %>
 
 <html>
@@ -104,7 +104,6 @@ label.iPhoneCheckLabelOn span {
 						<input class="password" name="password" type="password"
 							id="password" title="" value="123456" nullmsg="" />
 					</div>
-					<%--update-begin--Author:zhangguoming  Date:20140226 for：添加验证码--%>
 					<div>
 						<div style="float: right; margin-left:-130px;margin-right: 25px;">
 							<img id="randCodeImage" src="randCodeImage" />
@@ -112,8 +111,6 @@ label.iPhoneCheckLabelOn span {
 						<input class="randCode" name="randCode" type="text" id="randCode"
 							title="" value="" nullmsg="" />
 					</div>
-					<%--update-end--Author:zhangguoming  Date:20140226 for：添加验证码--%>
-
 					<div class="loginButton">
 						<div style="float: left; margin-left: -9px;">
 							<input type="checkbox" id="on_off" name="remember" checked="ture"

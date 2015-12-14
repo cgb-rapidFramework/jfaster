@@ -62,7 +62,7 @@
 					<a href="#" class="navbar-brand">
 						<small>
 							<!-- <i class="fa fa-leaf"></i> -->
-							<t:mutiLang langKey="system.right"/>——<t:mutiLang langKey="system.name"/>
+							<t:mutiLang langKey="system.right"/>—<t:mutiLang langKey="system.name"/>
 						</small>
 					</a>
 					<!-- /section:basics/navbar.layout.brand -->
@@ -598,7 +598,7 @@
 					<!-- #section:basics/footer -->
 					<div class="footer-content">
 						<span class="bigger-120">
-							<span class="blue bolder"><t:mutiLang langKey="system.right"/>——<t:mutiLang langKey="system.name"/></span>
+							<span class="blue bolder"><t:mutiLang langKey="system.right"/>—<t:mutiLang langKey="system.name"/></span>
 							<t:mutiLang langKey="system.version"/>
 						</span>
 						<span class="action-buttons">
