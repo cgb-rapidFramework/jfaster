@@ -1,13 +1,5 @@
 package org.jeecgframework.web.system.service.impl;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.util.ContextHolderUtils;
@@ -19,16 +11,7 @@ import org.jeecgframework.platform.bean.TypeGroupBean;
 import org.jeecgframework.platform.container.SystemContainer.IconContainer;
 import org.jeecgframework.platform.container.SystemContainer.TypeGroupContainer;
 import org.jeecgframework.platform.util.BrowserUtils;
-import org.jeecgframework.web.system.entity.base.DictEntity;
-import org.jeecgframework.web.system.entity.base.TSFunction;
-import org.jeecgframework.web.system.entity.base.TSIcon;
-import org.jeecgframework.web.system.entity.base.TSLog;
-import org.jeecgframework.web.system.entity.base.TSRole;
-import org.jeecgframework.web.system.entity.base.TSRoleFunction;
-import org.jeecgframework.web.system.entity.base.TSRoleUser;
-import org.jeecgframework.web.system.entity.base.TSType;
-import org.jeecgframework.web.system.entity.base.TSTypegroup;
-import org.jeecgframework.web.system.entity.base.TSUser;
+import org.jeecgframework.web.system.entity.base.*;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.jeecgframework.web.utils.BeanToTagUtils;
@@ -39,6 +22,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Service("systemService")
 @Transactional
@@ -212,8 +202,6 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		return operationCodes;
 	}
 
-	// ----------------------------------------------------------------
-	// ----------------------------------------------------------------
 	
 	public void flushRoleFunciton(String id, TSFunction newFunction) {
 		TSFunction functionEntity = this.findEntity(TSFunction.class, id);
@@ -221,6 +209,10 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 			return;
 		}
 		TSIcon oldIcon = this.findEntity(TSIcon.class, functionEntity.getTSIcon().getId());
+		if(!StringUtil.isNotEmpty(oldIcon.getIconClas())){
+              return;
+		}
+
 		if (!oldIcon.getIconClas().equals(newFunction.getTSIcon().getIconClas())) {
 			// 刷新缓存
 			HttpSession session = ContextHolderUtils.getSession();

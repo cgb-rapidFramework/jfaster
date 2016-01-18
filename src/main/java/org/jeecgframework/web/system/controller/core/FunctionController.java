@@ -1,12 +1,5 @@
 package org.jeecgframework.web.system.controller.core;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
@@ -39,6 +32,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 菜单权限处理类
@@ -235,13 +234,10 @@ public class FunctionController extends BaseController {
 	@ResponseBody
 	public AjaxJson saveFunction(TSFunction function, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		
-		
 		String functionOrder = function.getFunctionOrder();
 		if (StringUtils.isEmpty(functionOrder)) {
 			function.setFunctionOrder("0");
 		}
-		
 		
 		if (function.getTSFunction().getId().equals("")) {
 			function.setTSFunction(null);
@@ -256,18 +252,9 @@ public class FunctionController extends BaseController {
 			userService.saveOrUpdate(function);
 			systemService.addLog(message, Globals.Log_Type_UPDATE,
 					Globals.Log_Leavel_INFO);
-			// update-end--Author:anchao Date:20140914 for：Jeecg bug 20140914 菜单更新级别后显示混乱
 			List<TSFunction> subFunction = systemService.findAllByProperty(TSFunction.class, "TSFunction.id", function.getId());
 			updateSubFunction(subFunction,function);
-			// update-end--Author:anchao Date:20140914 for：Jeecg bug 20140914 菜单更新级别后显示混乱
-			
-			
-
 			systemService.flushRoleFunciton(function.getId(), function);
-
-			
-			
-
 		} else {
 			if (function.getFunctionLevel().equals(Globals.Function_Leave_ONE)) {
 				List<TSFunction> functionList = systemService.findAllByProperty(
