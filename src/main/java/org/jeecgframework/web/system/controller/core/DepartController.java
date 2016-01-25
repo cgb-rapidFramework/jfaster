@@ -1,13 +1,7 @@
 package org.jeecgframework.web.system.controller.core;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Property;
@@ -38,8 +32,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -108,7 +106,6 @@ public class DepartController extends BaseController {
 		TagUtil.datagrid(response, dataGrid);
 	}
 
-    // update-start--Author:zhangguoming  Date:20140825 for：添加业务逻辑；添加类注释；
 	/**
 	 * 删除部门：
 	 * <ul>
@@ -147,8 +144,6 @@ public class DepartController extends BaseController {
         j.setMsg(message);
 		return j;
 	}
-    // update-end--Author:zhangguoming  Date:20140825 for：添加业务逻辑；添加类注释；
-
 	public void upEntity(TSDepart depart) {
 		List<TSUser> users = systemService.findAllByProperty(TSUser.class, "TSDepart.id", depart.getId());
 		if (users.size() > 0) {
@@ -336,14 +331,12 @@ public class DepartController extends BaseController {
 		org.jeecgframework.web.command.util.hqlsearch.HqlGenerateUtil.installHql(cq, user);
 		String departid = oConvertUtils.getString(request.getParameter("departid"));
 		if (!StringUtil.isEmpty(departid)) {
-//            update-start--Author:zhangguoming  Date:20140825 for：用户表字段变更后的查询字段修改
 			DetachedCriteria dc = cq.getDetachedCriteria();
 			DetachedCriteria dcDepart = dc.createCriteria("userOrgList");
 			dcDepart.add(Restrictions.eq("tsDepart.id", departid));
             // 这种方式也是可以的
 //            DetachedCriteria dcDepart = dc.createAlias("userOrgList", "userOrg");
 //            dcDepart.add(Restrictions.eq("userOrg.tsDepart.id", departid));
-//            update-end--Author:zhangguoming  Date:20140825 for：用户表字段变更后的查询字段修改
 		}
 		Short[] userstate = new Short[] { Globals.User_Normal, Globals.User_ADMIN };
 		cq.in("status", userstate);
@@ -353,7 +346,6 @@ public class DepartController extends BaseController {
 	}
 	//----
 
-//    update-start--Author:zhangguoming  Date:20140826 for：获取机构树；
     /**
      * 获取机构树-combotree
      * @param request
@@ -445,9 +437,6 @@ public class DepartController extends BaseController {
             systemService.batchSave(userOrgList);
         }
     }
-//    update-end--Author:zhangguoming  Date:20140826 for：添加已有用户到组织机构
-
-//    update-start--Author:zhangguoming  Date:20140827 for：用户列表页面 组织机构查询条件：选择组织机构列表 相关操作
     /**
      * 用户选择机构列表跳转页面
      *
@@ -469,5 +458,4 @@ public class DepartController extends BaseController {
         this.systemService.findDataGridReturn(cq, true);
         TagUtil.datagrid(response, dataGrid);
     }
-//    update-end--Author:zhangguoming  Date:20140827 for：用户列表页面 组织机构查询条件：选择组织机构列表 相关操作
 }

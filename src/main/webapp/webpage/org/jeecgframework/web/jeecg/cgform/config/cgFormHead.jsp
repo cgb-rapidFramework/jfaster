@@ -38,7 +38,6 @@ String langurl = basePath + "/plug-in/mutiLang/" + lang +".js";
 	border-bottom: 1px solid #e6e6e6;
 	cursor: n-resize;
 }
-/*update-end--Author:liuht  Date:20131207 for[333]：OL模块，增加一个特效 调整字段顺序（上下挪动）*/
 </style>
 </head>
 <body style="overflow-y: hidden; overflow-x: hidden;" scroll="no">

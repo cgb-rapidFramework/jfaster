@@ -1,13 +1,6 @@
 package org.jeecgframework.web.common.tag.easyui;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.jsp.JspTagException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.tagext.TagSupport;
-
+import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.util.ApplicationContextUtil;
 import org.jeecgframework.platform.bean.TypeBean;
@@ -16,7 +9,12 @@ import org.jeecgframework.platform.util.MutiLangUtil;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.gson.Gson;
+import javax.servlet.jsp.JspTagException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.TagSupport;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -102,9 +100,7 @@ public class DictSelectTag extends TagSupport {
 					sb.append(" id=\"" + id + "\"");
 				}
 				sb.append(">");
-				//update-begin--Author:zhangdaihao  Date:20140724 for：[bugfree号]默认选择项目--------------------
 				select("common.please.select", "", sb);
-				//update-end--Author:zhangdaihao  Date:20140724 for：[bugfree号]默认选择项目----------------------
 				for (Map<String, Object> map : list) {
 					select(map.get("text").toString(), map.get("field").toString(), sb);
 				}
@@ -151,9 +147,7 @@ public class DictSelectTag extends TagSupport {
 						sb.append(" id=\"" + id + "\"");
 					}
 					sb.append(">");
-					//update-begin--Author:zhangdaihao  Date:20140724 for：[bugfree号]默认选择项目--------------------
 					select("common.please.select", "", sb);
-					//update-end--Author:zhangdaihao  Date:20140724 for：[bugfree号]默认选择项目----------------------
 					for (TypeBean type : types) {
 						select(type.getTypename(), type.getTypecode(), sb);
 					}

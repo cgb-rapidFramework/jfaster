@@ -322,7 +322,6 @@ public class FunctionController extends BaseController {
 		List<TSFunction> fuinctionlist = systemService
 				.getList(TSFunction.class);
 		req.setAttribute("flist", fuinctionlist);
-		// update-begin--Author:zhangguoming Date:20140509 for：添加云桌面图标管理
 		// List<TSIcon> iconlist = systemService.getList(TSIcon.class);
 		List<TSIcon> iconlist = systemService
 				.findByHql("from TSIcon where iconType != 3");
@@ -330,7 +329,6 @@ public class FunctionController extends BaseController {
 		List<TSIcon> iconDeskList = systemService
 				.findByHql("from TSIcon where iconType = 3");
 		req.setAttribute("iconDeskList", iconDeskList);
-		// update-end--Author:zhangguoming Date:20140509 for：添加云桌面图标管理
 		if (functionid != null) {
 			function = systemService.findEntity(TSFunction.class, functionid);
 			req.setAttribute("function", function);
@@ -460,7 +458,6 @@ public class FunctionController extends BaseController {
 		return comboTrees;
 	}
 
-	// update-end--Author:gaofeng Date:20140619 for：修改云桌面的搜索功能中的系统中应用内搜索
 	/**
 	 * 菜单模糊检索功能
 	 * 
@@ -529,7 +526,6 @@ public class FunctionController extends BaseController {
 		return new ModelAndView("system/function/menuAppList");
 	}
 
-	// update-end--Author:gaofeng Date:20140619 for：修改云桌面的搜索功能中的系统中应用内搜索
 
 	/**
 	 * 

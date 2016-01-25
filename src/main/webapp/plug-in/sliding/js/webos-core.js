@@ -1508,7 +1508,6 @@ appIcon_amg1 = appIcon_amg.extend({
 			alt:this.app.name ,
 //			src:'plug-in/sliding/icon/'+this.app.icon,
 			src:this.app.icon,
-            /*update-end--Author:zhangguoming  Date:20140509 for：云桌面图标管理*/
 			"class":"appButton_appIconImg",
 			id:'icon_app_'+this.app.appid+'_'+this.app.asc+'_img'
 		
@@ -1588,7 +1587,6 @@ appIcon_t1 = appIcon_t0.extend({
 			alt:this.app.name ,
 //			src:'plug-in/sliding/icon/'+this.app.icon,
 			src:this.app.icon,
-            /*update-end--Author:zhangguoming  Date:20140509 for：云桌面图标管理*/
 			"class":"appButton_appIconImg",
 			id:'icon_app_'+this.app.appid+'_'+this.app.asc+'_img'
 		

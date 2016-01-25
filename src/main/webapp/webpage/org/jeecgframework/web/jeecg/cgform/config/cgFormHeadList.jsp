@@ -252,7 +252,6 @@
 	function toCgformMigrate(){
 		openuploadwin('<t:mutiLang langKey="form.sqlimport"/>', 'cgformSqlController.do?toCgformMigrate', "tablePropertyList");
 	}
-    <%--   update-end--Author:duanqilu  Date:20130910 for#211 升级SQL导入导出--%>	
 	//代码生成
 	function generate(title,url,id){
 		var rowsData = $('#'+id).datagrid('getSelections');

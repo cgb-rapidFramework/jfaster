@@ -361,8 +361,6 @@ public class UserController extends BaseController {
 
         Short[] userstate = new Short[]{Globals.User_Normal, Globals.User_ADMIN, Globals.User_Forbidden};
         cq.in("status", userstate);
-
-//        update-start--Author:zhangguoming  Date:20140827 for：添加 组织机构 查询条件
         String orgIds = request.getParameter("orgIds");
         List<String> orgIdList = extractIdListByComma(orgIds);
         // 获取 当前组织机构的用户信息
@@ -374,11 +372,8 @@ public class UserController extends BaseController {
 
             cq.add(Property.forName("id").in(subCq.getDetachedCriteria()));
         }
-//        update-end--Author:zhangguoming  Date:20140827 for：添加 组织机构 查询条件
-
         cq.add();
         this.systemService.findDataGridReturn(cq, true);
-        // update-start--Author:gaofeng Date:20140822 for：添加用户的角色展示
         List<TSUser> cfeList = new ArrayList<TSUser>();
         for (Object o : dataGrid.getResults()) {
             if (o instanceof TSUser) {
@@ -397,7 +392,6 @@ public class UserController extends BaseController {
                 cfeList.add(cfe);
             }
         }
-//		update-end--Author:gaofeng Date:20140822 for：添加用户的角色展示
         TagUtil.datagrid(response, dataGrid);
     }
 
@@ -423,9 +417,7 @@ public class UserController extends BaseController {
 			if (roleUser.size()>0) {
 				// 删除用户时先删除用户和角色关系表
 				delRoleUser(user);
-//                update-start--Author:zhangguoming  Date:20140825 for：添加业务逻辑
                 systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId()); // 删除 用户-机构 数据
-//                update-end--Author:zhangguoming  Date:20140825 for：添加业务逻辑
                 userService.delete(user);
 				message = "用户：" + user.getUserName() + "删除成功";
 				systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -453,7 +445,7 @@ public class UserController extends BaseController {
 	/**
 	 * 检查用户名
 	 * 
-	 * @param ids
+	 * @param request
 	 * @return
 	 */
 	@RequestMapping(params = "checkUser")
@@ -491,11 +483,9 @@ public class UserController extends BaseController {
 			users.setEmail(user.getEmail());
 			users.setOfficePhone(user.getOfficePhone());
 			users.setMobilePhone(user.getMobilePhone());
-//            update-start--Author:zhangguoming  Date:20140825 for：添加新的业务逻辑
             systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId());
             saveUserOrgList(req, user);
 //            users.setTSDepart(user.getTSDepart());
-//            update-end--Author:zhangguoming  Date:20140825 for：添加新的业务逻辑
 			users.setRealName(user.getRealName());
 			users.setStatus(Globals.User_Normal);
 			users.setActivitiSync(user.getActivitiSync());
@@ -533,7 +523,6 @@ public class UserController extends BaseController {
 		return j;
 	}
 
-//    update-start--Author:zhangguoming  Date:20140825 for：添加新的业务逻辑方法
     /**
      * 保存 用户-组织机构 关系信息
      * @param request request
@@ -558,8 +547,6 @@ public class UserController extends BaseController {
             systemService.batchSave(userOrgList);
         }
     }
-//    update-end--Author:zhangguoming  Date:20140825 for：添加新的业务逻辑方法
-
     protected void saveRoleUser(TSUser user, String roleidstr) {
 		String[] roleids = roleidstr.split(",");
 		for (int i = 0; i < roleids.length; i++) {
@@ -598,10 +585,7 @@ public class UserController extends BaseController {
 
 	/**
 	 * easyuiAJAX请求数据： 用户选择角色列表
-	 * 
-	 * @param request
-	 * @param response
-	 * @param dataGrid
+	 *
 	 * @param user
 	 */
 	@RequestMapping(params = "addorupdate")
@@ -614,7 +598,6 @@ public class UserController extends BaseController {
 			departList.addAll((List)systemService.getList(TSDepart.class));
 		}
 		req.setAttribute("departList", departList);
-//        update-start--Author:zhangguoming  Date:20140825 for：往request作用域中添加数据：组装页面中组织机构combobox多选框的数据
         List<String> orgIdList = new ArrayList<String>();
 		if (StringUtil.isNotEmpty(user.getId())) {
 			user = systemService.findEntity(TSUser.class, user.getId());
@@ -625,12 +608,10 @@ public class UserController extends BaseController {
             orgIdList = systemService.findByHql("select d.id from TSDepart d,TSUserOrg uo where d.id=uo.tsDepart.id and uo.tsUser.id=?", new String[]{user.getId()});
 		}
         req.setAttribute("orgIdList", JSON.toJSON(orgIdList));
-//        update-start--Author:zhangguoming  Date:20140825 for：往request作用域中添加数据：组装页面中组织机构combobox多选框的数据
 
         return new ModelAndView("system/user/user");
 	}
 
-//    update-start--Author:zhangguoming  Date:20140825 for：添加新的业务逻辑方法
     /**
      * 用户的登录后的组织机构选择页面
      * @param request request
@@ -652,7 +633,6 @@ public class UserController extends BaseController {
 
 		return new ModelAndView("system/user/userOrgSelect");
     }
-//    update-end--Author:zhangguoming  Date:20140825 for：添加新的业务逻辑方法
 
 	public void idandname(HttpServletRequest req, TSUser user) {
 		List<TSRoleUser> roleUsers = systemService.findAllByProperty(TSRoleUser.class, "TSUser.id", user.getId());

@@ -1,12 +1,5 @@
 package org.jeecgframework.web.command.util.hqlsearch;
 
-import java.beans.PropertyDescriptor;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.annotation.query.QueryTimeFormat;
@@ -19,6 +12,13 @@ import org.jeecgframework.web.system.entity.base.TSDataRule;
 import org.jeecgframework.web.utils.JeecgDataAutorUtils;
 import org.jeecgframework.web.utils.SessionUtil;
 import org.springframework.util.NumberUtils;
+
+import java.beans.PropertyDescriptor;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -109,7 +109,6 @@ public class HqlGenerateUtil {
 				// 根据类型分类处理
 				if (type.contains("class java.lang")
 						|| type.contains("class java.math")) {
-					// ------------update--Author:JueYue Date:2014-8-23
 					// for：查询拼装的替换
 					if (value != null && !value.equals("")) {
 						HqlRuleEnum rule = PageValueConvertRuleEnum
@@ -123,7 +122,6 @@ public class HqlGenerateUtil {
 						ObjectParseUtil.addCriteria(cq, aliasName,
 								HqlRuleEnum.LE, endValue);
 					}
-					// ------------update--Author:JueYue Date:2014-8-23
 					// for：查询拼装的替换
 				} else if ("class java.util.Date".equals(type)) {
 					QueryTimeFormat format = origDescriptors[i].getReadMethod()
@@ -162,11 +160,9 @@ public class HqlGenerateUtil {
 					if (isHaveRuleData(ruleMap, aliasName) ||( isNotEmpty(param)
 							&& itIsNotAllEmpty(param))) {
 						// 如果是实体类,创建别名,继续创建查询条件
-						// ------------update--Author:JueYue Date:20140521
 						// for：用户反馈
 						cq.createAlias(aliasName,
 								aliasName.replaceAll("\\.", "_"));
-						// ------------end--Author:JueYue Date:20140521 for：用户反馈
 						installHqlJoinAlias(cq, param, ruleMap, parameterMap,
 								aliasName);
 					}

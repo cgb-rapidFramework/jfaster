@@ -1,29 +1,6 @@
 package org.jeecgframework.web.resource.service.impl;
 
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
@@ -59,6 +36,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.sql.Timestamp;
+import java.util.*;
 
 @Service("resourceService")
 @Transactional
@@ -435,16 +420,13 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements IResource
 				for (Object inobj : in) {
 					ReflectHelper reflectHelper2 = new ReflectHelper(inobj);
 					String inId = oConvertUtils.getString(reflectHelper2.getMethodValue(comboTreeModel.getIdField()));
-					//update-begin--Author:JueYue  Date:20140514 for：==不起作用--------------------
                    if (inId.equals(id)) {
 						tree.setChecked(true);
 					}
-                   //update-end--Author:JueYue  Date:20140514 for：==不起作用--------------------
 				}
 			}
 		}
 
-//           update-begin--Author:zhangguoming  Date:20140819 for：递归子节点属性
 		List curChildList = (List) reflectHelper.getMethodValue(comboTreeModel.getChildField());
 		if (curChildList != null && curChildList.size() > 0) {
 			tree.setState("closed");
@@ -460,8 +442,6 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements IResource
                tree.setChildren(children);
            }
        }
-//           update-end--Author:zhangguoming  Date:20140819 for：递归子节点属性
-
 		return tree;
 	}
 	/**
@@ -556,12 +536,10 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements IResource
                    tg.getFieldMap().put(entry.getKey(), fieldValue);
                }
            }
-           //update-begin--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
            if (treeGridModel.getFunctionType() != null) {
            	String functionType = oConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getFunctionType()));
            	tg.setFunctionType(functionType);
            }
-         //update-end--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
 			treegrid.add(tg);
 		}
 		return treegrid;

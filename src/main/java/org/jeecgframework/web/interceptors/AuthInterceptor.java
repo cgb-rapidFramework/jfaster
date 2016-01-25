@@ -1,25 +1,11 @@
 package org.jeecgframework.web.interceptors;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.web.command.util.hqlsearch.SysContextSqlConvert;
-import org.jeecgframework.web.system.entity.base.Client;
-import org.jeecgframework.web.system.entity.base.TSDataRule;
-import org.jeecgframework.web.system.entity.base.TSFunction;
-import org.jeecgframework.web.system.entity.base.TSOperation;
-import org.jeecgframework.web.system.entity.base.TSUser;
+import org.jeecgframework.web.system.entity.base.*;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.utils.JeecgDataAutorUtils;
@@ -29,6 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -95,7 +90,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 				} 
 				//String functionId=oConvertUtils.getString(request.getParameter("clickFunctionId"));
 				String functionId="";
-				//update-begin--Author:JueYue  Date:20140831 for：onlinecodeing 的URL判断--------------------
 				//onlinecoding的访问地址有规律可循，数据权限链接篡改
 				if(requestPath.equals("cgAutoListController.do?datagrid")) {
 					requestPath += "&configId=" +  request.getParameter("configId");
@@ -106,7 +100,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 				if(requestPath.equals("cgFormBuildController.do?ftlForm")) {
 					requestPath += "&tableName=" +  request.getParameter("tableName");
 				}
-				//update-end--Author:JueYue  Date:20140831 for：onlinecodeing 的URL判断--------------------
 				//这个地方用全匹配？应该是模糊查询吧
 				//TODO
 				List<TSFunction> functions = systemService.findAllByProperty(TSFunction.class, "functionUrl", requestPath);
@@ -122,8 +115,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 					request.setAttribute(Globals.OPERATIONCODES, operationCodes);
 				}
 				if(!oConvertUtils.isEmpty(functionId)){
-					//update-begin--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
-					//List<String> allOperation=this.systemService.findListbySql("SELECT operationcode FROM t_s_operation  WHERE functionid='"+functionId+"'"); 
+					//List<String> allOperation=this.systemService.findListbySql("SELECT operationcode FROM t_s_operation  WHERE functionid='"+functionId+"'");
 					List<TSOperation> allOperation=this.systemService.findAllByProperty(TSOperation.class, "TSFunction.id", functionId);
 					
 					List<TSOperation> newall = new ArrayList<TSOperation>();
@@ -212,16 +204,12 @@ public class AuthInterceptor implements HandlerInterceptor {
 					"ru.userid='"+userid+"' AND f.functionurl like '"+requestPath+"%'";
 		List list = this.systemService.queryForListMap(sql);
 		if(list.size()==0){
-//            update-start--Author:zhangguoming  Date:20140821 for：判断当前用户组织机构下角色所拥有的权限
-//            update-start--Author:zhangguoming  Date:20140825 for：获取当前用户登录时选择的组织机构代码
             String orgId = currLoginUser.getCurrentDepart().getId();
-//            update-end--Author:zhangguoming  Date:20140825 for：获取当前用户登录时选择的组织机构代码
             String functionOfOrgSql = "SELECT DISTINCT f.id from t_s_function f, t_s_role_function rf, t_s_role_org ro  " +
                     "WHERE f.ID=rf.functionid AND rf.roleid=ro.role_id " +
                     "AND ro.org_id='" +orgId+ "' AND f.functionurl like '"+requestPath+"%'";
             List functionOfOrgList = this.systemService.queryForListMap(functionOfOrgSql);
 			return functionOfOrgList.size() > 0;
-//            update-end--Author:zhangguoming  Date:20140821 for：判断当前用户组织机构下角色所拥有的权限
         }else{
 			return true;
 		}
@@ -229,8 +217,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 	/**
 	 * 转发
 	 * 
-	 * @param user
-	 * @param req
 	 * @return
 	 */
 	@RequestMapping(params = "forword")

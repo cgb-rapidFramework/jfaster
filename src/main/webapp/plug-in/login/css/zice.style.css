@@ -664,17 +664,13 @@ label.iPhoneCheckLabelOff span {
 }
 #login {
 	width:600px;
-    /*update-begin--Author:zhangguoming  Date:20140226 for：添加验证码*/
 	/*height:284px;*/
 	height:353px;
-    /*update-end--Author:zhangguoming  Date:20140226 for：添加验证码*/
 	margin:20px auto;
 	
 	position:absolute;
-    /*update-begin--Author:zhangguoming  Date:20140226 for：添加验证码*/
 	/*top:50%;*/
 	top:40%;
-    /*update-begin--Author:zhangguoming  Date:20140226 for：添加验证码*/
 	left:43%;
 	margin-left:-200px;
 	margin-top:-148px;
@@ -707,10 +703,8 @@ label.iPhoneCheckLabelOff span {
 #login .inner {
 	background-color:#FFF;
 	border: 1px #cccccc solid;
-    /*update-begin--Author:zhangguoming  Date:20140226 for：添加验证码*/
 	/*min-height: 230px;*/
 	min-height: 350px;
-    /*update-end--Author:zhangguoming  Date:20140226 for：添加验证码*/
 	overflow: hidden;
 	border-radius: 10px;
 	-webkit-border-radius: 10px;
@@ -755,9 +749,7 @@ text-align:center;
 /*	background-position:right center; */
 	line-height: 35px;
 	color: #999;
-	/*update-begin--Author:tanghong  Date:20130419 for�����Ƿ񡿰�ť��λ*/
 	/* width: 80%;*/
-	/*update-end--Author:tanghong  Date:20130419 for�����Ƿ񡿰�ť��λ*/
 	margin-bottom: 10px;
 	font-family:"Myriad Pro", Arial, Helvetica, sans-serif;
 }

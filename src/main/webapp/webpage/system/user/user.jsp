@@ -5,11 +5,8 @@
 <head>
 <title>用户信息</title>
 <t:base type="jquery,easyui,tools"></t:base>
-    <%--update-start--Author:zhangguoming  Date:20140825 for：添加组织机构combobox多选的处理方法--%>
     <script>
-//        update-start--Author:zhangguoming  Date:20140826 for：将combobox修改为combotree
         function setOrgIds() {
-//            var orgIds = $("#orgSelect").combobox("getValues");
             var orgIds = $("#orgSelect").combotree("getValues");
             $("#orgIds").val(orgIds);
         }
@@ -23,15 +20,11 @@
                     }
                 }
             });
-            <%--$("#orgSelect").combobox("setValues", ${orgIdList});--%>
             $("#orgSelect").combotree("setValues", ${orgIdList});
         });
-//       update-start--Author:zhangguoming  Date:20140826 for：将combobox修改为combotree
     </script>
-    <%--update-end--Author:zhangguoming  Date:20140825 for：添加组织机构combobox多选的处理方法--%>
 </head>
 <body style="overflow-y: hidden" scroll="no">
-<%--update-start--Author:zhangguoming  Date:20140825 for：格式化页面代码 并 添加组织机构combobox多选框--%>
 <t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" action="userController.do?saveUser" beforeSubmit="setOrgIds">
 	<input id="id" name="id" type="hidden" value="${user.id }">
 	<table style="width: 600px;" cellpadding="0" cellspacing="1" class="formtable">
@@ -78,11 +71,8 @@
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.department"/>: </label></td>
 			<td class="value">
-                <%--update-start--Author:zhangguoming  Date:20140826 for：将combobox修改为combotree--%>
-                <%--<select class="easyui-combobox" data-options="multiple:true, editable: false" id="orgSelect" datatype="*">--%>
                 <select class="easyui-combotree" data-options="url:'departController.do?getOrgTree', multiple:true, cascadeCheck:false"
                         id="orgSelect" name="orgSelect" datatype="select1">
-                <%--update-end--Author:zhangguoming  Date:20140826 for：将combobox修改为combotree--%>
                     <c:forEach items="${departList}" var="depart">
                         <option value="${depart.id }">${depart.departname}</option>
                     </c:forEach>
@@ -124,5 +114,4 @@
 		</tr>
 	</table>
 </t:formvalid>
-<%--update-end--Author:zhangguoming  Date:20140825 for：格式化页面代码 并 添加组织机构combobox多选框--%>
 </body>

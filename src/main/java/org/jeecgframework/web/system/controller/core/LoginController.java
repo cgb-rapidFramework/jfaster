@@ -1,16 +1,5 @@
 package org.jeecgframework.web.system.controller.core;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.model.json.AjaxJson;
@@ -24,23 +13,12 @@ import org.jeecgframework.platform.constant.SysThemesEnum;
 import org.jeecgframework.platform.util.ListtoMenu;
 import org.jeecgframework.platform.util.SysThemesUtil;
 import org.jeecgframework.web.common.controller.BaseController;
-import org.jeecgframework.web.system.entity.base.Client;
-import org.jeecgframework.web.system.entity.base.TSConfig;
-import org.jeecgframework.web.system.entity.base.TSDepart;
-import org.jeecgframework.web.system.entity.base.TSFunction;
-import org.jeecgframework.web.system.entity.base.TSRole;
-import org.jeecgframework.web.system.entity.base.TSRoleFunction;
-import org.jeecgframework.web.system.entity.base.TSRoleUser;
-import org.jeecgframework.web.system.entity.base.TSUser;
+import org.jeecgframework.web.system.entity.base.*;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.service.IMutiLangService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
-import org.jeecgframework.web.utils.BeanToTagUtils;
-import org.jeecgframework.web.utils.IpUtil;
-import org.jeecgframework.web.utils.NumberComparator;
-import org.jeecgframework.web.utils.SessionShareCenter;
-import org.jeecgframework.web.utils.SessionUtil;
+import org.jeecgframework.web.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -49,6 +27,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
 /**
  * 登陆初始化控制器
@@ -175,7 +157,6 @@ public class LoginController extends BaseController{
 		return j;
 	}
 
-//    update-start-Author:zhangguoming  Date:20140825 for：记录用户登录的相关信息
     /**
      * 保存用户登录的信息，并将当前登录用户的组织机构赋值到用户实体中；
      * @param req request
@@ -200,7 +181,6 @@ public class LoginController extends BaseController{
         // 添加登陆日志
         systemService.addLog(message, Globals.Log_Type_LOGIN, Globals.Log_Leavel_INFO);
     }
-//    update-end-Author:zhangguoming  Date:20140825 for：记录用户登录的相关信息
 
     /**
 	 * 用户登录
@@ -227,7 +207,6 @@ public class LoginController extends BaseController{
             modelMap.put("roleName", roles);
             modelMap.put("userName", user.getUserName());
             modelMap.put("currentOrgName", ClientManager.getInstance().getClient().getUser().getCurrentDepart().getDepartname());
-            // update-end-Author:zhangguoming  Date:20140914 for：获取当前登录用户的组织机构
             //将角色信息放入session
         	SessionShareCenter.putRoles(roleList);
             ClientManager.getInstance().getClient().setRoles(roleList);
@@ -337,12 +316,10 @@ public class LoginController extends BaseController{
 		if (loginActionlist.size() > 0) {
 			Collection<TSFunction> allFunctions = loginActionlist.values();
 			for (TSFunction function : allFunctions) {
-			   //update-begin--Author:anchao  Date:20140913 for：菜单过滤--------------------
 	            /*if(function.getFunctionType().intValue()==Globals.Function_TYPE_FROM.intValue()){
 					//如果为表单或者弹出 不显示在系统菜单里面
 					continue;
 				}*/
-	          //update-end--Author:anchao  Date:20140913 for：菜单过滤--------------------
 				if (!functionMap.containsKey(function.getFunctionLevel() + 0)) {
 					functionMap.put(function.getFunctionLevel() + 0,
 							new ArrayList<FunctionBean>());
@@ -371,9 +348,7 @@ public class LoginController extends BaseController{
 	private Map<String, TSFunction> getUserFunction(TSUser user) {
 		HttpSession session = ContextHolderUtils.getSession();
 		Client client = ClientManager.getInstance().getClient(session.getId());
-        //update-start--Author:JueYue  Date:2014-5-28 for:风格切换,菜单懒加载失效的问题
 		if (client.getFunctions() == null || client.getFunctions().size() == 0) {
-            //update-end--Author:JueYue  Date:2014-5-28 for:风格切换,菜单懒加载失效的问题
 			Map<String, TSFunction> loginActionlist = new HashMap<String, TSFunction>();
 			 /*String hql="from TSFunction t where t.id in  (select d.TSFunction.id from TSRoleFunction d where d.TSRole.id in(select t.TSRole.id from TSRoleUser t where t.TSUser.id ='"+
 	           user.getId()+"' ))";
@@ -408,7 +383,6 @@ public class LoginController extends BaseController{
 		return client.getFunctions();
 	}
 
-//    update-begin--Author:zhangguoming  Date:20140821 for：抽取方法，获取角色下的权限列表
     /**
      * 根据 角色实体 组装 用户权限列表
      * @param loginActionlist 登录用户的权限列表
@@ -418,16 +392,14 @@ public class LoginController extends BaseController{
         List<TSRoleFunction> roleFunctionList = systemService.findAllByProperty(TSRoleFunction.class, "TSRole.id", role.getId());
         for (TSRoleFunction roleFunction : roleFunctionList) {
             TSFunction function = roleFunction.getTSFunction();
-          //update-begin--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
             /*if(function.getFunctionType().intValue()==Globals.Function_TYPE_FROM.intValue()){
 				//如果为表单或者弹出 不显示在系统菜单里面
 				continue;
 			}*/
-          //update-end--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
             loginActionlist.put(function.getId(), function);
         }
     }
-//    update-end--Author:zhangguoming  Date:20140821 for：抽取方法，获取角色下的权限列表
+
 
     /**
 	 * 首页跳转
@@ -518,11 +490,9 @@ public class LoginController extends BaseController{
 		}
 		List<FunctionBean> primaryMenu = getFunctionMap(user).get(0);
         String floor = "";
-//        update-start--Author:zhangguoming  Date:20140923 for：用户没有任何权限，首页没有退出按钮的bug
         if (primaryMenu == null) {
             return floor;
         }
-//        update-end--Author:zhangguoming  Date:20140923 for：用户没有任何权限，首页没有退出按钮的bug
         for (FunctionBean function : primaryMenu) {
             if(function.getFunctionLevel() == 0) {
 

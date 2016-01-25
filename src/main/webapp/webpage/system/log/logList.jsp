@@ -10,9 +10,8 @@
 	<t:dgCol title="operate.time" field="operatetime" formatter="yyyy-MM-dd hh:mm:ss" width="100"></t:dgCol>
 </t:datagrid>
 <div id="logListtb" style="padding: 3px; height: 25px">
-    <!-- update---Author:赵俊夫  Date:20130507 for：需要加name=searchColums属性 -->
     <div name="searchColums" style="float: right; padding-right: 15px;">
-        <t:mutiLang langKey="log.level"/>: <!-- update---Author:宋双旺  Date:20130414 for：改变值进行查询 -->
+        <t:mutiLang langKey="log.level"/>:
         <select name="loglevel" id="loglevel" onchange="logListsearch();">
             <option value="0"><t:mutiLang langKey="select.loglevel"/></option>
             <option value="1"><t:mutiLang langKey="common.login"/></option>

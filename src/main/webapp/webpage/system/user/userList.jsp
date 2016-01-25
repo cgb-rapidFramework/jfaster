@@ -23,15 +23,11 @@
         </span>
     </div>
 </div>
-<%--update-end--Author:zhangguoming  Date:20140827 for：添加 组织机构查询条件--%>
 
 <t:datagrid name="userList" title="common.operation" actionUrl="userController.do?datagrid" fit="true" fitColumns="true" idField="id" queryMode="group">
 	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="common.username" sortable="false" field="userName" query="true" width="10"></t:dgCol>
-    <%--update-start--Author:zhangguoming  Date:20140827 for：通过用户对象的关联属性值获取组织机构名称（多对多关联）--%>
-	<%--<t:dgCol title="common.department" field="TSDepart_id" query="true" replace="${departsReplace}"></t:dgCol>--%>
 	<t:dgCol title="common.department" field="userOrgList.tsDepart.departname" query="false" width="12"></t:dgCol>
-    <%--update-end--Author:zhangguoming  Date:20140827 for：通过用户对象的关联属性值获取组织机构名称（多对多关联）--%>
 	<t:dgCol title="common.real.name" field="realName" query="true" width="10"></t:dgCol>
 	<t:dgCol title="common.role" field="userKey" width="10"></t:dgCol>
 	<t:dgCol title="common.status" sortable="true" field="status" replace="common.active_1,common.inactive_0,super.admin_-1" width="8"></t:dgCol>
@@ -87,7 +83,6 @@ function lockuploadify(url, id) {
 }
 </script>
 
-<%--update-start--Author:zhangguoming  Date:20140827 for：添加 组织机构查询条件：弹出 选择组织机构列表 相关操作--%>
 <%--<a href="#" class="easyui-linkbutton" plain="true" icon="icon-search" onClick="choose_297e201048183a730148183ad85c0001()">选择</a>--%>
 <%--<a href="#" class="easyui-linkbutton" plain="true" icon="icon-redo" onClick="clearAll_297e201048183a730148183ad85c0001();">清空</a>--%>
 <script type="text/javascript">
@@ -136,4 +131,3 @@ function lockuploadify(url, id) {
         }
     }
 </script>
-<%--update-end--Author:zhangguoming  Date:20140827 for：添加 组织机构查询条件：弹出 选择组织机构列表 相关操作--%>

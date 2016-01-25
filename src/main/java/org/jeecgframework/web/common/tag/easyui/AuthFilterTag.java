@@ -1,12 +1,5 @@
 package org.jeecgframework.web.common.tag.easyui;
 
-import java.io.IOException;
-import java.util.Set;
-
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.tagext.TagSupport;
-
 import org.jeecgframework.core.util.ApplicationContextUtil;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.platform.util.AuthFilterHelper;
@@ -14,6 +7,12 @@ import org.jeecgframework.platform.util.oConvertUtils;
 import org.jeecgframework.web.system.entity.base.TSOperation;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.TagSupport;
+import java.io.IOException;
+import java.util.Set;
 /**
  * 
  * @Title:AuthFilterTag
@@ -55,7 +54,6 @@ public class AuthFilterTag extends TagSupport{
 	protected void getAuthFilter(StringBuilder out) {
 		out.append("<script type=\"text/javascript\">");
 		out.append("$(document).ready(function(){");
-		//update-begin--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
 		if(!AuthFilterHelper.authIsOpen()){
 			Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
 			if (null!=operationCodes) {
@@ -79,7 +77,6 @@ public class AuthFilterTag extends TagSupport{
 			}
 			
 		}
-		//update-end--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
 		out.append("});");
 		out.append("</script>");
 	}
