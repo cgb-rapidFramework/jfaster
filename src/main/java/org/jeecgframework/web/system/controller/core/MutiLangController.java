@@ -1,8 +1,5 @@
 package org.jeecgframework.web.system.controller.core;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
@@ -12,9 +9,10 @@ import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.platform.util.MutiLangUtil;
-import org.jeecgframework.web.common.controller.BaseController;
+import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
+import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.MutiLangEntity;
-import org.jeecgframework.web.system.service.IMutiLangService;
+import org.jeecgframework.web.system.service.MutiLangService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -22,6 +20,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Title: Controller
@@ -41,7 +42,7 @@ public class MutiLangController extends BaseController {
 	private static final Logger logger = Logger.getLogger(MutiLangController.class);
 
 	@Autowired
-	private IMutiLangService mutiLangService;
+	private MutiLangService mutiLangService;
 	@Autowired
 	private SystemService systemService;
 	private String message;
@@ -86,7 +87,7 @@ public class MutiLangController extends BaseController {
 			mutiLang.setLangContext("");
 		}
 		// 查询条件组装器
-		org.jeecgframework.web.command.util.hqlsearch.HqlGenerateUtil.installHql(cq, mutiLang, request.getParameterMap());
+		HqlGenerateUtil.installHql(cq, mutiLang, request.getParameterMap());
 		this.mutiLangService.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}

@@ -15,10 +15,11 @@ import org.jeecgframework.platform.bean.FunctionBean;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.platform.util.MutiLangUtil;
-import org.jeecgframework.web.common.controller.BaseController;
-import org.jeecgframework.web.resource.service.IResourceService;
+import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
+import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.*;
-import org.jeecgframework.web.system.service.IMutiLangService;
+import org.jeecgframework.web.system.service.MutiLangService;
+import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.jeecgframework.web.utils.BeanToTagUtils;
@@ -54,11 +55,11 @@ public class RoleController extends BaseController {
 	private UserService userService;
 	private SystemService systemService;
 	@Autowired
-	private IResourceService resourceService;
+	private ResourceService resourceService;
 	private String message = null;
 
 	@Autowired
-	private IMutiLangService mutiLangService;
+	private MutiLangService mutiLangService;
 
 	@Autowired
 	public void setSystemService(SystemService systemService) {
@@ -96,7 +97,7 @@ public class RoleController extends BaseController {
 	public void roleGrid(TSRole role, HttpServletRequest request,
 			HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(TSRole.class, dataGrid);
-		org.jeecgframework.web.command.util.hqlsearch.HqlGenerateUtil.installHql(cq,
+		HqlGenerateUtil.installHql(cq,
 				role);
 		cq.add();
 		this.systemService.findDataGridReturn(cq, true);
@@ -107,7 +108,7 @@ public class RoleController extends BaseController {
 	/**
 	 * 删除角色
 	 * 
-	 * @param ids
+	 * @param role
 	 * @return
 	 */
 	@RequestMapping(params = "delRole")
@@ -256,7 +257,7 @@ public class RoleController extends BaseController {
 			cc =Restrictions.eq("id", "-1");
 		}
 		cq.add(cc);
-		org.jeecgframework.web.command.util.hqlsearch.HqlGenerateUtil.installHql(cq, user);
+		HqlGenerateUtil.installHql(cq, user);
 		this.systemService.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
@@ -266,8 +267,6 @@ public class RoleController extends BaseController {
 	 * 
 	 * @param user
 	 * @param request
-	 * @param response
-	 * @param dataGrid
 	 * @return
 	 */
 	@RequestMapping(params = "getUserList")
@@ -769,7 +768,7 @@ public class RoleController extends BaseController {
         String roleId = request.getParameter("roleId");
 
         CriteriaQuery cq = new CriteriaQuery(TSUser.class, dataGrid);
-        org.jeecgframework.web.command.util.hqlsearch.HqlGenerateUtil.installHql(cq, user);
+         HqlGenerateUtil.installHql(cq, user);
 
         // 获取 当前组织机构的用户信息
         CriteriaQuery subCq = new CriteriaQuery(TSRoleUser.class);
@@ -804,7 +803,6 @@ public class RoleController extends BaseController {
     /**
      * 保存 角色-用户 关系信息
      * @param request request
-     * @param depart depart
      */
     private void saveRoleUserList(HttpServletRequest request, TSRole role) {
         String userIds = oConvertUtils.getString(request.getParameter("userIds"));

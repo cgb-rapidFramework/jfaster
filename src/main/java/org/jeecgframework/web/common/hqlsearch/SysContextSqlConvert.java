@@ -1,4 +1,4 @@
-package org.jeecgframework.web.command.util.hqlsearch;
+package org.jeecgframework.web.common.hqlsearch;
 
 import org.jeecgframework.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
 import org.jeecgframework.web.system.entity.base.TSDataRule;

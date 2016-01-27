@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.platform.constant.Globals;
-import org.jeecgframework.web.command.util.hqlsearch.SysContextSqlConvert;
+import org.jeecgframework.web.common.hqlsearch.SysContextSqlConvert;
 import org.jeecgframework.web.system.entity.base.*;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.service.SystemService;

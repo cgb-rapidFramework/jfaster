@@ -18,11 +18,12 @@ import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.platform.util.MutiLangUtil;
-import org.jeecgframework.web.common.controller.BaseController;
-import org.jeecgframework.web.resource.service.IResourceService;
+import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
+import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.TSDepart;
 import org.jeecgframework.web.system.entity.base.TSUser;
 import org.jeecgframework.web.system.entity.base.TSUserOrg;
+import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,7 @@ public class DepartController extends BaseController {
 	private SystemService systemService;
 	private String message;
 	@Autowired
-	private IResourceService resourceService;
+	private ResourceService resourceService;
 	public String getMessage() {
 		return message;
 	}
@@ -260,7 +261,7 @@ public class DepartController extends BaseController {
 			tSDepart.setId(null);
 		} 
 		if(null != tSDepart.getDepartname()){
-			org.jeecgframework.web.command.util.hqlsearch.HqlGenerateUtil.installHql(cq, tSDepart);
+			HqlGenerateUtil.installHql(cq, tSDepart);
 		}
 		if (treegrid.getId() != null) {
 			cq.eq("TSPDepart.id", treegrid.getId());
@@ -275,7 +276,7 @@ public class DepartController extends BaseController {
 			cq = new CriteriaQuery(TSDepart.class);
 			TSDepart parDepart = new TSDepart();
 			tSDepart.setTSPDepart(parDepart);
-			org.jeecgframework.web.command.util.hqlsearch.HqlGenerateUtil.installHql(cq, tSDepart);
+			HqlGenerateUtil.installHql(cq, tSDepart);
 		    departList =systemService.findListByCq(cq, false);
 		}
 		List<TreeGrid> treeGrids = new ArrayList<TreeGrid>();
@@ -328,7 +329,7 @@ public class DepartController extends BaseController {
 	public void userDatagrid(TSUser user,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(TSUser.class, dataGrid);
 		//查询条件组装器
-		org.jeecgframework.web.command.util.hqlsearch.HqlGenerateUtil.installHql(cq, user);
+		HqlGenerateUtil.installHql(cq, user);
 		String departid = oConvertUtils.getString(request.getParameter("departid"));
 		if (!StringUtil.isEmpty(departid)) {
 			DetachedCriteria dc = cq.getDetachedCriteria();
@@ -382,7 +383,7 @@ public class DepartController extends BaseController {
         String orgId = request.getParameter("orgId");
 
         CriteriaQuery cq = new CriteriaQuery(TSUser.class, dataGrid);
-        org.jeecgframework.web.command.util.hqlsearch.HqlGenerateUtil.installHql(cq, user);
+        HqlGenerateUtil.installHql(cq, user);
 
         // 获取 当前组织机构的用户信息
         CriteriaQuery subCq = new CriteriaQuery(TSUserOrg.class);

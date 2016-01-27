@@ -16,12 +16,12 @@ import org.jeecgframework.platform.bean.FunctionBean;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.platform.util.MutiLangUtil;
-import org.jeecgframework.web.common.controller.BaseController;
-import org.jeecgframework.web.resource.service.IResourceService;
+import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.TSDataRule;
 import org.jeecgframework.web.system.entity.base.TSFunction;
 import org.jeecgframework.web.system.entity.base.TSIcon;
 import org.jeecgframework.web.system.entity.base.TSOperation;
+import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.jeecgframework.web.utils.BeanToTagUtils;
@@ -55,7 +55,7 @@ public class FunctionController extends BaseController {
 	private static final Logger logger = Logger
 			.getLogger(FunctionController.class);
 	@Autowired
-	private IResourceService resourceService;
+	private ResourceService resourceService;
 	private UserService userService;
 	private SystemService systemService;
 	private String message = null;

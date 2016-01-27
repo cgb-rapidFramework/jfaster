@@ -1,18 +1,9 @@
 package org.jeecgframework.web.system.entity.base;
 
-import java.sql.Timestamp;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.jeecgframework.core.common.entity.IdEntity;
+
+import javax.persistence.*;
+import java.sql.Timestamp;
 
 
 /**
@@ -23,13 +14,6 @@ import org.jeecgframework.core.common.entity.IdEntity;
 @Table(name = "t_s_attachment")
 @Inheritance(strategy = InheritanceType.JOINED)
 public  class TSAttachment extends IdEntity implements java.io.Serializable {
-	
-	
-	/**
-	 * serialVersionUID:TODO（用一句话描述这个变量表示什么）
-	 * @since Ver 1.1
-	 */
-	
 	private static final long serialVersionUID = 1L;
 	private TSUser TSUser;// 创建人
 	private String businessKey;// 业务类主键

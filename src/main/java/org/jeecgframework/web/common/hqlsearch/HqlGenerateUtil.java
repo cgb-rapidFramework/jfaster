@@ -1,4 +1,4 @@
-package org.jeecgframework.web.command.util.hqlsearch;
+package org.jeecgframework.web.common.hqlsearch;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
@@ -38,7 +38,7 @@ public class HqlGenerateUtil {
 
 	/**
 	 * 自动生成查询条件HQL 模糊查询 不带有日期组合
-	 * 
+	 *
 	 * @param cq
 	 * @param searchObj
 	 * @throws Exception
@@ -50,7 +50,7 @@ public class HqlGenerateUtil {
 
 	/**
 	 * 自动生成查询条件HQL（扩展区间查询功能）
-	 * 
+	 *
 	 * @param cq
 	 * @param searchObj
 	 * @param parameterMap
@@ -64,7 +64,7 @@ public class HqlGenerateUtil {
 
 	/**
 	 * 添加Alias别名的查询
-	 * 
+	 *
 	 * @date 2014年1月19日
 	 * @param cq
 	 * @param searchObj
@@ -175,7 +175,7 @@ public class HqlGenerateUtil {
 
 	/**
 	 * 判断数据规则是不是包含这个实体类
-	 * 
+	 *
 	 * @param ruleMap
 	 * @param aliasName
 	 * @return
@@ -237,7 +237,7 @@ public class HqlGenerateUtil {
 
 	/**
 	 * 判断这个类是不是所以属性都为空
-	 * 
+	 *
 	 * @param param
 	 * @return
 	 */

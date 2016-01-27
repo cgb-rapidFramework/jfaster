@@ -1,16 +1,6 @@
 package org.jeecgframework.web.system.controller.core;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Property;
@@ -20,31 +10,20 @@ import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.ComboBox;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.model.json.ValidForm;
-import org.jeecgframework.core.tag.vo.datatable.DataTableReturn;
-import org.jeecgframework.core.tag.vo.datatable.DataTables;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.platform.bean.FunctionBean;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.platform.util.ListtoMenu;
-import org.jeecgframework.web.common.controller.BaseController;
-import org.jeecgframework.web.resource.service.IResourceService;
-import org.jeecgframework.web.system.entity.base.TSDepart;
-import org.jeecgframework.web.system.entity.base.TSFunction;
-import org.jeecgframework.web.system.entity.base.TSRole;
-import org.jeecgframework.web.system.entity.base.TSRoleFunction;
-import org.jeecgframework.web.system.entity.base.TSRoleUser;
-import org.jeecgframework.web.system.entity.base.TSUser;
-import org.jeecgframework.web.system.entity.base.TSUserOrg;
+import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
+import org.jeecgframework.web.system.controller.BaseController;
+import org.jeecgframework.web.system.entity.base.*;
 import org.jeecgframework.web.system.manager.ClientManager;
+import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
-import org.jeecgframework.web.utils.BeanToTagUtils;
-import org.jeecgframework.web.utils.PasswordUtil;
-import org.jeecgframework.web.utils.RoletoJson;
-import org.jeecgframework.web.utils.SessionUtil;
-import org.jeecgframework.web.utils.SetListSort;
+import org.jeecgframework.web.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -54,7 +33,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.JSON;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.*;
 
 
 /**
@@ -67,7 +50,7 @@ import com.alibaba.fastjson.JSON;
 @RequestMapping("/userController")
 public class UserController extends BaseController {
 	@Autowired
-	private IResourceService resourceService;
+	private ResourceService resourceService;
 	/**
 	 * Logger for this class
 	 */
@@ -231,7 +214,6 @@ public class UserController extends BaseController {
 			user = systemService.findEntity(TSUser.class, user.getId());
 			req.setAttribute("user", user);
 			idandname(req, user);
-			System.out.println(user.getPassword()+"-----"+user.getRealName());
 		}
 		return new ModelAndView("system/user/adminchangepwd");
 	}
@@ -357,7 +339,7 @@ public class UserController extends BaseController {
 	public void datagrid(TSUser user,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
         CriteriaQuery cq = new CriteriaQuery(TSUser.class, dataGrid);
         //查询条件组装器
-        org.jeecgframework.web.command.util.hqlsearch.HqlGenerateUtil.installHql(cq, user);
+        HqlGenerateUtil.installHql(cq, user);
 
         Short[] userstate = new Short[]{Globals.User_Normal, Globals.User_ADMIN, Globals.User_Forbidden};
         cq.in("status", userstate);
@@ -746,28 +728,6 @@ public class UserController extends BaseController {
 		systemService.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
-
-	/**
-	 * 测试
-	 * 
-	 * @param user
-	 * @param req
-	 * @return
-	 */
-	@RequestMapping(params = "test")
-	public void test(HttpServletRequest request, HttpServletResponse response) {
-		String jString = request.getParameter("_dt_json");
-		DataTables dataTables = new DataTables(request);
-		CriteriaQuery cq = new CriteriaQuery(TSUser.class, dataTables);
-		String username = request.getParameter("userName");
-		if (username != null) {
-			cq.like("userName", username);
-			cq.add();
-		}
-		DataTableReturn dataTableReturn = systemService.findDataTableReturn(cq, true);
-		TagUtil.datatable(response, dataTableReturn, "id,userName,mobilePhone,TSDepart_departname");
-	}
-
 	/**
 	 * 用户列表页面跳转
 	 * 
@@ -814,7 +774,7 @@ public class UserController extends BaseController {
 	/**
 	 * 用户录入
 	 * 
-	 * @param user
+	 * @param req
 	 * @param req
 	 * @return
 	 */

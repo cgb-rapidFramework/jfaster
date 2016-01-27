@@ -1,8 +1,5 @@
 package org.jeecgframework.web.system.controller.core;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
@@ -12,7 +9,8 @@ import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.platform.util.MutiLangUtil;
-import org.jeecgframework.web.common.controller.BaseController;
+import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
+import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.DynamicDataSourceEntity;
 import org.jeecgframework.web.system.service.DynamicDataSourceServiceI;
 import org.jeecgframework.web.system.service.SystemService;
@@ -21,6 +19,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**   
  * @Title: Controller
@@ -69,14 +70,13 @@ public class DynamicDataSourceController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
 	 */
 
 	@RequestMapping(params = "datagrid")
 	public void datagrid(DynamicDataSourceEntity dbSource,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(DynamicDataSourceEntity.class, dataGrid);
 		//查询条件组装器
-		org.jeecgframework.web.command.util.hqlsearch.HqlGenerateUtil.installHql(cq, dbSource, request.getParameterMap());
+		HqlGenerateUtil.installHql(cq, dbSource, request.getParameterMap());
 		this.dynamicDataSourceService.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 		
@@ -106,7 +106,7 @@ public class DynamicDataSourceController extends BaseController {
 	/**
 	 * 添加数据源配置
 	 * 
-	 * @param ids
+	 * @param dbSource
 	 * @return
 	 */
 	@RequestMapping(params = "save")

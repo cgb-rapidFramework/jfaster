@@ -1,22 +1,9 @@
 package org.jeecgframework.web.system.controller.core;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.common.UploadFile;
-import org.jeecgframework.core.common.model.json.AjaxJson;
-import org.jeecgframework.core.common.model.json.ComboTree;
-import org.jeecgframework.core.common.model.json.DataGrid;
-import org.jeecgframework.core.common.model.json.TreeGrid;
-import org.jeecgframework.core.common.model.json.ValidForm;
+import org.jeecgframework.core.common.model.json.*;
 import org.jeecgframework.core.extend.hqlsearch.parse.ObjectParseUtil;
 import org.jeecgframework.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;
 import org.jeecgframework.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
@@ -28,20 +15,12 @@ import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.platform.util.ListUtils;
 import org.jeecgframework.platform.util.MutiLangUtil;
-import org.jeecgframework.web.common.controller.BaseController;
-import org.jeecgframework.web.resource.service.IResourceService;
-import org.jeecgframework.web.system.entity.base.Client;
-import org.jeecgframework.web.system.entity.base.TSDepart;
-import org.jeecgframework.web.system.entity.base.TSDocument;
-import org.jeecgframework.web.system.entity.base.TSFunction;
-import org.jeecgframework.web.system.entity.base.TSRole;
-import org.jeecgframework.web.system.entity.base.TSRoleFunction;
-import org.jeecgframework.web.system.entity.base.TSType;
-import org.jeecgframework.web.system.entity.base.TSTypegroup;
-import org.jeecgframework.web.system.entity.base.TSVersion;
+import org.jeecgframework.web.system.controller.BaseController;
+import org.jeecgframework.web.system.entity.base.*;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.manager.ClientSort;
-import org.jeecgframework.web.system.service.IMutiLangService;
+import org.jeecgframework.web.system.service.MutiLangService;
+import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.jeecgframework.web.utils.DateUtils;
@@ -56,6 +35,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
+
 /**
  * 类型字段处理类
  * 
@@ -69,9 +52,9 @@ public class SystemController extends BaseController {
 	private static final Logger logger = Logger.getLogger(SystemController.class);
 	private UserService userService;
 	@Autowired
-	private IResourceService resourceService;
+	private ResourceService resourceService;
 	private SystemService systemService;
-	private IMutiLangService mutiLangService;
+	private MutiLangService mutiLangService;
 	
 	private String message;
 
@@ -89,7 +72,7 @@ public class SystemController extends BaseController {
 	}
 
 	@Autowired
-	public void setMutiLangService(IMutiLangService mutiLangService) {
+	public void setMutiLangService(MutiLangService mutiLangService) {
 		this.mutiLangService = mutiLangService;
 	}
 
@@ -179,14 +162,10 @@ public class SystemController extends BaseController {
 		cq.like("typename", typename);
 		cq.add();
 		this.systemService.findDataGridReturn(cq, true);
-        // add-start--Author:zhangguoming  Date:20140928 for：处理多语言
         MutiLangUtil.setMutiLangValueForList(dataGrid.getResults(), "typename");
-        // add-end--Author:zhangguoming  Date:20140928 for：处理多语言
-
 		TagUtil.datagrid(response, dataGrid);
 	}
 
-    // add-start--Author:zhangguoming  Date:20140928 for：数据字典修改
     /**
      * 跳转到类型页面
      * @param request request
@@ -198,7 +177,6 @@ public class SystemController extends BaseController {
         request.setAttribute("typegroupid", typegroupid);
 		return new ModelAndView("system/type/typeListForTypegroup");
 	}
-    // add-end--Author:zhangguoming  Date:20140928 for：数据字典修改
 //	@RequestMapping(params = "typeGroupTree")
 //	@ResponseBody
 //	public List<ComboTree> typeGroupTree(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
@@ -231,7 +209,7 @@ public class SystemController extends BaseController {
 
 	@RequestMapping(params = "typeGridTree")
 	@ResponseBody
-    @Deprecated // add-begin-end--Author:zhangguoming  Date:20140928 for：数据字典修改，该方法启用，数据字典不在已树结构展示了
+    @Deprecated
 	public List<TreeGrid> typeGridTree(HttpServletRequest request, TreeGrid treegrid) {
 		CriteriaQuery cq;
 		List<TreeGrid> treeGrids = new ArrayList<TreeGrid>();
@@ -249,16 +227,13 @@ public class SystemController extends BaseController {
 			}
 		} else {
 			cq = new CriteriaQuery(TSTypegroup.class);
-//            add-begin--Author:zhangguoming  Date:20140807 for：添加字典查询条件
             String typegroupcode = request.getParameter("typegroupcode");
             if(typegroupcode != null ) {
-            	//begin--Author:JueYue  Date:2014-8-23 for：修改查询拼装
                 HqlRuleEnum rule = PageValueConvertRuleEnum
 						.convert(typegroupcode);
                 Object value = PageValueConvertRuleEnum.replaceValue(rule,
                 		typegroupcode);
 				ObjectParseUtil.addCriteria(cq, "typegroupcode", rule, value);
-				//end--Author:JueYue  Date:2014-8-23 for：修改查询拼装
                 cq.add();
             }
             String typegroupname = request.getParameter("typegroupname");

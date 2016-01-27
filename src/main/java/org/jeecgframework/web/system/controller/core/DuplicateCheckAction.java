@@ -1,17 +1,17 @@
 package org.jeecgframework.web.system.controller.core;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.jeecgframework.web.common.controller.BaseController;
-import org.jeecgframework.web.system.entity.base.DuplicateCheckPage;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.dao.jdbc.JdbcDao;
 import org.jeecgframework.core.common.model.json.AjaxJson;
+import org.jeecgframework.web.system.controller.BaseController;
+import org.jeecgframework.web.system.entity.base.DuplicateCheckPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**   

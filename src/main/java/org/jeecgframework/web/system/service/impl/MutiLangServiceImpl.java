@@ -9,14 +9,14 @@ import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.platform.container.MutilangContainer;
 import org.jeecgframework.platform.util.BrowserUtils;
 import org.jeecgframework.web.system.entity.base.MutiLangEntity;
-import org.jeecgframework.web.system.service.IMutiLangService;
+import org.jeecgframework.web.system.service.MutiLangService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("mutiLangService")
 @Transactional
-public class MutiLangServiceImpl extends CommonServiceImpl implements IMutiLangService {
+public class MutiLangServiceImpl extends CommonServiceImpl implements MutiLangService {
 
 	@Autowired  
 	private  HttpServletRequest request; 

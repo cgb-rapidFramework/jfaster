@@ -1,18 +1,5 @@
 package org.jeecgframework.web.system.controller.core;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.common.UploadFile;
 import org.jeecgframework.core.common.model.json.AjaxJson;
@@ -22,11 +9,12 @@ import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.platform.util.MutiLangUtil;
-import org.jeecgframework.web.common.controller.BaseController;
-import org.jeecgframework.web.resource.service.IResourceService;
+import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
+import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.TSFunction;
 import org.jeecgframework.web.system.entity.base.TSIcon;
 import org.jeecgframework.web.system.entity.base.TSOperation;
+import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -35,6 +23,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.List;
 
 
 /**
@@ -49,7 +44,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class IconController extends BaseController {
 	private SystemService systemService;
 	@Autowired
-	private IResourceService resourceService;	
+	private ResourceService resourceService;
 	private String message;
 
 	public String getMessage() {
@@ -85,7 +80,7 @@ public class IconController extends BaseController {
 	@RequestMapping(params = "datagrid")
 	public void datagrid(TSIcon icon,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(TSIcon.class, dataGrid);
-		org.jeecgframework.web.command.util.hqlsearch.HqlGenerateUtil.installHql(cq, icon);
+		HqlGenerateUtil.installHql(cq, icon);
 		cq.add();
 		this.systemService.findDataGridReturn(cq, true);
         IconImageUtil.convertDataGrid(dataGrid, request);//先把数据库的byte存成图片到临时目录，再给每个TsIcon设置目录路径

@@ -1,11 +1,5 @@
 package org.jeecgframework.web.system.controller.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
@@ -19,17 +13,22 @@ import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.platform.util.MutiLangUtil;
-import org.jeecgframework.web.common.controller.BaseController;
-import org.jeecgframework.web.resource.service.IResourceService;
+import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
+import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.TSCategoryEntity;
 import org.jeecgframework.web.system.entity.base.TSIcon;
 import org.jeecgframework.web.system.service.CategoryServiceI;
+import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Title: Controller
@@ -55,7 +54,7 @@ public class CategoryController extends BaseController {
 	private CategoryServiceI categoryService;
 	
 	@Autowired
-	private IResourceService resourceService;
+	private ResourceService resourceService;
 
 	@Autowired
 	private SystemService systemService;
@@ -76,14 +75,13 @@ public class CategoryController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
 	 */
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(params = "datagrid")
 	@ResponseBody
 	public List<TreeGrid> datagrid(TSCategoryEntity category,
-			HttpServletRequest request, HttpServletResponse response,
+			HttpServletRequest request,
 			DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(TSCategoryEntity.class, dataGrid);
 		if (category.getId() == null || StringUtils.isEmpty(category.getId())) {
@@ -93,7 +91,7 @@ public class CategoryController extends BaseController {
 			category.setId(null);
 		}
 		// 查询条件组装器
-		org.jeecgframework.web.command.util.hqlsearch.HqlGenerateUtil.installHql(cq,
+		HqlGenerateUtil.installHql(cq,
 				category, request.getParameterMap());
 		List<TSCategoryEntity> list = this.categoryService
 				.findListByCq(cq, false);
@@ -131,7 +129,6 @@ public class CategoryController extends BaseController {
 	/**
 	 * 添加分类管理
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "save")

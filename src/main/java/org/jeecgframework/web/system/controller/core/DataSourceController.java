@@ -1,9 +1,8 @@
 package org.jeecgframework.web.system.controller.core;
 
 
-
 import org.apache.log4j.Logger;
-import org.jeecgframework.web.common.controller.BaseController;
+import org.jeecgframework.web.system.controller.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;

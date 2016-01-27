@@ -1,13 +1,5 @@
 package org.jeecgframework.web.system.controller.core;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.common.UploadFile;
@@ -21,9 +13,9 @@ import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.platform.util.FileUtils;
 import org.jeecgframework.platform.util.ReflectHelper;
-import org.jeecgframework.web.common.controller.BaseController;
-import org.jeecgframework.web.resource.service.IResourceService;
+import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.TSAttachment;
+import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.utils.JSONHelper;
 import org.jeecgframework.web.utils.MyClassLoader;
@@ -36,6 +28,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -55,7 +54,7 @@ public class CommonController extends BaseController {
 	private SystemService systemService;
 	private String message;
 	@Autowired
-	private IResourceService resourceService;
+	private ResourceService resourceService;
 	
 	@Autowired
 	public void setSystemService(SystemService systemService) {

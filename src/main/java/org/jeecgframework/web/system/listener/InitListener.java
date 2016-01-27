@@ -3,7 +3,7 @@ package org.jeecgframework.web.system.listener;
 import javax.servlet.ServletContextEvent;
 
 import org.jeecgframework.web.system.service.DynamicDataSourceServiceI;
-import org.jeecgframework.web.system.service.IMutiLangService;
+import org.jeecgframework.web.system.service.MutiLangService;
 import org.jeecgframework.web.system.service.MenuInitService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.utils.SystemConfigUtil;
@@ -28,7 +28,7 @@ public class InitListener  implements javax.servlet.ServletContextListener {
 		WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(event.getServletContext());
 		SystemService systemService = (SystemService) webApplicationContext.getBean("systemService");
 		MenuInitService menuInitService = (MenuInitService) webApplicationContext.getBean("menuInitService");
-		IMutiLangService mutiLangService = (IMutiLangService) webApplicationContext.getBean("mutiLangService");
+		MutiLangService mutiLangService = (MutiLangService) webApplicationContext.getBean("mutiLangService");
 		DynamicDataSourceServiceI dynamicDataSourceService = (DynamicDataSourceServiceI) webApplicationContext.getBean("dynamicDataSourceService");
 		
 		/**

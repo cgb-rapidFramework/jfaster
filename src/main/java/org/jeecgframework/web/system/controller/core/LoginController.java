@@ -12,10 +12,10 @@ import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.platform.constant.SysThemesEnum;
 import org.jeecgframework.platform.util.ListtoMenu;
 import org.jeecgframework.platform.util.SysThemesUtil;
-import org.jeecgframework.web.common.controller.BaseController;
+import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.*;
 import org.jeecgframework.web.system.manager.ClientManager;
-import org.jeecgframework.web.system.service.IMutiLangService;
+import org.jeecgframework.web.system.service.MutiLangService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.jeecgframework.web.utils.*;
@@ -40,14 +40,14 @@ import java.util.*;
 @Scope("prototype")
 @Controller
 @RequestMapping("/loginController")
-public class LoginController extends BaseController{
+public class LoginController extends BaseController {
 	private Logger log = Logger.getLogger(LoginController.class);
 	private SystemService systemService;
 	private UserService userService;
 	private String message = null;
 
 	@Autowired
-	private IMutiLangService mutiLangService;
+	private MutiLangService mutiLangService;
 	
 	@Autowired
 	public void setSystemService(SystemService systemService) {
