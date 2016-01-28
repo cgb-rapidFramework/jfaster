@@ -1,5 +1,5 @@
-ËµÃ÷£º
-   1.¸Ã°æ±¾Êı¾İ³õÊ¼»¯£¬ĞèÒªÖ´ĞĞ½Å±¾ doc/jeecg-mysql.sql
-   2.¿ª·¢»·¾³ eclipse+jdk7+tomcat6+maven+mysql
-   3.ÏîÄ¿mavenÈç¹ûÈ±ÉÙjar°ü£¬ÇëÍ¨¹ıµØÖ·ÏÂÔØ http://www.jeecg.org/forum.php?mod=viewthread&tid=2102&extra=page%3D1
-   4.ÏîÄ¿Æô¶¯·ÃÎÊµØÖ·£ºhttp://localhost:8080/jeecg
+è¯´æ˜ï¼š
+   1.è¯¥ç‰ˆæœ¬æ•°æ®åˆå§‹åŒ–ï¼Œéœ€è¦æ‰§è¡Œè„šæœ¬ doc/bms-project.sql
+   2.å¼€å‘ç¯å¢ƒ eclipse+jdk7+tomcat6+maven+mysql
+   3.é¡¹ç›®mavenå¦‚æœç¼ºå°‘jaråŒ…ï¼Œè¯·é€šè¿‡åœ°å€ä¸‹è½½ http://www.jeecg.org/forum.php?mod=viewthread&tid=2102&extra=page%3D1
+   4.é¡¹ç›®å¯åŠ¨è®¿é—®åœ°å€ï¼šhttp://localhost:8080/bms-project
