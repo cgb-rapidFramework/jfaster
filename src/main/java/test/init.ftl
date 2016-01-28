@@ -235,12 +235,12 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
 	  	
 	private void repareAttachment() {
        <#list animals as being>
-         TSAttachment tsAttachment${being.id}  = new TSAttachment();
-         tsAttachment${being.id}.setAttachmenttitle("${being.attachmenttitle}");
-         tsAttachment${being.id}.setRealpath("${being.realpath}");
-         tsAttachment${being.id}.setSwfpath("${being.swfpath}");
-         tsAttachment${being.id}.setExtend("${being.extend}");
-         commonDao.saveOrUpdate(tsAttachment${being.id});
+       TSUploadFile uploadFile${being.id}  = new TSUploadFile();
+       uploadFile${being.id}.setAttachmenttitle("${being.title}");
+       uploadFile${being.id}.setRealpath("${being.path}");
+       <#--uploadFile${being.id}.setSwfpath("${being.swfpath}");-->
+       uploadFile${being.id}.setExtend("${being.extend}");
+       commonDao.saveOrUpdate(uploadFile${being.id});
         </#list>
 	}
 

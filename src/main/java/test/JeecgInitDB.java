@@ -1,34 +1,13 @@
 package test;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-
-import org.jeecgframework.web.system.entity.base.TSAttachment;
-import org.jeecgframework.web.system.entity.base.TSBaseUser;
-import org.jeecgframework.web.system.entity.base.TSDepart;
-import org.jeecgframework.web.system.entity.base.TSFunction;
-import org.jeecgframework.web.system.entity.base.TSLog;
-import org.jeecgframework.web.system.entity.base.TSRole;
-import org.jeecgframework.web.system.entity.base.TSType;
-import org.jeecgframework.web.system.entity.base.TSTypegroup;
-import org.jeecgframework.web.system.entity.base.TSUser;
 
 import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapper;
-import freemarker.template.Template;
 
 
 /** 

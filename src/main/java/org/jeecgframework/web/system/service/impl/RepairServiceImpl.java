@@ -1,36 +1,14 @@
 package org.jeecgframework.web.system.service.impl;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
-
-
-import org.jeecgframework.web.system.entity.base.TSAttachment;
-import org.jeecgframework.web.system.entity.base.TSDemo;
-import org.jeecgframework.web.system.entity.base.TSDepart;
-import org.jeecgframework.web.system.entity.base.TSFunction;
-import org.jeecgframework.web.system.entity.base.TSIcon;
-import org.jeecgframework.web.system.entity.base.TSLog;
-import org.jeecgframework.web.system.entity.base.TSOperation;
-import org.jeecgframework.web.system.entity.base.TSRole;
-import org.jeecgframework.web.system.entity.base.TSRoleFunction;
-import org.jeecgframework.web.system.entity.base.TSRoleUser;
-import org.jeecgframework.web.system.entity.base.TSTimeTaskEntity;
-import org.jeecgframework.web.system.entity.base.TSType;
-import org.jeecgframework.web.system.entity.base.TSTypegroup;
-import org.jeecgframework.web.system.entity.base.TSUser;
-import org.jeecgframework.web.system.entity.base.TSUserOrg;
+import org.jeecgframework.web.system.entity.base.*;
 import org.jeecgframework.web.system.service.RepairService;
 import org.jeecgframework.web.utils.DateUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
+
+import java.text.ParseException;
+import java.util.List;
 
 /**
  * @Description 修复数据库Service
@@ -55,7 +33,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		/*commonDao.executeHql("delete CgformEnhanceJsEntity");
 		commonDao.executeHql("delete CgFormFieldEntity");
 		commonDao.executeHql("delete CgFormHeadEntity");*/
-		commonDao.executeHql("delete TSAttachment");
 		commonDao.executeHql("delete TSOperation");
 		commonDao.executeHql("delete TSRoleFunction");
 		commonDao.executeHql("delete TSRoleUser");
@@ -96,7 +73,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 	synchronized public void repair() {
 		//repairCkFinder();// 修复智能表单ck_finder数据库
 		repaireIcon(); // 修复图标
-		repairAttachment(); // 修改附件
 		repairDepart();// 修复部门表
 		repairRole();// 修复角色
 		repairUser(); // 修复基本用户
@@ -550,32 +526,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 	}
 
 
-
-	/**
-	 * @Description 修复附件表
-	 * @author tanghan 2013-7-20
-	 */
-	private void repairAttachment() {
-		TSAttachment jro = new TSAttachment();
-		jro.setAttachmenttitle("JR079839867R90000001000");
-		jro.setRealpath("JR079839867R90000001000");
-		jro.setSwfpath("upload/files/20130719201109hDr31jP1.swf");
-		jro.setExtend("doc");
-		commonDao.saveOrUpdate(jro);
-		TSAttachment github = new TSAttachment();
-		github.setAttachmenttitle("github入门使用教程");
-		github.setRealpath("github入门使用教程");
-		github.setSwfpath("upload/files/20130704201116Z8NhEK57.swf");
-		github.setExtend("doc");
-		commonDao.saveOrUpdate(github);
-
-		TSAttachment taghelp = new TSAttachment();
-		taghelp.setAttachmenttitle("JEECGUI标签库帮助文档v3.2");
-		taghelp.setRealpath("JEECGUI标签库帮助文档v3.2");
-		taghelp.setSwfpath("upload/files/20130704201125DQg8hi2x.swf");
-		taghelp.setExtend("pdf");
-		commonDao.saveOrUpdate(taghelp);
-	}
 
 	/**
 	 * @Description 修复图标表

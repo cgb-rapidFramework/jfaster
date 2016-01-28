@@ -1,12 +1,15 @@
 package org.jeecgframework.web.utils;
 
+import org.jeecgframework.core.util.StringUtil;
+
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * Created by admin on 2015/11/21.
  */
-public class StringUtil extends org.jeecgframework.core.util.StringUtil {
+public class StringUtils extends StringUtil {
     /**
      * 处理value中的特殊字符
      */
@@ -80,6 +83,11 @@ public class StringUtil extends org.jeecgframework.core.util.StringUtil {
              str=text.substring(0,text.length()>length?length:text.length());
         }
         return  str;
+    }
+
+
+    public static String getUUid() {
+        return UUID.randomUUID().toString().replace("-","");
     }
 
 }

@@ -2,7 +2,6 @@ package org.jeecgframework.web.system.controller.core;
 
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
-import org.jeecgframework.core.common.model.common.UploadFile;
 import org.jeecgframework.core.common.model.json.*;
 import org.jeecgframework.core.extend.hqlsearch.parse.ObjectParseUtil;
 import org.jeecgframework.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;
@@ -23,8 +22,6 @@ import org.jeecgframework.web.system.service.MutiLangService;
 import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
-import org.jeecgframework.web.utils.DateUtils;
-import org.jeecgframework.web.utils.MyClassLoader;
 import org.jeecgframework.web.utils.SetListSort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -37,7 +34,9 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 类型字段处理类
@@ -895,7 +894,6 @@ public class SystemController extends BaseController {
 	}
 
 	/************************************** 版本维护 ************************************/
-
 	/**
 	 * 版本维护列表
 	 */
@@ -956,90 +954,6 @@ public class SystemController extends BaseController {
 	}
 
 	/**
-	 * 新闻法规文件列表
-	 */
-	@RequestMapping(params = "documentList")
-	public void documentList(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-		CriteriaQuery cq = new CriteriaQuery(TSDocument.class, dataGrid);
-		String typecode = oConvertUtils.getString(request.getParameter("typecode"));
-		cq.createAlias("TSType", "TSType");
-		cq.eq("TSType.typecode", typecode);
-		cq.add();
-		this.systemService.findDataGridReturn(cq, true);
-		TagUtil.datagrid(response, dataGrid);
-	}
-	
-	/**
-	 * 删除文档
-	 * 
-	 * @param document
-	 * @return
-	 */
-	@RequestMapping(params = "delDocument")
-	@ResponseBody
-	public AjaxJson delDocument(TSDocument document, HttpServletRequest request) {
-		AjaxJson j = new AjaxJson();
-		document = systemService.findEntity(TSDocument.class, document.getId());
-		message = "" + document.getDocumentTitle() + "被删除成功";
-		userService.delete(document);
-		systemService.addLog(message, Globals.Log_Type_DEL,
-				Globals.Log_Leavel_INFO);
-		j.setSuccess(true);
-		j.setMsg(message);
-		return j;
-	}
-	
-	/**
-	 * 文件添加跳转
-	 * 
-	 * @param req
-	 * @return
-	 */
-	@RequestMapping(params = "addFiles")
-	public ModelAndView addFiles(HttpServletRequest req) {
-		return new ModelAndView("system/document/files");
-	}
-	
-	/**
-	 * 保存文件
-	 * 
-	 * @param document
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(params = "saveFiles", method = RequestMethod.POST)
-	@ResponseBody
-	public AjaxJson saveFiles(HttpServletRequest request, HttpServletResponse response, TSDocument document) {
-		AjaxJson j = new AjaxJson();
-		Map<String, Object> attributes = new HashMap<String, Object>();
-		TSTypegroup tsTypegroup=systemService.getTypeGroup("fieltype","文档分类");
-		TSType tsType = systemService.getType("files","附件", tsTypegroup);
-		String fileKey = oConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
-		String documentTitle = oConvertUtils.getString(request.getParameter("documentTitle"));// 文件标题
-		if (StringUtil.isNotEmpty(fileKey)) {
-			document.setId(fileKey);
-			document = systemService.findEntity(TSDocument.class, fileKey);
-			document.setDocumentTitle(documentTitle);
-
-		}
-		document.setSubclassname(MyClassLoader.getPackPath(document));
-		document.setCreatedate(DateUtils.gettimestamp());
-		document.setTSType(tsType);
-		UploadFile uploadFile = new UploadFile(request, document);
-		uploadFile.setCusPath("files");
-		uploadFile.setSwfpath("swfpath");
-		document = (TSDocument) resourceService.uploadFile(uploadFile);
-		attributes.put("url", document.getRealpath());
-		attributes.put("fileKey", document.getId());
-		attributes.put("name", document.getAttachmenttitle());
-		attributes.put("viewhref", "commonController.do?objfileList&fileKey=" + document.getId());
-		attributes.put("delurl", "commonController.do?delObjFile&fileKey=" + document.getId());
-		j.setMsg("文件添加成功");
-		j.setAttributes(attributes);
-		return j;
-	}
-	
-	/**
 	 * 在线用户列表
 	 * @param request
 	 * @param response
@@ -1070,15 +984,6 @@ public class SystemController extends BaseController {
 		}
 		return result;
 	}
-	
-	/**
-     * 文件上传通用跳转
-     * 
-     * @param req
-     * @return
-     */
-    @RequestMapping(params = "commonUpload")
-    public ModelAndView commonUpload(HttpServletRequest req) {
-            return new ModelAndView("common/upload/uploadView");
-    }
+
+
 }
