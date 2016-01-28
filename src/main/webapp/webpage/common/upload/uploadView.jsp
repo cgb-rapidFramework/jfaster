@@ -40,7 +40,7 @@
        <label class="Validform_label"></label>
      </td>
      <td class="value">
-      <t:upload name="instruction" dialog="false" multi="false" extend=".jpg;*,jpeg;*.png;*.gif;*.bmp;*.ico;*.tif;*.xls;*.doc;*.rar;*.txt;*.zip" queueID="instructionfile" view="false" auto="true" uploader="systemController.do?saveFiles" onUploadSuccess="uploadSuccess"  id="instruction" formData="documentTitle"></t:upload>
+      <t:upload name="instruction" dialog="false" multi="false" extend=".jpg;*,jpeg;*.png;*.gif;*.bmp;*.ico;*.tif;*.xls;*.doc;*.rar;*.txt;*.zip" queueID="instructionfile" view="false" auto="true" uploader="resourceController.do?saveFiles" onUploadSuccess="uploadSuccess"  id="instruction" formData="documentTitle"></t:upload>
      </td>
     </tr>
     <tr>
