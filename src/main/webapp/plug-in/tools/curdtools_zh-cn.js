@@ -186,13 +186,13 @@ function createdetailwindow(title, addurl,width,height) {
  * @param id//主键字段
  */
 function editfs(title,url) {
-	var name=gridname;
+	 title=gridname;
 	 if (rowid == '') {
 		tip('请选择编辑项目');
 		return;
 	}
 	url += '&id='+rowid;
-	openwindow(title,url,name,800,500);
+	openwindow(title,url,800,500);
 }
 // 删除调用函数
 function delObj(url,name) {
@@ -224,6 +224,7 @@ function deluploadify(url, id) {
 			var d = $.parseJSON(data);
 			if (d.success) {
 				$("#" + id).remove();// 移除SPAN
+				$("#fileShow").empty();// 移除显示的图片
 				m.remove(id);// 移除MAP对象内字符串
 			}
 
@@ -294,7 +295,6 @@ function createwindow(title, addurl,width,height) {
 		width = window.top.document.body.offsetWidth;
 		height =window.top.document.body.offsetHeight-100;
 	}
-    //--author：JueYue---------date：20140427---------for：弹出bug修改,设置了zindex()函数
 	if(typeof(windowapi) == 'undefined'){
 		$.dialog({
 			content: 'url:'+addurl,
@@ -406,8 +406,8 @@ function opensearchdwin(title, url, width, height) {
  * @param addurl
  * @param saveurl
  */
-function openwindow(title, url,name, width, height) {
-	gridname=name;
+function openwindow(title, url, width, height) {
+	gridname=title;
 	if (typeof (width) == 'undefined'&&typeof (height) != 'undefined')
 	{
 		if(typeof(windowapi) == 'undefined'){
@@ -482,21 +482,23 @@ function openwindow(title, url,name, width, height) {
 	{
 		if(typeof(windowapi) == 'undefined'){
 			$.dialog({
-				width: width,
-			    height:height,
+				minWidth: width,
+				height:400,
 				content: 'url:'+url,
 				title : title,
 				cache:false,
+				zIndex : 9999,
 				lock : true
 			}).zindex();
 		}else{
 			$.dialog({
-				width: width,
-			    height:height,
+				minWidth: width,
+				height:400,
 				content: 'url:'+url,
 				parent:windowapi,
 				title : title,
 				cache:false,
+				zIndex : 9999,
 				lock : true
 			}).zindex();
 		}
@@ -510,9 +512,9 @@ function openwindow(title, url,name, width, height) {
  * @param content
  * @param url
  */
-function createdialog(title, content, url,name) {
+function createdialog(title, content, url) {
 	$.dialog.confirm(content, function(){
-		doSubmit(url,name);
+		doSubmit(url,title);
 		rowid = '';
 	}, function(){
 	}).zindex();
@@ -565,7 +567,6 @@ function search() {
  */
 function doSubmit(url,name,data) {
 	gridname=name;
-	//--author：JueYue ---------date：20140227---------for：把URL转换成POST参数防止URL参数超出范围的问题
 	var paramsData = data;
 	if(!paramsData){
 		paramsData = new Object();
@@ -578,7 +579,6 @@ function doSubmit(url,name,data) {
 			}
 		}      
 	}
-	//--author：JueYue ---------date：20140227---------for：把URL转换成POST参数防止URL参数超出范围的问题
 	$.ajax({
 		async : false,
 		cache : false,
