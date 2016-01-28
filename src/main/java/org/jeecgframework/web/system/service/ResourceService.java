@@ -4,6 +4,7 @@ import org.jeecgframework.core.common.model.common.UploadFile;
 import org.jeecgframework.core.common.model.json.ComboTree;
 import org.jeecgframework.core.common.model.json.ImportFile;
 import org.jeecgframework.core.common.model.json.TreeGrid;
+import org.jeecgframework.core.common.service.CommonService;
 import org.jeecgframework.core.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.core.tag.vo.easyui.TreeGridModel;
 import org.jeecgframework.web.system.entity.base.TSDepart;
@@ -11,7 +12,7 @@ import org.jeecgframework.web.system.entity.base.TSDepart;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public interface ResourceService {
+public interface ResourceService extends CommonService {
 	/**
 	 * 文件上传
 	 * 
