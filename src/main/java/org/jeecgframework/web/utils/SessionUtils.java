@@ -1,6 +1,5 @@
 package org.jeecgframework.web.utils;
 
-import com.aliyun.oss.common.utils.LogUtils;
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.constant.DataBaseConstant;
