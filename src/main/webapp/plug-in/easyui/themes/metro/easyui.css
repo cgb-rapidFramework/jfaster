@@ -992,11 +992,10 @@ a:hover.l-btn-disabled {
 .datagrid-header-rownumber,
 .datagrid-cell-rownumber {
   margin: 0;
-  padding: 0 4px;	
-  white-space: nowrap;
+  padding: 0 4px;
+  white-space:pre-wrap;
   word-wrap: normal;
   overflow: hidden;
-  height: 36px;
   line-height: 36px;
   font-weight: normal;
   font-size: 12px;
@@ -1718,7 +1717,7 @@ a:hover.l-btn-disabled {
 }
 .slider-v .slider-rule span {
   width: 5px;
-  height: 'auto';
+  height: auto;
   border-left: 0;
   border-width: 1px 0 0 0;
   border-style: solid;

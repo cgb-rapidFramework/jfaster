@@ -7,7 +7,7 @@
                 actionUrl="functionController.do?functionGrid" idField="id" treegrid="true" pagination="false">
         <t:dgCol title="common.id" field="id" treefield="id" hidden="true"></t:dgCol>
         <t:dgCol title="menu.name" field="functionName" treefield="text"></t:dgCol>
-        <t:dgCol title="common.icon" field="TSIcon_iconPath" treefield="code" image="true"></t:dgCol>
+        <t:dgCol title="common.icon" field="TSIcon_iconPath" treefield="code" image="true"  funname="viewImage"></t:dgCol>
         <t:dgCol title="funcType" field="functionType" treefield="functionType" replace="funcType.page_0,funcType.from_1"></t:dgCol>
         <t:dgCol title="menu.url" field="functionUrl" treefield="src"></t:dgCol>
         <t:dgCol title="menu.order" field="functionOrder" treefield="order"></t:dgCol>
@@ -63,3 +63,8 @@ function addFun(title,url, id) {
 }
 </script>
 
+<script type="text/javascript">
+	function viewImage(title,id,url){
+		return false;
+	}
+</script>
