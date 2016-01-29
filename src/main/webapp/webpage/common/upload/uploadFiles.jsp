@@ -17,8 +17,8 @@
 		<tbody>
 		<tr>
 			<td align="right"><label class="Validform_label">上传头像:</label></td>
-			<td class="value"><t:upload name="instruction" dialog="false" queueID="instructionfile" view="true" auto="true" uploader="resourceController.do?saveFiles&multi=true&sessionKey=${sessionKey}" extend="pic" id="instruction"
-							 			 formData="documentTitle" multi="false" onUploadSuccess="onuploadsuccess"></t:upload></td>
+			<td class="value"><t:upload name="instruction" dialog="false" queueID="instructionfile" view="true" auto="true" uploader="resourceController.do?saveFiles&multi=true&sessionKey=${sessionKey}&fileType=${fileType}" extend="pic" id="instruction"
+										formData="documentTitle" multi="false" onUploadSuccess="uploadsuccess"></t:upload></td>
 		</tr>
 		<tr>
 			<td colspan="2" id="instructionfile" class="value"></td>
