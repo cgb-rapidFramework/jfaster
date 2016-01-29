@@ -8,7 +8,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
-public class PasswordUtil {
+public class PasswordUtils {
 
 	/**
 	 * JAVA6支持以下任意一种算法 PBEWITHMD5ANDDES PBEWITHMD5ANDTRIPLEDES
@@ -195,10 +195,10 @@ public class PasswordUtil {
 		org.jeecgframework.platform.util.LogUtil.info("密码:" + password);
 
 		try {
-			byte[] salt = PasswordUtil.getStaticSalt();
-			String ciphertext = PasswordUtil.encrypt(str, password, salt);
+			byte[] salt = PasswordUtils.getStaticSalt();
+			String ciphertext = PasswordUtils.encrypt(str, password, salt);
 			org.jeecgframework.platform.util.LogUtil.info("密文:" + ciphertext);
-			String plaintext = PasswordUtil.decrypt(ciphertext, password, salt);
+			String plaintext = PasswordUtils.decrypt(ciphertext, password, salt);
 			org.jeecgframework.platform.util.LogUtil.info("明文:" + plaintext);
 		} catch (Exception e) {
 			e.printStackTrace();

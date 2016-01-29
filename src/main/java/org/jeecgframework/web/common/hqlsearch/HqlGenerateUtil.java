@@ -9,8 +9,8 @@ import org.jeecgframework.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;
 import org.jeecgframework.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.web.system.entity.base.TSDataRule;
-import org.jeecgframework.web.utils.JeecgDataAutorUtils;
-import org.jeecgframework.web.utils.SessionUtil;
+import org.jeecgframework.web.utils.DataRuleUtils;
+import org.jeecgframework.web.utils.SessionUtils;
 import org.springframework.util.NumberUtils;
 
 import java.beans.PropertyDescriptor;
@@ -218,7 +218,7 @@ public class HqlGenerateUtil {
 	}
 
 	private static String converRuleValue(String ruleValue) {
-		String value = SessionUtil.getUserSystemData(ruleValue);
+		String value = SessionUtils.getUserSystemData(ruleValue);
 		return value!= null ? value : ruleValue;
 	}
 
@@ -283,7 +283,7 @@ public class HqlGenerateUtil {
 
 	private static Map<String, TSDataRule> getRuleMap() {
 		Map<String, TSDataRule> ruleMap = new HashMap<String, TSDataRule>();
-		List<TSDataRule> list =JeecgDataAutorUtils.loadDataSearchConditonSQL(); //(List<TSDataRule>) ContextHolderUtils
+		List<TSDataRule> list = DataRuleUtils.loadDataSearchConditonSQL(); //(List<TSDataRule>) ContextHolderUtils
 			//	.getRequest().getAttribute(Globals.MENU_DATA_AUTHOR_RULES);
 		if(list != null){
 			for (TSDataRule rule : list) {

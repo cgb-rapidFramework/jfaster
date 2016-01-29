@@ -1,20 +1,19 @@
 package org.jeecgframework.web.utils;
 
+import org.jeecgframework.core.util.ContextHolderUtils;
+import org.jeecgframework.core.util.oConvertUtils;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.jeecgframework.core.util.ContextHolderUtils;
-import org.jeecgframework.core.util.oConvertUtils;
 
 
 /**
  * 项目参数工具类
  * 
  */
-public class SystemConfigUtil {
+public class ConfigUtils {
 
 	private static final ResourceBundle bundle = java.util.ResourceBundle.getBundle("sysConfig");
 	
@@ -46,7 +45,7 @@ public class SystemConfigUtil {
 	/**
 	 * 获取配置文件参数
 	 * 
-	 * @param name
+	 * @param path
 	 * @return
 	 */
 	public static final Map<Object, Object> getConfigMap(String path) {
@@ -108,7 +107,7 @@ public class SystemConfigUtil {
 	 * @throws Exception 
 	 */
 	public static final String getJdbcUrl() {
-		return DBTypeUtil.getDBType().toLowerCase();
+		return DBUtils.getDBType().toLowerCase();
 	}
 
     /**
@@ -138,7 +137,7 @@ public class SystemConfigUtil {
     }
     /**
      * 获取用户系统变量
-     * @param key
+     * @param args
      * 			DataBaseConstant 中的值
      * @return
      */

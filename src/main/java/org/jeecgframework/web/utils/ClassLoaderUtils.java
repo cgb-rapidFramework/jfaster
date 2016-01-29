@@ -5,7 +5,7 @@ package org.jeecgframework.web.utils;
  * @author  张代浩
  *
  */
-public class MyClassLoader extends ClassLoader {
+public class ClassLoaderUtils extends ClassLoader {
 	public static Class getClassByScn(String className) {
 		Class myclass = null;
 		try {

@@ -24,7 +24,7 @@ import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.jeecgframework.web.utils.BeanToTagUtils;
 import org.jeecgframework.web.utils.NumberComparator;
-import org.jeecgframework.web.utils.SetListSort;
+import org.jeecgframework.web.utils.FunctionComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -528,7 +528,7 @@ public class RoleController extends BaseController {
 		List<TSFunction> functionList = systemService.findListByCq(
 				cq, false);
 		List<TreeGrid> treeGrids = new ArrayList<TreeGrid>();
-		Collections.sort(functionList, new SetListSort());
+		Collections.sort(functionList, new FunctionComparator());
 		TreeGridModel treeGridModel = new TreeGridModel();
 		treeGridModel.setRoleid(roleId);
 		treeGrids = resourceService.treegrid(functionList, treeGridModel);

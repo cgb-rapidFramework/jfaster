@@ -10,7 +10,7 @@ import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.web.system.entity.base.TSRoleUser;
 import org.jeecgframework.web.system.entity.base.TSUser;
 import org.jeecgframework.web.system.service.UserService;
-import org.jeecgframework.web.utils.PasswordUtil;
+import org.jeecgframework.web.utils.PasswordUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +27,7 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 	 * 检查用户是否存在
 	 * */
 	public TSUser checkUserExits(TSUser user) {
-		String password = PasswordUtil.encrypt(user.getUserName(), user.getPassword(), PasswordUtil.getStaticSalt());
+		String password = PasswordUtils.encrypt(user.getUserName(), user.getPassword(), PasswordUtils.getStaticSalt());
 		String query = "from TSUser u where u.userName = :username and u.password=:passowrd";
 		org.hibernate.Query queryObject =getSession().createQuery(query);
 		queryObject.setParameter("username", user.getUserName());
@@ -49,7 +49,7 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 		List<TSUser> users =  ((Criteria) queryObject).list();
 		if(null != users && users.size() > 0){
 			user = users.get(0);
-			String pwd = PasswordUtil.encrypt(user.getUserName(), newPwd, PasswordUtil.getStaticSalt());
+			String pwd = PasswordUtils.encrypt(user.getUserName(), newPwd, PasswordUtils.getStaticSalt());
 			user.setPassword(pwd);
 			save(user);
 		}

@@ -10,7 +10,7 @@ import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.TSConfig;
 import org.jeecgframework.web.system.service.SystemService;
-import org.jeecgframework.web.utils.SessionUtil;
+import org.jeecgframework.web.utils.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -113,7 +113,7 @@ public class ConfigController extends BaseController {
 			if(tsConfig2!=null){
 				message = "编码为: " + tsConfig.getCode() + "的配置信息已存在";
 			}else{
-				tsConfig.setTSUser(SessionUtil.getCurrentUser());
+				tsConfig.setTSUser(SessionUtils.getCurrentUser());
 				systemService.save(tsConfig);
 				message = "配置信息: " + tsConfig.getName() + "被添加成功";
 				systemService.addLog(message, Globals.Log_Type_INSERT,

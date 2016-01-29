@@ -6,7 +6,7 @@ import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.service.SystemService;
-import org.jeecgframework.web.utils.JSONHelper;
+import org.jeecgframework.web.utils.SystemJsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -69,7 +69,7 @@ public class CommonController extends BaseController {
 			response.setHeader("Pragma", "No-cache");
 			response.setHeader("Cache-Control", "no-cache");
 			response.setDateHeader("Expires", 0);
-			response.getWriter().write(JSONHelper.listtojson(allFieldArr, allFieldArr.length, autoList));
+			response.getWriter().write(SystemJsonUtils.listToJson(allFieldArr, allFieldArr.length, autoList));
 			response.getWriter().flush();
 			response.getWriter().close();
 		} catch (Exception e1) {

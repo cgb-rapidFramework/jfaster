@@ -172,7 +172,7 @@ public class LoginController extends BaseController {
                 + currentDepart.getDepartname() + "]" + mutiLangService.getLang("common.login.success");
 
         Client client = new Client();
-        client.setIp(IpUtil.getIpAddr(req));
+        client.setIp(org.jeecgframework.web.utils.StringUtils.getIpAddr(req));
         client.setLogindatetime(new Date());
         client.setUser(user);
         SessionShareCenter.putUserId(client.getUser().getId());
@@ -191,7 +191,7 @@ public class LoginController extends BaseController {
 	@RequestMapping(params = "login")
 	public String login(ModelMap modelMap,HttpServletRequest request) {
 		DataSourceContextHolder.setDataSourceType(DataSourceType.dataSource_jeecg);
-		TSUser user = SessionUtil.getCurrentUser();
+		TSUser user = SessionUtils.getCurrentUser();
 		String roles = "";
 		if (user != null) {
 			List<TSRole> roleList=new ArrayList();
@@ -267,7 +267,7 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(params = "logout")
 	public ModelAndView logout(HttpServletRequest request) {
-		TSUser user = SessionUtil.getCurrentUser();
+		TSUser user = SessionUtils.getCurrentUser();
 		systemService.addLog("用户" + user.getUserName() + "已退出",
 				Globals.Log_Type_EXIT, Globals.Log_Leavel_INFO);
 		HttpSession session = ContextHolderUtils.getSession();
@@ -286,7 +286,7 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(params = "left")
 	public ModelAndView left(HttpServletRequest request) {
-		TSUser user = SessionUtil.getCurrentUser();
+		TSUser user = SessionUtils.getCurrentUser();
 		HttpSession session = ContextHolderUtils.getSession();
         ModelAndView modelAndView = new ModelAndView();
 		// 登陆者的权限
@@ -428,7 +428,7 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(params = "top")
 	public ModelAndView top(HttpServletRequest request) {
-		TSUser user = SessionUtil.getCurrentUser();
+		TSUser user = SessionUtils.getCurrentUser();
 		HttpSession session = ContextHolderUtils.getSession();
 		// 登陆者的权限
 		if (user.getId() == null) {
@@ -453,7 +453,7 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(params = "shortcut_top")
 	public ModelAndView shortcut_top(HttpServletRequest request) {
-		TSUser user = SessionUtil.getCurrentUser();
+		TSUser user = SessionUtils.getCurrentUser();
 		HttpSession session = ContextHolderUtils.getSession();
 		// 登陆者的权限
 		if (user.getId() == null) {
@@ -481,7 +481,7 @@ public class LoginController extends BaseController {
     @RequestMapping(params = "primaryMenu")
     @ResponseBody
 	public String getPrimaryMenu() throws Exception {
-    	TSUser user = SessionUtil.getCurrentUser();
+    	TSUser user = SessionUtils.getCurrentUser();
     	HttpSession session = ContextHolderUtils.getSession();
     	// 登陆者的权限
 		if (user.getId() == null) {
@@ -558,7 +558,7 @@ public class LoginController extends BaseController {
 		if(oConvertUtils.isNotEmpty(getPrimaryMenuForWebos)){
 			j.setMsg(getPrimaryMenuForWebos.toString());
 		}else{
-			TSUser user = SessionUtil.getCurrentUser();
+			TSUser user = SessionUtils.getCurrentUser();
 	    	HttpSession session = ContextHolderUtils.getSession();
 	    	// 登陆者的权限
 			if (user.getId() == null) {
@@ -566,7 +566,7 @@ public class LoginController extends BaseController {
 				throw new Exception("用户不存在");
 			}
 			
-			String PMenu = ListtoMenu.getWebosMenu(getFunctionMap(SessionUtil.getCurrentUser()));
+			String PMenu = ListtoMenu.getWebosMenu(getFunctionMap(SessionUtils.getCurrentUser()));
 			ContextHolderUtils.getSession().setAttribute("getPrimaryMenuForWebos", PMenu);
 			j.setMsg(PMenu);
 		}

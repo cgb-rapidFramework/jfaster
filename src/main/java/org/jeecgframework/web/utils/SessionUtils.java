@@ -23,7 +23,7 @@ import org.jeecgframework.web.system.manager.ClientManager;
  * 项目参数工具类
  * 
  */
-public class SessionUtil {
+public class SessionUtils {
 
 	private static final ResourceBundle bundle = java.util.ResourceBundle.getBundle("sysConfig");
 	 /**
@@ -71,7 +71,7 @@ public class SessionUtil {
 	 */
 	public static final TSUser getCurrentUser() {
 		HttpSession session = ContextHolderUtils.getSession();
-		SessionUtil.initSession(session);//必须先初始化一次Session，否则集群时候异常
+		SessionUtils.initSession(session);//必须先初始化一次Session，否则集群时候异常
 		if(ClientManager.getInstance().getClient(session.getId())!=null){
 			return ClientManager.getInstance().getClient(session.getId()).getUser();
 		}
@@ -83,7 +83,7 @@ public class SessionUtil {
 	 */
 	public static final List<TSRole>  getCurrentRole() {
 		HttpSession session = ContextHolderUtils.getSession();
-		SessionUtil.initRoles(session);//必须先初始化一次Session，否则集群时候异常
+		SessionUtils.initRoles(session);//必须先初始化一次Session，否则集群时候异常
 		if(ClientManager.getInstance().getClient(session.getId())!=null){
 			return ClientManager.getInstance().getClient(session.getId()).getRoles();
 		}
@@ -217,7 +217,7 @@ public class SessionUtil {
 	 * @throws Exception 
 	 */
 	public static final String getJdbcUrl() {
-		return DBTypeUtil.getDBType().toLowerCase();
+		return DBUtils.getDBType().toLowerCase();
 	}
 
     /**

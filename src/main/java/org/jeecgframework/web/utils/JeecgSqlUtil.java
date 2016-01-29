@@ -1,19 +1,12 @@
 package org.jeecgframework.web.utils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Serializable;
-import java.util.ResourceBundle;
-
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
-
 import org.jeecgframework.core.def.ConstantsDefs;
+
+import java.io.*;
+import java.util.ResourceBundle;
 
 /**
  * 
@@ -96,7 +89,7 @@ public class JeecgSqlUtil {
 
 	/**
 	 * 读取SQL内容
-	 * @param args
+	 * @param fileUrl
 	 * @throws IOException 
 	 */
 

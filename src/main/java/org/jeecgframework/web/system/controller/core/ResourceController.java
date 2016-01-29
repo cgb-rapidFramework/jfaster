@@ -16,7 +16,7 @@ import org.jeecgframework.web.system.entity.base.TSUploadFile;
 import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.utils.DateUtils;
-import org.jeecgframework.web.utils.MyClassLoader;
+import org.jeecgframework.web.utils.ClassLoaderUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
@@ -60,7 +60,7 @@ public class ResourceController {
         importFile.setField(field);
         importFile.setEntityName(entityname);
         importFile.setFileName(entityname + ".bak");
-        importFile.setEntityClass(MyClassLoader.getClassByScn(entityname));
+        importFile.setEntityClass(ClassLoaderUtils.getClassByScn(entityname));
         resourceService.createXml(importFile);
     }
 
@@ -210,7 +210,7 @@ public class ResourceController {
         String fileKey = oConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
         String subclassname = oConvertUtils.getString(request.getParameter("subclassname"), "org.jeecgframework.web.system.entity.base.TSUploadFile");
         String contentfield = oConvertUtils.getString(request.getParameter("contentfield"));
-        Class fileClass = MyClassLoader.getClassByScn(subclassname);// 附件的实际类
+        Class fileClass = ClassLoaderUtils.getClassByScn(subclassname);// 附件的实际类
         Object fileobj = systemService.findEntity(fileClass, fileKey);
         ReflectHelper reflectHelper = new ReflectHelper(fileobj);
         String extend = oConvertUtils.getString(reflectHelper.getMethodValue("extend"));
@@ -242,7 +242,7 @@ public class ResourceController {
     public void downloadFile(HttpServletRequest request, HttpServletResponse response) {
         String fileid =oConvertUtils.getString(request.getParameter("fileKey"));
         String subclassname = oConvertUtils.getString(request.getParameter("subclassname"), "org.jeecgframework.web.system.entity.base.TSUploadFile");
-        Class fileClass = MyClassLoader.getClassByScn(subclassname);// 附件的实际类
+        Class fileClass = ClassLoaderUtils.getClassByScn(subclassname);// 附件的实际类
         Object fileobj = systemService.findEntity(fileClass, fileid);
         ReflectHelper reflectHelper = new ReflectHelper(fileobj);
         UploadFile uploadFile = new UploadFile(request, response);
@@ -271,7 +271,7 @@ public class ResourceController {
         String type = oConvertUtils.getString(request.getParameter("typename"));
         String code = oConvertUtils.getString(request.getParameter("typecode"));
         String filekey = oConvertUtils.getString(request.getParameter("filekey"));
-        CriteriaQuery cq = new CriteriaQuery(MyClassLoader.getClassByScn(subclassname), dataGrid);
+        CriteriaQuery cq = new CriteriaQuery(ClassLoaderUtils.getClassByScn(subclassname), dataGrid);
         cq.eq("businessKey", businessKey);
         if (StringUtil.isNotEmpty(type)) {
             cq.createAlias("TBInfotype", "TBInfotype");

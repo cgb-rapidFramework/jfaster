@@ -1,8 +1,8 @@
 package org.jeecgframework.web.utils;
 
-import java.util.Comparator;
-
 import org.jeecgframework.platform.bean.FunctionBean;
+
+import java.util.Comparator;
 
 /**
 * @ClassName: NumberComparator 
@@ -70,4 +70,6 @@ public class NumberComparator implements Comparator<Object> {
 		}
 		return num;
 	}
+
+
 }

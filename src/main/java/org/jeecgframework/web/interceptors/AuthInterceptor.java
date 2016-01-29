@@ -8,8 +8,8 @@ import org.jeecgframework.web.common.hqlsearch.SysContextSqlConvert;
 import org.jeecgframework.web.system.entity.base.*;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.service.SystemService;
-import org.jeecgframework.web.utils.JeecgDataAutorUtils;
-import org.jeecgframework.web.utils.SystemConfigUtil;
+import org.jeecgframework.web.utils.DataRuleUtils;
+import org.jeecgframework.web.utils.ConfigUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -71,7 +71,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 	 * 在controller前拦截
 	 */
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
-		String requestPath = SystemConfigUtil.getRequestPath(request);// 用户访问的资源地址
+		String requestPath = ConfigUtils.getRequestPath(request);// 用户访问的资源地址
 		HttpSession session = ContextHolderUtils.getSession();
 		Client client = ClientManager.getInstance().getClient(session.getId());
 		if(client == null){ 
@@ -156,8 +156,8 @@ public class AuthInterceptor implements HandlerInterceptor {
 							MENU_DATA_AUTHOR_RULE_SQL += SysContextSqlConvert.setSqlModel(dataRule);
 					
 					}
-					 JeecgDataAutorUtils.installDataSearchConditon(request, MENU_DATA_AUTHOR_RULES);//菜单数据规则集合
-					 JeecgDataAutorUtils.installDataSearchConditon(request, MENU_DATA_AUTHOR_RULE_SQL);//菜单数据规则sql
+					 DataRuleUtils.installDataSearchConditon(request, MENU_DATA_AUTHOR_RULES);//菜单数据规则集合
+					 DataRuleUtils.installDataSearchConditon(request, MENU_DATA_AUTHOR_RULE_SQL);//菜单数据规则sql
 
 				}
 				return true;
@@ -176,7 +176,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 	 * @return
 	 */
 	private boolean hasMenuAuth(HttpServletRequest request){
-		String requestPath = SystemConfigUtil.getRequestPath(request);// 用户访问的资源地址
+		String requestPath = ConfigUtils.getRequestPath(request);// 用户访问的资源地址
 		// 是否是功能表中管理的url
 		boolean bMgrUrl = false;
 		if (functionList == null) {

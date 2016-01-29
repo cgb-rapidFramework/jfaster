@@ -2,7 +2,7 @@ package org.jeecgframework.web.system.listener;
 
 import javax.servlet.ServletConfig;
 
-import org.jeecgframework.web.utils.SystemConfigUtil;
+import org.jeecgframework.web.utils.ConfigUtils;
 
 import com.ckfinder.connector.configuration.Configuration;
 
@@ -26,12 +26,12 @@ public class CkfinderConfiguration extends Configuration {
 	
 	public void init() throws Exception {
 		super.init();
-		String files = SystemConfigUtil.getConfigByName("ck.userfiles");
+		String files = ConfigUtils.getConfigByName("ck.userfiles");
 		if (files.contains("http://"))
 			this.baseURL = files;
 		else
 			this.baseURL = path + "/" + files + "/";
-		this.baseDir = SystemConfigUtil.getConfigByName("ck.baseDir");
+		this.baseDir = ConfigUtils.getConfigByName("ck.baseDir");
 	}
 
 }

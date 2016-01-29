@@ -80,8 +80,8 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(params = "menu")
 	public void menu(HttpServletRequest request, HttpServletResponse response) {
-		SetListSort sort = new SetListSort();
-		TSUser u = SessionUtil.getCurrentUser();
+		FunctionComparator sort = new FunctionComparator();
+		TSUser u = SessionUtils.getCurrentUser();
 		// 登陆者的权限
 		Set<TSFunction> loginActionlist = new HashSet();// 已有权限菜单
 		List<TSRoleUser> rUsers = systemService.findAllByProperty(TSRoleUser.class, "TSUser.id", u.getId());
@@ -128,7 +128,7 @@ public class UserController extends BaseController {
 	public String userDemo(HttpServletRequest request) {
 		// 给部门查询条件中的下拉框准备数据
 		List<TSDepart> departList = systemService.getList(TSDepart.class);
-		request.setAttribute("departsReplace", RoletoJson.listToReplaceStr(departList, "departname", "id"));
+		request.setAttribute("departsReplace", SystemJsonUtils.listToReplaceStr(departList, "departname", "id"));
 		return "system/user/userList2";
 	}
 	
@@ -142,7 +142,7 @@ public class UserController extends BaseController {
 	public String user(HttpServletRequest request) {
 		// 给部门查询条件中的下拉框准备数据
 		List<TSDepart> departList = systemService.getList(TSDepart.class);
-		request.setAttribute("departsReplace", RoletoJson.listToReplaceStr(departList, "departname", "id"));
+		request.setAttribute("departsReplace", SystemJsonUtils.listToReplaceStr(departList, "departname", "id"));
 		return "system/user/userList";
 	}
 
@@ -153,7 +153,7 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(params = "userinfo")
 	public String userinfo(HttpServletRequest request) {
-		TSUser user = SessionUtil.getCurrentUser();
+		TSUser user = SessionUtils.getCurrentUser();
 		request.setAttribute("user", user);
 		return "system/user/userinfo";
 	}
@@ -165,7 +165,7 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(params = "changepassword")
 	public String changepassword(HttpServletRequest request) {
-		TSUser user = SessionUtil.getCurrentUser();
+		TSUser user = SessionUtils.getCurrentUser();
 		request.setAttribute("user", user);
 		return "system/user/changepassword";
 	}
@@ -181,16 +181,16 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public AjaxJson savenewpwd(HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		TSUser user = SessionUtil.getCurrentUser();
+		TSUser user = SessionUtils.getCurrentUser();
 		String password = oConvertUtils.getString(request.getParameter("password"));
 		String newpassword = oConvertUtils.getString(request.getParameter("newpassword"));
-		String pString = PasswordUtil.encrypt(user.getUserName(), password, PasswordUtil.getStaticSalt());
+		String pString = PasswordUtils.encrypt(user.getUserName(), password, PasswordUtils.getStaticSalt());
 		if (!pString.equals(user.getPassword())) {
 			j.setMsg("原密码不正确");
 			j.setSuccess(false);
 		} else {
 			try {
-				user.setPassword(PasswordUtil.encrypt(user.getUserName(), newpassword, PasswordUtil.getStaticSalt()));
+				user.setPassword(PasswordUtils.encrypt(user.getUserName(), newpassword, PasswordUtils.getStaticSalt()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -229,7 +229,7 @@ public class UserController extends BaseController {
 		if (StringUtil.isNotEmpty(id)) {
 			TSUser users = systemService.findEntity(TSUser.class,id);
 			System.out.println(users.getUserName());
-			users.setPassword(PasswordUtil.encrypt(users.getUserName(), password, PasswordUtil.getStaticSalt()));
+			users.setPassword(PasswordUtils.encrypt(users.getUserName(), password, PasswordUtils.getStaticSalt()));
 			users.setStatus(Globals.User_Normal);
 			users.setActivitiSync(users.getActivitiSync());
 			systemService.update(users);	
@@ -484,7 +484,7 @@ public class UserController extends BaseController {
 			if (users != null) {
 				message = "用户: " + users.getUserName() + "已经存在";
 			} else {
-				user.setPassword(PasswordUtil.encrypt(user.getUserName(), password, PasswordUtil.getStaticSalt()));
+				user.setPassword(PasswordUtils.encrypt(user.getUserName(), password, PasswordUtils.getStaticSalt()));
 //				if (user.getTSDepart().equals("")) {
 //					user.setTSDepart(null);
 //				}
@@ -821,7 +821,7 @@ public class UserController extends BaseController {
 	}
 	@RequestMapping(params = "changestyle")
 	public String changeStyle(HttpServletRequest request) {
-		TSUser user = SessionUtil.getCurrentUser();
+		TSUser user = SessionUtils.getCurrentUser();
 		if(user==null){
 			return "login/login";
 		}
@@ -850,7 +850,7 @@ public class UserController extends BaseController {
 	public AjaxJson saveStyle(HttpServletRequest request,HttpServletResponse response) {
 		AjaxJson j = new AjaxJson();
 		j.setSuccess(Boolean.FALSE);
-		TSUser user = SessionUtil.getCurrentUser();
+		TSUser user = SessionUtils.getCurrentUser();
 		if(user!=null){
 			String indexStyle = request.getParameter("indexStyle");
 			if(StringUtils.isNotEmpty(indexStyle)){

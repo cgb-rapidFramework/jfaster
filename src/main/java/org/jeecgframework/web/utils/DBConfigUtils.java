@@ -12,17 +12,17 @@ import java.util.Properties;
  * @author  张代浩
  *
  */
-public class JdbcUtil {
+public class DBConfigUtils {
 	private static String  properiesName = "dbconfig.properties";
 
-	public JdbcUtil() {
+	public DBConfigUtils() {
 
 	}
 	public static String getProperty(String key) {
 		String value = "";
 		InputStream is = null;
 		try {
-			is = JdbcUtil.class.getClassLoader().getResourceAsStream(
+			is = DBConfigUtils.class.getClassLoader().getResourceAsStream(
 					properiesName);
 			Properties p = new Properties();
 			p.load(is);
@@ -45,7 +45,7 @@ public class JdbcUtil {
 		Properties p = new Properties();
 		InputStream is = null;
 		try {
-			is = JdbcUtil.class.getClassLoader().getResourceAsStream(
+			is = DBConfigUtils.class.getClassLoader().getResourceAsStream(
 					properiesName);
 			p.load(is);
 		} catch (IOException e) {
@@ -69,7 +69,7 @@ public class JdbcUtil {
 		try {
 			is = new FileInputStream(properiesName);
 			p.load(is);
-			os = new FileOutputStream(JdbcUtil.class.getClassLoader().getResource(properiesName).getFile());
+			os = new FileOutputStream(DBConfigUtils.class.getClassLoader().getResource(properiesName).getFile());
 
 			p.setProperty(key, value);
 			p.store(os, key);
@@ -93,7 +93,7 @@ public class JdbcUtil {
 	}
 
 	public static void main(String[] args) {
-	System.out.println(JdbcUtil.getProperty("fileSourceUri"));
+	System.out.println(DBConfigUtils.getProperty("fileSourceUri"));
 	
 	}
 

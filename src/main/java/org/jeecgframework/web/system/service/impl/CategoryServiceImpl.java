@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.web.system.entity.base.TSCategoryEntity;
 import org.jeecgframework.web.system.service.CategoryServiceI;
-import org.jeecgframework.web.utils.SystemConfigUtil;
+import org.jeecgframework.web.utils.ConfigUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +36,7 @@ public class CategoryServiceImpl extends CommonServiceImpl implements
 			maxCode = maxCode == 0 ? 1 : maxCode + 1;
 			return String.format(
 					"%0"
-							+ Integer.valueOf(SystemConfigUtil
+							+ Integer.valueOf(ConfigUtils
 									.getConfigByName("categoryCodeLengthType"))
 							+ "d", maxCode);
 		}
@@ -52,7 +52,7 @@ public class CategoryServiceImpl extends CommonServiceImpl implements
 		return parent.getCode()
 				+ String.format(
 						"%0"
-								+ Integer.valueOf(SystemConfigUtil
+								+ Integer.valueOf(ConfigUtils
 										.getConfigByName("categoryCodeLengthType"))
 								+ "d", maxCode);
 	}

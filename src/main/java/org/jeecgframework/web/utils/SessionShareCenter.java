@@ -1,14 +1,12 @@
 package org.jeecgframework.web.utils;
 
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.web.system.entity.base.Client;
 import org.jeecgframework.web.system.entity.base.TSRole;
-import org.jeecgframework.web.system.entity.base.TSUser;
 import org.jeecgframework.web.system.manager.ClientManager;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
 /**
  * 通过session共享信息
  * @author guanxf
@@ -38,7 +36,6 @@ public class SessionShareCenter extends ContextHolderUtils{
 
 	/**
 	 * 获取用户信息
-	 * @param client
 	 */
 	public static String getUserId() {
 		HttpSession session= getSession();
@@ -57,7 +54,7 @@ public class SessionShareCenter extends ContextHolderUtils{
 	
 	 /***
      * 删除session
-     * @param id
+     * @param sessionId
      */
 	public static void removeSession(String sessionId) {
 	   ClientManager.getInstance().removeClinet(sessionId);

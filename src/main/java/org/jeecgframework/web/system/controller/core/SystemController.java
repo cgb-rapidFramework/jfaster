@@ -22,7 +22,7 @@ import org.jeecgframework.web.system.service.MutiLangService;
 import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
-import org.jeecgframework.web.utils.SetListSort;
+import org.jeecgframework.web.utils.FunctionComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -803,7 +803,7 @@ public class SystemController extends BaseController {
 		cq.add();
 		List<TSFunction> functionList = systemService.findListByCq(cq, false);
 		List<TreeGrid> treeGrids = new ArrayList<TreeGrid>();
-		Collections.sort(functionList, new SetListSort());
+		Collections.sort(functionList, new FunctionComparator());
 		TreeGridModel treeGridModel = new TreeGridModel();
 		treeGridModel.setRoleid(roleid);
 		treeGrids = resourceService.treegrid(functionList, treeGridModel);

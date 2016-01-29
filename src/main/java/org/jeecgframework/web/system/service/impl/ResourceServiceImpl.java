@@ -29,7 +29,7 @@ import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.utils.DateUtils;
 import org.jeecgframework.web.utils.GenericsUtils;
 import org.jeecgframework.web.utils.StreamUtils;
-import org.jeecgframework.web.utils.SystemConfigUtil;
+import org.jeecgframework.web.utils.ConfigUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
@@ -66,7 +66,7 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 			uploadFile.getMultipartRequest().setCharacterEncoding("UTF-8");
 			MultipartHttpServletRequest multipartRequest = uploadFile.getMultipartRequest();
 			ReflectHelper reflectHelper = new ReflectHelper(uploadFile.getObject());
-			String basepath = SystemConfigUtil.getConfigByName("resource.upload.basepath");
+			String basepath = ConfigUtils.getConfigByName("resource.upload.basepath");
 			if (basepath == null) {
 				uploadFile.getBasePath();// 文件上传根目录
 			}
@@ -100,8 +100,8 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 			String entityName = uploadFile.getObject().getClass().getSimpleName();
 			// 设置文件上传路径
 			if (entityName.equals("TSTemplate")) {
-				realPath = uploadFile.getMultipartRequest().getSession().getServletContext().getRealPath("/") + SystemConfigUtil.getConfigByName("resource.template.basepath") + "/";
-				basepath = SystemConfigUtil.getConfigByName("resource.template.basepath") + "/";
+				realPath = uploadFile.getMultipartRequest().getSession().getServletContext().getRealPath("/") + ConfigUtils.getConfigByName("resource.template.basepath") + "/";
+				basepath = ConfigUtils.getConfigByName("resource.template.basepath") + "/";
 			} else if (entityName.equals("TSIcon")) {
 				realPath = uploadFile.getMultipartRequest().getSession().getServletContext().getRealPath("/") + uploadFile.getCusPath() + "/";
 				basepath =uploadFile.getCusPath() + "/";

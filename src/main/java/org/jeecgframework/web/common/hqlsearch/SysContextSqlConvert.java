@@ -2,7 +2,7 @@ package org.jeecgframework.web.common.hqlsearch;
 
 import org.jeecgframework.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
 import org.jeecgframework.web.system.entity.base.TSDataRule;
-import org.jeecgframework.web.utils.SessionUtil;
+import org.jeecgframework.web.utils.SessionUtils;
 
 /**
  * 数据库列表序列化转换sql
@@ -44,7 +44,7 @@ public class SysContextSqlConvert {
 			ValueTemp = dataRule.getRuleValue();
 		}
 		
-		String TempValue = SessionUtil.getUserSystemData(ValueTemp) == null ? ValueTemp: SessionUtil.getUserSystemData(ValueTemp);//将系统变量
+		String TempValue = SessionUtils.getUserSystemData(ValueTemp) == null ? ValueTemp: SessionUtils.getUserSystemData(ValueTemp);//将系统变量
 		switch (ruleEnum) {
 		case GT:
 			sqlValue+=" and "+dataRule.getRuleColumn()+" <'"+TempValue+"'";

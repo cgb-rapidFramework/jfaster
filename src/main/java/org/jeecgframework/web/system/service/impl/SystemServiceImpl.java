@@ -16,8 +16,8 @@ import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.jeecgframework.web.utils.BeanToTagUtils;
 import org.jeecgframework.web.utils.DateUtils;
-import org.jeecgframework.web.utils.SessionUtil;
-import org.jeecgframework.web.utils.SystemConfigUtil;
+import org.jeecgframework.web.utils.SessionUtils;
+import org.jeecgframework.web.utils.ConfigUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,7 +67,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		log.setNote(oConvertUtils.getIp());
 		log.setBroswer(broswer);
 		log.setOperatetime(DateUtils.gettimestamp());
-		log.setUserid(SessionUtil.getCurrentUser().getId());
+		log.setUserid(SessionUtils.getCurrentUser().getId());
 		commonDao.saveOrUpdate(log);
 	}
 
@@ -216,7 +216,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		if (!oldIcon.getIconClas().equals(newFunction.getTSIcon().getIconClas())) {
 			// 刷新缓存
 			HttpSession session = ContextHolderUtils.getSession();
-			TSUser user = SessionUtil.getCurrentUser();
+			TSUser user = SessionUtils.getCurrentUser();
 			List<TSRoleUser> rUsers = this.findAllByProperty(TSRoleUser.class, "TSUser.id", user.getId());
 			for (TSRoleUser ru : rUsers) {
 				TSRole role = ru.getTSRole();
@@ -227,7 +227,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 
     public String generateOrgCode(String id, String pid) {
         int orgCodeLength = 2; // 默认编码长度
-        if ("3".equals(SystemConfigUtil.getOrgCodeLengthType())) { // 类型2-编码长度为3，如001
+        if ("3".equals(ConfigUtils.getOrgCodeLengthType())) { // 类型2-编码长度为3，如001
             orgCodeLength = 3;
         }
         String  newOrgCode = "";

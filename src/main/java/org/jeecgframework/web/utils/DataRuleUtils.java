@@ -1,23 +1,19 @@
 package org.jeecgframework.web.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.web.system.entity.base.TSDataRule;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @ClassName: JeecgDataAutorUtils
  * @Description: 数据权限查询规则容器工具类
- * @author 张代浩
- * @date 2012-12-15 下午11:27:39
- * 
  */
-public class JeecgDataAutorUtils {
+public class DataRuleUtils {
 
 	/**
 	 * 往链接请求里面，传入数据查询条件
@@ -27,8 +23,7 @@ public class JeecgDataAutorUtils {
 	 */
 	public static synchronized void installDataSearchConditon(
 			HttpServletRequest request, List<TSDataRule> MENU_DATA_AUTHOR_RULES) {
-		@SuppressWarnings("unchecked")
-		List<TSDataRule> list = (List<TSDataRule>)loadDataSearchConditonSQL();// 1.先从request获取MENU_DATA_AUTHOR_RULES，如果存则获取到LIST
+		List<TSDataRule> list = loadDataSearchConditonSQL();// 1.先从request获取MENU_DATA_AUTHOR_RULES，如果存则获取到LIST
 		if (list==null) { // 2.如果不存在，则new一个list
 			list = new ArrayList<TSDataRule>();
 		}
@@ -40,8 +35,6 @@ public class JeecgDataAutorUtils {
 
 	/**
 	 * 获取查询条件方法
-	 * 
-	 * @param request
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
@@ -53,7 +46,6 @@ public class JeecgDataAutorUtils {
 	/**
 	 * 获取查询条件方法
 	 * 
-	 * @param request
 	 * @return
 	 */
 	public static synchronized String loadDataSearchConditonSQLString() {

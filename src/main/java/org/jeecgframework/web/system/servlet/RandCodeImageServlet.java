@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jeecgframework.web.utils.SystemConfigUtil;
+import org.jeecgframework.web.utils.ConfigUtils;
 
 //import com.sun.image.codec.jpeg.JPEGCodec;
 //import com.sun.image.codec.jpeg.JPEGEncodeParam;
@@ -121,8 +121,8 @@ public class RandCodeImageServlet extends HttpServlet {
 	 * @return 随机码
 	 */
 	private String exctractRandCode() {
-		final String randCodeType = SystemConfigUtil.getRandCodeType();
-        int randCodeLength = Integer.parseInt(SystemConfigUtil.getRandCodeLength());
+		final String randCodeType = ConfigUtils.getRandCodeType();
+        int randCodeLength = Integer.parseInt(ConfigUtils.getRandCodeLength());
         if (randCodeType == null) {
 			return RandCodeImageEnum.NUMBER_CHAR.generateStr(randCodeLength);
 		} else {
