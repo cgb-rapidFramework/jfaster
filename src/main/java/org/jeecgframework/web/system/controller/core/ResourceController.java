@@ -9,13 +9,12 @@ import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.bean.ReflectHelper;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.util.FileUtils;
-import org.jeecgframework.web.system.entity.base.TSType;
-import org.jeecgframework.web.system.entity.base.TSTypegroup;
 import org.jeecgframework.web.system.entity.base.TSUploadFile;
 import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.utils.ClassLoaderUtils;
 import org.jeecgframework.web.utils.DateUtils;
+import org.jeecgframework.web.utils.ResourceUtils;
 import org.jeecgframework.web.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -119,13 +118,11 @@ public class ResourceController {
     @ResponseBody
     public AjaxJson saveFiles(HttpServletRequest request,TSUploadFile attachment) {
         AjaxJson j = new AjaxJson();
-        TSTypegroup tsTypegroup=systemService.getTypeGroup("fieltype","文档分类");
-        TSType tsType = systemService.getType("files","附件", tsTypegroup);
         String fileKey = ConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
         String documentTitle = ConvertUtils.getString(request.getParameter("documentTitle"));// 文件标题
+
         Boolean  multi=ConvertUtils.getBoolean(request.getParameter("multi"));
         String  sessionKey=request.getParameter("sessionKey");
-
 
         if(!multi){
             List<TSUploadFile> attachments=this.systemService.findAllByProperty(TSUploadFile.class,"sessionKey",sessionKey);
@@ -147,8 +144,11 @@ public class ResourceController {
 //		attachment.setSubclassname(MyClassLoader.getPackPath(attachment));
         attachment.setCreatedate(DateUtils.gettimestamp());
         UploadFile uploadFile = new UploadFile(request, attachment);
-        uploadFile.setCusPath("files");
-        uploadFile.setSwfpath("swfpath");
+        String fileType=request.getParameter("fileType");
+        if(StringUtils.isEmpty(fileType)){
+            fileType="files";
+        }
+        uploadFile.setCusPath(fileType);
         attachment = resourceService.uploadFile(uploadFile);
         j.setMsg("文件添加成功");
         Map<String, Object> attributes= buildAttributes(attachment);
@@ -192,6 +192,7 @@ public class ResourceController {
                Object objfile = systemService.findEntity(MyClassLoader.getClassByScn(subclassname), attachment.getId());// 子类对象
                systemService.delete(objfile);
             */
+            ResourceUtils.delete(ResourceUtils.getResourceLocalPath()+"/"+attachment.getPath());
             systemService.delete(attachment);
             message= attachment.getName()+ "删除成功";
         }
@@ -220,7 +221,7 @@ public class ResourceController {
             return new ModelAndView("common/upload/dwgView");
         } else if (FileUtils.isPicture(extend)) {
             String realpath = ConvertUtils.getString(reflectHelper.getMethodValue("path"));
-            request.setAttribute("realpath", realpath);
+            request.setAttribute("realpath",realpath);
             request.setAttribute("fileid", fileKey);
             request.setAttribute("subclassname", subclassname);
             request.setAttribute("contentfield", contentfield);

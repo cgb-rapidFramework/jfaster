@@ -40,7 +40,6 @@ import java.util.*;
 @Service("resourceService")
 @Transactional
 public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceService {
-
 	/**
 	 * 文件上传
 	 * 
@@ -59,49 +58,41 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 			uploadFile.getMultipartRequest().setCharacterEncoding("UTF-8");
 			MultipartHttpServletRequest multipartRequest = uploadFile.getMultipartRequest();
 			ReflectHelper reflectHelper = new ReflectHelper(uploadFile.getObject());
-			String basepath = ConfigUtils.getConfigByName("resource.upload.basepath");
-			if (basepath == null) {
-				uploadFile.getBasePath();// 文件上传根目录
+			String  localDiskPath=ResourceUtils.getResourceLocalPath();
+
+
+			String path="";
+			String realPath="";
+			String entityName = uploadFile.getObject().getClass().getSimpleName();
+			// 设置文件上传路径
+			if (entityName.equals("TSTemplate")) {
+				realPath =localDiskPath +"/"+ResourceUtils.RESOURCE_TEMPLATE + "/";
+				path =ResourceUtils.RESOURCE_TEMPLATE + "/";
+			} else if (entityName.equals("TSIcon")) {
+				realPath =localDiskPath+"/"+ uploadFile.getCusPath() + "/";
+				path =uploadFile.getCusPath() + "/";
+			}else{
+				path = ResourceUtils.RESOURCE_FILE+"/"+uploadFile.getCusPath()+"/"+ResourceUtils.getDateDir()+"/";
+				// 文件数据库保存路径
+				 realPath =localDiskPath+ "/" + path+"/";// 文件的硬盘真实路径
 			}
-			Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
-			// 文件数据库保存路径
-			String realPath = uploadFile.getMultipartRequest().getSession().getServletContext().getRealPath("/") + "/" + basepath+"/";// 文件的硬盘真实路径
+
 			File file = new File(realPath);
 			if (!file.exists()) {
 				file.mkdirs();// 创建根目录
 			}
-			if (uploadFile.getCusPath() != null) {
-				realPath += uploadFile.getCusPath() + "/";
-				basepath += uploadFile.getCusPath() + "/";
-				file = new File(realPath);
-				if (!file.exists()) {
-					file.mkdirs();// 创建文件自定义子目录
-				}
+			file = new File(realPath);
+			if (!file.exists()) {
+				file.mkdirs();// 创建文件自定义子目录
 			}
 			else {
-				realPath += DateUtils.getDataString(DateUtils.yyyyMMdd) + "/";
-				basepath += DateUtils.getDataString(DateUtils.yyyyMMdd) + "/";
 				file = new File(realPath);
 				if (!file.exists()) {
 					file.mkdir();// 创建文件时间子目录
 				}
 			}
 
-
-
-
-			String entityName = uploadFile.getObject().getClass().getSimpleName();
-			// 设置文件上传路径
-			if (entityName.equals("TSTemplate")) {
-				realPath = uploadFile.getMultipartRequest().getSession().getServletContext().getRealPath("/") + ConfigUtils.getConfigByName("resource.template.basepath") + "/";
-				basepath = ConfigUtils.getConfigByName("resource.template.basepath") + "/";
-			} else if (entityName.equals("TSIcon")) {
-				realPath = uploadFile.getMultipartRequest().getSession().getServletContext().getRealPath("/") + uploadFile.getCusPath() + "/";
-				basepath =uploadFile.getCusPath() + "/";
-			}
-
-
-
+			Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
 			String fileName = "";
 			String swfName = "";
 			for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
@@ -113,7 +104,6 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 				String noextfilename="";//不带扩展名
 				if(uploadFile.isRename())
 				{
-				   
 				   noextfilename=DateUtils.getDataString(DateUtils.yyyymmddhhmmss)+StringUtils.random(8);//自定义文件名称
 				   myfilename=noextfilename+"."+extend;//自定义文件名称
 				}
@@ -137,11 +127,13 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 				File savefile = new File(savePath);
 				if (uploadFile.getRealPath() != null) {
 					// 设置文件数据库的物理路径
-					reflectHelper.setMethodValue(uploadFile.getRealPath(), basepath + myfilename);
+					reflectHelper.setMethodValue(uploadFile.getRealPath(), path + myfilename);
 				}
 				this.saveOrUpdate(object);
 				// 文件拷贝到指定硬盘目录
 				FileCopyUtils.copy(mf.getBytes(), savefile);
+
+
 //				if (uploadFile.getSwfpath() != null) {
 //					// 转SWF
 //					reflectHelper.setMethodValue(uploadFile.getSwfpath(), path + swfName + ".swf");
@@ -157,7 +149,8 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 //				}
 
 			}
-		} catch (Exception e1) {
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		}
 		return object;
