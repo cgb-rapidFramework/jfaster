@@ -10,12 +10,11 @@ import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.ComboBox;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.model.json.ValidForm;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.bean.FunctionBean;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
-import org.jeecgframework.platform.util.ListtoMenu;
+import org.jeecgframework.platform.util.SystemMenuUtils;
 import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.*;
@@ -110,7 +109,7 @@ public class UserController extends BaseController {
 		// 菜单栏排序
 		Collections.sort(bigActionlist, sort);
 		Collections.sort(smailActionlist, sort);
-		String logString = ListtoMenu.getMenu(bigActionlist, smailActionlist);
+		String logString = SystemMenuUtils.getMenu(bigActionlist, smailActionlist);
 		// request.setAttribute("loginMenu",logString);
 		try {
 			response.getWriter().write(logString);
@@ -182,8 +181,8 @@ public class UserController extends BaseController {
 	public AjaxJson savenewpwd(HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		TSUser user = SessionUtils.getCurrentUser();
-		String password = oConvertUtils.getString(request.getParameter("password"));
-		String newpassword = oConvertUtils.getString(request.getParameter("newpassword"));
+		String password = ConvertUtils.getString(request.getParameter("password"));
+		String newpassword = ConvertUtils.getString(request.getParameter("newpassword"));
 		String pString = PasswordUtils.encrypt(user.getUserName(), password, PasswordUtils.getStaticSalt());
 		if (!pString.equals(user.getPassword())) {
 			j.setMsg("原密码不正确");
@@ -210,7 +209,7 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(params = "changepasswordforuser")
 	public ModelAndView changepasswordforuser(TSUser user, HttpServletRequest req) {
-		if (StringUtil.isNotEmpty(user.getId())) {
+		if (StringUtils.isNotEmpty(user.getId())) {
 			user = systemService.findEntity(TSUser.class, user.getId());
 			req.setAttribute("user", user);
 			idandname(req, user);
@@ -224,9 +223,9 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public AjaxJson savenewpwdforuser(HttpServletRequest req) {
 		AjaxJson j = new AjaxJson();
-		String id = oConvertUtils.getString(req.getParameter("id"));
-		String password = oConvertUtils.getString(req.getParameter("password"));
-		if (StringUtil.isNotEmpty(id)) {
+		String id = ConvertUtils.getString(req.getParameter("id"));
+		String password = ConvertUtils.getString(req.getParameter("password"));
+		if (StringUtils.isNotEmpty(id)) {
 			TSUser users = systemService.findEntity(TSUser.class,id);
 			System.out.println(users.getUserName());
 			users.setPassword(PasswordUtils.encrypt(users.getUserName(), password, PasswordUtils.getStaticSalt()));
@@ -288,7 +287,7 @@ public class UserController extends BaseController {
 		String id = request.getParameter("id");
 		List<ComboBox> comboBoxs = new ArrayList<ComboBox>();
 		List<TSRole> roles = new ArrayList();
-		if (StringUtil.isNotEmpty(id)) {
+		if (StringUtils.isNotEmpty(id)) {
 			List<TSRoleUser> roleUser = systemService.findAllByProperty(TSRoleUser.class, "TSUser.id", id);
 			if (roleUser.size() > 0) {
 				for (TSRoleUser ru : roleUser) {
@@ -312,7 +311,7 @@ public class UserController extends BaseController {
 		String id = request.getParameter("id");
 		List<ComboBox> comboBoxs = new ArrayList<ComboBox>();
 		List<TSDepart> departs = new ArrayList();
-		if (StringUtil.isNotEmpty(id)) {
+		if (StringUtils.isNotEmpty(id)) {
 			TSUser user = systemService.find(TSUser.class, id);
 //			if (user.getTSDepart() != null) {
 //				TSDepart depart = systemService.get(TSDepart.class, user.getTSDepart().getId());
@@ -434,8 +433,8 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public ValidForm checkUser(HttpServletRequest request) {
 		ValidForm v = new ValidForm();
-		String userName=oConvertUtils.getString(request.getParameter("param"));
-		String code=oConvertUtils.getString(request.getParameter("code"));
+		String userName=ConvertUtils.getString(request.getParameter("param"));
+		String code=ConvertUtils.getString(request.getParameter("code"));
 		List<TSUser> roles=systemService.findAllByProperty(TSUser.class,"userName",userName);
 		if(roles.size()>0&&!code.equals(userName))
 		{
@@ -458,9 +457,9 @@ public class UserController extends BaseController {
 	public AjaxJson saveUser(HttpServletRequest req, TSUser user) {
 		AjaxJson j = new AjaxJson();
 		// 得到用户的角色
-		String roleid = oConvertUtils.getString(req.getParameter("roleid"));
-		String password = oConvertUtils.getString(req.getParameter("password"));
-		if (StringUtil.isNotEmpty(user.getId())) {
+		String roleid = ConvertUtils.getString(req.getParameter("roleid"));
+		String password = ConvertUtils.getString(req.getParameter("password"));
+		if (StringUtils.isNotEmpty(user.getId())) {
 			TSUser users = systemService.findEntity(TSUser.class, user.getId());
 			users.setEmail(user.getEmail());
 			users.setOfficePhone(user.getOfficePhone());
@@ -475,7 +474,7 @@ public class UserController extends BaseController {
 			List<TSRoleUser> ru = systemService.findAllByProperty(TSRoleUser.class, "TSUser.id", user.getId());
 			systemService.deleteEntities(ru);
 			message = "用户: " + users.getUserName() + "更新成功";
-			if (StringUtil.isNotEmpty(roleid)) {
+			if (StringUtils.isNotEmpty(roleid)) {
 				saveRoleUser(users, roleid);
 			}
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
@@ -493,7 +492,7 @@ public class UserController extends BaseController {
                 // todo zhanggm 保存多个组织机构
                 saveUserOrgList(req, user);
 				message = "用户: " + user.getUserName() + "添加成功";
-				if (StringUtil.isNotEmpty(roleid)) {
+				if (StringUtils.isNotEmpty(roleid)) {
 					saveRoleUser(user, roleid);
 				}
 				systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
@@ -511,7 +510,7 @@ public class UserController extends BaseController {
      * @param user user
      */
     private void saveUserOrgList(HttpServletRequest request, TSUser user) {
-        String orgIds = oConvertUtils.getString(request.getParameter("orgIds"));
+        String orgIds = ConvertUtils.getString(request.getParameter("orgIds"));
 
         List<TSUserOrg> userOrgList = new ArrayList<TSUserOrg>();
         List<String> orgIdList = extractIdListByComma(orgIds);
@@ -573,15 +572,15 @@ public class UserController extends BaseController {
 	@RequestMapping(params = "addorupdate")
 	public ModelAndView addorupdate(TSUser user, HttpServletRequest req) {
 		List<TSDepart> departList = new ArrayList<TSDepart>();
-		String departid = oConvertUtils.getString(req.getParameter("departid"));
-		if(!StringUtil.isEmpty(departid)){
+		String departid = ConvertUtils.getString(req.getParameter("departid"));
+		if(!StringUtils.isEmpty(departid)){
 			departList.add((TSDepart)systemService.findEntity(TSDepart.class,departid));
 		}else {
 			departList.addAll((List)systemService.getList(TSDepart.class));
 		}
 		req.setAttribute("departList", departList);
         List<String> orgIdList = new ArrayList<String>();
-		if (StringUtil.isNotEmpty(user.getId())) {
+		if (StringUtils.isNotEmpty(user.getId())) {
 			user = systemService.findEntity(TSUser.class, user.getId());
 			
 			req.setAttribute("user", user);
@@ -602,7 +601,7 @@ public class UserController extends BaseController {
 	@RequestMapping(params = "userOrgSelect")
 	public ModelAndView userOrgSelect(HttpServletRequest request) {
 		List<TSDepart> orgList = new ArrayList<TSDepart>();
-		String userId = oConvertUtils.getString(request.getParameter("userId"));
+		String userId = ConvertUtils.getString(request.getParameter("userId"));
 
         List<Object[]> orgArrList = systemService.findByHql("from TSDepart d,TSUserOrg uo where d.id=uo.tsDepart.id and uo.tsUser.id=?", new String[]{userId});
         for (Object[] departs : orgArrList) {
@@ -669,18 +668,18 @@ public class UserController extends BaseController {
 		String roleid = request.getParameter("roleid");
 		CriteriaQuery cq = new CriteriaQuery(TSUser.class, dataGrid);
 		if (departid.length() > 0) {
-			cq.eq("TDepart.departid", oConvertUtils.getInt(departid, 0));
+			cq.eq("TDepart.departid", ConvertUtils.getInt(departid, 0));
 			cq.add();
 		}
 		String userid = "";
 		if (roleid.length() > 0) {
-			List<TSRoleUser> roleUsers = systemService.findAllByProperty(TSRoleUser.class, "TRole.roleid", oConvertUtils.getInt(roleid, 0));
+			List<TSRoleUser> roleUsers = systemService.findAllByProperty(TSRoleUser.class, "TRole.roleid", ConvertUtils.getInt(roleid, 0));
 			if (roleUsers.size() > 0) {
 				for (TSRoleUser tRoleUser : roleUsers) {
 					userid += tRoleUser.getTSUser().getId() + ",";
 				}
 			}
-			cq.in("userid", oConvertUtils.getInts(userid.split(",")));
+			cq.in("userid", ConvertUtils.getInts(userid.split(",")));
 			cq.add();
 		}
 		this.systemService.findDataGridReturn(cq, true);

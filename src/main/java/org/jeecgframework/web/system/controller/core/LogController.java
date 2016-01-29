@@ -4,15 +4,15 @@ import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.model.json.Highchart;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
-import org.jeecgframework.platform.util.MutiLangUtil;
+import org.jeecgframework.platform.util.MutiLangUtils;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.TSLog;
 import org.jeecgframework.web.system.service.LogService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.utils.DateUtils;
+import org.jeecgframework.web.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -82,7 +82,7 @@ public class LogController extends BaseController {
 		String loglevel = request.getParameter("loglevel");
 		if (loglevel == null || loglevel.equals("0")) {
 		} else {
-			cq.eq("loglevel", oConvertUtils.getShort(loglevel));
+			cq.eq("loglevel", ConvertUtils.getShort(loglevel));
 			cq.add();
 		}
 //        add-begin--Author:zhangguoming  Date:20140427 for：添加查询条件  操作时间
@@ -125,7 +125,7 @@ public class LogController extends BaseController {
 	 */
 	@RequestMapping(params = "logDetail")
 	public ModelAndView logDetail(TSLog tsLog,HttpServletRequest request){
-		if (StringUtil.isNotEmpty(tsLog.getId())) {
+		if (StringUtils.isNotEmpty(tsLog.getId())) {
 			tsLog = logService.findEntity(TSLog.class, tsLog.getId());
 			request.setAttribute("tsLog", tsLog);
 		}
@@ -136,7 +136,7 @@ public class LogController extends BaseController {
 	/**
 	 * @RequestMapping(params = "addorupdate")
 	public ModelAndView addorupdate(TSTimeTaskEntity timeTask, HttpServletRequest req) {
-		if (StringUtil.isNotEmpty(timeTask.getId())) {
+		if (StringUtils.isNotEmpty(timeTask.getId())) {
 			timeTask = timeTaskService.getEntity(TSTimeTaskEntity.class, timeTask.getId());
 			req.setAttribute("timeTaskPage", timeTask);
 		}
@@ -186,7 +186,7 @@ public class LogController extends BaseController {
 		Long count = systemService.queryCount("SELECT COUNT(1) FROM T_S_Log WHERE 1=1");
 		List lt = new ArrayList();
 		hc = new Highchart();
-		hc.setName(MutiLangUtil.getLang(USER_BROWSER_ANALYSIS));
+		hc.setName(MutiLangUtils.getLang(USER_BROWSER_ANALYSIS));
 		hc.setType(reportType);
 		Map<String, Object> map;
 		if (userBroswerList.size() > 0) {

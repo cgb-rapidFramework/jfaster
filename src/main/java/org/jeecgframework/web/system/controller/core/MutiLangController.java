@@ -4,16 +4,16 @@ import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
-import org.jeecgframework.core.util.MyBeanUtils;
-import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.core.util.BeanPropertyUtils;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
-import org.jeecgframework.platform.util.MutiLangUtil;
+import org.jeecgframework.platform.util.MutiLangUtils;
 import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.MutiLangEntity;
 import org.jeecgframework.web.system.service.MutiLangService;
 import org.jeecgframework.web.system.service.SystemService;
+import org.jeecgframework.web.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -77,12 +77,12 @@ public class MutiLangController extends BaseController {
 	public void datagrid(MutiLangEntity mutiLang, HttpServletRequest request,
 			HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(MutiLangEntity.class, dataGrid);
-		if(StringUtil.isNotEmpty(mutiLang.getLangKey())){
+		if(StringUtils.isNotEmpty(mutiLang.getLangKey())){
 			cq.like("langKey", "%" +mutiLang.getLangKey() + "%");
 			mutiLang.setLangKey("");
 		}
 
-		if(StringUtil.isNotEmpty(mutiLang.getLangContext())){
+		if(StringUtils.isNotEmpty(mutiLang.getLangContext())){
 			cq.like("langContext", "%" +mutiLang.getLangContext() + "%");
 			mutiLang.setLangContext("");
 		}
@@ -102,7 +102,7 @@ public class MutiLangController extends BaseController {
 	public AjaxJson del(MutiLangEntity mutiLang, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		mutiLang = systemService.findEntity(MutiLangEntity.class, mutiLang.getId());
-		message = MutiLangUtil.paramDelSuccess("common.language");
+		message = MutiLangUtils.paramDelSuccess("common.language");
 		mutiLangService.delete(mutiLang);
 		mutiLangService.initAllMutiLang();
 		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -120,27 +120,27 @@ public class MutiLangController extends BaseController {
 	@ResponseBody
 	public AjaxJson save(MutiLangEntity mutiLang, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		if (StringUtil.isNotEmpty(mutiLang.getId())) {
-			message = MutiLangUtil.paramUpdSuccess("common.language");
+		if (StringUtils.isNotEmpty(mutiLang.getId())) {
+			message = MutiLangUtils.paramUpdSuccess("common.language");
 			MutiLangEntity t = mutiLangService.find(MutiLangEntity.class, mutiLang.getId());
 			try {
-				MyBeanUtils.copyBeanNotNull2Bean(mutiLang, t);
+				BeanPropertyUtils.copyBeanNotNull2Bean(mutiLang, t);
 				mutiLangService.saveOrUpdate(t);
 				mutiLangService.initAllMutiLang();
 				systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 			} catch (Exception e) {
 				e.printStackTrace();
-				message = MutiLangUtil.paramUpdFail("common.language");
+				message = MutiLangUtils.paramUpdFail("common.language");
 			}
 		} else {
-			if(MutiLangUtil.existLangContext( mutiLang.getLangContext()))
+			if(MutiLangUtils.existLangContext( mutiLang.getLangContext()))
 			{
 				message = mutiLangService.getLang("common.langcontext.exist");
 			}
-			if(StringUtil.isEmpty(message))
+			if(StringUtils.isEmpty(message))
 			{
 				mutiLangService.save(mutiLang);
-				message = MutiLangUtil.paramAddSuccess("common.language");
+				message = MutiLangUtils.paramAddSuccess("common.language");
 				systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 			}
 		}
@@ -156,7 +156,7 @@ public class MutiLangController extends BaseController {
 	@RequestMapping(params = "addorupdate")
 	public ModelAndView addorupdate(MutiLangEntity mutiLang,
 			HttpServletRequest req) {
-		if (StringUtil.isNotEmpty(mutiLang.getId())) {
+		if (StringUtils.isNotEmpty(mutiLang.getId())) {
 			mutiLang = mutiLangService.findEntity(MutiLangEntity.class, mutiLang.getId());
 			req.setAttribute("mutiLangPage", mutiLang);
 		}

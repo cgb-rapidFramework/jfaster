@@ -4,6 +4,7 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import org.jeecgframework.core.def.ConstantsDefs;
+import org.jeecgframework.core.util.LogUtils;
 
 import java.io.*;
 import java.util.ResourceBundle;
@@ -94,7 +95,7 @@ public class JeecgSqlUtil {
 	 */
 
 	private static String getFlieTxt(String fileUrl) {
-		org.jeecgframework.platform.util.LogUtil.info("---------------------------------------sql 路径 :"+fileUrl);
+		LogUtils.info("---------------------------------------sql 路径 :"+fileUrl);
 		String sql = null;
 		try {
 			sql = loadStringFromFile(new File(fileUrl));
@@ -140,7 +141,7 @@ public class JeecgSqlUtil {
 		
 		String projectPath = getAppPath(JeecgSqlUtil.class);
 		sqlurl = projectPath + SUFFIX_X+sqlurl;
-		org.jeecgframework.platform.util.LogUtil.info(sqlurl);
+		LogUtils.info(sqlurl);
 		return getFlieTxt(sqlurl);
 	}
 	/**
@@ -265,7 +266,7 @@ public class JeecgSqlUtil {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		org.jeecgframework.platform.util.LogUtil.info("realPath----->"+realPath);
+		LogUtils.info("realPath----->"+realPath);
 		return realPath;
 	}
 
@@ -285,8 +286,8 @@ public class JeecgSqlUtil {
 	
 	
 	public static void main(String[] args) {
-		//org.jeecgframework.core.util.LogUtil.info(getAppPath(JeecgSqlUtil.class));
-		org.jeecgframework.platform.util.LogUtil.info(getCountSqlBySql("SELECT * 	from JEECG_DICT_PARAM WHERE 1=1"));
+		//LogUtils.info(getAppPath(JeecgSqlUtil.class));
+		LogUtils.info(getCountSqlBySql("SELECT * 	from JEECG_DICT_PARAM WHERE 1=1"));
 	}
 
 	/**

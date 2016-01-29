@@ -1,16 +1,15 @@
 package org.jeecgframework.web.common.hqlsearch;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.annotation.query.QueryTimeFormat;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.extend.hqlsearch.parse.ObjectParseUtil;
 import org.jeecgframework.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;
 import org.jeecgframework.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
-import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.web.system.entity.base.TSDataRule;
 import org.jeecgframework.web.utils.DataRuleUtils;
 import org.jeecgframework.web.utils.SessionUtils;
+import org.jeecgframework.web.utils.StringUtils;
 import org.springframework.util.NumberUtils;
 
 import java.beans.PropertyDescriptor;
@@ -130,7 +129,7 @@ public class HqlGenerateUtil {
 					if (format != null) {
 						userDefined = new SimpleDateFormat(format.format());
 					}
-					if (StringUtils.isNotBlank(beginValue)) {
+					if (StringUtils.isNotEmpty(beginValue)) {
 						if (userDefined != null) {
 							cq.ge(aliasName, userDefined.parse(beginValue));
 						} else if (beginValue.length() == 19) {
@@ -140,7 +139,7 @@ public class HqlGenerateUtil {
 									time.parse(beginValue + " 00:00:00"));
 						}
 					}
-					if (StringUtils.isNotBlank(endValue)) {
+					if (StringUtils.isNotEmpty(endValue)) {
 						if (userDefined != null) {
 							cq.ge(aliasName, userDefined.parse(beginValue));
 						} else if (endValue.length() == 19) {
@@ -153,7 +152,7 @@ public class HqlGenerateUtil {
 					if (isNotEmpty(value)) {
 						cq.eq(aliasName, value);
 					}
-				} else if (!StringUtil.isJavaClass(origDescriptors[i]
+				} else if (!StringUtils.isJavaClass(origDescriptors[i]
 						.getPropertyType())) {
 					Object param = PropertyUtils.getSimpleProperty(searchObj,
 							name);
@@ -269,7 +268,7 @@ public class HqlGenerateUtil {
 						isNotEmpty = true;
 						break;
 					}
-				} else if (StringUtil.isNotEmpty(PropertyUtils
+				} else if (StringUtils.isNotEmpty(PropertyUtils
 						.getSimpleProperty(param, name))) {
 					isNotEmpty = true;
 					break;

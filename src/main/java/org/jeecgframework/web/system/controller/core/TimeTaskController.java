@@ -3,8 +3,7 @@ package org.jeecgframework.web.system.controller.core;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
-import org.jeecgframework.core.util.MyBeanUtils;
-import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.core.util.BeanPropertyUtils;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
@@ -13,6 +12,7 @@ import org.jeecgframework.web.system.entity.base.TSTimeTaskEntity;
 import org.jeecgframework.web.system.job.DynamicTaskService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.TimeTaskServiceI;
+import org.jeecgframework.web.utils.StringUtils;
 import org.quartz.CronTrigger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -119,14 +119,14 @@ public class TimeTaskController extends BaseController {
 			j.setMsg("Cron表达式错误");
 			return j;
 		}
-		if (StringUtil.isNotEmpty(timeTask.getId())) {
+		if (StringUtils.isNotEmpty(timeTask.getId())) {
 			message = "定时任务管理更新成功";
 			TSTimeTaskEntity t = timeTaskService.find(TSTimeTaskEntity.class, timeTask.getId());
 			try {
 				if(!timeTask.getCronExpression().equals(t.getCronExpression())){
 					timeTask.setIsEffect("0");
 				}
-				MyBeanUtils.copyBeanNotNull2Bean(timeTask, t);
+				BeanPropertyUtils.copyBeanNotNull2Bean(timeTask, t);
 				timeTaskService.saveOrUpdate(t);
 				systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 			} catch (Exception e) {
@@ -149,7 +149,7 @@ public class TimeTaskController extends BaseController {
 	 */
 	@RequestMapping(params = "addorupdate")
 	public ModelAndView addorupdate(TSTimeTaskEntity timeTask, HttpServletRequest req) {
-		if (StringUtil.isNotEmpty(timeTask.getId())) {
+		if (StringUtils.isNotEmpty(timeTask.getId())) {
 			timeTask = timeTaskService.findEntity(TSTimeTaskEntity.class, timeTask.getId());
 			req.setAttribute("timeTaskPage", timeTask);
 		}

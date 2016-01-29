@@ -1,6 +1,5 @@
 package org.jeecgframework.web.system.controller.core;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
@@ -10,12 +9,11 @@ import org.jeecgframework.core.common.model.json.TreeGrid;
 import org.jeecgframework.core.tag.vo.datatable.SortDirection;
 import org.jeecgframework.core.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.core.tag.vo.easyui.TreeGridModel;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.bean.FunctionBean;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
-import org.jeecgframework.platform.util.MutiLangUtil;
+import org.jeecgframework.platform.util.MutiLangUtils;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.TSDataRule;
 import org.jeecgframework.web.system.entity.base.TSFunction;
@@ -26,6 +24,7 @@ import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.jeecgframework.web.utils.BeanToTagUtils;
 import org.jeecgframework.web.utils.NumberComparator;
+import org.jeecgframework.web.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -136,7 +135,7 @@ public class FunctionController extends BaseController {
 	public void opdategrid(HttpServletRequest request,
 			HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(TSOperation.class, dataGrid);
-		String functionId = oConvertUtils.getString(request
+		String functionId = ConvertUtils.getString(request
 				.getParameter("functionId"));
 		cq.eq("TSFunction.id", functionId);
 		cq.add();
@@ -155,7 +154,7 @@ public class FunctionController extends BaseController {
 	public AjaxJson del(TSFunction function, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		function = systemService.findEntity(TSFunction.class, function.getId());
-		message = MutiLangUtil.paramDelSuccess("common.menu");
+		message = MutiLangUtils.paramDelSuccess("common.menu");
 		systemService
 				.updateBySql("delete from t_s_role_function where functionid='"
 						+ function.getId() + "'");
@@ -195,7 +194,7 @@ public class FunctionController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		operation = systemService.findEntity(TSOperation.class,
 				operation.getId());
-		message = MutiLangUtil.paramDelSuccess("common.operation");
+		message = MutiLangUtils.paramDelSuccess("common.operation");
 		userService.delete(operation);
 		systemService.addLog(message, Globals.Log_Type_DEL,
 				Globals.Log_Leavel_INFO);
@@ -247,8 +246,8 @@ public class FunctionController extends BaseController {
 			function.setFunctionLevel(Short.valueOf(parent.getFunctionLevel()
 					+ 1 + ""));
 		}
-		if (StringUtil.isNotEmpty(function.getId())) {
-			message = MutiLangUtil.paramUpdSuccess("common.menu");
+		if (StringUtils.isNotEmpty(function.getId())) {
+			message = MutiLangUtils.paramUpdSuccess("common.menu");
 			userService.saveOrUpdate(function);
 			systemService.addLog(message, Globals.Log_Type_UPDATE,
 					Globals.Log_Leavel_INFO);
@@ -271,7 +270,7 @@ public class FunctionController extends BaseController {
 				// function.setFunctionOrder(Globals.Function_Order_TWO+ordre);
 				function.setFunctionOrder(function.getFunctionOrder());
 			}
-			message = MutiLangUtil.paramAddSuccess("common.menu");
+			message = MutiLangUtils.paramAddSuccess("common.menu");
 			systemService.save(function);
 			systemService.addLog(message, Globals.Log_Type_INSERT,
 					Globals.Log_Leavel_INFO);
@@ -295,13 +294,13 @@ public class FunctionController extends BaseController {
 			operation.setTSFunction(null);
 		}
 		AjaxJson j = new AjaxJson();
-		if (StringUtil.isNotEmpty(operation.getId())) {
-			message = MutiLangUtil.paramUpdSuccess("common.operation");
+		if (StringUtils.isNotEmpty(operation.getId())) {
+			message = MutiLangUtils.paramUpdSuccess("common.operation");
 			userService.saveOrUpdate(operation);
 			systemService.addLog(message, Globals.Log_Type_UPDATE,
 					Globals.Log_Leavel_INFO);
 		} else {
-			message = MutiLangUtil.paramAddSuccess("common.operation");
+			message = MutiLangUtils.paramAddSuccess("common.operation");
 			userService.save(operation);
 			systemService.addLog(message, Globals.Log_Type_INSERT,
 					Globals.Log_Leavel_INFO);
@@ -358,7 +357,7 @@ public class FunctionController extends BaseController {
 					operation.getId());
 			req.setAttribute("operation", operation);
 		}
-		String functionId = oConvertUtils.getString(req
+		String functionId = ConvertUtils.getString(req
 				.getParameter("functionId"));
 		req.setAttribute("functionId", functionId);
 		return new ModelAndView("system/operation/operation");
@@ -404,7 +403,7 @@ public class FunctionController extends BaseController {
 
 		treeGrids = resourceService.treegrid(functionList, treeGridModel);
 
-		MutiLangUtil.setMutiTree(treeGrids);
+		MutiLangUtils.setMutiTree(treeGrids);
 		return treeGrids;
 	}
 
@@ -416,7 +415,7 @@ public class FunctionController extends BaseController {
 	public void functionList(HttpServletRequest request,
 			HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(TSFunction.class, dataGrid);
-		String id = oConvertUtils.getString(request.getParameter("id"));
+		String id = ConvertUtils.getString(request.getParameter("id"));
 		cq.isNull("TSFunction");
 		if (id != null) {
 			cq.eq("TSFunction.id", id);
@@ -454,7 +453,7 @@ public class FunctionController extends BaseController {
 				"functionName", "TSFunctions");
 		comboTrees = resourceService.ComboTree(functionList, comboTreeModel,
 				null, false);
-		MutiLangUtil.setMutiTree(comboTrees);
+		MutiLangUtils.setMutiTree(comboTrees);
 		return comboTrees;
 	}
 
@@ -549,7 +548,7 @@ public class FunctionController extends BaseController {
 					operation.getId());
 			req.setAttribute("operation", operation);
 		}
-		String functionId = oConvertUtils.getString(req
+		String functionId = ConvertUtils.getString(req
 				.getParameter("functionId"));
 		req.setAttribute("functionId", functionId);
 		return new ModelAndView("system/dataRule/ruleData");
@@ -571,7 +570,7 @@ public class FunctionController extends BaseController {
 	public void ruledategrid(HttpServletRequest request,
 			HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(TSDataRule.class, dataGrid);
-		String functionId = oConvertUtils.getString(request
+		String functionId = ConvertUtils.getString(request
 				.getParameter("functionId"));
 		cq.eq("TSFunction.id", functionId);
 		cq.add();
@@ -597,7 +596,7 @@ public class FunctionController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		operation = systemService
 				.findEntity(TSDataRule.class, operation.getId());
-		message = MutiLangUtil.paramDelSuccess("common.operation");
+		message = MutiLangUtils.paramDelSuccess("common.operation");
 		userService.delete(operation);
 		systemService.addLog(message, Globals.Log_Type_DEL,
 				Globals.Log_Leavel_INFO);
@@ -624,14 +623,14 @@ public class FunctionController extends BaseController {
 	public AjaxJson saverule(TSDataRule operation, HttpServletRequest request) {
 
 		AjaxJson j = new AjaxJson();
-		if (StringUtil.isNotEmpty(operation.getId())) {
-			message = MutiLangUtil.paramUpdSuccess("common.operation");
+		if (StringUtils.isNotEmpty(operation.getId())) {
+			message = MutiLangUtils.paramUpdSuccess("common.operation");
 			userService.saveOrUpdate(operation);
 			systemService.addLog(message, Globals.Log_Type_UPDATE,
 					Globals.Log_Leavel_INFO);
 		} else {
 			if (justHaveDataRule(operation) == 0) {
-				message = MutiLangUtil.paramAddSuccess("common.operation");
+				message = MutiLangUtils.paramAddSuccess("common.operation");
 				userService.save(operation);
 				systemService.addLog(message, Globals.Log_Type_INSERT,
 						Globals.Log_Leavel_INFO);

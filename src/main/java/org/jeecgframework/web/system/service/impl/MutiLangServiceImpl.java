@@ -1,18 +1,17 @@
 package org.jeecgframework.web.system.service.impl;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
-import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.platform.container.MutilangContainer;
-import org.jeecgframework.platform.util.BrowserUtils;
 import org.jeecgframework.web.system.entity.base.MutiLangEntity;
 import org.jeecgframework.web.system.service.MutiLangService;
+import org.jeecgframework.web.utils.BrowserUtils;
+import org.jeecgframework.web.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Service("mutiLangService")
 @Transactional
@@ -44,7 +43,7 @@ public class MutiLangServiceImpl extends CommonServiceImpl implements MutiLangSe
 		
 		String langContext = MutilangContainer.mutiLangMap.get(langKey + "_" + language); 
 		
-		if(StringUtil.isEmpty(langContext))
+		if(StringUtils.isEmpty(langContext))
 		{
 			langContext = MutilangContainer.mutiLangMap.get("common.notfind.langkey" + "_" + request.getSession().getAttribute("lang"));
 			if("null".equals(langContext)||langContext==null ||langKey.startsWith("?")){
@@ -56,8 +55,8 @@ public class MutiLangServiceImpl extends CommonServiceImpl implements MutiLangSe
 	}
 
 	public String getLang(String lanKey, String langArg) {
-		String langContext = StringUtil.getEmptyString();
-		if(StringUtil.isEmpty(langArg))
+		String langContext = StringUtils.getEmptyString();
+		if(StringUtils.isEmpty(langArg))
 		{
 			langContext = getLang(lanKey);
 		} else
@@ -69,7 +68,7 @@ public class MutiLangServiceImpl extends CommonServiceImpl implements MutiLangSe
 			{
 				String langKeyArg = argArray[i].trim();
 				String langKeyContext = getLang(langKeyArg);
-				langContext = StringUtil.replace(langContext, "{" + i + "}", langKeyContext);
+				langContext = StringUtils.replace(langContext, "{" + i + "}", langKeyContext);
 			}
 		}
 		return langContext;

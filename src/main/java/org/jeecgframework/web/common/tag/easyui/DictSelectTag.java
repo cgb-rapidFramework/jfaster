@@ -2,10 +2,9 @@ package org.jeecgframework.web.common.tag.easyui;
 
 import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
-import org.jeecgframework.core.util.ApplicationContextUtil;
 import org.jeecgframework.platform.bean.TypeBean;
 import org.jeecgframework.platform.bean.TypeGroupBean;
-import org.jeecgframework.platform.util.MutiLangUtil;
+import org.jeecgframework.platform.util.MutiLangUtils;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -116,7 +115,7 @@ public class DictSelectTag extends TagSupport {
 			if (typeGroup != null) {
 				if (hasLabel) {
 					if (StringUtils.isBlank(this.title)) {
-						this.title = MutiLangUtil.getLang(typeGroup.getTypegroupname());
+						this.title = MutiLangUtils.getLang(typeGroup.getTypegroupname());
 					}
 					sb.append(this.title + ":");
 					sb.append("</label>");
@@ -169,7 +168,7 @@ public class DictSelectTag extends TagSupport {
 	 */
 	private void text(String name, String code, StringBuffer sb) {
 		if (code.equals(this.defaultVal)) {
-			sb.append("<input name='"+field+"'"+" id='"+id+"' value='" + MutiLangUtil.getLang(name) + "' readOnly = 'readOnly' />");
+			sb.append("<input name='"+field+"'"+" id='"+id+"' value='" + MutiLangUtils.getLang(name) + "' readOnly = 'readOnly' />");
 		} else {
 		}
 	}
@@ -200,7 +199,7 @@ public class DictSelectTag extends TagSupport {
 			}
 			sb.append(" />");
 		}
-		sb.append(MutiLangUtil.getLang(name));
+		sb.append(MutiLangUtils.getLang(name));
 	}
 
 	/**
@@ -238,7 +237,7 @@ public class DictSelectTag extends TagSupport {
 			}
 			sb.append(" />");
 		}
-		sb.append(MutiLangUtil.getLang(name));
+		sb.append(MutiLangUtils.getLang(name));
 	}
 
 	/**
@@ -256,7 +255,7 @@ public class DictSelectTag extends TagSupport {
 		} else {
 			sb.append(" <option value=\"" + code + "\">");
 		}
-		sb.append(MutiLangUtil.getLang(name));
+		sb.append(MutiLangUtils.getLang(name));
 		sb.append(" </option>");
 	}
 
@@ -268,8 +267,6 @@ public class DictSelectTag extends TagSupport {
 	private List<Map<String, Object>> queryDic() {
 		String sql = "select " + dictField + " as field," + dictText
 				+ " as text from " + dictTable;
-		systemService = ApplicationContextUtil.getContext().getBean(
-				SystemService.class);
 		List<Map<String, Object>> list = systemService.queryForListMap(sql);
 		return list;
 	}

@@ -5,11 +5,9 @@ package org.jeecgframework.web.utils;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
-import org.jeecgframework.platform.util.ListUtils;
 import org.jeecgframework.web.system.entity.base.DynamicDataSourceEntity;
-import org.springframework.context.ApplicationContext;
-
 import org.jeecgframework.web.system.listener.OnlineListener;
+import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
@@ -114,7 +112,7 @@ public class DBUtils {
 			list = jdbcTemplate.queryForList(sql, param);
 		}
 
-		if(ListUtils.isNullOrEmpty(list))
+		if(StringUtils.isEmpty(list))
 		{
 			logger.error("Except one, but not find actually");
 		}

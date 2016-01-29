@@ -8,12 +8,10 @@ import org.jeecgframework.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;
 import org.jeecgframework.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
 import org.jeecgframework.core.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.core.tag.vo.easyui.TreeGridModel;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
-import org.jeecgframework.platform.util.ListUtils;
-import org.jeecgframework.platform.util.MutiLangUtil;
+import org.jeecgframework.platform.util.MutiLangUtils;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.*;
 import org.jeecgframework.web.system.manager.ClientManager;
@@ -23,6 +21,7 @@ import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.jeecgframework.web.utils.FunctionComparator;
+import org.jeecgframework.web.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -134,10 +133,10 @@ public class SystemController extends BaseController {
         if(typegroupname != null && typegroupname.trim().length() > 0) {
             typegroupname = typegroupname.trim();
             List<String> typegroupnameKeyList = systemService.findByHql("select typegroupname from TSTypegroup");
-            MutiLangUtil.assembleCondition(typegroupnameKeyList, cq, "typegroupname", typegroupname);
+            MutiLangUtils.assembleCondition(typegroupnameKeyList, cq, "typegroupname", typegroupname);
         }
 		this.systemService.findDataGridReturn(cq, true);
-        MutiLangUtil.setMutiLangValueForList(dataGrid.getResults(), "typegroupname");
+        MutiLangUtils.setMutiLangValueForList(dataGrid.getResults(), "typegroupname");
 //        add-end--Author:zhangguoming  Date:20140929 for：多语言条件添加
 
 		TagUtil.datagrid(response, dataGrid);
@@ -161,7 +160,7 @@ public class SystemController extends BaseController {
 		cq.like("typename", typename);
 		cq.add();
 		this.systemService.findDataGridReturn(cq, true);
-        MutiLangUtil.setMutiLangValueForList(dataGrid.getResults(), "typename");
+        MutiLangUtils.setMutiLangValueForList(dataGrid.getResults(), "typename");
 		TagUtil.datagrid(response, dataGrid);
 	}
 
@@ -239,7 +238,7 @@ public class SystemController extends BaseController {
             if(typegroupname != null && typegroupname.trim().length() > 0) {
                 typegroupname = typegroupname.trim();
                 List<String> typegroupnameKeyList = systemService.findByHql("select typegroupname from TSTypegroup");
-                MutiLangUtil.assembleCondition(typegroupnameKeyList, cq, "typegroupname", typegroupname);
+                MutiLangUtils.assembleCondition(typegroupnameKeyList, cq, "typegroupname", typegroupname);
             }
 //            add-end--Author:zhangguoming  Date:20140807 for：添加字典查询条件
             List<TSTypegroup> typeGroupList = systemService.findListByCq(cq, false);
@@ -252,7 +251,7 @@ public class SystemController extends BaseController {
 				treeGrids.add(treeNode);
 			}
 		}
-		MutiLangUtil.setMutiTree(treeGrids);
+		MutiLangUtils.setMutiTree(treeGrids);
 		return treeGrids;
 	}
 
@@ -328,7 +327,7 @@ public class SystemController extends BaseController {
 		typegroup = systemService.findEntity(TSTypegroup.class, typegroup.getId());
 //        add-begin--Author:zhangguoming  Date:20140929 for：数据字典修改
 		message = "类型分组: " + mutiLangService.getLang(typegroup.getTypegroupname()) + " 被删除 成功";
-        if (ListUtils.isNullOrEmpty(typegroup.getTSTypes())) {
+        if (StringUtils.isEmpty(typegroup.getTSTypes())) {
             systemService.delete(typegroup);
             systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
             //刷新缓存
@@ -351,6 +350,12 @@ public class SystemController extends BaseController {
 	public AjaxJson delType(TSType type, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		type = systemService.findEntity(TSType.class, type.getId());
+		if(!StringUtils.isNotEmpty(type)){
+			message="已经被删除了";
+			j.setMsg(message);
+			j.setSuccess(false);
+			return  j;
+		}
 		message = "类型: " + mutiLangService.getLang(type.getTypename()) + "被删除 成功";
 		systemService.delete(type);
 		//刷新缓存
@@ -370,8 +375,8 @@ public class SystemController extends BaseController {
 	@ResponseBody
 	public ValidForm checkTypeGroup(HttpServletRequest request) {
 		ValidForm v = new ValidForm();
-		String typegroupcode=oConvertUtils.getString(request.getParameter("param"));
-		String code=oConvertUtils.getString(request.getParameter("code"));
+		String typegroupcode=ConvertUtils.getString(request.getParameter("param"));
+		String code=ConvertUtils.getString(request.getParameter("code"));
 		List<TSTypegroup> typegroups=systemService.findAllByProperty(TSTypegroup.class,"typegroupcode",typegroupcode);
 		if(typegroups.size()>0&&!code.equals(typegroupcode))
 		{
@@ -390,7 +395,7 @@ public class SystemController extends BaseController {
 	@ResponseBody
 	public AjaxJson saveTypeGroup(TSTypegroup typegroup, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		if (StringUtil.isNotEmpty(typegroup.getId())) {
+		if (StringUtils.isNotEmpty(typegroup.getId())) {
 			message = "类型分组: " + mutiLangService.getLang(typegroup.getTypegroupname()) + "被更新成功";
 			userService.saveOrUpdate(typegroup);
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
@@ -414,9 +419,9 @@ public class SystemController extends BaseController {
 	@ResponseBody
 	public ValidForm checkType(HttpServletRequest request) {
 		ValidForm v = new ValidForm();
-		String typecode=oConvertUtils.getString(request.getParameter("param"));
-		String code=oConvertUtils.getString(request.getParameter("code"));
-		String typeGroupCode=oConvertUtils.getString(request.getParameter("typeGroupCode"));
+		String typecode=ConvertUtils.getString(request.getParameter("param"));
+		String code=ConvertUtils.getString(request.getParameter("code"));
+		String typeGroupCode=ConvertUtils.getString(request.getParameter("typeGroupCode"));
 		StringBuilder hql = new StringBuilder("FROM ").append(TSType.class.getName()).append(" AS entity WHERE 1=1 ");
 		hql.append(" AND entity.TSTypegroup.typegroupcode =  '").append(typeGroupCode).append("'");
 		hql.append(" AND entity.typecode =  '").append(typecode).append("'");
@@ -438,7 +443,7 @@ public class SystemController extends BaseController {
 	@ResponseBody
 	public AjaxJson saveType(TSType type, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		if (StringUtil.isNotEmpty(type.getId())) {
+		if (StringUtils.isNotEmpty(type.getId())) {
 			message = "类型: " + mutiLangService.getLang(type.getTypename()) + "被更新成功";
 			userService.saveOrUpdate(type);
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
@@ -481,7 +486,7 @@ public class SystemController extends BaseController {
         TSTypegroup typegroup = systemService.findUniqueByProperty(TSTypegroup.class, "id", typegroupid);
         String typegroupname = typegroup.getTypegroupname();
         req.setAttribute("typegroupname", mutiLangService.getLang(typegroupname));
-		if (StringUtil.isNotEmpty(type.getId())) {
+		if (StringUtils.isNotEmpty(type.getId())) {
 			type = systemService.findEntity(TSType.class, type.getId());
 			req.setAttribute("type", type);
 		}
@@ -550,16 +555,16 @@ public class SystemController extends BaseController {
 			depart.setTSPDepart(null);
 		}
 		AjaxJson j = new AjaxJson();
-		if (StringUtil.isNotEmpty(depart.getId())) {
+		if (StringUtils.isNotEmpty(depart.getId())) {
 			userService.saveOrUpdate(depart);
-            message = MutiLangUtil.paramUpdSuccess("common.department");
+            message = MutiLangUtils.paramUpdSuccess("common.department");
             systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 
 		} else {
             String orgCode = systemService.generateOrgCode(depart.getId(), pid);
             depart.setOrgCode(orgCode);
 			userService.save(depart);
-            message = MutiLangUtil.paramAddSuccess("common.department");
+            message = MutiLangUtils.paramAddSuccess("common.department");
             systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 
         }
@@ -593,12 +598,12 @@ public class SystemController extends BaseController {
 	@ResponseBody
 	public List<ComboTree> setPFunction(HttpServletRequest request, ComboTree comboTree) {
 		CriteriaQuery cq = new CriteriaQuery(TSDepart.class);
-		if (StringUtil.isNotEmpty(comboTree.getId())) {
+		if (StringUtils.isNotEmpty(comboTree.getId())) {
 			cq.eq("TSPDepart.id", comboTree.getId());
 		}
 		// ----------------------------------------------------------------
 		// ----------------------------------------------------------------
-		if (StringUtil.isEmpty(comboTree.getId())) {
+		if (StringUtils.isEmpty(comboTree.getId())) {
 			cq.isNull("TSPDepart.id");
 		}
 		// ----------------------------------------------------------------
@@ -686,7 +691,7 @@ public class SystemController extends BaseController {
 	 */
 	@RequestMapping(params = "fun")
 	public ModelAndView fun(HttpServletRequest request) {
-		Integer roleid = oConvertUtils.getInt(request.getParameter("roleid"), 0);
+		Integer roleid = ConvertUtils.getInt(request.getParameter("roleid"), 0);
 		request.setAttribute("roleid", roleid);
 		return new ModelAndView("system/role/roleList");
 	}
@@ -703,7 +708,7 @@ public class SystemController extends BaseController {
 	public List<ComboTree> setAuthority(TSRole role, HttpServletRequest request, ComboTree comboTree) {
 		CriteriaQuery cq = new CriteriaQuery(TSFunction.class);
 		if (comboTree.getId() != null) {
-			cq.eq("TFunction.functionid", oConvertUtils.getInt(comboTree.getId(), 0));
+			cq.eq("TFunction.functionid", ConvertUtils.getInt(comboTree.getId(), 0));
 		}
 		if (comboTree.getId() == null) {
 			cq.isNull("TFunction");
@@ -711,7 +716,7 @@ public class SystemController extends BaseController {
 		cq.add();
 		List<TSFunction> functionList = systemService.findListByCq(cq, false);
 		List<ComboTree> comboTrees = new ArrayList<ComboTree>();
-		Integer roleid = oConvertUtils.getInt(request.getParameter("roleid"), 0);
+		Integer roleid = ConvertUtils.getInt(request.getParameter("roleid"), 0);
 		List<TSFunction> loginActionlist = new ArrayList<TSFunction>();// 已有权限菜单
 		role = this.systemService.find(TSRole.class, roleid);
 		if (role != null) {
@@ -736,7 +741,7 @@ public class SystemController extends BaseController {
 	 */
 	@RequestMapping(params = "updateAuthority")
 	public String updateAuthority(HttpServletRequest request) {
-		Integer roleid = oConvertUtils.getInt(request.getParameter("roleid"), 0);
+		Integer roleid = ConvertUtils.getInt(request.getParameter("roleid"), 0);
 		String rolefunction = request.getParameter("rolefunctions");
 		TSRole role = this.systemService.find(TSRole.class, roleid);
 		List<TSRoleFunction> roleFunctionList = systemService.findAllByProperty(TSRoleFunction.class, "TSRole.id", role.getId());
@@ -795,7 +800,7 @@ public class SystemController extends BaseController {
 		String roleid = request.getParameter("roleid");
 		CriteriaQuery cq = new CriteriaQuery(TSFunction.class);
 		if (treegrid.getId() != null) {
-			cq.eq("TFunction.functionid", oConvertUtils.getInt(treegrid.getId(), 0));
+			cq.eq("TFunction.functionid", ConvertUtils.getInt(treegrid.getId(), 0));
 		}
 		if (treegrid.getId() == null) {
 			cq.isNull("TFunction");

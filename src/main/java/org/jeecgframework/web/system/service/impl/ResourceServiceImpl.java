@@ -1,7 +1,4 @@
 package org.jeecgframework.web.system.service.impl;
-
-
-import org.apache.commons.lang.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -16,20 +13,16 @@ import org.jeecgframework.core.extend.template.DataSourceMap;
 import org.jeecgframework.core.extend.template.Template;
 import org.jeecgframework.core.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.core.tag.vo.easyui.TreeGridModel;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.ConvertUtils;
+import org.jeecgframework.platform.bean.ReflectHelper;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.util.FileUtils;
-import org.jeecgframework.platform.util.PinyinUtil;
-import org.jeecgframework.platform.util.ReflectHelper;
+import org.jeecgframework.platform.util.PinyinUtils;
 import org.jeecgframework.web.system.entity.base.TSDepart;
 import org.jeecgframework.web.system.entity.base.TSOperation;
 import org.jeecgframework.web.system.entity.base.TSRoleFunction;
 import org.jeecgframework.web.system.service.ResourceService;
-import org.jeecgframework.web.utils.DateUtils;
-import org.jeecgframework.web.utils.GenericsUtils;
-import org.jeecgframework.web.utils.StreamUtils;
-import org.jeecgframework.web.utils.ConfigUtils;
+import org.jeecgframework.web.utils.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
@@ -114,14 +107,14 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 			for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
 				MultipartFile mf = entity.getValue();// 获取上传文件对象
 				fileName = mf.getOriginalFilename();// 获取文件名
-				swfName = PinyinUtil.getPinYinHeadChar(oConvertUtils.replaceBlank(FileUtils.getFilePrefix(fileName)));// 取文件名首字母作为SWF文件名
+				swfName = PinyinUtils.getPinYinHeadChar(ConvertUtils.replaceBlank(FileUtils.getFilePrefix(fileName)));// 取文件名首字母作为SWF文件名
 				String extend = FileUtils.getExtend(fileName);// 获取文件扩展名
 				String myfilename="";
 				String noextfilename="";//不带扩展名
 				if(uploadFile.isRename())
 				{
 				   
-				   noextfilename=DateUtils.getDataString(DateUtils.yyyymmddhhmmss)+StringUtil.random(8);//自定义文件名称
+				   noextfilename=DateUtils.getDataString(DateUtils.yyyymmddhhmmss)+StringUtils.random(8);//自定义文件名称
 				   myfilename=noextfilename+"."+extend;//自定义文件名称
 				}
 				else {
@@ -369,7 +362,7 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 	@SuppressWarnings("unchecked")
 	public ComboTree tree(TSDepart depart, boolean recursive) {
 		ComboTree tree = new ComboTree();
-		tree.setId(oConvertUtils.getString(depart.getId()));
+		tree.setId(ConvertUtils.getString(depart.getId()));
 		tree.setText(depart.getDepartname());
 		List<TSDepart> departsList = this.commonDao.findAllByProperty(TSDepart.class, "TSPDepart.id", depart.getId());
 		if (departsList != null && departsList.size() > 0) {
@@ -410,11 +403,11 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 		ComboTree tree = new ComboTree();
 		Map<String, Object> attributes = new HashMap<String, Object>();
 		ReflectHelper reflectHelper = new ReflectHelper(obj);
-		String id = oConvertUtils.getString(reflectHelper.getMethodValue(comboTreeModel.getIdField()));
+		String id = ConvertUtils.getString(reflectHelper.getMethodValue(comboTreeModel.getIdField()));
 		tree.setId(id);
-		tree.setText(oConvertUtils.getString(reflectHelper.getMethodValue(comboTreeModel.getTextField())));
+		tree.setText(ConvertUtils.getString(reflectHelper.getMethodValue(comboTreeModel.getTextField())));
 		if (comboTreeModel.getSrcField() != null) {
-			attributes.put("href", oConvertUtils.getString(reflectHelper.getMethodValue(comboTreeModel.getSrcField())));
+			attributes.put("href", ConvertUtils.getString(reflectHelper.getMethodValue(comboTreeModel.getSrcField())));
 			tree.setAttributes(attributes);
 		}
 		if (in == null) {
@@ -422,7 +415,7 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 			if (in.size() > 0) {
 				for (Object inobj : in) {
 					ReflectHelper reflectHelper2 = new ReflectHelper(inobj);
-					String inId = oConvertUtils.getString(reflectHelper2.getMethodValue(comboTreeModel.getIdField()));
+					String inId = ConvertUtils.getString(reflectHelper2.getMethodValue(comboTreeModel.getIdField()));
                    if (inId.equals(id)) {
 						tree.setChecked(true);
 					}
@@ -455,11 +448,11 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 		for (Object obj : all) {
 			ReflectHelper reflectHelper = new ReflectHelper(obj);
 			TreeGrid tg = new TreeGrid();
-			String id = oConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getIdField()));
-			String src = oConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getSrc()));
-			String text = oConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getTextField()));
+			String id = ConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getIdField()));
+			String src = ConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getSrc()));
+			String text = ConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getTextField()));
 			if(StringUtils.isNotEmpty(treeGridModel.getOrder())){
-				String order = oConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getOrder()));
+				String order = ConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getOrder()));
 				tg.setOrder(order);
 			}
 			tg.setId(id);
@@ -540,7 +533,7 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
                }
            }
            if (treeGridModel.getFunctionType() != null) {
-           	String functionType = oConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getFunctionType()));
+           	String functionType = ConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getFunctionType()));
            	tg.setFunctionType(functionType);
            }
 			treegrid.add(tg);

@@ -4,11 +4,11 @@ import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
-import org.jeecgframework.core.util.MyBeanUtils;
-import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.core.util.BeanPropertyUtils;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
-import org.jeecgframework.platform.util.MutiLangUtil;
+import org.jeecgframework.platform.util.MutiLangUtils;
+import org.jeecgframework.platform.util.StringUtils;
 import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.DynamicDataSourceEntity;
@@ -93,7 +93,7 @@ public class DynamicDataSourceController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		dbSource = systemService.findEntity(DynamicDataSourceEntity.class, dbSource.getId());
 		
-		message = MutiLangUtil.paramDelSuccess("common.datasource.manage");
+		message = MutiLangUtils.paramDelSuccess("common.datasource.manage");
 		
 		dynamicDataSourceService.delete(dbSource);
 		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -113,20 +113,20 @@ public class DynamicDataSourceController extends BaseController {
 	@ResponseBody
 	public AjaxJson save(DynamicDataSourceEntity dbSource, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		if (StringUtil.isNotEmpty(dbSource.getId())) {
-			message = MutiLangUtil.paramUpdSuccess("common.datasource.manage");
+		if (StringUtils.isNotEmpty(dbSource.getId())) {
+			message = MutiLangUtils.paramUpdSuccess("common.datasource.manage");
 			DynamicDataSourceEntity t = dynamicDataSourceService.find(DynamicDataSourceEntity.class, dbSource.getId());
 			try {
-				MyBeanUtils.copyBeanNotNull2Bean(dbSource, t);
+				BeanPropertyUtils.copyBeanNotNull2Bean(dbSource, t);
 				dynamicDataSourceService.saveOrUpdate(t);
 				dynamicDataSourceService.refleshCache();
 				systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 			} catch (Exception e) {
 				e.printStackTrace();
-				message = MutiLangUtil.paramUpdFail("common.datasource.manage");
+				message = MutiLangUtils.paramUpdFail("common.datasource.manage");
 			}
 		} else {
-			message = MutiLangUtil.paramAddSuccess("common.datasource.manage");
+			message = MutiLangUtils.paramAddSuccess("common.datasource.manage");
 			
 			dynamicDataSourceService.save(dbSource);
 			dynamicDataSourceService.refleshCache();
@@ -143,7 +143,7 @@ public class DynamicDataSourceController extends BaseController {
 	 */
 	@RequestMapping(params = "addorupdate")
 	public ModelAndView addorupdate(DynamicDataSourceEntity dbSource, HttpServletRequest req) {
-		if (StringUtil.isNotEmpty(dbSource.getId())) {
+		if (StringUtils.isNotEmpty(dbSource.getId())) {
 			dbSource = dynamicDataSourceService.findEntity(DynamicDataSourceEntity.class, dbSource.getId());
 			req.setAttribute("dbSourcePage", dbSource);
 		}

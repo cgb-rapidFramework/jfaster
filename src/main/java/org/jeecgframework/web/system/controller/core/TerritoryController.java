@@ -8,9 +8,8 @@ import org.jeecgframework.core.common.model.json.TreeGrid;
 import org.jeecgframework.core.tag.vo.datatable.SortDirection;
 import org.jeecgframework.core.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.core.tag.vo.easyui.TreeGridModel;
-import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.platform.constant.Globals;
-import org.jeecgframework.platform.util.MutiLangUtil;
+import org.jeecgframework.platform.util.MutiLangUtils;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.TSTerritory;
 import org.jeecgframework.web.system.service.MutiLangService;
@@ -142,19 +141,19 @@ public class TerritoryController extends BaseController {
 			TSTerritory parent = systemService.findEntity(TSTerritory.class, territory.getTSTerritory().getId());
 			territory.setTerritoryLevel(Short.valueOf(parent.getTerritoryLevel()+1+""));
 		}
-		if (StringUtil.isNotEmpty(territory.getId())) {
+		if (StringUtils.isNotEmpty(territory.getId())) {
 			message = "地域: " + territory.getTerritoryName() + "被更新成功";
 			systemService.saveOrUpdate(territory);
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 
-            message = MutiLangUtil.paramUpdSuccess("common.area");
+            message = MutiLangUtils.paramUpdSuccess("common.area");
 		} else {
 			territory.setTerritorySort(territory.getTerritorySort());
 			message = "地域: " + territory.getTerritoryName() + "被添加成功";
 			systemService.save(territory);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 
-            message = MutiLangUtil.paramAddSuccess("common.area");
+            message = MutiLangUtils.paramAddSuccess("common.area");
         }
 
         j.setMsg(message);
@@ -177,7 +176,7 @@ public class TerritoryController extends BaseController {
 		systemService.delete(territory);
 		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 
-        message = MutiLangUtil.paramDelSuccess("common.area");
+        message = MutiLangUtils.paramDelSuccess("common.area");
         j.setMsg(message);
 		return j;
 	}

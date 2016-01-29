@@ -3,25 +3,19 @@ package org.jeecgframework.web.system.service.impl;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.util.ContextHolderUtils;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.bean.IconBean;
 import org.jeecgframework.platform.bean.TypeBean;
 import org.jeecgframework.platform.bean.TypeGroupBean;
 import org.jeecgframework.platform.container.SystemContainer.IconContainer;
 import org.jeecgframework.platform.container.SystemContainer.TypeGroupContainer;
-import org.jeecgframework.platform.util.BrowserUtils;
 import org.jeecgframework.web.system.entity.base.*;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
-import org.jeecgframework.web.utils.BeanToTagUtils;
-import org.jeecgframework.web.utils.DateUtils;
-import org.jeecgframework.web.utils.SessionUtils;
-import org.jeecgframework.web.utils.ConfigUtils;
+import org.jeecgframework.web.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -45,10 +39,10 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	public List<DictEntity> queryDict(String dicTable, String dicCode,String dicText){
 		List<DictEntity> dictList = null;
 		//step.1 如果没有字典表则使用系统字典表/*
-		/*if(StringUtil.isEmpty(dicTable)){
+		/*if(StringUtils.isEmpty(dicTable)){
 			dictList = jeecgDictDao.querySystemDict(dicCode);
 		}else {
-			dicText = StringUtil.isEmpty(dicText, dicCode);
+			dicText = StringUtils.isEmpty(dicText, dicCode);
 			dictList = jeecgDictDao.queryCustomDict(dicTable, dicCode, dicText);
 		}*/
 		return dictList;
@@ -64,7 +58,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		log.setLogcontent(logcontent);
 		log.setLoglevel(loglevel);
 		log.setOperatetype(operatetype);
-		log.setNote(oConvertUtils.getIp());
+		log.setNote(ConvertUtils.getIp());
 		log.setBroswer(broswer);
 		log.setOperatetime(DateUtils.gettimestamp());
 		log.setUserid(SessionUtils.getCurrentUser().getId());
@@ -205,11 +199,11 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	
 	public void flushRoleFunciton(String id, TSFunction newFunction) {
 		TSFunction functionEntity = this.findEntity(TSFunction.class, id);
-		if (functionEntity.getTSIcon() == null || !StringUtil.isNotEmpty(functionEntity.getTSIcon().getId())) {
+		if (functionEntity.getTSIcon() == null || !StringUtils.isNotEmpty(functionEntity.getTSIcon().getId())) {
 			return;
 		}
 		TSIcon oldIcon = this.findEntity(TSIcon.class, functionEntity.getTSIcon().getId());
-		if(!StringUtil.isNotEmpty(oldIcon.getIconClas())){
+		if(!StringUtils.isNotEmpty(oldIcon.getIconClas())){
               return;
 		}
 
@@ -231,7 +225,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
             orgCodeLength = 3;
         }
         String  newOrgCode = "";
-        if(!StringUtils.hasText(pid)) { // 第一级编码
+        if(!org.springframework.util.StringUtils.hasText(pid)) { // 第一级编码
             String sql = "select max(t.org_code) orgCode from t_s_depart t where t.parentdepartid is null";
             Map<String, Object> pOrgCodeMap = commonDao.queryForMap(sql);
             if(pOrgCodeMap.get("orgCode") != null) {

@@ -1,5 +1,7 @@
 package org.jeecgframework.web.system.job;
 
+
+import org.jeecgframework.core.util.LogUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +24,7 @@ public class Job {
      * */
     @Scheduled(cron="0 0 1 * * ?") 
     public void oneOClockPerDay(){
-        org.jeecgframework.core.util.LogUtil.info("1h");
+       LogUtils.info("1h");
     }
     
     

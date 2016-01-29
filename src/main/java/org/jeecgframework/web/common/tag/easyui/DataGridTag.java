@@ -2,22 +2,21 @@ package org.jeecgframework.web.common.tag.easyui;
 
 import com.google.gson.Gson;
 import net.sf.json.JSONObject;
-import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.tag.vo.easyui.ColumnValue;
 import org.jeecgframework.core.tag.vo.easyui.DataGridColumn;
 import org.jeecgframework.core.tag.vo.easyui.DataGridUrl;
 import org.jeecgframework.core.tag.vo.easyui.OptTypeDirection;
-import org.jeecgframework.core.util.ApplicationContextUtil;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.ConvertUtils;
+import org.jeecgframework.core.util.LogUtils;
 import org.jeecgframework.platform.bean.TypeBean;
 import org.jeecgframework.platform.bean.TypeGroupBean;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
-import org.jeecgframework.platform.util.AuthFilterHelper;
-import org.jeecgframework.platform.util.MutiLangUtil;
+import org.jeecgframework.platform.util.MutiLangUtils;
 import org.jeecgframework.web.system.entity.base.TSOperation;
 import org.jeecgframework.web.system.service.SystemService;
+import org.jeecgframework.web.utils.AuthFilterHelper;
+import org.jeecgframework.web.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.jsp.JspException;
@@ -288,10 +287,8 @@ public class DataGridTag extends TagSupport {
 		Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
 		if (null!=operationCodes) {
 			for (String MyoperationCode : operationCodes) {
-				if (oConvertUtils.isEmpty(MyoperationCode))
+				if (ConvertUtils.isEmpty(MyoperationCode))
 					break;
-				systemService = ApplicationContextUtil.getContext().getBean(
-							SystemService.class);
 				TSOperation operation = systemService.findEntity(TSOperation.class, MyoperationCode);
 				if(operation.getOperationcode().equals(field)){
 					columnList.remove(dataGridColumn);
@@ -315,22 +312,20 @@ public class DataGridTag extends TagSupport {
 			String value = "";
 			for (String string : test) {
 				lang_key = string.substring(0, string.indexOf("_"));
-				text += MutiLangUtil.getLang(lang_key) + ",";
+				text += MutiLangUtils.getLang(lang_key) + ",";
 				
 				value += string.substring(string.indexOf("_") + 1) + ",";
 			}
 			setColumn(field, text, value);
 
 		}
-		if (!StringUtils.isBlank(dictionary)) {
+		if (!StringUtils.isEmpty(dictionary)) {
 			if(dictionary.contains(",")){
 				String[] dic = dictionary.split(",");
 				String text = "";
 				String value = "";
 				String sql = "select " + dic[1] + " as field," + dic[2]
 						+ " as text from " + dic[0];
-				systemService = ApplicationContextUtil.getContext().getBean(
-						SystemService.class);
 				List<Map<String, Object>> list = systemService.queryForListMap(sql);
 				for (Map<String, Object> map : list){
 					text += map.get("text") + ",";
@@ -344,14 +339,14 @@ public class DataGridTag extends TagSupport {
 				List<TypeBean> typeList = TypeGroupBean.allTypes.get(dictionary.toLowerCase());
 				if (typeList != null && !typeList.isEmpty()) {
 					for (TypeBean type : typeList) {
-						text += MutiLangUtil.doMutiLang(type.getTypename(), "") + ",";
+						text += MutiLangUtils.doMutiLang(type.getTypename(), "") + ",";
 						value += type.getTypecode() + ",";
 					}
 				setColumn(field, text, value);
 				}
 			}
 		}
-		if(StringUtil.isNotEmpty(style)){
+		if(StringUtils.isNotEmpty(style)){
 			String[] temp = style.split(",");
 			String text = "";
 			String value = "";
@@ -412,7 +407,7 @@ public class DataGridTag extends TagSupport {
 	
 	public int doEndTag() throws JspException {
 		try {
-			title = MutiLangUtil.doMutiLang(title, langArg);
+			title = MutiLangUtils.doMutiLang(title, langArg);
 			
 			JspWriter out = this.pageContext.getOut();
 			if (style.equals("easyui")) {
@@ -535,11 +530,11 @@ public class DataGridTag extends TagSupport {
 		} else {
 			sb.append("fit:false,");
 		}
-		sb.append(StringUtil.replaceAll("loadMsg: \'{0}\',", "{0}", MutiLangUtil.getLang("common.data.loading")));
+		sb.append(StringUtils.replaceAll("loadMsg: \'{0}\',", "{0}", MutiLangUtils.getLang("common.data.loading")));
 		sb.append("pageSize: " + pageSize + ",");
 		sb.append("pagination:" + pagination + ",");
 		sb.append("pageList:[" + pageSize * 1 + "," + pageSize * 2 + "," + pageSize * 3 + "],");
-		if(StringUtils.isNotBlank(sortName)){
+		if(StringUtils.isNotEmpty(sortName)){
 			sb.append("sortName:'" +sortName +"',");
 		}
 		sb.append("sortOrder:'" + sortOrder + "',");
@@ -564,11 +559,11 @@ public class DataGridTag extends TagSupport {
 			sb.append(" var firstNode = $(\'#" + name + "\').treegrid('getRoots')[0];");
 			sb.append(" $(\'#" + name + "\').treegrid('expand',firstNode.id)}");
 		}
-		if (StringUtil.isNotEmpty(onLoadSuccess)) {
+		if (StringUtils.isNotEmpty(onLoadSuccess)) {
 			sb.append(onLoadSuccess + "(data);");
 		}
 		sb.append("},");
-		if (StringUtil.isNotEmpty(onDblClick)) {
+		if (StringUtils.isNotEmpty(onDblClick)) {
 			sb.append("onDblClickRow:function(rowIndex,rowData){" + onDblClick + "(rowIndex,rowData);},");
 		}
 		if (treegrid) {
@@ -580,7 +575,7 @@ public class DataGridTag extends TagSupport {
 		/**行记录赋值*/
 		sb.append("rowid=rowData.id;");
 		sb.append("gridname=\'"+name+"\';");
-		if (StringUtil.isNotEmpty(onClick)) {
+		if (StringUtils.isNotEmpty(onClick)) {
 			if (treegrid) {
 				sb.append("" + onClick + "(rowData);");
 			}else{
@@ -644,9 +639,9 @@ public class DataGridTag extends TagSupport {
 						sb.append("<span style=\"display:-moz-inline-box;display:inline-block;\">");
 						sb.append("<span style=\"vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap; \" title=\""+col.getTitle()+"\">"+col.getTitle()+"：</span>");
 						if("single".equals(col.getQueryMode())){
-							if(!StringUtil.isEmpty(col.getReplace())){
+							if(!StringUtils.isEmpty(col.getReplace())){
 								sb.append("<select name=\""+col.getField().replaceAll("_","\\.")+"\" WIDTH=\"100\" style=\"width: 104px\"> ");
-								sb.append(StringUtil.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtil.getLang("common.please.select")));
+								sb.append(StringUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtils.getLang("common.please.select")));
 								String[] test = col.getReplace().split(",");
 								String text = "";
 								String value = "";
@@ -655,21 +650,19 @@ public class DataGridTag extends TagSupport {
 								
 								for (String string : test) {
 									String lang_key = string.split("_")[0];
-									text = MutiLangUtil.getLang(lang_key);
+									text = MutiLangUtils.getLang(lang_key);
 									value =string.split("_")[1];
 									sb.append("<option value =\""+value+"\">"+text+"</option>");
 								}
 								sb.append("</select>");
-							}else if(!StringUtil.isEmpty(col.getDictionary())){
+							}else if(!StringUtils.isEmpty(col.getDictionary())){
 								if(col.getDictionary().contains(",")){
 									String[] dic = col.getDictionary().split(",");
 									String sql = "select " + dic[1] + " as field," + dic[2]
 											+ " as text from " + dic[0];
-									systemService = ApplicationContextUtil.getContext().getBean(
-											SystemService.class);
 									List<Map<String, Object>> list = systemService.queryForListMap(sql);
 									sb.append("<select name=\""+col.getField().replaceAll("_","\\.")+"\" WIDTH=\"100\" style=\"width: 104px\"> ");
-									sb.append(StringUtil.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtil.getLang("common.please.select")));
+									sb.append(StringUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtils.getLang("common.please.select")));
 									for (Map<String, Object> map : list){
 										sb.append(" <option value=\""+map.get("field")+"\">");
 										sb.append(map.get("text"));
@@ -680,10 +673,10 @@ public class DataGridTag extends TagSupport {
 									Map<String, List<TypeBean>> typedatas = TypeGroupBean.allTypes;
 									List<TypeBean> types = typedatas.get(col.getDictionary().toLowerCase());
 									sb.append("<select name=\""+col.getField().replaceAll("_","\\.")+"\" WIDTH=\"100\" style=\"width: 104px\"> ");
-									sb.append(StringUtil.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtil.getLang("common.please.select")));
+									sb.append(StringUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtils.getLang("common.please.select")));
 									for (TypeBean type : types) {
 										sb.append(" <option value=\""+type.getTypecode()+"\">");
-										sb.append(MutiLangUtil.getLang(type.getTypename()));
+										sb.append(MutiLangUtils.getLang(type.getTypename()));
 										sb.append(" </option>");
 									}
 									sb.append("</select>");
@@ -714,7 +707,7 @@ public class DataGridTag extends TagSupport {
 		{
 			for (DataGridUrl toolBar : toolBarList) {
 				sb.append("<a href=\"#\" class=\"easyui-linkbutton\" plain=\"true\" icon=\""+toolBar.getIcon()+"\" ");
-				if(StringUtil.isNotEmpty(toolBar.getOnclick()))
+				if(StringUtils.isNotEmpty(toolBar.getOnclick()))
 				{
 					sb.append("onclick="+toolBar.getOnclick()+"");
 				}
@@ -734,12 +727,12 @@ public class DataGridTag extends TagSupport {
 		sb.append("</span>");
 		if("group".equals(getQueryMode()) && hasQueryColum(columnList)){//如果表单是组合查询
 			sb.append("<span style=\"float:right\">");
-			sb.append("<a href=\"#\" class=\"easyui-linkbutton\" iconCls=\"icon-search\" onclick=\""+  name+ StringUtil.replaceAll("search()\">{0}</a>", "{0}", MutiLangUtil.getLang("common.query")));
-			sb.append("<a href=\"#\" class=\"easyui-linkbutton\" iconCls=\"icon-reload\" onclick=\"searchReset('"+name+ StringUtil.replaceAll("')\">{0}</a>", "{0}", MutiLangUtil.getLang("common.reset")) );
+			sb.append("<a href=\"#\" class=\"easyui-linkbutton\" iconCls=\"icon-search\" onclick=\""+  name+ StringUtils.replaceAll("search()\">{0}</a>", "{0}", MutiLangUtils.getLang("common.query")));
+			sb.append("<a href=\"#\" class=\"easyui-linkbutton\" iconCls=\"icon-reload\" onclick=\"searchReset('"+name+ StringUtils.replaceAll("')\">{0}</a>", "{0}", MutiLangUtils.getLang("common.reset")) );
 			sb.append("</span>");
 		}else if("single".equals(getQueryMode())&& hasQueryColum(columnList)){//如果表单是单查询
 			sb.append("<span style=\"float:right\">");
-			sb.append("<input id=\""+name+"searchbox\" class=\"easyui-searchbox\"  data-options=\"searcher:"+name+ StringUtil.replaceAll("searchbox,prompt:\'{0}\',menu:\'#", "{0}", MutiLangUtil.getLang("common.please.input.keyword")) +name+"mm\'\"></input>");
+			sb.append("<input id=\""+name+"searchbox\" class=\"easyui-searchbox\"  data-options=\"searcher:"+name+ StringUtils.replaceAll("searchbox,prompt:\'{0}\',menu:\'#", "{0}", MutiLangUtils.getLang("common.please.input.keyword")) +name+"mm\'\"></input>");
 			sb.append("<div id=\""+name+"mm\" style=\"width:120px\">");
 			for (DataGridColumn col : columnList) {
 				if (col.isQuery()) {
@@ -760,7 +753,7 @@ public class DataGridTag extends TagSupport {
 	 * @return
 	 */
 	private String extendAttribute(String field) {
-		if(StringUtil.isEmpty(field)){
+		if(StringUtils.isEmpty(field)){
 			return "";
 		}
 		field = dealSyscode(field,1);
@@ -806,7 +799,7 @@ public class DataGridTag extends TagSupport {
 	private String extendAttributeOld(String field) {
 		StringBuffer sb = new StringBuffer();
 		//增加扩展属性
-		if (!StringUtils.isBlank(field)) {
+		if (!StringUtils.isEmpty(field)) {
 			Gson gson = new Gson();
 			Map<String, String> mp = gson.fromJson(field, Map.class);
 			for(Map.Entry<String, String> entry: mp.entrySet()) { 
@@ -875,7 +868,7 @@ public class DataGridTag extends TagSupport {
 				url = formatUrl(url);
 			}
 			String exp = dataGridUrl.getExp();// 判断显示表达式
-			if (StringUtil.isNotEmpty(exp)) {
+			if (StringUtils.isNotEmpty(exp)) {
 				String[] ShowbyFields = exp.split("&&");
 				for (String ShowbyField : ShowbyFields) {
 					int beginIndex = ShowbyField.indexOf("#");
@@ -927,7 +920,7 @@ public class DataGridTag extends TagSupport {
 			}
 			sb.append("href+=\"" + dataGridUrl.getTitle() + "</a>]\";");
 
-			if (StringUtil.isNotEmpty(exp)) {
+			if (StringUtils.isNotEmpty(exp)) {
 				for (int i = 0; i < exp.split("&&").length; i++) {
 					sb.append("}");
 				}
@@ -1157,7 +1150,7 @@ public class DataGridTag extends TagSupport {
 		sb.append("$(\'#" + name + "\')." + grid + "(\'getPager\').pagination({");
 		sb.append("beforePageText:\'\'," + "afterPageText:\'/{pages}\',");
 		if (showText) {
-			sb.append("displayMsg:\'{from}-{to}" + MutiLangUtil.getLang("common.total") + " {total}" + MutiLangUtil.getLang("common.item") + "\',");
+			sb.append("displayMsg:\'{from}-{to}" + MutiLangUtils.getLang("common.total") + " {total}" + MutiLangUtils.getLang("common.item") + "\',");
 		} else {
 			sb.append("displayMsg:\'\',");
 		}
@@ -1183,7 +1176,7 @@ public class DataGridTag extends TagSupport {
 		sb.append(""+name+"searchbox(value,name);");
 		sb.append("},");
 		sb.append("menu:\'#"+name+"mm\',");
-		sb.append(StringUtil.replaceAll("prompt:\'{0}\'", "{0}", MutiLangUtil.getLang("common.please.input.query.keyword")));
+		sb.append(StringUtils.replaceAll("prompt:\'{0}\'", "{0}", MutiLangUtils.getLang("common.please.input.query.keyword")));
 		sb.append("});");
 	}
   
@@ -1193,10 +1186,8 @@ public class DataGridTag extends TagSupport {
 			Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
 			if (null!=operationCodes) {
 				for (String MyoperationCode : operationCodes) {
-					if (oConvertUtils.isEmpty(MyoperationCode))
+					if (ConvertUtils.isEmpty(MyoperationCode))
 						break;
-					systemService = ApplicationContextUtil.getContext().getBean(
-								SystemService.class);
 					TSOperation operation = systemService.findEntity(TSOperation.class, MyoperationCode);
 					if (operation.getOperationcode().startsWith(".") || operation.getOperationcode().startsWith("#")){
 						if (operation.getOperationType().intValue()==Globals.OPERATION_TYPE_HIDE){
@@ -1212,7 +1203,7 @@ public class DataGridTag extends TagSupport {
 			}
 			
 		}
-		org.jeecgframework.platform.util.LogUtil.info("----getNoAuthOperButton-------"+sb.toString());
+		LogUtils.info("----getNoAuthOperButton-------" + sb.toString());
 		return sb.toString(); 
 	}
 	
@@ -1226,15 +1217,13 @@ public class DataGridTag extends TagSupport {
 	private void installOperationCode(DataGridUrl dataGridUrl,String operationCode,List optList){
 		if(AuthFilterHelper.authIsOpen()){
 			optList.add(dataGridUrl);
-		}else if(!oConvertUtils.isEmpty(operationCode)){
+		}else if(!ConvertUtils.isEmpty(operationCode)){
 			Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
 			if (null!=operationCodes) {
 				List<String> operationCodesStr = new ArrayList<String>();
 				for (String MyoperationCode : operationCodes) {
-					if (oConvertUtils.isEmpty(MyoperationCode))
+					if (ConvertUtils.isEmpty(MyoperationCode))
 						break;
-					systemService = ApplicationContextUtil.getContext().getBean(
-								SystemService.class);
 					TSOperation operation = systemService.findEntity(TSOperation.class, MyoperationCode);
 					operationCodesStr.add(operation.getOperationcode());
 				}
@@ -1267,7 +1256,7 @@ public class DataGridTag extends TagSupport {
 		nsb.append("}).result(function (event, row, formatted) {");
 		nsb.append("$(\"#"+getEntityName()+"_"+id+"\").val(row['"+filed+"']);}); });")
         .append("</script>")
-        .append("<input type=\"text\" id=\""+getEntityName()+"_"+id+"\" name=\""+filed+"\" datatype=\"*\" "+extend+ StringUtil.replace(" nullmsg=\"\" errormsg=\"{0}\"/>", "{0}", MutiLangUtil.getLang("input.error")));
+        .append("<input type=\"text\" id=\""+getEntityName()+"_"+id+"\" name=\""+filed+"\" datatype=\"*\" "+extend+ StringUtils.replace(" nullmsg=\"\" errormsg=\"{0}\"/>", "{0}", MutiLangUtils.getLang("input.error")));
 		return nsb.toString();
 	}
 	/**

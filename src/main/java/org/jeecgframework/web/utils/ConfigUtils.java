@@ -1,7 +1,7 @@
 package org.jeecgframework.web.utils;
 
 import org.jeecgframework.core.util.ContextHolderUtils;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.ConvertUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -51,7 +51,7 @@ public class ConfigUtils {
 	public static final Map<Object, Object> getConfigMap(String path) {
 		ResourceBundle bundle = ResourceBundle.getBundle(path);
 		Set set = bundle.keySet();
-		return oConvertUtils.SetToMap(set);
+		return ConvertUtils.SetToMap(set);
 	}
 
 	
@@ -142,8 +142,8 @@ public class ConfigUtils {
      * @return
      */
 	public static void main(String[] args) {
-		org.jeecgframework.core.util.LogUtil.info(getPorjectPath());
-		org.jeecgframework.core.util.LogUtil.info(getSysPath());
+		org.jeecgframework.core.util.LogUtils.info(getPorjectPath());
+		org.jeecgframework.core.util.LogUtils.info(getSysPath());
 
 	}
 }

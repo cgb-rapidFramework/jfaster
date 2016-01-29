@@ -4,11 +4,11 @@ import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.common.UploadFile;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
-import org.jeecgframework.platform.util.MutiLangUtil;
+import org.jeecgframework.platform.util.MutiLangUtils;
+import org.jeecgframework.platform.util.StringUtils;
 import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.TSFunction;
@@ -99,8 +99,8 @@ public class IconController extends BaseController {
 	public AjaxJson saveOrUpdateIcon(HttpServletRequest request) throws Exception {
 		AjaxJson j = new AjaxJson();		
 		TSIcon icon = new TSIcon();
-		Short iconType = oConvertUtils.getShort(request.getParameter("iconType"));
-		String iconName = oConvertUtils.getString(request.getParameter("iconName"));
+		Short iconType = ConvertUtils.getShort(request.getParameter("iconType"));
+		String iconName = ConvertUtils.getString(request.getParameter("iconName"));
 		String id = request.getParameter("id");
 		icon.setId(id);
 		icon.setIconName(iconName);
@@ -118,7 +118,7 @@ public class IconController extends BaseController {
 		// 图标的css样式
 		String css = "." + icon.getIconClas() + "{background:url('../images/" + icon.getIconClas() + "." + icon.getExtend() + "') no-repeat}";
 		write(request, css);
-		message = MutiLangUtil.paramAddSuccess("common.icon");
+		message = MutiLangUtils.paramAddSuccess("common.icon");
 		j.setMsg(message);
 		return j;
 	}	
@@ -134,11 +134,11 @@ public class IconController extends BaseController {
 	@ResponseBody
 	public AjaxJson update(HttpServletRequest request) throws Exception {
 		AjaxJson j = new AjaxJson();
-		Short iconType = oConvertUtils.getShort(request.getParameter("iconType"));
-		String iconName = java.net.URLDecoder.decode(oConvertUtils.getString(request.getParameter("iconName")));
+		Short iconType = ConvertUtils.getShort(request.getParameter("iconType"));
+		String iconName = java.net.URLDecoder.decode(ConvertUtils.getString(request.getParameter("iconName")));
 		String id = request.getParameter("id");
 		TSIcon icon = new TSIcon();
-		if (StringUtil.isNotEmpty(id)) {
+		if (StringUtils.isNotEmpty(id)) {
 			icon = systemService.find(TSIcon.class, id);
 			icon.setId(id);
 		}
@@ -201,7 +201,7 @@ public class IconController extends BaseController {
 			String css = "." + c.getIconClas() + "{background:url('../images/" + c.getIconClas() + "." + c.getExtend() + "') no-repeat}";
 			write(request, css);
 		}
-        json.setMsg(MutiLangUtil.paramAddSuccess("common.icon.style"));
+        json.setMsg(MutiLangUtils.paramAddSuccess("common.icon.style"));
         json.setSuccess(true);
 		return json;
 	}
@@ -242,7 +242,7 @@ public class IconController extends BaseController {
 		if(isPermit){
 			systemService.delete(icon);
 
-            message = MutiLangUtil.paramDelSuccess("common.icon");
+            message = MutiLangUtils.paramDelSuccess("common.icon");
 			
 			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 
@@ -251,7 +251,7 @@ public class IconController extends BaseController {
             return j;
 		}
 		
-        message = MutiLangUtil.paramDelFail("common.icon,common.icon.isusing");
+        message = MutiLangUtils.paramDelFail("common.icon,common.icon.isusing");
         j.setMsg(message);
 		
 		return j;
@@ -296,7 +296,7 @@ public class IconController extends BaseController {
 	 */
 	@RequestMapping(params = "addorupdate")
 	public ModelAndView addorupdate(TSIcon icon, HttpServletRequest req) {
-		if (StringUtil.isNotEmpty(icon.getId())) {
+		if (StringUtils.isNotEmpty(icon.getId())) {
 			icon = systemService.findEntity(TSIcon.class, icon.getId());
 			req.setAttribute("icon", icon);
 		}

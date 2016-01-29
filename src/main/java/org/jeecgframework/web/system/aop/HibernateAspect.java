@@ -1,16 +1,16 @@
 package org.jeecgframework.web.system.aop;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import org.apache.log4j.Logger;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.constant.DataBaseConstant;
 import org.jeecgframework.web.system.entity.base.TSUser;
 import org.jeecgframework.web.utils.SessionUtils;
 import org.springframework.stereotype.Component;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Hiberate拦截器：实现创建人，创建时间，创建人名称自动注入;
@@ -44,7 +44,7 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 		    		 ||DataBaseConstant.CREATE_TIME.equals(propertyNames[index]))
 		     {
 		         /*使用拦截器将对象的"创建时间"属性赋上值*/
-		    	 if(oConvertUtils.isEmpty(state[index])){
+		    	 if(ConvertUtils.isEmpty(state[index])){
 		    		 state[index] = new Date();
 		    	 }
 		         continue;
@@ -53,7 +53,7 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 		     else if (DataBaseConstant.CREATE_BY.equals(propertyNames[index]))
 		     {
 		         /*使用拦截器将对象的"创建人"属性赋上值*/
-		    	 if(oConvertUtils.isEmpty(state[index])){
+		    	 if(ConvertUtils.isEmpty(state[index])){
 		    		  state[index] = SessionUtils.getUserSystemData(DataBaseConstant.SYS_USER_CODE);
 		    	 }
 		         continue;
@@ -62,7 +62,7 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 		     else if (DataBaseConstant.CREATE_NAME.equals(propertyNames[index]))
 		     {
 		         /*使用拦截器将对象的"创建人名称"属性赋上值*/
-		    	 if(oConvertUtils.isEmpty(state[index])){
+		    	 if(ConvertUtils.isEmpty(state[index])){
 		    		 state[index] = SessionUtils.getUserSystemData(DataBaseConstant.SYS_USER_NAME);
 		    	 }
 		         continue;
@@ -71,7 +71,7 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 		     else if (DataBaseConstant.SYS_USER_CODE.equals(propertyNames[index]))
 		     {
 		    	 /*使用拦截器将对象的"创建人名称"属性赋上值*/
-		    	 if(oConvertUtils.isEmpty(state[index])){
+		    	 if(ConvertUtils.isEmpty(state[index])){
 		    		 state[index] = SessionUtils.getUserSystemData(DataBaseConstant.SYS_USER_CODE);
 		    	 }
 		    	 continue;
@@ -80,7 +80,7 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 		     else if (DataBaseConstant.SYS_ORG_CODE.equals(propertyNames[index]))
 		     {
 		         /*使用拦截器将对象的"创建人部门"属性赋上值*/
-		    	 if(oConvertUtils.isEmpty(state[index])){
+		    	 if(ConvertUtils.isEmpty(state[index])){
 		    		 state[index] = SessionUtils.getUserSystemData(DataBaseConstant.SYS_ORG_CODE);
 		    	 }
 		         continue;
@@ -89,7 +89,7 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 		     else if (DataBaseConstant.SYS_COMPANY_CODE.equals(propertyNames[index]))
 		     {
 		         /*使用拦截器将对象的"创建人部门"属性赋上值*/
-		    	 if(oConvertUtils.isEmpty(state[index])){
+		    	 if(ConvertUtils.isEmpty(state[index])){
 		    		 state[index] = SessionUtils.getUserSystemData(DataBaseConstant.SYS_COMPANY_CODE);
 		    	 }
 		         continue;

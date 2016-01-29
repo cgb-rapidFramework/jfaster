@@ -1,11 +1,10 @@
 package org.jeecgframework.web.common.tag.easyui;
 
-import org.jeecgframework.core.util.ApplicationContextUtil;
+import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.constant.Globals;
-import org.jeecgframework.platform.util.AuthFilterHelper;
-import org.jeecgframework.platform.util.oConvertUtils;
 import org.jeecgframework.web.system.entity.base.TSOperation;
 import org.jeecgframework.web.system.service.SystemService;
+import org.jeecgframework.web.utils.AuthFilterHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.jsp.JspException;
@@ -58,10 +57,8 @@ public class AuthFilterTag extends TagSupport{
 			Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
 			if (null!=operationCodes) {
 				for (String MyoperationCode : operationCodes) {
-					if (oConvertUtils.isEmpty(MyoperationCode))
+					if (ConvertUtils.isEmpty(MyoperationCode))
 						break;
-					systemService = ApplicationContextUtil.getContext().getBean(
-								SystemService.class);
 					TSOperation operation = systemService.findEntity(TSOperation.class, MyoperationCode);
 					if (operation.getOperationcode().startsWith(".") || operation.getOperationcode().startsWith("#")){
 						if (operation.getOperationType().intValue()==Globals.OPERATION_TYPE_HIDE){

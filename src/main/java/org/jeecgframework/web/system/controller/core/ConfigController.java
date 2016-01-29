@@ -4,9 +4,9 @@ import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
-import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
+import org.jeecgframework.platform.util.StringUtils;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.TSConfig;
 import org.jeecgframework.web.system.service.SystemService;
@@ -101,14 +101,13 @@ public class ConfigController extends BaseController {
 	/**
 	 * 添加和更新配置信息
 	 * 
-	 * @param config
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(params = "save")
 	@ResponseBody
 	public AjaxJson save(TSConfig tsConfig,HttpServletRequest request) {
-		if (StringUtil.isEmpty(tsConfig.getId())) {
+		if (StringUtils.isEmpty(tsConfig.getId())) {
 			TSConfig tsConfig2=systemService.findUniqueByProperty(TSConfig.class, "code", tsConfig.getCode());
 			if(tsConfig2!=null){
 				message = "编码为: " + tsConfig.getCode() + "的配置信息已存在";
@@ -141,7 +140,7 @@ public class ConfigController extends BaseController {
 	 */
 	@RequestMapping(params = "addorupdate")
 	public ModelAndView addorupdate(TSConfig config, HttpServletRequest req) {
-		if (StringUtil.isNotEmpty(config.getId())) {
+		if (StringUtils.isNotEmpty(config.getId())) {
 			config = systemService.findEntity(TSConfig.class,
 					config.getId());
 			req.setAttribute("config", config);

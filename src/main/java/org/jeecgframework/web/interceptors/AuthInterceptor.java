@@ -2,7 +2,7 @@ package org.jeecgframework.web.interceptors;
 
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.util.ContextHolderUtils;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.web.common.hqlsearch.SysContextSqlConvert;
 import org.jeecgframework.web.system.entity.base.*;
@@ -88,7 +88,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 					//request.getRequestDispatcher("webpage/common/noAuth.jsp").forward(request, response);
 					return false;
 				} 
-				//String functionId=oConvertUtils.getString(request.getParameter("clickFunctionId"));
+				//String functionId=ConvertUtils.getString(request.getParameter("clickFunctionId"));
 				String functionId="";
 				//onlinecoding的访问地址有规律可循，数据权限链接篡改
 				if(requestPath.equals("cgAutoListController.do?datagrid")) {
@@ -109,12 +109,12 @@ public class AuthInterceptor implements HandlerInterceptor {
 				}
 				
 				//Step.1 第一部分处理页面表单和列表的页面控件权限（页面表单字段+页面按钮等控件）
-				if(!oConvertUtils.isEmpty(functionId)){
+				if(!ConvertUtils.isEmpty(functionId)){
 					//获取菜单对应的页面控制权限（包括表单字段和操作按钮）
 					Set<String> operationCodes = systemService.getOperationCodesByUserIdAndFunctionId(client.getUser().getId(), functionId);
 					request.setAttribute(Globals.OPERATIONCODES, operationCodes);
 				}
-				if(!oConvertUtils.isEmpty(functionId)){
+				if(!ConvertUtils.isEmpty(functionId)){
 					//List<String> allOperation=this.systemService.findListbySql("SELECT operationcode FROM t_s_operation  WHERE functionid='"+functionId+"'");
 					List<TSOperation> allOperation=this.systemService.findAllByProperty(TSOperation.class, "TSFunction.id", functionId);
 					
@@ -192,7 +192,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 			return true;
 		}
 		 
-		String funcid=oConvertUtils.getString(request.getParameter("clickFunctionId"));
+		String funcid=ConvertUtils.getString(request.getParameter("clickFunctionId"));
 		if(!bMgrUrl && (requestPath.indexOf("loginController.do")!=-1||funcid.length()==0)){
 			return true;
 		} 

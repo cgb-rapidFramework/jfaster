@@ -13,11 +13,10 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.model.json.TreeGrid;
 import org.jeecgframework.core.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.core.tag.vo.easyui.TreeGridModel;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
-import org.jeecgframework.platform.util.MutiLangUtil;
+import org.jeecgframework.platform.util.MutiLangUtils;
 import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.TSDepart;
@@ -26,6 +25,7 @@ import org.jeecgframework.web.system.entity.base.TSUserOrg;
 import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
+import org.jeecgframework.web.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -55,7 +55,9 @@ public class DepartController extends BaseController {
 	 * Logger for this class
 	 */
 	private static final Logger logger = Logger.getLogger(DepartController.class);
+	@Autowired
 	private UserService userService;
+	@Autowired
 	private SystemService systemService;
 	private String message;
 	@Autowired
@@ -129,7 +131,7 @@ public class DepartController extends BaseController {
 	public AjaxJson del(TSDepart depart, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		depart = systemService.findEntity(TSDepart.class, depart.getId());
-        message = MutiLangUtil.paramDelSuccess("common.department");
+        message = MutiLangUtils.paramDelSuccess("common.department");
         if (depart.getTSDeparts().size() == 0) {
             Long userCount = systemService.queryCount("select count(1) from t_s_user_org where org_id='" + depart.getId() + "'");
             if(userCount == 0) { // 组织机构下没有用户时，该组织机构才允许删除。
@@ -139,7 +141,7 @@ public class DepartController extends BaseController {
                 systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
             }
         } else {
-            message = MutiLangUtil.paramDelFail("common.department");
+            message = MutiLangUtils.paramDelFail("common.department");
         }
 
         j.setMsg(message);
@@ -171,12 +173,12 @@ public class DepartController extends BaseController {
 			depart.setTSPDepart(null);
 		}
 		AjaxJson j = new AjaxJson();
-		if (StringUtil.isNotEmpty(depart.getId())) {
-            message = MutiLangUtil.paramUpdSuccess("common.department");
+		if (StringUtils.isNotEmpty(depart.getId())) {
+            message = MutiLangUtils.paramUpdSuccess("common.department");
 			userService.saveOrUpdate(depart);
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 		} else {
-            message = MutiLangUtil.paramAddSuccess("common.department");
+            message = MutiLangUtils.paramAddSuccess("common.department");
 			userService.save(depart);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}
@@ -189,7 +191,7 @@ public class DepartController extends BaseController {
 		List<TSDepart> departList = systemService.getList(TSDepart.class);
 		req.setAttribute("departList", departList);
 //        这个if代码段没有用吧，注释之
-//		if (StringUtil.isNotEmpty(depart.getId())) {
+//		if (StringUtils.isNotEmpty(depart.getId())) {
 //			TSDepart tspDepart = new TSDepart();
 //			TSDepart tsDepart = new TSDepart();
 //			depart = systemService.getEntity(TSDepart.class, depart.getId());
@@ -210,7 +212,7 @@ public class DepartController extends BaseController {
 	public ModelAndView update(TSDepart depart, HttpServletRequest req) {
 		List<TSDepart> departList = systemService.getList(TSDepart.class);
 		req.setAttribute("departList", departList);
-		if (StringUtil.isNotEmpty(depart.getId())) {
+		if (StringUtils.isNotEmpty(depart.getId())) {
 			depart = systemService.findEntity(TSDepart.class, depart.getId());
 			req.setAttribute("depart", depart);
 		}
@@ -270,8 +272,9 @@ public class DepartController extends BaseController {
 			cq.isNull("TSPDepart");
 		}
 		cq.add();
-		List<TreeGrid> departList =null;
-		departList=systemService.findListByCq(cq, false);
+
+
+		List<TreeGrid> departList =systemService.findListByCq(cq, false);
 		if(departList.size()==0&&tSDepart.getDepartname()!=null){ 
 			cq = new CriteriaQuery(TSDepart.class);
 			TSDepart parDepart = new TSDepart();
@@ -330,8 +333,8 @@ public class DepartController extends BaseController {
 		CriteriaQuery cq = new CriteriaQuery(TSUser.class, dataGrid);
 		//查询条件组装器
 		HqlGenerateUtil.installHql(cq, user);
-		String departid = oConvertUtils.getString(request.getParameter("departid"));
-		if (!StringUtil.isEmpty(departid)) {
+		String departid = ConvertUtils.getString(request.getParameter("departid"));
+		if (!StringUtils.isEmpty(departid)) {
 			DetachedCriteria dc = cq.getDetachedCriteria();
 			DetachedCriteria dcDepart = dc.createCriteria("userOrgList");
 			dcDepart.add(Restrictions.eq("tsDepart.id", departid));
@@ -408,7 +411,7 @@ public class DepartController extends BaseController {
         AjaxJson j = new AjaxJson();
         TSDepart depart = systemService.findEntity(TSDepart.class, req.getParameter("orgId"));
         saveOrgUserList(req, depart);
-        message =  MutiLangUtil.paramAddSuccess("common.user");
+        message =  MutiLangUtils.paramAddSuccess("common.user");
 //      systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
         j.setMsg(message);
 
@@ -420,7 +423,7 @@ public class DepartController extends BaseController {
      * @param depart depart
      */
     private void saveOrgUserList(HttpServletRequest request, TSDepart depart) {
-        String orgIds = oConvertUtils.getString(request.getParameter("userIds"));
+        String orgIds = ConvertUtils.getString(request.getParameter("userIds"));
 
         List<TSUserOrg> userOrgList = new ArrayList<TSUserOrg>();
         List<String> userIdList = extractIdListByComma(orgIds);

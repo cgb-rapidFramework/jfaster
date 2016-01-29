@@ -8,13 +8,12 @@ import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.*;
 import org.jeecgframework.core.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.core.tag.vo.easyui.TreeGridModel;
-import org.jeecgframework.core.util.ExceptionUtil;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.ConvertUtils;
+import org.jeecgframework.core.util.ExceptionUtils;
 import org.jeecgframework.platform.bean.FunctionBean;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
-import org.jeecgframework.platform.util.MutiLangUtil;
+import org.jeecgframework.platform.util.MutiLangUtils;
 import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.*;
@@ -23,8 +22,9 @@ import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.jeecgframework.web.utils.BeanToTagUtils;
-import org.jeecgframework.web.utils.NumberComparator;
 import org.jeecgframework.web.utils.FunctionComparator;
+import org.jeecgframework.web.utils.NumberComparator;
+import org.jeecgframework.web.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -143,9 +143,9 @@ public class RoleController extends BaseController {
 	public ValidForm checkRole(TSRole role, HttpServletRequest request,
 			HttpServletResponse response) {
 		ValidForm v = new ValidForm();
-		String roleCode = oConvertUtils
+		String roleCode = ConvertUtils
 				.getString(request.getParameter("param"));
-		String code = oConvertUtils.getString(request.getParameter("code"));
+		String code = ConvertUtils.getString(request.getParameter("code"));
 		List<TSRole> roles = systemService.findAllByProperty(TSRole.class,
 				"roleCode", roleCode);
 		if (roles.size() > 0 && !code.equals(roleCode)) {
@@ -185,7 +185,7 @@ public class RoleController extends BaseController {
 	@ResponseBody
 	public AjaxJson saveRole(TSRole role, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		if (StringUtil.isNotEmpty(role.getId())) {
+		if (StringUtils.isNotEmpty(role.getId())) {
 			message = "角色: " + role.getRoleName() + "被更新成功";
 			userService.saveOrUpdate(role);
 			systemService.addLog(message, Globals.Log_Type_UPDATE,
@@ -362,7 +362,7 @@ public class RoleController extends BaseController {
 			}
 			j.setMsg("角色更新成功");
 		} catch (Exception e) {
-			logger.error(ExceptionUtil.getExceptionMessage(e));
+			logger.error(ExceptionUtils.getExceptionMessage(e));
 			j.setMsg("角色更新失败");
 		}
 		return j;
@@ -415,7 +415,7 @@ public class RoleController extends BaseController {
 		comboTrees = resourceService.ComboTree(functionBeanList, comboTreeModel,
 				BeanToTagUtils.convertFunctions(loginActionlist), false);
 
-		MutiLangUtil.setMutiTree(comboTrees);
+		MutiLangUtils.setMutiTree(comboTrees);
 		return comboTrees;
 	}
 
@@ -448,7 +448,7 @@ public class RoleController extends BaseController {
 			updateCompare(set, role, map);
 			j.setMsg("权限更新成功");
 		} catch (Exception e) {
-			logger.error(ExceptionUtil.getExceptionMessage(e));
+			logger.error(ExceptionUtils.getExceptionMessage(e));
 			j.setMsg("权限更新失败");
 		}
 		return j;
@@ -595,8 +595,8 @@ public class RoleController extends BaseController {
 	 */
 	public void savep(String roleId, String functionid, String ids) {
 		// String hql = "from TSRoleFunction t where" + " t.TSRole.id=" +
-		// oConvertUtils.getInt(roleId,0)
-		// + " " + "and t.TSFunction.id=" + oConvertUtils.getInt(functionid,0);
+		// ConvertUtils.getInt(roleId,0)
+		// + " " + "and t.TSFunction.id=" + ConvertUtils.getInt(functionid,0);
 		CriteriaQuery cq = new CriteriaQuery(TSRoleFunction.class);
 		cq.eq("TSRole.id", roleId);
 		cq.eq("TSFunction.id", functionid);
@@ -794,7 +794,7 @@ public class RoleController extends BaseController {
         AjaxJson j = new AjaxJson();
         TSRole role = systemService.findEntity(TSRole.class, req.getParameter("roleId"));
         saveRoleUserList(req, role);
-        message =  MutiLangUtil.paramAddSuccess("common.user");
+        message =  MutiLangUtils.paramAddSuccess("common.user");
 //      systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
         j.setMsg(message);
 
@@ -805,7 +805,7 @@ public class RoleController extends BaseController {
      * @param request request
      */
     private void saveRoleUserList(HttpServletRequest request, TSRole role) {
-        String userIds = oConvertUtils.getString(request.getParameter("userIds"));
+        String userIds = ConvertUtils.getString(request.getParameter("userIds"));
 
         List<TSRoleUser> roleUserList = new ArrayList<TSRoleUser>();
         List<String> userIdList = extractIdListByComma(userIds);

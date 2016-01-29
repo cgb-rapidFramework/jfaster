@@ -6,19 +6,22 @@ import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.extend.datasource.DataSourceContextHolder;
 import org.jeecgframework.core.extend.datasource.DataSourceType;
 import org.jeecgframework.core.util.ContextHolderUtils;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.bean.FunctionBean;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.platform.constant.SysThemesEnum;
-import org.jeecgframework.platform.util.ListtoMenu;
-import org.jeecgframework.platform.util.SysThemesUtil;
+import org.jeecgframework.platform.util.SysThemesUtils;
+import org.jeecgframework.platform.util.SystemMenuUtils;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.*;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.service.MutiLangService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
-import org.jeecgframework.web.utils.*;
+import org.jeecgframework.web.utils.BeanToTagUtils;
+import org.jeecgframework.web.utils.NumberComparator;
+import org.jeecgframework.web.utils.SessionShareCenter;
+import org.jeecgframework.web.utils.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -130,7 +133,7 @@ public class LoginController extends BaseController {
                         j.setAttributes(attrMap);
 
                         String orgId = req.getParameter("orgId");
-                        if (oConvertUtils.isEmpty(orgId)) { // 没有传组织机构参数，则获取当前用户的组织机构
+                        if (ConvertUtils.isEmpty(orgId)) { // 没有传组织机构参数，则获取当前用户的组织机构
                             Long orgNum = systemService.queryCount("select count(1) from t_s_user_org where user_id = '" + u.getId() + "'");
                             if (orgNum > 1) {
                                 attrMap.put("orgNum", orgNum);
@@ -248,7 +251,7 @@ public class LoginController extends BaseController {
 				return "main/"+indexStyle.toLowerCase()+"_main";
 			}
 			*/
-			SysThemesEnum sysTheme = SysThemesUtil.getSysTheme(request);
+			SysThemesEnum sysTheme = SysThemesUtils.getSysTheme(request);
 			if("ace".equals(sysTheme.getStyle())){
 				request.setAttribute("menuMap", getFunctionMap(user));
 			}
@@ -555,7 +558,7 @@ public class LoginController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		//将菜单加载到Session，用户只在登录的时候加载一次
 		Object getPrimaryMenuForWebos =  ContextHolderUtils.getSession().getAttribute("getPrimaryMenuForWebos");
-		if(oConvertUtils.isNotEmpty(getPrimaryMenuForWebos)){
+		if(ConvertUtils.isNotEmpty(getPrimaryMenuForWebos)){
 			j.setMsg(getPrimaryMenuForWebos.toString());
 		}else{
 			TSUser user = SessionUtils.getCurrentUser();
@@ -566,7 +569,7 @@ public class LoginController extends BaseController {
 				throw new Exception("用户不存在");
 			}
 			
-			String PMenu = ListtoMenu.getWebosMenu(getFunctionMap(SessionUtils.getCurrentUser()));
+			String PMenu = SystemMenuUtils.getWebosMenu(getFunctionMap(SessionUtils.getCurrentUser()));
 			ContextHolderUtils.getSession().setAttribute("getPrimaryMenuForWebos", PMenu);
 			j.setMsg(PMenu);
 		}

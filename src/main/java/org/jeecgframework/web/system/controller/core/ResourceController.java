@@ -5,18 +5,18 @@ import org.jeecgframework.core.common.model.common.UploadFile;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.model.json.ImportFile;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.ConvertUtils;
+import org.jeecgframework.platform.bean.ReflectHelper;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.util.FileUtils;
-import org.jeecgframework.platform.util.ReflectHelper;
 import org.jeecgframework.web.system.entity.base.TSType;
 import org.jeecgframework.web.system.entity.base.TSTypegroup;
 import org.jeecgframework.web.system.entity.base.TSUploadFile;
 import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
-import org.jeecgframework.web.utils.DateUtils;
 import org.jeecgframework.web.utils.ClassLoaderUtils;
+import org.jeecgframework.web.utils.DateUtils;
+import org.jeecgframework.web.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
@@ -121,9 +121,9 @@ public class ResourceController {
         AjaxJson j = new AjaxJson();
         TSTypegroup tsTypegroup=systemService.getTypeGroup("fieltype","文档分类");
         TSType tsType = systemService.getType("files","附件", tsTypegroup);
-        String fileKey = oConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
-        String documentTitle = oConvertUtils.getString(request.getParameter("documentTitle"));// 文件标题
-        Boolean  multi=oConvertUtils.getBoolean(request.getParameter("multi"));
+        String fileKey = ConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
+        String documentTitle = ConvertUtils.getString(request.getParameter("documentTitle"));// 文件标题
+        Boolean  multi=ConvertUtils.getBoolean(request.getParameter("multi"));
         String  sessionKey=request.getParameter("sessionKey");
 
 
@@ -138,7 +138,7 @@ public class ResourceController {
             }
         }
 
-        if (StringUtil.isNotEmpty(fileKey)) {
+        if (StringUtils.isNotEmpty(fileKey)) {
             attachment.setId(fileKey);
             attachment = systemService.findEntity(TSUploadFile.class, fileKey);
             attachment.setName(documentTitle);
@@ -184,8 +184,8 @@ public class ResourceController {
     public AjaxJson deleteFile(HttpServletRequest request) {
         String message = "文件已经不存在了";
         AjaxJson j = new AjaxJson();
-        String fileKey = oConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
-        if(StringUtil.isNotEmpty(fileKey)){
+        String fileKey = ConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
+        if(StringUtils.isNotEmpty(fileKey)){
             TSUploadFile attachment = systemService.findEntity(TSUploadFile.class,fileKey);
             /*
               String subclassname = attachment.getSubclassname(); // 子类类名
@@ -207,26 +207,26 @@ public class ResourceController {
      */
     @RequestMapping(params = "viewFile")
     public ModelAndView viewFile(HttpServletRequest request) {
-        String fileKey = oConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
-        String subclassname = oConvertUtils.getString(request.getParameter("subclassname"), "org.jeecgframework.web.system.entity.base.TSUploadFile");
-        String contentfield = oConvertUtils.getString(request.getParameter("contentfield"));
+        String fileKey = ConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
+        String subclassname = ConvertUtils.getString(request.getParameter("subclassname"), "org.jeecgframework.web.system.entity.base.TSUploadFile");
+        String contentfield = ConvertUtils.getString(request.getParameter("contentfield"));
         Class fileClass = ClassLoaderUtils.getClassByScn(subclassname);// 附件的实际类
         Object fileobj = systemService.findEntity(fileClass, fileKey);
         ReflectHelper reflectHelper = new ReflectHelper(fileobj);
-        String extend = oConvertUtils.getString(reflectHelper.getMethodValue("extend"));
+        String extend = ConvertUtils.getString(reflectHelper.getMethodValue("extend"));
         if ("dwg".equals(extend)) {
-            String realpath = oConvertUtils.getString(reflectHelper.getMethodValue("path"));
+            String realpath = ConvertUtils.getString(reflectHelper.getMethodValue("path"));
             request.setAttribute("realpath", realpath);
             return new ModelAndView("common/upload/dwgView");
         } else if (FileUtils.isPicture(extend)) {
-            String realpath = oConvertUtils.getString(reflectHelper.getMethodValue("path"));
+            String realpath = ConvertUtils.getString(reflectHelper.getMethodValue("path"));
             request.setAttribute("realpath", realpath);
             request.setAttribute("fileid", fileKey);
             request.setAttribute("subclassname", subclassname);
             request.setAttribute("contentfield", contentfield);
             return new ModelAndView("common/upload/imageView");
         } else {
-            String swfpath = oConvertUtils.getString(reflectHelper.getMethodValue("swfpath"));
+            String swfpath = ConvertUtils.getString(reflectHelper.getMethodValue("swfpath"));
             request.setAttribute("swfpath", swfpath);
             return new ModelAndView("common/upload/swfView");
         }
@@ -240,17 +240,17 @@ public class ResourceController {
      */
     @RequestMapping(params = "downloadFile")
     public void downloadFile(HttpServletRequest request, HttpServletResponse response) {
-        String fileid =oConvertUtils.getString(request.getParameter("fileKey"));
-        String subclassname = oConvertUtils.getString(request.getParameter("subclassname"), "org.jeecgframework.web.system.entity.base.TSUploadFile");
+        String fileid =ConvertUtils.getString(request.getParameter("fileKey"));
+        String subclassname = ConvertUtils.getString(request.getParameter("subclassname"), "org.jeecgframework.web.system.entity.base.TSUploadFile");
         Class fileClass = ClassLoaderUtils.getClassByScn(subclassname);// 附件的实际类
         Object fileobj = systemService.findEntity(fileClass, fileid);
         ReflectHelper reflectHelper = new ReflectHelper(fileobj);
         UploadFile uploadFile = new UploadFile(request, response);
-        String contentfield = oConvertUtils.getString(request.getParameter("contentfield"), uploadFile.getByteField());
+        String contentfield = ConvertUtils.getString(request.getParameter("contentfield"), uploadFile.getByteField());
         byte[] content = (byte[]) reflectHelper.getMethodValue(contentfield);
-        String path = oConvertUtils.getString(reflectHelper.getMethodValue("path"));
-        String extend = oConvertUtils.getString(reflectHelper.getMethodValue("extend"));
-        String attachmenttitle = oConvertUtils.getString(reflectHelper.getMethodValue("title"));
+        String path = ConvertUtils.getString(reflectHelper.getMethodValue("path"));
+        String extend = ConvertUtils.getString(reflectHelper.getMethodValue("extend"));
+        String attachmenttitle = ConvertUtils.getString(reflectHelper.getMethodValue("title"));
         uploadFile.setExtend(extend);
         uploadFile.setTitleField(attachmenttitle);
         uploadFile.setRealPath(path);
@@ -266,21 +266,21 @@ public class ResourceController {
      */
     @RequestMapping(params = "objfileGrid")
     public void objfileGrid(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-        String businessKey = oConvertUtils.getString(request.getParameter("businessKey"));
-        String subclassname = oConvertUtils.getString(request.getParameter("subclassname"));// 子类类名
-        String type = oConvertUtils.getString(request.getParameter("typename"));
-        String code = oConvertUtils.getString(request.getParameter("typecode"));
-        String filekey = oConvertUtils.getString(request.getParameter("filekey"));
+        String businessKey = ConvertUtils.getString(request.getParameter("businessKey"));
+        String subclassname = ConvertUtils.getString(request.getParameter("subclassname"));// 子类类名
+        String type = ConvertUtils.getString(request.getParameter("typename"));
+        String code = ConvertUtils.getString(request.getParameter("typecode"));
+        String filekey = ConvertUtils.getString(request.getParameter("filekey"));
         CriteriaQuery cq = new CriteriaQuery(ClassLoaderUtils.getClassByScn(subclassname), dataGrid);
         cq.eq("businessKey", businessKey);
-        if (StringUtil.isNotEmpty(type)) {
+        if (StringUtils.isNotEmpty(type)) {
             cq.createAlias("TBInfotype", "TBInfotype");
             cq.eq("TBInfotype.typename", type);
         }
-        if (StringUtil.isNotEmpty(filekey)) {
+        if (StringUtils.isNotEmpty(filekey)) {
             cq.eq("id", filekey);
         }
-        if (StringUtil.isNotEmpty(code)) {
+        if (StringUtils.isNotEmpty(code)) {
             cq.createAlias("TBInfotype", "TBInfotype");
             cq.eq("TBInfotype.typecode", code);
         }

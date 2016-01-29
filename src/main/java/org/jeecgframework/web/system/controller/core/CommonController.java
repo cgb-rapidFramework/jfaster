@@ -2,8 +2,8 @@ package org.jeecgframework.web.system.controller.core;
 
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.tag.vo.easyui.Autocomplete;
-import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
+import org.jeecgframework.platform.util.StringUtils;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.utils.SystemJsonUtils;
@@ -47,14 +47,14 @@ public class CommonController extends BaseController {
 	@RequestMapping(params = "getAutoList")
 	public void getAutoList(HttpServletRequest request, HttpServletResponse response, Autocomplete autocomplete) {
 		String jsonp = request.getParameter("jsonpcallback");
-		String trem = StringUtil.getEncodePra(request.getParameter("trem"));// 重新解析参数
+		String trem = StringUtils.getEncodePra(request.getParameter("trem"));// 重新解析参数
 		autocomplete.setTrem(trem);
 		List autoList = systemService.findAutoList(autocomplete);
 		String labelFields = autocomplete.getLabelField();
 		String[] fieldArr = labelFields.split(",");
 		String valueField = autocomplete.getValueField();
 		String[] allFieldArr = null;
-		if (StringUtil.isNotEmpty(valueField)) {
+		if (StringUtils.isNotEmpty(valueField)) {
 			allFieldArr = new String[fieldArr.length+1];
 			for (int i=0; i<fieldArr.length; i++) {
 				allFieldArr[i] = fieldArr[i];

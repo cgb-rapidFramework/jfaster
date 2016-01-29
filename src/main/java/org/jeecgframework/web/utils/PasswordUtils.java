@@ -1,13 +1,14 @@
 package org.jeecgframework.web.utils;
 
-import java.security.Key;
-import java.security.SecureRandom;
+import org.jeecgframework.core.util.LogUtils;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
+import java.security.Key;
+import java.security.SecureRandom;
 public class PasswordUtils {
 
 	/**
@@ -191,15 +192,15 @@ public class PasswordUtils {
 		String str = "admin";
 		String password = "123456";
 
-		org.jeecgframework.platform.util.LogUtil.info("明文:" + str);
-		org.jeecgframework.platform.util.LogUtil.info("密码:" + password);
+		LogUtils.info("明文:" + str);
+		LogUtils.info("密码:" + password);
 
 		try {
 			byte[] salt = PasswordUtils.getStaticSalt();
 			String ciphertext = PasswordUtils.encrypt(str, password, salt);
-			org.jeecgframework.platform.util.LogUtil.info("密文:" + ciphertext);
+			LogUtils.info("密文:" + ciphertext);
 			String plaintext = PasswordUtils.decrypt(ciphertext, password, salt);
-			org.jeecgframework.platform.util.LogUtil.info("明文:" + plaintext);
+			LogUtils.info("明文:" + plaintext);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

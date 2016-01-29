@@ -1,6 +1,6 @@
 package org.jeecgframework.web.utils;
 
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.web.system.entity.base.TSFunction;
 
 import java.util.Comparator;
@@ -21,8 +21,8 @@ public class FunctionComparator implements Comparator {
 		TSFunction c1 = (TSFunction) o1;
 		TSFunction c2 = (TSFunction) o2;
 		if (c1.getFunctionOrder() != null && c2.getFunctionOrder() != null) {
-			int c1order = oConvertUtils.getInt(c1.getFunctionOrder().substring(c1.getFunctionOrder().indexOf("fun") + 3));
-			int c2order = oConvertUtils.getInt(c2.getFunctionOrder().substring(c2.getFunctionOrder().indexOf("fun"))+3);
+			int c1order = ConvertUtils.getInt(c1.getFunctionOrder().substring(c1.getFunctionOrder().indexOf("fun") + 3));
+			int c2order = ConvertUtils.getInt(c2.getFunctionOrder().substring(c2.getFunctionOrder().indexOf("fun")) + 3);
 			if (c1order > c2order) {
 				return 1;
 			} else {

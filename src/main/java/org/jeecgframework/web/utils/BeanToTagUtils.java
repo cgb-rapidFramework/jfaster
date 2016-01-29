@@ -1,11 +1,5 @@
 package org.jeecgframework.web.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import jodd.bean.BeanUtil;
-
-import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.platform.bean.FunctionBean;
 import org.jeecgframework.platform.bean.IconBean;
 import org.jeecgframework.platform.bean.TypeBean;
@@ -17,7 +11,8 @@ import org.jeecgframework.web.system.entity.base.TSTypegroup;
 import org.jeecgframework.web.system.vo.platform.FunctionVo;
 import org.springframework.beans.BeanUtils;
 
-import com.sun.star.uno.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BeanToTagUtils {
 	/**
@@ -26,7 +21,7 @@ public class BeanToTagUtils {
 	 */
 	public static FunctionBean  convertFunction(TSFunction function) {
 		FunctionBean functionBean=null;
-		if(StringUtil.isNotEmpty(function)){
+		if(StringUtils.isNotEmpty(function)){
 			functionBean=new FunctionBean();
 			FunctionVo functionVo=new FunctionVo();
 			BeanUtils.copyProperties(function, functionVo);
@@ -46,14 +41,14 @@ public class BeanToTagUtils {
 			functionBean.setTSFunctions(BeanToTagUtils.convertFunctions(functionLists));
 			
 			//functionBean.setTSFunction(TSFunction);
-			if(StringUtil.isNotEmpty(function.getTSIcon())){
+			if(StringUtils.isNotEmpty(function.getTSIcon())){
 				IconBean iconBean=new IconBean();
 				BeanUtils.copyProperties(function.getTSIcon(), iconBean);
 				functionBean.setTSIcon(iconBean);
 			}
 
 			TSIcon conDeskBean=function.getTSIconDesk();
-			if(StringUtil.isNotEmpty(conDeskBean)){
+			if(StringUtils.isNotEmpty(conDeskBean)){
 				IconBean TSIconDeskBean=new IconBean();
 				BeanUtils.copyProperties(conDeskBean, TSIconDeskBean);
 				functionBean.setTSIconDesk(TSIconDeskBean);

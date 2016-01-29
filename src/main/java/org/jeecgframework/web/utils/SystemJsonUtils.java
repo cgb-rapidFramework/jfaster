@@ -3,7 +3,7 @@ package org.jeecgframework.web.utils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.common.model.json.ComboBox;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.web.system.entity.base.TSFunction;
 import org.jeecgframework.web.system.entity.base.TSRole;
@@ -158,7 +158,7 @@ public class SystemJsonUtils {
 
 			// 查找所有父节点为pid的所有对象，然后拼接为json格式的数据
 			if (node.getTSFunction() != null) {
-				if (pid.equals(oConvertUtils.getString(node.getTSFunction().getId()))) {
+				if (pid.equals(ConvertUtils.getString(node.getTSFunction().getId()))) {
 					count++;
 					buffer.append("{\'id\':" + node.getId() + ",\'text\':\'"
 							+ node.getFunctionName() + "\',\'children\':[");

@@ -9,10 +9,9 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.model.json.TreeGrid;
 import org.jeecgframework.core.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.core.tag.vo.easyui.TreeGridModel;
-import org.jeecgframework.core.util.MyBeanUtils;
-import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.core.util.BeanPropertyUtils;
 import org.jeecgframework.platform.constant.Globals;
-import org.jeecgframework.platform.util.MutiLangUtil;
+import org.jeecgframework.platform.util.MutiLangUtils;
 import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.TSCategoryEntity;
@@ -73,7 +72,6 @@ public class CategoryController extends BaseController {
 	 * easyui AJAX请求数据
 	 * 
 	 * @param request
-	 * @param response
 	 * @param dataGrid
 	 */
 
@@ -135,12 +133,12 @@ public class CategoryController extends BaseController {
 	@ResponseBody
 	public AjaxJson save(TSCategoryEntity category, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		if (StringUtil.isNotEmpty(category.getId())) {
+		if (StringUtils.isNotEmpty(category.getId())) {
 			j.setMsg("分类管理更新成功");
 			TSCategoryEntity t = categoryService.find(TSCategoryEntity.class,
 					category.getId());
 			try {
-				MyBeanUtils.copyBeanNotNull2Bean(category, t);
+				BeanPropertyUtils.copyBeanNotNull2Bean(category, t);
 				categoryService.saveOrUpdate(t);
 				systemService.addLog(j.getMsg(), Globals.Log_Type_UPDATE,
 						Globals.Log_Leavel_INFO);
@@ -164,7 +162,7 @@ public class CategoryController extends BaseController {
 	 */
 	@RequestMapping(params = "addorupdate")
 	public String addorupdate(ModelMap map, TSCategoryEntity category) {
-		if (StringUtil.isNotEmpty(category.getId())) {
+		if (StringUtils.isNotEmpty(category.getId())) {
 			category = categoryService.findUniqueByProperty(TSCategoryEntity.class,
 					"code",category.getId());
 			map.put("categoryPage", category);
@@ -172,7 +170,7 @@ public class CategoryController extends BaseController {
 		map.put("iconlist", systemService.findAllByProperty(TSIcon.class,
 				"iconType", (short) 1));
 		if (category.getParent() != null
-				&& StringUtil.isNotEmpty(category.getParent().getId())) {
+				&& StringUtils.isNotEmpty(category.getParent().getId())) {
 			TSCategoryEntity parent = categoryService.findEntity(
 					TSCategoryEntity.class, category.getParent().getId());
 			category.setParent(parent);
@@ -200,7 +198,7 @@ public class CategoryController extends BaseController {
 		ComboTreeModel comboTreeModel = new ComboTreeModel("code", "name", "list");
 		comboTrees = resourceService.ComboTree(categoryList, comboTreeModel,
 				null, false);
-		MutiLangUtil.setMutiTree(comboTrees);
+		MutiLangUtils.setMutiTree(comboTrees);
 		return comboTrees;
 	}
 

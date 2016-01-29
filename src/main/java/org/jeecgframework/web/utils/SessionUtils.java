@@ -1,22 +1,21 @@
 package org.jeecgframework.web.utils;
 
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import com.aliyun.oss.common.utils.LogUtils;
 import org.jeecgframework.core.util.ContextHolderUtils;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.constant.DataBaseConstant;
 import org.jeecgframework.web.system.entity.base.Client;
 import org.jeecgframework.web.system.entity.base.TSRole;
 import org.jeecgframework.web.system.entity.base.TSRoleFunction;
 import org.jeecgframework.web.system.entity.base.TSUser;
 import org.jeecgframework.web.system.manager.ClientManager;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.Set;
 
 
 /**
@@ -31,9 +30,9 @@ public class SessionUtils {
 	  */
 	private static void initSession(HttpSession session) {
 		Client client =SessionShareCenter.getClient();
-		if(StringUtil.isNotEmpty(client)){
+		if(StringUtils.isNotEmpty(client)){
 			String userId= SessionShareCenter.getUserId();
-			if(StringUtil.isNotEmpty(userId) && StringUtil.isNotEmpty(client.getUser())){
+			if(StringUtils.isNotEmpty(userId) && StringUtils.isNotEmpty(client.getUser())){
 				client.getUser().setId(userId);;
 			}
 			if(ClientManager.getInstance().getClient(session.getId())==null){
@@ -155,13 +154,13 @@ public class SessionUtils {
 	/**
 	 * 获取配置文件参数
 	 * 
-	 * @param name
+	 * @param path
 	 * @return
 	 */
 	public static final Map<Object, Object> getConfigMap(String path) {
 		ResourceBundle bundle = ResourceBundle.getBundle(path);
 		Set set = bundle.keySet();
-		return oConvertUtils.SetToMap(set);
+		return ConvertUtils.SetToMap(set);
 	}
 
 	
@@ -294,11 +293,5 @@ public class SessionUtils {
 			return DateUtils.formatTime();
 		}
 		return null;
-	}
-	
-	public static void main(String[] args) {
-		org.jeecgframework.core.util.LogUtil.info(getPorjectPath());
-		org.jeecgframework.core.util.LogUtil.info(getSysPath());
-
 	}
 }

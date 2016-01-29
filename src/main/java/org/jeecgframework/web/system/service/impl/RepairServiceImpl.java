@@ -1,6 +1,7 @@
 package org.jeecgframework.web.system.service.impl;
 
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
+import org.jeecgframework.core.util.LogUtils;
 import org.jeecgframework.web.system.entity.base.*;
 import org.jeecgframework.web.system.service.RepairService;
 import org.jeecgframework.web.utils.DateUtils;
@@ -532,7 +533,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 	 * @author tanghan 2013-7-19
 	 */
 	private void repaireIcon() {
-		org.jeecgframework.core.util.LogUtil.info("修复图标中");
+		LogUtils.info("修复图标中");
 
 		TSIcon defaultIcon = new TSIcon();
 		defaultIcon.setIconName("默认图");
