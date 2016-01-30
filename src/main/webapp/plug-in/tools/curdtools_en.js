@@ -8,7 +8,11 @@
 var iframe;// iframe操作对象
 var win;//窗口对象
 var gridname="";//操作datagrid对象名称
-var windowapi = frameElement.api, W = windowapi.opener;//内容页中调用窗口实例对象接口
+var W;
+var windowapi=frameElement.api;
+if(typeof(windowapi) != 'undefined'){
+	W = windowapi.opener;//内容页中调用窗口实例对象接口
+}
 function upload(curform) {
 	upload();
 }
@@ -214,6 +218,7 @@ function deluploadify(url, id) {
 			var d = $.parseJSON(data);
 			if (d.success) {
 				$("#" + id).remove();// 移除SPAN
+				$("#fileShow").empty();// 移除显示的图片
 				m.remove(id);// 移除MAP对象内字符串
 			}
 
@@ -286,7 +291,6 @@ function createwindow(title, addurl,width,height) {
 		width = window.top.document.body.offsetWidth;
 		height =window.top.document.body.offsetHeight-100;
 	}
-    //--author：JueYue---------date：20140427---------for：弹出bug修改,设置了zindex()函数
 	if(typeof(windowapi) == 'undefined'){
 		$.dialog({
 			content: 'url:'+addurl,
@@ -475,21 +479,23 @@ function openwindow(title, url,name, width, height) {
 	{
 		if(typeof(windowapi) == 'undefined'){
 			$.dialog({
-				width: width,
-			    height:height,
+				minWidth: width,
+				height:400,
 				content: 'url:'+url,
 				title : title,
 				cache:false,
+				zIndex : 9999,
 				lock : true
 			}).zindex();
 		}else{
 			$.dialog({
-				width: width,
-			    height:height,
+				minWidth: width,
+				height:400,
 				content: 'url:'+url,
 				parent:windowapi,
 				title : title,
 				cache:false,
+				zIndex : 9999,
 				lock : true
 			}).zindex();
 		}
@@ -558,7 +564,6 @@ function search() {
  */
 function doSubmit(url,name,data) {
 	gridname=name;
-	//--author：JueYue ---------date：20140227---------for：把URL转换成POST参数防止URL参数超出范围的问题
 	var paramsData = data;
 	if(!paramsData){
 		paramsData = new Object();
@@ -571,7 +576,6 @@ function doSubmit(url,name,data) {
 			}
 		}      
 	}
-	//--author：JueYue ---------date：20140227---------for：把URL转换成POST参数防止URL参数超出范围的问题
 	$.ajax({
 		async : false,
 		cache : false,
@@ -791,7 +795,7 @@ function closetab(title) {
 //popup  
 //object: this  name:需要选择的列表的字段  code:动态报表的code
 function inputClick(obj,name,code) {
-	 $.dialog.setting.zIndex = 2000;
+	 $.dialog.setting.zIndex = 2002;
 	 if(name==""||code==""){
 		 alert("Popup parameter not prepare");
 		 return;

@@ -9,7 +9,7 @@ var iframe;// iframe操作对象
 var win;//窗口对象
 var gridname="";//操作datagrid对象名称
 var W;
-var windowapi = frameElement.api;
+var windowapi=frameElement.api;
 if(typeof(windowapi) != 'undefined'){
    W = windowapi.opener;//内容页中调用窗口实例对象接口
 }
@@ -66,7 +66,6 @@ function update(title,url, id,width,height) {
 $(function(){
 	if(location.href.indexOf("load=detail")!=-1){
 		$(":input").attr("disabled","true");
-		//$(":input").attr("style","border:0;border-bottom:1 solid black;background:white;");
 	}
 });
 
@@ -78,10 +77,6 @@ $(function(){
  */
 function detail(title,url, id,width,height) {
 	var rowsData = $('#'+id).datagrid('getSelections');
-//	if (rowData.id == '') {
-//		tip('请选择查看项目');
-//		return;
-//	}
 	
 	if (!rowsData || rowsData.length == 0) {
 		tip('请选择查看项目');
@@ -186,13 +181,13 @@ function createdetailwindow(title, addurl,width,height) {
  * @param id//主键字段
  */
 function editfs(title,url) {
-	 title=gridname;
+	var name=gridname;
 	 if (rowid == '') {
 		tip('请选择编辑项目');
 		return;
 	}
 	url += '&id='+rowid;
-	openwindow(title,url,800,500);
+	openwindow(title,url,name,800,500);
 }
 // 删除调用函数
 function delObj(url,name) {
@@ -305,6 +300,7 @@ function createwindow(title, addurl,width,height) {
 			title:title,
 			opacity : 0.3,
 			cache:false,
+			okVal: '提交',
 		    ok: function(){
 		    	iframe = this.iframe.contentWindow;
 				saveObj();
@@ -406,8 +402,8 @@ function opensearchdwin(title, url, width, height) {
  * @param addurl
  * @param saveurl
  */
-function openwindow(title, url, width, height) {
-	gridname=title;
+function openwindow(title, url,name, width, height) {
+	gridname=name;
 	if (typeof (width) == 'undefined'&&typeof (height) != 'undefined')
 	{
 		if(typeof(windowapi) == 'undefined'){
@@ -512,9 +508,9 @@ function openwindow(title, url, width, height) {
  * @param content
  * @param url
  */
-function createdialog(title, content, url) {
+function createdialog(title, content, url,name) {
 	$.dialog.confirm(content, function(){
-		doSubmit(url,title);
+		doSubmit(url,name);
 		rowid = '';
 	}, function(){
 	}).zindex();
