@@ -1,15 +1,10 @@
 package org.jeecgframework.web.system.service;
 
+import org.jeecgframework.core.common.service.CommonService;
+import org.jeecgframework.web.system.entity.base.*;
+
 import java.util.List;
 import java.util.Set;
-
-import org.jeecgframework.core.common.service.CommonService;
-import org.jeecgframework.web.system.entity.base.DictEntity;
-import org.jeecgframework.web.system.entity.base.TSFunction;
-import org.jeecgframework.web.system.entity.base.TSIcon;
-import org.jeecgframework.web.system.entity.base.TSType;
-import org.jeecgframework.web.system.entity.base.TSTypegroup;
-import org.jeecgframework.web.system.entity.base.TSUser;
 
 /**
  * 
@@ -140,5 +135,8 @@ public interface SystemService extends CommonService{
 	 * 删除图标
 	 * @param icon
 	 */
-	public  void delTSIcons(TSIcon icon); 
+	public  void delTSIcons(TSIcon icon);
+
+	public void initOperations();
+
 }

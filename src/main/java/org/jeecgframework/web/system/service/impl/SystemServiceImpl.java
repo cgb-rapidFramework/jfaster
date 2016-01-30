@@ -5,14 +5,17 @@ import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.bean.IconBean;
+import org.jeecgframework.platform.bean.OperationBean;
 import org.jeecgframework.platform.bean.TypeBean;
 import org.jeecgframework.platform.bean.TypeGroupBean;
+import org.jeecgframework.platform.container.SystemContainer;
 import org.jeecgframework.platform.container.SystemContainer.IconContainer;
 import org.jeecgframework.platform.container.SystemContainer.TypeGroupContainer;
 import org.jeecgframework.web.system.entity.base.*;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.jeecgframework.web.utils.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -327,5 +330,15 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	 */
 	public  void delTSIcons(TSIcon icon) {
 		IconContainer.allTSIcons.remove(icon.getId());
+	}
+
+	@Override
+	public void initOperations() {
+		List<TSOperation> operationList= this.commonDao.findAll(TSOperation.class);
+		for (TSOperation operation:operationList){
+			OperationBean operationBean=new OperationBean();
+			BeanUtils.copyProperties(operation,operationBean);
+			SystemContainer.OperationContainer.operations.put(operation.getOperationcode(),operationBean);
+		}
 	}
 }

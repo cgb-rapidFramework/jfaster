@@ -104,8 +104,9 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 				String noextfilename="";//不带扩展名
 				if(uploadFile.isRename())
 				{
-				   noextfilename=DateUtils.getDataString(DateUtils.yyyymmddhhmmss)+StringUtils.random(8);//自定义文件名称
-				   myfilename=noextfilename+"."+extend;//自定义文件名称
+ 			       noextfilename=DateUtils.getDataString(DateUtils.yyyymmddhhmmss)+StringUtils.random(8);//自定义文件名称
+ 			       myfilename=noextfilename+"."+extend;//自定义文件名称
+
 				}
 				else {
 				  myfilename=fileName;

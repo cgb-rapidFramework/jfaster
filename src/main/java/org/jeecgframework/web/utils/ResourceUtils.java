@@ -32,4 +32,13 @@ public class ResourceUtils extends FileUtils{
         return  serverPath;
     }
 
+    /***
+     * 获取资源请求路径
+     *
+     * @return
+     */
+    public static  String getResourcePublicURL(){
+        String  url=ConfigUtils.getConfigByName("resource.public.url");
+        return  url;
+    }
 }

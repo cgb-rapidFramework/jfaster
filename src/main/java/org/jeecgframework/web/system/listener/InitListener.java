@@ -1,14 +1,14 @@
 package org.jeecgframework.web.system.listener;
 
-import javax.servlet.ServletContextEvent;
-
 import org.jeecgframework.web.system.service.DynamicDataSourceServiceI;
-import org.jeecgframework.web.system.service.MutiLangService;
 import org.jeecgframework.web.system.service.MenuInitService;
+import org.jeecgframework.web.system.service.MutiLangService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.utils.ConfigUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import javax.servlet.ServletContextEvent;
 
 
 /**
@@ -37,7 +37,7 @@ public class InitListener  implements javax.servlet.ServletContextListener {
 		systemService.initAllTypeGroups();
 		//初始化图标
 		systemService.initAllTSIcons();
-		
+		systemService.initOperations();
 		
 		/**
 		 * 第二部分：自动加载新增菜单和菜单操作权限
