@@ -9,14 +9,15 @@
         <t:dgCol title="menu.name" field="functionName" treefield="text"></t:dgCol>
         <t:dgCol title="common.icon" field="TSIcon_iconPath" treefield="code" image="true"  funname="viewImage"></t:dgCol>
         <t:dgCol title="funcType" field="functionType" treefield="functionType" replace="funcType.page_0,funcType.from_1"></t:dgCol>
-        <t:dgCol title="menu.url" field="functionUrl" treefield="src"></t:dgCol>
+        <t:dgCol title="menu.url" field="functionUrl" treefield="src" hidden="true"></t:dgCol>
         <t:dgCol title="menu.order" field="functionOrder" treefield="order"></t:dgCol>
-        <t:dgCol title="common.operation" field="opt" width="100"></t:dgCol>
+        <t:dgCol title="common.operation" field="opt"></t:dgCol>
         <t:dgDelOpt url="functionController.do?del&id={id}" title="common.delete"></t:dgDelOpt>
         <t:dgFunOpt funname="operationDetail(id)" title="button.setting"></t:dgFunOpt>
         <t:dgFunOpt funname="operationData(id)" title="数据规则"></t:dgFunOpt>
         <t:dgToolBar title="common.add.param" langArg="common.menu" icon="icon-add" url="functionController.do?addorupdate" funname="addFun"></t:dgToolBar>
         <t:dgToolBar title="common.edit.param" langArg="common.menu" icon="icon-edit" url="functionController.do?addorupdate" funname="update"></t:dgToolBar>
+		<t:dgToolBar title="common.view" icon="icon-search" url="functionController.do?addorupdate" funname="detail"></t:dgToolBar>
     </t:datagrid>
 </div>
 </div>
@@ -31,7 +32,7 @@
 	onCollapse : function() {
 	    li_east = 0;
 	}"
-	style="width: 400px; overflow: hidden;">
+	style="width: 420px; overflow: hidden;">
 <div class="easyui-panel" style="padding: 1px;" fit="true" border="false" id="operationDetailpanel"></div>
 </div>
 </div>

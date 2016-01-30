@@ -6,7 +6,7 @@
 	<t:dgCol title="common.code" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="common.role.code" field="roleCode" width="10"></t:dgCol>
 	<t:dgCol title="common.role.name" field="roleName" width="16" query="true"></t:dgCol>
-	<t:dgCol title="common.operation" field="opt"></t:dgCol>
+	<t:dgCol title="common.operation" field="opt" width="30"></t:dgCol>
 	<t:dgFunOpt funname="delRole(id)" title="common.delete"></t:dgFunOpt>
 	<t:dgFunOpt funname="userListbyrole(id,roleName)" title="common.user"></t:dgFunOpt>
 	<t:dgFunOpt funname="setfunbyrole(id,roleName)" title="permission.set"></t:dgFunOpt>
