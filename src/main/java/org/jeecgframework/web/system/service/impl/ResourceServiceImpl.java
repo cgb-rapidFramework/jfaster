@@ -93,27 +93,19 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 			}
 
 			Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
-			String fileName = "";
-			String swfName = "";
+
 			for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
 				MultipartFile mf = entity.getValue();// 获取上传文件对象
-				fileName = mf.getOriginalFilename();// 获取文件名
-				swfName = PinyinUtils.getPinYinHeadChar(ConvertUtils.replaceBlank(FileUtils.getFilePrefix(fileName)));// 取文件名首字母作为SWF文件名
-				String extend = FileUtils.getExtend(fileName);// 获取文件扩展名
-				String myfilename="";
-				String noextfilename="";//不带扩展名
+				String originalFilename = mf.getOriginalFilename();// 获取文件名
+				String swfName = PinyinUtils.getPinYinHeadChar(ConvertUtils.replaceBlank(FileUtils.getFilePrefix(originalFilename)));// 取文件名首字母作为SWF文件名
+				String extend = FileUtils.getExtend(originalFilename);// 获取文件扩展名
+				String fileName =originalFilename;
 				if(uploadFile.isRename())
 				{
- 			       noextfilename=DateUtils.getDataString(DateUtils.yyyymmddhhmmss)+StringUtils.random(8);//自定义文件名称
- 			       myfilename=noextfilename+"."+extend;//自定义文件名称
-
+					fileName=ResourceUtils.getFileName(originalFilename);
 				}
-				else {
-				  myfilename=fileName;
-				}
-				
-				String savePath = realPath + myfilename;// 文件保存全路径
-				String fileprefixName = FileUtils.getFilePrefix(fileName);
+				String savePath = realPath + fileName;// 文件保存全路径
+				String fileprefixName = FileUtils.getFilePrefix(originalFilename);
 				if (uploadFile.getTitleField() != null) {
 					reflectHelper.setMethodValue(uploadFile.getTitleField(), fileprefixName);// 动态调用set方法给文件对象标题赋值
 				}
@@ -128,7 +120,7 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 				File savefile = new File(savePath);
 				if (uploadFile.getRealPath() != null) {
 					// 设置文件数据库的物理路径
-					reflectHelper.setMethodValue(uploadFile.getRealPath(), path + myfilename);
+					reflectHelper.setMethodValue(uploadFile.getRealPath(), path + fileName);
 				}
 				this.saveOrUpdate(object);
 				// 文件拷贝到指定硬盘目录

@@ -37,4 +37,8 @@ public class StringUtils extends StringParentUtils {
         return list == null || list.isEmpty();
     }
 
+    public static boolean isEmptyNull(String s) {
+        return s == null || s.equals("") ||  s.equals("null");
+    }
+
 }
