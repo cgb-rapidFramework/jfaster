@@ -67,7 +67,7 @@ public class TerritoryController extends BaseController {
 				cq.eq("TSTerritory.id", treegrid.getId());
 			}
 			if (treegrid.getId() == null) {
-				cq.eq("TSTerritory.id","1");//这个是全国最高级
+				cq.eq("TSTerritory.id","0");//这个是全国最高级
 			}
 		
 		cq.addOrder("territorySort", SortDirection.asc);

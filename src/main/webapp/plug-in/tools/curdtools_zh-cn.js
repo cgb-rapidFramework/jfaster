@@ -329,8 +329,6 @@ function createwindow(title, addurl,width,height) {
 		    cancel: true /*为true等价于function(){}*/
 		}).zindex();
 	}
-    //--author：JueYue---------date：20140427---------for：弹出bug修改,设置了zindex()函数
-	
 }
 /**
  * 创建上传页面窗口

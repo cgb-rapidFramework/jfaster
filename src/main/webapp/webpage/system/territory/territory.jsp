@@ -68,13 +68,13 @@
                 <c:if test="${territory.TSTerritory.territoryLevel > 0}"> value="${territory.TSTerritory.territoryName}"</c:if>>
             <input id="territoryId" name="TSTerritory.id" style="display: none;" value="${territory.TSTerritory.id}">
         </div>
-        <div class="form" id="funorder">
+        <div class="form" id="codediv">
             <label class="Validform_label"> <t:mutiLang langKey="area.code"/>: </label>
-            <input name="territoryCode" class="inputxt" value="${territory.territoryCode}" datatype="*6-16">
+            <input name="territoryCode" class="inputxt" value="${territory.territoryCode}">
         </div>
-        <div class="form" id="funorder">
+        <div class="form" id="orderdiv">
             <label class="Validform_label"> <t:mutiLang langKey="display.order"/>: </label>
-            <input name="territorySort" class="inputxt" value="${territory.territorySort}" datatype="n1-3">
+            <input name="territorySort" class="inputxt" value="${territory.territorySort}">
         </div>
 	</fieldset>
 </t:formvalid>

@@ -487,7 +487,7 @@
 				</div>
 
 				<!-- /section:basics/content.breadcrumbs -->
-				<div class="page-content" style="padding:0px" >
+				<div class="page-content" style="padding:0px;" >
 					<!-- #section:settings.box -->
 					<div class="ace-settings-container" id="ace-settings-container">
 						<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">

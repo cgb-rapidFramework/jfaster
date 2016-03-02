@@ -73,7 +73,7 @@ table.ui_border,table.ui_dialog{ width:auto;border-spacing:0;*border-collapse:co
 .ui_res_t,.ui_res_b,.ui_max_b{ border:1px solid #888;border-top-width:3px; }
 .ui_res_t{ background:#FFF; }/*还原按钮底部框背景与标题背景融合*/
 .ui_min:hover b,.ui_max:hover b,.ui_res:hover b,.ui_rese:hover b{ border-color:#2492FF; }
-.ui_close { position:absolute;right:-26px;top:-21px;_z-index:1;width:34px;height:34px;font-size:0;line-height:0;overflow:hidden;background-position:0 -60px;_png:idialog/ie6/ui_close.png; }
+.ui_close {position: relative;margin-left: -10px;top:-8px;_z-index:1;width:34px;height:34px;font-size:0;line-height:0;overflow:hidden;background-position:0 -60px;_png:idialog/ie6/ui_close.png; }
 .ui_close:hover,.ui_close:focus{ background-position:0 -94px;_png:idialog/ie6/ui_close.hover.png;cursor:pointer; }
 /*标题按钮结束*/
 
