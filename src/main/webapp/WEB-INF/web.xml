@@ -125,29 +125,7 @@
 		<servlet-name>druidStatView</servlet-name>
 		<url-pattern>/webpage/system/druid/*</url-pattern>
 	</servlet-mapping>
-	<servlet>
-		<servlet-name>ConnectorServlet</servlet-name>
-		<servlet-class>com.ckfinder.connector.ConnectorServlet</servlet-class>
-		<init-param>
-			<param-name>XMLConfig</param-name>
-			<param-value>/WEB-INF/classes/CKfinderConfig.xml</param-value>
-		</init-param>
-		<init-param>
-			<param-name>debug</param-name>
-			<param-value>false</param-value>
-		</init-param>
-		<init-param>
-			<param-name>configuration</param-name>
-			<param-value>org.jeecgframework.web.system.listener.CkfinderConfiguration
-			</param-value>
-		</init-param>
-		<load-on-startup>2</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ConnectorServlet</servlet-name>
-		<url-pattern>/plug-in/ckfinder/core/connector/java/connector.java
-		</url-pattern>
-	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>RandCodeImage</servlet-name>
 		<servlet-class>org.jeecgframework.web.system.servlet.RandCodeImageServlet</servlet-class>
@@ -156,23 +134,6 @@
 		<servlet-name>RandCodeImage</servlet-name>
 		<url-pattern>/randCodeImage</url-pattern>
 	</servlet-mapping>
-	<filter>
-		<filter-name>FileUploadFilter</filter-name>
-		<filter-class>com.ckfinder.connector.FileUploadFilter</filter-class>
-		<init-param>
-			<param-name>sessionCookieName</param-name>
-			<param-value>jsessionid</param-value>
-		</init-param>
-		<init-param>
-			<param-name>sessionParameterName</param-name>
-			<param-value>JSESSIONID</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>FileUploadFilter</filter-name>
-		<url-pattern>/plug-in/ckfinder/core/connector/java/connector.java
-		</url-pattern>
-	</filter-mapping>
 	<filter>
 		<filter-name>ecsideExport</filter-name>
 		<filter-class>org.jeecgframework.core.aop.GZipFilter</filter-class>

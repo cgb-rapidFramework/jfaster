@@ -89,7 +89,6 @@
 		<!-- todo 没有用到 <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> -->
 		<!-- todo 没有用到 <jdk.version>1.6</jdk.version> -->
 
-		<CKFinder.version>2.4</CKFinder.version>
 		<!-- java生成缩略图 -->
 		<thumbnailator.version>0.4.6</thumbnailator.version>
 		<pinyin4j.version>2.5.0</pinyin4j.version>
@@ -144,28 +143,7 @@
 			<artifactId>codegenerate</artifactId>
 			<version>${codegenerate.version}</version>
 		</dependency>
-		<!-- ckfinder start -->
-		<dependency>
-			<groupId>com.ckfinder</groupId>
-			<artifactId>CKFinder-updateByAlexander</artifactId>
-			<version>${CKFinder.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ckfinder</groupId>
-			<artifactId>CKFinderPlugin-FileEditor</artifactId>
-			<version>${CKFinder.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ckfinder</groupId>
-			<artifactId>CKFinderPlugin-ImageResize</artifactId>
-			<version>${CKFinder.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ckfinder</groupId>
-			<artifactId>CKFinderPlugin-Watermark</artifactId>
-			<version>${CKFinder.version}</version>
-		</dependency>
-		<!-- ckfinder end -->
+
 		<!-- java生成缩略图 -->
 		<dependency>
 			<groupId>net.coobird</groupId>

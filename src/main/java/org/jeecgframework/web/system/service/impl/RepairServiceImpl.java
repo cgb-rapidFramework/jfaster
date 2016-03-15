@@ -49,7 +49,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		commonDao.executeHql("delete TSTypegroup");
 		commonDao.executeHql("update TSDemo t set t.TSDemo = null");
 		commonDao.executeHql("delete TSDemo");
-//		commonDao.executeHql("delete JeecgDemoCkfinderEntity");
 		commonDao.executeHql("delete TSTimeTaskEntity");
 		commonDao.executeHql("update TSTerritory t set t.TSTerritory = null");
 		commonDao.executeHql("delete TSTerritory");
@@ -72,7 +71,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 	 */
 	
 	synchronized public void repair() {
-		//repairCkFinder();// 修复智能表单ck_finder数据库
 		repaireIcon(); // 修复图标
 		repairDepart();// 修复部门表
 		repairRole();// 修复角色

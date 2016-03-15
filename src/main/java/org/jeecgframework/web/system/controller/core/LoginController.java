@@ -213,7 +213,6 @@ public class LoginController extends BaseController {
             //将角色信息放入session
         	SessionShareCenter.putRoles(roleList);
             ClientManager.getInstance().getClient().setRoles(roleList);
-            request.getSession().setAttribute("CKFinder_UserRole", "admin");
 			//request.getSession().setAttribute("lang", "en");
           
 			/*// 默认风格

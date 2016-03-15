@@ -879,49 +879,6 @@
 		</attribute>
 	</tag>
 	<tag>
-		<name>ckfinder</name>
-		<tag-class>org.jeecgframework.platform.common.tag.easyui.CkfinderTag</tag-class>
-		<body-content>JSP</body-content>
-		<description>ckfinder标签</description>
-		<attribute>
-			<name>name</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>属性名称</description>
-		</attribute>
-		<attribute>
-			<name>value</name>
-			<rtexprvalue>true</rtexprvalue>
-			<description>默认值</description>
-		</attribute>
-		<attribute>
-			<name>width</name>
-			<rtexprvalue>false</rtexprvalue>
-			<description>显示图片宽(上传类型为Images时)</description>
-		</attribute>
-		<attribute>
-			<name>height</name>
-			<rtexprvalue>false</rtexprvalue>
-			<description>显示图片高(上传类型为Images时)</description>
-		</attribute>
-		<attribute>
-			<name>buttonClass</name>
-			<rtexprvalue>false</rtexprvalue>
-			<description>按钮样式</description>
-		</attribute>
-		<attribute>
-			<name>buttonValue</name>
-			<rtexprvalue>false</rtexprvalue>
-			<description>按钮文本</description>
-		</attribute>
-		<attribute>
-			<name>uploadType</name>
-			<required>true</required>
-			<rtexprvalue>false</rtexprvalue>
-			<description>上传类型(Images,Files,Flash)</description>
-		</attribute>
-	</tag>
-	<tag>
 		<name>ckeditor</name>
 		<tag-class>org.jeecgframework.platform.common.tag.easyui.CkeditorTag</tag-class>
 		<body-content>JSP</body-content>
@@ -936,12 +893,6 @@
 			<name>value</name>
 			<rtexprvalue>true</rtexprvalue>
 			<description>默认值</description>
-		</attribute>
-		<attribute>
-			<name>isfinder</name>
-			<required>true</required>
-			<rtexprvalue>false</rtexprvalue>
-			<description>是否加载ckfinder</description>
 		</attribute>
 		<attribute>
 			<name>type</name>
