@@ -1,18 +1,10 @@
 package org.jeecgframework.web.system.entity.base;
 
+import org.jeecgframework.core.common.entity.IdEntity;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import org.jeecgframework.core.common.entity.IdEntity;
 
 /**
  * 部门机构表
@@ -27,7 +19,6 @@ public class TSDepart extends IdEntity implements java.io.Serializable {
     private String orgCode;//机构编码
     private String orgType;//机构编码
 	private List<TSDepart> TSDeparts = new ArrayList<TSDepart>();//下属部门
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parentdepartid")
 	public TSDepart getTSPDepart() {

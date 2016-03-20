@@ -1,4 +1,4 @@
-package org.jeecgframework.web.system.controller.api;
+package org.jeecgframework.web.api.user;
 
 import org.jeecgframework.core.beanvalidator.BeanValidators;
 import org.jeecgframework.web.system.entity.base.TSUser;
@@ -24,7 +24,7 @@ import java.util.Set;
  * @author liuht
  */
 @Controller
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/users")
 public class UserRestController {
 
 	@Autowired

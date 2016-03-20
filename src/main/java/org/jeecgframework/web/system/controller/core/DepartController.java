@@ -22,6 +22,7 @@ import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.TSDepart;
 import org.jeecgframework.web.system.entity.base.TSUser;
 import org.jeecgframework.web.system.entity.base.TSUserOrg;
+import org.jeecgframework.web.system.service.DepartService;
 import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
@@ -55,6 +56,8 @@ public class DepartController extends BaseController {
 	 * Logger for this class
 	 */
 	private static final Logger logger = Logger.getLogger(DepartController.class);
+	@Autowired
+	private DepartService departService;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -133,29 +136,13 @@ public class DepartController extends BaseController {
 		depart = systemService.findEntity(TSDepart.class, depart.getId());
         message = MutiLangUtils.paramDelSuccess("common.department");
         if (depart.getTSDeparts().size() == 0) {
-            Long userCount = systemService.queryCount("select count(1) from t_s_user_org where org_id='" + depart.getId() + "'");
-            if(userCount == 0) { // 组织机构下没有用户时，该组织机构才允许删除。
-                systemService.executeSql("delete from t_s_role_org where org_id=?", depart.getId());
-                systemService.delete(depart);
-
-                systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
-            }
+			departService.deleteDepart(depart);
+			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
         } else {
             message = MutiLangUtils.paramDelFail("common.department");
         }
-
         j.setMsg(message);
 		return j;
-	}
-	public void upEntity(TSDepart depart) {
-		List<TSUser> users = systemService.findAllByProperty(TSUser.class, "TSDepart.id", depart.getId());
-		if (users.size() > 0) {
-			for (TSUser tsUser : users) {
-				//tsUser.setTSDepart(null);
-				//systemService.saveOrUpdate(tsUser);
-				systemService.delete(tsUser);
-			}
-		}
 	}
 
 	/**
@@ -190,16 +177,6 @@ public class DepartController extends BaseController {
 	public ModelAndView add(TSDepart depart, HttpServletRequest req) {
 		List<TSDepart> departList = systemService.getList(TSDepart.class);
 		req.setAttribute("departList", departList);
-//        这个if代码段没有用吧，注释之
-//		if (StringUtils.isNotEmpty(depart.getId())) {
-//			TSDepart tspDepart = new TSDepart();
-//			TSDepart tsDepart = new TSDepart();
-//			depart = systemService.getEntity(TSDepart.class, depart.getId());
-//			tspDepart.setId(depart.getId());
-//			tspDepart.setDepartname(depart.getDepartname());
-//			tsDepart.setTSPDepart(tspDepart);
-//			req.setAttribute("depart", tsDepart);
-//		}
         req.setAttribute("pid", depart.getId());
 		return new ModelAndView("system/depart/depart");
 	}
@@ -348,7 +325,6 @@ public class DepartController extends BaseController {
 		this.systemService.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
-	//----
 
     /**
      * 获取机构树-combotree
@@ -358,12 +334,9 @@ public class DepartController extends BaseController {
     @RequestMapping(params = "getOrgTree")
     @ResponseBody
     public List<ComboTree> getOrgTree(HttpServletRequest request) {
-//        findHql不能处理is null条件
-//        List<TSDepart> departsList = systemService.findHql("from TSPDepart where TSPDepart.id is null");
         List<TSDepart> departsList = systemService.findByHql("from TSDepart where TSPDepart.id is null");
-        List<ComboTree> comboTrees = new ArrayList<ComboTree>();
         ComboTreeModel comboTreeModel = new ComboTreeModel("id", "departname", "TSDeparts");
-        comboTrees = resourceService.ComboTree(departsList, comboTreeModel, null, true);
+		List<ComboTree> comboTrees = resourceService.ComboTree(departsList, comboTreeModel, null, true);
         return comboTrees;
     }
     /**
@@ -412,9 +385,7 @@ public class DepartController extends BaseController {
         TSDepart depart = systemService.findEntity(TSDepart.class, req.getParameter("orgId"));
         saveOrgUserList(req, depart);
         message =  MutiLangUtils.paramAddSuccess("common.user");
-//      systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
         j.setMsg(message);
-
         return j;
     }
     /**

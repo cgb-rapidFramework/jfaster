@@ -3,7 +3,7 @@ package org.jeecgframework.web.system.controller;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.jeecgframework.core.common.service.CommonService;
-import org.jeecgframework.web.interceptors.DateConvertEditor;
+import org.jeecgframework.web.system.interceptors.DateConvertEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.ServletRequestDataBinder;

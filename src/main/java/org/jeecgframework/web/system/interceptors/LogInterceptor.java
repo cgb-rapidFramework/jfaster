@@ -1,9 +1,7 @@
-package org.jeecgframework.web.interceptors;
+package org.jeecgframework.web.system.interceptors;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;

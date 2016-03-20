@@ -24,9 +24,13 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
 	private Short activitiSync;//是否同步工作流引擎
 	private Short status;// 状态1：在线,2：离线,0：禁用
 	private byte[] signature;// 签名文件
-    //	private TSDepart TSDepart = new TSDepart();// 部门
-    private List<TSUserOrg> userOrgList = new ArrayList<TSUserOrg>();
 	private TSDepart currentDepart = new TSDepart();// 当前部门
+    private List<TSUserOrg> userOrgList = new ArrayList<TSUserOrg>();
+    private List<TSRoleUser> roleUserList = new ArrayList<TSRoleUser>();
+
+	private List<TSDepart> departs  =new ArrayList<TSDepart>();
+	private List<TSRole> roles  =new ArrayList<TSRole>();
+
 
 	@Column(name = "signature",length=3000)
 	public byte[] getSignature() {
@@ -79,16 +83,6 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-//	@JsonIgnore    //getList查询转换为列表时处理json转换异常
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "departid")
-//	public TSDepart getTSDepart() {
-//		return this.TSDepart;
-//	}
-//
-//	public void setTSDepart(TSDepart TSDepart) {
-//		this.TSDepart = TSDepart;
-//	}
 	@Column(name = "username", nullable = false, length = 10)
 	public String getUserName() {
 		return this.userName;
@@ -124,4 +118,34 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
     public void setUserOrgList(List<TSUserOrg> userOrgList) {
         this.userOrgList = userOrgList;
     }
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "TSUser")
+	public List<TSRoleUser> getRoleUserList() {
+		return roleUserList;
+	}
+
+	public void setRoleUserList(List<TSRoleUser> roleUserList) {
+		this.roleUserList = roleUserList;
+	}
+
+	@JsonIgnore
+	@Transient
+	public List<TSRole> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<TSRole> roles) {
+		this.roles = roles;
+	}
+
+	@JsonIgnore
+	@Transient
+	public List<TSDepart> getDeparts() {
+		return departs;
+	}
+
+	public void setDeparts(List<TSDepart> departs) {
+		this.departs = departs;
+	}
 }

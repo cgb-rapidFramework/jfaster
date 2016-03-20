@@ -33,7 +33,7 @@
 			</list>
 		</property>
 		<property name="webBindingInitializer">
-			<bean class="org.jeecgframework.web.interceptors.MyWebBinding" />
+			<bean class="org.jeecgframework.web.system.interceptors.MyWebBinding" />
 		</property>
 	</bean>
 	<!-- 默认的视图解析器 在上边的解析错误时使用 (默认使用html)- -->
@@ -103,11 +103,11 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<bean class="org.jeecgframework.web.interceptors.EncodingInterceptor" />
+			<bean class="org.jeecgframework.web.system.interceptors.EncodingInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<bean class="org.jeecgframework.web.interceptors.AuthInterceptor">
+			<bean class="org.jeecgframework.web.system.interceptors.AuthInterceptor">
 				<property name="excludeUrls">
 					<list>
 						<value>loginController.do?goPwdInit</value>

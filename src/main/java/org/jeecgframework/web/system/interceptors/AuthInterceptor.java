@@ -1,4 +1,4 @@
-package org.jeecgframework.web.interceptors;
+package org.jeecgframework.web.system.interceptors;
 
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.util.ContextHolderUtils;

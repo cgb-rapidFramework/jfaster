@@ -1,4 +1,4 @@
-package org.jeecgframework.web.interceptors;
+package org.jeecgframework.web.system.interceptors;
 
 import java.util.Date;
 
