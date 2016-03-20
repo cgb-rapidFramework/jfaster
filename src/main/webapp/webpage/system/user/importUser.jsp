@@ -46,8 +46,8 @@
 		<div><font color="red">注意点：</font><br/>
 			文件目前仅支持Excel文档,请下载导入模板<br/>
 			<font color="red">[帐号 只能是字母+数字或者字母] </font><br/>
-			<font color="red">[组织结构 到组织结构中查找] </font><br/>
-			<font color="red">[角色 角色列表中查找]</font><br/>
+			<font color="red">[组织结构 到组织结构中查找，多个用逗号','隔开] </font><br/>
+			<font color="red">[角色 角色列表中查找，多个用逗号','隔开]</font><br/>
 			<a href="userController.do?downloadUserTemplate" ><font color="blue">导入模板下载</font></a><br/>
             <span id="documentTitle" name="documentTitle" style="display:none"></span>
 		</div>
