@@ -60,7 +60,7 @@ $(document).ready(function(){
 					<button class="jp-repeat" role="button" tabindex="0">repeat</button>
 				</div>
 			</div>
-		</div				
+		</div>
 	</div>
 </div>
 
