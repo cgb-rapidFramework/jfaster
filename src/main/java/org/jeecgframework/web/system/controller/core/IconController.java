@@ -16,6 +16,7 @@ import org.jeecgframework.web.system.entity.base.TSIcon;
 import org.jeecgframework.web.system.entity.base.TSOperation;
 import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
+import org.jeecgframework.web.utils.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -83,7 +84,7 @@ public class IconController extends BaseController {
 		HqlGenerateUtil.installHql(cq, icon);
 		cq.add();
 		this.systemService.findDataGridReturn(cq, true);
-        IconImageUtil.convertDataGrid(dataGrid, request);//先把数据库的byte存成图片到临时目录，再给每个TsIcon设置目录路径
+        FileUtils.convertDataGrid(dataGrid, request);//先把数据库的byte存成图片到临时目录，再给每个TsIcon设置目录路径
 		TagUtil.datagrid(response, dataGrid);
 	}
 
@@ -105,7 +106,6 @@ public class IconController extends BaseController {
 		icon.setId(id);
 		icon.setIconName(iconName);
 		icon.setIconType(iconType);
-		// uploadFile.setBasePath("images/accordion");
 		UploadFile uploadFile = new UploadFile(request, icon);
 		uploadFile.setCusPath("plug-in/accordion/images");
 		uploadFile.setExtend("extend");
@@ -270,6 +270,10 @@ public class IconController extends BaseController {
 		return false;
 	}
 
+	/**	 *
+	 * @param icon
+     */
+	@Deprecated
 	public void upEntity(TSIcon icon) {
 		List<TSFunction> functions = systemService.findAllByProperty(TSFunction.class, "TSIcon.id", icon.getId());
 		if (functions.size() > 0) {

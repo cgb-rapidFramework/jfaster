@@ -56,7 +56,6 @@ public class RepairController extends BaseController {
 	@RequestMapping(params = "repair")
 	public ModelAndView repair() {
 		repairService.deleteAndRepair();
-//		repairService.repair();
 		systemService.initAllTypeGroups();   //初始化缓存
 		return new ModelAndView("login/login");
 	}

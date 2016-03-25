@@ -31,9 +31,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 	public void deleteAndRepair() {
 		// 由于表中有主外键关系，清空数据库需注意
 		commonDao.executeHql("delete TSLog");
-		/*commonDao.executeHql("delete CgformEnhanceJsEntity");
-		commonDao.executeHql("delete CgFormFieldEntity");
-		commonDao.executeHql("delete CgFormHeadEntity");*/
 		commonDao.executeHql("delete TSOperation");
 		commonDao.executeHql("delete TSRoleFunction");
 		commonDao.executeHql("delete TSRoleUser");
@@ -52,16 +49,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		commonDao.executeHql("delete TSTimeTaskEntity");
 		commonDao.executeHql("update TSTerritory t set t.TSTerritory = null");
 		commonDao.executeHql("delete TSTerritory");
-//		commonDao.executeHql("delete StudentEntity");
-//		commonDao.executeHql("delete CourseEntity");
-//		commonDao.executeHql("delete TeacherEntity");
-//		commonDao.executeHql("delete JeecgJdbcEntity ");
-//		commonDao.executeHql("delete JeecgOrderMainEntity ");
-//		commonDao.executeHql("delete JeecgOrderProductEntity ");
-//		commonDao.executeHql("delete JeecgOrderCustomEntity ");
-//		commonDao.executeHql("delete JeecgNoteEntity ");
-//		commonDao.executeHql("update JeecgMatterBom mb set mb.parent = null");
-//		commonDao.executeHql("delete JeecgMatterBom ");
 		repair();
 	}
 
@@ -80,7 +67,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		repairType();// 修复字典值
 		repairTask();//修复任务管理
 		repairLog();// 修复日志表
-
 		repairMenu();// 修复菜单权限
 		repairOperation(); // 修复操作表
 		repairRoleFunction();// 修复角色和权限的关系
@@ -411,11 +397,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		commonservice.setTSTypegroup(servicetype);
 		commonDao.saveOrUpdate(commonservice);
 
-		// TSType leave = new TSType();
-		// leave.setTypename("请假流程");
-		// leave.setTypecode("leave");
-		// commonDao.saveOrUpdate(leave);
-
 		TSType single = new TSType();
 		single.setTypename("单条件查询");
 		single.setTypecode("single");
@@ -464,11 +445,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		type_long.setTSTypegroup(fieldtype);
 		commonDao.saveOrUpdate(type_long);
 
-		TSType workflow = new TSType();
-		workflow.setTypename("工作流引擎表");
-		workflow.setTypecode("act");
-		workflow.setTSTypegroup(datatable);
-		commonDao.saveOrUpdate(workflow);
 
 		TSType systable = new TSType();
 		systable.setTypename("系统基础表");
@@ -482,11 +458,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		business.setTSTypegroup(datatable);
 		commonDao.saveOrUpdate(business);
 
-		TSType customwork = new TSType();
-		customwork.setTypename("自定义引擎表");
-		customwork.setTypecode("t_p");
-		customwork.setTSTypegroup(datatable);
-		commonDao.saveOrUpdate(customwork);
 
 		TSType news = new TSType();
 		news.setTypename("新闻");
@@ -674,8 +645,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		state.setTSIcon(folder);
 		state.setTSIconDesk(getDefaultInconForDesk());
 		commonDao.saveOrUpdate(state);
-
-
 
 		TSFunction syscontrol = new TSFunction();
 		syscontrol.setFunctionName("系统监控");

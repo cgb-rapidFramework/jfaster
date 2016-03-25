@@ -1,4 +1,4 @@
-package org.jeecgframework.web.system.controller.core;
+package org.jeecgframework.web.utils;
 
 import org.jeecgframework.web.system.entity.base.TSIcon;
 import org.jeecgframework.core.common.model.json.DataGrid;
@@ -15,7 +15,7 @@ import java.util.UUID;
  * Date: 13-7-26
  * Time: 下午2:07
  */
-public class IconImageUtil {
+public class FileUtils {
     /**
      * 把数据库中图片byte，存到项目temp目录下，并且把路径返设置给TsIcon
      * @param dataGrid

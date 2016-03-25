@@ -119,9 +119,8 @@ public class TerritoryController extends BaseController {
 		}
 		cq.add();
 		List<TSTerritory> territoryList = systemService.findListByCq(cq, false);
-		List<ComboTree> comboTrees = new ArrayList<ComboTree>();
 		ComboTreeModel comboTreeModel = new ComboTreeModel("id", "territoryName", "TSTerritorys");
-		comboTrees = resourceService.ComboTree(territoryList, comboTreeModel, null, false);
+		List<ComboTree> comboTrees  = resourceService.ComboTree(territoryList, comboTreeModel, null, false);
 		return comboTrees;
 	}
 	/**

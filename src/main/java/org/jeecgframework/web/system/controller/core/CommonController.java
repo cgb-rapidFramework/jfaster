@@ -2,7 +2,6 @@ package org.jeecgframework.web.system.controller.core;
 
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.tag.vo.easyui.Autocomplete;
-import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.util.StringUtils;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.service.SystemService;
@@ -46,7 +45,6 @@ public class CommonController extends BaseController {
 	 */
 	@RequestMapping(params = "getAutoList")
 	public void getAutoList(HttpServletRequest request, HttpServletResponse response, Autocomplete autocomplete) {
-		String jsonp = request.getParameter("jsonpcallback");
 		String trem = StringUtils.getEncodePra(request.getParameter("trem"));// 重新解析参数
 		autocomplete.setTrem(trem);
 		List autoList = systemService.findAutoList(autocomplete);
@@ -63,8 +61,8 @@ public class CommonController extends BaseController {
 		}
 
 		try {
-			String str = TagUtil.getAutoList(autocomplete, autoList);
-			str = "(" + str + ")";
+			/*String str = TagUtil.getAutoList(autocomplete, autoList);
+			str = "(" + str + ")";*/
 			response.setContentType("application/json;charset=UTF-8");
 			response.setHeader("Pragma", "No-cache");
 			response.setHeader("Cache-Control", "no-cache");
@@ -80,6 +78,7 @@ public class CommonController extends BaseController {
 	/**
 	 * 通用列表页面跳转
 	 */
+	@Deprecated
 	@RequestMapping(params = "listTurn")
 	public ModelAndView listTurn(HttpServletRequest request) {
 		String turn = request.getParameter("turn");// 跳转的目标页面
@@ -90,6 +89,7 @@ public class CommonController extends BaseController {
 	 * 导入文件
 	 * @return
 	 */
+	@Deprecated
 	@RequestMapping(params = "importdata")
 	public ModelAndView importdata() {
 		return new ModelAndView("system/upload");

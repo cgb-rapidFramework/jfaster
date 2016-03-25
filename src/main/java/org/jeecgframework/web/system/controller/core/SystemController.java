@@ -128,7 +128,6 @@ public class SystemController extends BaseController {
 	@RequestMapping(params = "typeGroupGrid")
 	public void typeGroupGrid(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid, TSTypegroup typegroup) {
 		CriteriaQuery cq = new CriteriaQuery(TSTypegroup.class, dataGrid);
-//        add-start--Author:zhangguoming  Date:20140929 for：多语言条件添加
         String typegroupname = request.getParameter("typegroupname");
         if(typegroupname != null && typegroupname.trim().length() > 0) {
             typegroupname = typegroupname.trim();
@@ -137,8 +136,6 @@ public class SystemController extends BaseController {
         }
 		this.systemService.findDataGridReturn(cq, true);
         MutiLangUtils.setMutiLangValueForList(dataGrid.getResults(), "typegroupname");
-//        add-end--Author:zhangguoming  Date:20140929 for：多语言条件添加
-
 		TagUtil.datagrid(response, dataGrid);
 	}
 
@@ -175,35 +172,6 @@ public class SystemController extends BaseController {
         request.setAttribute("typegroupid", typegroupid);
 		return new ModelAndView("system/type/typeListForTypegroup");
 	}
-//	@RequestMapping(params = "typeGroupTree")
-//	@ResponseBody
-//	public List<ComboTree> typeGroupTree(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-//		CriteriaQuery cq = new CriteriaQuery(TSTypegroup.class);
-//		List<TSTypegroup> typeGroupList = systemService.getListByCriteriaQuery(cq, false);
-//		List<ComboTree> trees = new ArrayList<ComboTree>();
-//		for (TSTypegroup obj : typeGroupList) {
-//			ComboTree tree = new ComboTree();
-//			tree.setId(obj.getId());
-//			tree.setText(obj.getTypegroupname());
-//			List<TSType> types = obj.getTSTypes();
-//			if (types != null) {
-//				if (types.size() > 0) {
-//					//tree.setState("closed");
-//					List<ComboTree> children = new ArrayList<ComboTree>();
-//					for (TSType type : types) {
-//						ComboTree tree2 = new ComboTree();
-//						tree2.setId(type.getId());
-//						tree2.setText(type.getTypename());
-//						children.add(tree2);
-//					}
-//					tree.setChildren(children);
-//				}
-//			}
-//			//tree.setChecked(false);
-//			trees.add(tree);
-//		}
-//		return trees;
-//	}
 
 	@RequestMapping(params = "typeGridTree")
 	@ResponseBody
@@ -240,7 +208,6 @@ public class SystemController extends BaseController {
                 List<String> typegroupnameKeyList = systemService.findByHql("select typegroupname from TSTypegroup");
                 MutiLangUtils.assembleCondition(typegroupnameKeyList, cq, "typegroupname", typegroupname);
             }
-//            add-end--Author:zhangguoming  Date:20140807 for：添加字典查询条件
             List<TSTypegroup> typeGroupList = systemService.findListByCq(cq, false);
 			for (TSTypegroup obj : typeGroupList) {
 				TreeGrid treeNode = new TreeGrid();
@@ -254,41 +221,6 @@ public class SystemController extends BaseController {
 		MutiLangUtils.setMutiTree(treeGrids);
 		return treeGrids;
 	}
-
-//    private void assembleConditionForMutilLang(CriteriaQuery cq, String typegroupname, List<String> typegroupnameKeyList) {
-//        Map<String,String> typegroupnameMap = new HashMap<String, String>();
-//        for (String nameKey : typegroupnameKeyList) {
-//            String name = mutiLangService.getLang(nameKey);
-//            typegroupnameMap.put(nameKey, name);
-//        }
-//        List<String> tepegroupnameParamList = new ArrayList<String>();
-//        for (Map.Entry<String, String> entry : typegroupnameMap.entrySet()) {
-//            String key = entry.getKey();
-//            String value = entry.getValue();
-//            if (typegroupname.startsWith("*") && typegroupname.endsWith("*")) {
-//                if (value.contains(typegroupname)) {
-//                    tepegroupnameParamList.add(key);
-//                }
-//            } else if(typegroupname.startsWith("*")) {
-//                if (value.endsWith(typegroupname.substring(1))) {
-//                    tepegroupnameParamList.add(key);
-//                }
-//            } else if(typegroupname.endsWith("*")) {
-//                if (value.startsWith(typegroupname.substring(0, typegroupname.length() -1))) {
-//                    tepegroupnameParamList.add(key);
-//                }
-//            } else {
-//                if (value.equals(typegroupname)) {
-//                    tepegroupnameParamList.add(key);
-//                }
-//            }
-//        }
-//
-//        if (tepegroupnameParamList.size() > 0) {
-//            cq.in("typegroupname", tepegroupnameParamList.toArray());
-//            cq.add();
-//        }
-//    }
 
     /**
 	 * 删除类型分组或者类型（ID以G开头的是分组）
@@ -325,7 +257,6 @@ public class SystemController extends BaseController {
 	public AjaxJson delTypeGroup(TSTypegroup typegroup, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		typegroup = systemService.findEntity(TSTypegroup.class, typegroup.getId());
-//        add-begin--Author:zhangguoming  Date:20140929 for：数据字典修改
 		message = "类型分组: " + mutiLangService.getLang(typegroup.getTypegroupname()) + " 被删除 成功";
         if (StringUtils.isEmpty(typegroup.getTSTypes())) {
             systemService.delete(typegroup);
@@ -335,7 +266,6 @@ public class SystemController extends BaseController {
         } else {
             message = "类型分组: " + mutiLangService.getLang(typegroup.getTypegroupname()) + " 下有类型信息，不能删除！";
         }
-//        add-end--Author:zhangguoming  Date:20140929 for：数据字典修改
 		j.setMsg(message);
 		return j;
 	}
@@ -601,13 +531,9 @@ public class SystemController extends BaseController {
 		if (StringUtils.isNotEmpty(comboTree.getId())) {
 			cq.eq("TSPDepart.id", comboTree.getId());
 		}
-		// ----------------------------------------------------------------
-		// ----------------------------------------------------------------
 		if (StringUtils.isEmpty(comboTree.getId())) {
 			cq.isNull("TSPDepart.id");
 		}
-		// ----------------------------------------------------------------
-		// ----------------------------------------------------------------
 		cq.add();
 		List<TSDepart> departsList = systemService.findListByCq(cq, false);
 		List<ComboTree> comboTrees = resourceService.comTree(departsList, comboTree);

@@ -61,13 +61,6 @@
     <bean id="beanNameViewResolver"
           class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0">
     </bean>
-    <!-- Excel 处理 根据用户输入进行对象处理 -->
-    
-      <!-- 
-    <bean id="jeecgExcelView" class="org.jeecgframework.poi.excel.view.JeecgSingleExcelView" />
-    <bean id="jeecgTemplateExcelView" class="org.jeecgframework.poi.excel.view.JeecgTemplateExcelView" />
-    <bean id="jeecgTemplateWordView" class="org.jeecgframework.poi.excel.view.JeecgTemplateWordView" />
-     -->
      
 	<!-- 方言 -->
 	<bean id="dialect"

@@ -259,7 +259,7 @@ public class DepartController extends BaseController {
 			HqlGenerateUtil.installHql(cq, tSDepart);
 		    departList =systemService.findListByCq(cq, false);
 		}
-		List<TreeGrid> treeGrids = new ArrayList<TreeGrid>();
+
 		TreeGridModel treeGridModel = new TreeGridModel();
 		treeGridModel.setTextField("departname");
 		treeGridModel.setParentText("TSPDepart_departname");
@@ -271,15 +271,13 @@ public class DepartController extends BaseController {
         fieldMap.put("orgCode", "orgCode");
         fieldMap.put("orgType", "orgType");
         treeGridModel.setFieldMap(fieldMap);
-        treeGrids = resourceService.treegrid(departList, treeGridModel);
-
+		List<TreeGrid> treeGrids = resourceService.treegrid(departList, treeGridModel);
         JSONArray jsonArray = new JSONArray();
         for (TreeGrid treeGrid : treeGrids) {
             jsonArray.add(JSON.parse(treeGrid.toJson()));
         }
         return jsonArray;
 	}
-	//----
 	/**
 	 * 方法描述:  查看成员列表
 	 * 作    者： yiming.zhang

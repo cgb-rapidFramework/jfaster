@@ -85,7 +85,6 @@ public class LogController extends BaseController {
 			cq.eq("loglevel", ConvertUtils.getShort(loglevel));
 			cq.add();
 		}
-//        add-begin--Author:zhangguoming  Date:20140427 for：添加查询条件  操作时间
         String operatetime_begin = request.getParameter("operatetime_begin");
         if(operatetime_begin != null) {
             Timestamp beginValue = null;
@@ -110,7 +109,6 @@ public class LogController extends BaseController {
             cq.le("operatetime", endValue);
         }
         cq.add();
-//        add-end--Author:zhangguoming  Date:20140427 for：添加查询条件  操作时间
         this.systemService.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
@@ -132,19 +130,7 @@ public class LogController extends BaseController {
 		return new ModelAndView("system/log/logDetail");
 		
 	}
-	
-	/**
-	 * @RequestMapping(params = "addorupdate")
-	public ModelAndView addorupdate(TSTimeTaskEntity timeTask, HttpServletRequest req) {
-		if (StringUtils.isNotEmpty(timeTask.getId())) {
-			timeTask = timeTaskService.getEntity(TSTimeTaskEntity.class, timeTask.getId());
-			req.setAttribute("timeTaskPage", timeTask);
-		}
-		return new ModelAndView("system/timetask/timeTask");
-	}
-	 */
-	
-	
+
 	/**
 	 * 统计集合页面
 	 * 
@@ -179,13 +165,12 @@ public class LogController extends BaseController {
 	@ResponseBody
 	public List<Highchart> getBroswerBar(HttpServletRequest request,String reportType, HttpServletResponse response) {
 		List<Highchart> list = new ArrayList<Highchart>();
-		Highchart hc = new Highchart();
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT broswer ,count(broswer) FROM TSLog group by broswer");
 		List userBroswerList = systemService.findByHql(sb.toString());
 		Long count = systemService.queryCount("SELECT COUNT(1) FROM T_S_Log WHERE 1=1");
 		List lt = new ArrayList();
-		hc = new Highchart();
+		Highchart hc = new Highchart();
 		hc.setName(MutiLangUtils.getLang(USER_BROWSER_ANALYSIS));
 		hc.setType(reportType);
 		Map<String, Object> map;

@@ -214,42 +214,19 @@ public class LoginController extends BaseController {
         	SessionShareCenter.putRoles(roleList);
             ClientManager.getInstance().getClient().setRoles(roleList);
 			//request.getSession().setAttribute("lang", "en");
-          
-			/*// 默认风格
-		     String indexStyle = "shortcut";
-			Cookie[] cookies = request.getCookies();
-			for (Cookie cookie : cookies) {
-				if (cookie == null || StringUtils.isEmpty(cookie.getName())) {
-					continue;
-				}
-				if (cookie.getName().equalsIgnoreCase("JEECGINDEXSTYLE")) {
-					indexStyle = cookie.getValue();
-				}
-			}
-			// 要添加自己的风格，复制下面三行即可
-//			if (StringUtils.isNotEmpty(indexStyle)
-//					&& indexStyle.equalsIgnoreCase("bootstrap")) {
-//				return "main/bootstrap_main";
-//			}
-//			if (StringUtils.isNotEmpty(indexStyle)
-//					&& indexStyle.equalsIgnoreCase("shortcut")) {
-//				return "main/shortcut_main";
-//			}
-//
-//			if (StringUtils.isNotEmpty(indexStyle)
-//					&& indexStyle.equalsIgnoreCase("sliding")) {
-//				return "main/sliding_main";
-//			}
-			if (StringUtils.isNotEmpty(indexStyle)&&
-					!"default".equalsIgnoreCase(indexStyle)&&
-					!"undefined".equalsIgnoreCase(indexStyle)) {
-				if("ace".equals(indexStyle)){
-					request.setAttribute("menuMap", getFunctionMap(user));
-				}
-				log.info("main/"+indexStyle.toLowerCase()+"_main");
-				return "main/"+indexStyle.toLowerCase()+"_main";
-			}
+
+			//设置默认风格
+			/*Cookie cookie = new Cookie("JEECGINDEXSTYLE", "ace");
+			//设置cookie有效期为一个月
+			cookie.setMaxAge(3600*24*30);
+			response.addCookie(cookie);
+
+			SysThemesEnum sysTheme = SysThemesUtils.getSysTheme(request);
+			sysTheme.setStyle(SysThemesEnum.ACE_STYLE.getStyle());
+			sysTheme.setIndexPath(SysThemesEnum.ACE_STYLE.getIndexPath());
+			sysTheme.setThemes(SysThemesEnum.ACE_STYLE.getThemes());
 			*/
+			//设置默认风格
 			SysThemesEnum sysTheme = SysThemesUtils.getSysTheme(request);
 			if("ace".equals(sysTheme.getStyle())){
 				request.setAttribute("menuMap", getFunctionMap(user));
@@ -352,20 +329,6 @@ public class LoginController extends BaseController {
 		Client client = ClientManager.getInstance().getClient(session.getId());
 		if (client.getFunctions() == null || client.getFunctions().size() == 0) {
 			Map<String, TSFunction> loginActionlist = new HashMap<String, TSFunction>();
-			 /*String hql="from TSFunction t where t.id in  (select d.TSFunction.id from TSRoleFunction d where d.TSRole.id in(select t.TSRole.id from TSRoleUser t where t.TSUser.id ='"+
-	           user.getId()+"' ))";
-	           String hql2="from TSFunction t where t.id in  ( select b.tsRole.id from TSRoleOrg b where b.tsDepart.id in(select a.tsDepart.id from TSUserOrg a where a.tsUser.id='"+
-	           user.getId()+"'))";
-	           List<TSFunction> list = systemService.findHql(hql);
-	           log.info("role functions:  "+list.size());
-	           for(TSFunction function:list){
-	              loginActionlist.put(function.getId(),function);
-	           }
-	           List<TSFunction> list2 = systemService.findHql(hql2);
-	           log.info("org functions: "+list2.size());
-	           for(TSFunction function:list2){
-	              loginActionlist.put(function.getId(),function);
-	           }*/
 	           StringBuilder hqlsb1=new StringBuilder("select distinct f from TSFunction f,TSRoleFunction rf,TSRoleUser ru  ")
 	           .append("where ru.TSRole.id=rf.TSRole.id and rf.TSFunction.id=f.id and ru.TSUser.id=? ");
 	          StringBuilder hqlsb2=new StringBuilder("select distinct c from TSFunction c,TSRoleOrg b,TSUserOrg a ")
@@ -394,10 +357,6 @@ public class LoginController extends BaseController {
         List<TSRoleFunction> roleFunctionList = systemService.findAllByProperty(TSRoleFunction.class, "TSRole.id", role.getId());
         for (TSRoleFunction roleFunction : roleFunctionList) {
             TSFunction function = roleFunction.getTSFunction();
-            /*if(function.getFunctionType().intValue()==Globals.Function_TYPE_FROM.intValue()){
-				//如果为表单或者弹出 不显示在系统菜单里面
-				continue;
-			}*/
             loginActionlist.put(function.getId(), function);
         }
     }
@@ -567,7 +526,6 @@ public class LoginController extends BaseController {
 				session.removeAttribute(Globals.USER_SESSION);
 				throw new Exception("用户不存在");
 			}
-			
 			String PMenu = SystemMenuUtils.getWebosMenu(getFunctionMap(SessionUtils.getCurrentUser()));
 			ContextHolderUtils.getSession().setAttribute("getPrimaryMenuForWebos", PMenu);
 			j.setMsg(PMenu);

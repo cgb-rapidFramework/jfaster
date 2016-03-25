@@ -33,10 +33,6 @@ public class BaseController {
 	 */
 	@InitBinder
 	public void initBinder(ServletRequestDataBinder binder) {
-//		SimpleDateFormat dateFormat = new SimpleDateFormat(
-//				"yyyy-MM-dd hh:mm:ss");
-//		binder.registerCustomEditor(Date.class, new CustomDateEditor(
-//				dateFormat, true));
 		binder.registerCustomEditor(Date.class, new DateConvertEditor());
 	}
 
@@ -53,7 +49,6 @@ public class BaseController {
 		// 总页数
 
 		int currentPage = 1;
-
 		int totalRow = 0;
 		int totalPage = 0;
 		// 获取当前页
@@ -76,7 +71,6 @@ public class BaseController {
 		currentPage = currentPage > totalPage ? totalPage : currentPage;
 		// 清空统计函数
 		dc.setProjection(null);
-		// dc.setResultTransformer(dc.DISTINCT_ROOT_ENTITY);
 		List<?> list = commonService.findByDetached(dc, (currentPage - 1) * pageRow,
 				pageRow);
 

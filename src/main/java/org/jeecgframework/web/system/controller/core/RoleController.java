@@ -236,7 +236,6 @@ public class RoleController extends BaseController {
         String roleId = request.getParameter("roleId");
         List<TSRoleUser> roleUser = systemService.findAllByProperty(TSRoleUser.class, "TSRole.id", roleId);
         /*
-        // zhanggm：这个查询逻辑也可以使用这种 子查询的方式进行查询
         CriteriaQuery subCq = new CriteriaQuery(TSRoleUser.class);
         subCq.setProjection(Property.forName("TSUser.id"));
         subCq.eq("TSRole.id", roleId);
@@ -273,7 +272,6 @@ public class RoleController extends BaseController {
 	@ResponseBody
 	public List<ComboTree> getUserList(TSUser user, HttpServletRequest request,
 			ComboTree comboTree) {
-		List<ComboTree> comboTrees = new ArrayList<ComboTree>();
 		String roleId = request.getParameter("roleId");
 		List<TSUser> loginActionlist = new ArrayList<TSUser>();
 		if (user != null) {
@@ -286,7 +284,7 @@ public class RoleController extends BaseController {
 			}
 		}
 		ComboTreeModel comboTreeModel = new ComboTreeModel("id", "userName", "TSUser");
-		comboTrees = resourceService.ComboTree(loginActionlist,comboTreeModel,loginActionlist, false);
+		List<ComboTree> comboTrees  = resourceService.ComboTree(loginActionlist,comboTreeModel,loginActionlist, false);
 		return comboTrees;
 	}
 	/**
@@ -527,11 +525,10 @@ public class RoleController extends BaseController {
 		cq.add();
 		List<TSFunction> functionList = systemService.findListByCq(
 				cq, false);
-		List<TreeGrid> treeGrids = new ArrayList<TreeGrid>();
 		Collections.sort(functionList, new FunctionComparator());
 		TreeGridModel treeGridModel = new TreeGridModel();
 		treeGridModel.setRoleid(roleId);
-		treeGrids = resourceService.treegrid(functionList, treeGridModel);
+		List<TreeGrid> treeGrids = resourceService.treegrid(functionList, treeGridModel);
 		return treeGrids;
 
 	}
@@ -594,9 +591,6 @@ public class RoleController extends BaseController {
 	 * @param ids
 	 */
 	public void savep(String roleId, String functionid, String ids) {
-		// String hql = "from TSRoleFunction t where" + " t.TSRole.id=" +
-		// ConvertUtils.getInt(roleId,0)
-		// + " " + "and t.TSFunction.id=" + ConvertUtils.getInt(functionid,0);
 		CriteriaQuery cq = new CriteriaQuery(TSRoleFunction.class);
 		cq.eq("TSRole.id", roleId);
 		cq.eq("TSFunction.id", functionid);
@@ -684,9 +678,7 @@ public class RoleController extends BaseController {
 		j.setMsg("按钮权限更新成功");
 		return j;
 	}
-	
-//chengchuan数据规则过滤代码
-	
+
 	/**
 	 * 按钮权限展示
 	 * 
@@ -795,9 +787,8 @@ public class RoleController extends BaseController {
         TSRole role = systemService.findEntity(TSRole.class, req.getParameter("roleId"));
         saveRoleUserList(req, role);
         message =  MutiLangUtils.paramAddSuccess("common.user");
-//      systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+       systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
         j.setMsg(message);
-
         return j;
     }
     /**

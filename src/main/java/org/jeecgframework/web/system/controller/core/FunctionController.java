@@ -15,10 +15,7 @@ import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.platform.util.MutiLangUtils;
 import org.jeecgframework.web.system.controller.BaseController;
-import org.jeecgframework.web.system.entity.base.TSDataRule;
-import org.jeecgframework.web.system.entity.base.TSFunction;
-import org.jeecgframework.web.system.entity.base.TSIcon;
-import org.jeecgframework.web.system.entity.base.TSOperation;
+import org.jeecgframework.web.system.entity.base.*;
 import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
@@ -34,7 +31,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -153,31 +149,22 @@ public class FunctionController extends BaseController {
 	@ResponseBody
 	public AjaxJson del(TSFunction function, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		function = systemService.findEntity(TSFunction.class, function.getId());
-		message = MutiLangUtils.paramDelSuccess("common.menu");
-		systemService
-				.updateBySql("delete from t_s_role_function where functionid='"
-						+ function.getId() + "'");
-
-		systemService.delete(function);
-		systemService.addLog(message, Globals.Log_Type_DEL,
-				Globals.Log_Leavel_INFO);
-
 		// // 删除权限时先删除权限与角色之间关联表信息
-		// List<TSRoleFunction> roleFunctions =
-		// systemService.findByProperty(TSRoleFunction.class, "TSFunction.id",
-		// function.getId());
-		//
-		// if (roleFunctions.size() > 0) {
-		// j.setMsg("菜单已分配无法删除");
-		//
-		// }
-		// else {
-		// userService.delete(function);
-		// systemService.addLog(message, Globals.Log_Type_DEL,
-		// Globals.Log_Leavel_INFO);
-		// }
-
+		List<TSRoleFunction> roleFunctions = systemService.findAllByProperty(TSRoleFunction.class, "TSFunction.id", function.getId());
+		if (roleFunctions.size() > 0) {
+			message="菜单已分配无法删除";
+		} else {
+			function = systemService.findEntity(TSFunction.class, function.getId());
+			message = MutiLangUtils.paramDelSuccess("common.menu");
+			systemService.updateBySql("delete from t_s_role_function where functionid='"
+					+ function.getId() + "'");
+			systemService.delete(function);
+			userService.delete(function);
+			systemService.addLog(message, Globals.Log_Type_DEL,
+					Globals.Log_Leavel_INFO);
+			systemService.addLog(message, Globals.Log_Type_DEL,
+					Globals.Log_Leavel_INFO);
+		}
 		j.setMsg(message);
 		return j;
 	}
@@ -198,9 +185,7 @@ public class FunctionController extends BaseController {
 		userService.delete(operation);
 		systemService.addLog(message, Globals.Log_Type_DEL,
 				Globals.Log_Leavel_INFO);
-
 		j.setMsg(message);
-
 		return j;
 	}
 
@@ -256,18 +241,18 @@ public class FunctionController extends BaseController {
 			systemService.flushRoleFunciton(function.getId(), function);
 		} else {
 			if (function.getFunctionLevel().equals(Globals.Function_Leave_ONE)) {
-				List<TSFunction> functionList = systemService.findAllByProperty(
+			/*	List<TSFunction> functionList = systemService.findAllByProperty(
 						TSFunction.class, "functionLevel",
 						Globals.Function_Leave_ONE);
-				// int ordre=functionList.size()+1;
-				// function.setFunctionOrder(Globals.Function_Order_ONE+ordre);
+				 int ordre=functionList.size()+1;
+				 function.setFunctionOrder(Globals.Function_Order_ONE+ordre);*/
 				function.setFunctionOrder(function.getFunctionOrder());
 			} else {
-				List<TSFunction> functionList = systemService.findAllByProperty(
+			/*	List<TSFunction> functionList = systemService.findAllByProperty(
 						TSFunction.class, "functionLevel",
 						Globals.Function_Leave_TWO);
-				// int ordre=functionList.size()+1;
-				// function.setFunctionOrder(Globals.Function_Order_TWO+ordre);
+				 int ordre=functionList.size()+1;
+				 function.setFunctionOrder(Globals.Function_Order_TWO+ordre);*/
 				function.setFunctionOrder(function.getFunctionOrder());
 			}
 			message = MutiLangUtils.paramAddSuccess("common.menu");
@@ -317,19 +302,18 @@ public class FunctionController extends BaseController {
 	 */
 	@RequestMapping(params = "addorupdate")
 	public ModelAndView addorupdate(TSFunction function, HttpServletRequest req) {
-		String functionid = req.getParameter("id");
-		List<TSFunction> fuinctionlist = systemService
+		String functionId = req.getParameter("id");
+		List<TSFunction> functionList = systemService
 				.getList(TSFunction.class);
-		req.setAttribute("flist", fuinctionlist);
-		// List<TSIcon> iconlist = systemService.getList(TSIcon.class);
-		List<TSIcon> iconlist = systemService
+		req.setAttribute("flist", functionList);
+		List<TSIcon> iconList = systemService
 				.findByHql("from TSIcon where iconType != 3");
-		req.setAttribute("iconlist", iconlist);
+		req.setAttribute("iconlist", iconList);
 		List<TSIcon> iconDeskList = systemService
 				.findByHql("from TSIcon where iconType = 3");
 		req.setAttribute("iconDeskList", iconDeskList);
-		if (functionid != null) {
-			function = systemService.findEntity(TSFunction.class, functionid);
+		if (functionId != null) {
+			function = systemService.findEntity(TSFunction.class, functionId);
 			req.setAttribute("function", function);
 		}
 		if (function.getTSFunction() != null
@@ -387,7 +371,6 @@ public class FunctionController extends BaseController {
 		
 		List<FunctionBean> functionBeanList=BeanToTagUtils.convertFunctions(functionList);
         Collections.sort(functionBeanList, new NumberComparator());
-        List<TreeGrid> treeGrids = new ArrayList<TreeGrid>();
 		TreeGridModel treeGridModel = new TreeGridModel();
 		treeGridModel.setIcon("TSIcon_iconPath");
 		treeGridModel.setTextField("functionName");
@@ -398,11 +381,9 @@ public class FunctionController extends BaseController {
 		treeGridModel.setChildList("TSFunctions");
 		// 添加排序字段
 		treeGridModel.setOrder("functionOrder");
-
 		treeGridModel.setFunctionType("functionType");
 
-		treeGrids = resourceService.treegrid(functionList, treeGridModel);
-
+		List<TreeGrid> treeGrids  = resourceService.treegrid(functionList, treeGridModel);
 		MutiLangUtils.setMutiTree(treeGrids);
 		return treeGrids;
 	}
@@ -421,9 +402,6 @@ public class FunctionController extends BaseController {
 			cq.eq("TSFunction.id", id);
 		}
 		cq.add();
-		List<TSFunction> functionList = systemService.findListByCq(
-				cq, false);
-		List<TreeGrid> treeGrids = new ArrayList<TreeGrid>();
 		this.systemService.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
@@ -448,10 +426,9 @@ public class FunctionController extends BaseController {
 		cq.add();
 		List<TSFunction> functionList = systemService.findListByCq(
 				cq, false);
-		List<ComboTree> comboTrees = new ArrayList<ComboTree>();
 		ComboTreeModel comboTreeModel = new ComboTreeModel("id",
 				"functionName", "TSFunctions");
-		comboTrees = resourceService.ComboTree(functionList, comboTreeModel,
+		List<ComboTree> comboTrees = resourceService.ComboTree(functionList, comboTreeModel,
 				null, false);
 		MutiLangUtils.setMutiTree(comboTrees);
 		return comboTrees;
@@ -467,8 +444,6 @@ public class FunctionController extends BaseController {
 
 		String name = req.getParameter("name");
 		String menuListMap = "";
-		// String menuListMap =
-		// "<div class='appListContainer ui-sortable' customacceptdrop='0' index='0' _olddisplay='block' style='width: auto; height: auto; margin-left: 10px; margin-top: 10px; display: block;'>";
 		CriteriaQuery cq = new CriteriaQuery(TSFunction.class);
 
 		cq.notEq("functionLevel", Short.valueOf("0"));
@@ -483,8 +458,6 @@ public class FunctionController extends BaseController {
 				cq, false);
 		if (functionList.size() > 0 && functionList != null) {
 			for (int i = 0; i < functionList.size(); i++) {
-				// menuListMap = menuListMap +
-				// "<div id='menuList_area'  class='menuList_area'>";
 				String icon = "";
 				if (!"".equals(functionList.get(i).getTSIconDesk())
 						&& functionList.get(i).getTSIconDesk() != null) {
@@ -519,8 +492,6 @@ public class FunctionController extends BaseController {
 		} else {
 			menuListMap = menuListMap + "很遗憾，在系统中没有检索到与“" + name + "”相关的信息！";
 		}
-		// menuListMap = menuListMap + "</div>";
-		System.out.println("-------------------------------" + menuListMap);
 		req.setAttribute("menuListMap", menuListMap);
 		return new ModelAndView("system/function/menuAppList");
 	}
@@ -647,8 +618,8 @@ public class FunctionController extends BaseController {
 		String sql = "SELECT id FROM t_s_data_rule WHERE functionId='"+dataRule.getTSFunction()
 				.getId()+"' AND rule_column='"+dataRule.getRuleColumn()+"' AND rule_conditions='"+dataRule
 				.getRuleConditions()+"'";
-		
-		List<String> hasOperList = this.systemService.findByHql(sql); 
+
+		List<String> hasOperList = this.systemService.findByHql(sql);
 		return hasOperList.size();
 	}
 }
