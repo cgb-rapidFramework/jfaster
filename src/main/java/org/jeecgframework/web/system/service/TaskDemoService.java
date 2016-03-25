@@ -1,6 +1,6 @@
 package org.jeecgframework.web.system.service;
 
-public interface TaskDemoServiceI {
+public interface TaskDemoService {
 	
 	public void work();
 

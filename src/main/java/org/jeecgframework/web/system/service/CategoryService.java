@@ -3,7 +3,7 @@ package org.jeecgframework.web.system.service;
 import org.jeecgframework.core.common.service.CommonService;
 import org.jeecgframework.web.system.entity.base.TSCategoryEntity;
 
-public interface CategoryServiceI extends CommonService{
+public interface CategoryService extends CommonService{
 	/**
 	 * 保存分类管理
 	 * @param category

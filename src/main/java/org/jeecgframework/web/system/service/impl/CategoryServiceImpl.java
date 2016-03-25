@@ -3,7 +3,7 @@ package org.jeecgframework.web.system.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.web.system.entity.base.TSCategoryEntity;
-import org.jeecgframework.web.system.service.CategoryServiceI;
+import org.jeecgframework.web.system.service.CategoryService;
 import org.jeecgframework.web.utils.ConfigUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("tSCategoryService")
 @Transactional
 public class CategoryServiceImpl extends CommonServiceImpl implements
-		CategoryServiceI {
+		CategoryService {
 
 	private static final String MAX_SQL = "SELECT MAX(code) FROM t_s_category WHERE parent_id";
 

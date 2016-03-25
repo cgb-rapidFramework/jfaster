@@ -11,7 +11,7 @@ import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.TSTimeTaskEntity;
 import org.jeecgframework.web.system.job.DynamicTaskService;
 import org.jeecgframework.web.system.service.SystemService;
-import org.jeecgframework.web.system.service.TimeTaskServiceI;
+import org.jeecgframework.web.system.service.TimeTaskService;
 import org.jeecgframework.web.utils.StringUtils;
 import org.quartz.CronTrigger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ import java.text.ParseException;
 public class TimeTaskController extends BaseController {
 
 	@Autowired
-	private TimeTaskServiceI timeTaskService;
+	private TimeTaskService timeTaskService;
 	@Autowired
 	private DynamicTaskService dynamicTask;
 	@Autowired

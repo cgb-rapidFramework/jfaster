@@ -1,7 +1,7 @@
 package org.jeecgframework.web.system.job;
 
 import org.jeecgframework.web.system.entity.base.TSTimeTaskEntity;
-import org.jeecgframework.web.system.service.TimeTaskServiceI;
+import org.jeecgframework.web.system.service.TimeTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.CronTriggerBean;
 /**
@@ -15,7 +15,7 @@ public class DataBaseCronTriggerBean extends CronTriggerBean{
 	private static final long serialVersionUID = 1L;
 	
 	@Autowired
-	private TimeTaskServiceI timeTaskService;
+	private TimeTaskService timeTaskService;
 	/**
 	 * 读取数据库更新文件
 	 */

@@ -5,7 +5,7 @@ import java.util.List;
 import org.jeecgframework.core.common.service.CommonService;
 import org.jeecgframework.web.system.entity.base.DynamicDataSourceEntity;
 
-public interface DynamicDataSourceServiceI extends CommonService{
+public interface DynamicDataSourceService extends CommonService{
 	
 	public List<DynamicDataSourceEntity> initDynamicDataSource();
 	

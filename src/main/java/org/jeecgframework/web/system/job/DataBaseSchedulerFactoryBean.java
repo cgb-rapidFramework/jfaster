@@ -1,7 +1,7 @@
 package org.jeecgframework.web.system.job;
 
 import org.jeecgframework.web.system.entity.base.TSTimeTaskEntity;
-import org.jeecgframework.web.system.service.TimeTaskServiceI;
+import org.jeecgframework.web.system.service.TimeTaskService;
 import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
@@ -14,7 +14,7 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 public class DataBaseSchedulerFactoryBean extends SchedulerFactoryBean {
 	
 	@Autowired
-	private TimeTaskServiceI timeTaskService;
+	private TimeTaskService timeTaskService;
 	/**
 	 * 读取数据库判断是否开始定时任务
 	 */

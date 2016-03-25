@@ -12,7 +12,7 @@ import org.jeecgframework.platform.util.StringUtils;
 import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.DynamicDataSourceEntity;
-import org.jeecgframework.web.system.service.DynamicDataSourceServiceI;
+import org.jeecgframework.web.system.service.DynamicDataSourceService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,7 +40,7 @@ public class DynamicDataSourceController extends BaseController {
 	private static final Logger logger = Logger.getLogger(DynamicDataSourceController.class);
 
 	@Autowired
-	private DynamicDataSourceServiceI dynamicDataSourceService;
+	private DynamicDataSourceService dynamicDataSourceService;
 	@Autowired
 	private SystemService systemService;
 	private String message;

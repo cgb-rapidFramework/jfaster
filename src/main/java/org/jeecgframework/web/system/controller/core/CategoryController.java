@@ -16,7 +16,7 @@ import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.TSCategoryEntity;
 import org.jeecgframework.web.system.entity.base.TSIcon;
-import org.jeecgframework.web.system.service.CategoryServiceI;
+import org.jeecgframework.web.system.service.CategoryService;
 import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class CategoryController extends BaseController {
     private static final String CATEGORY_ADD_OR_UPDATE = "system/category/category";
 
     @Autowired
-    private CategoryServiceI categoryService;
+    private CategoryService categoryService;
 
     @Autowired
     private ResourceService resourceService;
