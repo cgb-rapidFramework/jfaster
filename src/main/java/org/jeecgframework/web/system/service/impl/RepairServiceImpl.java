@@ -726,6 +726,16 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		territory.setTSIconDesk(getDefaultInconForDesk());
 		commonDao.saveOrUpdate(territory);
 
+		TSFunction language = new TSFunction();
+		language.setFunctionName("语言管理");
+		language.setFunctionUrl("mutiLangController.do?mutiLang");
+		language.setFunctionLevel((short) 1);
+		language.setFunctionOrder("30");
+		language.setTSFunction(sys);
+		language.setTSIcon(pie);
+		language.setTSIconDesk(getDefaultInconForDesk());
+		commonDao.saveOrUpdate(language);
+
 		TSFunction useranalyse = new TSFunction();
 		useranalyse.setFunctionName("用户分析");
 		useranalyse.setFunctionUrl("logController.do?statisticTabs&isIframe");
