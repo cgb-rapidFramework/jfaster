@@ -2,8 +2,11 @@ package org.jeecgframework.web.system.service.impl;
 
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.util.LogUtils;
+import org.jeecgframework.web.system.constant.core.TemplateConstant;
 import org.jeecgframework.web.system.entity.base.*;
+import org.jeecgframework.web.system.entity.core.TemplateEntity;
 import org.jeecgframework.web.system.service.RepairService;
+import org.jeecgframework.web.utils.ConfigUtils;
 import org.jeecgframework.web.utils.DateUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,9 +73,52 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		repairMenu();// 修复菜单权限
 		repairOperation(); // 修复操作表
 		repairRoleFunction();// 修复角色和权限的关系
+		repairTemplate();//修复模版
+		repairMutilang();//
+	}
+
+	private void repairMutilang() {
+      //TODO
+
 	}
 
 
+	private void repairTemplate() {
+	   TemplateEntity templateEntity =new TemplateEntity();
+	   templateEntity.setStatus(TemplateConstant.TEMPLATE_STATUS_IS_UNAVAILABLE);
+	   templateEntity.setCode("经典风格");
+	   templateEntity.setImage("resource/image/template/default.png");
+	   templateEntity.setName("经典风格");
+	   commonDao.save(templateEntity);
+
+	   templateEntity =new TemplateEntity();
+	   templateEntity.setStatus(TemplateConstant.TEMPLATE_STATUS_IS_UNAVAILABLE);
+	   templateEntity.setCode("shortcut");
+	   templateEntity.setImage("resource/image/template/shortcut.png");
+	   templateEntity.setName("shortcut风格");
+	   commonDao.save(templateEntity);
+
+	   templateEntity =new TemplateEntity();
+	   templateEntity.setStatus(TemplateConstant.TEMPLATE_STATUS_IS_UNAVAILABLE);
+	   templateEntity.setCode("sliding");
+	   templateEntity.setImage("resource/image/template/sliding.png");
+	   templateEntity.setName("Sliding云桌面");
+	   commonDao.save(templateEntity);
+
+	   templateEntity =new TemplateEntity();
+	   templateEntity.setStatus(TemplateConstant.TEMPLATE_STATUS_IS_AVAILABLE);
+	   templateEntity.setCode("ace");
+	   templateEntity.setImage("resource/image/template/ace.png");
+	   templateEntity.setName("ACE平面风格");
+	   commonDao.save(templateEntity);
+
+	   templateEntity =new TemplateEntity();
+	   templateEntity.setStatus(TemplateConstant.TEMPLATE_STATUS_IS_UNAVAILABLE);
+	   templateEntity.setCode("bootstrap");
+	   templateEntity.setImage("resource/image/template/bootstrap.png");
+	   templateEntity.setName("bootstrap风格");
+	   commonDao.save(templateEntity);
+   }
 
 	/**
 	 * 修复任务管理
@@ -735,6 +781,16 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		language.setTSIcon(pie);
 		language.setTSIconDesk(getDefaultInconForDesk());
 		commonDao.saveOrUpdate(language);
+
+		TSFunction template = new TSFunction();
+		template.setFunctionName("模版管理");
+		template.setFunctionUrl("templateController.do?template");
+		template.setFunctionLevel((short) 1);
+		template.setFunctionOrder("28");
+		template.setTSFunction(sys);
+		template.setTSIcon(pie);
+		template.setTSIconDesk(getDefaultInconForDesk());
+		commonDao.saveOrUpdate(template);
 
 		TSFunction useranalyse = new TSFunction();
 		useranalyse.setFunctionName("用户分析");
