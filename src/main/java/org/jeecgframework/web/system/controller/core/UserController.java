@@ -812,56 +812,6 @@ public class UserController extends BaseController {
 		this.systemService.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
-	@RequestMapping(params = "changestyle")
-	public String changeStyle(HttpServletRequest request) {
-		TSUser user = SessionUtils.getCurrentUser();
-		if(user==null){
-			return "login/login";
-		}
-		String indexStyle = "shortcut";
-		Cookie[] cookies = request.getCookies();
-		for (Cookie cookie : cookies) {
-			if(cookie==null || StringUtils.isEmpty(cookie.getName())){
-				continue;
-			}
-			if(cookie.getName().equalsIgnoreCase("JEECGINDEXSTYLE")){
-				indexStyle = cookie.getValue();
-			}
-		}
-		request.setAttribute("indexStyle", indexStyle);
-		return "system/user/changestyle";
-	}
-	/**
-	* @Title: saveStyle
-	* @Description: 修改首页样式
-	* @param request
-	* @return AjaxJson    
-	* @throws
-	 */
-	@RequestMapping(params = "savestyle")
-	@ResponseBody
-	public AjaxJson saveStyle(HttpServletRequest request,HttpServletResponse response) {
-		AjaxJson j = new AjaxJson();
-		j.setSuccess(Boolean.FALSE);
-		TSUser user = SessionUtils.getCurrentUser();
-		if(user!=null){
-			String indexStyle = request.getParameter("indexStyle");
-			if(StringUtils.isNotEmpty(indexStyle)){
-				Cookie cookie = new Cookie("JEECGINDEXSTYLE", indexStyle);
-				//设置cookie有效期为一个月
-				cookie.setMaxAge(3600*24*30);
-				response.addCookie(cookie);
-				j.setSuccess(Boolean.TRUE);
-				j.setMsg("样式修改成功，请刷新页面");
-			}
-            ClientManager.getInstance().getClient().getFunctions().clear();
-		}else{
-			j.setMsg("请登录后再操作");
-		}
-		return j;
-	}
-
-
 	/***
 	 * 导入用户
 	 * @param user

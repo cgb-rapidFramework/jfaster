@@ -3,7 +3,7 @@
 <!DOCTYPE html >
 <html>
 <head>
-<title><t:mutiLang langKey="common.platform"/></title>
+	<title><t:mutiLang langKey="system.title"/></title>
 <t:base type="jquery,easyui,tools,DatePicker,autocomplete"></t:base>
 <link rel="shortcut icon" href="images/favicon.ico">
 <style type="text/css">
@@ -127,7 +127,7 @@ a:hover {
 <div region="north" border="false" title="<t:mutiLang langKey="system.name"/>" style="BACKGROUND: #E6E6FA; height: 85px; padding: 1px; overflow: hidden;">
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
 <tr>
-    <td align="left" style="vertical-align: text-bottom;"><img src="plug-in/login/images/head.png;"> <img src="plug-in/login/images/foot.png"></td>
+    <td align="left" style="vertical-align: text-bottom;"><img src="plug-in/login/images/head.png;"></td>
     <td align="right" nowrap>
         <table>
             <tr>
@@ -156,11 +156,6 @@ a:hover {
                     <div class="menu-sep"></div>
                     <div onclick="add('<t:mutiLang langKey="common.change.password"/>','userController.do?changepassword')">
                         <t:mutiLang langKey="common.change.password"/>
-                    </div>
-
-                    <div class="menu-sep"></div>
-                    <div onclick="add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle')">
-                        <t:mutiLang langKey="common.my.style"/>
                     </div>
                 </div>
                 <div id="layout_north_zxMenu" style="width: 100px; display: none;">

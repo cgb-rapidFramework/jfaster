@@ -67,7 +67,7 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
 					//需要更新的明细数据-${sub.ftlDescription}
 					if(oldE.getId().equals(sendE.getId())){
 		    			try {
-							MyBeanUtils.copyBeanNotNull2Bean(sendE,oldE);
+                            BeanPropertyUtils.copyBeanNotNull2Bean(sendE,oldE);
 							this.saveOrUpdate(oldE);
 						} catch (Exception e) {
 							e.printStackTrace();

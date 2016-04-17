@@ -12,11 +12,14 @@ import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.platform.constant.SysThemesEnum;
 import org.jeecgframework.platform.util.SysThemesUtils;
 import org.jeecgframework.platform.util.SystemMenuUtils;
+import org.jeecgframework.web.system.constant.core.TemplateConstant;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.*;
+import org.jeecgframework.web.system.entity.core.TemplateEntity;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.service.MutiLangService;
 import org.jeecgframework.web.system.service.SystemService;
+import org.jeecgframework.web.system.service.TemplateService;
 import org.jeecgframework.web.system.service.UserService;
 import org.jeecgframework.web.utils.BeanToTagUtils;
 import org.jeecgframework.web.utils.NumberComparator;
@@ -31,7 +34,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -51,6 +56,8 @@ public class LoginController extends BaseController {
 
 	@Autowired
 	private MutiLangService mutiLangService;
+	@Autowired
+	private TemplateService templateService;
 	
 	@Autowired
 	public void setSystemService(SystemService systemService) {
@@ -192,7 +199,7 @@ public class LoginController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "login")
-	public String login(ModelMap modelMap,HttpServletRequest request) {
+	public String login(ModelMap modelMap,HttpServletRequest request,HttpServletResponse response) {
 		DataSourceContextHolder.setDataSourceType(DataSourceType.dataSource_jeecg);
 		TSUser user = SessionUtils.getCurrentUser();
 		String roles = "";
@@ -215,19 +222,17 @@ public class LoginController extends BaseController {
             ClientManager.getInstance().getClient().setRoles(roleList);
 			//request.getSession().setAttribute("lang", "en");
 
-			//设置默认风格
-			/*Cookie cookie = new Cookie("JEECGINDEXSTYLE", "ace");
+            TemplateEntity templateEntity=this.templateService.findUniqueByProperty(TemplateEntity.class,"status", TemplateConstant.TEMPLATE_STATUS_IS_AVAILABLE);
+			String code=templateEntity.getCode();
+//			String code="black";
+			Cookie cookie = new Cookie("JEECGINDEXSTYLE",code);
 			//设置cookie有效期为一个月
 			cookie.setMaxAge(3600*24*30);
 			response.addCookie(cookie);
 
-			SysThemesEnum sysTheme = SysThemesUtils.getSysTheme(request);
-			sysTheme.setStyle(SysThemesEnum.ACE_STYLE.getStyle());
-			sysTheme.setIndexPath(SysThemesEnum.ACE_STYLE.getIndexPath());
-			sysTheme.setThemes(SysThemesEnum.ACE_STYLE.getThemes());
-			*/
+			SysThemesEnum sysTheme =SysThemesEnum.toEnum(code);
+			TemplateConstant.setDefault(sysTheme,code);
 			//设置默认风格
-			SysThemesEnum sysTheme = SysThemesUtils.getSysTheme(request);
 			if("ace".equals(sysTheme.getStyle())){
 				request.setAttribute("menuMap", getFunctionMap(user));
 			}

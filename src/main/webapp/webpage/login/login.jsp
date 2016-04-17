@@ -81,14 +81,10 @@ label.iPhoneCheckLabelOn span {
 		<span><t:mutiLang langKey="common.login.success.wait" /></span>
 	</div>
 	<div id="login">
-		<%--<div class="ribbon"			style="background-image: url(plug-in/login/images/typelogin.png);"></div>--%>
 		<div class="inner">
 			<div class="logo">
-				<a style="font-size: 32px;color:gray;"><b><t:mutiLang langKey="system.name" /></b></a>
-				<%--<img src="plug-in/login/images/head.png" />
-
-				<img
-					src="plug-in/login/images/foot.png" />--%>
+				<%--<a style="font-size: 32px;color:gray;"><b><t:mutiLang langKey="system.name" /></b></a>--%>
+				<img src="plug-in/login/images/head.png" />
 			</div>
 			<div class="formLogin">
 				<form name="formLogin" id="formLogin"

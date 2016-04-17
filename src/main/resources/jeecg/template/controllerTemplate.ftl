@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.jeecgframework.core.util.MyBeanUtils;
+import org.jeecgframework.core.util.BeanPropertyUtils;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
@@ -120,7 +120,7 @@ public class ${entityName}Controller extends BaseController {
 			message = "${ftl_description}更新成功";
 			${entityName}Entity t = ${entityName?uncap_first}Service.find(${entityName}Entity.class, ${entityName?uncap_first}.getId());
 			try {
-				MyBeanUtils.copyBeanNotNull2Bean(${entityName?uncap_first}, t);
+                BeanPropertyUtils.copyBeanNotNull2Bean(${entityName?uncap_first}, t);
 				${entityName?uncap_first}Service.saveOrUpdate(t);
 				systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 			} catch (Exception e) {

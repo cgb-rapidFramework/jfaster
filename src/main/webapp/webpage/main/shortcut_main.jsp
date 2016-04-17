@@ -130,9 +130,9 @@ a:hover {
 <div region="north" border="false" title="" style="BACKGROUND: #A8D7E9; height: 100px; padding: 1px; overflow: hidden;">
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
 <tr>
-    <td align="left" style="vertical-align: text-bottom"><img src="plug-in/login/images/logo.jpg"> <!--
-            <img src="plug-in/login/images/toplogo.png" width="550" height="52" alt="">-->
-        <div style="position: absolute; top: 75px; left: 33px;"><t:mutiLang langKey="system.name"/> <span style="letter-spacing: -1px;">bate-v1.0</span></div>
+    <td align="left" style="position: absolute;top:35px;left: 12px;font-size: 38px; ">
+		<img src="plug-in/login/images/logo.jpg">
+		<%--<t:mutiLang langKey="system.name"/>--%>
     </td>
     <td align="right" nowrap>
         <table border="0" cellpadding="0" cellspacing="0">
@@ -163,10 +163,6 @@ a:hover {
                             <div class="menu-sep"></div>
                             <div onclick="add('<t:mutiLang langKey="common.change.password"/>','userController.do?changepassword')">
                                 <t:mutiLang langKey="common.change.password"/>
-                            </div>
-                            <div class="menu-sep"></div>
-                            <div onclick="add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle')">
-                                <t:mutiLang langKey="common.change.style"/>
                             </div>
                         </div>
                         <div id="layout_north_zxMenu" style="width: 100px; display: none;">

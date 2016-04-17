@@ -21,7 +21,7 @@ import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.service.SystemService;
-import org.jeecgframework.core.util.MyBeanUtils;
+import org.jeecgframework.core.util.BeanPropertyUtils;
 
 import ${bussiPackage}.entity.${entityPackage}.${entityName}Entity;
 import ${bussiPackage}.page.${entityPackage}.${entityName}Page;
