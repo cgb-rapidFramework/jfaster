@@ -16,7 +16,7 @@ import org.jeecgframework.core.util.BeanPropertyUtils;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
-import jodd.util.StringUtil;
+import org.jeecgframework.web.utils.StringUtils;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
@@ -116,7 +116,7 @@ public class ${entityName}Controller extends BaseController {
 	@ResponseBody
 	public AjaxJson save(${entityName}Entity ${entityName?uncap_first}, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		if (StringUtil.isNotEmpty(${entityName?uncap_first}.getId())) {
+		if (StringUtils.isNotEmpty(${entityName?uncap_first}.getId())) {
 			message = "${ftl_description}更新成功";
 			${entityName}Entity t = ${entityName?uncap_first}Service.find(${entityName}Entity.class, ${entityName?uncap_first}.getId());
 			try {
@@ -143,7 +143,7 @@ public class ${entityName}Controller extends BaseController {
 	 */
 	@RequestMapping(params = "addorupdate")
 	public ModelAndView addorupdate(${entityName}Entity ${entityName?uncap_first}, HttpServletRequest req) {
-		if (StringUtil.isNotEmpty(${entityName?uncap_first}.getId())) {
+		if (StringUtils.isNotEmpty(${entityName?uncap_first}.getId())) {
 			${entityName?uncap_first} = ${entityName?uncap_first}Service.findEntity(${entityName}Entity.class, ${entityName?uncap_first}.getId());
 			req.setAttribute("${entityName?uncap_first}Page", ${entityName?uncap_first});
 		}

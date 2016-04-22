@@ -17,7 +17,7 @@ import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.platform.constant.Globals;
-import jodd.util.StringUtil;
+import org.jeecgframework.web.utils.StringUtils;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.util.BeanPropertyUtils;
@@ -120,7 +120,7 @@ public class ${entityName}Controller extends BaseController {
 		List<${sub.entityName}Entity> ${sub.entityName?uncap_first}List =  ${entityName?uncap_first}Page.get${sub.entityName}List();
 		</#list>
 		AjaxJson j = new AjaxJson();
-		if (StringUtil.isNotEmpty(${entityName?uncap_first}.getId())) {
+		if (StringUtils.isNotEmpty(${entityName?uncap_first}.getId())) {
 			message = "更新成功";
 			${entityName?uncap_first}Service.updateMain(${entityName?uncap_first}, <#list subTab as sub>${sub.entityName?uncap_first}List<#if sub_has_next>,</#if></#list>);
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
@@ -140,7 +140,7 @@ public class ${entityName}Controller extends BaseController {
 	 */
 	@RequestMapping(params = "addorupdate")
 	public ModelAndView addorupdate(${entityName}Entity ${entityName?uncap_first}, HttpServletRequest req) {
-		if (StringUtil.isNotEmpty(${entityName?uncap_first}.getId())) {
+		if (StringUtils.isNotEmpty(${entityName?uncap_first}.getId())) {
 			${entityName?uncap_first} = ${entityName?uncap_first}Service.findEntity(${entityName}Entity.class, ${entityName?uncap_first}.getId());
 			req.setAttribute("${entityName?uncap_first}Page", ${entityName?uncap_first});
 		}
