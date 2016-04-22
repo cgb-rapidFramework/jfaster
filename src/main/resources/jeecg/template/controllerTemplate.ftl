@@ -16,11 +16,11 @@ import org.jeecgframework.core.util.BeanPropertyUtils;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
-import org.jeecgframework.core.util.StringUtil;
+import jodd.util.StringUtil;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
-import org.jeecgframework.web.command.util.hqlsearch.HqlGenerateUtil;
-import org.jeecgframework.web.common.controller.BaseController;
+import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
+import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.service.SystemService;
 
 

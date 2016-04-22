@@ -6,7 +6,7 @@ import java.util.List;
 import ${bussiPackage}.service.${entityPackage}.${entityName}ServiceI;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.common.exception.BusinessException;
-import org.jeecgframework.core.util.MyBeanUtils;
+import org.jeecgframework.core.util.BeanPropertyUtils;
 import ${bussiPackage}.entity.${entityPackage}.${entityName}Entity;
 <#list subTab as sub>
 import ${bussiPackage}.entity.${sub.entityPackage}.${sub.entityName}Entity;
@@ -59,7 +59,7 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
 		//===================================================================================
 		//1.查询出数据库的明细数据-${sub.ftlDescription}
 	    String hql${sub_index} = "from ${sub.entityName}Entity where 1 = 1<#list sub.foreignKeys as key> AND ${key?uncap_first} = ? </#list>";
-	    List<${sub.entityName}Entity> ${sub.entityName?uncap_first}OldList = this.findHql(hql${sub_index},<#list sub.foreignKeys as key><#if key?lower_case?index_of("${jeecg_table_id}")!=-1>${jeecg_table_id}${sub_index}<#else>${key?uncap_first}${sub_index}</#if><#if key_has_next>,</#if></#list>);
+	    List<${sub.entityName}Entity> ${sub.entityName?uncap_first}OldList = this.findByHql(hql${sub_index},<#list sub.foreignKeys as key><#if key?lower_case?index_of("${jeecg_table_id}")!=-1>${jeecg_table_id}${sub_index}<#else>${key?uncap_first}${sub_index}</#if><#if key_has_next>,</#if></#list>);
 		//2.筛选更新明细数据-${sub.ftlDescription}
 		for(${sub.entityName}Entity oldE:${sub.entityName?uncap_first}OldList){
 			boolean isUpdate = false;
@@ -121,8 +121,8 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
 		//===================================================================================
 		//删除-${sub.ftlDescription}
 	    String hql${sub_index} = "from ${sub.entityName}Entity where 1 = 1<#list sub.foreignKeys as key> AND ${key?uncap_first} = ? </#list>";
-	    List<${sub.entityName}Entity> ${sub.entityName?uncap_first}OldList = this.findHql(hql${sub_index},<#list sub.foreignKeys as key><#if key?lower_case?index_of("${jeecg_table_id}")!=-1>${jeecg_table_id}${sub_index}<#else>${key?uncap_first}${sub_index}</#if><#if key_has_next>,</#if></#list>);
-		this.deleteAllEntitie(${sub.entityName?uncap_first}OldList);
+	    List<${sub.entityName}Entity> ${sub.entityName?uncap_first}OldList = this.findByHql(hql${sub_index},<#list sub.foreignKeys as key><#if key?lower_case?index_of("${jeecg_table_id}")!=-1>${jeecg_table_id}${sub_index}<#else>${key?uncap_first}${sub_index}</#if><#if key_has_next>,</#if></#list>);
+		this.deleteEntities(${sub.entityName?uncap_first}OldList);
 		</#list>
 	}
 	

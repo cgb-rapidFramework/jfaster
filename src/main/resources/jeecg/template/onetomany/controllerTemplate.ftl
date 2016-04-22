@@ -12,14 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.jeecgframework.core.common.controller.BaseController;
+import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
-import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.tag.core.easyui.TagUtil;
-import org.jeecgframework.web.system.pojo.base.TSDepart;
+import org.jeecgframework.platform.constant.Globals;
+import jodd.util.StringUtil;
+import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.util.BeanPropertyUtils;
 
@@ -84,8 +83,8 @@ public class ${entityName}Controller extends BaseController {
 	public void datagrid(${entityName}Entity ${entityName?uncap_first},HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(${entityName}Entity.class, dataGrid);
 		//查询条件组装器
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, ${entityName?uncap_first});
-		this.${entityName?uncap_first}Service.getDataGridReturn(cq, true);
+		org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil.installHql(cq, ${entityName?uncap_first});
+		this.${entityName?uncap_first}Service.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
 
@@ -98,7 +97,7 @@ public class ${entityName}Controller extends BaseController {
 	@ResponseBody
 	public AjaxJson del(${entityName}Entity ${entityName?uncap_first}, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		${entityName?uncap_first} = systemService.getEntity(${entityName}Entity.class, ${entityName?uncap_first}.getId());
+		${entityName?uncap_first} = systemService.findEntity(${entityName}Entity.class, ${entityName?uncap_first}.getId());
 		message = "删除成功";
 		${entityName?uncap_first}Service.delete(${entityName?uncap_first});
 		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -142,7 +141,7 @@ public class ${entityName}Controller extends BaseController {
 	@RequestMapping(params = "addorupdate")
 	public ModelAndView addorupdate(${entityName}Entity ${entityName?uncap_first}, HttpServletRequest req) {
 		if (StringUtil.isNotEmpty(${entityName?uncap_first}.getId())) {
-			${entityName?uncap_first} = ${entityName?uncap_first}Service.getEntity(${entityName}Entity.class, ${entityName?uncap_first}.getId());
+			${entityName?uncap_first} = ${entityName?uncap_first}Service.findEntity(${entityName}Entity.class, ${entityName?uncap_first}.getId());
 			req.setAttribute("${entityName?uncap_first}Page", ${entityName?uncap_first});
 		}
 		return new ModelAndView("${bussiPackage?replace(".","/")}/${entityPackage}/${entityName?uncap_first}");
@@ -171,7 +170,7 @@ public class ${entityName}Controller extends BaseController {
 		//查询-${sub.ftlDescription}
 	    String hql${sub_index} = "from ${sub.entityName}Entity where 1 = 1<#list sub.foreignKeys as key> AND ${key?uncap_first} = ? </#list>";
 		try{
-		    List<${sub.entityName}Entity> ${sub.entityName?uncap_first}EntityList = systemService.findHql(hql${sub_index},<#list sub.foreignKeys as key><#if key?lower_case?index_of("${jeecg_table_id}")!=-1>${jeecg_table_id}${sub_index}<#else>${key?uncap_first}${sub_index}</#if><#if key_has_next>,</#if></#list>);
+		    List<${sub.entityName}Entity> ${sub.entityName?uncap_first}EntityList = systemService.findByHql(hql${sub_index},<#list sub.foreignKeys as key><#if key?lower_case?index_of("${jeecg_table_id}")!=-1>${jeecg_table_id}${sub_index}<#else>${key?uncap_first}${sub_index}</#if><#if key_has_next>,</#if></#list>);
 			req.setAttribute("${sub.entityName?uncap_first}List", ${sub.entityName?uncap_first}EntityList);
 		}catch(Exception e){
 			logger.info(e.getMessage());
