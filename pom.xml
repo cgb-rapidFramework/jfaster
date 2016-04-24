@@ -708,17 +708,6 @@
 			<artifactId>mongo-java-driver</artifactId>
 			<version>${mongo-java-driver}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.mayframework</groupId>
-			<artifactId>bms-core</artifactId>
-			<version>1.0.0-RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.mayframework</groupId>
-			<artifactId>bms-core</artifactId>
-			<version>1.0.0-RELEASE</version>
-		</dependency>
-
 	</dependencies>
 
 	<organization>
