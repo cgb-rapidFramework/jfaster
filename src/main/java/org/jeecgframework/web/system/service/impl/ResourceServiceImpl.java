@@ -46,7 +46,6 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 	 * @param uploadFile
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
 	public Object uploadFile(UploadFile uploadFile) {
 		Object object = uploadFile.getObject();
 		if(uploadFile.getFileKey()!=null)
@@ -249,10 +248,10 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 					String fieldName = fields[i];
 					// 第一为实体的主键
 					if (i == 0) {
-						childElement.addAttribute(fieldName, String.valueOf(TagUtil.fieldNametoValues(fieldName, t)));
+						childElement.addAttribute(fieldName, String.valueOf(TagUtil.fieldNameToValues(fieldName, t)));
 					} else {
 						Element name = childElement.addElement(fieldName);
-						name.setText(String.valueOf(TagUtil.fieldNametoValues(fieldName, t)));
+						name.setText(String.valueOf(TagUtil.fieldNameToValues(fieldName, t)));
 					}
 				}
 
@@ -443,7 +442,7 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 			}
 			tg.setId(id);
 			if (treeGridModel.getIcon() != null) {
-				String iconpath = TagUtil.fieldNametoValues(treeGridModel.getIcon(), obj).toString();
+				String iconpath = TagUtil.fieldNameToValues(treeGridModel.getIcon(), obj).toString();
 				if (iconpath != null) {
 					tg.setCode(iconpath);
 				} else {
@@ -453,7 +452,7 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 			tg.setSrc(src);
 			tg.setText(text);
 			if (treeGridModel.getParentId() != null) {
-				Object pid = TagUtil.fieldNametoValues(treeGridModel.getParentId(), obj);
+				Object pid = TagUtil.fieldNameToValues(treeGridModel.getParentId(), obj);
 				if (pid != null) {
 					tg.setParentId(pid.toString());
 				} else {
@@ -461,7 +460,7 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 				}
 			}
 			if (treeGridModel.getParentText() != null) {
-				Object ptext = TagUtil.fieldNametoValues(treeGridModel.getTextField(), obj);
+				Object ptext = TagUtil.fieldNameToValues(treeGridModel.getTextField(), obj);
 				if (ptext != null) {
 					tg.setParentText(ptext.toString());
 				} else {

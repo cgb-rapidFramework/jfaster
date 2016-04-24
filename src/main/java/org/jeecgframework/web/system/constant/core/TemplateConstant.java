@@ -33,13 +33,19 @@ public class TemplateConstant {
             sysTheme.setStyle(SysThemesEnum.SLIDING_STYLE.getStyle());
             sysTheme.setIndexPath(SysThemesEnum.SLIDING_STYLE.getIndexPath());
             sysTheme.setThemes(SysThemesEnum.SLIDING_STYLE.getThemes());
-        }else{
-//            sysTheme.setStyle(SysThemesEnum.BOOTSTRAP_STYLE.getStyle());
-//            sysTheme.setIndexPath(SysThemesEnum.BOOTSTRAP_STYLE.getIndexPath());
-//            sysTheme.setThemes(SysThemesEnum.BOOTSTRAP_STYLE.getThemes());
-            sysTheme.setStyle("black");
+        }else if(code.equals(SysThemesEnum.BOOTSTRAP_STYLE.getStyle())){
+            sysTheme.setStyle(SysThemesEnum.BOOTSTRAP_STYLE.getStyle());
             sysTheme.setIndexPath(SysThemesEnum.BOOTSTRAP_STYLE.getIndexPath());
-            sysTheme.setThemes("black");
+            sysTheme.setThemes(SysThemesEnum.BOOTSTRAP_STYLE.getThemes());
+        }else  if(code.equals(SysThemesEnum.BLACK_STYLE.getStyle())){
+            sysTheme.setStyle(SysThemesEnum.BLACK_STYLE.getStyle());
+            sysTheme.setIndexPath(SysThemesEnum.BLACK_STYLE.getIndexPath());
+            sysTheme.setThemes(SysThemesEnum.BLACK_STYLE.getThemes());
+        }else{
+            sysTheme.setStyle("flat");
+            sysTheme.setIndexPath("main/flat_main");
+            sysTheme.setThemes("blue");
+            sysTheme.setDesc("扁平化风格");
         }
     }
 

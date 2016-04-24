@@ -224,7 +224,6 @@ public class LoginController extends BaseController {
 
             TemplateEntity templateEntity=this.templateService.findUniqueByProperty(TemplateEntity.class,"status", TemplateConstant.TEMPLATE_STATUS_IS_AVAILABLE);
 			String code=templateEntity.getCode();
-//			String code="black";
 			Cookie cookie = new Cookie("JEECGINDEXSTYLE",code);
 			//设置cookie有效期为一个月
 			cookie.setMaxAge(3600*24*30);

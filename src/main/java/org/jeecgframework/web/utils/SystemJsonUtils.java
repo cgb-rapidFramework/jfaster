@@ -109,7 +109,7 @@ public class SystemJsonUtils {
 			jsonTemp = jsonTemp + "{\"state\":\"closed\",";
 			for (int i = 0; i < fields.length; i++) {
 				String fieldName = fields[i].toString();
-				values[i] = TagUtil.fieldNametoValues(fieldName, list.get(j));
+				values[i] = TagUtil.fieldNameToValues(fieldName, list.get(j));
 				jsonTemp = jsonTemp + "\"" + fieldName + "\"" + ":\"" + values[i] + "\"";
 				if (i != fields.length - 1) {
 					jsonTemp = jsonTemp + ",";

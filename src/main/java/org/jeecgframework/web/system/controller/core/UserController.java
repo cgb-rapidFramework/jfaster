@@ -579,7 +579,6 @@ public class UserController extends BaseController {
 			
 			req.setAttribute("user", user);
 			idandname(req, user);
-
             orgIdList = systemService.findByHql("select d.id from TSDepart d,TSUserOrg uo where d.id=uo.tsDepart.id and uo.tsUser.id=?", new String[]{user.getId()});
 		}
         req.setAttribute("orgIdList", JSON.toJSON(orgIdList));
