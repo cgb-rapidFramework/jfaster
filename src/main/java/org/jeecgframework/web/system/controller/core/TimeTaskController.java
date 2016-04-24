@@ -13,7 +13,6 @@ import org.jeecgframework.web.system.job.DynamicTaskService;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.TimeTaskService;
 import org.jeecgframework.web.utils.StringUtils;
-import org.quartz.CronTrigger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -112,13 +111,13 @@ public class TimeTaskController extends BaseController {
 	@ResponseBody
 	public AjaxJson save(TSTimeTaskEntity timeTask, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		CronTrigger trigger = new CronTrigger();
+		/*CronTrigger trigger = new CronTrigger();
 		try {
 			trigger.setCronExpression(timeTask.getCronExpression());
 		} catch (ParseException e) {
 			j.setMsg("Cron表达式错误");
 			return j;
-		}
+		}*/
 		if (StringUtils.isNotEmpty(timeTask.getId())) {
 			message = "定时任务管理更新成功";
 			TSTimeTaskEntity t = timeTaskService.find(TSTimeTaskEntity.class, timeTask.getId());

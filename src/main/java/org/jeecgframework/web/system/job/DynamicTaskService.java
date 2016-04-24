@@ -1,26 +1,6 @@
 package org.jeecgframework.web.system.job;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URI;
-import java.text.ParseException;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.SAXReader;
-import org.dom4j.io.XMLWriter;
-import org.quartz.CronTrigger;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.Trigger;
+
 import org.springframework.stereotype.Service;
 
 /**
@@ -34,8 +14,8 @@ public class DynamicTaskService {
 	
 	private static Logger logger = Logger.getLogger(DynamicTaskService.class);
 
-	@Resource
-	private Scheduler schedulerFactory;
+//	@Resource
+//	private Scheduler schedulerFactory;
 	
 	/**
 	 * 更新定时任务的触发表达式
@@ -48,7 +28,7 @@ public class DynamicTaskService {
 	 */
 	public boolean startOrStop(String triggerName,
 			boolean start) {
-		try {
+		/*try {
 			CronTrigger trigger = (CronTrigger) getTrigger(triggerName,
 					Scheduler.DEFAULT_GROUP);
 			if(start){
@@ -62,7 +42,8 @@ public class DynamicTaskService {
 		}  catch (SchedulerException e) {
 			logger.error("Fail to reschedule. " + e);
 			return false;
-		}
+		}*/
+		return false;
 	}
 
 	/**
@@ -76,7 +57,7 @@ public class DynamicTaskService {
 	 */
 	public boolean updateCronExpression(String triggerName,
 			String cronExpression) {
-		try {
+	/*	try {
 			CronTrigger trigger = (CronTrigger) getTrigger(triggerName,
 					Scheduler.DEFAULT_GROUP);
 			if (trigger == null) {
@@ -99,7 +80,8 @@ public class DynamicTaskService {
 		} catch (SchedulerException e) {
 			logger.error("Fail to reschedule. " + e);
 			return false;
-		}
+		}*/
+		return false;
 	}
 
 	/**
@@ -111,7 +93,7 @@ public class DynamicTaskService {
 	 *            触发器组名字
 	 * @return 对应Trigger
 	 */
-	private Trigger getTrigger(String triggerName, String groupName) {
+	/*private Trigger getTrigger(String triggerName, String groupName) {
 		Trigger trigger = null;
 		if (StringUtils.isBlank(groupName)) {
 			logger.warn("Schedule Job Group is empty!");
@@ -133,14 +115,14 @@ public class DynamicTaskService {
 					+ triggerName + ", groupName : " + groupName);
 		}
 		return trigger;
-	}
+	}*/
 	/**
 	 * 更新spring-mvc-timeTask.xml 配置文件
-	 * @param trigger
-	 * @param cronExpression 
+//	 * @param trigger
+//	 * @param cronExpression
 	 */
 	@SuppressWarnings("unchecked")
-	public synchronized static void updateSpringMvcTaskXML(CronTrigger trigger, String cronExpression) {
+	/*public synchronized static void updateSpringMvcTaskXML(CronTrigger trigger, String cronExpression) {
 		Document document = null;
 		File file = null;
 		SAXReader saxReader = new SAXReader();
@@ -184,7 +166,7 @@ public class DynamicTaskService {
 			}
 		}
 		
-	}
+	}*/
    /**
     * 创建Trigger
     * @param triggerName

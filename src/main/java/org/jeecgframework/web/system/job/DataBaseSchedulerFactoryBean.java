@@ -1,8 +1,6 @@
 package org.jeecgframework.web.system.job;
 
-import org.jeecgframework.web.system.entity.base.TSTimeTaskEntity;
 import org.jeecgframework.web.system.service.TimeTaskService;
-import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 /**
@@ -11,16 +9,17 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
  * @date 2013-9-22
  * @version 1.0
  */
-public class DataBaseSchedulerFactoryBean extends SchedulerFactoryBean {
+public class DataBaseSchedulerFactoryBean {
 	
-	@Autowired
-	private TimeTaskService timeTaskService;
+//	@Autowired
+//	private TimeTaskService timeTaskService;
 	/**
 	 * 读取数据库判断是否开始定时任务
 	 */
+
 	public void afterPropertiesSet() throws Exception {
-		super.afterPropertiesSet();
-		String[] trigerrNames = this.getScheduler().getTriggerNames(Scheduler.DEFAULT_GROUP);
+//		super.afterPropertiesSet();
+		/*String[] trigerrNames = this.getScheduler().getTriggerNames(Scheduler.DEFAULT_GROUP);
 		TSTimeTaskEntity task;
 		
 		for (String trigerrName : trigerrNames) {
@@ -30,7 +29,7 @@ public class DataBaseSchedulerFactoryBean extends SchedulerFactoryBean {
 			if(task==null || !"1".equals(task.getIsStart())){
 				this.getScheduler().pauseTrigger(trigerrName,Scheduler.DEFAULT_GROUP);
 			}
-		}
+		}*/
 	}
 
 }

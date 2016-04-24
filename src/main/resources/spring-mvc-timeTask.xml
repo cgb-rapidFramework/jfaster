@@ -14,9 +14,9 @@
 		scheduler="scheduler" />
 		
 	<!-- 定时任务配置 quartz 可配置到管理界面 -->
-	<bean id="taskDemoServiceTaskJob"
+	<!--<bean id="taskDemoServiceTaskJob"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="taskDemoService" />
+		<property name="targetBeanName" ref="taskDemoService" />
 		<property name="targetMethod" value="work" />
 		<property name="concurrent" value="true" />
 	</bean>
@@ -26,7 +26,7 @@
 		<property name="cronExpression" value="0 0/1 * * * ?" />
 	</bean>
 
-	<!-- 定时任务调度器 -->
+	&lt;!&ndash; 定时任务调度器 &ndash;&gt;
 	<bean id="schedulerFactory" lazy-init="false" autowire="no"
 		class="org.jeecgframework.web.system.job.DataBaseSchedulerFactoryBean">
 		<property name="triggers">
@@ -34,6 +34,6 @@
 				<ref bean="taskDemoServiceTaskCronTrigger" />
 			</list>
 		</property>
-	</bean>
+	</bean>-->
 
 </beans>

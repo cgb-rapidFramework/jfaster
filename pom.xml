@@ -9,6 +9,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<codegenerate.version>3.4.6</codegenerate.version>
 		<!-- 主要依赖库的版本定义 -->
+		<bms-core.version>1.0.0-RELEASE</bms-core.version>
 		<bms-platform.version>1.1.0-RELEASE</bms-platform.version>
 		<spring.version>3.1.1.RELEASE</spring.version>
 		<hibernate.version>4.1.0.Final</hibernate.version>
@@ -75,8 +76,8 @@
 		<junit.version>4.7</junit.version>
 		<!-- java生成缩略图 -->
 		<thumbnailator.version>0.4.6</thumbnailator.version>
-		<pinyin4j.version>2.5.0</pinyin4j.version>
-		<org.quartz.version>1.6.2</org.quartz.version>
+		<!--<pinyin4j.version>2.5.0</pinyin4j.version>-->
+		<!--<org.quartz.version>1.6.2</org.quartz.version>-->
 		<activation.version>1.1.1</activation.version>
 		<aopalliance.version>1.0</aopalliance.version>
 		<xstream.version>1.4.4</xstream.version>
@@ -87,35 +88,35 @@
 
 	<repositories>
 		<repository>
-			<id>aliyun-public</id>
-			<name>aliyun-public Repository</name>
-			<url>http://maven.aliyun.com/nexus/content/repositories/public</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>sonatype-public</id>
-			<name>sonatype-public Repository</name>
+			<id>sonatype</id>
+			<name>sonatype</name>
 			<url>http://repository.sonatype.org/content/groups/public/</url>
 			<snapshots>
-				<enabled>true</enabled>
+				<enabled>false</enabled>
 			</snapshots>
 		</repository>
 		<repository>
-			<id>jboss-public</id>
-			<name>jboss-public Repository</name>
-			<url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+			<id>central</id>
+			<name>Central Repository</name>
+			<url>http://repo.maven.apache.org/maven2</url>
 			<snapshots>
-				<enabled>true</enabled>
+				<enabled>false</enabled>
 			</snapshots>
 		</repository>
 		<repository>
-			<id>jeecg-snapshots</id>
-			<name>jeecg-snapshots Repository</name>
-			<url>http://maven.jeecg.org/nexus/content/repositories/snapshots</url>
+			<id>jboss</id>
+			<name>jboss Repository</name>
+			<url>http://repository.jboss.com/maven2/</url>
 			<snapshots>
-				<enabled>true</enabled>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>jeecg</id>
+			<name>jeecg</name>
+			<url>http://maven.jeecg.org/nexus/content/repositories/public</url>
+			<snapshots>
+				<enabled>false</enabled>
 			</snapshots>
 		</repository>
 	</repositories>
@@ -153,17 +154,18 @@
 			<version>3.1.0.Final</version>
 		</dependency>
 
-		<dependency>
+		 <!--若需要请手动引入，并修改bms-platform-->
+		<!--<dependency>
 			<groupId>pinyin4j</groupId>
 			<artifactId>pinyin4j</artifactId>
 			<version>${pinyin4j.version}</version>
-		</dependency>
+		</dependency>-->
 
-		<dependency>
-			<groupId>com.springsource</groupId>
-			<artifactId>org.quartz</artifactId>
-			<version>${org.quartz.version}</version>
-		</dependency>
+		<!--<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.2.2</version>
+		</dependency>-->
 		<!-- SPRING start -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -308,12 +310,12 @@
 
 
 
-
-		<dependency>
+        <!--请手动引入 sqlserver.jar-->
+		<!--<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>sqljdbc4</artifactId>
 			<version>${sqlserver.version}</version>
-		</dependency>
+		</dependency>-->
 		<!-- postgresql -->
 		<dependency>
 		<groupId>org.postgresql</groupId>
@@ -695,10 +697,26 @@
 			<version>${bms-platform.version}</version>
 		</dependency>
 
+        <dependency>
+			<groupId>org.mayframework</groupId>
+			<artifactId>bms-core</artifactId>
+			<version>${bms-core.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
 			<version>${mongo-java-driver}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mayframework</groupId>
+			<artifactId>bms-core</artifactId>
+			<version>1.0.0-RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mayframework</groupId>
+			<artifactId>bms-core</artifactId>
+			<version>1.0.0-RELEASE</version>
 		</dependency>
 
 	</dependencies>
