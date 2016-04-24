@@ -39,7 +39,7 @@
 	<t:dgToolBar title="common.password.reset" icon="icon-edit" url="userController.do?changepasswordforuser" funname="update"></t:dgToolBar>
 	<t:dgToolBar title="common.lock.user" icon="icon-edit" url="userController.do?lock" funname="lockObj"></t:dgToolBar>
     <t:dgToolBar title="导入用户" icon="icon-add" url="userController.do?importUser" funname="add"></t:dgToolBar>
-	
+    <t:dgToolBar title="导出Excel" icon="icon-print" onclick="exportXls();" ></t:dgToolBar>
 </t:datagrid>
 <script type="text/javascript">
 
@@ -129,5 +129,21 @@ function lockuploadify(url, id) {
             $('#orgIds').val(id);
             $("input[name='orgIds']").val(id);
         }
+    }
+</script>
+
+<script type="text/javascript">
+    /*
+     *拼接查询参数
+     */
+    function exportXls() {
+        var query = $("#userList").datagrid('options').queryParams;
+        var queryParams;
+        for ( var key in query) {
+            if (key != 'searchColums' && query[key] != 'undefined') {
+                queryParams = queryParams + key + '=' + query[key] + '&';
+            }
+        }
+        window.location.href = "userController.do?exportUser&"+ queryParams;
     }
 </script>

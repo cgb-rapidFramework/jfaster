@@ -1,7 +1,13 @@
 package org.jeecgframework.web.system.service;
 
+import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
+import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.service.CommonService;
 import org.jeecgframework.web.system.entity.base.TSUser;
+import org.jeecgframework.web.system.vo.base.ExlUserVo;
+
+import java.util.List;
+
 /**
  * 
  * @author  张代浩
@@ -20,4 +26,6 @@ public interface UserService extends CommonService{
 	 *@return
 	 */
 	public int getUsersOfThisRole(String id);
+
+	List<ExlUserVo> getExlUserList(DataGrid dataGrid, TSUser user, CriteriaQuery cq);
 }

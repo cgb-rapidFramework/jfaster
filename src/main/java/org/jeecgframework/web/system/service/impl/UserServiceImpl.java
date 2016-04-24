@@ -1,18 +1,28 @@
 package org.jeecgframework.web.system.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
+import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
+import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
+import org.jeecgframework.platform.constant.Globals;
+import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
+import org.jeecgframework.web.system.entity.base.TSRole;
 import org.jeecgframework.web.system.entity.base.TSRoleUser;
 import org.jeecgframework.web.system.entity.base.TSUser;
+import org.jeecgframework.web.system.entity.base.TSUserOrg;
 import org.jeecgframework.web.system.service.UserService;
+import org.jeecgframework.web.system.vo.base.ExlUserVo;
 import org.jeecgframework.web.utils.PasswordUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 /**
  * 
@@ -74,4 +84,35 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 				Projections.rowCount()).uniqueResult()).intValue();
 		return allCounts;
 	}
+
+	@Override
+	public List<ExlUserVo> getExlUserList(DataGrid dataGrid, TSUser user, CriteriaQuery cq) {
+		List<TSUser> users= this.findListByCq(cq, true);
+		List<ExlUserVo> exlUserList=new ArrayList<ExlUserVo>();
+		// 参数组装
+		for (TSUser model : users) {
+			ExlUserVo exlUserVo = new ExlUserVo();
+			String departName="";
+			for (TSUserOrg org:model.getUserOrgList()){
+				departName+=org.getTsDepart().getDepartname()+",";
+			}
+			exlUserVo.setDepartName(departName);
+			exlUserVo.setEmail(model.getEmail());
+			exlUserVo.setMobilePhone(model.getMobilePhone());
+			exlUserVo.setOfficePhone(model.getOfficePhone());
+			exlUserVo.setRealName(model.getRealName());
+			String roleName = "";
+			for(TSRoleUser role:model.getRoleUserList()){
+				roleName+=role.getTSRole().getRoleName()+",";
+			}
+			exlUserVo.setRoleName(roleName);
+			exlUserVo.setUserName(model.getUserName());
+			exlUserList.add(exlUserVo);
+		}
+		return exlUserList;
+	}
+
+
+
+
 }
