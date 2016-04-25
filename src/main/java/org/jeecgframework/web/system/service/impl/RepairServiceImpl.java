@@ -5,12 +5,21 @@ import org.jeecgframework.core.util.LogUtils;
 import org.jeecgframework.web.system.constant.core.TemplateConstant;
 import org.jeecgframework.web.system.entity.base.*;
 import org.jeecgframework.web.system.entity.core.TemplateEntity;
+import org.jeecgframework.web.system.service.MutiLangService;
 import org.jeecgframework.web.system.service.RepairService;
+import org.jeecgframework.web.system.service.UserService;
 import org.jeecgframework.web.utils.ConfigUtils;
 import org.jeecgframework.web.utils.DateUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.List;
 
@@ -22,15 +31,16 @@ import java.util.List;
  */
 @Service("repairService")
 @Transactional
-public class RepairServiceImpl extends CommonServiceImpl implements
-		RepairService {
-
+public class RepairServiceImpl extends CommonServiceImpl implements RepairService {
 
 	/**
 	 * @Description 先清空数据库，然后再修复数据库
 	 * @author tanghan 2013-7-19
 	 */
-	
+
+	@Autowired
+	private MutiLangService mutiLangService;
+
 	public void deleteAndRepair() {
 		// 由于表中有主外键关系，清空数据库需注意
 		commonDao.executeHql("delete TSLog");
@@ -52,6 +62,8 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		commonDao.executeHql("delete TSTimeTaskEntity");
 		commonDao.executeHql("update TSTerritory t set t.TSTerritory = null");
 		commonDao.executeHql("delete TSTerritory");
+		commonDao.executeHql("delete TemplateEntity");
+		commonDao.executeHql("delete MutiLangEntity");
 		repair();
 	}
 
@@ -59,7 +71,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 	 * @Description 修复数据库
 	 * @author tanghan 2013-7-19
 	 */
-	
+
 	synchronized public void repair() {
 		repaireIcon(); // 修复图标
 		repairDepart();// 修复部门表
@@ -68,60 +80,89 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		repairUserRole();// 修复用户和角色的关系
 		repairTypeAndGroup();// 修复字典类型
 		repairType();// 修复字典值
-		repairTask();//修复任务管理
+		repairTask();// 修复任务管理
 		repairLog();// 修复日志表
 		repairMenu();// 修复菜单权限
 		repairOperation(); // 修复操作表
 		repairRoleFunction();// 修复角色和权限的关系
-		repairTemplate();//修复模版
-		repairMutilang();//
+		repairTemplate();// 修复模版
+		repairMutilang();// 修复多国语言
+		repairTerritory();// 修复地域
+	}
+
+	private void repairTerritory() {
+		try {
+			ClassPathResource sqlFile = new ClassPathResource("sql/repair/RepairDao_batchRepairTerritory.sql");
+			//InputStream sqlFile = getClass().getResourceAsStream("../../sql/repair/RepairDao_batchRepairTerritory.sql");
+			InputStreamReader isr = null;
+			isr = new InputStreamReader(sqlFile.getInputStream(),"utf-8");
+			BufferedReader br = new BufferedReader(isr);
+			String str = "";
+			while ((str = br.readLine()) != null) {
+				commonDao.updateBySql(str);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void repairMutilang() {
-      //TODO
-
+		try {
+			ClassPathResource sqlFile = new ClassPathResource("sql/repair/RepairDao_batchRepairMutilang.sql");
+			//InputStream sqlFile = getClass().getResourceAsStream("../../sql/repair/RepairDao_batchRepairMutilang.sql");
+			InputStreamReader isr = null;
+			isr = new InputStreamReader(sqlFile.getInputStream(),"utf-8");
+			BufferedReader br = new BufferedReader(isr);
+			String str = "";
+			while ((str = br.readLine()) != null) {
+				commonDao.updateBySql(str);
+			}
+			mutiLangService.refleshMutiLangCach();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-
 	private void repairTemplate() {
-	   TemplateEntity templateEntity =new TemplateEntity();
-	   templateEntity.setStatus(TemplateConstant.TEMPLATE_STATUS_IS_UNAVAILABLE);
-	   templateEntity.setCode("经典风格");
-	   templateEntity.setImage("resource/image/template/default.png");
-	   templateEntity.setName("经典风格");
-	   commonDao.save(templateEntity);
+		TemplateEntity templateEntity = new TemplateEntity();
+		templateEntity.setStatus(TemplateConstant.TEMPLATE_STATUS_IS_UNAVAILABLE);
+		templateEntity.setCode("经典风格");
+		templateEntity.setImage("resource/image/template/default.png");
+		templateEntity.setName("经典风格");
+		commonDao.save(templateEntity);
 
-	   templateEntity =new TemplateEntity();
-	   templateEntity.setStatus(TemplateConstant.TEMPLATE_STATUS_IS_UNAVAILABLE);
-	   templateEntity.setCode("shortcut");
-	   templateEntity.setImage("resource/image/template/shortcut.png");
-	   templateEntity.setName("shortcut风格");
-	   commonDao.save(templateEntity);
+		templateEntity = new TemplateEntity();
+		templateEntity.setStatus(TemplateConstant.TEMPLATE_STATUS_IS_UNAVAILABLE);
+		templateEntity.setCode("shortcut");
+		templateEntity.setImage("resource/image/template/shortcut.png");
+		templateEntity.setName("shortcut风格");
+		commonDao.save(templateEntity);
 
-	   templateEntity =new TemplateEntity();
-	   templateEntity.setStatus(TemplateConstant.TEMPLATE_STATUS_IS_UNAVAILABLE);
-	   templateEntity.setCode("sliding");
-	   templateEntity.setImage("resource/image/template/sliding.png");
-	   templateEntity.setName("Sliding云桌面");
-	   commonDao.save(templateEntity);
+		templateEntity = new TemplateEntity();
+		templateEntity.setStatus(TemplateConstant.TEMPLATE_STATUS_IS_UNAVAILABLE);
+		templateEntity.setCode("sliding");
+		templateEntity.setImage("resource/image/template/sliding.png");
+		templateEntity.setName("Sliding云桌面");
+		commonDao.save(templateEntity);
 
-	   templateEntity =new TemplateEntity();
-	   templateEntity.setStatus(TemplateConstant.TEMPLATE_STATUS_IS_AVAILABLE);
-	   templateEntity.setCode("ace");
-	   templateEntity.setImage("resource/image/template/ace.png");
-	   templateEntity.setName("ACE平面风格");
-	   commonDao.save(templateEntity);
+		templateEntity = new TemplateEntity();
+		templateEntity.setStatus(TemplateConstant.TEMPLATE_STATUS_IS_AVAILABLE);
+		templateEntity.setCode("ace");
+		templateEntity.setImage("resource/image/template/ace.png");
+		templateEntity.setName("ACE平面风格");
+		commonDao.save(templateEntity);
 
-	   templateEntity =new TemplateEntity();
-	   templateEntity.setStatus(TemplateConstant.TEMPLATE_STATUS_IS_UNAVAILABLE);
-	   templateEntity.setCode("bootstrap");
-	   templateEntity.setImage("resource/image/template/bootstrap.png");
-	   templateEntity.setName("bootstrap风格");
-	   commonDao.save(templateEntity);
-   }
+		templateEntity = new TemplateEntity();
+		templateEntity.setStatus(TemplateConstant.TEMPLATE_STATUS_IS_UNAVAILABLE);
+		templateEntity.setCode("bootstrap");
+		templateEntity.setImage("resource/image/template/bootstrap.png");
+		templateEntity.setName("bootstrap风格");
+		commonDao.save(templateEntity);
+	}
 
 	/**
 	 * 修复任务管理
+	 *
 	 * @author JueYue
 	 * @serialData 2013年11月5日
 	 */
@@ -135,26 +176,19 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		commonDao.saveOrUpdate(task);
 	}
 
-
-
-
-
-
 	/**
 	 * @Description 修复日志表
 	 * @author tanghan 2013-7-28
 	 */
 	private void repairLog() {
-		TSUser admin = commonDao.findAllByProperty(TSUser.class, "signatureFile",
-				"images/renfang/qm/licf.gif").get(0);
+		TSUser admin = commonDao.findAllByProperty(TSUser.class, "signatureFile", "images/renfang/qm/licf.gif").get(0);
 		try {
 			TSLog log1 = new TSLog();
 			log1.setLogcontent("用户: admin登录成功");
 			log1.setBroswer("Chrome");
 			log1.setNote("169.254.200.136");
 			log1.setTSUser(admin);
-			log1.setOperatetime(DateUtils.parseTimestamp("2015-04-25 16:22:40",
-					"yyyy-MM-dd HH:mm"));
+			log1.setOperatetime(DateUtils.parseTimestamp("2015-04-25 16:22:40", "yyyy-MM-dd HH:mm"));
 			log1.setOperatetype((short) 1);
 			log1.setLoglevel((short) 1);
 			commonDao.saveOrUpdate(log1);
@@ -162,7 +196,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			e.printStackTrace();
 		}
 	}
-
 
 	/**
 	 * @Description 修复部门表
@@ -181,8 +214,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 	 */
 	private void repairUser() {
 		this.commonDao.getSession().clear();
-		TSDepart eiu = this.commonDao.findAllByProperty(TSDepart.class, "departname",
-				"系统管理").get(0);
+		TSDepart eiu = this.commonDao.findAllByProperty(TSDepart.class, "departname", "系统管理").get(0);
 
 		TSUser admin = new TSUser();
 		admin.setSignatureFile("images/renfang/qm/licf.gif");
@@ -193,10 +225,10 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		admin.setActivitiSync((short) 1);
 		commonDao.save(admin);
 
-        TSUserOrg adminUserOrg = new TSUserOrg();
-        adminUserOrg.setTsUser(admin);
-        adminUserOrg.setTsDepart(eiu);
-        commonDao.save(adminUserOrg);
+		TSUserOrg adminUserOrg = new TSUserOrg();
+		adminUserOrg.setTsUser(admin);
+		adminUserOrg.setTsDepart(eiu);
+		commonDao.save(adminUserOrg);
 
 		TSUser scott = new TSUser();
 		scott.setEmail("guanxf_m@126.com");
@@ -204,25 +236,23 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		scott.setRealName("scott");
 		scott.setUserName("scott");
 		scott.setPassword("97c07a884bf272b5");
-//		scott.setTSDepart(RAndD);
+		// scott.setTSDepart(RAndD);
 		scott.setActivitiSync((short) 0);
 		commonDao.saveOrUpdate(scott);
-        TSUserOrg scottUserOrg = new TSUserOrg();
-        scottUserOrg.setTsUser(scott);
-        scottUserOrg.setTsDepart(eiu);
-        commonDao.save(scottUserOrg);
+		TSUserOrg scottUserOrg = new TSUserOrg();
+		scottUserOrg.setTsUser(scott);
+		scottUserOrg.setTsDepart(eiu);
+		commonDao.save(scottUserOrg);
 
-    }
+	}
 
 	/**
 	 * @Description 修复用户角色表
 	 * @author tanghan 2013-7-23
 	 */
 	private void repairUserRole() {
-		TSRole admin = commonDao.findAllByProperty(TSRole.class, "roleCode",
-				"admin").get(0);
-		TSRole manager = commonDao.findAllByProperty(TSRole.class, "roleCode",
-				"manager").get(0);
+		TSRole admin = commonDao.findAllByProperty(TSRole.class, "roleCode", "admin").get(0);
+		TSRole manager = commonDao.findAllByProperty(TSRole.class, "roleCode", "manager").get(0);
 		List<TSUser> user = commonDao.findAll(TSUser.class);
 		for (int i = 0; i < user.size(); i++) {
 			if (user.get(i).getEmail() != null) {
@@ -251,10 +281,8 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 	 * @author tanghan 2013-7-23
 	 */
 	private void repairRoleFunction() {
-		TSRole admin = commonDao.findAllByProperty(TSRole.class, "roleCode",
-				"admin").get(0);
-		TSRole manager = commonDao.findAllByProperty(TSRole.class, "roleCode",
-				"manager").get(0);
+		TSRole admin = commonDao.findAllByProperty(TSRole.class, "roleCode", "admin").get(0);
+		TSRole manager = commonDao.findAllByProperty(TSRole.class, "roleCode", "manager").get(0);
 		List<TSFunction> list = commonDao.findAll(TSFunction.class);
 		for (int i = 0; i < list.size(); i++) {
 			TSRoleFunction adminroleFunction = new TSRoleFunction();
@@ -273,10 +301,8 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 	 * @author tanghan 2013-7-23
 	 */
 	private void repairOperation() {
-		TSIcon back = commonDao.findAllByProperty(TSIcon.class, "iconName", "返回")
-				.get(0);
-		TSFunction function = commonDao.findAllByProperty(TSFunction.class,
-				"functionName", "系统管理").get(0);
+		TSIcon back = commonDao.findAllByProperty(TSIcon.class, "iconName", "返回").get(0);
+		TSFunction function = commonDao.findAllByProperty(TSFunction.class, "functionName", "系统管理").get(0);
 
 		TSOperation add = new TSOperation();
 		add.setOperationname("录入");
@@ -368,26 +394,16 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 	 * @author tanghan 2013-7-22
 	 */
 	private void repairType() {
-		TSTypegroup icontype = commonDao.findAllByProperty(TSTypegroup.class,
-				"typegroupname", "图标类型").get(0);
-		TSTypegroup ordertype = commonDao.findAllByProperty(TSTypegroup.class,
-				"typegroupname", "订单类型").get(0);
-		TSTypegroup custom = commonDao.findAllByProperty(TSTypegroup.class,
-				"typegroupname", "客户类型").get(0);
-		TSTypegroup servicetype = commonDao.findAllByProperty(TSTypegroup.class,
-				"typegroupname", "服务项目类型").get(0);
-		TSTypegroup datatable = commonDao.findAllByProperty(TSTypegroup.class,
-				"typegroupname", "数据表").get(0);
-		TSTypegroup filetype = commonDao.findAllByProperty(TSTypegroup.class,
-				"typegroupname", "文档分类").get(0);
-		TSTypegroup sex = commonDao.findAllByProperty(TSTypegroup.class,
-				"typegroupname", "性别类").get(0);
-		TSTypegroup searchmode = commonDao.findAllByProperty(TSTypegroup.class,
-				"typegroupname", "查询模式").get(0);
-		TSTypegroup yesorno = commonDao.findAllByProperty(TSTypegroup.class,
-				"typegroupname", "逻辑条件").get(0);
-		TSTypegroup fieldtype = commonDao.findAllByProperty(TSTypegroup.class,
-				"typegroupname", "字段类型").get(0);
+		TSTypegroup icontype = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "图标类型").get(0);
+		TSTypegroup ordertype = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "订单类型").get(0);
+		TSTypegroup custom = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "客户类型").get(0);
+		TSTypegroup servicetype = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "服务项目类型").get(0);
+		TSTypegroup datatable = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "数据表").get(0);
+		TSTypegroup filetype = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "文档分类").get(0);
+		TSTypegroup sex = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "性别类").get(0);
+		TSTypegroup searchmode = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "查询模式").get(0);
+		TSTypegroup yesorno = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "逻辑条件").get(0);
+		TSTypegroup fieldtype = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "字段类型").get(0);
 
 		TSType menu = new TSType();
 		menu.setTypename("菜单图标");
@@ -491,7 +507,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		type_long.setTSTypegroup(fieldtype);
 		commonDao.saveOrUpdate(type_long);
 
-
 		TSType systable = new TSType();
 		systable.setTypename("系统基础表");
 		systable.setTypecode("t_s");
@@ -503,7 +518,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		business.setTypecode("t_b");
 		business.setTSTypegroup(datatable);
 		commonDao.saveOrUpdate(business);
-
 
 		TSType news = new TSType();
 		news.setTypename("新闻");
@@ -540,8 +554,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		commonDao.saveOrUpdate(manager);
 
 	}
-
-
 
 	/**
 	 * @Description 修复图标表
@@ -624,27 +636,31 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		commonDao.saveOrUpdate(folder);
 	}
 
-    /**
-     * 修复桌面默认图标
-     * @param iconName 图标名称
-     * @param iconLabelName 图标展示名称
-     * @return 图标实体
-     */
-    private TSIcon repairInconForDesk(String iconName, String iconLabelName) {
-        String iconPath = "plug-in/sliding/icon/" + iconName + ".png";
-        TSIcon deskIncon = new TSIcon();
-        deskIncon.setIconName(iconLabelName);
-        deskIncon.setIconType((short) 3);
-        deskIncon.setIconPath(iconPath);
-        deskIncon.setIconClas("deskIcon");
-        deskIncon.setExtend("png");
-        commonDao.saveOrUpdate(deskIncon);
+	/**
+	 * 修复桌面默认图标
+	 *
+	 * @param iconName
+	 *            图标名称
+	 * @param iconLabelName
+	 *            图标展示名称
+	 * @return 图标实体
+	 */
+	private TSIcon repairInconForDesk(String iconName, String iconLabelName) {
+		String iconPath = "plug-in/sliding/icon/" + iconName + ".png";
+		TSIcon deskIncon = new TSIcon();
+		deskIncon.setIconName(iconLabelName);
+		deskIncon.setIconType((short) 3);
+		deskIncon.setIconPath(iconPath);
+		deskIncon.setIconClas("deskIcon");
+		deskIncon.setExtend("png");
+		commonDao.saveOrUpdate(deskIncon);
 
-        return deskIncon;
-    }
+		return deskIncon;
+	}
 
 	/**
 	 * 修复桌面默认图标
+	 *
 	 * @return 图标实体
 	 */
 	private TSIcon getDefaultInconForDesk() {
@@ -665,14 +681,10 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 	 * @author tanghan 2013-7-19
 	 */
 	private void repairMenu() {
-		TSIcon defaultIcon = commonDao.findAllByProperty(TSIcon.class, "iconName", "默认图")
-				.get(0);
-		TSIcon group_add = commonDao.findAllByProperty(TSIcon.class, "iconName",
-				"组").get(0);
-		TSIcon pie = commonDao.findAllByProperty(TSIcon.class, "iconName", "饼图")
-				.get(0);
-		TSIcon folder = commonDao.findAllByProperty(TSIcon.class, "iconName",
-				"文件夹").get(0);
+		TSIcon defaultIcon = commonDao.findAllByProperty(TSIcon.class, "iconName", "默认图").get(0);
+		TSIcon group_add = commonDao.findAllByProperty(TSIcon.class, "iconName", "组").get(0);
+		TSIcon pie = commonDao.findAllByProperty(TSIcon.class, "iconName", "饼图").get(0);
+		TSIcon folder = commonDao.findAllByProperty(TSIcon.class, "iconName", "文件夹").get(0);
 
 		TSFunction sys = new TSFunction();
 		sys.setFunctionName("系统管理");
@@ -681,7 +693,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		sys.setFunctionOrder("5");
 		sys.setTSIconDesk(getDefaultInconForDesk());
 		sys.setTSIcon(group_add);
-	    commonDao.saveOrUpdate(sys);
+		commonDao.saveOrUpdate(sys);
 
 		TSFunction state = new TSFunction();
 		state.setFunctionName("统计查询");
@@ -700,7 +712,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		syscontrol.setTSIcon(defaultIcon);
 		syscontrol.setTSIconDesk(getDefaultInconForDesk());
 		commonDao.saveOrUpdate(syscontrol);
-
 
 		TSFunction user = new TSFunction();
 		user.setFunctionName("用户管理");
@@ -749,7 +760,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		icon.setFunctionOrder("18");
 		icon.setTSFunction(sys);
 		icon.setTSIcon(defaultIcon);
-        icon.setTSIconDesk(repairInconForDesk("kxjy", "图标管理"));
+		icon.setTSIconDesk(repairInconForDesk("kxjy", "图标管理"));
 		commonDao.saveOrUpdate(icon);
 
 		TSFunction depart = new TSFunction();
@@ -761,7 +772,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		depart.setTSIcon(defaultIcon);
 		depart.setTSIconDesk(getDefaultInconForDesk());
 		commonDao.saveOrUpdate(depart);
-		
+
 		TSFunction territory = new TSFunction();
 		territory.setFunctionName("地域管理");
 		territory.setFunctionUrl("territoryController.do?territory");
@@ -802,8 +813,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		useranalyse.setTSIconDesk(repairInconForDesk("User", "用户分析"));
 		commonDao.saveOrUpdate(useranalyse);
 
-
-
 		TSFunction druid = new TSFunction();
 		druid.setFunctionName("数据监控");
 		druid.setFunctionUrl("dataSourceController.do?goDruid&isIframe");
@@ -811,7 +820,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		druid.setFunctionOrder("11");
 		druid.setTSFunction(syscontrol);
 		druid.setTSIcon(defaultIcon);
-        druid.setTSIconDesk(repairInconForDesk("Super Disk", "数据监控"));
+		druid.setTSIconDesk(repairInconForDesk("Super Disk", "数据监控"));
 		commonDao.saveOrUpdate(druid);
 
 		TSFunction log = new TSFunction();
@@ -823,7 +832,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		log.setTSIcon(defaultIcon);
 		log.setTSIconDesk(repairInconForDesk("fastsearch", "系统日志"));
 		commonDao.saveOrUpdate(log);
-		
+
 		TSFunction timeTask = new TSFunction();
 		timeTask.setFunctionName("定时任务");
 		timeTask.setFunctionUrl("timeTaskController.do?timeTask");
