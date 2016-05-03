@@ -4,6 +4,7 @@ import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.util.LogUtils;
 import org.jeecgframework.web.system.constant.core.TemplateConstant;
 import org.jeecgframework.web.system.entity.base.*;
+import org.jeecgframework.web.system.entity.core.JobEntity;
 import org.jeecgframework.web.system.entity.core.TemplateEntity;
 import org.jeecgframework.web.system.service.MutiLangService;
 import org.jeecgframework.web.system.service.RepairService;
@@ -167,13 +168,13 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
 	 * @serialData 2013年11月5日
 	 */
 	private void repairTask() {
-		TSTimeTaskEntity task = new TSTimeTaskEntity();
-		task.setTaskId("taskDemoServiceTaskCronTrigger");
-		task.setTaskDescribe("测试taskDemo");
-		task.setCronExpression("0 0/1 * * * ?");
-		task.setIsEffect("0");
-		task.setIsStart("0");
-		commonDao.saveOrUpdate(task);
+		JobEntity job = new JobEntity();
+		job.setName("testjob1");
+		job.setGroup("default");
+		job.setExpression("0 0/1 * * * ?");
+		job.setIsSync(true);
+		job.setDescription("测试job1");
+		commonDao.saveOrUpdate(job);
 	}
 
 	/**
