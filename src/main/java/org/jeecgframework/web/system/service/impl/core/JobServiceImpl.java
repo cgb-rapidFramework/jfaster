@@ -10,14 +10,12 @@ import org.hibernate.internal.CriteriaImpl;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.hibernate.qbc.PagerUtil;
 import org.jeecgframework.core.common.model.json.DataGridReturn;
-import org.jeecgframework.core.common.service.CommonService;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.web.system.entity.core.JobEntity;
-import org.jeecgframework.web.system.service.core.JobServiceI;
+import org.jeecgframework.web.system.service.core.JobService;
 import org.jeecgframework.web.utils.JobUtils;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,12 +24,12 @@ import java.util.List;
 
 @Service("jobService")
 @Transactional
-public class JobServiceImpl extends CommonServiceImpl implements JobServiceI {
+public class JobServiceImpl extends CommonServiceImpl implements JobService {
     /** 调度工厂Bean */
     @Autowired
     private Scheduler scheduler;
 
-    public void initJob() {
+    public void initJob() throws Exception {
         List<JobEntity> jobList = this.findAll(JobEntity.class);
         if (CollectionUtils.isEmpty(jobList)) {
             return;
@@ -50,12 +48,12 @@ public class JobServiceImpl extends CommonServiceImpl implements JobServiceI {
         }
     }
 
-    public String add(JobEntity job) {
+    public String add(JobEntity job) throws Exception {
         JobUtils.createJob(scheduler, job);
         return  (String) this.save(job);
     }
 
-    public void delUpdate(JobEntity job) {
+    public void delUpdate(JobEntity job) throws Exception {
         //先删除
         JobUtils.deleteJob(scheduler, job.getName(), job.getGroup());
         //再创建
@@ -64,7 +62,7 @@ public class JobServiceImpl extends CommonServiceImpl implements JobServiceI {
         this.update(job);
     }
 
-    public void delete(String jobId) {
+    public void delete(String jobId) throws Exception {
         JobEntity job = this.findEntity(JobEntity.class, jobId);
         //删除运行的任务
         JobUtils.deleteJob(scheduler, job.getName(), job.getGroup());
@@ -72,17 +70,17 @@ public class JobServiceImpl extends CommonServiceImpl implements JobServiceI {
         this.delete(JobEntity.class, jobId);
     }
 
-    public void runOnce(String jobId) {
+    public void runOnce(String jobId) throws Exception {
         JobEntity job = this.findEntity(JobEntity.class, jobId);
         JobUtils.runOnce(scheduler, job.getName(), job.getGroup());
     }
 
-    public void pauseJob(String jobId) {
+    public void pauseJob(String jobId) throws Exception {
         JobEntity job = this.findEntity(JobEntity.class, jobId);
         JobUtils.pauseJob(scheduler, job.getName(), job.getGroup());
     }
 
-    public void resumeJob(String jobId) {
+    public void resumeJob(String jobId) throws Exception {
         JobEntity job = this.findEntity(JobEntity.class, jobId);
         JobUtils.resumeJob(scheduler, job.getName(), job.getGroup());
     }

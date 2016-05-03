@@ -12,18 +12,18 @@ import org.slf4j.LoggerFactory;
  * 异步的工厂类
  */
 @DisallowConcurrentExecution
-public class JobFactory implements Job {
+public class AsyncJob implements Job {
 
     /* 日志对象 */
-    private static final Logger LOG = LoggerFactory.getLogger(JobFactory.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AsyncJob.class);
 
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
-        LOG.info("JobFactory execute");
+        LOG.info("AsyncJob execute");
 
         JobEntity job = (JobEntity) context.getMergedJobDataMap().get("jobParam");
 
-        System.out.println("JobFactory jobName:" + job.getName() + "  " + job);
+        System.out.println("AsyncJob jobName:" + job.getName() + "  " + job);
 
         try {
             Thread.sleep(1000);

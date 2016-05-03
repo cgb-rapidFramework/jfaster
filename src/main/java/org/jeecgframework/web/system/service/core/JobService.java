@@ -5,11 +5,11 @@ import org.jeecgframework.web.system.entity.core.JobEntity;
 
 import java.util.List;
 
-public interface JobServiceI extends CommonService{
+public interface JobService extends CommonService{
     /**
      * 初始化定时任务
      */
-    public void initJob();
+    public void initJob() throws Exception;
 
     /**
      * 新增
@@ -17,21 +17,21 @@ public interface JobServiceI extends CommonService{
      * @param job
      * @return
      */
-    public String add(JobEntity job);
+    public String add(JobEntity job) throws Exception;
 
     /**
      * 删除重新创建方式
      *
      * @param job
      */
-    public void delUpdate(JobEntity job);
+    public void delUpdate(JobEntity job) throws Exception;
 
     /**
      * 删除
      *
      * @param jobId
      */
-    public void delete(String jobId);
+    public void delete(String jobId) throws Exception;
 
     /**
      * 运行一次任务
@@ -39,7 +39,7 @@ public interface JobServiceI extends CommonService{
      * @param jobId
      * @return
      */
-    public void runOnce(String jobId);
+    public void runOnce(String jobId) throws Exception;
 
     /**
      * 暂停任务
@@ -47,7 +47,7 @@ public interface JobServiceI extends CommonService{
      * @param jobId
      * @return
      */
-    public void pauseJob(String jobId);
+    public void pauseJob(String jobId) throws Exception;
 
     /**
      * 恢复任务
@@ -55,7 +55,7 @@ public interface JobServiceI extends CommonService{
      * @param jobId
      * @return
      */
-    public void resumeJob(String jobId);
+    public void resumeJob(String jobId) throws Exception;
 
     /**
      * 获取任务对象

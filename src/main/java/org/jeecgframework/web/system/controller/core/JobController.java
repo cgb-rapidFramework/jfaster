@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.jeecgframework.web.system.service.core.JobServiceI;
+import org.jeecgframework.web.system.service.core.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -26,8 +26,6 @@ import org.jeecgframework.web.system.service.SystemService;
 
 import org.jeecgframework.web.system.entity.core.JobEntity;
 
-import java.util.UUID;
-
 /**   
  * @Title: Controller
  * @Description: job
@@ -46,7 +44,7 @@ public class JobController extends BaseController {
 	private static final Logger logger = Logger.getLogger(JobController.class);
 
 	@Autowired
-	private JobServiceI jobService;
+	private JobService jobService;
 	@Autowired
 	private SystemService systemService;
 	private String message;
@@ -94,7 +92,7 @@ public class JobController extends BaseController {
 	 */
 	@RequestMapping(params = "del")
 	@ResponseBody
-	public AjaxJson del(JobEntity job, HttpServletRequest request) {
+	public AjaxJson del(JobEntity job, HttpServletRequest request) throws Exception {
 		AjaxJson j = new AjaxJson();
 		job = systemService.findEntity(JobEntity.class, job.getId());
 		message = "job删除成功";
@@ -112,7 +110,7 @@ public class JobController extends BaseController {
 	 */
 	@RequestMapping(params = "pause")
 	@ResponseBody
-	public AjaxJson pause(JobEntity job, HttpServletRequest request) {
+	public AjaxJson pause(JobEntity job, HttpServletRequest request) throws Exception {
 		AjaxJson j = new AjaxJson();
 		job = systemService.findEntity(JobEntity.class, job.getId());
 		message = "job暂停成功";
@@ -130,7 +128,7 @@ public class JobController extends BaseController {
 	 */
 	@RequestMapping(params = "resume")
 	@ResponseBody
-	public AjaxJson resume(JobEntity job, HttpServletRequest request) {
+	public AjaxJson resume(JobEntity job, HttpServletRequest request) throws Exception {
 		AjaxJson j = new AjaxJson();
 		job = systemService.findEntity(JobEntity.class, job.getId());
 		message = "job恢复成功";
@@ -148,7 +146,7 @@ public class JobController extends BaseController {
 	 */
 	@RequestMapping(params = "runOnce")
 	@ResponseBody
-	public AjaxJson runOnce(JobEntity job, HttpServletRequest request) {
+	public AjaxJson runOnce(JobEntity job, HttpServletRequest request) throws Exception {
 		AjaxJson j = new AjaxJson();
 		job = systemService.findEntity(JobEntity.class, job.getId());
 		message = "job立即运行一次成功";
@@ -166,7 +164,7 @@ public class JobController extends BaseController {
 	 */
 	@RequestMapping(params = "delUpdate")
 	@ResponseBody
-	public AjaxJson delUpdate(JobEntity job, HttpServletRequest request) {
+	public AjaxJson delUpdate(JobEntity job, HttpServletRequest request) throws Exception {
 		AjaxJson j = new AjaxJson();
 		job = systemService.findEntity(JobEntity.class, job.getId());
 		message = "job更新成功";
@@ -185,7 +183,7 @@ public class JobController extends BaseController {
 	 */
 	@RequestMapping(params = "save")
 	@ResponseBody
-	public AjaxJson save(JobEntity job, HttpServletRequest request) {
+	public AjaxJson save(JobEntity job, HttpServletRequest request) throws Exception {
 		AjaxJson j = new AjaxJson();
 		if (StringUtils.isNotEmpty(job.getId())) {
 			message = "job更新成功";

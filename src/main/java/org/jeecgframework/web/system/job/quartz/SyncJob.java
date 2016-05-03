@@ -8,19 +8,19 @@ import org.slf4j.LoggerFactory;
 /**
  * 同步的任务工厂类
  */
-public class JobSyncFactory implements Job {
+public class SyncJob implements Job {
 
     /* 日志对象 */
-    private static final Logger LOG = LoggerFactory.getLogger(JobSyncFactory.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SyncJob.class);
 
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
 
-        LOG.info("JobSyncFactory execute");
+        LOG.info("SyncJob execute");
 
         JobDataMap mergedJobDataMap = jobExecutionContext.getMergedJobDataMap();
         JobEntity job = (JobEntity) mergedJobDataMap.get("jobParam");
 
-        System.out.println("JobSyncFactory jobName:" + job.getName() + "  " + job);
+        System.out.println("SyncJob jobName:" + job.getName() + "  " + job);
 
         try {
             Thread.sleep(1000);

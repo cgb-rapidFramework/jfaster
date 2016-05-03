@@ -1,8 +1,8 @@
 package org.jeecgframework.web.utils;
 
 import org.jeecgframework.web.system.entity.core.JobEntity;
-import org.jeecgframework.web.system.job.quartz.JobFactory;
-import org.jeecgframework.web.system.job.quartz.JobSyncFactory;
+import org.jeecgframework.web.system.job.quartz.AsyncJob;
+import org.jeecgframework.web.system.job.quartz.SyncJob;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,13 +33,13 @@ public class JobUtils {
      * @param jobGroup the job group
      * @return cron trigger
      */
-    public static CronTrigger getCronTrigger(Scheduler scheduler, String jobName, String jobGroup) {
+    public static CronTrigger getCronTrigger(Scheduler scheduler, String jobName, String jobGroup) throws Exception {
         try {
             TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
             return (CronTrigger) scheduler.getTrigger(triggerKey);
-        } catch (SchedulerException e) {
+        } catch (Exception e) {
             LOG.error("获取定时任务CronTrigger出现异常", e);
-            throw new JobException("获取定时任务CronTrigger出现异常");
+            throw new Exception("获取定时任务CronTrigger出现异常");
         }
     }
 
@@ -49,7 +49,7 @@ public class JobUtils {
      * @param scheduler
      * @param job
      */
-    public static void createJob(Scheduler scheduler, JobEntity job) {
+    public static void createJob(Scheduler scheduler, JobEntity job) throws Exception {
         createScheduleJob(scheduler, job.getName(), job.getGroup(), job.getExpression(), job.getIsSync(), job);
     }
 
@@ -64,8 +64,8 @@ public class JobUtils {
      * @param param
      */
     public static void createScheduleJob(Scheduler scheduler, String name, String group,
-                                         String expression, boolean isSync, Object param) {
-        Class<? extends Job> jobClass = isSync ? JobSyncFactory.class : JobFactory.class;
+                                         String expression, boolean isSync, Object param) throws Exception {
+        Class<? extends Job> jobClass = isSync ? SyncJob.class : AsyncJob.class;
         JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity(name, group).build();
         jobDetail.getJobDataMap().put("jobParam", param);
         CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(expression);
@@ -73,9 +73,9 @@ public class JobUtils {
             .withSchedule(cronScheduleBuilder).build();
         try {
             scheduler.scheduleJob(jobDetail, cronTrigger);
-        } catch (SchedulerException e) {
+        } catch (Exception e) {
             LOG.error("创建定时任务失败", e);
-            throw new JobException("创建定时任务失败");
+            throw new Exception("创建定时任务失败");
         }
     }
 
@@ -86,13 +86,13 @@ public class JobUtils {
      * @param name
      * @param group
      */
-    public static void runOnce(Scheduler scheduler, String name, String group) {
+    public static void runOnce(Scheduler scheduler, String name, String group) throws Exception {
         JobKey jobKey = JobKey.jobKey(name, group);
         try {
             scheduler.triggerJob(jobKey);
-        } catch (SchedulerException e) {
+        } catch (Exception e) {
             LOG.error("运行一次定时任务失败", e);
-            throw new JobException("运行一次定时任务失败");
+            throw new Exception("运行一次定时任务失败");
         }
     }
 
@@ -103,13 +103,13 @@ public class JobUtils {
      * @param name
      * @param group
      */
-    public static void pauseJob(Scheduler scheduler, String name, String group) {
+    public static void pauseJob(Scheduler scheduler, String name, String group) throws Exception {
         JobKey jobKey = JobKey.jobKey(name, group);
         try {
             scheduler.pauseJob(jobKey);
-        } catch (SchedulerException e) {
+        } catch (Exception e) {
             LOG.error("暂停定时任务失败", e);
-            throw new JobException("暂停定时任务失败");
+            throw new Exception("暂停定时任务失败");
         }
     }
 
@@ -120,13 +120,13 @@ public class JobUtils {
      * @param name
      * @param group
      */
-    public static void resumeJob(Scheduler scheduler, String name, String group) {
+    public static void resumeJob(Scheduler scheduler, String name, String group) throws Exception {
         JobKey jobKey = JobKey.jobKey(name, group);
         try {
             scheduler.resumeJob(jobKey);
-        } catch (SchedulerException e) {
+        } catch (Exception e) {
             LOG.error("暂停定时任务失败", e);
-            throw new JobException("暂停定时任务失败");
+            throw new Exception("暂停定时任务失败");
         }
     }
 
@@ -148,12 +148,12 @@ public class JobUtils {
      * @param name
      * @param group
      */
-    public static void deleteJob(Scheduler scheduler, String name, String group) {
+    public static void deleteJob(Scheduler scheduler, String name, String group) throws Exception {
         try {
             scheduler.deleteJob(getJobKey(name, group));
-        } catch (SchedulerException e) {
+        } catch (Exception e) {
             LOG.error("删除定时任务失败", e);
-            throw new JobException("删除定时任务失败");
+            throw new Exception("删除定时任务失败");
         }
     }
 }
