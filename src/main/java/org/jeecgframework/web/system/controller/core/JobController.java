@@ -92,14 +92,18 @@ public class JobController extends BaseController {
 	 */
 	@RequestMapping(params = "del")
 	@ResponseBody
-	public AjaxJson del(JobEntity job, HttpServletRequest request) throws Exception {
+	public AjaxJson del(JobEntity job, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		job = systemService.findEntity(JobEntity.class, job.getId());
-		message = "job删除成功";
-		jobService.delete(job.getId());
-		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
-		
-		j.setMsg(message);
+		try {
+			job = systemService.findEntity(JobEntity.class, job.getId());
+			message = "job删除成功";
+			jobService.delete(job.getId());
+			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+			j.setMsg(message);
+		} catch (Exception e) {
+			j.setMsg("job删除失败，错误原因:"+e.getMessage());
+			e.printStackTrace();
+		}
 		return j;
 	}
 
@@ -110,14 +114,19 @@ public class JobController extends BaseController {
 	 */
 	@RequestMapping(params = "pause")
 	@ResponseBody
-	public AjaxJson pause(JobEntity job, HttpServletRequest request) throws Exception {
+	public AjaxJson pause(JobEntity job, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		job = systemService.findEntity(JobEntity.class, job.getId());
-		message = "job暂停成功";
-		jobService.pauseJob(job.getId());
-		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+		try {
+			job = systemService.findEntity(JobEntity.class, job.getId());
+			message = "job暂停成功";
+			jobService.pauseJob(job.getId());
+			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 
-		j.setMsg(message);
+			j.setMsg(message);
+		} catch (Exception e) {
+			j.setMsg("job暂停失败，错误原因:"+e.getMessage());
+			e.printStackTrace();
+		}
 		return j;
 	}
 
@@ -128,14 +137,19 @@ public class JobController extends BaseController {
 	 */
 	@RequestMapping(params = "resume")
 	@ResponseBody
-	public AjaxJson resume(JobEntity job, HttpServletRequest request) throws Exception {
+	public AjaxJson resume(JobEntity job, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		job = systemService.findEntity(JobEntity.class, job.getId());
-		message = "job恢复成功";
-		jobService.resumeJob(job.getId());
-		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+		try {
+			job = systemService.findEntity(JobEntity.class, job.getId());
+			message = "job恢复成功";
+			jobService.resumeJob(job.getId());
+			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 
-		j.setMsg(message);
+			j.setMsg(message);
+		} catch (Exception e) {
+			j.setMsg("job恢复失败，错误原因:"+e.getMessage());
+			e.printStackTrace();
+		}
 		return j;
 	}
 
@@ -146,14 +160,19 @@ public class JobController extends BaseController {
 	 */
 	@RequestMapping(params = "runOnce")
 	@ResponseBody
-	public AjaxJson runOnce(JobEntity job, HttpServletRequest request) throws Exception {
+	public AjaxJson runOnce(JobEntity job, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		job = systemService.findEntity(JobEntity.class, job.getId());
-		message = "job立即运行一次成功";
-		jobService.runOnce(job.getId());
-		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+		try {
+			job = systemService.findEntity(JobEntity.class, job.getId());
+			message = "job立即运行一次成功";
+			jobService.runOnce(job.getId());
+			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 
-		j.setMsg(message);
+			j.setMsg(message);
+		} catch (Exception e) {
+			j.setMsg("job立即运行一次失败，错误原因:"+e.getMessage());
+			e.printStackTrace();
+		}
 		return j;
 	}
 
@@ -164,14 +183,19 @@ public class JobController extends BaseController {
 	 */
 	@RequestMapping(params = "delUpdate")
 	@ResponseBody
-	public AjaxJson delUpdate(JobEntity job, HttpServletRequest request) throws Exception {
+	public AjaxJson delUpdate(JobEntity job, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		job = systemService.findEntity(JobEntity.class, job.getId());
-		message = "job更新成功";
-		jobService.delUpdate(job);
-		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+		try {
+			job = systemService.findEntity(JobEntity.class, job.getId());
+			message = "job更新成功";
+			jobService.delUpdate(job);
+			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 
-		j.setMsg(message);
+			j.setMsg(message);
+		} catch (Exception e) {
+			j.setMsg("job更新失败，错误原因:"+e.getMessage());
+			e.printStackTrace();
+		}
 		return j;
 	}
 
@@ -183,25 +207,30 @@ public class JobController extends BaseController {
 	 */
 	@RequestMapping(params = "save")
 	@ResponseBody
-	public AjaxJson save(JobEntity job, HttpServletRequest request) throws Exception {
+	public AjaxJson save(JobEntity job, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		if (StringUtils.isNotEmpty(job.getId())) {
-			message = "job更新成功";
-			JobEntity t = jobService.find(JobEntity.class, job.getId());
-			try {
-                BeanPropertyUtils.copyBeanNotNull2Bean(job, t);
-				jobService.delUpdate(t);
-				systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
-			} catch (Exception e) {
-				e.printStackTrace();
-				message = "job更新失败,错误原因:"+e.getMessage();
+		try {
+			if (StringUtils.isNotEmpty(job.getId())) {
+				message = "job更新成功";
+				JobEntity t = jobService.find(JobEntity.class, job.getId());
+				try {
+					BeanPropertyUtils.copyBeanNotNull2Bean(job, t);
+					jobService.delUpdate(t);
+					systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+				} catch (Exception e) {
+					e.printStackTrace();
+					message = "job更新失败,错误原因:" + e.getMessage();
+				}
+			} else {
+				message = "job添加成功";
+				jobService.add(job);
+				systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 			}
-		} else {
-			message = "job添加成功";
-			jobService.add(job);
-			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+			j.setMsg(message);
+		} catch (Exception e) {
+			e.printStackTrace();
+			j.setMsg("job添加失败，错误原因:"+e.getMessage());
 		}
-		j.setMsg(message);
 		return j;
 	}
 
