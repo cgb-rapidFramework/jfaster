@@ -97,12 +97,12 @@ public class JobController extends BaseController {
 		try {
 			job = systemService.findEntity(JobEntity.class, job.getId());
 			message = "job删除成功";
-			jobService.delete(job.getId());
+			jobService.deleteJob(job.getId());
 			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 			j.setMsg(message);
 		} catch (Exception e) {
-			j.setMsg("job删除失败，错误原因:"+e.getMessage());
-			e.printStackTrace();
+			logger.error(e);
+			j.setMsg("job删除失败");
 		}
 		return j;
 	}
@@ -124,8 +124,8 @@ public class JobController extends BaseController {
 
 			j.setMsg(message);
 		} catch (Exception e) {
-			j.setMsg("job暂停失败，错误原因:"+e.getMessage());
-			e.printStackTrace();
+			logger.error(e);
+			j.setMsg("job暂停失败");
 		}
 		return j;
 	}
@@ -147,8 +147,8 @@ public class JobController extends BaseController {
 
 			j.setMsg(message);
 		} catch (Exception e) {
-			j.setMsg("job恢复失败，错误原因:"+e.getMessage());
-			e.printStackTrace();
+			logger.error(e);
+			j.setMsg("job恢复失败");
 		}
 		return j;
 	}
@@ -165,36 +165,13 @@ public class JobController extends BaseController {
 		try {
 			job = systemService.findEntity(JobEntity.class, job.getId());
 			message = "job立即运行一次成功";
-			jobService.runOnce(job.getId());
+			jobService.runOnceJob(job.getId());
 			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 
 			j.setMsg(message);
 		} catch (Exception e) {
-			j.setMsg("job立即运行一次失败，错误原因:"+e.getMessage());
-			e.printStackTrace();
-		}
-		return j;
-	}
-
-	/**
-	 * 删除创建方式更新job
-	 *
-	 * @return
-	 */
-	@RequestMapping(params = "delUpdate")
-	@ResponseBody
-	public AjaxJson delUpdate(JobEntity job, HttpServletRequest request) {
-		AjaxJson j = new AjaxJson();
-		try {
-			job = systemService.findEntity(JobEntity.class, job.getId());
-			message = "job更新成功";
-			jobService.delUpdate(job);
-			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
-
-			j.setMsg(message);
-		} catch (Exception e) {
-			j.setMsg("job更新失败，错误原因:"+e.getMessage());
-			e.printStackTrace();
+			logger.error(e);
+			j.setMsg("job立即运行一次失败");
 		}
 		return j;
 	}
@@ -215,21 +192,21 @@ public class JobController extends BaseController {
 				JobEntity t = jobService.find(JobEntity.class, job.getId());
 				try {
 					BeanPropertyUtils.copyBeanNotNull2Bean(job, t);
-					jobService.delUpdate(t);
+					jobService.updateJob(t);
 					systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 				} catch (Exception e) {
-					e.printStackTrace();
-					message = "job更新失败,错误原因:" + e.getMessage();
+					logger.error(e);
+					message = "job更新失败";
 				}
 			} else {
 				message = "job添加成功";
-				jobService.add(job);
+				jobService.addJob(job);
 				systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 			}
 			j.setMsg(message);
 		} catch (Exception e) {
-			e.printStackTrace();
-			j.setMsg("job添加失败，错误原因:"+e.getMessage());
+			logger.error(e);
+			j.setMsg("job添加失败");
 		}
 		return j;
 	}

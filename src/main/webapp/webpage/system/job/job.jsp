@@ -43,10 +43,28 @@
 					<td class="value">
 						<c:choose>
 							<c:when test="${null==jobPage}">
-								<t:dictSelect field="status" typeGroupCode="jobstatus" hasLabel="false" defaultVal="NORMAL"></t:dictSelect>
+								<t:dictSelect field="status" typeGroupCode="jobstatus" hasLabel="false" defaultVal="0"></t:dictSelect>
 							</c:when>
 							<c:otherwise>
 								<t:dictSelect field="status" typeGroupCode="jobstatus" hasLabel="false" defaultVal="${jobPage.status}"></t:dictSelect>
+							</c:otherwise>
+						</c:choose>
+						<span class="Validform_checktip"></span>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">
+						<label class="Validform_label">
+							任务运行状态:
+						</label>
+					</td>
+					<td class="value">
+						<c:choose>
+							<c:when test="${null==jobPage}">
+								<t:dictSelect field="runStatus" typeGroupCode="runstatus" hasLabel="false" defaultVal="NORMAL"></t:dictSelect>
+							</c:when>
+							<c:otherwise>
+								<t:dictSelect field="runStatus" typeGroupCode="runstatus" hasLabel="false" defaultVal="${jobPage.runStatus}"></t:dictSelect>
 							</c:otherwise>
 						</c:choose>
 						<span class="Validform_checktip"></span>

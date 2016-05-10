@@ -14,7 +14,7 @@
 		scheduler="scheduler" />
 
 	<!-- 定时任务工厂 -->
-	<bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"/>
+	<bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" autowire="no"/>
 
 	<!-- 定时任务配置 quartz 可配置到管理界面 -->
 	<!--

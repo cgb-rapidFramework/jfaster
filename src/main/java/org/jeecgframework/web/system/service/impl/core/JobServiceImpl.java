@@ -40,20 +40,26 @@ public class JobServiceImpl extends CommonServiceImpl implements JobService {
             //不存在，创建一个
             if (cronTrigger == null) {
                 JobUtils.createJob(scheduler, job);
+                if(job.getStatus().equalsIgnoreCase("1")) {
+                    pauseJob(job.getId());
+                }
             } else {
                 //已存在，先删除，再创建
                 JobUtils.deleteJob(scheduler, job.getName(), job.getGroup());
                 JobUtils.createJob(scheduler, job);
+                if(job.getStatus().equalsIgnoreCase("1")) {
+                    pauseJob(job.getId());
+                }
             }
         }
     }
 
-    public String add(JobEntity job) throws Exception {
+    public String addJob(JobEntity job) throws Exception {
         JobUtils.createJob(scheduler, job);
         return  (String) this.save(job);
     }
 
-    public void delUpdate(JobEntity job) throws Exception {
+    public void updateJob(JobEntity job) throws Exception {
         //先删除
         JobUtils.deleteJob(scheduler, job.getName(), job.getGroup());
         //再创建
@@ -62,7 +68,7 @@ public class JobServiceImpl extends CommonServiceImpl implements JobService {
         this.update(job);
     }
 
-    public void delete(String jobId) throws Exception {
+    public void deleteJob(String jobId) throws Exception {
         JobEntity job = this.findEntity(JobEntity.class, jobId);
         //删除运行的任务
         JobUtils.deleteJob(scheduler, job.getName(), job.getGroup());
@@ -70,22 +76,26 @@ public class JobServiceImpl extends CommonServiceImpl implements JobService {
         this.delete(JobEntity.class, jobId);
     }
 
-    public void runOnce(String jobId) throws Exception {
+    public void runOnceJob(String jobId) throws Exception {
         JobEntity job = this.findEntity(JobEntity.class, jobId);
         JobUtils.runOnce(scheduler, job.getName(), job.getGroup());
     }
 
     public void pauseJob(String jobId) throws Exception {
         JobEntity job = this.findEntity(JobEntity.class, jobId);
+        job.setStatus("1");
         JobUtils.pauseJob(scheduler, job.getName(), job.getGroup());
+        this.update(job);
     }
 
     public void resumeJob(String jobId) throws Exception {
         JobEntity job = this.findEntity(JobEntity.class, jobId);
+        job.setStatus("0");
         JobUtils.resumeJob(scheduler, job.getName(), job.getGroup());
+        this.update(job);
     }
 
-    public JobEntity get(String jobId) {
+    public JobEntity getJob(String jobId) {
         JobEntity job = this.findEntity(JobEntity.class, jobId);
         return job;
     }
@@ -133,7 +143,7 @@ public class JobServiceImpl extends CommonServiceImpl implements JobService {
                 //这里一个任务可以有多个触发器， 但是我们一个任务对应一个触发器，所以只取第一个即可，清晰明了
                 Trigger trigger = triggers.iterator().next();
                 Trigger.TriggerState triggerState = scheduler.getTriggerState(trigger.getKey());
-                jobEntity.setStatus(triggerState.name());
+                jobEntity.setRunStatus(triggerState.name());
                 if (trigger instanceof CronTrigger) {
                     CronTrigger cronTrigger = (CronTrigger) trigger;
                     String cronExpression = cronTrigger.getCronExpression();
@@ -148,8 +158,7 @@ public class JobServiceImpl extends CommonServiceImpl implements JobService {
         return new DataGridReturn(allCounts, list);
     }
 
-
-    public List<JobEntity> queryList(JobEntity job) {
+    public List<JobEntity> queryJobList(JobEntity job) {
         List<JobEntity> jobList = this.findAll(JobEntity.class);
         try {
             for (JobEntity jobEntity : jobList) {

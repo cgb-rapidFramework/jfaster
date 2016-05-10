@@ -127,7 +127,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
 	private void repairTemplate() {
 		TemplateEntity templateEntity = new TemplateEntity();
 		templateEntity.setStatus(TemplateConstant.TEMPLATE_STATUS_IS_UNAVAILABLE);
-		templateEntity.setCode("经典风格");
+		templateEntity.setCode("default");
 		templateEntity.setImage("resource/image/template/default.png");
 		templateEntity.setName("经典风格");
 		commonDao.save(templateEntity);

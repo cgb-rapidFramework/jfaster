@@ -7,7 +7,8 @@
        <t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
        <t:dgCol title="任务名称" field="name" query="true" width="20"></t:dgCol>
        <t:dgCol title="任务分组" field="group" query="true" width="20"></t:dgCol>
-       <t:dgCol title="任务状态" field="status" query="true" dictionary="jobstatus" width="50" ></t:dgCol>
+       <t:dgCol title="任务状态" field="status" query="true" dictionary="jobstatus" width="20" ></t:dgCol>
+       <t:dgCol title="任务运行状态" field="runStatus" query="true" dictionary="runstatus" width="50" ></t:dgCol>
        <t:dgCol title="任务运行时间表达式" field="expression" width="30"></t:dgCol>
        <t:dgCol title="是否异步" field="isSync" dictionary="jobissync" width="10"></t:dgCol>
        <t:dgCol title="任务描述" field="description" width="50"></t:dgCol>

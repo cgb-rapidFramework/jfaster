@@ -31,6 +31,8 @@ public class JobEntity implements java.io.Serializable {
 	private java.lang.String group;
 	/**任务状态*/
 	private java.lang.String status;
+	/**任务运行状态*/
+	private java.lang.String runStatus;
 	/**任务运行时间表达式*/
 	private java.lang.String expression;
 	/**是否异步*/
@@ -110,6 +112,22 @@ public class JobEntity implements java.io.Serializable {
 	 */
 	public void setStatus(java.lang.String status){
 		this.status = status;
+	}
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  任务运行状态
+	 */
+	@Column(name ="RUN_STATUS",nullable=true,length=50)
+	public java.lang.String getRunStatus(){
+		return this.runStatus;
+	}
+
+	/**
+	 *方法: 设置java.lang.String
+	 *@param: java.lang.String  任务运行状态
+	 */
+	public void setRunStatus(java.lang.String runStatus){
+		this.runStatus = runStatus;
 	}
 	/**
 	 *方法: 取得java.lang.String
