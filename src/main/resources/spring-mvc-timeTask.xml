@@ -12,32 +12,6 @@
 	<task:scheduler id="scheduler" pool-size="10" />
 	<task:annotation-driven executor="executor"
 		scheduler="scheduler" />
-
 	<!-- 定时任务工厂 -->
 	<bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" autowire="no"/>
-
-	<!-- 定时任务配置 quartz 可配置到管理界面 -->
-	<!--
-	<bean id="taskDemoServiceTaskJob"
-		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetBeanName" ref="taskDemoService" />
-		<property name="targetMethod" value="work" />
-		<property name="concurrent" value="true" />
-	</bean>
-
-	<bean id="taskDemoServiceTaskCronTrigger" class="org.jeecgframework.web.system.job.DataBaseCronTriggerBean">
-		<property name="jobDetail" ref="taskDemoServiceTaskJob" />
-		<property name="cronExpression" value="0 0/1 * * * ?" />
-	</bean>-->
-
-	<!-- 定时任务调度器
-	<bean id="schedulerFactory" lazy-init="false" autowire="no"
-		class="org.jeecgframework.web.system.job.DataBaseSchedulerFactoryBean">
-		<property name="triggers">
-			<list>
-				<ref bean="taskDemoServiceTaskCronTrigger" />
-			</list>
-		</property>
-	</bean>-->
-
 </beans>

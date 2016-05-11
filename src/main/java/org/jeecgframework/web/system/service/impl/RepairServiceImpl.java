@@ -836,7 +836,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
 
 		TSFunction timeTask = new TSFunction();
 		timeTask.setFunctionName("定时任务");
-		timeTask.setFunctionUrl("timeTaskController.do?timeTask");
+		timeTask.setFunctionUrl("jobController.do?job");
 		timeTask.setFunctionLevel((short) 1);
 		timeTask.setFunctionOrder("21");
 		timeTask.setTSFunction(syscontrol);

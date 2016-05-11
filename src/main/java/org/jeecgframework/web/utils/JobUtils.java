@@ -1,8 +1,5 @@
 package org.jeecgframework.web.utils;
 
-import org.jeecgframework.web.system.entity.core.JobEntity;
-import org.jeecgframework.web.system.job.quartz.AsyncJob;
-import org.jeecgframework.web.system.job.quartz.SyncJob;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,38 +41,25 @@ public class JobUtils {
     }
 
     /**
-     * 创建任务
-     *
-     * @param scheduler
-     * @param job
-     */
-    public static void createJob(Scheduler scheduler, JobEntity job) throws Exception {
-        createScheduleJob(scheduler, job.getName(), job.getGroup(), job.getExpression(), job.getIsSync(), job);
-    }
-
-    /**
      * 创建定时任务
-     *
-     * @param scheduler
+     *  @param scheduler
      * @param name
      * @param group
      * @param expression
-     * @param isSync
-     * @param param
      */
     public static void createScheduleJob(Scheduler scheduler, String name, String group,
-                                         String expression, boolean isSync, Object param) throws Exception {
-        Class<? extends Job> jobClass = isSync ? SyncJob.class : AsyncJob.class;
+                                         String expression,String jobClazz,Object params ) {
+        try {
+        Class<? extends Job> jobClass= (Class<? extends Job>) Class.forName(jobClazz);
         JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity(name, group).build();
-        jobDetail.getJobDataMap().put("jobParam", param);
+        jobDetail.getJobDataMap().put("jobParam", params);
         CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(expression);
         CronTrigger cronTrigger = TriggerBuilder.newTrigger().withIdentity(name, group)
             .withSchedule(cronScheduleBuilder).build();
-        try {
+
             scheduler.scheduleJob(jobDetail, cronTrigger);
         } catch (Exception e) {
             LOG.error("创建定时任务失败", e);
-            throw new Exception("创建定时任务失败");
         }
     }
 

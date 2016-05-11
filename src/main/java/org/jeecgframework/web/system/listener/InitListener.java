@@ -4,6 +4,7 @@ import org.jeecgframework.web.system.service.DynamicDataSourceService;
 import org.jeecgframework.web.system.service.MenuInitService;
 import org.jeecgframework.web.system.service.MutiLangService;
 import org.jeecgframework.web.system.service.SystemService;
+import org.jeecgframework.web.system.service.core.JobService;
 import org.jeecgframework.web.utils.ConfigUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -30,7 +31,7 @@ public class InitListener  implements javax.servlet.ServletContextListener {
 		MenuInitService menuInitService = (MenuInitService) webApplicationContext.getBean("menuInitService");
 		MutiLangService mutiLangService = (MutiLangService) webApplicationContext.getBean("mutiLangService");
 		DynamicDataSourceService dynamicDataSourceService = (DynamicDataSourceService) webApplicationContext.getBean("dynamicDataSourceService");
-		
+		JobService jobService =(JobService) webApplicationContext.getBean("jobService");
 		/**
 		 * 第一部分：对数据字典进行缓存
 		 */
@@ -56,6 +57,15 @@ public class InitListener  implements javax.servlet.ServletContextListener {
 		 * 第四部分：加载配置的数据源信息
 		 */
 		dynamicDataSourceService.initDynamicDataSource();
+
+		/**
+		 * 初始化任务调度
+		 */
+		try {
+			jobService.initJob();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -35,8 +35,10 @@ public class JobEntity implements java.io.Serializable {
 	private java.lang.String runStatus;
 	/**任务运行时间表达式*/
 	private java.lang.String expression;
+	/**任务调度业务类*/
+	private java.lang.String clazz;
 	/**是否异步*/
-	private java.lang.Boolean isSync;
+	private java.lang.Boolean  isSync;
 	/**任务描述*/
 	private java.lang.String description;
 	/**创建时间*/
@@ -209,5 +211,13 @@ public class JobEntity implements java.io.Serializable {
 	 */
 	public void setUpdateDate(java.util.Date updateDate){
 		this.updateDate = updateDate;
+	}
+
+	@Column(name ="clazz",nullable=true)
+	public String getClazz() {
+		return clazz;
+	}
+	public void setClazz(String clazz) {
+		this.clazz = clazz;
 	}
 }

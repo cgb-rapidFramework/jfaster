@@ -17,7 +17,7 @@ public interface JobService extends CommonService{
      * @param job
      * @return
      */
-    public String addJob(JobEntity job) throws Exception;
+    public void addJob(JobEntity job) throws Exception;
 
     /**
      * 删除重新创建方式
@@ -56,27 +56,4 @@ public interface JobService extends CommonService{
      * @return
      */
     public void resumeJob(String jobId) throws Exception;
-
-    /**
-     * 获取任务对象
-     *
-     * @param jobId
-     * @return
-     */
-    public JobEntity getJob(String jobId);
-
-    /**
-     * 查询任务列表
-     *
-     * @param job
-     * @return
-     */
-    public List<JobEntity> queryJobList(JobEntity job);
-
-    /**
-     * 获取运行中的任务列表
-     *
-     * @return
-     */
-    public List<JobEntity> queryExecutingJobList();
 }

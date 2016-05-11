@@ -105,6 +105,19 @@
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>
+
+				<tr>
+					<td align="right">
+						<label class="Validform_label">
+							业务类:
+						</label>
+					</td>
+					<td class="value">
+						<input class="inputxt" id="clazz" name="clazz" ignore="ignore"
+							   value="${jobPage.clazz}">
+						<span class="Validform_checktip"></span>
+					</td>
+				</tr>
 			</table>
 		</t:formvalid>
  </body>
