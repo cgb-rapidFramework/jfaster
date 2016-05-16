@@ -60,20 +60,16 @@ public class JobServiceImpl extends CommonServiceImpl implements JobService {
     }
 
     public void updateJob(JobEntity job) throws Exception {
-        //先删除
         JobUtils.deleteJob(scheduler, job.getName(), job.getGroup());
-        //再创建
         JobUtils.createScheduleJob(scheduler, job.getName(),job.getGroup(),job.getExpression(),job.getClazz(),null);
-        //数据库直接更新即可
         this.update(job);
     }
 
     public void deleteJob(String jobId) throws Exception {
         JobEntity job = this.findEntity(JobEntity.class, jobId);
-        //删除运行的任务
         JobUtils.deleteJob(scheduler, job.getName(), job.getGroup());
-        //删除数据
-        this.delete(JobEntity.class, jobId);
+        job.setStatus("2");
+        this.update(job);
     }
 
     public void runOnceJob(String jobId) throws Exception {
@@ -90,8 +86,14 @@ public class JobServiceImpl extends CommonServiceImpl implements JobService {
 
     public void resumeJob(String jobId) throws Exception {
         JobEntity job = this.findEntity(JobEntity.class, jobId);
+        String status = job.getStatus();
+        if(status.equalsIgnoreCase("1")) {
+            job.setStatus("0");
+            JobUtils.resumeJob(scheduler, job.getName(), job.getGroup());
+        } else if(status.equalsIgnoreCase("2")) {
+            JobUtils.createScheduleJob(scheduler, job.getName(),job.getGroup(),job.getExpression(),job.getClazz(),null);
+        }
         job.setStatus("0");
-        JobUtils.resumeJob(scheduler, job.getName(), job.getGroup());
         this.update(job);
     }
 }

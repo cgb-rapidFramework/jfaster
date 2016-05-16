@@ -96,13 +96,13 @@ public class JobController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		try {
 			job = systemService.findEntity(JobEntity.class, job.getId());
-			message = "job删除成功";
+			message = "job废止成功";
 			jobService.deleteJob(job.getId());
 			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 			j.setMsg(message);
 		} catch (Exception e) {
 			logger.error(e);
-			j.setMsg("job删除失败");
+			j.setMsg("job废止失败");
 		}
 		return j;
 	}

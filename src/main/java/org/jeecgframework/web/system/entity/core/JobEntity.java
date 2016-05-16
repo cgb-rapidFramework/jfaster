@@ -31,14 +31,10 @@ public class JobEntity implements java.io.Serializable {
 	private java.lang.String group;
 	/**任务状态*/
 	private java.lang.String status;
-	/**任务运行状态*/
-	private java.lang.String runStatus;
 	/**任务运行时间表达式*/
 	private java.lang.String expression;
 	/**任务调度业务类*/
 	private java.lang.String clazz;
-	/**是否异步*/
-	private java.lang.Boolean  isSync;
 	/**任务描述*/
 	private java.lang.String description;
 	/**创建时间*/
@@ -115,22 +111,7 @@ public class JobEntity implements java.io.Serializable {
 	public void setStatus(java.lang.String status){
 		this.status = status;
 	}
-	/**
-	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  任务运行状态
-	 */
-	@Column(name ="RUN_STATUS",nullable=true,length=50)
-	public java.lang.String getRunStatus(){
-		return this.runStatus;
-	}
 
-	/**
-	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  任务运行状态
-	 */
-	public void setRunStatus(java.lang.String runStatus){
-		this.runStatus = runStatus;
-	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  任务运行时间表达式
@@ -147,23 +128,7 @@ public class JobEntity implements java.io.Serializable {
 	public void setExpression(java.lang.String expression){
 		this.expression = expression;
 	}
-	/**
-	 *方法: 取得java.lang.Integer
-	 *@return: java.lang.Integer  是否异步
-	 */
-	@Column(name ="IS_SYNC",nullable=false)
-	@org.hibernate.annotations.Type(type="yes_no")
-	public java.lang.Boolean getIsSync(){
-		return this.isSync;
-	}
 
-	/**
-	 *方法: 设置java.lang.Integer
-	 *@param: java.lang.Integer  是否异步
-	 */
-	public void setIsSync(java.lang.Boolean isSync){
-		this.isSync = isSync;
-	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  任务描述

@@ -171,8 +171,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
 		JobEntity job = new JobEntity();
 		job.setName("testjob1");
 		job.setGroup("default");
-		job.setExpression("0 0/1 * * * ?");
-		job.setIsSync(true);
+		job.setExpression("0 0/5 * * * ?");
 		job.setDescription("测试job1");
 		commonDao.saveOrUpdate(job);
 	}

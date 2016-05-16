@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
  <head>
-  <title>任务管理</title>
+  <title>定时任务</title>
   <t:base type="jquery,easyui,tools,DatePicker"></t:base>
  </head>
  <body style="overflow-y: hidden" scroll="no">
@@ -13,7 +13,7 @@
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
-							任务名称:
+							名称:
 						</label>
 					</td>
 					<td class="value">
@@ -25,55 +25,19 @@
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
-							任务分组:
+							分组:
 						</label>
 					</td>
 					<td class="value">
-						<input class="inputxt" id="group" name="group" ignore="ignore"
-							   value="${jobPage.group}">
+						<input class="inputxt" id="group" name="group" ignore="ignore" readonly="readonly"
+							   value="default">
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
-							任务状态:
-						</label>
-					</td>
-					<td class="value">
-						<c:choose>
-							<c:when test="${null==jobPage}">
-								<t:dictSelect field="status" typeGroupCode="jobstatus" hasLabel="false" defaultVal="0"></t:dictSelect>
-							</c:when>
-							<c:otherwise>
-								<t:dictSelect field="status" typeGroupCode="jobstatus" hasLabel="false" defaultVal="${jobPage.status}"></t:dictSelect>
-							</c:otherwise>
-						</c:choose>
-						<span class="Validform_checktip"></span>
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-						<label class="Validform_label">
-							任务运行状态:
-						</label>
-					</td>
-					<td class="value">
-						<c:choose>
-							<c:when test="${null==jobPage}">
-								<t:dictSelect field="runStatus" typeGroupCode="runstatus" hasLabel="false" defaultVal="NORMAL"></t:dictSelect>
-							</c:when>
-							<c:otherwise>
-								<t:dictSelect field="runStatus" typeGroupCode="runstatus" hasLabel="false" defaultVal="${jobPage.runStatus}"></t:dictSelect>
-							</c:otherwise>
-						</c:choose>
-						<span class="Validform_checktip"></span>
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-						<label class="Validform_label">
-							任务运行时间表达式:
+							表达式:
 						</label>
 					</td>
 					<td class="value">
@@ -85,36 +49,24 @@
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
-							是否异步:
-						</label>
-					</td>
-					<td class="value">
-						<t:dictSelect field="isSync" typeGroupCode="jobissync" hasLabel="false" defaultVal="${jobPage.isSync}"></t:dictSelect>
-						<span class="Validform_checktip"></span>
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-						<label class="Validform_label">
-							任务描述:
-						</label>
-					</td>
-					<td class="value">
-						<input class="inputxt" id="description" name="description" ignore="ignore"
-							   value="${jobPage.description}">
-						<span class="Validform_checktip"></span>
-					</td>
-				</tr>
-
-				<tr>
-					<td align="right">
-						<label class="Validform_label">
-							业务类:
+							实现类:
 						</label>
 					</td>
 					<td class="value">
 						<input class="inputxt" id="clazz" name="clazz" ignore="ignore"
 							   value="${jobPage.clazz}">
+						<span class="Validform_checktip"></span>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">
+						<label class="Validform_label">
+							描述:
+						</label>
+					</td>
+					<td class="value">
+						<input class="inputxt" id="description" name="description" ignore="ignore"
+							   value="${jobPage.description}">
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>
