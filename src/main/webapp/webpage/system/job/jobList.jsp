@@ -9,7 +9,7 @@
        <t:dgCol title="分组" field="group" query="true" width="12"></t:dgCol>
        <t:dgCol title="状态" field="status" query="true" replace="暂停_1,运行_0,废止_2" width="10" ></t:dgCol>
        <t:dgCol title="表达式" field="expression" width="15"></t:dgCol>
-       <t:dgCol title="实现类" field="clazz" width="15"></t:dgCol>
+       <t:dgCol title="实现类" field="clazz" width="45"></t:dgCol>
        <t:dgCol title="描述" field="description" width="18"></t:dgCol>
        <t:dgCol title="操作" field="opt" width="30"></t:dgCol>
        <t:dgConfOpt title="暂停" url="jobController.do?pause&id={id}" message="确定暂停吗" />
