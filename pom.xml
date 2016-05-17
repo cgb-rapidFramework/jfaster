@@ -10,8 +10,8 @@
 		<codegenerate.version>3.4.6</codegenerate.version>
 		<!-- 主要依赖库的版本定义 -->
 		<bms-platform.version>1.1.0-RELEASE</bms-platform.version>
-		<spring.version>3.1.1.RELEASE</spring.version>
-		<hibernate.version>4.1.0.Final</hibernate.version>
+		<spring.version>3.2.16.RELEASE</spring.version>
+		<hibernate.version>4.2.21.Final</hibernate.version>
 		<hibernate-common-annotations.version>4.0.2.Final</hibernate-common-annotations.version>
 		<hibernate-jpa.version>1.0.1.Final</hibernate-jpa.version>
 		<!-- 工作流 -->
@@ -20,7 +20,7 @@
 		<cglib.version>2.2</cglib.version>
 		<aspectj.version>1.6.9</aspectj.version>
 		<jodd.version>3.3.7</jodd.version>
-		<javassist.version>3.15.0-GA</javassist.version>
+		<javassist.version>3.18.1-GA</javassist.version>
 		<ant.version>1.6.5</ant.version>
 		<!-- todo 没有用到 <spring-jpa.versoin>2.0.8</spring-jpa.versoin> -->
 		<mybatis-spring.version>1.1.1</mybatis-spring.version>
@@ -75,8 +75,8 @@
 		<junit.version>4.7</junit.version>
 		<!-- java生成缩略图 -->
 		<thumbnailator.version>0.4.6</thumbnailator.version>
-		<!--<pinyin4j.version>2.5.0</pinyin4j.version>-->
-		<!--<org.quartz.version>1.6.2</org.quartz.version>-->
+		<pinyin4j.version>2.5.0</pinyin4j.version>
+		<org.quartz.version>2.2.2</org.quartz.version>
 		<activation.version>1.1.1</activation.version>
 		<aopalliance.version>1.0</aopalliance.version>
 		<xstream.version>1.4.4</xstream.version>
@@ -153,18 +153,23 @@
 			<version>3.1.0.Final</version>
 		</dependency>
 
-		 <!--若需要请手动引入，并修改bms-platform-->
+		<!--若需要请手动引入，并修改bms-platform-->
 		<!--<dependency>
 			<groupId>pinyin4j</groupId>
 			<artifactId>pinyin4j</artifactId>
 			<version>${pinyin4j.version}</version>
 		</dependency>-->
 
-		<!--<dependency>
+		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
-			<version>2.2.2</version>
-		</dependency>-->
+			<version>${org.quartz.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz-jobs</artifactId>
+			<version>${org.quartz.version}</version>
+		</dependency>
 		<!-- SPRING start -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -213,8 +218,8 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<!-- todo 为什么要用4.2.3，而不是统一使用${hibernate.version} -->
-			<version>4.2.3.Final</version>
+			<!-- 统一使用${hibernate.version} -->
+			<version>${hibernate.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -309,7 +314,7 @@
 
 
 
-        <!--请手动引入 sqlserver.jar-->
+		<!--请手动引入 sqlserver.jar-->
 		<!--<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>sqljdbc4</artifactId>
@@ -317,10 +322,10 @@
 		</dependency>-->
 		<!-- postgresql -->
 		<dependency>
-		<groupId>org.postgresql</groupId>
-		<artifactId>postgresql</artifactId>
-		<version>${postgresql.version}</version>
-	</dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${postgresql.version}</version>
+		</dependency>
 		<!-- 数据库相关依赖包 _end -->
 
 		<!-- WEB begin -->
@@ -699,11 +704,6 @@
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
 			<version>${mongo-java-driver}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-			<version>2.2.2</version>
 		</dependency>
 	</dependencies>
 
