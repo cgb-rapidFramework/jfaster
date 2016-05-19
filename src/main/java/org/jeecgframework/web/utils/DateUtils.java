@@ -56,7 +56,6 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
 	 */
 	public static Calendar getCalendar(long millis) {
 		Calendar cal = Calendar.getInstance();
-		// --------------------cal.setTimeInMillis(millis);
 		cal.setTime(new Date(millis));
 		return cal;
 	}
@@ -65,7 +64,6 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
 	// getDate
 	// 各种方式获取的Date
 	// ////////////////////////////////////////////////////////////////////////////
-
 	/**
 	 * 当前日期
 	 * 
@@ -133,9 +131,8 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
 	/**
 	 * 日期转换为字符串
 	 * 
-	 * @param date
+	 * @param date_sdf
 	 *            日期
-	 * @param format
 	 *            日期格式
 	 * @return 字符串
 	 */
@@ -169,7 +166,6 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
 	 * 
 	 * @param date
 	 *            日期
-	 * @param format
 	 *            日期格式
 	 * @return 字符串
 	 */
@@ -181,9 +177,7 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
 	}
 	/**
 	 * 日期转换为字符串
-	 * 
-	 * @param date
-	 *            日期
+	 * 日期
 	 * @param format
 	 *            日期格式
 	 * @return 字符串
@@ -247,7 +241,6 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
 	 * @return 指定日历的时间戳
 	 */
 	public static Timestamp getCalendarTimestamp(Calendar cal) {
-		// ---------------------return new Timestamp(cal.getTimeInMillis());
 		return new Timestamp(cal.getTime().getTime());
 	}
 
@@ -281,7 +274,6 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
 	 * @return 指定日历的毫秒数
 	 */
 	public static long getMillis(Calendar cal) {
-		// --------------------return cal.getTimeInMillis();
 		return cal.getTime().getTime();
 	}
 
@@ -506,7 +498,6 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
 	 *            转换的匹配格式
 	 * @return 如果转换成功则返回转换后的日期
 	 * @throws ParseException
-	 * @throws AIDateFormatException
 	 */
 	public static Date parseDate(String src, String pattern)
 			throws ParseException {
@@ -523,7 +514,6 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
 	 *            转换的匹配格式
 	 * @return 如果转换成功则返回转换后的日期
 	 * @throws ParseException
-	 * @throws AIDateFormatException
 	 */
 	public static Calendar parseCalendar(String src, String pattern)
 			throws ParseException {
@@ -551,7 +541,6 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
 	 *            转换的匹配格式
 	 * @return 如果转换成功则返回转换后的时间戳
 	 * @throws ParseException
-	 * @throws AIDateFormatException
 	 */
 	public static Timestamp parseTimestamp(String src, String pattern)
 			throws ParseException {
@@ -640,9 +629,9 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
 	 * 
 	 * @param flag
 	 *            计算标志，表示按照年/月/日/时/分/秒等计算
-	 * @param calSrc
+	 * @param beginTime
 	 *            减数
-	 * @param calDes
+	 * @param endTime
 	 *            被减数
 	 * @return 两个日期之间的差值
 	 */
@@ -676,26 +665,5 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
 		cal.add(Calendar.MINUTE, minute);// 5分钟之前的时间
 	      String date=DateUtils.formatDate(cal, format);
 	     return date;
-	}
-	   
-	
-	public static void main(String[] args) {/*
-		String b="2015-5-8 15:42:08";
-		String e="2015-5-8 15:46:05";
-		   SimpleDateFormat myFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	         java.util.Date beginTime;
-	         java.util.Date endTime;
-			try {
-				beginTime = myFormatter.parse(b);
-			    endTime = myFormatter.parse(e);
-			   System.out.println("time=="+DateUtils.dateDiff('m', beginTime, endTime));
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}
-	*/
-		Calendar cal = Calendar.getInstance();
-	    String date=DateUtils.formatDate(cal, "yyyy-MM-dd HH:mm:ss");
-	    System.out.println(date);
-	System.out.println(DateUtils.afterDate(5, "yyyy-MM-dd HH:mm:ss"));	
 	}
 }

@@ -1996,7 +1996,9 @@ pre.prettyprint {
   line-height: 17px;
   padding-left: 7px;
   text-shadow: none !important;
-  font-size: 13px;
+  /*update-begin--Author:jg_renjie  Date:20150613 for����������Сģʽ�²˵��Ŀ�ȣ��Ӷ�ʹ�ò�������������ֲ˵�����*/
+  /*font-size: 13px;*/
+  /*update-end--Author:jg_renjie  Date:20150613 for����������Сģʽ�²˵��Ŀ�ȣ��Ӷ�ʹ�ò�������������ֲ˵�����*/
   text-decoration: none;
 }
 .nav-list > li > a > .menu-icon {
@@ -2659,14 +2661,16 @@ body.mob-safari .sidebar.sidebar-fixed {
     display: block;
   }
 }
+/*update-begin--Author:jg_renjie  Date:20150613 for����������Сģʽ�²˵��Ŀ�ȣ��Ӷ�ʹ�ò�������������ֲ˵�����*/
 .sidebar.menu-min,
 .sidebar.menu-min.compact,
 .sidebar.menu-min.navbar-collapse {
-  width: 43px;
+  width: 53px;
 }
 .sidebar.menu-min + .main-content {
-  margin-left: 43px;
+  margin-left: 51px;
 }
+ /*update-end--Author:jg_renjie  Date:20150613 for����������Сģʽ�²˵��ģ��Ӷ�ʹ�ò�������������ֲ˵�����*/
 .sidebar.menu-min .nav-list a .badge,
 .sidebar.menu-min .nav-list a .label {
   position: relative;
@@ -9539,7 +9543,7 @@ input[type=checkbox].ace.ace-switch.ace-switch-5:checked + .lbl::before {
 }
 .tab-content {
   border: 1px solid #c5d0dc;
-  padding: 16px 12px;
+  padding: 2px 2px;
   position: relative;
 }
 .tab-content.no-padding {

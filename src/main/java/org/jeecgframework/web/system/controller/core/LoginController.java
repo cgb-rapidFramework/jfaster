@@ -1,5 +1,6 @@
 package org.jeecgframework.web.system.controller.core;
 
+import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.model.json.AjaxJson;
@@ -8,14 +9,12 @@ import org.jeecgframework.core.extend.datasource.DataSourceType;
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.bean.FunctionBean;
+import org.jeecgframework.platform.bean.TemplateBean;
 import org.jeecgframework.platform.constant.Globals;
-import org.jeecgframework.platform.constant.SysThemesEnum;
-import org.jeecgframework.platform.util.SysThemesUtils;
 import org.jeecgframework.platform.util.SystemMenuUtils;
 import org.jeecgframework.web.system.constant.core.TemplateConstant;
 import org.jeecgframework.web.system.controller.BaseController;
 import org.jeecgframework.web.system.entity.base.*;
-import org.jeecgframework.web.system.entity.core.TemplateEntity;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.service.MutiLangService;
 import org.jeecgframework.web.system.service.SystemService;
@@ -25,6 +24,7 @@ import org.jeecgframework.web.utils.BeanToTagUtils;
 import org.jeecgframework.web.utils.NumberComparator;
 import org.jeecgframework.web.utils.SessionShareCenter;
 import org.jeecgframework.web.utils.SessionUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -38,6 +38,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -200,6 +202,8 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(params = "login")
 	public String login(ModelMap modelMap,HttpServletRequest request,HttpServletResponse response) {
+		TemplateEntity templateEntity=this.templateService.findUniqueByProperty(TemplateEntity.class,"status", TemplateConstant.TEMPLATE_STATUS_IS_AVAILABLE);
+
 		DataSourceContextHolder.setDataSourceType(DataSourceType.dataSource_jeecg);
 		TSUser user = SessionUtils.getCurrentUser();
 		String roles = "";
@@ -221,23 +225,29 @@ public class LoginController extends BaseController {
         	SessionShareCenter.putRoles(roleList);
             ClientManager.getInstance().getClient().setRoles(roleList);
 			//request.getSession().setAttribute("lang", "en");
-
-            TemplateEntity templateEntity=this.templateService.findUniqueByProperty(TemplateEntity.class,"status", TemplateConstant.TEMPLATE_STATUS_IS_AVAILABLE);
-			String code=templateEntity.getCode();
-			Cookie cookie = new Cookie("JEECGINDEXSTYLE",code);
+			Gson gson=new Gson();
+			TemplateBean templateBean=new TemplateBean();
+			BeanUtils.copyProperties(templateEntity,templateBean);
+			String systemTemplate=gson.toJson(templateBean);
+			Cookie cookie = null;
+			try {
+				cookie = new Cookie("SYSTEM-TEMPLATE", URLEncoder.encode(systemTemplate, "UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 			//设置cookie有效期为一个月
 			cookie.setMaxAge(3600*24*30);
 			response.addCookie(cookie);
-
-			SysThemesEnum sysTheme =SysThemesEnum.toEnum(code);
-			TemplateConstant.setDefault(sysTheme,code);
+//			TemplateConstant.setDefault(sysTheme,code);
 			//设置默认风格
-			if("ace".equals(sysTheme.getStyle())){
-				request.setAttribute("menuMap", getFunctionMap(user));
-			}
-			return sysTheme.getIndexPath();
+			/*if("ace".equals(sysTheme.getThemes())||"diy".equals(sysTheme.getThemes())||"acele".equals(sysTheme.getThemes())){
+              request.setAttribute("menuMap", getFunctionMap(user));
+			}*/
+			//加载菜单
+			request.setAttribute("menuMap", getFunctionMap(user));
+			return templateEntity.getPageMain();
 		} else {
-			return "login/login";
+			return  templateEntity.getPageLogin();
 		}
 
 	}

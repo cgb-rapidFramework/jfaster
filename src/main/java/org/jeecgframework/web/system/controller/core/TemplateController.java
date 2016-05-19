@@ -9,6 +9,7 @@ import org.jeecgframework.core.util.BeanPropertyUtils;
 import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.web.system.constant.core.TemplateConstant;
 import org.jeecgframework.web.system.controller.BaseController;
+import org.jeecgframework.web.system.entity.base.TemplateEntity;
 import org.jeecgframework.web.system.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -25,12 +26,6 @@ import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
 
 import org.jeecgframework.web.system.service.SystemService;
-
-
-import org.jeecgframework.web.system.entity.core.TemplateEntity;
-
-import java.util.List;
-
 /**   
  * @Title: Controller
  * @Description: 模版管理
@@ -83,7 +78,7 @@ public class TemplateController extends BaseController {
 	 */
 
 	@RequestMapping(params = "datagrid")
-	public void datagrid(TemplateEntity template,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+	public void datagrid(TemplateEntity template, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(TemplateEntity.class, dataGrid);
 		//查询条件组装器
 		HqlGenerateUtil.installHql(cq, template, request.getParameterMap());

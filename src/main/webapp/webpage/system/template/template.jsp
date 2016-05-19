@@ -17,8 +17,8 @@
 						</label>
 					</td>
 					<td class="value">
-						<input class="inputxt" id="code" name="code" 
-							   value="${templatePage.code}" datatype="*">
+						<input class="inputxt" id="theme" name="theme"
+							   value="${templatePage.theme}" datatype="*">
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>
@@ -43,6 +43,30 @@
 					<td class="value">
 						<input class="inputxt" id="image" name="image"
 							   value="${templatePage.image}">
+						<span class="Validform_checktip"></span>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">
+						<label class="Validform_label">
+							主页:
+						</label>
+					</td>
+					<td class="value">
+						<input class="inputxt" id="pageMain" name="pageMain" ignore="ignore"
+							   value="${templatePage.pageMain}">
+						<span class="Validform_checktip"></span>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">
+						<label class="Validform_label">
+							登录页:
+						</label>
+					</td>
+					<td class="value">
+						<input class="inputxt" id="pageLogin" name="pageLogin" ignore="ignore"
+							   value="${templatePage.pageLogin}">
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>

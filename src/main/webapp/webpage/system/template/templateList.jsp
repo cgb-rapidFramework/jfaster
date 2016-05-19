@@ -5,9 +5,11 @@
   <div region="center" style="padding:1px;">
   <t:datagrid name="templateList" title="模版管理" actionUrl="templateController.do?datagrid" idField="id" fit="true">
    <t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
-   <t:dgCol title="模版编码" field="code" width="20"></t:dgCol>
+   <t:dgCol title="模版编码" field="theme" width="20"></t:dgCol>
    <t:dgCol title="模版名称" field="name"  width="20"></t:dgCol>
    <t:dgCol title="模版预览" field="image" image="true" imageSize="72,72"></t:dgCol>
+  <t:dgCol title="主页" field="pageMain" width="20"></t:dgCol>
+  <t:dgCol title="登录页" field="pageLogin" width="20"></t:dgCol>
    <t:dgCol title="状态" field="status"  replace="未设置_0,已设置_1" width="8"></t:dgCol>
    <t:dgCol title="操作" field="opt" width="10"></t:dgCol>
    <t:dgConfOpt title="设置" url="templateController.do?setting&id={id}"  exp="status#eq#0" message="确定设置吗" />
