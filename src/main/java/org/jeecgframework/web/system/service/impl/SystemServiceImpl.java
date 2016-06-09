@@ -11,6 +11,7 @@ import org.jeecgframework.platform.bean.TypeGroupBean;
 import org.jeecgframework.platform.container.SystemContainer;
 import org.jeecgframework.platform.container.SystemContainer.IconContainer;
 import org.jeecgframework.platform.container.SystemContainer.TypeGroupContainer;
+import org.jeecgframework.platform.util.BrowserUtils;
 import org.jeecgframework.web.system.entity.base.*;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;

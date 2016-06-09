@@ -2,9 +2,9 @@ package org.jeecgframework.web.system.service.impl;
 
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.platform.container.MutilangContainer;
+import org.jeecgframework.platform.util.BrowserUtils;
 import org.jeecgframework.web.system.entity.base.MutiLangEntity;
 import org.jeecgframework.web.system.service.MutiLangService;
-import org.jeecgframework.web.utils.BrowserUtils;
 import org.jeecgframework.web.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

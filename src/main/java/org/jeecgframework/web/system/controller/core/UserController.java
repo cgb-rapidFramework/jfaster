@@ -19,6 +19,7 @@ import org.jeecgframework.platform.common.poi.excel.entity.ExcelTitle;
 import org.jeecgframework.platform.common.poi.excel.entity.ImportParams;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
+import org.jeecgframework.platform.util.BrowserUtils;
 import org.jeecgframework.platform.util.SystemMenuUtils;
 import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.web.system.constant.core.UserConstant;

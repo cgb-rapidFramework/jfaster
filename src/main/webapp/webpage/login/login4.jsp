@@ -4,7 +4,8 @@
 <%@include file="/context/mytags.jsp"%>
 <!DOCTYPE html>
 <%
-  String lang = org.jeecgframework.web.utils.BrowserUtils.getBrowserLanguage(request);
+
+  String lang = org.jeecgframework.platform.util.BrowserUtils.getBrowserLanguage(request);
   String langurl = "plug-in/mutiLang/" + lang +".js";
   TemplateBean sysTheme = SysThemesUtils.getSysTheme(request);
   String lhgdialogTheme = SysThemesUtils.getLhgdialogTheme(sysTheme);
@@ -104,19 +105,19 @@
                       <div class="space-4"></div>
 
                 </div>
-                <%--<div class="toolbar clearfix">
+                <div class="toolbar clearfix">
                   <div style="float: right">
                     <a href="#"  class="forgot-password-link">
                     	  语言
                       <i class="ace-icon fa fa-arrow-right"></i>
                       <t:dictSelect id="langCode" field="langCode" typeGroupCode="lang" hasLabel="false" extendJson="{style:'padding:2px; width:80px;'}" defaultVal="zh-cn"></t:dictSelect>
                     </a>
-                  </div>--%>
+                  </div>
                 </div>
                 </form>
               </div>
             </div>
-            <div class="center"><h4 class="blue" id="id-company-text">&copy;技术支持：<t:mutiLang langKey="system.support"/></h4></div>
+            <div class="center"><h4 class="blue" id="id-company-support">&copy;技术支持：<t:mutiLang langKey="system.support"/></h4></div>
             <div class="navbar-fixed-top align-right">
               <br />
               &nbsp;
@@ -170,7 +171,6 @@
 <script type="text/javascript" src="plug-in/login/js/login.js"></script>
 <t:base type="tools" ></t:base>
 <script type="text/javascript">
-//update---start---author:jg_renjie at 20160410 for:#1038 【bug】新登录页面修改
 	$(function(){
 		optErrMsg();
 	});
@@ -179,8 +179,6 @@
 		$("#showErrMsg").html('');
 		$("#errMsgContiner").hide();
 	}
-//update---end---author:jg_renjie at 20160410 for:#1038 【bug】新登录页面修改	
-
   //验证码输入框按下回车
   function randCodeKeyDown(){
 	  var lKeyCode = (navigator.appname=="Netscape")?event.which:window.event.keyCode; //event.keyCode按的建的代码，13表示回车
@@ -226,9 +224,7 @@
       formData[this.name] =$("#"+this.name ).val();
     });
     formData['orgId'] = orgId ? orgId : "";
-    // update-begin--Author:ken  Date:20140629 for：添加语言选择
     formData['langCode']=$("#langCode").val();
-    // update-end--Author:ken  Date:20140629 for：添加语言选择
     formData['langCode'] = $("#langCode option:selected").val();
     $.ajax({
       async : false,
@@ -291,7 +287,6 @@
       }
     });
   }
-//update---start---author:jg_renjie at 20160410 for:#1038 【bug】新登录页面修改
   function showErrorMsg(msg){
     //tip(msg);
     $("#errMsgContiner").show();
@@ -299,7 +294,6 @@
 
     window.setTimeout(optErrMsg,3000); 
   }
-//update---end---author:jg_renjie at 20160410 for:#1038 【bug】新登录页面修改
   function darkStyle(){
     $('body').attr('class', 'login-layout');
     $('#id-text2').attr('class', 'red');

@@ -11,6 +11,7 @@ import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.bean.FunctionBean;
 import org.jeecgframework.platform.bean.TemplateBean;
 import org.jeecgframework.platform.constant.Globals;
+import org.jeecgframework.platform.container.MutilangContainer;
 import org.jeecgframework.platform.util.SystemMenuUtils;
 import org.jeecgframework.web.system.constant.core.TemplateConstant;
 import org.jeecgframework.web.system.controller.BaseController;
@@ -111,7 +112,7 @@ public class LoginController extends BaseController {
 				.setDataSourceType(DataSourceType.dataSource_jeecg);
 		AjaxJson j = new AjaxJson();
         if (req.getParameter("langCode")!=null) {
-        	req.getSession().setAttribute("lang", req.getParameter("langCode"));
+			req.getSession().setAttribute("lang", req.getParameter("langCode"));
         }
         String randCode = req.getParameter("randCode");
         if (StringUtils.isEmpty(randCode)) {
@@ -231,7 +232,9 @@ public class LoginController extends BaseController {
 			String systemTemplate=gson.toJson(templateBean);
 			Cookie cookie = null;
 			try {
+				String langCode= (String) request.getSession().getAttribute("lang");
 				cookie = new Cookie("SYSTEM-TEMPLATE", URLEncoder.encode(systemTemplate, "UTF-8"));
+				cookie = new Cookie("SYSTEM-LANGCODE", URLEncoder.encode(langCode, "UTF-8"));
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
