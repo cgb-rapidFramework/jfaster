@@ -12,6 +12,9 @@ import org.jeecgframework.platform.bean.FunctionBean;
 import org.jeecgframework.platform.bean.TemplateBean;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.platform.container.MutilangContainer;
+import org.jeecgframework.platform.container.SystemContainer;
+import org.jeecgframework.platform.util.BrowserUtils;
+import org.jeecgframework.platform.util.CacheUtils;
 import org.jeecgframework.platform.util.SystemMenuUtils;
 import org.jeecgframework.web.system.constant.core.TemplateConstant;
 import org.jeecgframework.web.system.controller.BaseController;
@@ -100,21 +103,21 @@ public class LoginController extends BaseController {
 	 * 检查用户名称
 	 * 
 	 * @param user
-	 * @param req
+	 * @param request
 	 * @return
 	 */
 	@SuppressWarnings("unused")
 	@RequestMapping(params = "checkuser")
 	@ResponseBody
-	public AjaxJson checkuser(TSUser user, HttpServletRequest req) {
+	public AjaxJson checkuser(TSUser user, HttpServletRequest request) {
 		HttpSession session = ContextHolderUtils.getSession();
 		DataSourceContextHolder
 				.setDataSourceType(DataSourceType.dataSource_jeecg);
 		AjaxJson j = new AjaxJson();
-        if (req.getParameter("langCode")!=null) {
-			req.getSession().setAttribute("lang", req.getParameter("langCode"));
+        if (request.getParameter("langCode")!=null) {
+			request.getSession().setAttribute("lang", request.getParameter("langCode"));
         }
-        String randCode = req.getParameter("randCode");
+        String randCode = request.getParameter("randCode");
         if (StringUtils.isEmpty(randCode)) {
             j.setMsg(mutiLangService.getLang("common.enter.verifycode"));
             j.setSuccess(false);
@@ -142,7 +145,7 @@ public class LoginController extends BaseController {
                         Map<String, Object> attrMap = new HashMap<String, Object>();
                         j.setAttributes(attrMap);
 
-                        String orgId = req.getParameter("orgId");
+                        String orgId = request.getParameter("orgId");
                         if (ConvertUtils.isEmpty(orgId)) { // 没有传组织机构参数，则获取当前用户的组织机构
                             Long orgNum = systemService.queryCount("select count(1) from t_s_user_org where user_id = '" + u.getId() + "'");
                             if (orgNum > 1) {
@@ -150,12 +153,12 @@ public class LoginController extends BaseController {
                                 attrMap.put("user", u2);
                             } else {
                                 Map<String, Object> userOrgMap = systemService.queryForMap("select org_id as orgId from t_s_user_org where user_id=?", u2.getId());
-                                saveLoginSuccessInfo(req, u2, (String) userOrgMap.get("orgId"));
+                                saveLoginSuccessInfo(request, u2, (String) userOrgMap.get("orgId"));
                             }
                         } else {
                             attrMap.put("orgNum", 1);
 
-                            saveLoginSuccessInfo(req, u2, orgId);
+                            saveLoginSuccessInfo(request, u2, orgId);
                         }
                     } else {
                         j.setMsg(mutiLangService.getLang("common.check.shield"));
@@ -229,23 +232,14 @@ public class LoginController extends BaseController {
 			Gson gson=new Gson();
 			TemplateBean templateBean=new TemplateBean();
 			BeanUtils.copyProperties(templateEntity,templateBean);
+			//防止主题
 			String systemTemplate=gson.toJson(templateBean);
-			Cookie cookie = null;
-			try {
-				String langCode= (String) request.getSession().getAttribute("lang");
-				cookie = new Cookie("SYSTEM-TEMPLATE", URLEncoder.encode(systemTemplate, "UTF-8"));
-				cookie = new Cookie("SYSTEM-LANGCODE", URLEncoder.encode(langCode, "UTF-8"));
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-			//设置cookie有效期为一个月
-			cookie.setMaxAge(3600*24*30);
-			response.addCookie(cookie);
-//			TemplateConstant.setDefault(sysTheme,code);
-			//设置默认风格
-			/*if("ace".equals(sysTheme.getThemes())||"diy".equals(sysTheme.getThemes())||"acele".equals(sysTheme.getThemes())){
-              request.setAttribute("menuMap", getFunctionMap(user));
-			}*/
+			SystemContainer.TemplateContainer.template.put("SYSTEM-TEMPLATE",systemTemplate);
+
+		    //放置语言
+			/*String langCode= (String) request.getSession().getAttribute("lang");
+			Cookie cookie=CacheUtils.putCookie("SYSTEM-LANGCODE",langCode);
+			response.addCookie(cookie);*/
 			//加载菜单
 			request.setAttribute("menuMap", getFunctionMap(user));
 			return templateEntity.getPageMain();

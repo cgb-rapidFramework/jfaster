@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <%
 
-  String lang = org.jeecgframework.platform.util.BrowserUtils.getBrowserLanguage(request);
+  String lang = org.jeecgframework.platform.util.BrowserUtils.getBrowserLanguage();
   String langurl = "plug-in/mutiLang/" + lang +".js";
   TemplateBean sysTheme = SysThemesUtils.getSysTheme(request);
   String lhgdialogTheme = SysThemesUtils.getLhgdialogTheme(sysTheme);

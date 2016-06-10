@@ -3,7 +3,7 @@
 <%@include file="/context/mytags.jsp"%>
 <!DOCTYPE html>
 <%
-	String lang =org.jeecgframework.platform.util.BrowserUtils.getBrowserLanguage(request);
+	String lang =org.jeecgframework.platform.util.BrowserUtils.getBrowserLanguage();
 	String langurl = "plug-in/mutiLang/" + lang +".js";
 %>
 <div style="margin-top: 14px;text-align: center;">
