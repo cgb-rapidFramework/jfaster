@@ -27,7 +27,7 @@
 
 ### bms-core说明
 
-     该模块主要是对持久化层，封装了对jdbc操作及Hibernate集成，采用新模式find及query查询。如果是Hibernate相关操作采用find方法，如果是纯jdbc操作则使用query查询。
+     该模块封装了jdbc及Hibernate对数据库的操作，统一方法命名Hibernate采用findXXX()，纯jdbc操作则使用queryXXX()。
 
 ### bms-paltform说明
 
