@@ -232,7 +232,7 @@ public class LoginController extends BaseController {
 			Gson gson=new Gson();
 			TemplateBean templateBean=new TemplateBean();
 			BeanUtils.copyProperties(templateEntity,templateBean);
-			//防止主题
+			//设置主题
 			String systemTemplate=gson.toJson(templateBean);
 			SystemContainer.TemplateContainer.template.put("SYSTEM-TEMPLATE",systemTemplate);
 
