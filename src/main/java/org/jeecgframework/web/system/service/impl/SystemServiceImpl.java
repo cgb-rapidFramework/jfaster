@@ -23,10 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service("systemService")
 @Transactional
@@ -341,5 +338,22 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 			BeanUtils.copyProperties(operation,operationBean);
 			SystemContainer.OperationContainer.operations.put(operation.getOperationcode(),operationBean);
 		}
+	}
+
+
+	@Override
+	public List<TSFunction> getFucntionList(String roleId) {
+		List<TSFunction> loginActionList = new ArrayList<TSFunction>();// 已有权限菜单
+		TSRole role = this.find(TSRole.class, roleId);
+		if (role != null) {
+			List<TSRoleFunction> roleFunctionList = this.findAllByProperty(TSRoleFunction.class, "TSRole.id", role.getId());
+			if (roleFunctionList.size() > 0) {
+				for (TSRoleFunction roleFunction : roleFunctionList) {
+					TSFunction function = roleFunction.getTSFunction();
+					loginActionList.add(function);
+				}
+			}
+		}
+		return loginActionList;
 	}
 }

@@ -642,20 +642,10 @@ public class SystemController extends BaseController {
 		cq.add();
 		List<TSFunction> functionList = systemService.findListByCq(cq, false);
 		List<ComboTree> comboTrees = new ArrayList<ComboTree>();
-		Integer roleid = ConvertUtils.getInt(request.getParameter("roleid"), 0);
-		List<TSFunction> loginActionlist = new ArrayList<TSFunction>();// 已有权限菜单
-		role = this.systemService.find(TSRole.class, roleid);
-		if (role != null) {
-			List<TSRoleFunction> roleFunctionList = systemService.findAllByProperty(TSRoleFunction.class, "TSRole.id", role.getId());
-			if (roleFunctionList.size() > 0) {
-				for (TSRoleFunction roleFunction : roleFunctionList) {
-					TSFunction function = (TSFunction) roleFunction.getTSFunction();
-					loginActionlist.add(function);
-				}
-			}
-		}
+		String  roleId =request.getParameter("roleid");
+		List<TSFunction> loginActionList=this.systemService.getFucntionList(roleId);
 		ComboTreeModel comboTreeModel = new ComboTreeModel("id", "functionName", "TSFunctions");
-		comboTrees = resourceService.ComboTree(functionList, comboTreeModel, loginActionlist, false);
+		comboTrees = resourceService.ComboTree(functionList, comboTreeModel, loginActionList, false);
 		return comboTrees;
 	}
 
@@ -739,89 +729,6 @@ public class SystemController extends BaseController {
 		treeGridModel.setRoleid(roleid);
 		treeGrids = resourceService.treegrid(functionList, treeGridModel);
 		return treeGrids;
-
-	}
-
-	/**
-	 * 操作录入
-	 * 
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(params = "saveOperate")
-	@ResponseBody
-	public AjaxJson saveOperate(HttpServletRequest request) {
-		AjaxJson j = new AjaxJson();
-		String fop = request.getParameter("fp");
-		String roleid = request.getParameter("roleid");
-		// 录入操作前清空上一次的操作数据
-		clearp(roleid);
-		String[] fun_op = fop.split(",");
-		String aa = "";
-		String bb = "";
-		// 只有一个被选中
-		if (fun_op.length == 1) {
-			bb = fun_op[0].split("_")[1];
-			aa = fun_op[0].split("_")[0];
-			savep(roleid, bb, aa);
-		} else {
-			// 至少2个被选中
-			for (int i = 0; i < fun_op.length; i++) {
-				String cc = fun_op[i].split("_")[0]; // 操作id
-				if (i > 0 && bb.equals(fun_op[i].split("_")[1])) {
-					aa += "," + cc;
-					if (i == (fun_op.length - 1)) {
-						savep(roleid, bb, aa);
-					}
-				} else if (i > 0) {
-					savep(roleid, bb, aa);
-					aa = fun_op[i].split("_")[0]; // 操作ID
-					if (i == (fun_op.length - 1)) {
-						bb = fun_op[i].split("_")[1]; // 权限id
-						savep(roleid, bb, aa);
-					}
-
-				} else {
-					aa = fun_op[i].split("_")[0]; // 操作ID
-				}
-				bb = fun_op[i].split("_")[1]; // 权限id
-
-			}
-		}
-
-		return j;
-	}
-
-	/**
-	 * 更新操作
-	 * 
-	 * @param roleid
-	 * @param functionid
-	 * @param ids
-	 */
-	public void savep(String roleid, String functionid, String ids) {
-		String hql = "from TRoleFunction t where" + " t.TSRole.id=" + roleid + " " + "and t.TFunction.functionid=" + functionid;
-		TSRoleFunction rFunction = systemService.findUniqueByHql(hql);
-		if (rFunction != null) {
-			rFunction.setOperation(ids);
-			systemService.saveOrUpdate(rFunction);
-		}
-	}
-
-	/**
-	 * 清空操作
-	 * 
-	 * @param roleid
-	 */
-	public void clearp(String roleid) {
-		String hql = "from TRoleFunction t where" + " t.TSRole.id=" + roleid;
-		List<TSRoleFunction> rFunctions = systemService.findByHql(hql);
-		if (rFunctions.size() > 0) {
-			for (TSRoleFunction tRoleFunction : rFunctions) {
-				tRoleFunction.setOperation(null);
-				systemService.saveOrUpdate(tRoleFunction);
-			}
-		}
 	}
 
 	/************************************** 版本维护 ************************************/

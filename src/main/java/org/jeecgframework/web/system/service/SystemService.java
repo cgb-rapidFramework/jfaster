@@ -139,4 +139,10 @@ public interface SystemService extends CommonService{
 
 	public void initOperations();
 
+	/***
+	 * 获取角色菜单
+	 * @param roleId
+	 * @return
+     */
+	List<TSFunction> getFucntionList(String roleId);
 }

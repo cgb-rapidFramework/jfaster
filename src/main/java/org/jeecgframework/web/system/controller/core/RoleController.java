@@ -394,25 +394,13 @@ public class RoleController extends BaseController {
 		Collections.sort(functionBeanList, new NumberComparator());
 		List<ComboTree> comboTrees = new ArrayList<ComboTree>();
 		String roleId = request.getParameter("roleId");
-		List<TSFunction> loginActionlist = new ArrayList<TSFunction>();// 已有权限菜单
-		role = this.systemService.find(TSRole.class, roleId);
-		if (role != null) {
-			List<TSRoleFunction> roleFunctionList = systemService
-					.findAllByProperty(TSRoleFunction.class, "TSRole.id",
-							role.getId());
-			if (roleFunctionList.size() > 0) {
-				for (TSRoleFunction roleFunction : roleFunctionList) {
-					TSFunction function = (TSFunction) roleFunction
-							.getTSFunction();
-					loginActionlist.add(function);
-				}
-			}
-		}
+
+		List<TSFunction> loginActionList=this.systemService.getFucntionList(roleId);
+
 		ComboTreeModel comboTreeModel = new ComboTreeModel("id",
 				"functionName", "TSFunctions");
 		comboTrees = resourceService.ComboTree(functionBeanList, comboTreeModel,
-				BeanToTagUtils.convertFunctions(loginActionlist), false);
-
+				BeanToTagUtils.convertFunctions(loginActionList), false);
 		MutiLangUtils.setMutiTree(comboTrees);
 		return comboTrees;
 	}
@@ -591,16 +579,14 @@ public class RoleController extends BaseController {
 	 * @param ids
 	 */
 	public void savep(String roleId, String functionid, String ids) {
-		CriteriaQuery cq = new CriteriaQuery(TSRoleFunction.class);
-		cq.eq("TSRole.id", roleId);
-		cq.eq("TSFunction.id", functionid);
-		cq.add();
-		List<TSRoleFunction> rFunctions = systemService.findListByCq(
-				cq, false);
-		if (rFunctions.size() > 0) {
-			TSRoleFunction roleFunction = rFunctions.get(0);
-			roleFunction.setOperation(ids);
-			systemService.saveOrUpdate(roleFunction);
+		StringBuffer hql=new StringBuffer();
+		hql.append(" from TRoleFunction t where ");
+		hql.append(" t.TSRole.id=" + roleId );
+		hql.append(" and t.TFunction.functionid=" + functionid);
+		TSRoleFunction rFunction = systemService.findUniqueByHql(hql.toString());
+		if (rFunction != null) {
+			rFunction.setOperation(ids);
+			systemService.saveOrUpdate(rFunction);
 		}
 	}
 
