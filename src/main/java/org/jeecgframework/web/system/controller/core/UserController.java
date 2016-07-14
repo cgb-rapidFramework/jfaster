@@ -1014,7 +1014,7 @@ public class UserController extends BaseController {
 		response.setContentType("application/vnd.ms-excel");
 		OutputStream fOut = null;
 		try {
-			String exportFileName = "用户列表" + DateUtils.date2Str(new Date(), DateUtils.date_sdf);
+			String exportFileName = "用户列表" + DateUtils.formatDate(new Date(),DateUtils.YYYY_MM_DD_HH_MM_SS);
 			// 根据浏览器进行转码，使其支持中文文件名
 			String browse = BrowserUtils.checkBrowse(request);
 			if ("MSIE".equalsIgnoreCase(browse.substring(0, 4))) {

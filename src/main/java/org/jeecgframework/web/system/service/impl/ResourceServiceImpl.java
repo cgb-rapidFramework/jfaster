@@ -35,6 +35,7 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service("resourceService")
@@ -320,7 +321,7 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 							} else if (type.equals("double")) {
 								setMethod.invoke(obj1, new Double(node.getText()));
 							} else if (type.equals("Timestamp")) {
-								setMethod.invoke(obj1, new Timestamp(DateUtils.str2Date(node.getText(), DateUtils.datetimeFormat).getTime()));
+								setMethod.invoke(obj1, new Timestamp(DateUtils.strToDate(node.getText(), DateUtils.YYYY_MM_DD_HH_MM_SS).getTime()));
 							}
 						}
 					}

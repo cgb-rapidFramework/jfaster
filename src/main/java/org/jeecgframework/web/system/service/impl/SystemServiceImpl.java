@@ -61,7 +61,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		log.setOperatetype(operatetype);
 		log.setNote(ConvertUtils.getIp());
 		log.setBroswer(broswer);
-		log.setOperatetime(DateUtils.gettimestamp());
+		log.setOperatetime(DateUtils.getTimestamp());
 		log.setUserid(SessionUtils.getCurrentUser().getId());
 		commonDao.saveOrUpdate(log);
 	}

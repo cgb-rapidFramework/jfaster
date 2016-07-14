@@ -251,23 +251,12 @@ public class SessionUtils {
      * @return
      */
 	public static String getUserSystemData(String key) {
-		 //----------------------------------------------------------------
-
 		//替换为系统的登录用户账号
-//		if (key.equals(DataBaseConstant.CREATE_BY)
-//				|| key.equals(DataBaseConstant.CREATE_BY_TABLE)
-//				|| key.equals(DataBaseConstant.UPDATE_BY)
-//				|| key.equals(DataBaseConstant.UPDATE_BY_TABLE)
-//				|| 
 		if (key.equals(DataBaseConstant.SYS_USER_CODE)
 				|| key.equals(DataBaseConstant.SYS_USER_CODE_TABLE)) {
 			return getCurrentUser().getUserName();
 		}
 		//替换为系统登录用户真实名字
-//		if (key.equals(DataBaseConstant.CREATE_NAME)
-//				|| key.equals(DataBaseConstant.CREATE_NAME_TABLE)
-//				|| key.equals(DataBaseConstant.UPDATE_NAME_TABLE)
-//				|| key.equals(DataBaseConstant.UPDATE_NAME)
 		if (key.equals(DataBaseConstant.SYS_USER_NAME)
 				|| key.equals(DataBaseConstant.SYS_USER_NAME_TABLE)
 			) {
@@ -285,11 +274,11 @@ public class SessionUtils {
 		}
 		//替换为当前系统时间(年月日)
 		if (key.equals(DataBaseConstant.SYS_DATE)|| key.equals(DataBaseConstant.SYS_DATE_TABLE)) {
-			return DateUtils.formatDate();
+			return DateUtils.formatDate(DateUtils.YYYYMMDD);
 		}
 		//替换为当前系统时间（年月日时分秒）
 		if (key.equals(DataBaseConstant.SYS_TIME)|| key.equals(DataBaseConstant.SYS_TIME_TABLE)) {
-			return DateUtils.formatTime();
+			return DateUtils.formatDate(DateUtils.YYYYMMDDHHMMSS);
 		}
 		return null;
 	}

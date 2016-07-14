@@ -142,7 +142,7 @@ public class ResourceController {
         }
         attachment.setSessionKey(sessionKey);
 //		attachment.setSubclassname(MyClassLoader.getPackPath(attachment));
-        attachment.setCreatedate(DateUtils.gettimestamp());
+        attachment.setCreatedate(DateUtils.getTimestamp());
         UploadFile uploadFile = new UploadFile(request, attachment);
         String fileType=request.getParameter("fileType");
         if(StringUtils.isEmpty(fileType)){
