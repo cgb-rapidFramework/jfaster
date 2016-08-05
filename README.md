@@ -25,15 +25,15 @@
 
 ##模块说明
 
-### bms-core说明
+### bms-core说明 【下载地址:[http://git.oschina.net/des_source/bms-core](http://git.oschina.net/des_source/bms-core)】
 
      该模块封装了jdbc及Hibernate对数据库的操作，统一方法命名Hibernate采用findXXX()，纯jdbc操作则使用queryXXX()。
 
-### bms-paltform说明
+### bms-paltform说明 【下载地址：[http://git.oschina.net/des_source/bms-paltform](http://git.oschina.net/des_source/bms-paltform)】
 
     该部分对页面显示元素、数据集及大量基础工具进行封装，在项目开发中可以直接进行使用。
 
-### bms-project说明
+### bms-project说明 【下载地址：[http://git.oschina.net/des_source/bms-project](http://git.oschina.net/des_source/bms-project)】
 
     该部分为业务代码的实现，拥有jeecg的代码生成器及系统管理功能，是一套小而巧的框架，技术选型最优的选择。
 
