@@ -134,7 +134,7 @@
 					$.ajaxSetup({ async: false});//同步ajax 
 					var check_flag="";
 					$.ajax({
-						url : 'duplicateCheckAction.do?doDuplicateCheck',
+						url : 'userController.do?doDuplicateCheck',
 						async:false,
 						data : {
 							tableName : tableName,

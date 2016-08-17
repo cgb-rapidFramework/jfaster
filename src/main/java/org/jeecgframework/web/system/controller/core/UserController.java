@@ -5,6 +5,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.hibernate.criterion.Property;
+import org.jeecgframework.core.common.dao.jdbc.JdbcDao;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.common.UploadFile;
 import org.jeecgframework.core.common.model.json.AjaxJson;
@@ -67,6 +68,9 @@ public class UserController extends BaseController {
 	private UserService userService;
 	private SystemService systemService;
 	private String message = null;
+
+	@Autowired
+	private JdbcDao jdbcDao;
 
 	@Autowired
 	public void setSystemService(SystemService systemService) {
@@ -1041,5 +1045,41 @@ public class UserController extends BaseController {
 
 			}
 		}
+	}
+
+
+
+	/**
+	 * 校验数据是否在系统中是否存在
+	 * @return
+	 */
+	@RequestMapping(params = "doDuplicateCheck")
+	@ResponseBody
+	public AjaxJson doDuplicateCheck(DuplicateCheckPage duplicateCheckPage, HttpServletRequest request) {
+
+		AjaxJson j = new AjaxJson();
+		Long num = null;
+
+		if(StringUtils.isNotEmpty(duplicateCheckPage.getRowObid())){
+			//[2].编辑页面校验
+			String sql = "SELECT count(*) FROM "+duplicateCheckPage.getTableName()
+					+" WHERE "+duplicateCheckPage.getFieldName() +" =? and id != ?";
+			num = jdbcDao.getCountForJdbcParam(sql, new Object[]{duplicateCheckPage.getFieldVlaue(),duplicateCheckPage.getRowObid()});
+		}else{
+			//[1].添加页面校验
+			String sql = "SELECT count(*) FROM "+duplicateCheckPage.getTableName()
+					+" WHERE "+duplicateCheckPage.getFieldName() +" =?";
+			num = jdbcDao.getCountForJdbcParam(sql, new Object[]{duplicateCheckPage.getFieldVlaue()});
+		}
+		if(num==null||num==0){
+			//该值可用
+			j.setSuccess(true);
+			j.setMsg("该值可用！");
+		}else{
+			//该值不可用
+			j.setSuccess(false);
+			j.setMsg("该值不可用，系统中已存在！");
+		}
+		return j;
 	}
 }
