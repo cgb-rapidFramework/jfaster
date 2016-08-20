@@ -8,7 +8,7 @@
         <t:dgCol title="common.icon.name" query="true" field="iconName" width="10"></t:dgCol>
         <t:dgCol title="common.icon.style" field="iconClas" width="10"></t:dgCol>
         <t:dgCol title="common.icon.type" field="iconType" width="10" query="true" dictionary="icontype"></t:dgCol>
-        <t:dgCol title="common.icon" field="iconPath"  width="10" image="true" style="width:20px; height:20px;"  funname="viewImage" ></t:dgCol>
+        <t:dgCol title="common.icon" field="iconPath"  width="10" image="true" imageSize="24,24"></t:dgCol>
         <t:dgCol title="common.icon.type" field="extend" width="10"></t:dgCol>
         <t:dgCol title="common.operation" field="opt" width="20"></t:dgCol>
         <t:dgDelOpt url="iconController.do?del&id={id}" title="common.delete"></t:dgDelOpt>

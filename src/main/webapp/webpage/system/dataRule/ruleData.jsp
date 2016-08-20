@@ -23,12 +23,8 @@
         </div>
         <div class="form">
             <label class="Validform_label"> 条件规则: </label>
-            
-            
             	<t:dictSelect field="ruleConditions" typeGroupCode="rulecon" hasLabel="false" defaultVal="${operation.ruleConditions}"></t:dictSelect>
-					
-    
-        </div>
+			</div>
            <input name="TSFunction.id" value="${functionId}" type="hidden">
          <div class="form">
             <label class="Validform_label"> 规则值: </label>

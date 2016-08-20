@@ -101,7 +101,7 @@
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.tel"/>: </label></td>
 			<td class="value">
-                <input class="inputxt" name="officePhone" value="${user.officePhone}" datatype="n" errormsg="办公室电话不正确" ignore="ignore">
+                <input class="inputxt" name="officePhone" value="${user.officePhone}" datatype="n" errormsg="办公室电话不正确,只能是数字" ignore="ignore">
                 <span class="Validform_checktip"></span>
             </td>
 		</tr>

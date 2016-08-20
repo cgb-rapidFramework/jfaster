@@ -94,7 +94,7 @@ public class DepartController extends BaseController {
 	 */
 	@RequestMapping(params = "depart")
 	public ModelAndView depart() {
-		return new ModelAndView("system/depart/departList");
+ 		return new ModelAndView("system/depart/departList");
 	}
 
 	/**
