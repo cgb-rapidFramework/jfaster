@@ -269,12 +269,6 @@ public class DepartController extends BaseController {
         treeGridModel.setFieldMap(fieldMap);
 		List<TreeGrid> treeGrids = resourceService.treegrid(departList, treeGridModel);
 		return  treeGrids;
-//		return  new Gson().toJson(treeGrids);
-       /* JSONArray jsonArray = new JSONArray();
-        for (TreeGrid treeGrid : treeGrids) {
-            jsonArray.add(JSON.parse(treeGrid.toJson()));
-        }
-        return jsonArray;*/
 	}
 	/**
 	 * 方法描述:  查看成员列表

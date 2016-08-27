@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CategoryServiceImpl extends CommonServiceImpl implements
 		CategoryService {
 
-	private static final String MAX_SQL = "SELECT MAX(code) FROM t_s_category WHERE parent_id";
+
 
 	public void saveCategory(TSCategoryEntity category) {
 		category.setCode(getCategoryCoade(category));
@@ -27,33 +27,34 @@ public class CategoryServiceImpl extends CommonServiceImpl implements
 	 * @return
 	 */
 	private synchronized String getCategoryCoade(TSCategoryEntity category) {
+		String MAX_SQL = "SELECT MAX(code) FROM t_s_category WHERE PARENT_CODE";
 		Long maxCode = null;
 		//step 1 顶级code只按照序列增长
 		if (category.getParent() == null
-				|| StringUtils.isEmpty(category.getParent().getId())) {
+				|| StringUtils.isEmpty(category.getParent().getCode())) {
 			category.setParent(null);
+
 			maxCode = this.queryCount(MAX_SQL + " IS NULL");
 			maxCode = maxCode == 0 ? 1 : maxCode + 1;
 			return String.format(
 					"%0"
 							+ Integer.valueOf(ConfigUtils
-									.getConfigByName("categoryCodeLengthType"))
+							.getConfigByName("categoryCodeLengthType"))
 							+ "d", maxCode);
 		}
 		//step 2按照下级序列向上排序
-		TSCategoryEntity parent = this.find(TSCategoryEntity.class, category
-				.getParent().getId());
+		TSCategoryEntity parent = this.findUniqueByProperty(TSCategoryEntity.class, "code", category.getParent().getCode());
 		//防止hibernate缓存持久化异常
 		category.setParent(parent);
 		maxCode = this.queryCount(MAX_SQL + " = '"
-				+ category.getParent().getId()+"'");
+				+ category.getParent().getId() + "'");
 		maxCode = maxCode == 0 ? 1 : Long.valueOf(maxCode.toString()
 				.substring(parent.getCode().length())) + 1;
 		return parent.getCode()
 				+ String.format(
-						"%0"
-								+ Integer.valueOf(ConfigUtils
-										.getConfigByName("categoryCodeLengthType"))
-								+ "d", maxCode);
+				"%0"
+						+ Integer.valueOf(ConfigUtils
+						.getConfigByName("categoryCodeLengthType"))
+						+ "d", maxCode);
 	}
 }

@@ -52,7 +52,7 @@
 				<td class="value"><input id="categoryTree"
 					value="${categoryPage.parent.name}"> <input id="parentId"
 					name="parent.code" style="display: none;"
-					value="${categoryPage.parent.id}"> <span
+					value="${categoryPage.parent.code}"> <span
 					class="Validform_checktip"></span></td>
 			</tr>
 		</table>
