@@ -85,7 +85,7 @@
 		<!-- 注解方式配置 -->
 		<property name="packagesToScan">
 			<list>
-				<value>org.jeecgframework.web.system.entity.*</value>
+				<value>org.jeecgframework.web.system.*</value>
 			</list>
 		</property>
 	</bean>

@@ -69,7 +69,7 @@
 	</bean>
 	<!-- 异常处理类 -->
 	<bean id="exceptionHandler"
-		class="org.jeecgframework.core.common.exception.MyExceptionHandler" />
+		class="org.jeecgframework.web.common.exception.MyExceptionHandler" />
 	<!-- 系统错误转发配置[并记录错误日志] -->
 	<bean
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">

@@ -1,7 +1,7 @@
 package org.jeecgframework.web.system.service;
 
 import org.jeecgframework.core.common.service.CommonService;
-import org.jeecgframework.web.system.entity.base.*;
+import org.jeecgframework.web.system.entity.*;
 
 import java.util.List;
 import java.util.Set;
@@ -22,7 +22,7 @@ public interface SystemService extends CommonService{
  	 * @return 
  	 * 返回类型： List<DictEntity>
  	 */
- 	public List<DictEntity> queryDict(String dicTable,String dicCode, String dicText);
+ 	public List<DictEntity> queryDict(String dicTable, String dicCode, String dicText);
 	
 	/**
 	 * 登陆用户检查
@@ -44,7 +44,7 @@ public interface SystemService extends CommonService{
 	 * @param typename
 	 * @return
 	 */
-	public TSType getType(String typecode,String typename,TSTypegroup tsTypegroup);
+	public TSType getType(String typecode, String typename, TSTypegroup tsTypegroup);
 	/**
 	 * 根据类型分组编码和名称获取TypeGroup,如果为空则创建一个
 	 * @param typegroupcode

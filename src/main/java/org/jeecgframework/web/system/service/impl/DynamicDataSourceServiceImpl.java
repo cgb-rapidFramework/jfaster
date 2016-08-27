@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.web.system.service.DynamicDataSourceService;
-import org.jeecgframework.web.system.entity.base.DynamicDataSourceEntity;
+import org.jeecgframework.web.system.entity.DynamicDataSourceEntity;
 
 @Service("dynamicDataSourceService")
 @Transactional

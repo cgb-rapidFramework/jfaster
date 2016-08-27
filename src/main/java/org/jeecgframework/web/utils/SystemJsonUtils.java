@@ -5,8 +5,8 @@ import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.common.model.json.ComboBox;
 import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
-import org.jeecgframework.web.system.entity.base.TSFunction;
-import org.jeecgframework.web.system.entity.base.TSRole;
+import org.jeecgframework.web.system.entity.TSFunction;
+import org.jeecgframework.web.system.entity.TSRole;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;

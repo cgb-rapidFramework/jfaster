@@ -1,7 +1,7 @@
 package org.jeecgframework.web.common.hqlsearch;
 
 import org.jeecgframework.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
-import org.jeecgframework.web.system.entity.base.TSDataRule;
+import org.jeecgframework.web.system.entity.TSDataRule;
 import org.jeecgframework.web.utils.SessionUtils;
 
 /**

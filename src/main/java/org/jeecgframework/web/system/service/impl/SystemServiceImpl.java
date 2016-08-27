@@ -12,7 +12,7 @@ import org.jeecgframework.platform.container.SystemContainer;
 import org.jeecgframework.platform.container.SystemContainer.IconContainer;
 import org.jeecgframework.platform.container.SystemContainer.TypeGroupContainer;
 import org.jeecgframework.platform.util.BrowserUtils;
-import org.jeecgframework.web.system.entity.base.*;
+import org.jeecgframework.web.system.entity.*;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.jeecgframework.web.utils.*;
@@ -37,7 +37,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		return this.userService.checkUserExits(user);
 	}
 	
-	public List<DictEntity> queryDict(String dicTable, String dicCode,String dicText){
+	public List<DictEntity> queryDict(String dicTable, String dicCode, String dicText){
 		List<DictEntity> dictList = null;
 		//step.1 如果没有字典表则使用系统字典表/*
 		/*if(StringUtils.isEmpty(dicTable)){

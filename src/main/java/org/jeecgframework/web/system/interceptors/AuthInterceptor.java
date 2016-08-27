@@ -5,7 +5,7 @@ import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.web.common.hqlsearch.SysContextSqlConvert;
-import org.jeecgframework.web.system.entity.base.*;
+import org.jeecgframework.web.system.entity.*;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.utils.DataRuleUtils;
@@ -141,7 +141,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 					
 					 //Step.2  第二部分处理列表数据级权限
 					 //小川 -- 菜单数据规则集合(数据权限)
-					 List<TSDataRule> MENU_DATA_AUTHOR_RULES = new ArrayList<TSDataRule>(); 
+					 List<TSDataRule> MENU_DATA_AUTHOR_RULES = new ArrayList<TSDataRule>();
 					 //小川 -- 菜单数据规则sql(数据权限)
 					 String MENU_DATA_AUTHOR_RULE_SQL="";
 

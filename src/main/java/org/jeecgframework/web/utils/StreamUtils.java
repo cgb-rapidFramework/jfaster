@@ -1,7 +1,5 @@
 package org.jeecgframework.web.utils;
 
-import jodd.io.StringInputStream;
-import org.jeecgframework.core.util.LogUtils;
 
 import java.io.*;
 
@@ -130,8 +128,7 @@ public class StreamUtils {
      * @throws Exception
      */
     public static InputStream byteTOFInputStream(byte[] in) throws Exception {
-
-        InputStream is = new StringInputStream(InputStreamTOString(StreamUtils.byteTOInputStream(in)));
+        InputStream is = StreamUtils.byteTOInputStream(in);
         return is;
     }
 

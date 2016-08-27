@@ -5,7 +5,7 @@ package org.jeecgframework.web.utils;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
-import org.jeecgframework.web.system.entity.base.DynamicDataSourceEntity;
+import org.jeecgframework.web.system.entity.DynamicDataSourceEntity;
 import org.jeecgframework.web.system.listener.OnlineListener;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;

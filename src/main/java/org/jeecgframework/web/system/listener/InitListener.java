@@ -4,7 +4,7 @@ import org.jeecgframework.web.system.service.DynamicDataSourceService;
 import org.jeecgframework.web.system.service.MenuInitService;
 import org.jeecgframework.web.system.service.MutiLangService;
 import org.jeecgframework.web.system.service.SystemService;
-import org.jeecgframework.web.system.service.core.JobService;
+import org.jeecgframework.web.system.service.JobService;
 import org.jeecgframework.web.utils.ConfigUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;

@@ -1,7 +1,7 @@
 package org.jeecgframework.web.utils;
 
 import org.jeecgframework.core.util.ConvertUtils;
-import org.jeecgframework.web.system.entity.base.TSFunction;
+import org.jeecgframework.web.system.entity.TSFunction;
 
 import java.util.Comparator;
 

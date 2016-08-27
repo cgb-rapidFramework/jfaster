@@ -17,10 +17,9 @@ import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.bean.ReflectHelper;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.util.FileUtils;
-import org.jeecgframework.platform.util.PinyinUtils;
-import org.jeecgframework.web.system.entity.base.TSDepart;
-import org.jeecgframework.web.system.entity.base.TSOperation;
-import org.jeecgframework.web.system.entity.base.TSRoleFunction;
+import org.jeecgframework.web.system.entity.TSDepart;
+import org.jeecgframework.web.system.entity.TSOperation;
+import org.jeecgframework.web.system.entity.TSRoleFunction;
 import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.utils.*;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,6 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service("resourceService")

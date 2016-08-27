@@ -7,7 +7,7 @@ import org.jeecgframework.core.common.model.json.TreeGrid;
 import org.jeecgframework.core.common.service.CommonService;
 import org.jeecgframework.core.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.core.tag.vo.easyui.TreeGridModel;
-import org.jeecgframework.web.system.entity.base.TSDepart;
+import org.jeecgframework.web.system.entity.TSDepart;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;

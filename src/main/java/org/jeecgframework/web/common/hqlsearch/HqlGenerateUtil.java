@@ -6,7 +6,7 @@ import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.extend.hqlsearch.parse.ObjectParseUtil;
 import org.jeecgframework.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;
 import org.jeecgframework.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
-import org.jeecgframework.web.system.entity.base.TSDataRule;
+import org.jeecgframework.web.system.entity.TSDataRule;
 import org.jeecgframework.web.utils.DataRuleUtils;
 import org.jeecgframework.web.utils.SessionUtils;
 import org.jeecgframework.web.utils.StringUtils;

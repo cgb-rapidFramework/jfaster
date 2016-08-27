@@ -135,15 +135,4 @@ public class ConfigUtils {
     public static String getOrgCodeLengthType() {
         return bundle.getString("orgCodeLengthType");
     }
-    /**
-     * 获取用户系统变量
-     * @param args
-     * 			DataBaseConstant 中的值
-     * @return
-     */
-	public static void main(String[] args) {
-		org.jeecgframework.core.util.LogUtils.info(getPorjectPath());
-		org.jeecgframework.core.util.LogUtils.info(getSysPath());
-
-	}
 }

@@ -1,8 +1,8 @@
 package org.jeecgframework.web.utils;
 
 import org.jeecgframework.core.util.ContextHolderUtils;
-import org.jeecgframework.web.system.entity.base.Client;
-import org.jeecgframework.web.system.entity.base.TSRole;
+import org.jeecgframework.web.system.entity.Client;
+import org.jeecgframework.web.system.entity.TSRole;
 import org.jeecgframework.web.system.manager.ClientManager;
 
 import javax.servlet.http.HttpSession;

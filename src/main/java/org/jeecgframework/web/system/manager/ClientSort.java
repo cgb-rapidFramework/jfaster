@@ -2,7 +2,7 @@ package org.jeecgframework.web.system.manager;
 
 import java.util.Comparator;
 
-import org.jeecgframework.web.system.entity.base.Client;
+import org.jeecgframework.web.system.entity.Client;
 
 public class ClientSort implements Comparator<Client> {
 

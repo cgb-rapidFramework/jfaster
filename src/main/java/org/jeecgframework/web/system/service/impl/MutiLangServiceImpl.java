@@ -3,7 +3,7 @@ package org.jeecgframework.web.system.service.impl;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.platform.container.MutilangContainer;
 import org.jeecgframework.platform.util.BrowserUtils;
-import org.jeecgframework.web.system.entity.base.MutiLangEntity;
+import org.jeecgframework.web.system.entity.MutiLangEntity;
 import org.jeecgframework.web.system.service.MutiLangService;
 import org.jeecgframework.web.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,6 @@ public class MutiLangServiceImpl extends CommonServiceImpl implements MutiLangSe
      **/
     public void initAllMutiLang() {
         List<MutiLangEntity> mutiLang = this.commonDao.findAll(MutiLangEntity.class);
-
         for (MutiLangEntity mutiLangEntity : mutiLang) {
             MutilangContainer.KeyIsLangkeyValueIsLangcodeForLangMap.put(mutiLangEntity.getLangKey(), mutiLangEntity.getLangCode());
             MutilangContainer.mutiLangMap.put(mutiLangEntity.getLangKey() + "_" + mutiLangEntity.getLangCode(), mutiLangEntity.getLangContext());

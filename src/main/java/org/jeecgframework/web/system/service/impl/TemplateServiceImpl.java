@@ -1,7 +1,7 @@
 package org.jeecgframework.web.system.service.impl;
 
-import org.jeecgframework.web.system.constant.core.TemplateConstant;
-import org.jeecgframework.web.system.entity.base.TemplateEntity;
+import org.jeecgframework.web.system.constant.TemplateConstant;
+import org.jeecgframework.web.system.entity.TemplateEntity;
 import org.jeecgframework.web.system.service.TemplateService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

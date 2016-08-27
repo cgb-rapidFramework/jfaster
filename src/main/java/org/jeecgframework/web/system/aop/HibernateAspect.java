@@ -5,7 +5,7 @@ import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.constant.DataBaseConstant;
-import org.jeecgframework.web.system.entity.base.TSUser;
+import org.jeecgframework.web.system.entity.TSUser;
 import org.jeecgframework.web.utils.SessionUtils;
 import org.springframework.stereotype.Component;
 

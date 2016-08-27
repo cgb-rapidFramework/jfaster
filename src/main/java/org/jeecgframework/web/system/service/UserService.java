@@ -3,8 +3,8 @@ package org.jeecgframework.web.system.service;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.service.CommonService;
-import org.jeecgframework.web.system.entity.base.TSUser;
-import org.jeecgframework.web.system.vo.base.ExlUserVo;
+import org.jeecgframework.web.system.entity.TSUser;
+import org.jeecgframework.web.system.vo.ExlUserVo;
 
 import java.util.List;
 

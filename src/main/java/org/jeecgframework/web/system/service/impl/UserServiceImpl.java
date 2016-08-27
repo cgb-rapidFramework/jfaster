@@ -6,23 +6,18 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
-import org.jeecgframework.platform.constant.Globals;
-import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
-import org.jeecgframework.web.system.entity.base.TSRole;
-import org.jeecgframework.web.system.entity.base.TSRoleUser;
-import org.jeecgframework.web.system.entity.base.TSUser;
-import org.jeecgframework.web.system.entity.base.TSUserOrg;
+import org.jeecgframework.web.system.entity.TSRoleUser;
+import org.jeecgframework.web.system.entity.TSUser;
+import org.jeecgframework.web.system.entity.TSUserOrg;
 import org.jeecgframework.web.system.service.UserService;
-import org.jeecgframework.web.system.vo.base.ExlUserVo;
+import org.jeecgframework.web.system.vo.ExlUserVo;
 import org.jeecgframework.web.utils.PasswordUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 /**
  * 

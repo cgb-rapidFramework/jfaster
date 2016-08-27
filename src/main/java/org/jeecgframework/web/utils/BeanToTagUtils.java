@@ -4,10 +4,10 @@ import org.jeecgframework.platform.bean.FunctionBean;
 import org.jeecgframework.platform.bean.IconBean;
 import org.jeecgframework.platform.bean.TypeBean;
 import org.jeecgframework.platform.bean.TypeGroupBean;
-import org.jeecgframework.web.system.entity.base.TSFunction;
-import org.jeecgframework.web.system.entity.base.TSIcon;
-import org.jeecgframework.web.system.entity.base.TSType;
-import org.jeecgframework.web.system.entity.base.TSTypegroup;
+import org.jeecgframework.web.system.entity.TSFunction;
+import org.jeecgframework.web.system.entity.TSIcon;
+import org.jeecgframework.web.system.entity.TSType;
+import org.jeecgframework.web.system.entity.TSTypegroup;
 import org.jeecgframework.web.system.vo.platform.FunctionVo;
 import org.springframework.beans.BeanUtils;
 

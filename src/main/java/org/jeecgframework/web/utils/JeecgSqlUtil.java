@@ -4,7 +4,6 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import org.jeecgframework.core.def.ConstantsDefs;
-import org.jeecgframework.core.util.LogUtils;
 
 import java.io.*;
 import java.util.ResourceBundle;

@@ -136,7 +136,7 @@
 	</servlet-mapping>
 	<filter>
 		<filter-name>ecsideExport</filter-name>
-		<filter-class>org.jeecgframework.core.aop.GZipFilter</filter-class>
+		<filter-class>org.jeecgframework.web.system.aop.GZipFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>ecsideExport</filter-name>

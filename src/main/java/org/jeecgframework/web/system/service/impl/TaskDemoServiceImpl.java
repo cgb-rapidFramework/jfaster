@@ -1,7 +1,7 @@
 package org.jeecgframework.web.system.service.impl;
 
-import org.jeecgframework.core.util.LogUtils;
 import org.jeecgframework.web.system.service.TaskDemoService;
+import org.jeecgframework.web.utils.LogUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

@@ -1,6 +1,6 @@
 package org.jeecgframework.web.utils;
 
-import org.jeecgframework.web.system.entity.base.TSIcon;
+import org.jeecgframework.web.system.entity.TSIcon;
 import org.jeecgframework.core.common.model.json.DataGrid;
 
 import javax.imageio.stream.FileImageOutputStream;

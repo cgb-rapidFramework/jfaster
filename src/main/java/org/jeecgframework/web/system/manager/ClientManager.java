@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jeecgframework.core.util.ContextHolderUtils;
-import org.jeecgframework.web.system.entity.base.Client;
+import org.jeecgframework.web.system.entity.Client;
 
 /**
  * 对在线用户的管理

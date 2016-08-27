@@ -1,7 +1,7 @@
 package org.jeecgframework.web.system.service.impl;
 
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
-import org.jeecgframework.web.system.entity.base.TSDepart;
+import org.jeecgframework.web.system.entity.TSDepart;
 import org.jeecgframework.web.system.service.DepartService;
 import org.springframework.stereotype.Service;
 

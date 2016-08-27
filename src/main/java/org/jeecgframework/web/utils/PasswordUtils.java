@@ -1,6 +1,5 @@
 package org.jeecgframework.web.utils;
 
-import org.jeecgframework.core.util.LogUtils;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;

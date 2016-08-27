@@ -2,7 +2,7 @@ package org.jeecgframework.web.utils;
 
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.platform.constant.Globals;
-import org.jeecgframework.web.system.entity.base.TSDataRule;
+import org.jeecgframework.web.system.entity.TSDataRule;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
