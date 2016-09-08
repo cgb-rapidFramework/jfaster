@@ -127,7 +127,7 @@ public class CategoryController extends BaseController {
     @ResponseBody
     public AjaxJson save(TSCategoryEntity category, HttpServletRequest request) {
         AjaxJson j = new AjaxJson();
-        if (StringUtils.isNotEmpty(category.getId())) {
+        if (!StringUtils.isEmpty(category.getId())) {
             j.setMsg("分类管理更新成功");
             try {
                 TSCategoryEntity t = categoryService.find(TSCategoryEntity.class,
@@ -156,7 +156,7 @@ public class CategoryController extends BaseController {
      */
     @RequestMapping(params = "addorupdate")
     public String addorupdate(ModelMap map, TSCategoryEntity category) {
-        if (StringUtils.isNotEmpty(category.getId())) {
+        if (!StringUtils.isEmpty(category.getId())) {
             category = categoryService.findUniqueByProperty(TSCategoryEntity.class,
                     "code", category.getId());
             map.put("categoryPage", category);
@@ -164,7 +164,7 @@ public class CategoryController extends BaseController {
         map.put("iconlist", systemService.findAllByProperty(TSIcon.class,
                 "iconType", (short) 1));
         if (category.getParent() != null
-                && StringUtils.isNotEmpty(category.getParent().getId())) {
+                && !StringUtils.isEmpty(category.getParent().getId())) {
             TSCategoryEntity parent = categoryService.findEntity(
                     TSCategoryEntity.class, category.getParent().getId());
             category.setParent(parent);
@@ -237,10 +237,10 @@ public class CategoryController extends BaseController {
      * @param comboTree
      */
     private void getCriteriaQuery(CriteriaQuery cq, String selfCode, ComboTree comboTree) {
-        if (StringUtils.isNotEmpty(comboTree.getId())) {
+        if (!StringUtils.isEmpty(comboTree.getId())) {
             cq.createAlias("parent", "parent");
             cq.eq("parent.code", comboTree.getId());
-        } else if (StringUtils.isNotEmpty(selfCode)) {
+        } else if (!StringUtils.isEmpty(selfCode)) {
             cq.eq("code", selfCode);
         } else {
             cq.isNull("parent");

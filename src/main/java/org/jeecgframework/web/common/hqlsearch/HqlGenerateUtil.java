@@ -25,9 +25,7 @@ import java.util.Map;
  * @de
  * 
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
 public class HqlGenerateUtil {
-
 	/** 时间查询符号 */
 	private static final String END = "_end";
 	private static final String BEGIN = "_begin";
@@ -129,7 +127,7 @@ public class HqlGenerateUtil {
 					if (format != null) {
 						userDefined = new SimpleDateFormat(format.format());
 					}
-					if (StringUtils.isNotEmpty(beginValue)) {
+					if (!StringUtils.isEmpty(beginValue)) {
 						if (userDefined != null) {
 							cq.ge(aliasName, userDefined.parse(beginValue));
 						} else if (beginValue.length() == 19) {
@@ -139,7 +137,7 @@ public class HqlGenerateUtil {
 									time.parse(beginValue + " 00:00:00"));
 						}
 					}
-					if (StringUtils.isNotEmpty(endValue)) {
+					if (!StringUtils.isEmpty(endValue)) {
 						if (userDefined != null) {
 							cq.ge(aliasName, userDefined.parse(beginValue));
 						} else if (endValue.length() == 19) {
@@ -152,7 +150,7 @@ public class HqlGenerateUtil {
 					if (isNotEmpty(value)) {
 						cq.eq(aliasName, value);
 					}
-				} else if (!StringUtils.isJavaClass(origDescriptors[i]
+				} else if (!StringUtils.isJDKClass(origDescriptors[i]
 						.getPropertyType())) {
 					Object param = PropertyUtils.getSimpleProperty(searchObj,
 							name);
@@ -267,7 +265,7 @@ public class HqlGenerateUtil {
 						isNotEmpty = true;
 						break;
 					}
-				} else if (StringUtils.isNotEmpty(PropertyUtils
+				} else if (!StringUtils.isEmpty(PropertyUtils
 						.getSimpleProperty(param, name))) {
 					isNotEmpty = true;
 					break;

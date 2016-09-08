@@ -140,7 +140,7 @@ public class LoginController extends BaseController {
 
                         String orgId = request.getParameter("orgId");
                         if (ConvertUtils.isEmpty(orgId)) { // 没有传组织机构参数，则获取当前用户的组织机构
-                            Long orgNum = systemService.queryCount("select count(1) from t_s_user_org where user_id = '" + u.getId() + "'");
+                            Long orgNum = systemService.queryForCount("select count(1) from t_s_user_org where user_id =?",new Object[]{u.getId()});
                             if (orgNum > 1) {
                                 attrMap.put("orgNum", orgNum);
                                 attrMap.put("user", u2);
@@ -337,8 +337,9 @@ public class LoginController extends BaseController {
 	           .append("where ru.TSRole.id=rf.TSRole.id and rf.TSFunction.id=f.id and ru.TSUser.id=? ");
 	          StringBuilder hqlsb2=new StringBuilder("select distinct c from TSFunction c,TSRoleOrg b,TSUserOrg a ")
 	           .append("where a.tsDepart.id=b.tsDepart.id and b.tsRole.id=c.id and a.tsUser.id=?");
-	           List<TSFunction> list1 = systemService.findByHql(hqlsb1.toString(),user.getId());
-	           List<TSFunction> list2 = systemService.findByHql(hqlsb2.toString(),user.getId());
+			    Object[] object=new Object[]{user.getId()};
+	             List<TSFunction> list1 = systemService.findByHql(hqlsb1.toString(),object);
+	           List<TSFunction> list2 = systemService.findByHql(hqlsb2.toString(),object);
 	           for(TSFunction function:list1){
 		              loginActionlist.put(function.getId(),function);
 		           }

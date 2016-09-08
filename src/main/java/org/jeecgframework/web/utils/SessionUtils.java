@@ -29,10 +29,10 @@ public class SessionUtils {
 	  */
 	private static void initSession(HttpSession session) {
 		Client client =SessionShareCenter.getClient();
-		if(StringUtils.isNotEmpty(client)){
+		if(!StringUtils.isEmpty(client)){
 			String userId= SessionShareCenter.getUserId();
-			if(StringUtils.isNotEmpty(userId) && StringUtils.isNotEmpty(client.getUser())){
-				client.getUser().setId(userId);;
+			if(!StringUtils.isEmpty(userId) &&!StringUtils.isEmpty(client.getUser())){
+				client.getUser().setId(userId);
 			}
 			if(ClientManager.getInstance().getClient(session.getId())==null){
 				  ClientManager.getInstance().addClinet(session.getId(), client);

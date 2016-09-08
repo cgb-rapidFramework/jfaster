@@ -8,7 +8,7 @@ import org.jeecgframework.core.util.BeanPropertyUtils;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
 import org.jeecgframework.platform.util.MutiLangUtils;
-import org.jeecgframework.platform.util.StringUtils;
+import org.jeecgframework.web.utils.StringUtils;
 import org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.web.system.entity.DynamicDataSourceEntity;
 import org.jeecgframework.web.system.service.DynamicDataSourceService;
@@ -112,7 +112,7 @@ public class DynamicDataSourceController extends BaseController {
 	@ResponseBody
 	public AjaxJson save(DynamicDataSourceEntity dbSource, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		if (StringUtils.isNotEmpty(dbSource.getId())) {
+		if (!StringUtils.isEmpty(dbSource.getId())) {
 			message = MutiLangUtils.paramUpdSuccess("common.datasource.manage");
 			DynamicDataSourceEntity t = dynamicDataSourceService.find(DynamicDataSourceEntity.class, dbSource.getId());
 			try {
@@ -142,7 +142,7 @@ public class DynamicDataSourceController extends BaseController {
 	 */
 	@RequestMapping(params = "addorupdate")
 	public ModelAndView addorupdate(DynamicDataSourceEntity dbSource, HttpServletRequest req) {
-		if (StringUtils.isNotEmpty(dbSource.getId())) {
+		if (!StringUtils.isEmpty(dbSource.getId())) {
 			dbSource = dynamicDataSourceService.findEntity(DynamicDataSourceEntity.class, dbSource.getId());
 			req.setAttribute("dbSourcePage", dbSource);
 		}

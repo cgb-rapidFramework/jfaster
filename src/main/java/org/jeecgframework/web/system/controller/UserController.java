@@ -317,13 +317,14 @@ public class UserController extends BaseController {
 		List<ComboBox> comboBoxs = new ArrayList<ComboBox>();
 		List<TSDepart> departs = new ArrayList();
 		if (StringUtils.isNotEmpty(id)) {
-			TSUser user = systemService.find(TSUser.class, id);
+//			TSUser user = systemService.find(TSUser.class, id);
 //			if (user.getTSDepart() != null) {
 //				TSDepart depart = systemService.get(TSDepart.class, user.getTSDepart().getId());
 //				departs.add(depart);
 //			}
 			// todo zhanggm 获取指定用户的组织机构列表
-			List<TSDepart[]> resultList = systemService.findByHql("from TSDepart d,TSUserOrg uo where d.id=uo.orgId and uo.id=?", id);
+			Object[] object=new Object[]{id};
+			List<TSDepart[]> resultList = systemService.findByHql("from TSDepart d,TSUserOrg uo where d.id=uo.orgId and uo.id=?", object);
 			for (TSDepart[] departArr : resultList) {
 				departs.add(departArr[0]);
 			}

@@ -78,7 +78,7 @@ public class MenuInitServiceImpl extends CommonServiceImpl implements
 			if (clazz.isAnnotationPresent(AutoMenu.class)) {
 				AutoMenu autoMenu = clazz.getAnnotation(AutoMenu.class);
 				//菜单名称必须填写，否则不进行菜单和菜单操作按钮的匹配
-				if (StringUtils.isNotEmpty(autoMenu.name())) {
+				if (!StringUtils.isEmpty(autoMenu.name())) {
 					StringBuffer menuKey = new StringBuffer();
 					menuKey.append(autoMenu.name());
 					menuKey.append(KEY_SPLIT);
@@ -98,7 +98,7 @@ public class MenuInitServiceImpl extends CommonServiceImpl implements
 						function.setTSFunction(null);
 						
 						String iconId = autoMenu.icon();
-						if (StringUtils.isNotEmpty(iconId)) {
+						if (!StringUtils.isEmpty(iconId)) {
 							Object obj = this.find(TSIcon.class, iconId);
 							if(obj!=null){
 								function.setTSIcon((TSIcon)obj);
@@ -122,7 +122,7 @@ public class MenuInitServiceImpl extends CommonServiceImpl implements
 						if (method.isAnnotationPresent(AutoMenuOperation.class)) {
 							AutoMenuOperation autoMenuOperation = method.getAnnotation(AutoMenuOperation.class);
 							//操作码必须填写，否则不进行菜单操作按钮的匹配
-							if (StringUtils.isNotEmpty(autoMenuOperation.code())) {
+							if (!StringUtils.isEmpty(autoMenuOperation.code())) {
 								StringBuffer menuOperationKey = new StringBuffer();
 								menuOperationKey.append(function == null ? "" : function.getId());
 								menuOperationKey.append(KEY_SPLIT);
@@ -148,7 +148,7 @@ public class MenuInitServiceImpl extends CommonServiceImpl implements
 									operation.setTSFunction(function);
 									
 									String iconId = autoMenuOperation.icon();
-									if (StringUtils.isNotEmpty(iconId)) {
+									if (!StringUtils.isEmpty(iconId)) {
 										TSIcon icon = new TSIcon();
 										icon.setId(iconId);
 										operation.setTSIcon(icon);

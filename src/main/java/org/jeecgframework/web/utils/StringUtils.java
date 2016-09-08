@@ -1,15 +1,17 @@
 package org.jeecgframework.web.utils;
 
-import org.jeecgframework.core.util.StringParentUtils;
+import org.jeecgframework.platform.util.StringExpandUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.Random;
 
 /**
  * Created by admin on 2015/11/21.
  */
-public class StringUtils extends StringParentUtils {
+public class StringUtils extends StringExpandUtils {
     /**
      * 获取登录用户IP地址
      *
@@ -76,4 +78,47 @@ public class StringUtils extends StringParentUtils {
 
         return result;
     }
+
+    public static boolean isNotEmpty(Object obj) {
+        return  !isEmpty(obj);
+    }
+
+    /**
+     * 判断这个类是不是java自带的类
+     * @param clazz
+     * @return
+     */
+    public static boolean isJDKClass(Class<?> clazz) {
+        boolean isBaseClass = false;
+        if(clazz.isArray()){
+            isBaseClass = false;
+        }else if (clazz.isPrimitive()||clazz.getPackage()==null
+                || clazz.getPackage().getName().equals("java.lang")
+                || clazz.getPackage().getName().equals("java.math")
+                || clazz.getPackage().getName().equals("java.util")) {
+            isBaseClass =  true;
+        }
+        return isBaseClass;
+    }
+
+    /**
+     * 解析前台encodeURIComponent编码后的参数
+     *
+     * @param property
+     *            (encodeURIComponent(no))
+     * @return
+     */
+    public static String getEncodePra(String property) {
+        String trem = "";
+        if (isNotEmpty(property)) {
+            try {
+                trem = URLDecoder.decode(property, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+        return trem;
+    }
+
+
 }

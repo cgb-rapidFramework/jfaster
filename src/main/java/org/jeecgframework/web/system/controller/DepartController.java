@@ -156,7 +156,7 @@ public class DepartController extends BaseController {
 			depart.setTSPDepart(null);
 		}
 		AjaxJson j = new AjaxJson();
-		if (StringUtils.isNotEmpty(depart.getId())) {
+		if (!StringUtils.isEmpty(depart.getId())) {
             message = MutiLangUtils.paramUpdSuccess("common.department");
 			userService.saveOrUpdate(depart);
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
@@ -185,7 +185,7 @@ public class DepartController extends BaseController {
 	public ModelAndView update(TSDepart depart, HttpServletRequest req) {
 		List<TSDepart> departList = systemService.getList(TSDepart.class);
 		req.setAttribute("departList", departList);
-		if (StringUtils.isNotEmpty(depart.getId())) {
+		if (!StringUtils.isEmpty(depart.getId())) {
 			depart = systemService.findEntity(TSDepart.class, depart.getId());
 			req.setAttribute("depart", depart);
 		}

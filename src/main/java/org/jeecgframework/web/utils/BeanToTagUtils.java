@@ -21,7 +21,7 @@ public class BeanToTagUtils {
 	 */
 	public static FunctionBean  convertFunction(TSFunction function) {
 		FunctionBean functionBean=null;
-		if(StringUtils.isNotEmpty(function)){
+		if(!StringUtils.isEmpty(function)){
 			functionBean=new FunctionBean();
 			FunctionVo functionVo=new FunctionVo();
 			BeanUtils.copyProperties(function, functionVo);
@@ -41,14 +41,14 @@ public class BeanToTagUtils {
 			functionBean.setTSFunctions(BeanToTagUtils.convertFunctions(functionLists));
 			
 			//functionBean.setTSFunction(TSFunction);
-			if(StringUtils.isNotEmpty(function.getTSIcon())){
+			if(!StringUtils.isEmpty(function.getTSIcon())){
 				IconBean iconBean=new IconBean();
 				BeanUtils.copyProperties(function.getTSIcon(), iconBean);
 				functionBean.setTSIcon(iconBean);
 			}
 
 			TSIcon conDeskBean=function.getTSIconDesk();
-			if(StringUtils.isNotEmpty(conDeskBean)){
+			if(!StringUtils.isEmpty(conDeskBean)){
 				IconBean TSIconDeskBean=new IconBean();
 				BeanUtils.copyProperties(conDeskBean, TSIconDeskBean);
 				functionBean.setTSIconDesk(TSIconDeskBean);

@@ -435,7 +435,7 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 			String id = ConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getIdField()));
 			String src = ConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getSrc()));
 			String text = ConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getTextField()));
-			if(StringUtils.isNotEmpty(treeGridModel.getOrder())){
+			if(!StringUtils.isEmpty(treeGridModel.getOrder())){
 				String order = ConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getOrder()));
 				tg.setOrder(order);
 			}

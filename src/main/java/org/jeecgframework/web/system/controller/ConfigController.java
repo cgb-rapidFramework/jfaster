@@ -6,13 +6,13 @@ import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
 import org.jeecgframework.platform.constant.Globals;
-import org.jeecgframework.platform.util.StringUtils;
 import org.jeecgframework.web.system.entity.TSConfig;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.utils.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -139,7 +139,7 @@ public class ConfigController extends BaseController {
 	 */
 	@RequestMapping(params = "addorupdate")
 	public ModelAndView addorupdate(TSConfig config, HttpServletRequest req) {
-		if (StringUtils.isNotEmpty(config.getId())) {
+		if (!StringUtils.isEmpty(config.getId())) {
 			config = systemService.findEntity(TSConfig.class,
 					config.getId());
 			req.setAttribute("config", config);

@@ -312,7 +312,7 @@ public class RoleController extends BaseController {
 		List<TSRole[]> orgRoleArrList = systemService
 				.findByHql(
 						"from TSRole r, TSRoleOrg ro, TSDepart o WHERE r.id=ro.tsRole.id AND ro.tsDepart.id=o.id AND o.id=?",
-						orgId);
+						new Object[]{orgId});
 		List<TSRole> orgRoleList = new ArrayList<TSRole>();
 		for (Object[] roleArr : orgRoleArrList) {
 			orgRoleList.add((TSRole) roleArr[0]);

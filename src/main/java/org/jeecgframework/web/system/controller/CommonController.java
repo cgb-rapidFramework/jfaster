@@ -2,7 +2,7 @@ package org.jeecgframework.web.system.controller;
 
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.tag.vo.easyui.Autocomplete;
-import org.jeecgframework.platform.util.StringUtils;
+import org.jeecgframework.web.utils.StringUtils;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.utils.SystemJsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +51,7 @@ public class CommonController extends BaseController {
 		String[] fieldArr = labelFields.split(",");
 		String valueField = autocomplete.getValueField();
 		String[] allFieldArr = null;
-		if (StringUtils.isNotEmpty(valueField)) {
+		if (!StringUtils.isEmpty(valueField)) {
 			allFieldArr = new String[fieldArr.length+1];
 			for (int i=0; i<fieldArr.length; i++) {
 				allFieldArr[i] = fieldArr[i];

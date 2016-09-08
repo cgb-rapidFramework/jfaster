@@ -15,7 +15,7 @@ public class DepartServiceImpl extends CommonServiceImpl implements DepartServic
     @Override
     public void deleteDepart(TSDepart depart) {
         String id=depart.getId();
-        Long userCount = this.queryCount("select count(1) from t_s_user_org where org_id='" + id + "'");
+        Long userCount = this.queryForCount("select count(1) from t_s_user_org where org_id='" + id + "'");
         if(userCount == 0) { // 组织机构下没有用户时，该组织机构才允许删除。
             this.executeSql("delete from t_s_role_org where org_id=?",id);
             this.delete(depart);

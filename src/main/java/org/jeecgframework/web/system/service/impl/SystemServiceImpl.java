@@ -200,11 +200,11 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	
 	public void flushRoleFunciton(String id, TSFunction newFunction) {
 		TSFunction functionEntity = this.findEntity(TSFunction.class, id);
-		if (functionEntity.getTSIcon() == null || !StringUtils.isNotEmpty(functionEntity.getTSIcon().getId())) {
+		if (functionEntity.getTSIcon() == null || !StringUtils.isEmpty(functionEntity.getTSIcon().getId())) {
 			return;
 		}
 		TSIcon oldIcon = this.findEntity(TSIcon.class, functionEntity.getTSIcon().getId());
-		if(!StringUtils.isNotEmpty(oldIcon.getIconClas())){
+		if(StringUtils.isEmpty(oldIcon.getIconClas())){
               return;
 		}
 
