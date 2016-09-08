@@ -3,7 +3,6 @@ package org.jeecgframework.web.utils;
 
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.web.system.entity.DynamicDataSourceEntity;
 import org.jeecgframework.web.system.listener.OnlineListener;
@@ -93,7 +92,7 @@ public class DBUtils {
 		int effectCount = 0;
 		JdbcTemplate jdbcTemplate = getJdbcTemplate(dbKey);
 
-		if (ArrayUtils.isEmpty(param)) {
+		if (org.springframework.util.StringUtils.isEmpty(param)) {
 			effectCount = jdbcTemplate.update(sql);
 		} else {
 			effectCount = jdbcTemplate.update(sql, param);
@@ -106,7 +105,7 @@ public class DBUtils {
 		List<Map<String, Object>> list;
 		JdbcTemplate jdbcTemplate = getJdbcTemplate(dbKey);
 
-		if (ArrayUtils.isEmpty(param)) {
+		if (org.springframework.util.StringUtils.isEmpty(param)) {
 			list = jdbcTemplate.queryForList(sql);
 		} else {
 			list = jdbcTemplate.queryForList(sql, param);
@@ -129,7 +128,7 @@ public class DBUtils {
 		List<Map<String, Object>> list;
 		JdbcTemplate jdbcTemplate = getJdbcTemplate(dbKey);
 
-		if (ArrayUtils.isEmpty(param)) {
+		if (org.springframework.util.StringUtils.isEmpty(param)) {
 			list = jdbcTemplate.queryForList(sql);
 		} else {
 			list = jdbcTemplate.queryForList(sql, param);

@@ -36,9 +36,6 @@
 		<oracle.version>10.2.0.2.0</oracle.version>
 		<sqlserver.version>4.0</sqlserver.version>
 		<postgresql.version>9.3-1104-jdbc41</postgresql.version>
-
-
-
 	</properties>
 
 	<repositories>
@@ -102,6 +99,7 @@
 			</snapshots>
 		</repository>
 	</repositories>
+
 
 	<dependencies>
 		<!-- 自定义的依赖包 -->
@@ -283,11 +281,6 @@
 			<version>${log4j.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.mayframework</groupId>
-			<artifactId>bms-platform</artifactId>
-			<version>${bms-platform.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
 			<version>${org.quartz-scheduler.version}</version>
@@ -335,8 +328,27 @@
 			<version>${hibernate-validator.version}</version>
 		</dependency>
 		<!-- tools end -->
-	</dependencies>
 
+		<!--使用maven引入jar begin-->
+		<dependency>
+			<groupId>org.mayframework</groupId>
+			<artifactId>bms-platform</artifactId>
+			<version>${bms-platform.version}</version>
+		</dependency>
+		<!--使用maven引入jar end-->
+		<!--非maven构建下引入-->
+		<!--<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.9</version>
+		</dependency>-->
+		<!--非maven构建下引入-->
+	</dependencies>
 	<organization>
 		<name>BMS管理平台</name>
 		<url>www.bms.org</url>

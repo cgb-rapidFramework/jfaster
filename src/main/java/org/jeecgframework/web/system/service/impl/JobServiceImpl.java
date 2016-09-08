@@ -1,6 +1,5 @@
 package org.jeecgframework.web.system.service.impl;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.web.system.entity.JobEntity;
 import org.jeecgframework.web.system.service.JobService;
@@ -9,6 +8,7 @@ import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class JobServiceImpl extends CommonServiceImpl implements JobService {
 
     public void initJob() throws Exception {
         List<JobEntity> jobList = this.findAll(JobEntity.class);
-        if (CollectionUtils.isEmpty(jobList)) {
+        if (StringUtils.isEmpty(jobList)) {
             return;
         }
         for (JobEntity job : jobList) {

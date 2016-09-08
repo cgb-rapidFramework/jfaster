@@ -1,6 +1,5 @@
 package org.jeecgframework.web.system.service.impl;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.jeecgframework.core.annotation.config.AutoMenu;
 import org.jeecgframework.core.annotation.config.AutoMenuOperation;
 import org.jeecgframework.core.annotation.config.MenuCodeType;
@@ -11,11 +10,11 @@ import org.jeecgframework.web.system.entity.TSIcon;
 import org.jeecgframework.web.system.entity.TSOperation;
 import org.jeecgframework.web.system.service.MenuInitService;
 import org.jeecgframework.web.utils.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
@@ -57,15 +56,8 @@ public class MenuInitServiceImpl extends CommonServiceImpl implements
 			key.append(function.getFunctionLevel() == null ? "" : function.getFunctionLevel());
 			key.append(KEY_SPLIT);
 			key.append(function.getFunctionUrl() == null ? "" : function.getFunctionUrl());
-			
 			FunctionBean  bean=new FunctionBean();
-			try {
-				BeanUtils.copyProperties(function, bean);
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			}
+			BeanUtils.copyProperties(function, bean);
 			functionMap.put(key.toString(), bean);
 		}
 		//设置菜单操作按钮map
@@ -120,13 +112,7 @@ public class MenuInitServiceImpl extends CommonServiceImpl implements
 						function.setId(id.toString());
 					} else {
 						FunctionBean functionBean=functionMap.get(menuKey.toString());
-						try {
-							BeanUtils.copyProperties(functionBean, function);
-						} catch (IllegalAccessException e) {
-							e.printStackTrace();
-						} catch (InvocationTargetException e) {
-							e.printStackTrace();
-						}
+						BeanUtils.copyProperties(functionBean, function);
 					}
 						
 					//获取该类的所有方法

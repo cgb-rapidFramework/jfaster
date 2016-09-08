@@ -243,8 +243,7 @@ public class HqlGenerateUtil {
 	private static boolean itIsNotAllEmpty(Object param) {
 		boolean isNotEmpty = false;
 		try {
-			PropertyDescriptor origDescriptors[] = PropertyUtils
-					.getPropertyDescriptors(param);
+			PropertyDescriptor origDescriptors[] = PropertyUtils.getPropertyDescriptors(param);
 			String name;
 			for (int i = 0; i < origDescriptors.length; i++) {
 				name = origDescriptors[i].getName();
