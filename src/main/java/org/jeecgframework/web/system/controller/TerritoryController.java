@@ -1,6 +1,5 @@
 package org.jeecgframework.web.system.controller;
 
-import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.ComboTree;
@@ -17,6 +16,7 @@ import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -139,7 +139,7 @@ public class TerritoryController extends BaseController {
 			TSTerritory parent = systemService.findEntity(TSTerritory.class, territory.getTSTerritory().getId());
 			territory.setTerritoryLevel(Short.valueOf(parent.getTerritoryLevel()+1+""));
 		}
-		if (StringUtils.isNotEmpty(territory.getId())) {
+		if (!StringUtils.isEmpty(territory.getId())) {
 			message = "地域: " + territory.getTerritoryName() + "被更新成功";
 			systemService.saveOrUpdate(territory);
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);

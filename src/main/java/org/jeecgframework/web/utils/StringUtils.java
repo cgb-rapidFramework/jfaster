@@ -55,4 +55,25 @@ public class StringUtils extends StringParentUtils {
         int num=Integer.parseInt(str.toString());
        return  num+"";
     }
+
+
+    public static String join(List array, char symbol) {
+        String result="";
+        StringBuffer buffer = new StringBuffer();
+        if(array != null) {
+            for(int i = 0; i < array.size(); ++i) {
+                String temp = array.get(i).toString();
+                if(temp != null && temp.trim().length() > 0) {
+                    buffer.append(temp + symbol);
+//                    result = result + temp + symbol;
+                }
+            }
+            result=buffer.toString();
+            if(result.length() > 1) {
+                result = result.substring(0, result.length() - 1);
+            }
+        }
+
+        return result;
+    }
 }

@@ -1,12 +1,12 @@
 package org.jeecgframework.web.system.service.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.web.system.entity.TSCategoryEntity;
 import org.jeecgframework.web.system.service.CategoryService;
 import org.jeecgframework.web.utils.ConfigUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Service("tSCategoryService")
 @Transactional

@@ -1,7 +1,6 @@
 package org.jeecgframework.web.utils;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.common.model.json.ComboBox;
 import org.jeecgframework.core.util.ConvertUtils;
 import org.jeecgframework.platform.common.tag.easyui.TagUtil;
@@ -98,7 +97,7 @@ public class SystemJsonUtils {
 			}
 			strList.add(perStr + "_" +sufStr);
 		}
-		return StringUtils.join(strList, ",");
+		return StringUtils.join(strList, ',');
 	}
 
 

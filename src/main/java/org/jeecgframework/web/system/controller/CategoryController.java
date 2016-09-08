@@ -1,6 +1,5 @@
 package org.jeecgframework.web.system.controller;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
@@ -18,6 +17,7 @@ import org.jeecgframework.web.system.entity.TSIcon;
 import org.jeecgframework.web.system.service.CategoryService;
 import org.jeecgframework.web.system.service.ResourceService;
 import org.jeecgframework.web.system.service.SystemService;
+import org.jeecgframework.web.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
