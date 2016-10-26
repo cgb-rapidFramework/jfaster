@@ -72,17 +72,33 @@ public class ClassLoaderUtils extends ClassLoader {
 		// 如果类文件被打包到JAR等文件中时，去掉对应的JAR等打包文件名
 		if (realPath.endsWith("!"))
 			realPath = realPath.substring(0, realPath.lastIndexOf("/"));
-		/*------------------------------------------------------------  
-		 ClassLoader的getResource方法使用了utf-8对路径信息进行了编码，当路径  
-		  中存在中文和空格时，他会对这些字符进行转换，这样，得到的往往不是我们想要  
-		  的真实路径，在此，调用了URLDecoder的decode方法进行解码，以便得到原始的  
-		  中文及空格路径  
+		/*------------------------------------------------------------
+		 ClassLoader的getResource方法使用了utf-8对路径信息进行了编码，当路径
+		  中存在中文和空格时，他会对这些字符进行转换，这样，得到的往往不是我们想要
+		  的真实路径，在此，调用了URLDecoder的decode方法进行解码，以便得到原始的
+		  中文及空格路径
 		-------------------------------------------------------------*/
 		try {
 			realPath = java.net.URLDecoder.decode(realPath, "utf-8");
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		LogUtils.info("realPath----->"+realPath);
 		return realPath;
-	}// getAppPath定义结束
+	}
+
+
+
+	/**
+	 * 返回当前执行的方法路径
+	 * @return
+	 */
+	public static String getMethodUrl() {
+		StringBuffer sb = new StringBuffer();
+		StackTraceElement[] stacks = new Throwable().getStackTrace();
+		sb.append(stacks[1].getClassName()).append(".").append(
+				stacks[1].getMethodName());
+		return sb.toString();
+	}
+
 }

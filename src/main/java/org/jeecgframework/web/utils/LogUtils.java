@@ -17,7 +17,6 @@ import java.io.StringWriter;
  */
 public class LogUtils {
 
-  //private static BaseLogUtil objLog = new BaseLogUtil();
   private static final String LOGCONFIG = "log4j.properties";
   private static Logger objLog;
   
@@ -209,7 +208,6 @@ public class LogUtils {
       for(int i=0;i<4;i++)
         br.readLine(); 
       String line = br.readLine();
-      //at com.media.web.action.DicManageAction.list(DicManageAction.java:89)
       int paren = line.indexOf("at ");
       line = line.substring(paren+3);
       paren = line.indexOf('(');

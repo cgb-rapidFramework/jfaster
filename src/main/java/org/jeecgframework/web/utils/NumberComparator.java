@@ -5,11 +5,8 @@ import org.jeecgframework.platform.bean.FunctionBean;
 import java.util.Comparator;
 
 /**
-* @ClassName: NumberComparator 
-* @Description: TODO(字符串比较器) 
-* @author jeecg 
-* @date 2013-1-31 下午06:18:35 
-*
+* @ClassName: NumberComparator
+ * 数据比较器
  */
 public class NumberComparator implements Comparator<Object> {
 	private boolean ignoreCase = true;

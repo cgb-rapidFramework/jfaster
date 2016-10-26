@@ -64,7 +64,6 @@ public class GenericsUtils {
      * @return 泛型参数的实际类型, 如果没有实现ParameterizedType接口，即不支持泛型，所以直接返回
      * <code>Object.class</code>
      */
-    @SuppressWarnings("unchecked")
     public static Class getMethodGenericReturnType(Method method, int index) {
         Type returnType = method.getGenericReturnType();
         if (returnType instanceof ParameterizedType) {
@@ -158,7 +157,6 @@ public class GenericsUtils {
      * @return 泛型参数的实际类型, 如果没有实现ParameterizedType接口，即不支持泛型，所以直接返回
      * <code>Object.class</code>
      */
-    @SuppressWarnings("unchecked")
     public static Class getFieldGenericType(Field field) {
         return getFieldGenericType(field, 0);
     }

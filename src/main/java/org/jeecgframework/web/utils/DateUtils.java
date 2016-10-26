@@ -363,7 +363,7 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
      * @param minute
      * @return
      */
-    public static String getAfterDate(int minute, String format) {
+    public static String getDateAfterMinutes(int minute, String format) {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MINUTE, minute);// 5分钟之前的时间
         String date = DateUtils.formatDate(cal, format);
