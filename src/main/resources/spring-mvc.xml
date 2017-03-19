@@ -10,7 +10,7 @@
 		http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd ">
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
 	<!-- 加载controller的时候,不加载service,因为此时事物并未生效,若此时加载了service,那么事物无法对service进行拦截 -->
-	<context:component-scan base-package="org.jeecgframework.web.*">
+	<context:component-scan base-package="com.abocode.jfaster.web.*">
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Service" />
 	</context:component-scan>
@@ -33,7 +33,7 @@
 			</list>
 		</property>
 		<property name="webBindingInitializer">
-			<bean class="org.jeecgframework.web.system.interceptors.MyWebBinding" />
+			<bean class="com.abocode.jfaster.web.system.interceptors.MyWebBinding" />
 		</property>
 	</bean>
 	<!-- 默认的视图解析器 在上边的解析错误时使用 (默认使用html)- -->
@@ -64,12 +64,12 @@
      
 	<!-- 方言 -->
 	<bean id="dialect"
-		class="org.jeecgframework.core.common.hibernate.dialect.DialectFactoryBean">
+		class="com.abocode.jfaster.core.common.hibernate.dialect.DialectFactoryBean">
 		<property name="dbType" value="${jdbc.dbType}" />
 	</bean>
 	<!-- 异常处理类 -->
 	<bean id="exceptionHandler"
-		class="org.jeecgframework.web.common.exception.MyExceptionHandler" />
+		class="com.abocode.jfaster.web.common.exception.MyExceptionHandler" />
 	<!-- 系统错误转发配置[并记录错误日志] -->
 	<bean
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
@@ -96,11 +96,11 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<bean class="org.jeecgframework.web.system.interceptors.EncodingInterceptor" />
+			<bean class="com.abocode.jfaster.web.system.interceptors.EncodingInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<bean class="org.jeecgframework.web.system.interceptors.AuthInterceptor">
+			<bean class="com.abocode.jfaster.web.system.interceptors.AuthInterceptor">
 				<property name="excludeUrls">
 					<list>
 						<value>loginController.do?goPwdInit</value>

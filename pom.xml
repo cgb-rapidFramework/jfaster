@@ -1,15 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.mayframework</groupId>
-	<artifactId>bms-project</artifactId>
-	<version>2.1.0-RELEASE</version>
+	<groupId>com.abocode</groupId>
+	<artifactId>jfaster</artifactId>
+	<version>2.0.0-RELEASE</version>
 	<packaging>war</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
 		<!-- 主要依赖库的版本定义 -->
-		<bms-platform.version>2.1.0-RELEASE</bms-platform.version>
 		<spring.version>3.2.16.RELEASE</spring.version>
 		<hibernate.version>4.2.21.Final</hibernate.version>
 		<hibernate-common-annotations.version>4.0.2.Final</hibernate-common-annotations.version>
@@ -36,6 +34,13 @@
 		<oracle.version>10.2.0.2.0</oracle.version>
 		<sqlserver.version>4.0</sqlserver.version>
 		<postgresql.version>9.3-1104-jdbc41</postgresql.version>
+
+		<!--jfaster-platform begin-->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!--<bms-core.version>2.1.0-RELEASE</bms-core.version>-->
+		<poi.version>3.9</poi.version>
+		<json-lib.version>2.4</json-lib.version>
+		<!--jfaster-platform end-->
 	</properties>
 
 	<repositories>
@@ -330,15 +335,15 @@
 		<!-- tools end -->
 
 		<!--使用maven引入jar begin-->
-		<dependency>
-			<groupId>org.mayframework</groupId>
+		<!--<dependency>
+			<groupId>com.abocode</groupId>
 			<artifactId>bms-platform</artifactId>
 			<version>${bms-platform.version}</version>
-		</dependency>
+		</dependency>-->
 		<!--使用maven引入jar end-->
 
 		<!--非maven构建下引入 begin-->
-		<!--<dependency>
+		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 			<version>1.9.2</version>
@@ -347,12 +352,57 @@
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
 			<version>3.9</version>
-		</dependency>-->
+		</dependency>
 		<!--非maven构建下引入 end-->
+
+		<!--bms-platform begin-->
+	<!--	<dependency>
+			<groupId>com.abocode</groupId>
+			<artifactId>bms-core</artifactId>
+			<version>${bms-core.version}</version>
+		</dependency>-->
+
+		<!-- poi begin -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-schemas</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-scratchpad</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<!-- poi end -->
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>${json-lib.version}</version>
+			<classifier>jdk15</classifier>
+		</dependency>
+		<!--bms-platform end-->
 	</dependencies>
 	<organization>
-		<name>BMS管理平台</name>
-		<url>www.bms.org</url>
+		<name>JFaster</name>
+		<url>www.abocode.com</url>
 	</organization>
 	<build>
 		<plugins>
@@ -361,7 +411,7 @@
 				<artifactId>tomcat-maven-plugin</artifactId>
 				<version>1.1</version>
 				<configuration>
-					<path>/bms-project</path>
+					<path>/jfaster</path>
 					<port>8080</port>
 					<uriEncoding>UTF-8</uriEncoding>
 					<url>http://localhost:8080/manager/html</url>
@@ -380,7 +430,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>bms-project</finalName>
+		<finalName>jfaster</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/java</directory>

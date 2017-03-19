@@ -12,19 +12,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.jeecgframework.web.system.controller.BaseController;
-import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
-import org.jeecgframework.core.common.model.json.AjaxJson;
-import org.jeecgframework.core.common.model.json.DataGrid;
-import org.jeecgframework.platform.constant.Globals;
-import org.jeecgframework.web.utils.StringUtils;
-import org.jeecgframework.platform.common.tag.easyui.TagUtil;
-import org.jeecgframework.web.system.service.SystemService;
-import org.jeecgframework.core.util.BeanPropertyUtils;
+import com.abocode.jfaster.web.system.controller.BaseController;
+import com.abocode.jfaster.core.common.hibernate.qbc.CriteriaQuery;
+import com.abocode.jfaster.core.common.model.json.AjaxJson;
+import com.abocode.jfaster.core.common.model.json.DataGrid;
+import com.abocode.jfaster.platform.constant.Globals;
+import com.abocode.jfaster.web.utils.StringUtils;
+import com.abocode.jfaster.platform.common.tag.easyui.TagUtil;
+import com.abocode.jfaster.web.system.service.SystemService;
+import com.abocode.jfaster.core.util.BeanPropertyUtils;
 
 import ${bussiPackage}.entity.${entityPackage}.${entityName}Entity;
 import ${bussiPackage}.page.${entityPackage}.${entityName}Page;
-import ${bussiPackage}.service.${entityPackage}.${entityName}ServiceI;
+import ${bussiPackage}.service.${entityPackage}.${entityName}Service;
 <#list subTab as sub>
 import ${bussiPackage}.entity.${sub.entityPackage}.${sub.entityName}Entity;
 </#list>
@@ -83,7 +83,7 @@ public class ${entityName}Controller extends BaseController {
 	public void datagrid(${entityName}Entity ${entityName?uncap_first},HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(${entityName}Entity.class, dataGrid);
 		//查询条件组装器
-		org.jeecgframework.web.common.hqlsearch.HqlGenerateUtil.installHql(cq, ${entityName?uncap_first});
+		com.abocode.jfaster.web.common.hqlsearch.HqlGenerateUtil.installHql(cq, ${entityName?uncap_first});
 		this.${entityName?uncap_first}Service.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}

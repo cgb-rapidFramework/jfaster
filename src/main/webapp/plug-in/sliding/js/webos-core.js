@@ -794,7 +794,7 @@ Navbar =function(me){
 	var num =totalnum+1 ,////替换掉一级菜单的总数量
 		defaultnum=1,
 		title = "请登录",
-		usericon = "plug-in/sliding/images/jeecg.png";
+		usericon = "plug-in/sliding/images/logo.png";
 	
 	return me = {
 		init :function(){
@@ -1621,7 +1621,6 @@ appIcon_t1 = appIcon_t0.extend({
 			 var _this = $(this);
 			 var id = _this.attr("appid");
 			 var title = $.trim(_this.text());
-//			 var url ="http://www.jeecg.org";
 			 var url =_this.attr("url");
 			 var icon =_this.find("img").attr("src").split("/")[3];			
 			 Windows.openApp(id,title,url,icon,1400,600);

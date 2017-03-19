@@ -399,7 +399,7 @@ fa fa-times
             <!-- #section:basics/footer -->
             <div class="footer-content">
 						<span class="bigger-120">
-							<span class="blue bolder">bms</span>
+							<span class="blue bolder">jfaster</span>
 							 Application &copy; <t:mutiLang langKey="system.version.number"/>
 						</span>
 

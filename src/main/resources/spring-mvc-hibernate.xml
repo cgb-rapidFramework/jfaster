@@ -7,10 +7,10 @@
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
 	default-autowire="byName" default-lazy-init="false">
 	<!-- 自动扫描dao和service包(自动注入) -->
-	<context:component-scan base-package="org.jeecgframework.core.common.dao.*" />
-	<context:component-scan base-package="org.jeecgframework.core.common.service.*" />
+	<context:component-scan base-package="com.abocode.jfaster.core.common.dao.*" />
+	<context:component-scan base-package="com.abocode.jfaster.core.common.service.*" />
 	<!-- 加载service,此时要排除要controller,因为controller已经spring-mvc中加载过了 -->
-	<context:component-scan base-package="org.jeecgframework.web.*">
+	<context:component-scan base-package="com.abocode.jfaster.web.*">
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
@@ -20,9 +20,9 @@
 	<!-- 配置数据源1 -->
 	<bean name="dataSource_jeecg" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
-		<property name="url" value="${jdbc.url.jeecg}" />
-		<property name="username" value="${jdbc.username.jeecg}" />
-		<property name="password" value="${jdbc.password.jeecg}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
 		<!-- 初始化连接大小 -->
 		<property name="initialSize" value="0" />
 		<!-- 连接池最大使用连接数量 -->
@@ -60,9 +60,9 @@
 
 	<!-- 数据源集合 -->
 	<bean id="dataSource"
-		class="org.jeecgframework.core.extend.datasource.DynamicDataSource">
+		class="com.abocode.jfaster.core.extend.datasource.DynamicDataSource">
 		<property name="targetDataSources">
-			<map key-type="org.jeecgframework.core.extend.datasource.DataSourceType">
+			<map key-type="com.abocode.jfaster.core.extend.datasource.DataSourceType">
 				<entry key="dataSource_jeecg" value-ref="dataSource_jeecg" />
 				<!-- <entry key="mapdataSource" value-ref="mapdataSource" /> -->
 			</map>
@@ -85,7 +85,7 @@
 		<!-- 注解方式配置 -->
 		<property name="packagesToScan">
 			<list>
-				<value>org.jeecgframework.web.system.*</value>
+				<value>com.abocode.jfaster.web.system.*</value>
 			</list>
 		</property>
 	</bean>

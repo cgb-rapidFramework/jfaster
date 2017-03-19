@@ -1,7 +1,7 @@
 package ${bussiPackage}.service.${entityPackage};
 
 import java.util.List;
-import org.jeecgframework.core.common.service.CommonService;
+import com.abocode.jfaster.core.common.service.CommonService;
 import ${bussiPackage}.entity.${entityPackage}.${entityName}Entity;
 <#list subTab as sub>
 import ${bussiPackage}.entity.${sub.entityPackage}.${sub.entityName}Entity;

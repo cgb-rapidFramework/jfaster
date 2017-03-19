@@ -104,7 +104,6 @@ defaultOptions.exporting = {
 	//filename: 'chart',
 	type: 'image/png',
 	url: 'http://export.highcharts.com/',
-	//url : 'http://localhost:9080/jeecg-v3-framework/logController.do?export',
 	width: 800,
 	buttons: {
 		exportButton: {

@@ -4,9 +4,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import ${bussiPackage}.service.${entityPackage}.${entityName}ServiceI;
-import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
-import org.jeecgframework.core.common.exception.BusinessException;
-import org.jeecgframework.core.util.BeanPropertyUtils;
+import com.abocode.jfaster.core.common.service.impl.CommonServiceImpl;
+import com.abocode.jfaster.core.common.exception.BusinessException;
+import com.abocode.jfaster.core.util.BeanPropertyUtils;
 import ${bussiPackage}.entity.${entityPackage}.${entityName}Entity;
 <#list subTab as sub>
 import ${bussiPackage}.entity.${sub.entityPackage}.${sub.entityName}Entity;
