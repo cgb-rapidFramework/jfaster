@@ -1,6 +1,6 @@
 package com.abocode.jfaster.web.utils;
 
-import com.abocode.jfaster.platform.bean.FunctionBean;
+import com.abocode.jfaster.platform.view.FunctionView;
 
 import java.util.Comparator;
 
@@ -22,8 +22,8 @@ public class NumberComparator implements Comparator<Object> {
 		String o1 = "";
 		String o2 = "";
 		if (ignoreCase) {
-			FunctionBean c1 = (FunctionBean) obj1;
-			FunctionBean c2 = (FunctionBean) obj2;
+			FunctionView c1 = (FunctionView) obj1;
+			FunctionView c2 = (FunctionView) obj2;
 			o1 = c1.getFunctionOrder();
 			o2 = c2.getFunctionOrder();
 		}

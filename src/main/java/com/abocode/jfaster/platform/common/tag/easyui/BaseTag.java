@@ -1,7 +1,7 @@
 package com.abocode.jfaster.platform.common.tag.easyui;
 
 import com.abocode.jfaster.core.util.ConvertUtils;
-import com.abocode.jfaster.platform.bean.TemplateBean;
+import com.abocode.jfaster.platform.view.TemplateView;
 import com.abocode.jfaster.platform.util.JspWriterUtils;
 import com.abocode.jfaster.platform.util.MutiLangUtils;
 import com.abocode.jfaster.platform.util.SysThemesUtils;
@@ -52,7 +52,7 @@ public class BaseTag extends TagSupport {
 
 	public String end() {
 		StringBuffer sb = new StringBuffer();
-		TemplateBean sysThemesEnum = SysThemesUtils.getSysTheme((HttpServletRequest) super.pageContext.getRequest());
+		TemplateView sysThemesEnum = SysThemesUtils.getSysTheme((HttpServletRequest) super.pageContext.getRequest());
 		String types[] = type.split(",");
 		//插入多语言脚本
 		String lang = (String)((HttpServletRequest) this.pageContext.getRequest()).getSession().getAttribute("lang");

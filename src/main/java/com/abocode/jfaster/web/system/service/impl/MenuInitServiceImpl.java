@@ -1,14 +1,14 @@
 package com.abocode.jfaster.web.system.service.impl;
 
-import com.abocode.jfaster.web.system.entity.TSFunction;
-import com.abocode.jfaster.web.system.entity.TSIcon;
+import com.abocode.jfaster.web.system.entity.Function;
+import com.abocode.jfaster.web.system.entity.Icon;
 import com.abocode.jfaster.web.system.service.MenuInitService;
 import com.abocode.jfaster.core.annotation.config.AutoMenu;
 import com.abocode.jfaster.core.annotation.config.AutoMenuOperation;
 import com.abocode.jfaster.core.annotation.config.MenuCodeType;
 import com.abocode.jfaster.core.common.service.impl.CommonServiceImpl;
-import com.abocode.jfaster.platform.bean.FunctionBean;
-import com.abocode.jfaster.web.system.entity.TSOperation;
+import com.abocode.jfaster.platform.view.FunctionView;
+import com.abocode.jfaster.web.system.entity.Operation;
 import com.abocode.jfaster.web.utils.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -42,26 +42,26 @@ public class MenuInitServiceImpl extends CommonServiceImpl implements
 		// 4.循环@AutoMenuOperation方法标签，判断该菜单下是否有该操作码配置，如果存在不插入，不存在进行插入
 		// 比较规则[菜单ID-操作码 ：全匹配]
 
-		List<TSFunction> functionList = this.findAll(TSFunction.class);
-		List<TSOperation> operationList = this.findAll(TSOperation.class);
+		List<Function> functionList = this.findAll(Function.class);
+		List<Operation> operationList = this.findAll(Operation.class);
 		
-		Map<String, FunctionBean> functionMap = new HashMap<String, FunctionBean>();//菜单map,key为菜单匹配规则的字符串
-		Map<String, TSOperation> operationMap = new HashMap<String, TSOperation>();//菜单操作按钮map,key为菜单操作按钮匹配规则的字符串
+		Map<String, FunctionView> functionMap = new HashMap<String, FunctionView>();//菜单map,key为菜单匹配规则的字符串
+		Map<String, Operation> operationMap = new HashMap<String, Operation>();//菜单操作按钮map,key为菜单操作按钮匹配规则的字符串
 		
 		//设置菜单map
-		for (TSFunction function : functionList) {
+		for (Function function : functionList) {
 			StringBuffer key = new StringBuffer();
 			key.append(function.getFunctionName() == null ? "" : function.getFunctionName());
 			key.append(KEY_SPLIT);
 			key.append(function.getFunctionLevel() == null ? "" : function.getFunctionLevel());
 			key.append(KEY_SPLIT);
 			key.append(function.getFunctionUrl() == null ? "" : function.getFunctionUrl());
-			FunctionBean  bean=new FunctionBean();
+			FunctionView bean=new FunctionView();
 			BeanUtils.copyProperties(function, bean);
 			functionMap.put(key.toString(), bean);
 		}
 		//设置菜单操作按钮map
-		for (TSOperation operation : operationList) {
+		for (Operation operation : operationList) {
 			StringBuffer key = new StringBuffer();
 			key.append(operation.getTSFunction() == null ? "" : operation.getTSFunction().getId());
 			key.append(KEY_SPLIT);
@@ -86,10 +86,10 @@ public class MenuInitServiceImpl extends CommonServiceImpl implements
 					menuKey.append(KEY_SPLIT);
 					menuKey.append(autoMenu.url() == null ? "" : autoMenu.url());
 					
-					TSFunction function = null;
+					Function function = null;
 					//判断菜单map的key是否包含当前key，不包含则插入一条菜单数据
 					if (!functionMap.containsKey(menuKey.toString())) {
-						function = new TSFunction();
+						function = new Function();
 						function.setFunctionName(autoMenu.name());
 						function.setFunctionIframe(null);
 						function.setFunctionLevel(Short.valueOf(autoMenu.level()));
@@ -99,9 +99,9 @@ public class MenuInitServiceImpl extends CommonServiceImpl implements
 						
 						String iconId = autoMenu.icon();
 						if (!StringUtils.isEmpty(iconId)) {
-							Object obj = this.find(TSIcon.class, iconId);
+							Object obj = this.find(Icon.class, iconId);
 							if(obj!=null){
-								function.setTSIcon((TSIcon)obj);
+								function.setTSIcon((Icon)obj);
 							}else{
 								function.setTSIcon(null);
 							}
@@ -111,7 +111,7 @@ public class MenuInitServiceImpl extends CommonServiceImpl implements
 						Serializable id = this.save(function);
 						function.setId(id.toString());
 					} else {
-						FunctionBean functionBean=functionMap.get(menuKey.toString());
+						FunctionView functionBean=functionMap.get(menuKey.toString());
 						BeanUtils.copyProperties(functionBean, function);
 					}
 						
@@ -140,7 +140,7 @@ public class MenuInitServiceImpl extends CommonServiceImpl implements
 								
 								//判断菜单操作按钮map的key是否包含当前key，不包含则插入一条菜单操作按钮数据
 								if (!operationMap.containsKey(menuOperationKey.toString())) {
-									TSOperation operation = new TSOperation();
+									Operation operation = new Operation();
 									operation.setOperationname(autoMenuOperation.name());
 									operation.setOperationcode(code);
 									operation.setOperationicon(null);
@@ -149,7 +149,7 @@ public class MenuInitServiceImpl extends CommonServiceImpl implements
 									
 									String iconId = autoMenuOperation.icon();
 									if (!StringUtils.isEmpty(iconId)) {
-										TSIcon icon = new TSIcon();
+										Icon icon = new Icon();
 										icon.setId(iconId);
 										operation.setTSIcon(icon);
 									} else {

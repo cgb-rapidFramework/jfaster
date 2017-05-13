@@ -2,16 +2,17 @@ package com.abocode.jfaster.web.system.service.impl;
 
 import com.abocode.jfaster.core.util.ContextHolderUtils;
 import com.abocode.jfaster.core.util.ConvertUtils;
-import com.abocode.jfaster.platform.bean.IconBean;
+import com.abocode.jfaster.platform.view.IconView;
 import com.abocode.jfaster.core.common.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.common.service.impl.CommonServiceImpl;
-import com.abocode.jfaster.platform.bean.OperationBean;
-import com.abocode.jfaster.platform.bean.TypeBean;
-import com.abocode.jfaster.platform.bean.TypeGroupBean;
+import com.abocode.jfaster.platform.view.OperationView;
+import com.abocode.jfaster.platform.view.TypeView;
+import com.abocode.jfaster.platform.view.TypeGroupView;
 import com.abocode.jfaster.platform.container.SystemContainer;
 import com.abocode.jfaster.platform.container.SystemContainer.IconContainer;
 import com.abocode.jfaster.platform.container.SystemContainer.TypeGroupContainer;
 import com.abocode.jfaster.platform.util.BrowserUtils;
+import com.abocode.jfaster.web.system.bean.DictBean;
 import com.abocode.jfaster.web.system.entity.*;
 import com.abocode.jfaster.web.system.service.SystemService;
 import com.abocode.jfaster.web.system.service.UserService;
@@ -33,12 +34,12 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	@Autowired
 	private UserService userService;
 	
-	public TSUser checkUserExits(TSUser user) throws Exception {
+	public User checkUserExits(User user) throws Exception {
 		return this.userService.checkUserExits(user);
 	}
 	
-	public List<DictEntity> queryDict(String dicTable, String dicCode, String dicText){
-		List<DictEntity> dictList = null;
+	public List<DictBean> queryDict(String dicTable, String dicCode, String dicText){
+		List<DictBean> dictList = null;
 		//step.1 如果没有字典表则使用系统字典表/*
 		/*if(StringUtils.isEmpty(dicTable)){
 			dictList = jeecgDictDao.querySystemDict(dicCode);
@@ -55,7 +56,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	public void addLog(String logcontent, Short loglevel, Short operatetype) {
 		HttpServletRequest request = ContextHolderUtils.getRequest();
 		String broswer = BrowserUtils.checkBrowse(request);
-		TSLog log = new TSLog();
+		Log log = new Log();
 		log.setLogcontent(logcontent);
 		log.setLoglevel(loglevel);
 		log.setOperatetype(operatetype);
@@ -73,10 +74,10 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	 * @param typename
 	 * @return
 	 */
-	public TSType getType(String typecode, String typename, TSTypegroup tsTypegroup) {
-		TSType actType = commonDao.findUniqueByProperty(TSType.class, "typecode", typecode);
+	public Type getType(String typecode, String typename, TypeGroup tsTypegroup) {
+		Type actType = commonDao.findUniqueByProperty(Type.class, "typecode", typecode);
 		if (actType == null) {
-			actType = new TSType();
+			actType = new Type();
 			actType.setTypecode(typecode);
 			actType.setTypename(typename);
 			actType.setTSTypegroup(tsTypegroup);
@@ -93,10 +94,10 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	 * @param typgroupename
 	 * @return
 	 */
-	public TSTypegroup getTypeGroup(String typegroupcode, String typgroupename) {
-		TSTypegroup tsTypegroup = commonDao.findUniqueByProperty(TSTypegroup.class, "typegroupcode", typegroupcode);
+	public TypeGroup getTypeGroup(String typegroupcode, String typgroupename) {
+		TypeGroup tsTypegroup = commonDao.findUniqueByProperty(TypeGroup.class, "typegroupcode", typegroupcode);
 		if (tsTypegroup == null) {
-			tsTypegroup = new TSTypegroup();
+			tsTypegroup = new TypeGroup();
 			tsTypegroup.setTypegroupcode(typegroupcode);
 			tsTypegroup.setTypegroupname(typgroupename);
 			commonDao.save(tsTypegroup);
@@ -105,38 +106,38 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	}
 
 	
-	public TSTypegroup getTypeGroupByCode(String typegroupCode) {
-		TSTypegroup tsTypegroup = commonDao.findUniqueByProperty(TSTypegroup.class, "typegroupcode", typegroupCode);
+	public TypeGroup getTypeGroupByCode(String typegroupCode) {
+		TypeGroup tsTypegroup = commonDao.findUniqueByProperty(TypeGroup.class, "typegroupcode", typegroupCode);
 		return tsTypegroup;
 	}
 
 	
 	public void initAllTypeGroups() {
-		List<TSTypegroup> typeGroups = this.commonDao.findAll(TSTypegroup.class);
-		for (TSTypegroup tsTypegroup : typeGroups) {
-			TypeGroupBean typegroupBean= BeanToTagUtils.convertTypeGroup(tsTypegroup);
+		List<TypeGroup> typeGroups = this.commonDao.findAll(TypeGroup.class);
+		for (TypeGroup tsTypegroup : typeGroups) {
+			TypeGroupView typegroupBean= BeanToTagUtils.convertTypeGroup(tsTypegroup);
 			TypeGroupContainer.allTypeGroups.put(tsTypegroup.getTypegroupcode().toLowerCase(), typegroupBean);
-			List<TSType> tsTypes = this.commonDao.findAllByProperty(TSType.class, "TSTypegroup.id", tsTypegroup.getId());
-			List<TypeBean> types=BeanToTagUtils.convertTypes(tsTypes);
+			List<Type> tsTypes = this.commonDao.findAllByProperty(Type.class, "TSTypegroup.id", tsTypegroup.getId());
+			List<TypeView> types=BeanToTagUtils.convertTypes(tsTypes);
 			TypeGroupContainer.allTypes.put(tsTypegroup.getTypegroupcode().toLowerCase(), types);
 		}
 	}
 
 	
-	public void refleshTypesCach(TSType type) {
-		TSTypegroup tsTypegroup = type.getTSTypegroup();
-		TSTypegroup typeGroupEntity = this.commonDao.find(TSTypegroup.class, tsTypegroup.getId());
-		List<TSType> tsTypes = this.commonDao.findAllByProperty(TSType.class, "TSTypegroup.id", tsTypegroup.getId());
-		List<TypeBean> types=BeanToTagUtils.convertTypes(tsTypes);
+	public void refleshTypesCach(Type type) {
+		TypeGroup tsTypegroup = type.getTSTypegroup();
+		TypeGroup typeGroupEntity = this.commonDao.find(TypeGroup.class, tsTypegroup.getId());
+		List<Type> tsTypes = this.commonDao.findAllByProperty(Type.class, "TSTypegroup.id", tsTypegroup.getId());
+		List<TypeView> types=BeanToTagUtils.convertTypes(tsTypes);
 		TypeGroupContainer.allTypes.put(typeGroupEntity.getTypegroupcode().toLowerCase(), types);
 	}
 
 	
 	public void refleshTypeGroupCach() {
 		TypeGroupContainer.allTypeGroups.clear();
-		List<TSTypegroup> typeGroups = this.commonDao.findAll(TSTypegroup.class);
-		for (TSTypegroup tsTypegroup : typeGroups) {
-			TypeGroupBean typegroupBean=BeanToTagUtils.convertTypeGroup(tsTypegroup);
+		List<TypeGroup> typeGroups = this.commonDao.findAll(TypeGroup.class);
+		for (TypeGroup tsTypegroup : typeGroups) {
+			TypeGroupView typegroupBean=BeanToTagUtils.convertTypeGroup(tsTypegroup);
 			TypeGroupContainer.allTypeGroups.put(tsTypegroup.getTypegroupcode().toLowerCase(), typegroupBean);
 		}
 	}
@@ -150,14 +151,14 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	 */
 	public Set<String> getOperationCodesByRoleIdAndFunctionId(String roleId, String functionId) {
 		Set<String> operationCodes = new HashSet<String>();
-		TSRole role = commonDao.find(TSRole.class, roleId);
-		CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
+		Role role = commonDao.find(Role.class, roleId);
+		CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
 		cq1.eq("TSRole.id", role.getId());
 		cq1.eq("TSFunction.id", functionId);
 		cq1.add();
-		List<TSRoleFunction> rFunctions = findListByCq(cq1, false);
+		List<RoleFunction> rFunctions = findListByCq(cq1, false);
 		if (null != rFunctions && rFunctions.size() > 0) {
-			TSRoleFunction tsRoleFunction = rFunctions.get(0);
+			RoleFunction tsRoleFunction = rFunctions.get(0);
 			if (null != tsRoleFunction.getOperation()) {
 				String[] operationArry = tsRoleFunction.getOperation().split(",");
 				for (int i = 0; i < operationArry.length; i++) {
@@ -176,16 +177,16 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	 */
 	public Set<String> getOperationCodesByUserIdAndFunctionId(String userId, String functionId) {
 		Set<String> operationCodes = new HashSet<String>();
-		List<TSRoleUser> rUsers = findAllByProperty(TSRoleUser.class, "TSUser.id", userId);
-		for (TSRoleUser ru : rUsers) {
-			TSRole role = ru.getTSRole();
-			CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
+		List<RoleUser> rUsers = findAllByProperty(RoleUser.class, "TSUser.id", userId);
+		for (RoleUser ru : rUsers) {
+			Role role = ru.getTSRole();
+			CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
 			cq1.eq("TSRole.id", role.getId());
 			cq1.eq("TSFunction.id", functionId);
 			cq1.add();
-			List<TSRoleFunction> rFunctions = findListByCq(cq1, false);
+			List<RoleFunction> rFunctions = findListByCq(cq1, false);
 			if (null != rFunctions && rFunctions.size() > 0) {
-				TSRoleFunction tsRoleFunction = rFunctions.get(0);
+				RoleFunction tsRoleFunction = rFunctions.get(0);
 				if (null != tsRoleFunction.getOperation()) {
 					String[] operationArry = tsRoleFunction.getOperation().split(",");
 					for (int i = 0; i < operationArry.length; i++) {
@@ -198,12 +199,12 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	}
 
 	
-	public void flushRoleFunciton(String id, TSFunction newFunction) {
-		TSFunction functionEntity = this.findEntity(TSFunction.class, id);
+	public void flushRoleFunciton(String id, Function newFunction) {
+		Function functionEntity = this.findEntity(Function.class, id);
 		if (functionEntity.getTSIcon() == null || !StringUtils.isEmpty(functionEntity.getTSIcon().getId())) {
 			return;
 		}
-		TSIcon oldIcon = this.findEntity(TSIcon.class, functionEntity.getTSIcon().getId());
+		Icon oldIcon = this.findEntity(Icon.class, functionEntity.getTSIcon().getId());
 		if(StringUtils.isEmpty(oldIcon.getIconClas())){
               return;
 		}
@@ -211,10 +212,10 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		if (!oldIcon.getIconClas().equals(newFunction.getTSIcon().getIconClas())) {
 			// 刷新缓存
 			HttpSession session = ContextHolderUtils.getSession();
-			TSUser user = SessionUtils.getCurrentUser();
-			List<TSRoleUser> rUsers = this.findAllByProperty(TSRoleUser.class, "TSUser.id", user.getId());
-			for (TSRoleUser ru : rUsers) {
-				TSRole role = ru.getTSRole();
+			User user = SessionUtils.getCurrentUser();
+			List<RoleUser> rUsers = this.findAllByProperty(RoleUser.class, "TSUser.id", user.getId());
+			for (RoleUser ru : rUsers) {
+				Role role = ru.getTSRole();
 				session.removeAttribute(role.getId());
 			}
 		}
@@ -261,14 +262,14 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	public Set<String> getOperationCodesByRoleIdAndruleDataId(String roleId,
 			String functionId) {
 		Set<String> operationCodes = new HashSet<String>();
-		TSRole role = commonDao.find(TSRole.class, roleId);
-		CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
+		Role role = commonDao.find(Role.class, roleId);
+		CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
 		cq1.eq("TSRole.id", role.getId());
 		cq1.eq("TSFunction.id", functionId);
 		cq1.add();
-		List<TSRoleFunction> rFunctions = findListByCq(cq1, false);
+		List<RoleFunction> rFunctions = findListByCq(cq1, false);
 		if (null != rFunctions && rFunctions.size() > 0) {
-			TSRoleFunction tsRoleFunction = rFunctions.get(0);
+			RoleFunction tsRoleFunction = rFunctions.get(0);
 			if (null != tsRoleFunction.getDataRule()) {
 				String[] operationArry = tsRoleFunction.getDataRule().split(",");
 				for (int i = 0; i < operationArry.length; i++) {
@@ -283,16 +284,16 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 			String functionId) {
 		// TODO Auto-generated method stub
 		Set<String> dataRulecodes = new HashSet<String>();
-		List<TSRoleUser> rUsers = findAllByProperty(TSRoleUser.class, "TSUser.id", userId);
-		for (TSRoleUser ru : rUsers) {
-			TSRole role = ru.getTSRole();
-			CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
+		List<RoleUser> rUsers = findAllByProperty(RoleUser.class, "TSUser.id", userId);
+		for (RoleUser ru : rUsers) {
+			Role role = ru.getTSRole();
+			CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
 			cq1.eq("TSRole.id", role.getId());
 			cq1.eq("TSFunction.id", functionId);
 			cq1.add();
-			List<TSRoleFunction> rFunctions = findListByCq(cq1, false);
+			List<RoleFunction> rFunctions = findListByCq(cq1, false);
 			if (null != rFunctions && rFunctions.size() > 0) {
-				TSRoleFunction tsRoleFunction = rFunctions.get(0);
+				RoleFunction tsRoleFunction = rFunctions.get(0);
 				if (null != tsRoleFunction.getDataRule()) {
 					String[] operationArry = tsRoleFunction.getDataRule().split(",");
 					for (int i = 0; i < operationArry.length; i++) {
@@ -308,9 +309,9 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	 * @return
 	 */
 	public  void initAllTSIcons() {
-		List<TSIcon> list = this.findAll(TSIcon.class);
-		for (TSIcon tsIcon : list) {
-			IconBean icon=BeanToTagUtils.convertIcon(tsIcon);
+		List<Icon> list = this.findAll(Icon.class);
+		for (Icon tsIcon : list) {
+			IconView icon=BeanToTagUtils.convertIcon(tsIcon);
 			IconContainer.allTSIcons.put(tsIcon.getId(), icon);
 		}
 	}
@@ -318,23 +319,23 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	 * 更新图标
 	 * @param tsIcon
 	 */
-	public  void updateTSIcons(TSIcon tsIcon) {
-		IconBean icon=BeanToTagUtils.convertIcon(tsIcon);
+	public  void updateTSIcons(Icon tsIcon) {
+		IconView icon=BeanToTagUtils.convertIcon(tsIcon);
 		IconContainer.allTSIcons.put(tsIcon.getId(), icon);
 	}
 	/**
 	 * 更新图标
 	 * @param icon
 	 */
-	public  void delTSIcons(TSIcon icon) {
+	public  void delTSIcons(Icon icon) {
 		IconContainer.allTSIcons.remove(icon.getId());
 	}
 
 	@Override
 	public void initOperations() {
-		List<TSOperation> operationList= this.commonDao.findAll(TSOperation.class);
-		for (TSOperation operation:operationList){
-			OperationBean operationBean=new OperationBean();
+		List<Operation> operationList= this.commonDao.findAll(Operation.class);
+		for (Operation operation:operationList){
+			OperationView operationBean=new OperationView();
 			BeanUtils.copyProperties(operation,operationBean);
 			SystemContainer.OperationContainer.operations.put(operation.getOperationcode(),operationBean);
 		}
@@ -342,14 +343,14 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 
 
 	@Override
-	public List<TSFunction> getFucntionList(String roleId) {
-		List<TSFunction> loginActionList = new ArrayList<TSFunction>();// 已有权限菜单
-		TSRole role = this.find(TSRole.class, roleId);
+	public List<Function> getFucntionList(String roleId) {
+		List<Function> loginActionList = new ArrayList<Function>();// 已有权限菜单
+		Role role = this.find(Role.class, roleId);
 		if (role != null) {
-			List<TSRoleFunction> roleFunctionList = this.findAllByProperty(TSRoleFunction.class, "TSRole.id", role.getId());
+			List<RoleFunction> roleFunctionList = this.findAllByProperty(RoleFunction.class, "TSRole.id", role.getId());
 			if (roleFunctionList.size() > 0) {
-				for (TSRoleFunction roleFunction : roleFunctionList) {
-					TSFunction function = roleFunction.getTSFunction();
+				for (RoleFunction roleFunction : roleFunctionList) {
+					Function function = roleFunction.getTSFunction();
 					loginActionList.add(function);
 				}
 			}

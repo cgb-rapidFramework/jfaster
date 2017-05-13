@@ -1,7 +1,7 @@
 package com.abocode.jfaster.web.system.service.impl;
 
 import com.abocode.jfaster.core.common.service.impl.CommonServiceImpl;
-import com.abocode.jfaster.web.system.entity.TSDepart;
+import com.abocode.jfaster.web.system.entity.Depart;
 import com.abocode.jfaster.web.system.service.DepartService;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ public class DepartServiceImpl extends CommonServiceImpl implements DepartServic
 
 
     @Override
-    public void deleteDepart(TSDepart depart) {
+    public void deleteDepart(Depart depart) {
         String id=depart.getId();
         Long userCount = this.queryForCount("select count(1) from t_s_user_org where org_id='" + id + "'");
         if(userCount == 0) { // 组织机构下没有用户时，该组织机构才允许删除。

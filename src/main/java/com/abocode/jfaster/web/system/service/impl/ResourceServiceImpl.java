@@ -4,9 +4,9 @@ import com.abocode.jfaster.core.common.model.json.ImportFile;
 import com.abocode.jfaster.core.extend.template.DataSourceMap;
 import com.abocode.jfaster.core.tag.vo.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.util.ConvertUtils;
-import com.abocode.jfaster.platform.bean.ReflectHelper;
-import com.abocode.jfaster.web.system.entity.TSOperation;
-import com.abocode.jfaster.web.system.entity.TSRoleFunction;
+import com.abocode.jfaster.platform.view.ReflectHelper;
+import com.abocode.jfaster.web.system.entity.Operation;
+import com.abocode.jfaster.web.system.entity.RoleFunction;
 import com.abocode.jfaster.web.system.service.ResourceService;
 import com.abocode.jfaster.web.utils.*;
 import org.dom4j.Document;
@@ -21,7 +21,7 @@ import com.abocode.jfaster.core.extend.template.Template;
 import com.abocode.jfaster.core.tag.vo.easyui.TreeGridModel;
 import com.abocode.jfaster.platform.common.tag.easyui.TagUtil;
 import com.abocode.jfaster.platform.util.FileUtils;
-import com.abocode.jfaster.web.system.entity.TSDepart;
+import com.abocode.jfaster.web.system.entity.Depart;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
@@ -344,19 +344,19 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public ComboTree tree(TSDepart depart, boolean recursive) {
+	public ComboTree tree(Depart depart, boolean recursive) {
 		ComboTree tree = new ComboTree();
 		tree.setId(ConvertUtils.getString(depart.getId()));
 		tree.setText(depart.getDepartname());
-		List<TSDepart> departsList = this.commonDao.findAllByProperty(TSDepart.class, "TSPDepart.id", depart.getId());
+		List<Depart> departsList = this.commonDao.findAllByProperty(Depart.class, "TSPDepart.id", depart.getId());
 		if (departsList != null && departsList.size() > 0) {
 			tree.setState("closed");
 			tree.setChecked(false);
 			if (recursive) {// 递归查询子节点
-				List<TSDepart> departList = new ArrayList<TSDepart>(departsList);
+				List<Depart> departList = new ArrayList<Depart>(departsList);
 				//Collections.sort(departList, new SetListSort());// 排序
 				List<ComboTree> children = new ArrayList<ComboTree>();
-				for (TSDepart d : departList) {
+				for (Depart d : departList) {
 					ComboTree t = tree(d, true);
 					children.add(t);
 				}
@@ -474,11 +474,11 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 			}
 			if (treeGridModel.getRoleid() != null) {
 				String[] opStrings = {};
-				List<TSRoleFunction> roleFunctions =this.commonDao.findAllByProperty(TSRoleFunction.class, "TSFunction.id", id);
+				List<RoleFunction> roleFunctions =this.commonDao.findAllByProperty(RoleFunction.class, "TSFunction.id", id);
 
 				if (roleFunctions.size() > 0) {
-					for (TSRoleFunction tRoleFunction : roleFunctions) {
-						TSRoleFunction roleFunction = tRoleFunction;
+					for (RoleFunction tRoleFunction : roleFunctions) {
+						RoleFunction roleFunction = tRoleFunction;
 						if (roleFunction.getTSRole().getId().toString().equals(treeGridModel.getRoleid())) {
 							String bbString = roleFunction.getOperation();
 							if (bbString != null) {
@@ -488,10 +488,10 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 						}
 					}
 				}
-				List<TSOperation> operateions =this.commonDao.findAllByProperty(TSOperation.class, "TSFunction.id", id);
+				List<Operation> operateions =this.commonDao.findAllByProperty(Operation.class, "TSFunction.id", id);
 				StringBuffer attributes = new StringBuffer();
 				if (operateions.size() > 0) {
-					for (TSOperation tOperation : operateions) {
+					for (Operation tOperation : operateions) {
 						if (opStrings.length < 1) {
 							attributes.append("<input type=checkbox name=operatons value=" + tOperation.getId() + "_" + id + ">" + tOperation.getOperationname());
 						} else {
@@ -528,9 +528,9 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 	
 
 	@Override
-	public List<ComboTree> comTree(List<TSDepart> all, ComboTree comboTree) {
+	public List<ComboTree> comTree(List<Depart> all, ComboTree comboTree) {
 	List<ComboTree> trees = new ArrayList<ComboTree>();
-	for (TSDepart depart : all) {
+	for (Depart depart : all) {
 		trees.add(tree(depart, true));
 	}
 	return trees;

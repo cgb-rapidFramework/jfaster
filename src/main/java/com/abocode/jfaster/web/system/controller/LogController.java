@@ -4,7 +4,7 @@ import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.model.json.Highchart;
 import com.abocode.jfaster.core.util.ConvertUtils;
 import com.abocode.jfaster.platform.util.MutiLangUtils;
-import com.abocode.jfaster.web.system.entity.TSLog;
+import com.abocode.jfaster.web.system.entity.Log;
 import com.abocode.jfaster.web.system.service.LogService;
 import com.abocode.jfaster.web.system.service.SystemService;
 import com.abocode.jfaster.web.utils.DateUtils;
@@ -77,7 +77,7 @@ public class LogController extends BaseController {
 	 */
 	@RequestMapping(params = "datagrid")
 	public void datagrid(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-		CriteriaQuery cq = new CriteriaQuery(TSLog.class, dataGrid);
+		CriteriaQuery cq = new CriteriaQuery(Log.class, dataGrid);
 		String loglevel = request.getParameter("loglevel");
 		if (loglevel == null || loglevel.equals("0")) {
 		} else {
@@ -121,10 +121,10 @@ public class LogController extends BaseController {
 	 * @Date 2015-05-10
 	 */
 	@RequestMapping(params = "logDetail")
-	public ModelAndView logDetail(TSLog tsLog,HttpServletRequest request){
+	public ModelAndView logDetail(Log tsLog, HttpServletRequest request){
 		if (StringUtils.isNotEmpty(tsLog.getId())) {
-			tsLog = logService.findEntity(TSLog.class, tsLog.getId());
-			request.setAttribute("tsLog", tsLog);
+			tsLog = logService.findEntity(Log.class, tsLog.getId());
+			request.setAttribute("logView", tsLog);
 		}
 		return new ModelAndView("system/log/logDetail");
 		
@@ -165,7 +165,7 @@ public class LogController extends BaseController {
 	public List<Highchart> getBroswerBar(HttpServletRequest request, String reportType, HttpServletResponse response) {
 		List<Highchart> list = new ArrayList<Highchart>();
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT broswer ,count(broswer) FROM TSLog group by broswer");
+		sb.append("SELECT broswer ,count(broswer) FROM Log group by broswer");
 		List userBroswerList = systemService.findByHql(sb.toString());
 		Long count = systemService.queryForCount("SELECT COUNT(1) FROM T_S_Log WHERE 1=1");
 		List lt = new ArrayList();

@@ -8,7 +8,7 @@ import com.abocode.jfaster.web.utils.SessionUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import com.abocode.jfaster.core.common.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
-import com.abocode.jfaster.web.system.entity.TSDataRule;
+import com.abocode.jfaster.web.system.entity.DataRule;
 import com.abocode.jfaster.web.utils.StringUtils;
 import org.springframework.util.NumberUtils;
 
@@ -69,7 +69,7 @@ public class HqlGenerateUtil {
 	 * @param alias
 	 */
 	private static void installHqlJoinAlias(CriteriaQuery cq, Object searchObj,
-			Map<String, TSDataRule> ruleMap,
+			Map<String, DataRule> ruleMap,
 			Map<String, String[]> parameterMap, String alias) {
 		PropertyDescriptor origDescriptors[] = PropertyUtils
 				.getPropertyDescriptors(searchObj);
@@ -177,7 +177,7 @@ public class HqlGenerateUtil {
 	 * @param aliasName
 	 * @return
 	 */
-	private static boolean isHaveRuleData(Map<String, TSDataRule> ruleMap,
+	private static boolean isHaveRuleData(Map<String, DataRule> ruleMap,
 			String aliasName) {
 		for (String key : ruleMap.keySet()) {
 			if (key.contains(aliasName)) {
@@ -187,7 +187,7 @@ public class HqlGenerateUtil {
 		return false;
 	}
 
-	private static void addRuleToCriteria(TSDataRule tsDataRule,
+	private static void addRuleToCriteria(DataRule tsDataRule,
 			String aliasName, Class propertyType, CriteriaQuery cq) {
 		HqlRuleEnum rule = HqlRuleEnum.getByValue(tsDataRule
 				.getRuleConditions());
@@ -277,12 +277,12 @@ public class HqlGenerateUtil {
 		return isNotEmpty;
 	}
 
-	private static Map<String, TSDataRule> getRuleMap() {
-		Map<String, TSDataRule> ruleMap = new HashMap<String, TSDataRule>();
-		List<TSDataRule> list = DataRuleUtils.loadDataSearchConditonSQL(); //(List<TSDataRule>) ContextHolderUtils
+	private static Map<String, DataRule> getRuleMap() {
+		Map<String, DataRule> ruleMap = new HashMap<String, DataRule>();
+		List<DataRule> list = DataRuleUtils.loadDataSearchConditonSQL(); //(List<TSDataRule>) ContextHolderUtils
 			//	.getRequest().getAttribute(Globals.MENU_DATA_AUTHOR_RULES);
 		if(list != null){
-			for (TSDataRule rule : list) {
+			for (DataRule rule : list) {
 				ruleMap.put(rule.getRuleColumn(), rule);
 			}
 		}

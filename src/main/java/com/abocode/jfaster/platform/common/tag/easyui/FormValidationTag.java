@@ -1,7 +1,7 @@
 package com.abocode.jfaster.platform.common.tag.easyui;
 
 
-import com.abocode.jfaster.platform.bean.TemplateBean;
+import com.abocode.jfaster.platform.view.TemplateView;
 import com.abocode.jfaster.platform.util.JspWriterUtils;
 import com.abocode.jfaster.platform.util.SysThemesUtils;
 import org.springframework.util.StringUtils;
@@ -110,26 +110,13 @@ public class FormValidationTag extends TagSupport {
         if (StringUtils.isEmpty(lang)) {
             lang = "zh-cn";
         }
-        TemplateBean sysThemesEnum = SysThemesUtils.getSysTheme((HttpServletRequest) super.pageContext.getRequest());
+        TemplateView sysThemesEnum = SysThemesUtils.getSysTheme((HttpServletRequest) super.pageContext.getRequest());
         StringBuffer sb = new StringBuffer();
         if (layout.equals("div")) {
-//				if("ace".equals(cssTheme)){
-//					sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/"+cssTheme+"/divfrom.css\" type=\"text/css\"/>");
-//				}else{
-//					sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/divfrom.css\" type=\"text/css\"/>");
-//				}
-            //divfrom.css
             sb.append(SysThemesUtils.getValidformDivfromTheme(sysThemesEnum));
             if (tabtitle != null)
                 sb.append("<script type=\"text/javascript\" src=\"plug-in/Validform/js/form.js\"></script>");
         }
-//			if("ace".equals(cssTheme)){
-//				sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/"+cssTheme+"/style.css\" type=\"text/css\"/>");
-//				sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/"+cssTheme+"/tablefrom.css\" type=\"text/css\"/>");
-//			}else{
-//				sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/style.css\" type=\"text/css\"/>");
-//				sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/tablefrom.css\" type=\"text/css\"/>");
-//			}
         //style.css
         sb.append(SysThemesUtils.getValidformStyleTheme(sysThemesEnum));
         //tablefrom.css

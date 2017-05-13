@@ -7,10 +7,10 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import com.abocode.jfaster.platform.bean.TypeGroupBean;
+import com.abocode.jfaster.platform.view.TypeGroupView;
 import com.abocode.jfaster.platform.util.JspWriterUtils;
 import com.abocode.jfaster.platform.util.MutiLangUtils;
-import com.abocode.jfaster.platform.bean.TypeBean;
+import com.abocode.jfaster.platform.view.TypeView;
 import com.abocode.jfaster.platform.container.SystemContainer;
 
 import com.google.gson.Gson;
@@ -106,8 +106,8 @@ public class DictSelectTag extends TagSupport {
                 sb.append("</select>");
             }
         } else {
-            TypeGroupBean typeGroup = SystemContainer.TypeGroupContainer.allTypeGroups.get(this.typeGroupCode.toLowerCase());
-            List<TypeBean> types = SystemContainer.TypeGroupContainer.allTypes.get(this.typeGroupCode.toLowerCase());
+            TypeGroupView typeGroup = SystemContainer.TypeGroupContainer.allTypeGroups.get(this.typeGroupCode.toLowerCase());
+            List<TypeView> types = SystemContainer.TypeGroupContainer.allTypes.get(this.typeGroupCode.toLowerCase());
             if (hasLabel) {
                 sb.append("<div class=\"" + divClass + "\">");
                 sb.append("<label class=\"" + labelClass + "\" >");
@@ -121,15 +121,15 @@ public class DictSelectTag extends TagSupport {
                     sb.append("</label>");
                 }
                 if ("radio".equals(type)) {
-                    for (TypeBean type : types) {
+                    for (TypeView type : types) {
                         radio(type.getTypename(), type.getTypecode(), sb);
                     }
                 } else if ("checkbox".equals(type)) {
-                    for (TypeBean type : types) {
+                    for (TypeView type : types) {
                         checkbox(type.getTypename(), type.getTypecode(), sb);
                     }
                 } else if ("text".equals(type)) {
-                    for (TypeBean type : types) {
+                    for (TypeView type : types) {
                         text(type.getTypename(), type.getTypecode(), sb);
                     }
                 } else {
@@ -147,7 +147,7 @@ public class DictSelectTag extends TagSupport {
                     }
                     sb.append(">");
                     select("common.please.select", "", sb);
-                    for (TypeBean type : types) {
+                    for (TypeView type : types) {
                         select(type.getTypename(), type.getTypecode(), sb);
                     }
                     sb.append("</select>");

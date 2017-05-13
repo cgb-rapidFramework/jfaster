@@ -1,7 +1,7 @@
 package com.abocode.jfaster.web.system.service.impl;
 
 import com.abocode.jfaster.core.common.service.impl.CommonServiceImpl;
-import com.abocode.jfaster.web.system.entity.JobEntity;
+import com.abocode.jfaster.web.system.entity.Job;
 import com.abocode.jfaster.web.system.service.JobService;
 import com.abocode.jfaster.web.utils.JobUtils;
 import org.quartz.*;
@@ -20,11 +20,11 @@ public class JobServiceImpl extends CommonServiceImpl implements JobService {
     private Scheduler scheduler;
 
     public void initJob() throws Exception {
-        List<JobEntity> jobList = this.findAll(JobEntity.class);
+        List<Job> jobList = this.findAll(Job.class);
         if (StringUtils.isEmpty(jobList)) {
             return;
         }
-        for (JobEntity job : jobList) {
+        for (Job job : jobList) {
             CronTrigger cronTrigger = JobUtils.getCronTrigger(scheduler, job.getName(),
                     job.getGroup());
             //不存在，创建一个
@@ -44,38 +44,38 @@ public class JobServiceImpl extends CommonServiceImpl implements JobService {
         }
     }
 
-    public void addJob(JobEntity job) throws Exception {
+    public void addJob(Job job) throws Exception {
           JobUtils.createScheduleJob(scheduler, job.getName(),job.getGroup(),job.getExpression(),job.getClazz(),null);
          this.save(job);
     }
 
-    public void updateJob(JobEntity job) throws Exception {
+    public void updateJob(Job job) throws Exception {
         JobUtils.deleteJob(scheduler, job.getName(), job.getGroup());
         JobUtils.createScheduleJob(scheduler, job.getName(),job.getGroup(),job.getExpression(),job.getClazz(),null);
         this.update(job);
     }
 
     public void deleteJob(String jobId) throws Exception {
-        JobEntity job = this.findEntity(JobEntity.class, jobId);
+        Job job = this.findEntity(Job.class, jobId);
         JobUtils.deleteJob(scheduler, job.getName(), job.getGroup());
         job.setStatus("2");
         this.update(job);
     }
 
     public void runOnceJob(String jobId) throws Exception {
-        JobEntity job = this.findEntity(JobEntity.class, jobId);
+        Job job = this.findEntity(Job.class, jobId);
         JobUtils.runOnce(scheduler, job.getName(), job.getGroup());
     }
 
     public void pauseJob(String jobId) throws Exception {
-        JobEntity job = this.findEntity(JobEntity.class, jobId);
+        Job job = this.findEntity(Job.class, jobId);
         job.setStatus("1");
         JobUtils.pauseJob(scheduler, job.getName(), job.getGroup());
         this.update(job);
     }
 
     public void resumeJob(String jobId) throws Exception {
-        JobEntity job = this.findEntity(JobEntity.class, jobId);
+        Job job = this.findEntity(Job.class, jobId);
         String status = job.getStatus();
         if(status.equalsIgnoreCase("1")) {
             job.setStatus("0");

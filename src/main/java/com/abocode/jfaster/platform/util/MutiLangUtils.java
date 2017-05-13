@@ -1,7 +1,7 @@
 package com.abocode.jfaster.platform.util;
 
 import com.abocode.jfaster.core.util.BeanPropertyUtils;
-import com.abocode.jfaster.platform.bean.ReflectHelper;
+import com.abocode.jfaster.platform.view.ReflectHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.abocode.jfaster.core.common.hibernate.qbc.CriteriaQuery;

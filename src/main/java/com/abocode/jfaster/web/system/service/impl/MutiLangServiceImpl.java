@@ -3,7 +3,7 @@ package com.abocode.jfaster.web.system.service.impl;
 import com.abocode.jfaster.core.common.service.impl.CommonServiceImpl;
 import com.abocode.jfaster.platform.container.MutilangContainer;
 import com.abocode.jfaster.platform.util.BrowserUtils;
-import com.abocode.jfaster.web.system.entity.MutiLangEntity;
+import com.abocode.jfaster.web.system.entity.MutiLang;
 import com.abocode.jfaster.web.system.service.MutiLangService;
 import com.abocode.jfaster.web.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +24,8 @@ public class MutiLangServiceImpl extends CommonServiceImpl implements MutiLangSe
      * 初始化语言信息，TOMCAT启动时直接加入到内存中
      **/
     public void initAllMutiLang() {
-        List<MutiLangEntity> mutiLang = this.commonDao.findAll(MutiLangEntity.class);
-        for (MutiLangEntity mutiLangEntity : mutiLang) {
+        List<MutiLang> mutiLang = this.commonDao.findAll(MutiLang.class);
+        for (MutiLang mutiLangEntity : mutiLang) {
             MutilangContainer.KeyIsLangkeyValueIsLangcodeForLangMap.put(mutiLangEntity.getLangKey(), mutiLangEntity.getLangCode());
             MutilangContainer.mutiLangMap.put(mutiLangEntity.getLangKey() + "_" + mutiLangEntity.getLangCode(), mutiLangEntity.getLangContext());
 //			MutiLangEntity.mutiLangMap.put(mutiLangEntity.getLangKey() + "_" + mutiLangEntity.getLangCode(), mutiLangEntity.getLangContext());
@@ -85,7 +85,7 @@ public class MutiLangServiceImpl extends CommonServiceImpl implements MutiLangSe
      * @return 如果存在则返回true，否则false
      */
     public boolean existLangKey(String lang_key) {
-        List<MutiLangEntity> langKeyList = this.commonDao.findAllByProperty(MutiLangEntity.class, "langKey", lang_key);
+        List<MutiLang> langKeyList = this.commonDao.findAllByProperty(MutiLang.class, "langKey", lang_key);
         if (!langKeyList.isEmpty()) {
             return true;
         }
@@ -101,7 +101,7 @@ public class MutiLangServiceImpl extends CommonServiceImpl implements MutiLangSe
      * @return 如果存在则返回true，否则false
      */
     public boolean existLangContext(String lang_context) {
-        List<MutiLangEntity> langContextList = this.commonDao.findAllByProperty(MutiLangEntity.class, "langContext", lang_context);
+        List<MutiLang> langContextList = this.commonDao.findAllByProperty(MutiLang.class, "langContext", lang_context);
         if (!langContextList.isEmpty()) {
             return true;
         }

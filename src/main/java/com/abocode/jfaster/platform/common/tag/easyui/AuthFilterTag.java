@@ -1,7 +1,7 @@
 package com.abocode.jfaster.platform.common.tag.easyui;
 
 import com.abocode.jfaster.core.util.ConvertUtils;
-import com.abocode.jfaster.platform.bean.OperationBean;
+import com.abocode.jfaster.platform.view.OperationView;
 import com.abocode.jfaster.platform.constant.Globals;
 import com.abocode.jfaster.platform.container.SystemContainer;
 import com.abocode.jfaster.platform.util.JspWriterUtils;
@@ -50,7 +50,7 @@ public class AuthFilterTag extends TagSupport{
 				for (String MyoperationCode : operationCodes) {
 					if (ConvertUtils.isEmpty(MyoperationCode))
 						break;
-					OperationBean operation = SystemContainer.OperationContainer.operations.get(MyoperationCode);
+					OperationView operation = SystemContainer.OperationContainer.operations.get(MyoperationCode);
 					if (operation.getOperationcode().startsWith(".") || operation.getOperationcode().startsWith("#")){
 						if (operation.getOperationType().intValue()==Globals.OPERATION_TYPE_HIDE){
 							//out.append("$(\""+name+"\").find(\"#"+operation.getOperationcode().replaceAll(" ", "")+"\").hide();");

@@ -80,10 +80,10 @@
 	</listener>
 	<listener>
 		<description>系统初始化监听器</description>
-		<listener-class>com.abocode.jfaster.web.system.listener.InitListener</listener-class>
+		<listener-class>com.abocode.jfaster.web.common.listener.InitListener</listener-class>
 	</listener>
 	<listener>
-		<listener-class>com.abocode.jfaster.web.system.listener.OnlineListener</listener-class>
+		<listener-class>com.abocode.jfaster.web.common.listener.OnlineListener</listener-class>
 	</listener>
 	<servlet>
 		<description>spring mvc servlet</description>
@@ -128,15 +128,23 @@
 
 	<servlet>
 		<servlet-name>RandCodeImage</servlet-name>
-		<servlet-class>com.abocode.jfaster.web.system.servlet.RandCodeImageServlet</servlet-class>
+		<servlet-class>com.abocode.jfaster.web.system.controller.RandCodeImageServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>RandCodeImage</servlet-name>
 		<url-pattern>/randCodeImage</url-pattern>
 	</servlet-mapping>
+	<!--<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>-->
 	<filter>
 		<filter-name>ecsideExport</filter-name>
-		<filter-class>com.abocode.jfaster.web.system.aop.GZipFilter</filter-class>
+		<filter-class>com.abocode.jfaster.web.common.aop.GZipFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>ecsideExport</filter-name>

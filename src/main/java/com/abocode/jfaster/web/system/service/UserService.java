@@ -1,10 +1,10 @@
 package com.abocode.jfaster.web.system.service;
 
 import com.abocode.jfaster.core.common.model.json.DataGrid;
-import com.abocode.jfaster.web.system.vo.ExlUserVo;
+import com.abocode.jfaster.web.system.bean.ExlUserBean;
 import com.abocode.jfaster.core.common.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.common.service.CommonService;
-import com.abocode.jfaster.web.system.entity.TSUser;
+import com.abocode.jfaster.web.system.entity.User;
 
 import java.util.List;
 
@@ -15,9 +15,9 @@ import java.util.List;
  */
 public interface UserService extends CommonService{
 	
-	public TSUser checkUserExits(TSUser user);
-	public String getUserRole(TSUser user);
-	public void pwdInit(TSUser user, String newPwd);
+	public User checkUserExits(User user);
+	public String getUserRole(User user);
+	public void pwdInit(User user, String newPwd);
 	/**
 	 * 判断这个角色是不是还有用户使用
 	 *@Author JueYue
@@ -27,5 +27,5 @@ public interface UserService extends CommonService{
 	 */
 	public int getUsersOfThisRole(String id);
 
-	List<ExlUserVo> getExlUserList(DataGrid dataGrid, TSUser user, CriteriaQuery cq);
+	List<ExlUserBean> getExlUserList(DataGrid dataGrid, User user, CriteriaQuery cq);
 }

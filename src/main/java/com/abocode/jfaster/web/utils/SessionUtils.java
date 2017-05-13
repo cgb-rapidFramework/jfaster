@@ -1,13 +1,13 @@
 package com.abocode.jfaster.web.utils;
 
 import com.abocode.jfaster.core.util.ConvertUtils;
-import com.abocode.jfaster.web.system.entity.TSRoleFunction;
+import com.abocode.jfaster.web.system.entity.RoleFunction;
 import com.abocode.jfaster.core.util.ContextHolderUtils;
 import com.abocode.jfaster.platform.constant.DataBaseConstant;
-import com.abocode.jfaster.web.system.entity.Client;
-import com.abocode.jfaster.web.system.entity.TSRole;
-import com.abocode.jfaster.web.system.entity.TSUser;
-import com.abocode.jfaster.web.system.manager.ClientManager;
+import com.abocode.jfaster.web.system.bean.ClientBean;
+import com.abocode.jfaster.web.system.entity.Role;
+import com.abocode.jfaster.web.system.entity.User;
+import com.abocode.jfaster.web.common.manager.ClientManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -28,7 +28,7 @@ public class SessionUtils {
 	  * 初始化session
 	  */
 	private static void initSession(HttpSession session) {
-		Client client =SessionShareCenter.getClient();
+		ClientBean client =SessionShareCenter.getClient();
 		if(!StringUtils.isEmpty(client)){
 			String userId= SessionShareCenter.getUserId();
 			if(!StringUtils.isEmpty(userId) &&!StringUtils.isEmpty(client.getUser())){
@@ -47,8 +47,8 @@ public class SessionUtils {
 	 * 初始化session
 	 */
 	private static void initRoles(HttpSession session) {
-		List<TSRole> roleList =SessionShareCenter.getRoles();
-		List<TSRole> roles=ClientManager.getInstance().getClient().getRoles();
+		List<Role> roleList =SessionShareCenter.getRoles();
+		List<Role> roles=ClientManager.getInstance().getClient().getRoles();
 		if(roles==null && roleList!=null && roleList.size()>0){
 			ClientManager.getInstance().getClient().setRoles(roleList);
 		}
@@ -67,7 +67,7 @@ public class SessionUtils {
 	 * 获取用户信息
 	 * @return
 	 */
-	public static final TSUser getCurrentUser() {
+	public static final User getCurrentUser() {
 		HttpSession session = ContextHolderUtils.getSession();
 		SessionUtils.initSession(session);//必须先初始化一次Session，否则集群时候异常
 		if(ClientManager.getInstance().getClient(session.getId())!=null){
@@ -79,7 +79,7 @@ public class SessionUtils {
 	 * 获取角色信息
 	 * @return
 	 */
-	public static final List<TSRole>  getCurrentRole() {
+	public static final List<Role>  getCurrentRole() {
 		HttpSession session = ContextHolderUtils.getSession();
 		SessionUtils.initRoles(session);//必须先初始化一次Session，否则集群时候异常
 		if(ClientManager.getInstance().getClient(session.getId())!=null){
@@ -96,9 +96,9 @@ public class SessionUtils {
 		String roleCode="";
 		HttpSession session = ContextHolderUtils.getSession();
 		if(ClientManager.getInstance().getClient(session.getId())!=null){
-			List<TSRole> roles=getCurrentRole();
+			List<Role> roles=getCurrentRole();
 			if(null!=roles && roles.size()>0){
-				for (TSRole role : roles) {
+				for (Role role : roles) {
 					roleCode += role.getRoleCode() + ",";
 				}
 			}
@@ -111,10 +111,10 @@ public class SessionUtils {
 	}
 	
 	@Deprecated
-	public static final List<TSRoleFunction> getSessionTSRoleFunction(String roleId) {
+	public static final List<RoleFunction> getSessionTSRoleFunction(String roleId) {
 		HttpSession session = ContextHolderUtils.getSession();
 		if (session.getAttributeNames().hasMoreElements()) {
-			List<TSRoleFunction> TSRoleFunctionList = (List<TSRoleFunction>)session.getAttribute(roleId);
+			List<RoleFunction> TSRoleFunctionList = (List<RoleFunction>)session.getAttribute(roleId);
 			if (TSRoleFunctionList != null) {
 				return TSRoleFunctionList;
 			} else {
@@ -174,15 +174,6 @@ public class SessionUtils {
 		return request.getParameter(field);
 	}
 
-	/**
-	 * 获取数据库类型
-	 * 
-	 * @return
-	 * @throws Exception 
-	 */
-	public static final String getJdbcUrl() {
-		return DBUtils.getDBType().toLowerCase();
-	}
 
     /**
      * 获取随机码的长度

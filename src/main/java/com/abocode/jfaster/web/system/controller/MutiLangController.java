@@ -9,7 +9,7 @@ import com.abocode.jfaster.platform.common.tag.easyui.TagUtil;
 import com.abocode.jfaster.platform.constant.Globals;
 import com.abocode.jfaster.platform.util.MutiLangUtils;
 import com.abocode.jfaster.web.common.hqlsearch.HqlGenerateUtil;
-import com.abocode.jfaster.web.system.entity.MutiLangEntity;
+import com.abocode.jfaster.web.system.entity.MutiLang;
 import com.abocode.jfaster.web.system.service.MutiLangService;
 import com.abocode.jfaster.web.system.service.SystemService;
 import com.abocode.jfaster.web.utils.StringUtils;
@@ -73,9 +73,9 @@ public class MutiLangController extends BaseController {
 	 */
 
 	@RequestMapping(params = "datagrid")
-	public void datagrid(MutiLangEntity mutiLang, HttpServletRequest request,
-			HttpServletResponse response, DataGrid dataGrid) {
-		CriteriaQuery cq = new CriteriaQuery(MutiLangEntity.class, dataGrid);
+	public void datagrid(MutiLang mutiLang, HttpServletRequest request,
+                         HttpServletResponse response, DataGrid dataGrid) {
+		CriteriaQuery cq = new CriteriaQuery(MutiLang.class, dataGrid);
 		if(StringUtils.isNotEmpty(mutiLang.getLangKey())){
 			cq.like("langKey", "%" +mutiLang.getLangKey() + "%");
 			mutiLang.setLangKey("");
@@ -98,9 +98,9 @@ public class MutiLangController extends BaseController {
 	 */
 	@RequestMapping(params = "del")
 	@ResponseBody
-	public AjaxJson del(MutiLangEntity mutiLang, HttpServletRequest request) {
+	public AjaxJson del(MutiLang mutiLang, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		mutiLang = systemService.findEntity(MutiLangEntity.class, mutiLang.getId());
+		mutiLang = systemService.findEntity(MutiLang.class, mutiLang.getId());
 		message = MutiLangUtils.paramDelSuccess("common.language");
 		mutiLangService.delete(mutiLang);
 		mutiLangService.initAllMutiLang();
@@ -117,11 +117,11 @@ public class MutiLangController extends BaseController {
 	 */
 	@RequestMapping(params = "save")
 	@ResponseBody
-	public AjaxJson save(MutiLangEntity mutiLang, HttpServletRequest request) {
+	public AjaxJson save(MutiLang mutiLang, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		if (StringUtils.isNotEmpty(mutiLang.getId())) {
 			message = MutiLangUtils.paramUpdSuccess("common.language");
-			MutiLangEntity t = mutiLangService.find(MutiLangEntity.class, mutiLang.getId());
+			MutiLang t = mutiLangService.find(MutiLang.class, mutiLang.getId());
 			try {
 				BeanPropertyUtils.copyBeanNotNull2Bean(mutiLang, t);
 				mutiLangService.saveOrUpdate(t);
@@ -153,11 +153,11 @@ public class MutiLangController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "addorupdate")
-	public ModelAndView addorupdate(MutiLangEntity mutiLang,
+	public ModelAndView addorupdate(MutiLang mutiLang,
 			HttpServletRequest req) {
 		if (StringUtils.isNotEmpty(mutiLang.getId())) {
-			mutiLang = mutiLangService.findEntity(MutiLangEntity.class, mutiLang.getId());
-			req.setAttribute("mutiLangPage", mutiLang);
+			mutiLang = mutiLangService.findEntity(MutiLang.class, mutiLang.getId());
+			req.setAttribute("mutiLangView", mutiLang);
 		}
 		return new ModelAndView("system/mutilang/mutiLang");
 	}

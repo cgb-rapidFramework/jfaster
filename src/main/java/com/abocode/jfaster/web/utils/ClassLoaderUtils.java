@@ -1,9 +1,7 @@
 package com.abocode.jfaster.web.utils;
 
 /**
- * 
- * @author  张代浩
- *
+ * Created by Franky on 2016/3/15.
  */
 public class ClassLoaderUtils extends ClassLoader {
 	public static Class getClassByScn(String className) {

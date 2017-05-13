@@ -7,7 +7,7 @@ import com.abocode.jfaster.core.common.model.json.TreeGrid;
 import com.abocode.jfaster.core.common.service.CommonService;
 import com.abocode.jfaster.core.tag.vo.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.tag.vo.easyui.TreeGridModel;
-import com.abocode.jfaster.web.system.entity.TSDepart;
+import com.abocode.jfaster.web.system.entity.Depart;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -49,7 +49,7 @@ public interface ResourceService extends CommonService {
      * @param comboTree 模型
      * @return List<ComboTree>
      */
-	public List<ComboTree> comTree(List<TSDepart> all, ComboTree comboTree);
+	public List<ComboTree> comTree(List<Depart> all, ComboTree comboTree);
 
 	/**
 	 * 根据模型生成JSON

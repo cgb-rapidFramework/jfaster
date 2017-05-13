@@ -4,8 +4,8 @@ import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.tag.vo.datatable.DataTableReturn;
 import com.abocode.jfaster.core.tag.vo.easyui.Autocomplete;
 import com.abocode.jfaster.core.util.ConvertUtils;
-import com.abocode.jfaster.platform.bean.ReflectHelper;
-import com.abocode.jfaster.platform.bean.RoleBean;
+import com.abocode.jfaster.platform.view.ReflectHelper;
+import com.abocode.jfaster.platform.view.RoleView;
 import com.google.gson.Gson;
 import org.springframework.util.StringUtils;
 
@@ -456,13 +456,13 @@ public class TagUtil {
     /**
      * 手工拼接JSON
      */
-    public static String getComboBoxJson(List<RoleBean> list, List<RoleBean> roles) {
+    public static String getComboBoxJson(List<RoleView> list, List<RoleView> roles) {
         StringBuffer buffer = new StringBuffer();
         buffer.append("[");
-        for (RoleBean node : list) {
+        for (RoleView node : list) {
             if (roles.size() > 0) {
                 buffer.append("{\"id\":" + node.getId() + ",\"text\":\"" + node.getRoleName() + "\"");
-                for (RoleBean node1 : roles) {
+                for (RoleView node1 : roles) {
                     if (node.getId() == node1.getId()) {
                         buffer.append(",\"selected\":true");
                     }

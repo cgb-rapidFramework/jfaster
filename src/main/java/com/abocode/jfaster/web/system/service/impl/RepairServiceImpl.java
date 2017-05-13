@@ -135,7 +135,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
      * @serialData 2013年11月5日
      */
     private void repairJob() {
-        JobEntity job = new JobEntity();
+        Job job = new Job();
         job.setName("testjob1");
         job.setGroup("default");
         job.setExpression("0 0/5 * * * ?");
@@ -150,8 +150,8 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
      * @author tanghan 2013-7-28
      */
     private void repairLog() {
-        TSUser admin = commonDao.findAllByProperty(TSUser.class, "signatureFile", "images/renfang/qm/licf.gif").get(0);
-        TSLog log1 = new TSLog();
+        User admin = commonDao.findAllByProperty(User.class, "signatureFile", "images/renfang/qm/licf.gif").get(0);
+        Log log1 = new Log();
         log1.setLogcontent("用户: admin登录成功");
         log1.setBroswer("Chrome");
         log1.setNote("169.254.200.136");
@@ -167,7 +167,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
      * @author tanghan 2013-7-20
      */
     private void repairDepart() {
-        TSDepart eiu = new TSDepart();
+        Depart eiu = new Depart();
         eiu.setDepartname("系统管理");
         eiu.setDescription("12");
         commonDao.saveOrUpdate(eiu);
@@ -179,32 +179,30 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
      */
     private void repairUser() {
         this.commonDao.getSession().clear();
-        TSDepart eiu = this.commonDao.findAllByProperty(TSDepart.class, "departname", "系统管理").get(0);
+        Depart eiu = this.commonDao.findAllByProperty(Depart.class, "departname", "系统管理").get(0);
 
-        TSUser admin = new TSUser();
+        User admin = new User();
         admin.setSignatureFile("images/renfang/qm/licf.gif");
         admin.setStatus((short) 1);
         admin.setRealName("管理员");
         admin.setUserName("admin");
         admin.setPassword("c44b01947c9e6e3f");
-        admin.setActivitiSync((short) 1);
         commonDao.save(admin);
 
-        TSUserOrg adminUserOrg = new TSUserOrg();
+        UserOrg adminUserOrg = new UserOrg();
         adminUserOrg.setTsUser(admin);
         adminUserOrg.setTsDepart(eiu);
         commonDao.save(adminUserOrg);
 
-        TSUser scott = new TSUser();
+        User scott = new User();
         scott.setEmail("guanxf_m@126.com");
         scott.setStatus((short) 1);
         scott.setRealName("scott");
         scott.setUserName("scott");
         scott.setPassword("97c07a884bf272b5");
         // scott.setTSDepart(RAndD);
-        scott.setActivitiSync((short) 0);
         commonDao.saveOrUpdate(scott);
-        TSUserOrg scottUserOrg = new TSUserOrg();
+        UserOrg scottUserOrg = new UserOrg();
         scottUserOrg.setTsUser(scott);
         scottUserOrg.setTsDepart(eiu);
         commonDao.save(scottUserOrg);
@@ -216,23 +214,23 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
      * @author tanghan 2013-7-23
      */
     private void repairUserRole() {
-        TSRole admin = commonDao.findAllByProperty(TSRole.class, "roleCode", "admin").get(0);
-        TSRole manager = commonDao.findAllByProperty(TSRole.class, "roleCode", "manager").get(0);
-        List<TSUser> user = commonDao.findAll(TSUser.class);
+        Role admin = commonDao.findAllByProperty(Role.class, "roleCode", "admin").get(0);
+        Role manager = commonDao.findAllByProperty(Role.class, "roleCode", "manager").get(0);
+        List<User> user = commonDao.findAll(User.class);
         for (int i = 0; i < user.size(); i++) {
             if (user.get(i).getEmail() != null) {
-                TSRoleUser roleuser = new TSRoleUser();
+                RoleUser roleuser = new RoleUser();
                 roleuser.setTSUser(user.get(i));
                 roleuser.setTSRole(manager);
                 commonDao.saveOrUpdate(roleuser);
             } else {
-                TSRoleUser roleuser = new TSRoleUser();
+                RoleUser roleuser = new RoleUser();
                 roleuser.setTSUser(user.get(i));
                 roleuser.setTSRole(admin);
                 commonDao.saveOrUpdate(roleuser);
             }
             if (user.get(i).getSignatureFile() != null) {
-                TSRoleUser roleuser = new TSRoleUser();
+                RoleUser roleuser = new RoleUser();
                 roleuser.setTSUser(user.get(i));
                 roleuser.setTSRole(admin);
                 commonDao.saveOrUpdate(roleuser);
@@ -246,12 +244,12 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
      * @author tanghan 2013-7-23
      */
     private void repairRoleFunction() {
-        TSRole admin = commonDao.findAllByProperty(TSRole.class, "roleCode", "admin").get(0);
-        TSRole manager = commonDao.findAllByProperty(TSRole.class, "roleCode", "manager").get(0);
-        List<TSFunction> list = commonDao.findAll(TSFunction.class);
+        Role admin = commonDao.findAllByProperty(Role.class, "roleCode", "admin").get(0);
+        Role manager = commonDao.findAllByProperty(Role.class, "roleCode", "manager").get(0);
+        List<Function> list = commonDao.findAll(Function.class);
         for (int i = 0; i < list.size(); i++) {
-            TSRoleFunction adminroleFunction = new TSRoleFunction();
-            TSRoleFunction managerFunction = new TSRoleFunction();
+            RoleFunction adminroleFunction = new RoleFunction();
+            RoleFunction managerFunction = new RoleFunction();
             adminroleFunction.setTSFunction(list.get(i));
             managerFunction.setTSFunction(list.get(i));
             adminroleFunction.setTSRole(admin);
@@ -266,31 +264,31 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
      * @author tanghan 2013-7-23
      */
     private void repairOperation() {
-        TSIcon back = commonDao.findAllByProperty(TSIcon.class, "iconName", "返回").get(0);
-        TSFunction function = commonDao.findAllByProperty(TSFunction.class, "functionName", "系统管理").get(0);
+        Icon back = commonDao.findAllByProperty(Icon.class, "iconName", "返回").get(0);
+        Function function = commonDao.findAllByProperty(Function.class, "functionName", "系统管理").get(0);
 
-        TSOperation add = new TSOperation();
+        Operation add = new Operation();
         add.setOperationname("录入");
         add.setOperationcode("add");
         add.setTSIcon(back);
         add.setTSFunction(function);
         commonDao.saveOrUpdate(add);
 
-        TSOperation edit = new TSOperation();
+        Operation edit = new Operation();
         edit.setOperationname("编辑");
         edit.setOperationcode("edit");
         edit.setTSIcon(back);
         edit.setTSFunction(function);
         commonDao.saveOrUpdate(edit);
 
-        TSOperation del = new TSOperation();
+        Operation del = new Operation();
         del.setOperationname("删除");
         del.setOperationcode("del");
         del.setTSIcon(back);
         del.setTSFunction(function);
         commonDao.saveOrUpdate(del);
 
-        TSOperation szqm = new TSOperation();
+        Operation szqm = new Operation();
         szqm.setOperationname("审核");
         szqm.setOperationcode("szqm");
         szqm.setTSIcon(back);
@@ -303,52 +301,52 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
      * @author tanghan 2013-7-20
      */
     private void repairTypeAndGroup() {
-        TSTypegroup icontype = new TSTypegroup();
+        TypeGroup icontype = new TypeGroup();
         icontype.setTypegroupname("图标类型");
         icontype.setTypegroupcode("icontype");
         commonDao.saveOrUpdate(icontype);
 
-        TSTypegroup ordertype = new TSTypegroup();
+        TypeGroup ordertype = new TypeGroup();
         ordertype.setTypegroupname("订单类型");
         ordertype.setTypegroupcode("order");
         commonDao.saveOrUpdate(ordertype);
 
-        TSTypegroup custom = new TSTypegroup();
+        TypeGroup custom = new TypeGroup();
         custom.setTypegroupname("客户类型");
         custom.setTypegroupcode("custom");
         commonDao.saveOrUpdate(custom);
 
-        TSTypegroup servicetype = new TSTypegroup();
+        TypeGroup servicetype = new TypeGroup();
         servicetype.setTypegroupname("服务项目类型");
         servicetype.setTypegroupcode("service");
         commonDao.saveOrUpdate(servicetype);
 
-        TSTypegroup searchMode = new TSTypegroup();
+        TypeGroup searchMode = new TypeGroup();
         searchMode.setTypegroupname("查询模式");
         searchMode.setTypegroupcode("searchmode");
         commonDao.saveOrUpdate(searchMode);
 
-        TSTypegroup yesOrno = new TSTypegroup();
+        TypeGroup yesOrno = new TypeGroup();
         yesOrno.setTypegroupname("逻辑条件");
         yesOrno.setTypegroupcode("yesorno");
         commonDao.saveOrUpdate(yesOrno);
 
-        TSTypegroup fieldtype = new TSTypegroup();
+        TypeGroup fieldtype = new TypeGroup();
         fieldtype.setTypegroupname("字段类型");
         fieldtype.setTypegroupcode("fieldtype");
         commonDao.saveOrUpdate(fieldtype);
 
-        TSTypegroup datatable = new TSTypegroup();
+        TypeGroup datatable = new TypeGroup();
         datatable.setTypegroupname("数据表");
         datatable.setTypegroupcode("database");
         commonDao.saveOrUpdate(datatable);
 
-        TSTypegroup filetype = new TSTypegroup();
+        TypeGroup filetype = new TypeGroup();
         filetype.setTypegroupname("文档分类");
         filetype.setTypegroupcode("fieltype");
         commonDao.saveOrUpdate(filetype);
 
-        TSTypegroup sex = new TSTypegroup();
+        TypeGroup sex = new TypeGroup();
         sex.setTypegroupname("性别类");
         sex.setTypegroupcode("sex");
         commonDao.saveOrUpdate(sex);
@@ -359,144 +357,144 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
      * @author tanghan 2013-7-22
      */
     private void repairType() {
-        TSTypegroup icontype = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "图标类型").get(0);
-        TSTypegroup ordertype = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "订单类型").get(0);
-        TSTypegroup custom = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "客户类型").get(0);
-        TSTypegroup servicetype = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "服务项目类型").get(0);
-        TSTypegroup datatable = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "数据表").get(0);
-        TSTypegroup filetype = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "文档分类").get(0);
-        TSTypegroup sex = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "性别类").get(0);
-        TSTypegroup searchmode = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "查询模式").get(0);
-        TSTypegroup yesorno = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "逻辑条件").get(0);
-        TSTypegroup fieldtype = commonDao.findAllByProperty(TSTypegroup.class, "typegroupname", "字段类型").get(0);
+        TypeGroup icontype = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "图标类型").get(0);
+        TypeGroup ordertype = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "订单类型").get(0);
+        TypeGroup custom = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "客户类型").get(0);
+        TypeGroup servicetype = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "服务项目类型").get(0);
+        TypeGroup datatable = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "数据表").get(0);
+        TypeGroup filetype = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "文档分类").get(0);
+        TypeGroup sex = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "性别类").get(0);
+        TypeGroup searchmode = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "查询模式").get(0);
+        TypeGroup yesorno = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "逻辑条件").get(0);
+        TypeGroup fieldtype = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "字段类型").get(0);
 
-        TSType menu = new TSType();
+        Type menu = new Type();
         menu.setTypename("菜单图标");
         menu.setTypecode("2");
         menu.setTSTypegroup(icontype);
         commonDao.saveOrUpdate(menu);
 
-        TSType systemicon = new TSType();
+        Type systemicon = new Type();
         systemicon.setTypename("系统图标");
         systemicon.setTypecode("1");
         systemicon.setTSTypegroup(icontype);
         commonDao.saveOrUpdate(systemicon);
 
-        TSType file = new TSType();
+        Type file = new Type();
         file.setTypename("附件");
         file.setTypecode("files");
         file.setTSTypegroup(filetype);
         commonDao.saveOrUpdate(file);
 
-        TSType goodorder = new TSType();
+        Type goodorder = new Type();
         goodorder.setTypename("优质订单");
         goodorder.setTypecode("1");
         goodorder.setTSTypegroup(ordertype);
         commonDao.saveOrUpdate(goodorder);
 
-        TSType general = new TSType();
+        Type general = new Type();
         general.setTypename("普通订单");
         general.setTypecode("2");
         general.setTSTypegroup(ordertype);
         commonDao.saveOrUpdate(general);
 
-        TSType sign = new TSType();
+        Type sign = new Type();
         sign.setTypename("签约客户");
         sign.setTypecode("1");
         sign.setTSTypegroup(custom);
         commonDao.saveOrUpdate(sign);
 
-        TSType commoncustom = new TSType();
+        Type commoncustom = new Type();
         commoncustom.setTypename("普通客户");
         commoncustom.setTypecode("2");
         commoncustom.setTSTypegroup(custom);
         commonDao.saveOrUpdate(commoncustom);
 
-        TSType vipservice = new TSType();
+        Type vipservice = new Type();
         vipservice.setTypename("特殊服务");
         vipservice.setTypecode("1");
         vipservice.setTSTypegroup(servicetype);
         commonDao.saveOrUpdate(vipservice);
 
-        TSType commonservice = new TSType();
+        Type commonservice = new Type();
         commonservice.setTypename("普通服务");
         commonservice.setTypecode("2");
         commonservice.setTSTypegroup(servicetype);
         commonDao.saveOrUpdate(commonservice);
 
-        TSType single = new TSType();
+        Type single = new Type();
         single.setTypename("单条件查询");
         single.setTypecode("single");
         single.setTSTypegroup(searchmode);
         commonDao.saveOrUpdate(single);
 
-        TSType group = new TSType();
+        Type group = new Type();
         group.setTypename("范围查询");
         group.setTypecode("group");
         group.setTSTypegroup(searchmode);
         commonDao.saveOrUpdate(group);
 
-        TSType yes = new TSType();
+        Type yes = new Type();
         yes.setTypename("是");
         yes.setTypecode("Y");
         yes.setTSTypegroup(yesorno);
         commonDao.saveOrUpdate(yes);
 
-        TSType no = new TSType();
+        Type no = new Type();
         no.setTypename("否");
         no.setTypecode("N");
         no.setTSTypegroup(yesorno);
         commonDao.saveOrUpdate(no);
 
-        TSType type_integer = new TSType();
+        Type type_integer = new Type();
         type_integer.setTypename("Integer");
         type_integer.setTypecode("Integer");
         type_integer.setTSTypegroup(fieldtype);
         commonDao.saveOrUpdate(type_integer);
 
-        TSType type_date = new TSType();
+        Type type_date = new Type();
         type_date.setTypename("Date");
         type_date.setTypecode("Date");
         type_date.setTSTypegroup(fieldtype);
         commonDao.saveOrUpdate(type_date);
 
-        TSType type_string = new TSType();
+        Type type_string = new Type();
         type_string.setTypename("String");
         type_string.setTypecode("String");
         type_string.setTSTypegroup(fieldtype);
         commonDao.saveOrUpdate(type_string);
 
-        TSType type_long = new TSType();
+        Type type_long = new Type();
         type_long.setTypename("Long");
         type_long.setTypecode("Long");
         type_long.setTSTypegroup(fieldtype);
         commonDao.saveOrUpdate(type_long);
 
-        TSType systable = new TSType();
+        Type systable = new Type();
         systable.setTypename("系统基础表");
         systable.setTypecode("t_s");
         systable.setTSTypegroup(datatable);
         commonDao.saveOrUpdate(systable);
 
-        TSType business = new TSType();
+        Type business = new Type();
         business.setTypename("业务表");
         business.setTypecode("t_b");
         business.setTSTypegroup(datatable);
         commonDao.saveOrUpdate(business);
 
-        TSType news = new TSType();
+        Type news = new Type();
         news.setTypename("新闻");
         news.setTypecode("news");
         news.setTSTypegroup(filetype);
         commonDao.saveOrUpdate(news);
 
-        TSType man = new TSType();
+        Type man = new Type();
         man.setTypename("男性");
         man.setTypecode("0");
         man.setTSTypegroup(sex);
         commonDao.saveOrUpdate(man);
 
-        TSType woman = new TSType();
+        Type woman = new Type();
         woman.setTypename("女性");
         woman.setTypecode("1");
         woman.setTSTypegroup(sex);
@@ -508,12 +506,12 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
      * @author tanghan 2013-7-20
      */
     private void repairRole() {
-        TSRole admin = new TSRole();
+        Role admin = new Role();
         admin.setRoleName("管理员");
         admin.setRoleCode("admin");
         commonDao.saveOrUpdate(admin);
 
-        TSRole manager = new TSRole();
+        Role manager = new Role();
         manager.setRoleName("普通用户");
         manager.setRoleCode("manager");
         commonDao.saveOrUpdate(manager);
@@ -527,7 +525,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
     private void repaireIcon() {
         LogUtils.info("修复图标中");
 
-        TSIcon defaultIcon = new TSIcon();
+        Icon defaultIcon = new Icon();
         defaultIcon.setIconName("默认图");
         defaultIcon.setIconType((short) 1);
         defaultIcon.setIconPath("plug-in/accordion/images/default.png");
@@ -535,7 +533,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         defaultIcon.setExtend("png");
         commonDao.saveOrUpdate(defaultIcon);
 
-        TSIcon back = new TSIcon();
+        Icon back = new Icon();
         back.setIconName("返回");
         back.setIconType((short) 1);
         back.setIconPath("plug-in/accordion/images/back.png");
@@ -543,7 +541,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         back.setExtend("png");
         commonDao.saveOrUpdate(back);
 
-        TSIcon pie = new TSIcon();
+        Icon pie = new Icon();
 
         pie.setIconName("饼图");
         pie.setIconType((short) 1);
@@ -552,7 +550,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         pie.setExtend("png");
         commonDao.saveOrUpdate(pie);
 
-        TSIcon pictures = new TSIcon();
+        Icon pictures = new Icon();
         pictures.setIconName("图片");
         pictures.setIconType((short) 1);
         pictures.setIconPath("plug-in/accordion/images/pictures.png");
@@ -560,7 +558,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         pictures.setExtend("png");
         commonDao.saveOrUpdate(pictures);
 
-        TSIcon pencil = new TSIcon();
+        Icon pencil = new Icon();
         pencil.setIconName("笔");
         pencil.setIconType((short) 1);
         pencil.setIconPath("plug-in/accordion/images/pencil.png");
@@ -568,7 +566,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         pencil.setExtend("png");
         commonDao.saveOrUpdate(pencil);
 
-        TSIcon map = new TSIcon();
+        Icon map = new Icon();
         map.setIconName("地图");
         map.setIconType((short) 1);
         map.setIconPath("plug-in/accordion/images/map.png");
@@ -576,7 +574,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         map.setExtend("png");
         commonDao.saveOrUpdate(map);
 
-        TSIcon group_add = new TSIcon();
+        Icon group_add = new Icon();
         group_add.setIconName("组");
         group_add.setIconType((short) 1);
         group_add.setIconPath("plug-in/accordion/images/group_add.png");
@@ -584,7 +582,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         group_add.setExtend("png");
         commonDao.saveOrUpdate(group_add);
 
-        TSIcon calculator = new TSIcon();
+        Icon calculator = new Icon();
         calculator.setIconName("计算器");
         calculator.setIconType((short) 1);
         calculator.setIconPath("plug-in/accordion/images/calculator.png");
@@ -592,7 +590,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         calculator.setExtend("png");
         commonDao.saveOrUpdate(calculator);
 
-        TSIcon folder = new TSIcon();
+        Icon folder = new Icon();
         folder.setIconName("文件夹");
         folder.setIconType((short) 1);
         folder.setIconPath("plug-in/accordion/images/folder.png");
@@ -608,9 +606,9 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
      * @param iconLabelName 图标展示名称
      * @return 图标实体
      */
-    private TSIcon repairInconForDesk(String iconName, String iconLabelName) {
+    private Icon repairInconForDesk(String iconName, String iconLabelName) {
         String iconPath = "plug-in/sliding/icon/" + iconName + ".png";
-        TSIcon deskIncon = new TSIcon();
+        Icon deskIncon = new Icon();
         deskIncon.setIconName(iconLabelName);
         deskIncon.setIconType((short) 3);
         deskIncon.setIconPath(iconPath);
@@ -626,9 +624,9 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
      *
      * @return 图标实体
      */
-    private TSIcon getDefaultInconForDesk() {
+    private Icon getDefaultInconForDesk() {
         String iconPath = "plug-in/sliding/icon/default.png";
-        TSIcon deskIncon = new TSIcon();
+        Icon deskIncon = new Icon();
         deskIncon.setIconName("默认图标");
         deskIncon.setIconType((short) 3);
         deskIncon.setIconPath(iconPath);
@@ -644,12 +642,12 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
      * @author tanghan 2013-7-19
      */
     private void repairMenu() {
-        TSIcon defaultIcon = commonDao.findAllByProperty(TSIcon.class, "iconName", "默认图").get(0);
-        TSIcon group_add = commonDao.findAllByProperty(TSIcon.class, "iconName", "组").get(0);
-        TSIcon pie = commonDao.findAllByProperty(TSIcon.class, "iconName", "饼图").get(0);
-        TSIcon folder = commonDao.findAllByProperty(TSIcon.class, "iconName", "文件夹").get(0);
+        Icon defaultIcon = commonDao.findAllByProperty(Icon.class, "iconName", "默认图").get(0);
+        Icon group_add = commonDao.findAllByProperty(Icon.class, "iconName", "组").get(0);
+        Icon pie = commonDao.findAllByProperty(Icon.class, "iconName", "饼图").get(0);
+        Icon folder = commonDao.findAllByProperty(Icon.class, "iconName", "文件夹").get(0);
 
-        TSFunction sys = new TSFunction();
+        Function sys = new Function();
         sys.setFunctionName("系统管理");
         sys.setFunctionUrl("");
         sys.setFunctionLevel((short) 0);
@@ -658,7 +656,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         sys.setTSIcon(group_add);
         commonDao.saveOrUpdate(sys);
 
-        TSFunction state = new TSFunction();
+        Function state = new Function();
         state.setFunctionName("统计查询");
         state.setFunctionUrl("");
         state.setFunctionLevel((short) 0);
@@ -667,7 +665,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         state.setTSIconDesk(getDefaultInconForDesk());
         commonDao.saveOrUpdate(state);
 
-        TSFunction syscontrol = new TSFunction();
+        Function syscontrol = new Function();
         syscontrol.setFunctionName("系统监控");
         syscontrol.setFunctionUrl("");
         syscontrol.setFunctionLevel((short) 0);
@@ -676,7 +674,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         syscontrol.setTSIconDesk(getDefaultInconForDesk());
         commonDao.saveOrUpdate(syscontrol);
 
-        TSFunction user = new TSFunction();
+        Function user = new Function();
         user.setFunctionName("用户管理");
         user.setFunctionUrl("userController.do?user");
         user.setFunctionLevel((short) 1);
@@ -686,7 +684,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         user.setTSIconDesk(repairInconForDesk("Finder", "用户管理"));
         commonDao.saveOrUpdate(user);
 
-        TSFunction role = new TSFunction();
+        Function role = new Function();
         role.setFunctionName("角色管理");
         role.setFunctionUrl("roleController.do?role");
         role.setFunctionLevel((short) 1);
@@ -696,7 +694,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         role.setTSIconDesk(repairInconForDesk("friendgroup", "角色管理"));
         commonDao.saveOrUpdate(role);
 
-        TSFunction menu = new TSFunction();
+        Function menu = new Function();
         menu.setFunctionName("菜单管理");
         menu.setFunctionUrl("functionController.do?function");
         menu.setFunctionLevel((short) 1);
@@ -706,7 +704,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         menu.setTSIconDesk(repairInconForDesk("kaikai", "菜单管理"));
         commonDao.saveOrUpdate(menu);
 
-        TSFunction typegroup = new TSFunction();
+        Function typegroup = new Function();
         typegroup.setFunctionName("数据字典");
         typegroup.setFunctionUrl("systemController.do?typeGroupList");
         typegroup.setFunctionLevel((short) 1);
@@ -716,7 +714,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         typegroup.setTSIconDesk(repairInconForDesk("friendnear", "数据字典"));
         commonDao.saveOrUpdate(typegroup);
 
-        TSFunction icon = new TSFunction();
+        Function icon = new Function();
         icon.setFunctionName("图标管理");
         icon.setFunctionUrl("iconController.do?icon");
         icon.setFunctionLevel((short) 1);
@@ -726,7 +724,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         icon.setTSIconDesk(repairInconForDesk("kxjy", "图标管理"));
         commonDao.saveOrUpdate(icon);
 
-        TSFunction depart = new TSFunction();
+        Function depart = new Function();
         depart.setFunctionName("部门管理");
         depart.setFunctionUrl("departController.do?depart");
         depart.setFunctionLevel((short) 1);
@@ -736,7 +734,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         depart.setTSIconDesk(getDefaultInconForDesk());
         commonDao.saveOrUpdate(depart);
 
-        TSFunction territory = new TSFunction();
+        Function territory = new Function();
         territory.setFunctionName("地域管理");
         territory.setFunctionUrl("territoryController.do?territory");
         territory.setFunctionLevel((short) 1);
@@ -746,7 +744,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         territory.setTSIconDesk(getDefaultInconForDesk());
         commonDao.saveOrUpdate(territory);
 
-        TSFunction language = new TSFunction();
+        Function language = new Function();
         language.setFunctionName("语言管理");
         language.setFunctionUrl("mutiLangController.do?mutiLang");
         language.setFunctionLevel((short) 1);
@@ -756,7 +754,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         language.setTSIconDesk(getDefaultInconForDesk());
         commonDao.saveOrUpdate(language);
 
-        TSFunction template = new TSFunction();
+        Function template = new Function();
         template.setFunctionName("模版管理");
         template.setFunctionUrl("templateController.do?template");
         template.setFunctionLevel((short) 1);
@@ -766,7 +764,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         template.setTSIconDesk(getDefaultInconForDesk());
         commonDao.saveOrUpdate(template);
 
-        TSFunction useranalyse = new TSFunction();
+        Function useranalyse = new Function();
         useranalyse.setFunctionName("用户分析");
         useranalyse.setFunctionUrl("logController.do?statisticTabs&isIframe");
         useranalyse.setFunctionLevel((short) 1);
@@ -776,7 +774,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         useranalyse.setTSIconDesk(repairInconForDesk("User", "用户分析"));
         commonDao.saveOrUpdate(useranalyse);
 
-        TSFunction druid = new TSFunction();
+        Function druid = new Function();
         druid.setFunctionName("数据监控");
         druid.setFunctionUrl("dataSourceController.do?goDruid&isIframe");
         druid.setFunctionLevel((short) 1);
@@ -786,7 +784,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         druid.setTSIconDesk(repairInconForDesk("Super Disk", "数据监控"));
         commonDao.saveOrUpdate(druid);
 
-        TSFunction log = new TSFunction();
+        Function log = new Function();
         log.setFunctionName("系统日志");
         log.setFunctionUrl("logController.do?log");
         log.setFunctionLevel((short) 1);
@@ -796,7 +794,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         log.setTSIconDesk(repairInconForDesk("fastsearch", "系统日志"));
         commonDao.saveOrUpdate(log);
 
-        TSFunction timeTask = new TSFunction();
+        Function timeTask = new Function();
         timeTask.setFunctionName("定时任务");
         timeTask.setFunctionUrl("jobController.do?job");
         timeTask.setFunctionLevel((short) 1);
@@ -806,7 +804,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         timeTask.setTSIconDesk(repairInconForDesk("Utilities", "定时任务"));
         commonDao.saveOrUpdate(timeTask);
 
-        TSFunction reportdemo = new TSFunction();
+        Function reportdemo = new Function();
         reportdemo.setFunctionName("报表示例");
         reportdemo.setFunctionUrl("reportDemoController.do?studentStatisticTabs&isIframe");
         reportdemo.setFunctionLevel((short) 1);

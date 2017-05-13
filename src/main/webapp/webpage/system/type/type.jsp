@@ -7,7 +7,7 @@
 </head>
 <body style="overflow-y: hidden" scroll="no">
 <t:formvalid formid="formobj" layout="div" dialog="true" action="systemController.do?saveType">
-    <input name="id" type="hidden" value="${type.id }">
+    <input name="id" type="hidden" value="${typeView.id }">
     <input name="TSTypegroup.id" type="hidden" value="${typegroupid}">
     <fieldset class="step">
         <div class="form">
@@ -16,13 +16,13 @@
         </div>
         <div class="form">
             <label class="Validform_label"> <t:mutiLang langKey="dict.name"/>: </label>
-            <input name="typename" class="inputxt" value="${type.typename }" datatype="s1-10">
+            <input name="typename" class="inputxt" value="${typeView.typename }" datatype="s1-10">
             <span class="Validform_checktip">类型范围在1~10位字符</span>
         </div>
         <div class="form">
             <label class="Validform_label"> <t:mutiLang langKey="dict.code"/>: </label>
-            <input name="typecode" class="inputxt" value="${type.typecode }" datatype="*"
-                   ajaxurl="systemController.do?checkType&code=${type.typecode }&typeGroupCode=${type.TSTypegroup.typegroupcode}">
+            <input name="typecode" class="inputxt" value="${typeView.typecode }" datatype="*"
+                   ajaxurl="systemController.do?checkType&code=${typeView.typecode }&typeGroupCode=${typeView.TSTypegroup.typegroupcode}">
             <span class="Validform_checktip">类型编码在1~10位字符</span>
         </div>
     </fieldset>

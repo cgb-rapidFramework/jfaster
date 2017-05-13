@@ -6,7 +6,7 @@ import com.abocode.jfaster.core.common.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.platform.common.tag.easyui.TagUtil;
 import com.abocode.jfaster.platform.constant.Globals;
-import com.abocode.jfaster.web.system.entity.TSConfig;
+import com.abocode.jfaster.web.system.entity.Config;
 import com.abocode.jfaster.web.system.service.SystemService;
 import com.abocode.jfaster.web.utils.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,10 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 配置信息处理类
  * 
- * @author 张代浩
+ * @author franky
  * 
  */
+@Deprecated
 @Scope("prototype")
 @Controller
 @RequestMapping("/configController")
@@ -72,7 +73,7 @@ public class ConfigController extends BaseController {
 	@RequestMapping(params = "datagrid")
 	public void datagrid(HttpServletRequest request,
 			HttpServletResponse response, DataGrid dataGrid) {
-		CriteriaQuery cq = new CriteriaQuery(TSConfig.class, dataGrid);
+		CriteriaQuery cq = new CriteriaQuery(Config.class, dataGrid);
 		this.systemService.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
@@ -86,9 +87,9 @@ public class ConfigController extends BaseController {
 	 */
 	@RequestMapping(params = "del")
 	@ResponseBody
-	public AjaxJson del(TSConfig config, HttpServletRequest request) {
+	public AjaxJson del(Config config, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		config = systemService.findEntity(TSConfig.class, config.getId());
+		config = systemService.findEntity(Config.class, config.getId());
 		message = "配置信息: " + config.getName() + "被删除 成功";
 		systemService.delete(config);
 		systemService.addLog(message, Globals.Log_Type_DEL,
@@ -105,9 +106,9 @@ public class ConfigController extends BaseController {
 	 */
 	@RequestMapping(params = "save")
 	@ResponseBody
-	public AjaxJson save(TSConfig tsConfig,HttpServletRequest request) {
+	public AjaxJson save(Config tsConfig, HttpServletRequest request) {
 		if (StringUtils.isEmpty(tsConfig.getId())) {
-			TSConfig tsConfig2=systemService.findUniqueByProperty(TSConfig.class, "code", tsConfig.getCode());
+			Config tsConfig2=systemService.findUniqueByProperty(Config.class, "code", tsConfig.getCode());
 			if(tsConfig2!=null){
 				message = "编码为: " + tsConfig.getCode() + "的配置信息已存在";
 			}else{
@@ -138,11 +139,11 @@ public class ConfigController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "addorupdate")
-	public ModelAndView addorupdate(TSConfig config, HttpServletRequest req) {
+	public ModelAndView addorupdate(Config config, HttpServletRequest req) {
 		if (!StringUtils.isEmpty(config.getId())) {
-			config = systemService.findEntity(TSConfig.class,
+			config = systemService.findEntity(Config.class,
 					config.getId());
-			req.setAttribute("config", config);
+			req.setAttribute("configView", config);
 		}
 		return new ModelAndView("system/config/config");
 	}

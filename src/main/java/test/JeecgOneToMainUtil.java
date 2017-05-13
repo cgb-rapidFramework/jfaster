@@ -24,7 +24,7 @@ public class JeecgOneToMainUtil {
 		CodeParamEntity codeParamEntityIn = new CodeParamEntity();
 		codeParamEntityIn.setTableName("jeecg_order_main");//主表[表名]
 		codeParamEntityIn.setEntityName("OrderMain");	 //主表[实体名]
-		codeParamEntityIn.setEntityPackage("jeecg");	 //主表[包名]
+		codeParamEntityIn.setEntityPackage("generator-config");	 //主表[包名]
 		codeParamEntityIn.setFtlDescription("订单主数据");	 //主表[描述]
 		
 		//第二步：设置子表集合
@@ -33,7 +33,7 @@ public class JeecgOneToMainUtil {
 		SubTableEntity po = new SubTableEntity();
 		po.setTableName("jeecg_order_custom");//子表[表名]
 		po.setEntityName("OrderCustoms");	 //子表[实体名]
-		po.setEntityPackage("jeecg");			 //子表[包]
+		po.setEntityPackage("generator-config");			 //子表[包]
 		po.setFtlDescription("订单客户明细");		 //子表[描述]
 		//子表[外键:与主表关联外键]
 		//说明：这里面的外键是子表的外键字段,非主表和子表的对应关系  GORDER_ID修改为ID
@@ -43,7 +43,7 @@ public class JeecgOneToMainUtil {
 		SubTableEntity po2 = new SubTableEntity();
 		po2.setTableName("jeecg_order_product");		//子表[表名]
 		po2.setEntityName("OrderProduct");			//子表[实体名]
-		po2.setEntityPackage("jeecg"); 					//子表[包]
+		po2.setEntityPackage("generator-config"); 					//子表[包]
 		po2.setFtlDescription("订单产品明细");				//子表[描述]
 		//子表[外键:与主表关联外键]
 		//说明：这里面的外键是子表的外键字段,非主表和子表的对应关系      GORDER_ID修改为ID

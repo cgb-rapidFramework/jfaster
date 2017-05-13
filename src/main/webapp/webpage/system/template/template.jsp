@@ -8,7 +8,7 @@
  </head>
  <body style="overflow-y: hidden" scroll="no">
   <t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" action="templateController.do?save">
-			<input id="id" name="id" type="hidden" value="${templatePage.id }">
+			<input id="id" name="id" type="hidden" value="${templateView.id }">
 			<table style="width: 600px;" cellpadding="0" cellspacing="1" class="formtable">
 				<tr>
 					<td align="right">
@@ -18,7 +18,7 @@
 					</td>
 					<td class="value">
 						<input class="inputxt" id="theme" name="theme"
-							   value="${templatePage.theme}" datatype="*">
+							   value="${templateView.theme}" datatype="*">
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>
@@ -30,7 +30,7 @@
 					</td>
 					<td class="value">
 						<input class="inputxt" id="name" name="name" 
-							   value="${templatePage.name}" datatype="*">
+							   value="${templateView.name}" datatype="*">
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>
@@ -42,7 +42,7 @@
 					</td>
 					<td class="value">
 						<input class="inputxt" id="image" name="image"
-							   value="${templatePage.image}">
+							   value="${templateView.image}">
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>
@@ -54,7 +54,7 @@
 					</td>
 					<td class="value">
 						<input class="inputxt" id="pageMain" name="pageMain" ignore="ignore"
-							   value="${templatePage.pageMain}">
+							   value="${templateView.pageMain}">
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>
@@ -66,7 +66,7 @@
 					</td>
 					<td class="value">
 						<input class="inputxt" id="pageLogin" name="pageLogin" ignore="ignore"
-							   value="${templatePage.pageLogin}">
+							   value="${templateView.pageLogin}">
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>
@@ -78,8 +78,8 @@
 					</td>
 					<td class="value">
 						<select name="status" id="status" datatype="*">
-							<option value="0" <c:if test="${templatePage.status eq 0}">selected="selected"</c:if>>未设置</option>
-							<option value="1" <c:if test="${templatePage.status>0}"> selected="selected"</c:if>>已设置</option>
+							<option value="0" <c:if test="${templateView.status eq 0}">selected="selected"</c:if>>未设置</option>
+							<option value="1" <c:if test="${templateView.status>0}"> selected="selected"</c:if>>已设置</option>
 						</select>
 						<span class="Validform_checktip"></span>
 					</td>

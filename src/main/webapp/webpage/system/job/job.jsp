@@ -8,7 +8,7 @@
  </head>
  <body style="overflow-y: hidden" scroll="no">
   <t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" action="jobController.do?save">
-			<input id="id" name="id" type="hidden" value="${jobPage.id }">
+			<input id="id" name="id" type="hidden" value="${jobView.id }">
 			<table style="width: 600px;" cellpadding="0" cellspacing="1" class="formtable">
 				<tr>
 					<td align="right">
@@ -18,7 +18,7 @@
 					</td>
 					<td class="value">
 						<input class="inputxt" id="name" name="name" 
-							   value="${jobPage.name}" datatype="*">
+							   value="${jobView.name}" datatype="*">
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>
@@ -42,7 +42,7 @@
 					</td>
 					<td class="value">
 						<input class="inputxt" id="expression" name="expression" 
-							   value="${jobPage.expression}" datatype="*">
+							   value="${jobView.expression}" datatype="*">
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>
@@ -54,7 +54,7 @@
 					</td>
 					<td class="value">
 						<input class="inputxt" id="clazz" name="clazz" ignore="ignore"
-							   value="${jobPage.clazz}">
+							   value="${jobView.clazz}">
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>
@@ -66,7 +66,7 @@
 					</td>
 					<td class="value">
 						<input class="inputxt" id="description" name="description" ignore="ignore"
-							   value="${jobPage.description}">
+							   value="${jobView.description}">
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>

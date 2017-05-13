@@ -9,7 +9,7 @@ import com.abocode.jfaster.core.util.BeanPropertyUtils;
 import com.abocode.jfaster.platform.constant.Globals;
 import com.abocode.jfaster.web.common.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.web.system.constant.TemplateConstant;
-import com.abocode.jfaster.web.system.entity.TemplateEntity;
+import com.abocode.jfaster.web.system.entity.Template;
 import com.abocode.jfaster.web.system.service.SystemService;
 import com.abocode.jfaster.web.system.service.TemplateService;
 import org.apache.log4j.Logger;
@@ -77,8 +77,8 @@ public class TemplateController extends BaseController {
 	 */
 
 	@RequestMapping(params = "datagrid")
-	public void datagrid(TemplateEntity template, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-		CriteriaQuery cq = new CriteriaQuery(TemplateEntity.class, dataGrid);
+	public void datagrid(Template template, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		CriteriaQuery cq = new CriteriaQuery(Template.class, dataGrid);
 		//查询条件组装器
 		HqlGenerateUtil.installHql(cq, template, request.getParameterMap());
 		this.templateService.findDataGridReturn(cq, true);
@@ -92,9 +92,9 @@ public class TemplateController extends BaseController {
 	 */
 	@RequestMapping(params = "del")
 	@ResponseBody
-	public AjaxJson del(TemplateEntity template, HttpServletRequest request) {
+	public AjaxJson del(Template template, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		template = systemService.findEntity(TemplateEntity.class, template.getId());
+		template = systemService.findEntity(Template.class, template.getId());
 		message = "模版管理删除成功";
 		templateService.delete(template);
 		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -112,13 +112,16 @@ public class TemplateController extends BaseController {
 	 */
 	@RequestMapping(params = "save")
 	@ResponseBody
-	public AjaxJson save(TemplateEntity template, HttpServletRequest request) {
+	public AjaxJson save(Template template, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		if (!StringUtils.isEmpty(template.getId())) {
 			message = "模版管理更新成功";
-			TemplateEntity t = templateService.find(TemplateEntity.class, template.getId());
+			Template t = templateService.find(Template.class, template.getId());
 			try {
 				BeanPropertyUtils.copyBeanNotNull2Bean(template, t);
+				if(t.getStatus()==TemplateConstant.TEMPLATE_STATUS_IS_AVAILABLE){
+					templateService.setDefault(template.getId());
+				}
 				templateService.saveOrUpdate(t);
 				systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 			} catch (Exception e) {
@@ -143,10 +146,10 @@ public class TemplateController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "addorupdate")
-	public ModelAndView addorupdate(TemplateEntity template, HttpServletRequest req) {
+	public ModelAndView addorupdate(Template template, HttpServletRequest req) {
 		if (!StringUtils.isEmpty(template.getId())) {
-			template = templateService.findEntity(TemplateEntity.class, template.getId());
-			req.setAttribute("templatePage", template);
+			template = templateService.findEntity(Template.class, template.getId());
+			req.setAttribute("templateView", template);
 		}
 		return new ModelAndView("system/template/template");
 	}
@@ -159,7 +162,7 @@ public class TemplateController extends BaseController {
 	 */
 	@RequestMapping(params = "setting")
 	@ResponseBody
-	public AjaxJson setting(TemplateEntity template, HttpServletRequest request) {
+	public AjaxJson setting(Template template, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		if (!StringUtils.isEmpty(template.getId())) {
 			message = "模版管理更新成功";

@@ -1,7 +1,7 @@
 package com.abocode.jfaster.web.system.controller;
 
 import com.abocode.jfaster.core.common.service.CommonService;
-import com.abocode.jfaster.web.system.interceptors.DateConvertEditor;
+import com.abocode.jfaster.web.common.interceptors.DateConvertEditor;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.springframework.stereotype.Controller;

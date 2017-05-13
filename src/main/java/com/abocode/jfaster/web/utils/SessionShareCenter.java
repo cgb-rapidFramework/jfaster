@@ -1,9 +1,9 @@
 package com.abocode.jfaster.web.utils;
 
 import com.abocode.jfaster.core.util.ContextHolderUtils;
-import com.abocode.jfaster.web.system.manager.ClientManager;
-import com.abocode.jfaster.web.system.entity.Client;
-import com.abocode.jfaster.web.system.entity.TSRole;
+import com.abocode.jfaster.web.common.manager.ClientManager;
+import com.abocode.jfaster.web.system.bean.ClientBean;
+import com.abocode.jfaster.web.system.entity.Role;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -17,7 +17,7 @@ public class SessionShareCenter extends ContextHolderUtils {
      * 共享用户信息
      * @param client
      */
-	public static void putClient(Client client) {
+	public static void putClient(ClientBean client) {
 		HttpSession session= getSession();
 		session.setAttribute("client"+getSession().getId(), client);
 	      
@@ -28,7 +28,7 @@ public class SessionShareCenter extends ContextHolderUtils {
 	}
 	
 	
-	public static void putRoles(List<TSRole> roleList) {
+	public static void putRoles(List<Role> roleList) {
 		HttpSession session= getSession();
 		session.setAttribute("roleList"+session.getId(), roleList);
 	}
@@ -41,15 +41,15 @@ public class SessionShareCenter extends ContextHolderUtils {
 		HttpSession session= getSession();
 		return  (String) session.getAttribute("userId"+session.getId());
 	}
-	public static Client getClient() {
+	public static ClientBean getClient() {
 		HttpSession session= getSession();
-		return  (Client)session.getAttribute("client"+getSession().getId());
+		return  (ClientBean)session.getAttribute("client"+getSession().getId());
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static List<TSRole>  getRoles() {
+	public static List<Role>  getRoles() {
 		HttpSession session= getSession();
-		return (List<TSRole>) session.getAttribute("roleList"+session.getId());
+		return (List<Role>) session.getAttribute("roleList"+session.getId());
 	}
 	
 	 /***

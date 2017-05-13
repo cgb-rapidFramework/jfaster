@@ -33,7 +33,7 @@
 			</list>
 		</property>
 		<property name="webBindingInitializer">
-			<bean class="com.abocode.jfaster.web.system.interceptors.MyWebBinding" />
+			<bean class="com.abocode.jfaster.web.common.interceptors.MyWebBinding" />
 		</property>
 	</bean>
 	<!-- 默认的视图解析器 在上边的解析错误时使用 (默认使用html)- -->
@@ -96,11 +96,11 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<bean class="com.abocode.jfaster.web.system.interceptors.EncodingInterceptor" />
+			<bean class="com.abocode.jfaster.web.common.interceptors.EncodingInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<bean class="com.abocode.jfaster.web.system.interceptors.AuthInterceptor">
+			<bean class="com.abocode.jfaster.web.common.interceptors.AuthInterceptor">
 				<property name="excludeUrls">
 					<list>
 						<value>loginController.do?goPwdInit</value>

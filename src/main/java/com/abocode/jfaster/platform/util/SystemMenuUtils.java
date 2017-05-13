@@ -1,8 +1,8 @@
 package com.abocode.jfaster.platform.util;
 
-import com.abocode.jfaster.platform.bean.IconBean;
+import com.abocode.jfaster.platform.view.IconView;
 import org.apache.commons.lang.StringUtils;
-import com.abocode.jfaster.platform.bean.FunctionBean;
+import com.abocode.jfaster.platform.view.FunctionView;
 import com.abocode.jfaster.platform.container.SystemContainer;
 
 import java.util.List;
@@ -22,10 +22,10 @@ public class SystemMenuUtils {
 	 * @param set1
 	 * @return
 	 */
-	public static String getMenu(List<FunctionBean> set, List<FunctionBean> set1) {
+	public static String getMenu(List<FunctionView> set, List<FunctionView> set1) {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("{\"menus\":[");
-		for (FunctionBean node : set) {
+		for (FunctionView node : set) {
 			String iconClas = "default";// 权限图标样式
 			if (node.getTSIcon() != null) {
 				iconClas = node.getTSIcon().getIconClas();
@@ -54,9 +54,9 @@ public class SystemMenuUtils {
 	 * @param pid
 	 */
 
-	static void iterGet(List<FunctionBean> set1, String pid, StringBuffer buffer) {
+	static void iterGet(List<FunctionView> set1, String pid, StringBuffer buffer) {
 
-		for (FunctionBean node : set1) {
+		for (FunctionView node : set1) {
 
 			// 查找所有父节点为pid的所有对象，然后拼接为json格式的数据
 			count++;
@@ -84,11 +84,11 @@ public class SystemMenuUtils {
 	 * @param functions
 	 * @return
 	 */
-	public static String getBootMenu(List<FunctionBean> pFunctions,
-			List<FunctionBean> functions) {
+	public static String getBootMenu(List<FunctionView> pFunctions,
+			List<FunctionView> functions) {
 		StringBuffer menuString = new StringBuffer();
 		menuString.append("<ul>");
-		for (FunctionBean pFunction : pFunctions) {
+		for (FunctionView pFunction : pFunctions) {
 			menuString
 					.append("<li><a href=\"#\"><span class=\"icon16 icomoon-icon-stats-up\"></span><b>"
 			+ MutiLangUtils.getLang(pFunction.getFunctionName()) + "</b></a>");
@@ -99,7 +99,7 @@ public class SystemMenuUtils {
 			if (submenusize > 0) {
 				menuString.append("<ul class=\"sub\">");
 			}
-			for (FunctionBean function : functions) {
+			for (FunctionView function : functions) {
 
 				if (function.getTSFunction().getId().equals(pFunction.getId())) {
 					menuString
@@ -125,10 +125,10 @@ public class SystemMenuUtils {
 	 * @param functions
 	 * @return
 	 */
-	public static String getEasyuiMenu(List<FunctionBean> pFunctions,
-			List<FunctionBean> functions) {
+	public static String getEasyuiMenu(List<FunctionView> pFunctions,
+			List<FunctionView> functions) {
 		StringBuffer menuString = new StringBuffer();
-		for (FunctionBean pFunction : pFunctions) {
+		for (FunctionView pFunction : pFunctions) {
 			menuString.append("<div  title=\"" + MutiLangUtils.getLang(pFunction.getFunctionName())
 					+ "\" iconCls=\"" + pFunction.getTSIcon().getIconClas()
 					+ "\">");
@@ -139,7 +139,7 @@ public class SystemMenuUtils {
 			if (submenusize > 0) {
 				menuString.append("<ul>");
 			}
-			for (FunctionBean function : functions) {
+			for (FunctionView function : functions) {
 
 				if (function.getTSFunction().getId().equals(pFunction.getId())) {
 					String icon = "folder";
@@ -176,10 +176,10 @@ public class SystemMenuUtils {
 	 * @return
 	 */
 	public static String getEasyuiMultistageMenu(
-			Map<Integer, List<FunctionBean>> map) {
+			Map<Integer, List<FunctionView>> map) {
 		StringBuffer menuString = new StringBuffer();
-		List<FunctionBean> list = map.get(0);
-		for (FunctionBean function : list) {
+		List<FunctionView> list = map.get(0);
+		for (FunctionView function : list) {
 			menuString.append("<div   title=\"" + MutiLangUtils.getLang(function.getFunctionName())
 					+ "\" iconCls=\"" + function.getTSIcon().getIconClas()
 					+ "\">");
@@ -204,13 +204,13 @@ public class SystemMenuUtils {
      * @param style 样式：easyui-经典风格、shortcut-shortcut风格
      * @return
      */
-	public static String getEasyuiMultistageTree(Map<Integer, List<FunctionBean>> map, String style) {
+	public static String getEasyuiMultistageTree(Map<Integer, List<FunctionView>> map, String style) {
 		if(map==null||map.size()==0||!map.containsKey(0)){return "不具有任何权限,\n请找管理员分配权限";}
 		StringBuffer menuString = new StringBuffer();
-		List<FunctionBean> list = map.get(0);
+		List<FunctionView> list = map.get(0);
         int curIndex = 0;
         if ("easyui".equals(style)) {
-            for (FunctionBean function : list) {
+            for (FunctionView function : list) {
                 if(curIndex == 0) { // 第一个菜单，默认展开
                     menuString.append("<li>");
                 } else {
@@ -231,7 +231,7 @@ public class SystemMenuUtils {
                 curIndex++;
             }
         } else if("shortcut".equals(style)) {
-            for (FunctionBean function : list) {
+            for (FunctionView function : list) {
                 menuString.append("<div   title=\"" + MutiLangUtils.getLang(function.getFunctionName())
                         + "\" iconCls=\"" + function.getTSIcon().getIconClas()
                         + "\">");
@@ -259,10 +259,10 @@ public class SystemMenuUtils {
 	 * @param map
 	 * @return
 	 */
-	private static String getChild(FunctionBean parent,int level,Map<Integer, List<FunctionBean>> map){
+	private static String getChild(FunctionView parent, int level, Map<Integer, List<FunctionView>> map){
 		StringBuffer menuString = new StringBuffer();
-		List<FunctionBean> list = map.get(level);
-		for (FunctionBean function : list) {
+		List<FunctionView> list = map.get(level);
+		for (FunctionView function : list) {
 			if (function.getTSFunction().getId().equals(parent.getId())){
 				if(function.getTSFunctions().size()==0||!map.containsKey(level+1)){
 					menuString.append(getLeaf(function));
@@ -287,10 +287,10 @@ public class SystemMenuUtils {
 	 * @param map
 	 * @return
 	 */
-	private static String getChildOfTree(FunctionBean parent,int level,Map<Integer, List<FunctionBean>> map){
+	private static String getChildOfTree(FunctionView parent, int level, Map<Integer, List<FunctionView>> map){
 		StringBuffer menuString = new StringBuffer();
-		List<FunctionBean> list = map.get(level);
-		for (FunctionBean function : list) {
+		List<FunctionView> list = map.get(level);
+		for (FunctionView function : list) {
 			if (function.getTSFunction().getId().equals(parent.getId())){
 				if(function.getTSFunctions().size()==0||!map.containsKey(level+1)){
 					menuString.append(getLeafOfTree(function));
@@ -309,7 +309,7 @@ public class SystemMenuUtils {
 	 * @param function
 	 * @return
 	 */
-	private static String getLeaf(FunctionBean function){
+	private static String getLeaf(FunctionView function){
 		StringBuffer menuString = new StringBuffer();
 		String icon = "folder";
 		if (function.getTSIcon() != null) {
@@ -343,7 +343,7 @@ public class SystemMenuUtils {
 	 * @param function
 	 * @return
 	 */
-	private static String getLeafOfTree(FunctionBean function){
+	private static String getLeafOfTree(FunctionView function){
 		StringBuffer menuString = new StringBuffer();
 		String icon = "folder";
 		if (function.getTSIcon() != null) {
@@ -373,14 +373,14 @@ public class SystemMenuUtils {
 	 * @param map
 	 * @return
 	 */
-	public static String getBootstrapMenu(Map<Integer, List<FunctionBean>> map) {
+	public static String getBootstrapMenu(Map<Integer, List<FunctionView>> map) {
 		StringBuffer menuString = new StringBuffer();
 		menuString.append("<ul class=\"nav\">");
-		List<FunctionBean> pFunctions = (List<FunctionBean>) map.get(0);
+		List<FunctionView> pFunctions = (List<FunctionView>) map.get(0);
 		if(pFunctions==null || pFunctions.size()==0){
 			return "";
 		}
-		for (FunctionBean pFunction : pFunctions) {
+		for (FunctionView pFunction : pFunctions) {
 			//是否有子菜单
 			boolean hasSub = pFunction.getTSFunctions().size()==0?false:true;
 			
@@ -410,14 +410,14 @@ public class SystemMenuUtils {
 	* @return String    
 	* @throws
 	 */
-	private static String getBootStrapChild(FunctionBean parent,int level,Map<Integer, List<FunctionBean>> map){
+	private static String getBootStrapChild(FunctionView parent, int level, Map<Integer, List<FunctionView>> map){
 		StringBuffer menuString = new StringBuffer();
-		List<FunctionBean> list = map.get(level);
+		List<FunctionView> list = map.get(level);
 		if(list==null || list.size()==0){
 			return "";
 		}
 		menuString.append("		<ul class=\"dropdown-menu\"> ");
-		for (FunctionBean function : list) {
+		for (FunctionView function : list) {
 			if (function.getTSFunction().getId().equals(parent.getId())){
 				boolean hasSub = function.getTSFunctions().size()!=0 && map.containsKey(level+1);
 				String menu_url = function.getFunctionUrl();
@@ -450,7 +450,7 @@ public class SystemMenuUtils {
 	 * @param map
 	 * @return
 	 */
-	public static String getWebosMenu(Map<Integer, List<FunctionBean>> map) {
+	public static String getWebosMenu(Map<Integer, List<FunctionView>> map) {
 		StringBuffer menuString = new StringBuffer();
 		StringBuffer DeskpanelString = new StringBuffer();
 		StringBuffer dataString = new StringBuffer();
@@ -466,12 +466,12 @@ public class SystemMenuUtils {
 		//绘制Deskpanel数组，用于替换webos-core.js中的Icon1:['dtbd','sosomap','jinshan'],······
 		DeskpanelString.append("{");
 		
-		List<FunctionBean> pFunctions = (List<FunctionBean>) map.get(0);
+		List<FunctionView> pFunctions = (List<FunctionView>) map.get(0);
 		if(pFunctions==null || pFunctions.size()==0){
 			return "";
 		}
 		int n = 1;
-		for (FunctionBean pFunction : pFunctions) {
+		for (FunctionView pFunction : pFunctions) {
 			//是否有子菜单
 			boolean hasSub = pFunction.getTSFunctions().size()==0?false:true;
 			//绘制一级菜单
@@ -520,14 +520,14 @@ public class SystemMenuUtils {
 	 * @return String    
 	 * @throws
 	 */
-	private static String getWebosChild(FunctionBean parent,int level,Map<Integer, List<FunctionBean>> map){
+	private static String getWebosChild(FunctionView parent, int level, Map<Integer, List<FunctionView>> map){
 		StringBuffer menuString = new StringBuffer();
 		String menu = "";
-		List<FunctionBean> list = map.get(level);
+		List<FunctionView> list = map.get(level);
 		if(list==null || list.size()==0){
 			return "";
 		}
-		for (FunctionBean function : list) {
+		for (FunctionView function : list) {
 			if (function.getTSFunction().getId().equals(parent.getId())){
 				boolean hasSub = function.getTSFunctions().size()!=0 && map.containsKey(level+1);
 //				String menu_url = function.getFunctionUrl();
@@ -548,14 +548,14 @@ public class SystemMenuUtils {
 		menu = menuString.substring(0, menuString.toString().length()-1);
 		return menu;
 	}
-	private static String getWebosDeskpanelChild(FunctionBean parent,int level,Map<Integer, List<FunctionBean>> map){
+	private static String getWebosDeskpanelChild(FunctionView parent, int level, Map<Integer, List<FunctionView>> map){
 		StringBuffer DeskpanelString = new StringBuffer();
 		String desk = "";
-		List<FunctionBean> list = map.get(level);
+		List<FunctionView> list = map.get(level);
 		if(list==null || list.size()==0){
 			return "";
 		}
-		for (FunctionBean function : list) {
+		for (FunctionView function : list) {
 			if (function.getTSFunction().getId().equals(parent.getId())){
 				DeskpanelString.append("'"+function.getId()+"',");
 			}
@@ -563,14 +563,14 @@ public class SystemMenuUtils {
 		desk = DeskpanelString.substring(0, DeskpanelString.toString().length()-1);
 		return desk;
 	}
-	private static String getWebosDataChild(FunctionBean parent,int level,Map<Integer, List<FunctionBean>> map){
+	private static String getWebosDataChild(FunctionView parent, int level, Map<Integer, List<FunctionView>> map){
 		StringBuffer dataString = new StringBuffer();
 		String data = "";
-		List<FunctionBean> list = map.get(level);
+		List<FunctionView> list = map.get(level);
 		if(list==null || list.size()==0){
 			return "";
 		}
-		for (FunctionBean function : list) {
+		for (FunctionView function : list) {
 			if (function.getTSFunction().getId().equals(parent.getId())){
 				dataString.append("'"+function.getId()+"':{ ");
 				dataString.append("appid:'"+function.getId()+"',");
@@ -586,7 +586,7 @@ public class SystemMenuUtils {
 		return data;
 	}
 
-    private static String getIconAndNameForDesk(FunctionBean function) {
+    private static String getIconAndNameForDesk(FunctionView function) {
         StringBuffer dataString = new StringBuffer();
 
         String colName = function.getTSIconDesk() == null ? null : function.getTSIconDesk().getIconPath();
@@ -652,12 +652,12 @@ public class SystemMenuUtils {
      * @param map
      * @return
      */
-	public static String getAceMultistageTree(Map<Integer, List<FunctionBean>> map) {
+	public static String getAceMultistageTree(Map<Integer, List<FunctionView>> map) {
 		if(map==null||map.size()==0||!map.containsKey(0)){return "不具有任何权限,\n请找管理员分配权限";}
 		StringBuffer menuString = new StringBuffer();
-		List<FunctionBean> list = map.get(0);
+		List<FunctionView> list = map.get(0);
         int curIndex = 0;
-            for (FunctionBean function : list) {
+            for (FunctionView function : list) {
                 menuString.append("<li>");
                 menuString.append("<a href=\"#\" class=\"dropdown-toggle\" ><i class=\"menu-icon fa fa-desktop\"></i>")
                 .append(MutiLangUtils.getLang(function.getFunctionName()));
@@ -675,10 +675,10 @@ public class SystemMenuUtils {
 		return menuString.toString();
 	}
 	
-	private static String getSubMenu(FunctionBean parent,int level,Map<Integer, List<FunctionBean>> map){
+	private static String getSubMenu(FunctionView parent, int level, Map<Integer, List<FunctionView>> map){
 		StringBuffer menuString = new StringBuffer();
-		List<FunctionBean> list = map.get(level);
-		for (FunctionBean function : list) {
+		List<FunctionView> list = map.get(level);
+		for (FunctionView function : list) {
 			if (function.getTSFunction().getId().equals(parent.getId())){
 				if(!function.hasSubFunction(map)){
 					menuString.append(getLeafOfACETree(function));
@@ -695,7 +695,7 @@ public class SystemMenuUtils {
 		}
 		return menuString.toString();
 	}
-	private static String getLeafOfACETree(FunctionBean function){
+	private static String getLeafOfACETree(FunctionView function){
 		StringBuffer menuString = new StringBuffer();
 		String icon = "folder";
 		icon=getDefaultIcon(icon, function.getTSIcon());
@@ -720,7 +720,7 @@ public class SystemMenuUtils {
 		return menuString.toString();
 	}
 
-	private static String getDefaultIcon(String icon, IconBean tsIcon) {
+	private static String getDefaultIcon(String icon, IconView tsIcon) {
 		try{
 			if (tsIcon != null) {
 				icon = SystemContainer.IconContainer.allTSIcons.get(tsIcon.getId()).getIconClas();
@@ -732,12 +732,12 @@ public class SystemMenuUtils {
 	}
 
 
-	public static String getDIYMultistageTree(Map<Integer, List<FunctionBean>> map) {
+	public static String getDIYMultistageTree(Map<Integer, List<FunctionView>> map) {
 		if(map==null||map.size()==0||!map.containsKey(0)){return "不具有任何权限,\n请找管理员分配权限";}
 		StringBuffer menuString = new StringBuffer();
-		List<FunctionBean> list = map.get(0);
+		List<FunctionView> list = map.get(0);
 		int curIndex = 0;
-		for (FunctionBean function : list) {
+		for (FunctionView function : list) {
 			menuString.append("<li>");
 			menuString.append("<a href=\"#\" class=\"dropdown-toggle\" ><i class=\"menu-icon fa fa-desktop\"></i>")
 					.append(MutiLangUtils.getLang(function.getFunctionName()));
@@ -755,10 +755,10 @@ public class SystemMenuUtils {
 		return menuString.toString();
 	}
 
-	private static String getDIYSubMenu(FunctionBean parent,int level,Map<Integer, List<FunctionBean>> map){
+	private static String getDIYSubMenu(FunctionView parent, int level, Map<Integer, List<FunctionView>> map){
 		StringBuffer menuString = new StringBuffer();
-		List<FunctionBean> list = map.get(level);
-		for (FunctionBean function : list) {
+		List<FunctionView> list = map.get(level);
+		for (FunctionView function : list) {
 			if (function.getTSFunction().getId().equals(parent.getId())){
 				if(!function.hasSubFunction(map)){
 					menuString.append(getLeafOfDIYTree(function));
@@ -783,7 +783,7 @@ public class SystemMenuUtils {
 	}
 
 
-	private static String getLeafOfDIYTree(FunctionBean function){
+	private static String getLeafOfDIYTree(FunctionView function){
 		StringBuffer menuString = new StringBuffer();
 		String icon = "folder";
 		if (function.getTSIcon() != null) {

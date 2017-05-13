@@ -2,7 +2,7 @@ package com.abocode.jfaster.web.utils;
 
 import com.abocode.jfaster.core.util.ContextHolderUtils;
 import com.abocode.jfaster.platform.constant.Globals;
-import com.abocode.jfaster.web.system.entity.TSDataRule;
+import com.abocode.jfaster.web.system.entity.DataRule;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @ClassName: JeecgDataAutorUtils
- * @Description: 数据权限查询规则容器工具类
+ * Created by Franky on 2016/3/15.
  */
 public class DataRuleUtils {
 
@@ -22,12 +21,12 @@ public class DataRuleUtils {
 	 * @param MENU_DATA_AUTHOR_RULES
 	 */
 	public static synchronized void installDataSearchConditon(
-			HttpServletRequest request, List<TSDataRule> MENU_DATA_AUTHOR_RULES) {
-		List<TSDataRule> list = loadDataSearchConditonSQL();// 1.先从request获取MENU_DATA_AUTHOR_RULES，如果存则获取到LIST
+			HttpServletRequest request, List<DataRule> MENU_DATA_AUTHOR_RULES) {
+		List<DataRule> list = loadDataSearchConditonSQL();// 1.先从request获取MENU_DATA_AUTHOR_RULES，如果存则获取到LIST
 		if (list==null) { // 2.如果不存在，则new一个list
-			list = new ArrayList<TSDataRule>();
+			list = new ArrayList<DataRule>();
 		}
-		for (TSDataRule tsDataRule : MENU_DATA_AUTHOR_RULES) {
+		for (DataRule tsDataRule : MENU_DATA_AUTHOR_RULES) {
 			list.add(tsDataRule);
 		}
 		request.setAttribute(Globals.MENU_DATA_AUTHOR_RULES, list); // 3.往list里面增量存指
@@ -38,8 +37,8 @@ public class DataRuleUtils {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static synchronized List<TSDataRule> loadDataSearchConditonSQL() {
-		return (List<TSDataRule>) ContextHolderUtils.getRequest().getAttribute(
+	public static synchronized List<DataRule> loadDataSearchConditonSQL() {
+		return (List<DataRule>) ContextHolderUtils.getRequest().getAttribute(
 				Globals.MENU_DATA_AUTHOR_RULES);
 	}
 

@@ -10,8 +10,8 @@ import com.google.gson.Gson;
 import net.sf.json.JSONObject;
 import com.abocode.jfaster.core.tag.vo.easyui.ColumnValue;
 import com.abocode.jfaster.core.tag.vo.easyui.DataGridColumn;
-import com.abocode.jfaster.platform.bean.TemplateBean;
-import com.abocode.jfaster.platform.bean.TypeBean;
+import com.abocode.jfaster.platform.view.TemplateView;
+import com.abocode.jfaster.platform.view.TypeView;
 import com.abocode.jfaster.platform.container.MutilangContainer;
 import com.abocode.jfaster.platform.container.SystemContainer;
 import com.abocode.jfaster.platform.util.StringExpandUtils;
@@ -345,9 +345,9 @@ public class DataGridTag extends TagSupport {
             } else {
                 String text = "";
                 String value = "";
-                List<TypeBean> typeList = SystemContainer.TypeGroupContainer.allTypes.get(dictionary.toLowerCase());
+                List<TypeView> typeList = SystemContainer.TypeGroupContainer.allTypes.get(dictionary.toLowerCase());
                 if (typeList != null && !typeList.isEmpty()) {
-                    for (TypeBean type : typeList) {
+                    for (TypeView type : typeList) {
                         text += MutiLangUtils.doMutiLang(type.getTypename(), "") + ",";
                         value += type.getTypecode() + ",";
                     }
@@ -401,7 +401,7 @@ public class DataGridTag extends TagSupport {
     public int doEndTag() throws JspTagException {
         title = MutiLangUtils.doMutiLang(title, langArg);
         JspWriter out = this.pageContext.getOut();
-        TemplateBean sysThemesEnum = SysThemesUtils.getSysTheme((HttpServletRequest) super.pageContext.getRequest());
+        TemplateView sysThemesEnum = SysThemesUtils.getSysTheme((HttpServletRequest) super.pageContext.getRequest());
         String text = "";
         if (style.equals("easyui")) {
             text = end().toString();
@@ -704,11 +704,11 @@ public class DataGridTag extends TagSupport {
                                     }
                                     sb.append("</select>");
                                 } else {
-                                    Map<String, List<TypeBean>> typedatas = SystemContainer.TypeGroupContainer.allTypes;
-                                    List<TypeBean> types = typedatas.get(col.getDictionary().toLowerCase());
+                                    Map<String, List<TypeView>> typedatas = SystemContainer.TypeGroupContainer.allTypes;
+                                    List<TypeView> types = typedatas.get(col.getDictionary().toLowerCase());
                                     sb.append("<select name=\"" + col.getField().replaceAll("_", "\\.") + "\" WIDTH=\"100\" style=\"width: 104px\"> ");
                                     sb.append(StringExpandUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutilangContainer.getLang("common.please.select")));
-                                    for (TypeBean type : types) {
+                                    for (TypeView type : types) {
                                         sb.append(" <option value=\"" + type.getTypecode() + "\">");
                                         sb.append(MutilangContainer.getLang(type.getTypename()));
                                         sb.append(" </option>");
@@ -1514,8 +1514,8 @@ public class DataGridTag extends TagSupport {
         sb.append("<th data-options=\"field:'condition',width:20,align:'right',formatter:function(value,row){");
         appendLine(sb, "							var data=  ");
         appendLine(sb, "					[  ");
-        Map<String, List<TypeBean>> typedatas = SystemContainer.TypeGroupContainer.allTypes;
-        List<TypeBean> types = typedatas.get("rulecon");
+        Map<String, List<TypeView>> typedatas = SystemContainer.TypeGroupContainer.allTypes;
+        List<TypeView> types = typedatas.get("rulecon");
         buildCheckType(sb, types);
         appendLine(sb, "];");
         appendLine(sb, "	for(var i=0;i<data.length;i++){");
@@ -1562,8 +1562,6 @@ public class DataGridTag extends TagSupport {
         appendLine(sb, "<div onclick=\"editTree()\" data-options=\"iconCls:'icon-edit'\">编辑</div>");
         appendLine(sb, "<div onclick=\"deleteTree()\" data-options=\"iconCls:'icon-remove'\">删除</div></div>");
         //已在baseTag中引入
-//		appendLine(sb,"<script type=\"text/javascript\" src=\"plug-in/jquery/jquery.cookie.js\" ></script>");
-//		appendLine(sb,"<script type=\"text/javascript\" src=\"plug-in/jquery-plugs/storage/jquery.storageapi.min.js\" ></script>"); 
         appendLine(sb, "<script type=\"text/javascript\">");
         appendLine(sb, "var toolbar = [{");
         appendLine(sb, "	text:'',");
@@ -1718,10 +1716,10 @@ public class DataGridTag extends TagSupport {
         appendLine(sb, "</script>");
     }
 
-    private void buildCheckType(StringBuffer sb, List<TypeBean> types) {
+    private void buildCheckType(StringBuffer sb, List<TypeView> types) {
         if (types != null) {
             for (int i = 0; i < types.size(); i++) {
-                TypeBean type = types.get(i);
+                TypeView type = types.get(i);
                 appendLine(sb, " {'conditionId':'" + type.getTypecode() + "','conditionName':'"
                         + MutiLangUtils.getLang(type.getTypename()) + "'}");
                 if (i < types.size() - 1) {
@@ -1964,12 +1962,12 @@ public class DataGridTag extends TagSupport {
 									sb.append("</select>");
 								*/
                                 } else {
-                                    Map<String, List<TypeBean>> typedatas = SystemContainer.TypeGroupContainer.allTypes;
-                                    List<TypeBean> types = typedatas.get(col.getDictionary().toLowerCase());
+                                    Map<String, List<TypeView>> typedatas = SystemContainer.TypeGroupContainer.allTypes;
+                                    List<TypeView> types = typedatas.get(col.getDictionary().toLowerCase());
                                     sb.append("<select name=\"" + col.getField().replaceAll("_", "\\.") + "\" WIDTH=\"100\" style=\"width: 104px\"> ");
                                     sb.append(StringExpandUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtils.getLang("common.please.select")));
                                     if (!StringExpandUtils.isEmpty(types)) {
-                                        for (TypeBean type : types) {
+                                        for (TypeView type : types) {
                                             sb.append(" <option value=\"" + type.getTypecode() + "\">");
                                             sb.append(MutiLangUtils.getLang(type.getTypename()));
                                             sb.append(" </option>");

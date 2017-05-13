@@ -1,11 +1,10 @@
 package com.abocode.jfaster.web.system.controller;
 
-import com.abocode.jfaster.core.common.model.common.UploadFile;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.model.json.ImportFile;
 import com.abocode.jfaster.core.util.ConvertUtils;
-import com.abocode.jfaster.platform.bean.ReflectHelper;
+import com.abocode.jfaster.platform.view.ReflectHelper;
 import com.abocode.jfaster.web.system.service.ResourceService;
 import com.abocode.jfaster.web.system.service.SystemService;
 import com.abocode.jfaster.web.utils.DateUtils;
@@ -13,7 +12,7 @@ import com.abocode.jfaster.web.utils.ResourceUtils;
 import com.abocode.jfaster.core.common.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.platform.common.tag.easyui.TagUtil;
 import com.abocode.jfaster.platform.util.FileUtils;
-import com.abocode.jfaster.web.system.entity.TSUploadFile;
+import com.abocode.jfaster.web.system.entity.UploadFile;
 import com.abocode.jfaster.web.utils.ClassLoaderUtils;
 import com.abocode.jfaster.web.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +72,7 @@ public class ResourceController {
     public AjaxJson parserXml(HttpServletRequest request, HttpServletResponse response) {
         AjaxJson json = new AjaxJson();
         String fileName = null;
-        UploadFile uploadFile = new UploadFile(request);
+        com.abocode.jfaster.core.common.model.common.UploadFile uploadFile = new com.abocode.jfaster.core.common.model.common.UploadFile(request);
         String ctxPath = request.getSession().getServletContext().getRealPath("");
         File file = new File(ctxPath);
         if (!file.exists()) {
@@ -116,7 +115,7 @@ public class ResourceController {
      */
     @RequestMapping(params = "saveFiles", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxJson saveFiles(HttpServletRequest request, TSUploadFile attachment) {
+    public AjaxJson saveFiles(HttpServletRequest request, UploadFile attachment) {
         AjaxJson j = new AjaxJson();
         String fileKey = ConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
         String documentTitle = ConvertUtils.getString(request.getParameter("documentTitle"));// 文件标题
@@ -125,7 +124,7 @@ public class ResourceController {
         String  sessionKey=request.getParameter("sessionKey");
 
         if(!multi){
-            List<TSUploadFile> attachments=this.systemService.findAllByProperty(TSUploadFile.class,"sessionKey",sessionKey);
+            List<UploadFile> attachments=this.systemService.findAllByProperty(UploadFile.class,"sessionKey",sessionKey);
             if(attachments.size()>0){
                 Map<String, Object> attributes= buildAttributes(attachments.get(0));
                 j.setAttributes(attributes);
@@ -137,13 +136,13 @@ public class ResourceController {
 
         if (StringUtils.isNotEmpty(fileKey)) {
             attachment.setId(fileKey);
-            attachment = systemService.findEntity(TSUploadFile.class, fileKey);
+            attachment = systemService.findEntity(UploadFile.class, fileKey);
             attachment.setName(documentTitle);
         }
         attachment.setSessionKey(sessionKey);
 //		attachment.setSubclassname(MyClassLoader.getPackPath(attachment));
         attachment.setCreatedate(DateUtils.getTimestamp());
-        UploadFile uploadFile = new UploadFile(request, attachment);
+        com.abocode.jfaster.core.common.model.common.UploadFile uploadFile = new com.abocode.jfaster.core.common.model.common.UploadFile(request, attachment);
         String fileType=request.getParameter("fileType");
         if(StringUtils.isEmpty(fileType)){
             fileType="files";
@@ -163,7 +162,7 @@ public class ResourceController {
      * @param attachment
      * @return
      */
-    private Map<String, Object> buildAttributes(TSUploadFile attachment) {
+    private Map<String, Object> buildAttributes(UploadFile attachment) {
         Map<String, Object> attributes = new HashMap<String, Object>();
         attributes.put("fileKey", attachment.getId());
         attributes.put("url", attachment.getPath());
@@ -186,7 +185,7 @@ public class ResourceController {
         AjaxJson j = new AjaxJson();
         String fileKey = ConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
         if(StringUtils.isNotEmpty(fileKey)){
-            TSUploadFile attachment = systemService.findEntity(TSUploadFile.class,fileKey);
+            UploadFile attachment = systemService.findEntity(UploadFile.class,fileKey);
             /*
               String subclassname = attachment.getSubclassname(); // 子类类名
                Object objfile = systemService.findEntity(MyClassLoader.getClassByScn(subclassname), attachment.getId());// 子类对象
@@ -246,7 +245,7 @@ public class ResourceController {
         Class fileClass = ClassLoaderUtils.getClassByScn(subclassname);// 附件的实际类
         Object fileobj = systemService.findEntity(fileClass, fileid);
         ReflectHelper reflectHelper = new ReflectHelper(fileobj);
-        UploadFile uploadFile = new UploadFile(request, response);
+        com.abocode.jfaster.core.common.model.common.UploadFile uploadFile = new com.abocode.jfaster.core.common.model.common.UploadFile(request, response);
         String contentfield = ConvertUtils.getString(request.getParameter("contentfield"), uploadFile.getByteField());
         byte[] content = (byte[]) reflectHelper.getMethodValue(contentfield);
         String path = ConvertUtils.getString(reflectHelper.getMethodValue("path"));

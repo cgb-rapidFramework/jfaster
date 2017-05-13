@@ -8,9 +8,9 @@ import com.abocode.jfaster.core.util.ConvertUtils;
 import com.abocode.jfaster.platform.constant.Globals;
 import com.abocode.jfaster.platform.util.MutiLangUtils;
 import com.abocode.jfaster.web.common.hqlsearch.HqlGenerateUtil;
-import com.abocode.jfaster.web.system.entity.TSDepart;
-import com.abocode.jfaster.web.system.entity.TSUser;
-import com.abocode.jfaster.web.system.entity.TSUserOrg;
+import com.abocode.jfaster.web.system.entity.Depart;
+import com.abocode.jfaster.web.system.entity.User;
+import com.abocode.jfaster.web.system.entity.UserOrg;
 import com.abocode.jfaster.web.system.service.DepartService;
 import com.abocode.jfaster.web.system.service.ResourceService;
 import com.abocode.jfaster.web.system.service.SystemService;
@@ -103,7 +103,7 @@ public class DepartController extends BaseController {
 
 	@RequestMapping(params = "datagrid")
 	public void datagrid(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-		CriteriaQuery cq = new CriteriaQuery(TSDepart.class, dataGrid);
+		CriteriaQuery cq = new CriteriaQuery(Depart.class, dataGrid);
 		this.systemService.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
@@ -127,9 +127,9 @@ public class DepartController extends BaseController {
 	 */
 	@RequestMapping(params = "del")
 	@ResponseBody
-	public AjaxJson del(TSDepart depart, HttpServletRequest request) {
+	public AjaxJson del(Depart depart, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		depart = systemService.findEntity(TSDepart.class, depart.getId());
+		depart = systemService.findEntity(Depart.class, depart.getId());
         message = MutiLangUtils.paramDelSuccess("common.department");
         if (depart.getTSDeparts().size() == 0) {
 			departService.deleteDepart(depart);
@@ -149,7 +149,7 @@ public class DepartController extends BaseController {
 	 */
 	@RequestMapping(params = "save")
 	@ResponseBody
-	public AjaxJson save(TSDepart depart, HttpServletRequest request) {
+	public AjaxJson save(Depart depart, HttpServletRequest request) {
 		// 设置上级部门
 		String pid = request.getParameter("TSPDepart.id");
 		if (pid.equals("")) {
@@ -170,8 +170,8 @@ public class DepartController extends BaseController {
 		return j;
 	}
 	@RequestMapping(params = "add")
-	public ModelAndView add(TSDepart depart, HttpServletRequest req) {
-		List<TSDepart> departList = systemService.getList(TSDepart.class);
+	public ModelAndView add(Depart depart, HttpServletRequest req) {
+		List<Depart> departList = systemService.getList(Depart.class);
 		req.setAttribute("departList", departList);
         req.setAttribute("pid", depart.getId());
 		return new ModelAndView("system/depart/depart");
@@ -182,12 +182,12 @@ public class DepartController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "update")
-	public ModelAndView update(TSDepart depart, HttpServletRequest req) {
-		List<TSDepart> departList = systemService.getList(TSDepart.class);
+	public ModelAndView update(Depart depart, HttpServletRequest req) {
+		List<Depart> departList = systemService.getList(Depart.class);
 		req.setAttribute("departList", departList);
 		if (!StringUtils.isEmpty(depart.getId())) {
-			depart = systemService.findEntity(TSDepart.class, depart.getId());
-			req.setAttribute("depart", depart);
+			depart = systemService.findEntity(Depart.class, depart.getId());
+			req.setAttribute("departView", depart);
 		}
 		return new ModelAndView("system/depart/depart");
 	}
@@ -202,7 +202,7 @@ public class DepartController extends BaseController {
 	@RequestMapping(params = "setPFunction")
 	@ResponseBody
 	public List<ComboTree> setPFunction(HttpServletRequest request, ComboTree comboTree) {
-		CriteriaQuery cq = new CriteriaQuery(TSDepart.class);
+		CriteriaQuery cq = new CriteriaQuery(Depart.class);
 		if(null != request.getParameter("selfId")){
 			cq.notEq("id", request.getParameter("selfId"));
 		}
@@ -213,7 +213,7 @@ public class DepartController extends BaseController {
 			cq.isNull("TSPDepart");
 		}
 		cq.add();
-		List<TSDepart> departsList = systemService.findListByCq(cq, false);
+		List<Depart> departsList = systemService.findListByCq(cq, false);
 		List<ComboTree> comboTrees = new ArrayList<ComboTree>();
 		ComboTreeModel comboTreeModel = new ComboTreeModel("id", "departname", "TSDeparts");
 		comboTrees = resourceService.ComboTree(departsList, comboTreeModel, null, true);
@@ -229,8 +229,8 @@ public class DepartController extends BaseController {
 	 */
 	@RequestMapping(params = "departgrid")
 	@ResponseBody
-	public Object departgrid(TSDepart tSDepart,HttpServletRequest request, HttpServletResponse response, TreeGrid treegrid) {
-		CriteriaQuery cq = new CriteriaQuery(TSDepart.class);
+	public Object departgrid(Depart tSDepart, HttpServletRequest request, HttpServletResponse response, TreeGrid treegrid) {
+		CriteriaQuery cq = new CriteriaQuery(Depart.class);
 		if("yes".equals(request.getParameter("isSearch"))){
 			treegrid.setId(null);
 			tSDepart.setId(null);
@@ -249,8 +249,8 @@ public class DepartController extends BaseController {
 
 		List<TreeGrid> departList =systemService.findListByCq(cq, false);
 		if(departList.size()==0&&tSDepart.getDepartname()!=null){ 
-			cq = new CriteriaQuery(TSDepart.class);
-			TSDepart parDepart = new TSDepart();
+			cq = new CriteriaQuery(Depart.class);
+			Depart parDepart = new Depart();
 			tSDepart.setTSPDepart(parDepart);
 			HqlGenerateUtil.installHql(cq, tSDepart);
 		    departList =systemService.findListByCq(cq, false);
@@ -296,8 +296,8 @@ public class DepartController extends BaseController {
 	 * 返回类型： void
 	 */
 	@RequestMapping(params = "userDatagrid")
-	public void userDatagrid(TSUser user, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-		CriteriaQuery cq = new CriteriaQuery(TSUser.class, dataGrid);
+	public void userDatagrid(User user, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		CriteriaQuery cq = new CriteriaQuery(User.class, dataGrid);
 		//查询条件组装器
 		HqlGenerateUtil.installHql(cq, user);
 		String departid = ConvertUtils.getString(request.getParameter("departid"));
@@ -324,7 +324,7 @@ public class DepartController extends BaseController {
     @RequestMapping(params = "getOrgTree")
     @ResponseBody
     public List<ComboTree> getOrgTree(HttpServletRequest request) {
-        List<TSDepart> departsList = systemService.findByHql("from TSDepart where TSPDepart.id is null");
+        List<Depart> departsList = systemService.findByHql("from Depart where TSPDepart.id is null");
         ComboTreeModel comboTreeModel = new ComboTreeModel("id", "departname", "TSDeparts");
 		List<ComboTree> comboTrees = resourceService.ComboTree(departsList, comboTreeModel, null, true);
         return comboTrees;
@@ -345,14 +345,14 @@ public class DepartController extends BaseController {
      * @return 处理结果信息
      */
     @RequestMapping(params = "addUserToOrgList")
-    public void addUserToOrgList(TSUser user, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+    public void addUserToOrgList(User user, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
         String orgId = request.getParameter("orgId");
 
-        CriteriaQuery cq = new CriteriaQuery(TSUser.class, dataGrid);
+        CriteriaQuery cq = new CriteriaQuery(User.class, dataGrid);
         HqlGenerateUtil.installHql(cq, user);
 
         // 获取 当前组织机构的用户信息
-        CriteriaQuery subCq = new CriteriaQuery(TSUserOrg.class);
+        CriteriaQuery subCq = new CriteriaQuery(UserOrg.class);
         subCq.setProjection(Property.forName("tsUser.id"));
         subCq.eq("tsDepart.id", orgId);
         subCq.add();
@@ -372,7 +372,7 @@ public class DepartController extends BaseController {
     @ResponseBody
     public AjaxJson doAddUserToOrg(HttpServletRequest req) {
         AjaxJson j = new AjaxJson();
-        TSDepart depart = systemService.findEntity(TSDepart.class, req.getParameter("orgId"));
+        Depart depart = systemService.findEntity(Depart.class, req.getParameter("orgId"));
         saveOrgUserList(req, depart);
         message =  MutiLangUtils.paramAddSuccess("common.user");
         j.setMsg(message);
@@ -383,16 +383,16 @@ public class DepartController extends BaseController {
      * @param request request
      * @param depart depart
      */
-    private void saveOrgUserList(HttpServletRequest request, TSDepart depart) {
+    private void saveOrgUserList(HttpServletRequest request, Depart depart) {
         String orgIds = ConvertUtils.getString(request.getParameter("userIds"));
 
-        List<TSUserOrg> userOrgList = new ArrayList<TSUserOrg>();
+        List<UserOrg> userOrgList = new ArrayList<UserOrg>();
         List<String> userIdList = extractIdListByComma(orgIds);
         for (String userId : userIdList) {
-            TSUser user = new TSUser();
+            User user = new User();
             user.setId(userId);
 
-            TSUserOrg userOrg = new TSUserOrg();
+            UserOrg userOrg = new UserOrg();
             userOrg.setTsUser(user);
             userOrg.setTsDepart(depart);
 
@@ -419,7 +419,7 @@ public class DepartController extends BaseController {
      */
     @RequestMapping(params = "departSelectDataGrid")
     public void datagridRole(HttpServletResponse response, DataGrid dataGrid) {
-        CriteriaQuery cq = new CriteriaQuery(TSDepart.class, dataGrid);
+        CriteriaQuery cq = new CriteriaQuery(Depart.class, dataGrid);
         this.systemService.findDataGridReturn(cq, true);
         TagUtil.datagrid(response, dataGrid);
     }

@@ -5,17 +5,18 @@ import com.abocode.jfaster.core.extend.datasource.DataSourceType;
 import com.abocode.jfaster.core.util.ContextHolderUtils;
 import com.abocode.jfaster.core.util.ConvertUtils;
 import com.abocode.jfaster.platform.constant.Globals;
+import com.abocode.jfaster.web.system.bean.ClientBean;
 import com.abocode.jfaster.web.system.constant.TemplateConstant;
 import com.abocode.jfaster.web.system.entity.*;
-import com.abocode.jfaster.web.system.manager.ClientManager;
+import com.abocode.jfaster.web.common.manager.ClientManager;
 import com.abocode.jfaster.web.utils.BeanToTagUtils;
 import com.abocode.jfaster.web.utils.SessionShareCenter;
 import com.abocode.jfaster.web.utils.SessionUtils;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 import com.abocode.jfaster.core.extend.datasource.DataSourceContextHolder;
-import com.abocode.jfaster.platform.bean.FunctionBean;
-import com.abocode.jfaster.platform.bean.TemplateBean;
+import com.abocode.jfaster.platform.view.FunctionView;
+import com.abocode.jfaster.platform.view.TemplateView;
 import com.abocode.jfaster.platform.container.SystemContainer;
 import com.abocode.jfaster.platform.util.SystemMenuUtils;
 import com.abocode.jfaster.web.system.service.MutiLangService;
@@ -26,6 +27,9 @@ import com.abocode.jfaster.web.utils.NumberComparator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -83,7 +87,7 @@ public class LoginController extends BaseController {
 	@RequestMapping(params = "pwdInit")
 	public ModelAndView pwdInit(HttpServletRequest request) {
 		ModelAndView modelAndView = null;
-		TSUser user = new TSUser();
+		User user = new User();
 		user.setUserName("admin");
 		String newPwd = "123456";
 		userService.pwdInit(user, newPwd);
@@ -102,7 +106,7 @@ public class LoginController extends BaseController {
 	@SuppressWarnings("unused")
 	@RequestMapping(params = "checkuser")
 	@ResponseBody
-	public AjaxJson checkuser(TSUser user, HttpServletRequest request) {
+	public AjaxJson checkuser(User user, HttpServletRequest request) {
 		HttpSession session = ContextHolderUtils.getSession();
 		DataSourceContextHolder
 				.setDataSourceType(DataSourceType.dataSource_jeecg);
@@ -119,49 +123,39 @@ public class LoginController extends BaseController {
             j.setMsg(mutiLangService.getLang("common.verifycode.error"));
             j.setSuccess(false);
         } else {
-            int users = userService.getList(TSUser.class).size();
-            
-            if (users == 0) {
-                j.setMsg("a");
-                j.setSuccess(false);
-            } else {
-                TSUser u = userService.checkUserExits(user);
-                if(u == null) {
-                    j.setMsg(mutiLangService.getLang("common.username.or.password.error"));
-                    j.setSuccess(false);
-                    return j;
-                }
-                TSUser u2 = userService.findEntity(TSUser.class, u.getId());
-            
-                if (u != null&&u2.getStatus()!=0) {
-                    if (true) {
-                        Map<String, Object> attrMap = new HashMap<String, Object>();
-                        j.setAttributes(attrMap);
-
-                        String orgId = request.getParameter("orgId");
-                        if (ConvertUtils.isEmpty(orgId)) { // 没有传组织机构参数，则获取当前用户的组织机构
-                            Long orgNum = systemService.queryForCount("select count(1) from t_s_user_org where user_id =?",new Object[]{u.getId()});
-                            if (orgNum > 1) {
-                                attrMap.put("orgNum", orgNum);
-                                attrMap.put("user", u2);
-                            } else {
-                                Map<String, Object> userOrgMap = systemService.queryForMap("select org_id as orgId from t_s_user_org where user_id=?", u2.getId());
-                                saveLoginSuccessInfo(request, u2, (String) userOrgMap.get("orgId"));
-                            }
-                        } else {
-                            attrMap.put("orgNum", 1);
-
-                            saveLoginSuccessInfo(request, u2, orgId);
-                        }
-                    } else {
-                        j.setMsg(mutiLangService.getLang("common.check.shield"));
-                        j.setSuccess(false);
-                    }
-                } else {
-                	j.setMsg(mutiLangService.getLang("common.username.not.activation"));
-                    j.setSuccess(false);
-                }
-            }
+			User u = userService.checkUserExits(user);
+			if(u == null) {
+				j.setMsg(mutiLangService.getLang("common.username.or.password.error"));
+				j.setSuccess(false);
+				return j;
+			}
+			if (u != null&&u.getStatus()!=0) {
+				Map<String, Object> attrMap = new HashMap<String, Object>();
+				j.setAttributes(attrMap);
+				request.getSession().setAttribute("user",u); //用于切换部门时使用
+				String orgId = request.getParameter("orgId");
+				if (ConvertUtils.isEmpty(orgId)) { // 没有传组织机构参数，则获取当前用户的组织机构
+					int orgNum=u.getUserOrgList().size();
+					//获取默认部门
+//					Long orgNum = systemService.queryForCount("select count(1) from t_s_user_org where user_id =?",new Object[]{u.getId()});
+					if (orgNum > 1) {
+						User res=new User();
+						res.setId(u.getId());
+						//暂时未处理多部门
+						attrMap.put("orgNum", orgNum);
+						attrMap.put("user", res);
+					} else {
+						Map<String, Object> userOrgMap = systemService.queryForMap("select org_id as orgId from t_s_user_org where user_id=?", u.getId());
+						saveLoginSuccessInfo(request, u, (String) userOrgMap.get("orgId"));
+					}
+				} else {
+					attrMap.put("orgNum", 1);
+					saveLoginSuccessInfo(request, u, orgId);
+				}
+			} else {
+				j.setMsg(mutiLangService.getLang("common.username.not.activation"));
+				j.setSuccess(false);
+			}
         }
 		return j;
 	}
@@ -172,15 +166,15 @@ public class LoginController extends BaseController {
      * @param user 当前登录用户
      * @param orgId 组织主键
      */
-    private void saveLoginSuccessInfo(HttpServletRequest req, TSUser user, String orgId) {
-        TSDepart currentDepart = systemService.find(TSDepart.class, orgId);
+    private void saveLoginSuccessInfo(HttpServletRequest req, User user, String orgId) {
+        Depart currentDepart = systemService.find(Depart.class, orgId);
         user.setCurrentDepart(currentDepart);
 
         HttpSession session = ContextHolderUtils.getSession();
         message = mutiLangService.getLang("common.user") + ": " + user.getUserName() + "["
                 + currentDepart.getDepartname() + "]" + mutiLangService.getLang("common.login.success");
 
-        Client client = new Client();
+        ClientBean client = new ClientBean();
         client.setIp(com.abocode.jfaster.web.utils.StringUtils.getIpAddr(req));
         client.setLogindatetime(new Date());
         client.setUser(user);
@@ -199,16 +193,16 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(params = "login")
 	public String login(ModelMap modelMap,HttpServletRequest request,HttpServletResponse response) {
-		TemplateEntity templateEntity=this.templateService.findUniqueByProperty(TemplateEntity.class,"status", TemplateConstant.TEMPLATE_STATUS_IS_AVAILABLE);
+		Template templateEntity=this.templateService.findUniqueByProperty(Template.class,"status", TemplateConstant.TEMPLATE_STATUS_IS_AVAILABLE);
 
 		DataSourceContextHolder.setDataSourceType(DataSourceType.dataSource_jeecg);
-		TSUser user = SessionUtils.getCurrentUser();
+		User user = SessionUtils.getCurrentUser();
 		String roles = "";
 		if (user != null) {
-			List<TSRole> roleList=new ArrayList();
-			List<TSRoleUser> rUsers = systemService.findAllByProperty(TSRoleUser.class, "TSUser.id", user.getId());
-			for (TSRoleUser ru : rUsers) {
-				TSRole role = ru.getTSRole();
+			List<Role> roleList=new ArrayList();
+			List<RoleUser> rUsers = systemService.findAllByProperty(RoleUser.class, "TSUser.id", user.getId());
+			for (RoleUser ru : rUsers) {
+				Role role = ru.getTSRole();
 				roles += role.getRoleName() + ",";
 				roleList.add(role);
 			}
@@ -223,7 +217,7 @@ public class LoginController extends BaseController {
             ClientManager.getInstance().getClient().setRoles(roleList);
 			//request.getSession().setAttribute("lang", "en");
 			Gson gson=new Gson();
-			TemplateBean templateBean=new TemplateBean();
+			TemplateView templateBean=new TemplateView();
 			BeanUtils.copyProperties(templateEntity,templateBean);
 			//设置主题
 			String systemTemplate=gson.toJson(templateBean);
@@ -244,13 +238,18 @@ public class LoginController extends BaseController {
 
 	/**
 	 * 退出系统
-	 * 
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(params = "logout")
-	public ModelAndView logout(HttpServletRequest request) {
-		TSUser user = SessionUtils.getCurrentUser();
+	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
+		//退出权限登录
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null){
+			new SecurityContextLogoutHandler().logout(request, response, auth);
+		}
+
+		User user = SessionUtils.getCurrentUser();
 		systemService.addLog("用户" + user.getUserName() + "已退出",
 				Globals.Log_Type_EXIT, Globals.Log_Leavel_INFO);
 		HttpSession session = ContextHolderUtils.getSession();
@@ -264,12 +263,12 @@ public class LoginController extends BaseController {
 
 	/**
 	 * 菜单跳转
-	 * 
+	 *
 	 * @return
 	 */
 	@RequestMapping(params = "left")
 	public ModelAndView left(HttpServletRequest request) {
-		TSUser user = SessionUtils.getCurrentUser();
+		User user = SessionUtils.getCurrentUser();
 		HttpSession session = ContextHolderUtils.getSession();
         ModelAndView modelAndView = new ModelAndView();
 		// 登陆者的权限
@@ -277,8 +276,8 @@ public class LoginController extends BaseController {
 			session.removeAttribute(Globals.USER_SESSION);
             modelAndView.setView(new RedirectView("loginController.do?login"));
 		}else{
-            List<TSConfig> configs = userService.findAll(TSConfig.class);
-            for (TSConfig tsConfig : configs) {
+            List<Config> configs = userService.findAll(Config.class);
+            for (Config tsConfig : configs) {
                 request.setAttribute(tsConfig.getCode(), tsConfig.getContents());
             }
             modelAndView.setViewName("main/left");
@@ -289,61 +288,61 @@ public class LoginController extends BaseController {
 
 	/**
 	 * 获取权限的map
-	 * 
+	 *
 	 * @param user
 	 * @return
 	 */
-	private Map<Integer, List<FunctionBean>> getFunctionMap(TSUser user) {
-		Map<Integer, List<FunctionBean>> functionMap = new HashMap<Integer, List<FunctionBean>>();
-		Map<String, TSFunction> loginActionlist = getUserFunction(user);
+	private Map<Integer, List<FunctionView>> getFunctionMap(User user) {
+		Map<Integer, List<FunctionView>> functionMap = new HashMap<Integer, List<FunctionView>>();
+		Map<String, Function> loginActionlist = getUserFunction(user);
 		if (loginActionlist.size() > 0) {
-			Collection<TSFunction> allFunctions = loginActionlist.values();
-			for (TSFunction function : allFunctions) {
+			Collection<Function> allFunctions = loginActionlist.values();
+			for (Function function : allFunctions) {
 	            /*if(function.getFunctionType().intValue()==Globals.Function_TYPE_FROM.intValue()){
 					//如果为表单或者弹出 不显示在系统菜单里面
 					continue;
 				}*/
 				if (!functionMap.containsKey(function.getFunctionLevel() + 0)) {
 					functionMap.put(function.getFunctionLevel() + 0,
-							new ArrayList<FunctionBean>());
+							new ArrayList<FunctionView>());
 				}
-				
-				FunctionBean functionBean= BeanToTagUtils.convertFunction(function);
+
+				FunctionView functionBean= BeanToTagUtils.convertFunction(function);
 				functionMap.get(function.getFunctionLevel() + 0).add(functionBean);
 			}
 			// 菜单栏排序
-			Collection<List<FunctionBean>> c = functionMap.values();
-			for (List<FunctionBean> list : c) {
+			Collection<List<FunctionView>> c = functionMap.values();
+			for (List<FunctionView> list : c) {
 				Collections.sort(list, new NumberComparator());
 			}
 		}
 		return functionMap;
 	}
 
-	
+
 
 	/**
 	 * 获取用户菜单列表
-	 * 
+	 *
 	 * @param user
 	 * @return
 	 */
-	private Map<String, TSFunction> getUserFunction(TSUser user) {
+	private Map<String, Function> getUserFunction(User user) {
 		HttpSession session = ContextHolderUtils.getSession();
-		Client client = ClientManager.getInstance().getClient(session.getId());
+		ClientBean client = ClientManager.getInstance().getClient(session.getId());
 		if (client.getFunctions() == null || client.getFunctions().size() == 0) {
-			Map<String, TSFunction> loginActionlist = new HashMap<String, TSFunction>();
-	           StringBuilder hqlsb1=new StringBuilder("select distinct f from TSFunction f,TSRoleFunction rf,TSRoleUser ru  ")
-	           .append("where ru.TSRole.id=rf.TSRole.id and rf.TSFunction.id=f.id and ru.TSUser.id=? ");
-	          StringBuilder hqlsb2=new StringBuilder("select distinct c from TSFunction c,TSRoleOrg b,TSUserOrg a ")
-	           .append("where a.tsDepart.id=b.tsDepart.id and b.tsRole.id=c.id and a.tsUser.id=?");
-			    Object[] object=new Object[]{user.getId()};
-	             List<TSFunction> list1 = systemService.findByHql(hqlsb1.toString(),object);
-	           List<TSFunction> list2 = systemService.findByHql(hqlsb2.toString(),object);
-	           for(TSFunction function:list1){
+			Map<String, Function> loginActionlist = new HashMap<String, Function>();
+			StringBuilder hqlsb1=new StringBuilder("select distinct f from Function f,RoleFunction rf,RoleUser ru  ")
+					.append("where ru.TSRole.id=rf.TSRole.id and rf.TSFunction.id=f.id and ru.TSUser.id=? ");
+			StringBuilder hqlsb2=new StringBuilder("select distinct c from Function c,RoleOrg b,UserOrg a ")
+					.append("where a.tsDepart.id=b.tsDepart.id and b.tsRole.id=c.id and a.tsUser.id=?");
+			 Object[] object=new Object[]{user.getId()};
+	             List<Function> list1 = systemService.findByHql(hqlsb1.toString(),object);
+	           List<Function> list2 = systemService.findByHql(hqlsb2.toString(),object);
+	           for(Function function:list1){
 		              loginActionlist.put(function.getId(),function);
 		           }
-	           for(TSFunction function:list2){
+	           for(Function function:list2){
 		              loginActionlist.put(function.getId(),function);
 		           }
             client.setFunctions(loginActionlist);
@@ -358,10 +357,10 @@ public class LoginController extends BaseController {
      * @param loginActionlist 登录用户的权限列表
      * @param role 角色实体
      */
-    private void assembleFunctionsByRole(Map<String, TSFunction> loginActionlist, TSRole role) {
-        List<TSRoleFunction> roleFunctionList = systemService.findAllByProperty(TSRoleFunction.class, "TSRole.id", role.getId());
-        for (TSRoleFunction roleFunction : roleFunctionList) {
-            TSFunction function = roleFunction.getTSFunction();
+    private void assembleFunctionsByRole(Map<String, Function> loginActionlist, Role role) {
+        List<RoleFunction> roleFunctionList = systemService.findAllByProperty(RoleFunction.class, "Role.id", role.getId());
+        for (RoleFunction roleFunction : roleFunctionList) {
+            Function function = roleFunction.getTSFunction();
             loginActionlist.put(function.getId(), function);
         }
     }
@@ -369,7 +368,7 @@ public class LoginController extends BaseController {
 
     /**
 	 * 首页跳转
-	 * 
+	 *
 	 * @return
 	 */
 	@RequestMapping(params = "home")
@@ -378,7 +377,7 @@ public class LoginController extends BaseController {
 	}
 	/**
 	 * 无权限页面提示跳转
-	 * 
+	 *
 	 * @return
 	 */
 	@RequestMapping(params = "noAuth")
@@ -394,7 +393,7 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(params = "top")
 	public ModelAndView top(HttpServletRequest request) {
-		TSUser user = SessionUtils.getCurrentUser();
+		User user = SessionUtils.getCurrentUser();
 		HttpSession session = ContextHolderUtils.getSession();
 		// 登陆者的权限
 		if (user.getId() == null) {
@@ -403,8 +402,8 @@ public class LoginController extends BaseController {
 					new RedirectView("loginController.do?login"));
 		}
 		request.setAttribute("menuMap", getFunctionMap(user));
-		List<TSConfig> configs = userService.findAll(TSConfig.class);
-		for (TSConfig tsConfig : configs) {
+		List<Config> configs = userService.findAll(Config.class);
+		for (Config tsConfig : configs) {
 			request.setAttribute(tsConfig.getCode(), tsConfig.getContents());
 		}
 		return new ModelAndView("main/bootstrap_top");
@@ -419,7 +418,7 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(params = "shortcut_top")
 	public ModelAndView shortcut_top(HttpServletRequest request) {
-		TSUser user = SessionUtils.getCurrentUser();
+		User user = SessionUtils.getCurrentUser();
 		HttpSession session = ContextHolderUtils.getSession();
 		// 登陆者的权限
 		if (user.getId() == null) {
@@ -427,10 +426,10 @@ public class LoginController extends BaseController {
 			return new ModelAndView(
 					new RedirectView("loginController.do?login"));
 		}
-		Map<Integer, List<FunctionBean>>  menuMap=getFunctionMap(user);
+		Map<Integer, List<FunctionView>>  menuMap=getFunctionMap(user);
 		request.setAttribute("menuMap", menuMap);
-		List<TSConfig> configs = userService.findAll(TSConfig.class);
-		for (TSConfig tsConfig : configs) {
+		List<Config> configs = userService.findAll(Config.class);
+		for (Config tsConfig : configs) {
 			request.setAttribute(tsConfig.getCode(), tsConfig.getContents());
 		}
 		return new ModelAndView("main/shortcut_top");
@@ -447,19 +446,19 @@ public class LoginController extends BaseController {
     @RequestMapping(params = "primaryMenu")
     @ResponseBody
 	public String getPrimaryMenu() throws Exception {
-    	TSUser user = SessionUtils.getCurrentUser();
+    	User user = SessionUtils.getCurrentUser();
     	HttpSession session = ContextHolderUtils.getSession();
     	// 登陆者的权限
 		if (user.getId() == null) {
 			session.removeAttribute(Globals.USER_SESSION);
 			throw new Exception("用户不存在");
 		}
-		List<FunctionBean> primaryMenu = getFunctionMap(user).get(0);
+		List<FunctionView> primaryMenu = getFunctionMap(user).get(0);
         String floor = "";
         if (primaryMenu == null) {
             return floor;
         }
-        for (FunctionBean function : primaryMenu) {
+        for (FunctionView function : primaryMenu) {
             if(function.getFunctionLevel() == 0) {
 
             	String lang_key = function.getFunctionName();
@@ -524,7 +523,7 @@ public class LoginController extends BaseController {
 		if(ConvertUtils.isNotEmpty(getPrimaryMenuForWebos)){
 			j.setMsg(getPrimaryMenuForWebos.toString());
 		}else{
-			TSUser user = SessionUtils.getCurrentUser();
+			User user = SessionUtils.getCurrentUser();
 	    	HttpSession session = ContextHolderUtils.getSession();
 	    	// 登陆者的权限
 			if (user.getId() == null) {

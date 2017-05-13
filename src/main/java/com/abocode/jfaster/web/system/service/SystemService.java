@@ -1,6 +1,7 @@
 package com.abocode.jfaster.web.system.service;
 
 import com.abocode.jfaster.core.common.service.CommonService;
+import com.abocode.jfaster.web.system.bean.DictBean;
 import com.abocode.jfaster.web.system.entity.*;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public interface SystemService extends CommonService{
  	 * @return 
  	 * 返回类型： List<DictEntity>
  	 */
- 	public List<DictEntity> queryDict(String dicTable, String dicCode, String dicText);
+ 	public List<DictBean> queryDict(String dicTable, String dicCode, String dicText);
 	
 	/**
 	 * 登陆用户检查
@@ -30,7 +31,7 @@ public interface SystemService extends CommonService{
 	 * @return
 	 * @throws Exception
 	 */
-	public TSUser checkUserExits(TSUser user) throws Exception;
+	public User checkUserExits(User user) throws Exception;
 	/**
 	 * 日志添加
 	 * @param LogContent 内容
@@ -44,14 +45,14 @@ public interface SystemService extends CommonService{
 	 * @param typename
 	 * @return
 	 */
-	public TSType getType(String typecode, String typename, TSTypegroup tsTypegroup);
+	public Type getType(String typecode, String typename, TypeGroup tsTypegroup);
 	/**
 	 * 根据类型分组编码和名称获取TypeGroup,如果为空则创建一个
 	 * @param typegroupcode
 	 * @param typgroupename
 	 * @return
 	 */
-	public TSTypegroup getTypeGroup(String typegroupcode,String typgroupename);
+	public TypeGroup getTypeGroup(String typegroupcode, String typgroupename);
 	/**
 	 * 根据用户ID 和 菜单Id 获取 具有操作权限的按钮Codes
 	 * @param userId
@@ -72,7 +73,7 @@ public interface SystemService extends CommonService{
 	 * @param typegroupCode
 	 * @return
 	 */
-	public TSTypegroup getTypeGroupByCode(String typegroupCode);
+	public TypeGroup getTypeGroupByCode(String typegroupCode);
 	/**
 	 * 对数据字典进行缓存
 	 */
@@ -82,7 +83,7 @@ public interface SystemService extends CommonService{
 	 * 刷新字典缓存
 	 * @param type
 	 */
-	public void refleshTypesCach(TSType type);
+	public void refleshTypesCach(Type type);
 	/**
 	 * 刷新字典分组缓存
 	 */
@@ -92,7 +93,7 @@ public interface SystemService extends CommonService{
 	 * 
 	 * @param id
 	 */
-	public void flushRoleFunciton(String id, TSFunction newFunciton);
+	public void flushRoleFunciton(String id, Function newFunciton);
 
     /**
      * 生成组织机构编码
@@ -130,12 +131,12 @@ public interface SystemService extends CommonService{
 	 * 更新图标
 	 * @param icon
 	 */
-	public  void updateTSIcons(TSIcon icon);
+	public  void updateTSIcons(Icon icon);
 	/**
 	 * 删除图标
 	 * @param icon
 	 */
-	public  void delTSIcons(TSIcon icon);
+	public  void delTSIcons(Icon icon);
 
 	public void initOperations();
 
@@ -144,5 +145,5 @@ public interface SystemService extends CommonService{
 	 * @param roleId
 	 * @return
      */
-	List<TSFunction> getFucntionList(String roleId);
+	List<Function> getFucntionList(String roleId);
 }

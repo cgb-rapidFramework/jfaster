@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.abocode.jfaster.platform.util.SysThemesUtils"%>
-<%@ page import="com.abocode.jfaster.platform.bean.TemplateBean" %>
+<%@ page import="com.abocode.jfaster.platform.view.TemplateView" %>
 <%@ page import="com.abocode.jfaster.platform.util.BrowserUtils" %>
 <%@include file="/context/mytags.jsp"%>
 <!DOCTYPE html>
@@ -8,7 +8,7 @@
 
   String lang = BrowserUtils.getBrowserLanguage();
   String langurl = "plug-in/mutiLang/" + lang +".js";
-  TemplateBean sysTheme = SysThemesUtils.getSysTheme(request);
+  TemplateView sysTheme = SysThemesUtils.getSysTheme(request);
   String lhgdialogTheme = SysThemesUtils.getLhgdialogTheme(sysTheme);
 %>
 <!DOCTYPE html>

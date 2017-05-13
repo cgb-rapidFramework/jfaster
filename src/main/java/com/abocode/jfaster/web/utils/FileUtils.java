@@ -1,7 +1,7 @@
 package com.abocode.jfaster.web.utils;
 
 import com.abocode.jfaster.core.common.model.json.DataGrid;
-import com.abocode.jfaster.web.system.entity.TSIcon;
+import com.abocode.jfaster.web.system.entity.Icon;
 
 import javax.imageio.stream.FileImageOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -11,9 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * User: MaCiCi
- * Date: 13-7-26
- * Time: 下午2:07
+ * Created by Franky on 2016/3/15.
  */
 public class FileUtils {
     /**
@@ -31,7 +29,7 @@ public class FileUtils {
         try {
             List list=dataGrid.getResults();
             for(Object obj:list){
-                TSIcon icon=(TSIcon)obj;
+                Icon icon=(Icon)obj;
                 String fileName="icon"+ UUID.randomUUID()+"."+icon.getExtend();
                 File tempFile=new File(fileDirName+File.separator+fileName);
                 if(icon.getIconContent()!=null){

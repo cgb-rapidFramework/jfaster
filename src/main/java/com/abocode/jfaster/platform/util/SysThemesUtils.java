@@ -5,13 +5,13 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
 
-import com.abocode.jfaster.platform.bean.TemplateBean;
+import com.abocode.jfaster.platform.view.TemplateView;
 import com.abocode.jfaster.platform.container.SystemContainer;
 
 /**
  * 系统样式获取工具类
  *
- * @author Administrator
+ * @author Franky
  */
 public class SysThemesUtils {
     /**
@@ -20,13 +20,13 @@ public class SysThemesUtils {
      * @param request
      * @return
      */
-    public static TemplateBean getSysTheme(HttpServletRequest request) {
-        TemplateBean currentTemplate = null;
+    public static TemplateView getSysTheme(HttpServletRequest request) {
+        TemplateView currentTemplate = null;
         try {
             String json = SystemContainer.TemplateContainer.template.get("SYSTEM-TEMPLATE");
             if (StringUtils.isNotEmpty(json)) {
                 Gson gson = new Gson();
-                currentTemplate = gson.fromJson(json, TemplateBean.class);
+                currentTemplate = gson.fromJson(json, TemplateView.class);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,8 +37,8 @@ public class SysThemesUtils {
         return currentTemplate;
     }
 
-    public static TemplateBean getDefaultTemplate() {
-        TemplateBean template = new TemplateBean();
+    public static TemplateView getDefaultTemplate() {
+        TemplateView template = new TemplateView();
         template.setName("经典风格");
         template.setPageMain("main/main");
         template.setStyle("main/main");
@@ -52,9 +52,9 @@ public class SysThemesUtils {
      * @param templateBean
      * @return
      */
-    public static String getEasyUiTheme(TemplateBean templateBean) {
+    public static String getEasyUiTheme(TemplateView templateBean) {
         StringBuffer sb = new StringBuffer("");
-        sb.append("<link rel=\"stylesheet\" href=\"plug-in/easyui/themes/" + templateBean.getTheme() + "/easyui.css\" type=\"text/css\"></link>");
+        sb.append("<link rel=\"stylesheet\" href=\"template/" + templateBean.getTheme() + "/css/easyui.css\" type=\"text/css\"></link>");
         return sb.toString();
     }
 
@@ -64,9 +64,9 @@ public class SysThemesUtils {
      * @param templateBean
      * @return
      */
-    public static String getEasyUiMainTheme(TemplateBean templateBean) {
+    public static String getEasyUiMainTheme(TemplateView templateBean) {
         StringBuffer sb = new StringBuffer("");
-        sb.append("<link  rel=\"stylesheet\" href=\"plug-in/easyui/themes/" + templateBean.getTheme() + "/main.css\" type=\"text/css\"></link>");
+        sb.append("<link  rel=\"stylesheet\" href=\"template/" + templateBean.getTheme() + "/css/main.css\" type=\"text/css\"></link>");
         return sb.toString();
     }
 
@@ -77,9 +77,9 @@ public class SysThemesUtils {
      * @return
      */
 //	@Deprecated
-    public static String getEasyUiIconTheme(TemplateBean templateBean) {
+    public static String getEasyUiIconTheme(TemplateView templateBean) {
         StringBuffer sb = new StringBuffer("");
-        sb.append("<link  rel=\"stylesheet\" href=\"plug-in/easyui/themes/" + templateBean.getTheme() + "/icon.css\" type=\"text/css\"></link>");
+        sb.append("<link  rel=\"stylesheet\" href=\"template/" + templateBean.getTheme() + "/css/icon.css\" type=\"text/css\"></link>");
         return sb.toString();
     }
 
@@ -89,9 +89,9 @@ public class SysThemesUtils {
      * @param templateBean
      * @return
      */
-    public static String getCommonTheme(TemplateBean templateBean) {
+    public static String getCommonTheme(TemplateView templateBean) {
         StringBuffer sb = new StringBuffer("");
-        sb.append("<link rel=\"stylesheet\" href=\"plug-in/tools/css/" + templateBean.getTheme() + "/common.css\" type=\"text/css\"></link>");
+        sb.append("<link rel=\"stylesheet\" href=\"template/" + templateBean.getTheme() + "/css/common.css\" type=\"text/css\"></link>");
         return sb.toString();
     }
 
@@ -101,7 +101,7 @@ public class SysThemesUtils {
      * @param templateBean
      * @return
      */
-    public static String getLhgdialogTheme(TemplateBean templateBean) {
+    public static String getLhgdialogTheme(TemplateView templateBean) {
         StringBuffer sb = new StringBuffer("");
         sb.append("<script type=\"text/javascript\" src=\"plug-in/lhgDialog/lhgdialog.min.js?skin=" + templateBean.getTheme() + "\"></script>");
         return sb.toString();
@@ -113,9 +113,9 @@ public class SysThemesUtils {
      * @param templateBean
      * @return
      */
-    public static String getTabTheme(TemplateBean templateBean) {
+    public static String getTabTheme(TemplateView templateBean) {
         StringBuffer sb = new StringBuffer("");
-        sb.append("<script type=\"text/javascript\" src=\"plug-in/" + templateBean.getTheme() + "/js/bootstrap-tab.js\"></script>");
+        sb.append("<script type=\"text/javascript\" src=\"template/" + templateBean.getTheme() + "/js/bootstrap-tab.js\"></script>");
         return sb.toString();
     }
 
@@ -127,9 +127,9 @@ public class SysThemesUtils {
      * @return
      */
     @Deprecated
-    public static String getReportTheme(TemplateBean templateBean) {
+    public static String getReportTheme(TemplateView templateBean) {
         StringBuffer sb = new StringBuffer("");
-        sb.append("<link rel=\"stylesheet\" href=\"plug-in/graphreport/css/" + templateBean.getTheme() + "/report.css\" type=\"text/css\"></link>");
+        sb.append("<link rel=\"stylesheet\" href=\"template/" + templateBean.getTheme() + "/css/report.css\" type=\"text/css\"></link>");
         return sb.toString();
     }
 
@@ -139,9 +139,9 @@ public class SysThemesUtils {
      * @param templateBean
      * @return
      */
-    public static String getValidformDivfromTheme(TemplateBean templateBean) {
+    public static String getValidformDivfromTheme(TemplateView templateBean) {
         StringBuffer sb = new StringBuffer("");
-        sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/" + templateBean.getTheme() + "/divfrom.css\" type=\"text/css\"/>");
+        sb.append("<link rel=\"stylesheet\" href=\"template/" + templateBean.getTheme() + "/css/divfrom.css\" type=\"text/css\"/>");
         return sb.toString();
     }
 
@@ -151,9 +151,9 @@ public class SysThemesUtils {
      * @param templateBean
      * @return
      */
-    public static String getValidformStyleTheme(TemplateBean templateBean) {
+    public static String getValidformStyleTheme(TemplateView templateBean) {
         StringBuffer sb = new StringBuffer("");
-        sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/" + templateBean.getTheme() + "/style.css\" type=\"text/css\"/>");
+        sb.append("<link rel=\"stylesheet\" href=\"template/" + templateBean.getTheme() + "/css/style.css\" type=\"text/css\"/>");
         return sb.toString();
     }
 
@@ -163,9 +163,9 @@ public class SysThemesUtils {
      * @param templateBean
      * @return
      */
-    public static String getValidformTablefrom(TemplateBean templateBean) {
+    public static String getValidformTablefrom(TemplateView templateBean) {
         StringBuffer sb = new StringBuffer("");
-        sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/" + templateBean.getTheme() + "/tablefrom.css\" type=\"text/css\"/>");
+        sb.append("<link rel=\"stylesheet\" href=\"template/" + templateBean.getTheme() + "/css/tablefrom.css\" type=\"text/css\"/>");
         return sb.toString();
     }
 }

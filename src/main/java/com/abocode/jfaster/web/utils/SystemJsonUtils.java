@@ -4,30 +4,28 @@ import org.apache.commons.beanutils.PropertyUtils;
 import com.abocode.jfaster.core.common.model.json.ComboBox;
 import com.abocode.jfaster.core.util.ConvertUtils;
 import com.abocode.jfaster.platform.common.tag.easyui.TagUtil;
-import com.abocode.jfaster.web.system.entity.TSFunction;
-import com.abocode.jfaster.web.system.entity.TSRole;
+import com.abocode.jfaster.web.system.entity.Function;
+import com.abocode.jfaster.web.system.entity.Role;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
- * @author  张代浩
- *
+ * Created by Franky on 2016/3/15.
  */
 public class SystemJsonUtils {
 
 	/**
 	 * 手工拼接JSON
 	 */
-	public static String getComboBoxJson(List<TSRole> list, List<TSRole> roles) {
+	public static String getComboBoxJson(List<Role> list, List<Role> roles) {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("[");
-		for (TSRole node : list) {
+		for (Role node : list) {
 			if (roles.size() > 0) {
 				buffer.append("{\"id\":" + node.getId() + ",\"text\":\"" + node.getRoleName() + "\"");
-				for (TSRole node1 : roles) {
+				for (Role node1 : roles) {
 					if (node.getId() == node1.getId()) {
 						buffer.append(",\"selected\":true");
 					}
@@ -50,16 +48,16 @@ public class SystemJsonUtils {
 	/**
 	 * 根据模型生成JSON
 	 */
-	public static List<ComboBox> getComboBox(List<TSRole> list, List<TSRole> roles) {
+	public static List<ComboBox> getComboBox(List<Role> list, List<Role> roles) {
 		StringBuffer buffer = new StringBuffer();
 		List<ComboBox> comboxBoxs = new ArrayList<ComboBox>();
 		buffer.append("[");
-		for (TSRole node : list) {
+		for (Role node : list) {
 			ComboBox box = new ComboBox();
 			box.setId(node.getId().toString());
 			box.setText(node.getRoleName());
 			if (roles.size() > 0) {
-				for (TSRole node1 : roles) {
+				for (Role node1 : roles) {
 					if (node.getId() == node1.getId()) {
 						box.setSelected(true);
 					}
@@ -152,8 +150,8 @@ public class SystemJsonUtils {
 	 *
 	 * @param buffer
 	 */
-	static void iterGet(List<TSFunction> list, String pid, StringBuffer buffer) {
-		for (TSFunction node : list) {
+	static void iterGet(List<Function> list, String pid, StringBuffer buffer) {
+		for (Function node : list) {
 
 			// 查找所有父节点为pid的所有对象，然后拼接为json格式的数据
 			if (node.getTSFunction() != null) {

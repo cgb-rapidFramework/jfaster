@@ -7,9 +7,9 @@ import com.abocode.jfaster.core.util.ConvertUtils;
 import com.abocode.jfaster.platform.constant.Globals;
 import com.abocode.jfaster.platform.util.MutiLangUtils;
 import com.abocode.jfaster.web.common.hqlsearch.HqlGenerateUtil;
-import com.abocode.jfaster.web.system.entity.TSFunction;
-import com.abocode.jfaster.web.system.entity.TSIcon;
-import com.abocode.jfaster.web.system.entity.TSOperation;
+import com.abocode.jfaster.web.system.entity.Function;
+import com.abocode.jfaster.web.system.entity.Icon;
+import com.abocode.jfaster.web.system.entity.Operation;
 import com.abocode.jfaster.web.system.service.ResourceService;
 import com.abocode.jfaster.web.system.service.SystemService;
 import com.abocode.jfaster.core.common.hibernate.qbc.CriteriaQuery;
@@ -78,8 +78,8 @@ public class IconController extends BaseController {
 	 * @param dataGrid
 	 */
 	@RequestMapping(params = "datagrid")
-	public void datagrid(TSIcon icon, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-		CriteriaQuery cq = new CriteriaQuery(TSIcon.class, dataGrid);
+	public void datagrid(Icon icon, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		CriteriaQuery cq = new CriteriaQuery(Icon.class, dataGrid);
 		HqlGenerateUtil.installHql(cq, icon);
 		cq.add();
 		this.systemService.findDataGridReturn(cq, true);
@@ -98,7 +98,7 @@ public class IconController extends BaseController {
 	@ResponseBody
 	public AjaxJson saveOrUpdateIcon(HttpServletRequest request) throws Exception {
 		AjaxJson j = new AjaxJson();
-		TSIcon icon = new TSIcon();
+		Icon icon = new Icon();
 		Short iconType = ConvertUtils.getShort(request.getParameter("iconType"));
 		String iconName = ConvertUtils.getString(request.getParameter("iconName"));
 		String id = request.getParameter("id");
@@ -136,9 +136,9 @@ public class IconController extends BaseController {
 		Short iconType = ConvertUtils.getShort(request.getParameter("iconType"));
 		String iconName = java.net.URLDecoder.decode(ConvertUtils.getString(request.getParameter("iconName")));
 		String id = request.getParameter("id");
-		TSIcon icon = new TSIcon();
+		Icon icon = new Icon();
 		if (StringUtils.isNotEmpty(id)) {
-			icon = systemService.find(TSIcon.class, id);
+			icon = systemService.find(Icon.class, id);
 			icon.setId(id);
 		}
 		icon.setIconName(iconName);
@@ -183,12 +183,12 @@ public class IconController extends BaseController {
 	@ResponseBody
 	public AjaxJson repair(HttpServletRequest request) throws Exception {
 		AjaxJson json = new AjaxJson();
-		List<TSIcon> icons = systemService.findAll(TSIcon.class);
+		List<Icon> icons = systemService.findAll(Icon.class);
 		String rootpath = request.getSession().getServletContext().getRealPath("/");
 		String csspath = request.getSession().getServletContext().getRealPath("/plug-in/accordion/css/icons.css");
 		// 清空CSS文件内容
 		clearFile(csspath);
-		for (TSIcon c : icons) {
+		for (Icon c : icons) {
 			File file = new File(rootpath + c.getIconPath());
 			if (!file.exists()) {
 				byte[] content = c.getIconContent();
@@ -231,10 +231,10 @@ public class IconController extends BaseController {
 	 */
 	@RequestMapping(params = "del")
 	@ResponseBody
-	public AjaxJson del(TSIcon icon, HttpServletRequest request) {
+	public AjaxJson del(Icon icon, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		
-		icon = systemService.findEntity(TSIcon.class, icon.getId());
+		icon = systemService.findEntity(Icon.class, icon.getId());
 		
 		boolean isPermit=isPermitDel(icon);
 		
@@ -261,8 +261,8 @@ public class IconController extends BaseController {
 	 * @param icon 图标。
 	 * @return true允许；false不允许；
 	 */
-	private boolean isPermitDel(TSIcon icon) {
-		List<TSFunction> functions = systemService.findAllByProperty(TSFunction.class, "TSIcon.id", icon.getId());
+	private boolean isPermitDel(Icon icon) {
+		List<Function> functions = systemService.findAllByProperty(Function.class, "TSIcon.id", icon.getId());
 		if (functions==null||functions.isEmpty()) {
 			return true;
 		}
@@ -273,17 +273,17 @@ public class IconController extends BaseController {
 	 * @param icon
      */
 	@Deprecated
-	public void upEntity(TSIcon icon) {
-		List<TSFunction> functions = systemService.findAllByProperty(TSFunction.class, "TSIcon.id", icon.getId());
+	public void upEntity(Icon icon) {
+		List<Function> functions = systemService.findAllByProperty(Function.class, "TSIcon.id", icon.getId());
 		if (functions.size() > 0) {
-			for (TSFunction tsFunction : functions) {
+			for (Function tsFunction : functions) {
 				tsFunction.setTSIcon(null);
 				systemService.saveOrUpdate(tsFunction);
 			}
 		}
-		List<TSOperation> operations = systemService.findAllByProperty(TSOperation.class, "TSIcon.id", icon.getId());
+		List<Operation> operations = systemService.findAllByProperty(Operation.class, "TSIcon.id", icon.getId());
 		if (operations.size() > 0) {
-			for (TSOperation tsOperation : operations) {
+			for (Operation tsOperation : operations) {
 				tsOperation.setTSIcon(null);
 				systemService.saveOrUpdate(tsOperation);
 			}
@@ -298,9 +298,9 @@ public class IconController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "addorupdate")
-	public ModelAndView addorupdate(TSIcon icon, HttpServletRequest req) {
+	public ModelAndView addorupdate(Icon icon, HttpServletRequest req) {
 		if (StringUtils.isNotEmpty(icon.getId())) {
-			icon = systemService.findEntity(TSIcon.class, icon.getId());
+			icon = systemService.findEntity(Icon.class, icon.getId());
 			req.setAttribute("icon", icon);
 		}
 		return new ModelAndView("system/icon/icons");

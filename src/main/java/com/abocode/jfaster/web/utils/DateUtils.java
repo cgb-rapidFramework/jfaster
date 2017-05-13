@@ -9,7 +9,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.springframework.util.StringUtils;
-
+/**
+ * Created by Franky on 2016/3/15.
+ */
 public class DateUtils extends PropertyEditorSupport {// 各种时间格式
      public static final String  YYYY_MM_DD ="yyyy-MM-dd";
     public static final String YYYYMMDD ="yyyyMMdd";

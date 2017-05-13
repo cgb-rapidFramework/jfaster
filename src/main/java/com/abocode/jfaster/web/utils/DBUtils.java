@@ -1,28 +1,14 @@
 package com.abocode.jfaster.web.utils;
 
-
-
-import com.abocode.jfaster.web.system.listener.OnlineListener;
-import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.log4j.Logger;
-import com.abocode.jfaster.web.system.entity.DynamicDataSourceEntity;
-import org.springframework.context.ApplicationContext;
-import org.springframework.jdbc.core.JdbcTemplate;
-
-import java.util.List;
-import java.util.Map;
-
 /**
- * 
- * @author  张代浩
- *
+ * Created by Franky on 2016/3/15.
  */
 public class DBUtils {
-	private static Logger log = Logger.getLogger(DBUtils.class);
-	/**
+	/*private static Logger log = Logger.getLogger(DBUtils.class);
+	*//**
 	 * 获取数据库类型
 	 * @return
-	 */
+	 *//*
 	public static String getDBType(){
 		String retStr="";
 		ApplicationContext ctx = OnlineListener.getCtx();
@@ -70,23 +56,23 @@ public class DBUtils {
 		return jdbcTemplate;
 	}
 
-	/**
+	*//**
 	 * 该方法只是方便用于main方法测试调用
 	 * @param dynamicSourceEntity
 	 * @return JdbcTemplate
-	 */
+	 *//*
 	private static JdbcTemplate getJdbcTemplate(DynamicDataSourceEntity dynamicSourceEntity) {
 		BasicDataSource dataSource = getDataSource(dynamicSourceEntity);
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		return jdbcTemplate;
 	}
 
-	/**
+	*//**
 	 * Executes the SQL statement in this <code>PreparedStatement</code> object,
 	 * which must be an SQL Data Manipulation Language (DML) statement, such as <code>INSERT</code>, <code>UPDATE</code> or
 	 * <code>DELETE</code>; or an SQL statement that returns nothing,
 	 * such as a DDL statement.
-	 */
+	 *//*
 	public static int update(final String dbKey, String sql, Object... param)
 	{
 		int effectCount = 0;
@@ -156,5 +142,5 @@ public class DBUtils {
 		String sql = "select ak.VKBUR, ak.KUNNR, ak.BSTNK, ak.VBELN, ak.MAHDT, ak.BSTDK from VBAK ak where ak.VKORG = '6002'";
 		//List<Map<String, Object>> list = DynamicDBUtil.getList(jdbcTemplate, sql);
 		//System.out.println(list.size());
-	}
+	}*/
 }

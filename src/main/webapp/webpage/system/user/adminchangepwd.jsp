@@ -8,7 +8,7 @@
 </head>
 <body style="overflow-y: hidden" scroll="no">
 <t:formvalid formid="formobj" refresh="false" dialog="true" action="userController.do?savenewpwdforuser" usePlugin="password" layout="table">
-	<input id="id" type="hidden" name="id" value="${user.id }">
+	<input id="id" type="hidden" name="id" value="${userView.id }">
 	<table style="width: 550px" cellpadding="0" cellspacing="1" class="formtable">
 		<tbody>
 			

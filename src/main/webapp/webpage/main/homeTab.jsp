@@ -64,7 +64,7 @@
 						
 						<li>作  者 ：JEECG开源社区</li>
 						<li>邮  箱 ：jeecg@sina.com</li>
-						<li>官  网 ：<a href="http://www.jeecg.org" target="_blank">www.jeecg.org</a></li>
+						<li>官  网 ：<a href="http://www.jeecg.org" target="_blank">www.generator-config.org</a></li>
 						<li>QQ 群: 106838471, 106259349, 289782002</li>
 						<li><a href="http://www.jeecg.org/forum.php?mod=viewthread&tid=1834&extra=page%3D1" target="_blank" style="color: red"> >>更多商业支持，请联系官方</a></li>
 					</ul>

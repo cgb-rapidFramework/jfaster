@@ -32,14 +32,16 @@
 	<t:dgCol title="common.role" field="roleUserList.TSRole.roleName" width="10"></t:dgCol>
 	<t:dgCol title="common.status" sortable="true" field="status" replace="common.active_1,common.inactive_0,super.admin_-1" width="8"></t:dgCol>
 
-<%--<t:dgCol title="common.username" field="opt"></t:dgCol>--%>
-<%--<t:dgDelOpt title="common.delete" url="userController.do?del&id={id}&userName={userName}" />--%>
+    <%--<t:dgCol title="common.username" field="opt"></t:dgCol>--%>
+    <%--<t:dgFunOpt funname="setSignature(id)" title="设置签名" />--%>
+    <%--<t:dgDelOpt title="common.delete" url="userController.do?del&id={id}&userName={userName}" />--%>
 	<t:dgToolBar title="common.add.param" langArg="common.user" icon="icon-add" url="userController.do?addorupdate" funname="add"></t:dgToolBar>
 	<t:dgToolBar title="common.edit.param" langArg="common.user" icon="icon-edit" url="userController.do?addorupdate" funname="update"></t:dgToolBar>
 	<t:dgToolBar title="common.password.reset" icon="icon-edit" url="userController.do?changepasswordforuser" funname="update"></t:dgToolBar>
 	<t:dgToolBar title="common.lock.user" icon="icon-edit" url="userController.do?lock" funname="lockObj"></t:dgToolBar>
     <t:dgToolBar title="导入用户" icon="icon-add" url="userController.do?importUser" funname="add"></t:dgToolBar>
     <t:dgToolBar title="导出Excel" icon="icon-print" onclick="exportXls();" ></t:dgToolBar>
+
 </t:datagrid>
 <script type="text/javascript">
 
@@ -130,6 +132,9 @@ function lockuploadify(url, id) {
             $("input[name='orgIds']").val(id);
         }
     }
+function setSignature(id) {
+    createwindow('设置签名', 'userController.do?addsign&id=' + id);
+}
 </script>
 
 <script type="text/javascript">

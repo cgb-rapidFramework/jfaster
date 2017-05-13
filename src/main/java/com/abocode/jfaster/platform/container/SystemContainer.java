@@ -1,9 +1,9 @@
 package com.abocode.jfaster.platform.container;
 
-import com.abocode.jfaster.platform.bean.IconBean;
-import com.abocode.jfaster.platform.bean.OperationBean;
-import com.abocode.jfaster.platform.bean.TypeGroupBean;
-import com.abocode.jfaster.platform.bean.TypeBean;
+import com.abocode.jfaster.platform.view.IconView;
+import com.abocode.jfaster.platform.view.OperationView;
+import com.abocode.jfaster.platform.view.TypeGroupView;
+import com.abocode.jfaster.platform.view.TypeView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +16,7 @@ public class SystemContainer {
 	 *
 	 */
 	public  final static class IconContainer{
-		public static Map<String, IconBean> allTSIcons= new HashMap<String,IconBean>();
+		public static Map<String, IconView> allTSIcons= new HashMap<String,IconView>();
 	}
 	
 	
@@ -24,8 +24,8 @@ public class SystemContainer {
     * 字典
     */
 	public  final static class TypeGroupContainer{
-		public static Map<String, TypeGroupBean> allTypeGroups = new HashMap<String,TypeGroupBean>();
-		public static Map<String, List<TypeBean>> allTypes = new HashMap<String,List<TypeBean>>();
+		public static Map<String, TypeGroupView> allTypeGroups = new HashMap<String,TypeGroupView>();
+		public static Map<String, List<TypeView>> allTypes = new HashMap<String,List<TypeView>>();
 		
 	}
 
@@ -35,7 +35,7 @@ public class SystemContainer {
 	 *
 	 */
 	public  final static class OperationContainer{
-		public static Map<String, OperationBean> operations= new HashMap<String,OperationBean>();
+		public static Map<String, OperationView> operations= new HashMap<String,OperationView>();
 	}
 
 	/**

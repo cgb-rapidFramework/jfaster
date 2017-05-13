@@ -7,7 +7,7 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import com.abocode.jfaster.platform.bean.FunctionBean;
+import com.abocode.jfaster.platform.view.FunctionView;
 import com.abocode.jfaster.platform.util.JspWriterUtils;
 import com.abocode.jfaster.platform.util.SystemMenuUtils;
 
@@ -23,16 +23,16 @@ import com.abocode.jfaster.platform.util.SystemMenuUtils;
 public class MenuTag extends TagSupport {
     private static final long serialVersionUID = 1L;
     protected String style = "easyui";//菜单样式
-    protected List<FunctionBean> parentFun;//一级菜单
-    protected List<FunctionBean> childFun;//二级菜单
-    protected Map<Integer, List<FunctionBean>> menuFun;//菜单Map
+    protected List<FunctionView> parentFun;//一级菜单
+    protected List<FunctionView> childFun;//二级菜单
+    protected Map<Integer, List<FunctionView>> menuFun;//菜单Map
 
 
-    public void setParentFun(List<FunctionBean> parentFun) {
+    public void setParentFun(List<FunctionView> parentFun) {
         this.parentFun = parentFun;
     }
 
-    public void setChildFun(List<FunctionBean> childFun) {
+    public void setChildFun(List<FunctionView> childFun) {
         this.childFun = childFun;
     }
 
@@ -89,7 +89,7 @@ public class MenuTag extends TagSupport {
         this.style = style;
     }
 
-    public void setMenuFun(Map<Integer, List<FunctionBean>> menuFun) {
+    public void setMenuFun(Map<Integer, List<FunctionView>> menuFun) {
         this.menuFun = menuFun;
     }
 

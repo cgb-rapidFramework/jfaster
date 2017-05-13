@@ -1,7 +1,7 @@
 package com.abocode.jfaster.web.system.service;
 
 import com.abocode.jfaster.core.common.service.CommonService;
-import com.abocode.jfaster.web.system.entity.JobEntity;
+import com.abocode.jfaster.web.system.entity.Job;
 
 public interface JobService extends CommonService{
     /**
@@ -15,14 +15,14 @@ public interface JobService extends CommonService{
      * @param job
      * @return
      */
-    public void addJob(JobEntity job) throws Exception;
+    public void addJob(Job job) throws Exception;
 
     /**
      * 删除重新创建方式
      *
      * @param job
      */
-    public void updateJob(JobEntity job) throws Exception;
+    public void updateJob(Job job) throws Exception;
 
     /**
      * 删除

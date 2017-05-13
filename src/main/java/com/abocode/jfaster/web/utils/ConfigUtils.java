@@ -99,16 +99,6 @@ public class ConfigUtils {
 		return request.getParameter(field);
 	}
 
-	/**
-	 * 获取数据库类型
-	 * 
-	 * @return
-	 * @throws Exception 
-	 */
-	public static final String getJdbcUrl() {
-		return DBUtils.getDBType().toLowerCase();
-	}
-
     /**
      * 获取随机码的长度
      *

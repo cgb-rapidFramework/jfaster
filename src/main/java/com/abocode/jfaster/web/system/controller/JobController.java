@@ -23,7 +23,7 @@ import com.abocode.jfaster.web.utils.StringUtils;
 import com.abocode.jfaster.platform.common.tag.easyui.TagUtil;
 
 
-import com.abocode.jfaster.web.system.entity.JobEntity;
+import com.abocode.jfaster.web.system.entity.Job;
 
 /**   
  * @Title: Controller
@@ -76,8 +76,8 @@ public class JobController extends BaseController {
 	 */
 
 	@RequestMapping(params = "datagrid")
-	public void datagrid(JobEntity job,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-		CriteriaQuery cq = new CriteriaQuery(JobEntity.class, dataGrid);
+	public void datagrid(Job job, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		CriteriaQuery cq = new CriteriaQuery(Job.class, dataGrid);
 		//查询条件组装器
 		HqlGenerateUtil.installHql(cq, job, request.getParameterMap());
 		this.jobService.findDataGridReturn(cq, true);
@@ -91,10 +91,10 @@ public class JobController extends BaseController {
 	 */
 	@RequestMapping(params = "del")
 	@ResponseBody
-	public AjaxJson del(JobEntity job, HttpServletRequest request) {
+	public AjaxJson del(Job job, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		try {
-			job = systemService.findEntity(JobEntity.class, job.getId());
+			job = systemService.findEntity(Job.class, job.getId());
 			message = "job废止成功";
 			jobService.deleteJob(job.getId());
 			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -113,10 +113,10 @@ public class JobController extends BaseController {
 	 */
 	@RequestMapping(params = "pause")
 	@ResponseBody
-	public AjaxJson pause(JobEntity job, HttpServletRequest request) {
+	public AjaxJson pause(Job job, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		try {
-			job = systemService.findEntity(JobEntity.class, job.getId());
+			job = systemService.findEntity(Job.class, job.getId());
 			message = "job暂停成功";
 			jobService.pauseJob(job.getId());
 			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -136,10 +136,10 @@ public class JobController extends BaseController {
 	 */
 	@RequestMapping(params = "resume")
 	@ResponseBody
-	public AjaxJson resume(JobEntity job, HttpServletRequest request) {
+	public AjaxJson resume(Job job, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		try {
-			job = systemService.findEntity(JobEntity.class, job.getId());
+			job = systemService.findEntity(Job.class, job.getId());
 			message = "job恢复成功";
 			jobService.resumeJob(job.getId());
 			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -159,10 +159,10 @@ public class JobController extends BaseController {
 	 */
 	@RequestMapping(params = "runOnce")
 	@ResponseBody
-	public AjaxJson runOnce(JobEntity job, HttpServletRequest request) {
+	public AjaxJson runOnce(Job job, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		try {
-			job = systemService.findEntity(JobEntity.class, job.getId());
+			job = systemService.findEntity(Job.class, job.getId());
 			message = "job立即运行一次成功";
 			jobService.runOnceJob(job.getId());
 			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -183,12 +183,12 @@ public class JobController extends BaseController {
 	 */
 	@RequestMapping(params = "save")
 	@ResponseBody
-	public AjaxJson save(JobEntity job, HttpServletRequest request) {
+	public AjaxJson save(Job job, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		try {
 			if (StringUtils.isNotEmpty(job.getId())) {
 				message = "job更新成功";
-				JobEntity t = jobService.find(JobEntity.class, job.getId());
+				Job t = jobService.find(Job.class, job.getId());
 				try {
 					BeanPropertyUtils.copyBeanNotNull2Bean(job, t);
 					jobService.updateJob(t);
@@ -216,10 +216,10 @@ public class JobController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "addorupdate")
-	public ModelAndView addorupdate(JobEntity job, HttpServletRequest req) {
+	public ModelAndView addorupdate(Job job, HttpServletRequest req) {
 		if (StringUtils.isNotEmpty(job.getId())) {
-			job = jobService.findEntity(JobEntity.class, job.getId());
-			req.setAttribute("jobPage", job);
+			job = jobService.findEntity(Job.class, job.getId());
+			req.setAttribute("jobView", job);
 		}
 		return new ModelAndView("system/job/job");
 	}

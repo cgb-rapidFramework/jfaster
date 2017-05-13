@@ -8,7 +8,7 @@
  </head>
  <body style="overflow-y: hidden" scroll="no">
   <t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" action="mutiLangController.do?save">
-			<input id="id" name="id" type="hidden" value="${mutiLangPage.id }">
+			<input id="id" name="id" type="hidden" value="${mutiLangView.id }">
 			<table style="width: 600px;" cellpadding="0" cellspacing="1" class="formtable">
 				<tr>
 					<td align="right">
@@ -18,7 +18,7 @@
 					</td>
 					<td class="value">
 						<input class="inputxt" id="langKey" name="langKey" 
-							   value="${mutiLangPage.langKey}" datatype="*">
+							   value="${mutiLangView.langKey}" datatype="*">
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>
@@ -30,7 +30,7 @@
 					</td>
 					<td class="value">
 						<input class="inputxt" id="langContext" name="langContext" 
-							   value="${mutiLangPage.langContext}" datatype="*">
+							   value="${mutiLangView.langContext}" datatype="*">
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>
@@ -44,7 +44,7 @@
 					<input class="inputxt" id="langCode" name="langCode" 
 							   value="zh-cn" readonly="readonly" datatype="*">
 					<%-- 
-						<t:dictSelect field="langCode" typeGroupCode="lang" hasLabel="false" defaultVal="${mutiLangPage.langCode}"></t:dictSelect>
+						<t:dictSelect field="langCode" typeGroupCode="lang" hasLabel="false" defaultVal="${mutiLangView.langCode}"></t:dictSelect>
 						 --%><span class="Validform_checktip"></span>
 					</td>
 				</tr>

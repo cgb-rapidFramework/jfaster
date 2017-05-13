@@ -1,4 +1,7 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<html>
+<head>
+    <title>欢迎使用abocode.com</title>
+</head>
 <style>
     .code {
         border: 1px solid #ccc;
@@ -23,3 +26,4 @@
         <div>404 error!请求地址有误！ </div>
     </div>
 </div>
+</html>

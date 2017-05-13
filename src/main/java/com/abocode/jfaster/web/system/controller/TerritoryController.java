@@ -5,7 +5,7 @@ import com.abocode.jfaster.core.tag.vo.datatable.SortDirection;
 import com.abocode.jfaster.core.tag.vo.easyui.ComboTreeModel;
 import com.abocode.jfaster.platform.constant.Globals;
 import com.abocode.jfaster.platform.util.MutiLangUtils;
-import com.abocode.jfaster.web.system.entity.TSTerritory;
+import com.abocode.jfaster.web.system.entity.Territory;
 import com.abocode.jfaster.web.system.service.ResourceService;
 import com.abocode.jfaster.web.system.service.SystemService;
 import com.abocode.jfaster.core.common.hibernate.qbc.CriteriaQuery;
@@ -38,9 +38,6 @@ public class TerritoryController extends BaseController {
 	private ResourceService resourceService;
 	private String message = null;
 
-    @Autowired
-    private MutiLangService mutiLangService;
-
 	@Autowired
 	private SystemService systemService;
 
@@ -61,7 +58,7 @@ public class TerritoryController extends BaseController {
 	@RequestMapping(params = "territoryGrid")
 	@ResponseBody
 	public List<TreeGrid> territoryGrid(HttpServletRequest request, TreeGrid treegrid) {
-		CriteriaQuery cq = new CriteriaQuery(TSTerritory.class);
+		CriteriaQuery cq = new CriteriaQuery(Territory.class);
 			if (treegrid.getId() != null) {
 				cq.eq("TSTerritory.id", treegrid.getId());
 			}
@@ -71,7 +68,7 @@ public class TerritoryController extends BaseController {
 		
 		cq.addOrder("territorySort", SortDirection.asc);
 		cq.add();
-		List<TSTerritory> territoryList = systemService.findListByCq(cq, false);
+		List<Territory> territoryList = systemService.findListByCq(cq, false);
 		List<TreeGrid> treeGrids = new ArrayList<TreeGrid>();
 		TreeGridModel treeGridModel = new TreeGridModel();
 		treeGridModel.setIcon("");
@@ -91,15 +88,15 @@ public class TerritoryController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "addorupdate")
-	public ModelAndView addorupdate(TSTerritory territory, HttpServletRequest req) {
+	public ModelAndView addorupdate(Territory territory, HttpServletRequest req) {
 		String functionid = req.getParameter("id");
 		if (functionid != null) {
-			territory = systemService.findEntity(TSTerritory.class, functionid);
-			req.setAttribute("territory", territory);
+			territory = systemService.findEntity(Territory.class, functionid);
+			req.setAttribute("territoryView", territory);
 		}
 		if(territory.getTSTerritory()!=null && territory.getTSTerritory().getId()!=null){
-			territory.setTSTerritory((TSTerritory)systemService.findEntity(TSTerritory.class, territory.getTSTerritory().getId()));
-			req.setAttribute("territory", territory);
+			territory.setTSTerritory((Territory)systemService.findEntity(Territory.class, territory.getTSTerritory().getId()));
+			req.setAttribute("territoryView", territory);
 		}
 		return new ModelAndView("system/territory/territory");
 	}
@@ -109,7 +106,7 @@ public class TerritoryController extends BaseController {
 	@RequestMapping(params = "setPTerritory")
 	@ResponseBody
 	public List<ComboTree> setPTerritory(HttpServletRequest request, ComboTree comboTree) {
-		CriteriaQuery cq = new CriteriaQuery(TSTerritory.class);
+		CriteriaQuery cq = new CriteriaQuery(Territory.class);
 		if (comboTree.getId() != null) {
 			cq.eq("TSTerritory.id", comboTree.getId());
 		}
@@ -117,7 +114,7 @@ public class TerritoryController extends BaseController {
 			cq.isNull("TSTerritory");
 		}
 		cq.add();
-		List<TSTerritory> territoryList = systemService.findListByCq(cq, false);
+		List<Territory> territoryList = systemService.findListByCq(cq, false);
 		ComboTreeModel comboTreeModel = new ComboTreeModel("id", "territoryName", "TSTerritorys");
 		List<ComboTree> comboTrees  = resourceService.ComboTree(territoryList, comboTreeModel, null, false);
 		return comboTrees;
@@ -127,7 +124,7 @@ public class TerritoryController extends BaseController {
 	 */
 	@RequestMapping(params = "saveTerritory")
 	@ResponseBody
-	public AjaxJson saveTerritory(TSTerritory territory, HttpServletRequest request) {
+	public AjaxJson saveTerritory(Territory territory, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		String functionOrder = territory.getTerritorySort();
 		if(StringUtils.isEmpty(functionOrder)){
@@ -136,7 +133,7 @@ public class TerritoryController extends BaseController {
 		if (territory.getTSTerritory().getId().equals("")) {
 			territory.setTSTerritory(null);
 		}else{
-			TSTerritory parent = systemService.findEntity(TSTerritory.class, territory.getTSTerritory().getId());
+			Territory parent = systemService.findEntity(Territory.class, territory.getTSTerritory().getId());
 			territory.setTerritoryLevel(Short.valueOf(parent.getTerritoryLevel()+1+""));
 		}
 		if (!StringUtils.isEmpty(territory.getId())) {
@@ -167,9 +164,9 @@ public class TerritoryController extends BaseController {
 	 */
 	@RequestMapping(params = "del")
 	@ResponseBody
-	public AjaxJson del(TSTerritory territory, HttpServletRequest request) {
+	public AjaxJson del(Territory territory, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		territory = systemService.findEntity(TSTerritory.class, territory.getId());
+		territory = systemService.findEntity(Territory.class, territory.getId());
 		message = "地域: " + territory.getTerritoryName() + "被删除成功";
 		systemService.delete(territory);
 		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);

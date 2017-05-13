@@ -10,25 +10,25 @@
 </head>
 <body style="overflow-y: hidden" scroll="no">
 <t:formvalid formid="formobj" layout="div" dialog="true" action="functionController.do?saverule">
-	<input name="id" type="hidden" value="${operation.id}">
+	<input name="id" type="hidden" value="${operationView.id}">
 	<fieldset class="step">
         <div class="form">
             <label class="Validform_label"> 规则名称: </label>
-            <input name="ruleName" class="inputxt" value="${operation.ruleName}" datatype="s2-20">
+            <input name="ruleName" class="inputxt" value="${operationView.ruleName}" datatype="s2-20">
             <span class="Validform_checktip"> <t:mutiLang langKey="operatename.rang2to20"/></span>
         </div>
       <div class="form">
             <label class="Validform_label"> 规则字段: </label>
-            <input name="ruleColumn" class="inputxt" value="${operation.ruleColumn}">
+            <input name="ruleColumn" class="inputxt" value="${operationView.ruleColumn}">
         </div>
         <div class="form">
             <label class="Validform_label"> 条件规则: </label>
-            	<t:dictSelect field="ruleConditions" typeGroupCode="rulecon" hasLabel="false" defaultVal="${operation.ruleConditions}"></t:dictSelect>
+            	<t:dictSelect field="ruleConditions" typeGroupCode="rulecon" hasLabel="false" defaultVal="${operationView.ruleConditions}"></t:dictSelect>
 			</div>
            <input name="TSFunction.id" value="${functionId}" type="hidden">
          <div class="form">
             <label class="Validform_label"> 规则值: </label>
-            <input name="ruleValue" class="inputxt" value="${operation.ruleValue}">
+            <input name="ruleValue" class="inputxt" value="${operationView.ruleValue}">
         </div>
 	</fieldset>
 </t:formvalid>

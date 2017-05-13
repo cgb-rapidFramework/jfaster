@@ -1,6 +1,6 @@
 package com.abocode.jfaster.web.common.hqlsearch;
 
-import com.abocode.jfaster.web.system.entity.TSDataRule;
+import com.abocode.jfaster.web.system.entity.DataRule;
 import com.abocode.jfaster.web.utils.SessionUtils;
 import com.abocode.jfaster.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
 
@@ -30,7 +30,7 @@ public class SysContextSqlConvert {
 	 * @return String 返回类型
 	 * @throws
 	 */
-	public static String setSqlModel(TSDataRule dataRule){
+	public static String setSqlModel(DataRule dataRule){
 		if(dataRule == null) 
 		return "";
 		String sqlValue="";

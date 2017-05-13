@@ -9,7 +9,7 @@
 		
 	$(function() {
 		$('#cc').combotree({
-			url : 'functionController.do?setPFunction&selfId=${function.id}',
+			url : 'functionController.do?setPFunction&selfId=${functionView.id}',
 			panelHeight: 200,
 			width: 157,
 			onClick: function(node){
@@ -46,22 +46,22 @@
 	});
 </script>
 </head>
-<body style="overflow-y: hidden" scroll="no">
+<body>
 <t:formvalid formid="formobj" layout="div" dialog="true" refresh="true" action="functionController.do?saveFunction">
-	<input name="id" type="hidden" value="${function.id}">
+	<input name="id" type="hidden" value="${functionView.id}">
 	<fieldset class="step">
 	<div class="form">
         <label class="Validform_label"> <t:mutiLang langKey="menu.name"/>: </label>
-        <input name="functionName" class="inputxt" value="${function.functionName}" datatype="s4-15">
+        <input name="functionName" class="inputxt" value="${functionView.functionName}" datatype="s4-15">
         <span class="Validform_checktip"> <t:mutiLang langKey="menuname.rang4to15"/> </span>
     </div>
     <div class="form">
         <label class="Validform_label"> <t:mutiLang langKey="funcType"/>: </label>
         <select name="functionType" id="functionType" datatype="*">
-            <option value="0" <c:if test="${function.functionType eq 0}">selected="selected"</c:if>>
+            <option value="0" <c:if test="${functionView.functionType eq 0}">selected="selected"</c:if>>
                 <t:mutiLang langKey="funcType.page"/>
             </option>
-            <option value="1" <c:if test="${function.functionType eq 1}"> selected="selected"</c:if>>
+            <option value="1" <c:if test="${functionView.functionType eq 1}"> selected="selected"</c:if>>
                 <t:mutiLang langKey="funcType.from"/>
             </option>
         </select>
@@ -70,10 +70,10 @@
 	<div class="form">
         <label class="Validform_label"> <t:mutiLang langKey="menu.level"/>: </label>
         <select name="functionLevel" id="functionLevel" datatype="*">
-            <option value="0" <c:if test="${function.functionLevel eq 0}">selected="selected"</c:if>>
+            <option value="0" <c:if test="${functionView.functionLevel eq 0}">selected="selected"</c:if>>
                 <t:mutiLang langKey="main.function"/>
             </option>
-            <option value="1" <c:if test="${function.functionLevel>0}"> selected="selected"</c:if>>
+            <option value="1" <c:if test="${functionView.functionLevel>0}"> selected="selected"</c:if>>
                 <t:mutiLang langKey="sub.function"/>
             </option>
         </select>
@@ -81,15 +81,15 @@
     </div>
 	<div class="form" id="pfun">
         <label class="Validform_label"> <t:mutiLang langKey="parent.function"/>: </label>
-        <input id="cc" <c:if test="${function.TSFunction.functionLevel eq 0}"> value="${function.TSFunction.id}"</c:if>
-		<c:if test="${function.TSFunction.functionLevel > 0}"> value="${function.TSFunction.functionName}"</c:if>>
-        <input id="functionId" name="TSFunction.id" style="display: none;" value="${function.TSFunction.id}">
+        <input id="cc" <c:if test="${functionView.TSFunction.functionLevel eq 0}"> value="${functionView.TSFunction.id}"</c:if>
+		<c:if test="${functionView.TSFunction.functionLevel > 0}"> value="${functionView.TSFunction.functionName}"</c:if>>
+        <input id="functionId" name="TSFunction.id" style="display: none;" value="${functionView.TSFunction.id}">
     </div>
 	<div class="form" id="funurl">
         <label class="Validform_label">
             <t:mutiLang langKey="menu.url"/>:
         </label>
-        <input name="functionUrl" class="inputxt" value="${function.functionUrl}">
+        <input name="functionUrl" class="inputxt" value="${functionView.functionUrl}">
     </div>
     <div class="form">
         <label class="Validform_label"> <t:mutiLang langKey="common.icon"/>: </label>
@@ -111,7 +111,7 @@
             </c:forEach>
         </select>
     </div>
-	<div class="form" id="funorder"><label class="Validform_label"> <t:mutiLang langKey="menu.order"/>: </label> <input name="functionOrder" class="inputxt" value="${function.functionOrder}" datatype="n1-3"></div>
+	<div class="form" id="funorder"><label class="Validform_label"> <t:mutiLang langKey="menu.order"/>: </label> <input name="functionOrder" class="inputxt" value="${functionView.functionOrder}" datatype="n1-3"></div>
 	</fieldset>
 </t:formvalid> 
 </body>
