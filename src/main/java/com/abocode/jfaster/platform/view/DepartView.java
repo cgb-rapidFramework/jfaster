@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
  * 部门机构表
  * @author  guanxf
  */
-@SuppressWarnings("serial")
 public class DepartView extends IdEntity implements java.io.Serializable {
 	private DepartView TSPDepart;//上级部门
 	private String departname;//部门名称
