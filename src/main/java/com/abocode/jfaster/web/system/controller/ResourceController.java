@@ -4,17 +4,15 @@ import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.model.json.ImportFile;
 import com.abocode.jfaster.core.util.ConvertUtils;
+import com.abocode.jfaster.core.util.LogUtils;
 import com.abocode.jfaster.platform.view.ReflectHelper;
 import com.abocode.jfaster.web.system.service.ResourceService;
 import com.abocode.jfaster.web.system.service.SystemService;
-import com.abocode.jfaster.web.utils.DateUtils;
-import com.abocode.jfaster.web.utils.ResourceUtils;
+import com.abocode.jfaster.web.utils.*;
 import com.abocode.jfaster.core.common.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.platform.common.tag.easyui.TagUtil;
 import com.abocode.jfaster.platform.util.FileUtils;
 import com.abocode.jfaster.web.system.entity.UploadFile;
-import com.abocode.jfaster.web.utils.ClassLoaderUtils;
-import com.abocode.jfaster.web.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
@@ -88,7 +86,7 @@ public class ResourceController {
             try {
                 FileCopyUtils.copy(mf.getBytes(), savefile);
             } catch (IOException e) {
-                e.printStackTrace();
+                LogUtils.error(e.getMessage());
             }
         }
         resourceService.parserXml(ctxPath + "/" + fileName);

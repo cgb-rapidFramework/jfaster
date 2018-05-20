@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import com.abocode.jfaster.core.util.LogUtils;
 import org.springframework.util.StringUtils;
 /**
  * Created by Franky on 2016/3/15.
@@ -64,7 +65,7 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
             date = getSimpleDateFormat(sdf).parse(str);
             return date;
         } catch (ParseException e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
         return null;
     }
@@ -82,7 +83,7 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
         try {
             _date = sdf.parse(date);
         } catch (ParseException e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
         return sdf.format(_date);
     }

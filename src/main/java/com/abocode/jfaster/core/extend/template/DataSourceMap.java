@@ -1,4 +1,6 @@
 package com.abocode.jfaster.core.extend.template;
+import com.abocode.jfaster.core.util.LogUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -23,9 +25,8 @@ public class DataSourceMap {
 				dsm.put(entry.getKey().toString(), entry.getValue()==null?"":entry.getValue().toString().trim());
 			}
 			is.close();//关闭
-			is=null;
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 	}
 	public static Map<Object,Object> getDataSourceMap() {

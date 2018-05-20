@@ -7,6 +7,7 @@ import com.abocode.jfaster.core.common.model.json.ComboBox;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.model.json.ValidForm;
 import com.abocode.jfaster.core.util.ConvertUtils;
+import com.abocode.jfaster.core.util.LogUtils;
 import com.abocode.jfaster.platform.view.FunctionView;
 import com.abocode.jfaster.platform.common.poi.excel.ExcelExportUtil;
 import com.abocode.jfaster.platform.common.poi.excel.ExcelImportUtil;
@@ -125,7 +126,7 @@ public class UserController extends BaseController {
 		try {
 			response.getWriter().write(logString);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 	}
 
@@ -187,7 +188,7 @@ public class UserController extends BaseController {
 			try {
 				user.setPassword(PasswordUtils.encrypt(user.getUserName(), newpassword, PasswordUtils.getStaticSalt()));
 			} catch (Exception e) {
-				e.printStackTrace();
+				LogUtils.error(e.getMessage());
 			}
 			systemService.update(user);
 			j.setMsg("修改成功");
@@ -856,13 +857,13 @@ public class UserController extends BaseController {
 			// 返回客户端
 			fOut.write(readFileToByteArray);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		} finally {
 			try {
 				fOut.flush();
 				fOut.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				LogUtils.error(e.getMessage());
 			}
 		}
 	}
@@ -1015,7 +1016,7 @@ public class UserController extends BaseController {
 			fOut = response.getOutputStream();
 			workbook.write(fOut);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		} finally {
 			try {
 				if (fOut != null) {

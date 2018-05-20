@@ -1,6 +1,8 @@
 package com.abocode.jfaster.web.utils;
 
 
+import com.abocode.jfaster.core.util.LogUtils;
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -62,7 +64,7 @@ public class PasswordUtils {
 			secretKey = keyFactory.generateSecret(keySpec);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 
 		return secretKey;
@@ -201,7 +203,7 @@ public class PasswordUtils {
 			String plaintext = PasswordUtils.decrypt(ciphertext, password, salt);
 			LogUtils.info("明文:" + plaintext);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 	}
 }

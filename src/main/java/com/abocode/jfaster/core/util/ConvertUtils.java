@@ -60,7 +60,7 @@ public class ConvertUtils {
 		try {
 			strIn = new String(strIn.getBytes("ISO-8859-1"), "GBK");
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 		return strIn;
 
@@ -77,7 +77,7 @@ public class ConvertUtils {
 			}
 			strOut = new String(b, targetCode);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 			return null;
 		}
 		return strOut;
@@ -242,7 +242,7 @@ public class ConvertUtils {
 			ip = address.getHostAddress();
 
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 		return ip;
 	}

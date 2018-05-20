@@ -1,6 +1,7 @@
 package com.abocode.jfaster.web.common.aop;
 
 import com.abocode.jfaster.core.util.ConvertUtils;
+import com.abocode.jfaster.core.util.LogUtils;
 import com.abocode.jfaster.web.utils.SessionUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.EmptyInterceptor;
@@ -96,7 +97,7 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 		     }
 		 }
 	} catch (RuntimeException e) {
-		e.printStackTrace();
+		LogUtils.error(e.getMessage());
 	}
 	 return true;
 }

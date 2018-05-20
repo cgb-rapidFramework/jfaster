@@ -1,4 +1,4 @@
-package test;
+package com.abocode.system.datainit;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.abocode.jfaster.web.system.entity.*;
-import com.abocode.jfaster.web.utils.LogUtils;
+import com.abocode.jfaster.core.util.LogUtils;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
@@ -182,7 +182,7 @@ public class InitDB {
 			out.close();
 			LogUtils.info("Successfull................");
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 	}
 }

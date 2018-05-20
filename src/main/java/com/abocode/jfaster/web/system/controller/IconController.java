@@ -15,6 +15,7 @@ import com.abocode.jfaster.web.system.service.SystemService;
 import com.abocode.jfaster.core.common.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.platform.common.tag.easyui.TagUtil;
 import com.abocode.jfaster.web.utils.FileUtils;
+import com.abocode.jfaster.core.util.LogUtils;
 import com.abocode.jfaster.web.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -216,9 +217,9 @@ public class IconController extends BaseController {
 			fos.write("".getBytes());
 			fos.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 	}
 

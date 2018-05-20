@@ -1,6 +1,7 @@
 package com.abocode.jfaster.platform.util;
 
 import com.abocode.jfaster.core.util.ConvertUtils;
+import com.abocode.jfaster.core.util.LogUtils;
 
 import java.io.*;
 
@@ -60,37 +61,6 @@ public class FileUtils {
         int splitIndex = fileName.lastIndexOf(".");
         return fileName.substring(0, splitIndex);
     }
-
-    /**
-     * 文件复制
-     * 方法摘要：这里一句话描述方法的用途
-     *
-     * @param
-     * @return void
-     */
-    public static void copyFile(String inputFile, String outputFile) throws FileNotFoundException {
-        File sFile = new File(inputFile);
-        File tFile = new File(outputFile);
-        FileInputStream fis = new FileInputStream(sFile);
-        FileOutputStream fos = new FileOutputStream(tFile);
-        int temp = 0;
-        byte[] buf = new byte[10240];
-        try {
-            while ((temp = fis.read(buf)) != -1) {
-                fos.write(buf, 0, temp);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                fis.close();
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     /**
      * 判断文件是否为图片<br>
      * <br>

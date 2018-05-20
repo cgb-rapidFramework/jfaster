@@ -26,6 +26,7 @@ import com.abocode.jfaster.platform.common.poi.excel.annotation.Excel;
 import com.abocode.jfaster.platform.common.poi.excel.annotation.ExcelCollection;
 import com.abocode.jfaster.platform.common.poi.excel.annotation.ExcelTarget;
 import com.abocode.jfaster.platform.common.poi.excel.entity.TemplateExportParams;
+import com.abocode.jfaster.core.util.LogUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
@@ -108,7 +109,7 @@ public final class ExcelExportOfTemplateUtil {
 				addDataToSheet(params, pojoClass, dataSet, wb.getSheetAt(0), wb);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 			return null;
 		}
 		return wb;
@@ -474,7 +475,7 @@ public final class ExcelExportOfTemplateUtil {
 								.addPicture(byteArrayOut.toByteArray(),
 										Workbook.PICTURE_TYPE_JPEG));
 			} catch (IOException e) {
-				e.printStackTrace();
+				LogUtils.error(e.getMessage());
 			}
 		} else {
 			byte[] value = (byte[]) (entity.getGetMethods() != null ? getFieldBySomeMethod(

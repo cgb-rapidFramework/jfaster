@@ -5,6 +5,7 @@ import com.abocode.jfaster.web.system.service.MenuInitService;
 import com.abocode.jfaster.web.system.service.SystemService;
 import com.abocode.jfaster.web.utils.ConfigUtils;
 import com.abocode.jfaster.web.system.service.MutiLangService;
+import com.abocode.jfaster.core.util.LogUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -56,7 +57,7 @@ public class InitListener  implements javax.servlet.ServletContextListener {
 		try {
 			jobService.initJob();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 	}
 

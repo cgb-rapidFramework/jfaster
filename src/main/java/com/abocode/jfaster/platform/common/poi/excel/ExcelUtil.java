@@ -1,6 +1,7 @@
 package com.abocode.jfaster.platform.common.poi.excel;
 
 import com.abocode.jfaster.platform.common.poi.excel.annotation.Excel;
+import com.abocode.jfaster.core.util.LogUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -82,7 +83,7 @@ public final class ExcelUtil {
 			createExcel("TEST01.xls", headList, fieldList, dataList);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 	}
 
@@ -549,7 +550,7 @@ public final class ExcelUtil {
 			FileInputStream in = new FileInputStream(file);
 			return importExcelByIs(in, pojoClass);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 			return null;
 		}
 	}
@@ -705,7 +706,7 @@ public final class ExcelUtil {
 				dist.add(tObject);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 			return null;
 		}
 		return dist;

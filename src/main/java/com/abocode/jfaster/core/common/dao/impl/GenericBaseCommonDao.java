@@ -9,6 +9,7 @@ import com.abocode.jfaster.core.tag.vo.datatable.DataTableReturn;
 import com.abocode.jfaster.core.tag.vo.easyui.Autocomplete;
 import com.abocode.jfaster.core.util.BeanPropertyUtils;
 import com.abocode.jfaster.core.util.ConvertUtils;
+import com.abocode.jfaster.core.util.LogUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -99,7 +100,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 				EntityTitle t = c.getAnnotation(EntityTitle.class);
 				dbTable.setTableTitle(t != null ? t.name() : "");
 			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+				LogUtils.error(e.getMessage());
 			}
 			resultList.add(dbTable);
 		}
@@ -787,7 +788,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 				BeanPropertyUtils.copyMap2Bean_Nobig(po, m);
 				rsList.add(po);
 			} catch (Exception e) {
-				e.printStackTrace();
+				LogUtils.error(e.getMessage());
 			}
 		}
 		return rsList;

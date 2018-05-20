@@ -1,6 +1,7 @@
 package com.abocode.jfaster.web.utils;
 
 import com.abocode.jfaster.core.common.model.json.DataGrid;
+import com.abocode.jfaster.core.util.LogUtils;
 import com.abocode.jfaster.web.system.entity.Icon;
 
 import javax.imageio.stream.FileImageOutputStream;
@@ -38,7 +39,7 @@ public class FileUtils {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
     }
 
@@ -46,18 +47,12 @@ public class FileUtils {
     private static void byte2image(byte[] data,File file){
         if( data.length < 3 ) return;
         FileImageOutputStream imageOutput = null;
-        String fileName=null;
         try {
             imageOutput = new FileImageOutputStream(file);
             imageOutput.write(data, 0, data.length);
+            imageOutput.close();
         } catch(Exception ex) {
             ex.printStackTrace();
-        } finally {
-            try {
-                imageOutput.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -71,7 +66,7 @@ public class FileUtils {
             File folder = new File(folderPath);
             folder.delete(); //删除空文件夹
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
     }
     /**

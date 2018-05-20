@@ -1,5 +1,6 @@
 package com.abocode.jfaster.web.utils;
 
+import com.abocode.jfaster.core.util.LogUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -230,7 +231,7 @@ public class GenericsUtils {
         try {
             entityClass = Class.forName(objClass);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
         return entityClass;
     }

@@ -1,4 +1,4 @@
-package com.abocode.jfaster.web.utils;
+package com.abocode.jfaster.core.util;
 
 
 import java.io.*;
@@ -19,7 +19,7 @@ public class StreamUtils {
      * @return String
      * @throws Exception
      */
-    public static String InputStreamTOString(InputStream in) {
+    public static String inputStreamTOString(InputStream in) {
 
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         byte[] data = new byte[BUFFER_SIZE];
@@ -29,14 +29,12 @@ public class StreamUtils {
             while ((count = in.read(data, 0, BUFFER_SIZE)) != -1)
                 outStream.write(data, 0, count);
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
-
-        data = null;
         try {
             string = new String(outStream.toByteArray(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
         return string;
     }
@@ -58,14 +56,14 @@ public class StreamUtils {
             while ((count = in.read(data, 0, BUFFER_SIZE)) != -1)
                 outStream.write(data, 0, count);
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
 
         data = null;
         try {
             string = new String(outStream.toByteArray(), encoding);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
         return string;
     }
@@ -96,7 +94,7 @@ public class StreamUtils {
             bytes = InputStreamTOByte(StringTOInputStream(in));
         } catch (IOException e) {
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
         return bytes;
     }
@@ -158,7 +156,7 @@ public class StreamUtils {
         try {
             is = byteTOInputStream(in);
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
         return InputStreamTOString(is, "UTF-8");
     }
@@ -176,7 +174,7 @@ public class StreamUtils {
         try {
             is = byteTOString(StringTObyte(in));
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
         return is;
     }
@@ -214,7 +212,7 @@ public class StreamUtils {
             fileInputStream = new FileInputStream(filepath);
         } catch (FileNotFoundException e) {
             System.out.print("错误信息:文件不存在");
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
         return fileInputStream;
     }
@@ -232,7 +230,7 @@ public class StreamUtils {
             fileInputStream = new FileInputStream(file);
         } catch (FileNotFoundException e) {
             System.out.print("错误信息:文件不存在");
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
         return fileInputStream;
     }
@@ -251,7 +249,7 @@ public class StreamUtils {
             fileOutputStream = new FileOutputStream(file, append);
         } catch (FileNotFoundException e) {
             System.out.print("错误信息:文件不存在");
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
         return fileOutputStream;
     }
@@ -270,7 +268,7 @@ public class StreamUtils {
             fileOutputStream = new FileOutputStream(filepath, append);
         } catch (FileNotFoundException e) {
             System.out.print("错误信息:文件不存在");
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
         return fileOutputStream;
     }

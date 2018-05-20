@@ -39,15 +39,20 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	}
 	
 	public List<DictBean> queryDict(String dicTable, String dicCode, String dicText){
-		List<DictBean> dictList = null;
+		 throw new RuntimeException("this's function not implements");
+
 		//step.1 如果没有字典表则使用系统字典表/*
-		/*if(StringUtils.isEmpty(dicTable)){
+		/*
+		List<DictBean> dictList = null;
+		if(StringUtils.isEmpty(dicTable)){
 			dictList = jeecgDictDao.querySystemDict(dicCode);
 		}else {
 			dicText = StringUtils.isEmpty(dicText, dicCode);
 			dictList = jeecgDictDao.queryCustomDict(dicTable, dicCode, dicText);
-		}*/
+		}
 		return dictList;
+		*/
+
 	}
 
 	/**
@@ -107,19 +112,19 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 
 	
 	public TypeGroup getTypeGroupByCode(String typegroupCode) {
-		TypeGroup tsTypegroup = commonDao.findUniqueByProperty(TypeGroup.class, "typegroupcode", typegroupCode);
-		return tsTypegroup;
+		TypeGroup typeGroup = commonDao.findUniqueByProperty(TypeGroup.class, "typegroupcode", typegroupCode);
+		return typeGroup;
 	}
 
 	
 	public void initAllTypeGroups() {
 		List<TypeGroup> typeGroups = this.commonDao.findAll(TypeGroup.class);
-		for (TypeGroup tsTypegroup : typeGroups) {
-			TypeGroupView typegroupBean= BeanToTagUtils.convertTypeGroup(tsTypegroup);
-			TypeGroupContainer.allTypeGroups.put(tsTypegroup.getTypegroupcode().toLowerCase(), typegroupBean);
-			List<Type> tsTypes = this.commonDao.findAllByProperty(Type.class, "TSTypegroup.id", tsTypegroup.getId());
+		for (TypeGroup typeGroup : typeGroups) {
+			TypeGroupView typegroupBean= BeanToTagUtils.convertTypeGroup(typeGroup);
+			TypeGroupContainer.allTypeGroups.put(typeGroup.getTypegroupcode().toLowerCase(), typegroupBean);
+			List<Type> tsTypes = this.commonDao.findAllByProperty(Type.class, "TSTypegroup.id", typeGroup.getId());
 			List<TypeView> types=BeanToTagUtils.convertTypes(tsTypes);
-			TypeGroupContainer.allTypes.put(tsTypegroup.getTypegroupcode().toLowerCase(), types);
+			TypeGroupContainer.allTypes.put(typeGroup.getTypegroupcode().toLowerCase(), types);
 		}
 	}
 

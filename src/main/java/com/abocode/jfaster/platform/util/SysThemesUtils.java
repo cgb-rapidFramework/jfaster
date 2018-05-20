@@ -2,6 +2,7 @@ package com.abocode.jfaster.platform.util;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.abocode.jfaster.core.util.LogUtils;
 import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
 
@@ -29,7 +30,7 @@ public class SysThemesUtils {
                 currentTemplate = gson.fromJson(json, TemplateView.class);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
         if (currentTemplate == null) {
             currentTemplate = getDefaultTemplate();

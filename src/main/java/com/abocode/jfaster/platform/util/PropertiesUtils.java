@@ -1,6 +1,8 @@
 package com.abocode.jfaster.platform.util;
 
 
+import com.abocode.jfaster.core.util.LogUtils;
+
 import java.io.*;
 import java.util.Properties;
 
@@ -28,12 +30,12 @@ public class PropertiesUtils {
             p.load(is);
             value = p.getProperty(key);
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         } finally {
             try {
                 is.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                LogUtils.error(e.getMessage());
             }
         }
         return value;
@@ -47,12 +49,12 @@ public class PropertiesUtils {
                     properiesName);
             p.load(is);
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         } finally {
             try {
                 is.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                LogUtils.error(e.getMessage());
             }
         }
         return p;
@@ -72,7 +74,7 @@ public class PropertiesUtils {
             os.flush();
             os.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         } finally {
             try {
                 if (null != is)
@@ -80,7 +82,7 @@ public class PropertiesUtils {
                 if (null != os)
                     os.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                LogUtils.error(e.getMessage());
             }
         }
 

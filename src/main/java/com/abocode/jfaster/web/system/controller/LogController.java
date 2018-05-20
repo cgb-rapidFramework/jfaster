@@ -8,6 +8,7 @@ import com.abocode.jfaster.web.system.entity.Log;
 import com.abocode.jfaster.web.system.service.LogService;
 import com.abocode.jfaster.web.system.service.SystemService;
 import com.abocode.jfaster.web.utils.DateUtils;
+import com.abocode.jfaster.core.util.LogUtils;
 import org.apache.log4j.Logger;
 import com.abocode.jfaster.core.common.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.platform.common.tag.easyui.TagUtil;
@@ -90,7 +91,7 @@ public class LogController extends BaseController {
             try {
                 beginValue = DateUtils.parseTimestamp(operatetime_begin, "yyyy-MM-dd");
             } catch (ParseException e) {
-                e.printStackTrace();
+                LogUtils.error(e.getMessage());
             }
             cq.ge("operatetime", beginValue);
         }
@@ -103,7 +104,7 @@ public class LogController extends BaseController {
             try {
                 endValue = DateUtils.parseTimestamp(operatetime_end, "yyyy-MM-dd hh:mm:ss");
             } catch (ParseException e) {
-                e.printStackTrace();
+                LogUtils.error(e.getMessage());
             }
             cq.le("operatetime", endValue);
         }

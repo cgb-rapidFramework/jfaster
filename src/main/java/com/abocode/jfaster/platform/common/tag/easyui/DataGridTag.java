@@ -6,6 +6,7 @@ import com.abocode.jfaster.platform.constant.Globals;
 import com.abocode.jfaster.platform.util.JspWriterUtils;
 import com.abocode.jfaster.platform.util.MutiLangUtils;
 import com.abocode.jfaster.platform.util.SysThemesUtils;
+import com.abocode.jfaster.core.util.LogUtils;
 import com.google.gson.Gson;
 import net.sf.json.JSONObject;
 import com.abocode.jfaster.core.tag.vo.easyui.ColumnValue;
@@ -849,7 +850,7 @@ public class DataGridTag extends TagSupport {
                 re.append("\" ");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
             return "";
         }
         return dealSyscode(re.toString(), 2);

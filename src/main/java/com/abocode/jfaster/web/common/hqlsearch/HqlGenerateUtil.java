@@ -4,6 +4,7 @@ import com.abocode.jfaster.core.annotation.query.QueryTimeFormat;
 import com.abocode.jfaster.core.extend.hqlsearch.parse.ObjectParseUtil;
 import com.abocode.jfaster.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;
 import com.abocode.jfaster.web.utils.DataRuleUtils;
+import com.abocode.jfaster.core.util.LogUtils;
 import com.abocode.jfaster.web.utils.SessionUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import com.abocode.jfaster.core.common.hibernate.qbc.CriteriaQuery;
@@ -165,7 +166,7 @@ public class HqlGenerateUtil {
 					}
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LogUtils.error(e.getMessage());
 			}
 		}
 	}
@@ -272,7 +273,7 @@ public class HqlGenerateUtil {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 		return isNotEmpty;
 	}

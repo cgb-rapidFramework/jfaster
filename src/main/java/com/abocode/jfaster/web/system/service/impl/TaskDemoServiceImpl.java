@@ -1,7 +1,7 @@
 package com.abocode.jfaster.web.system.service.impl;
 
 import com.abocode.jfaster.web.system.service.TaskDemoService;
-import com.abocode.jfaster.web.utils.LogUtils;
+import com.abocode.jfaster.core.util.LogUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

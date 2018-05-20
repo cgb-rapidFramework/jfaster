@@ -1,4 +1,4 @@
-package com.abocode.jfaster.web.utils;
+package com.abocode.jfaster.core.util;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;

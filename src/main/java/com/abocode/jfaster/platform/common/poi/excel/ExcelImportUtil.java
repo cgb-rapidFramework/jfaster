@@ -1,5 +1,6 @@
 package com.abocode.jfaster.platform.common.poi.excel;
 
+import com.abocode.jfaster.core.util.LogUtils;
 import org.apache.poi.POIXMLDocument;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -53,12 +54,12 @@ public final class ExcelImportUtil {
 			in = new FileInputStream(file);
 			result = importExcelByIs(in, pojoClass, params);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}finally{
 			try {
 				in.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				LogUtils.error(e.getMessage());
 			}
 		}
 		return result;

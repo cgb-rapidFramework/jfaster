@@ -1,5 +1,7 @@
 package com.abocode.jfaster.platform.util;
 
+import com.abocode.jfaster.core.util.LogUtils;
+
 import javax.servlet.jsp.JspWriter;
 import java.io.IOException;
 
@@ -13,7 +15,7 @@ public class JspWriterUtils {
             out.print(text);
             out.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
 
     }

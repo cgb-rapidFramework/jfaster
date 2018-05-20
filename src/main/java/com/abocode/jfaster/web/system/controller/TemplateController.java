@@ -12,6 +12,7 @@ import com.abocode.jfaster.web.system.constant.TemplateConstant;
 import com.abocode.jfaster.web.system.entity.Template;
 import com.abocode.jfaster.web.system.service.SystemService;
 import com.abocode.jfaster.web.system.service.TemplateService;
+import com.abocode.jfaster.core.util.LogUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -125,7 +126,7 @@ public class TemplateController extends BaseController {
 				templateService.saveOrUpdate(t);
 				systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 			} catch (Exception e) {
-				e.printStackTrace();
+				LogUtils.error(e.getMessage());
 				message = "模版管理更新失败";
 			}
 		} else {

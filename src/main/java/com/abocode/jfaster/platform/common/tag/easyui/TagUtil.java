@@ -6,6 +6,7 @@ import com.abocode.jfaster.core.tag.vo.easyui.Autocomplete;
 import com.abocode.jfaster.core.util.ConvertUtils;
 import com.abocode.jfaster.platform.view.ReflectHelper;
 import com.abocode.jfaster.platform.view.RoleView;
+import com.abocode.jfaster.core.util.LogUtils;
 import com.google.gson.Gson;
 import org.springframework.util.StringUtils;
 
@@ -400,11 +401,11 @@ public class TagUtil {
         try {
             mapper.writeValue(response.getWriter(), map);
         } catch (JsonGenerationException e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         } catch (JsonMappingException e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
     }*/
 
@@ -424,14 +425,14 @@ public class TagUtil {
             Object object = getObject(dg);
             data = gson.toJson(object);
         } catch (Exception e) {
-          e.printStackTrace();
+          LogUtils.error(e.getMessage());
         }
         try {
             PrintWriter pw = response.getWriter();
             pw.write(data);
             pw.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
     }
 
@@ -449,7 +450,7 @@ public class TagUtil {
             String  data= datatable(field, dataTableReturn.getiTotalDisplayRecords(), dataTableReturn.getAaData());
             response.getWriter().write(new Gson().toJson(data));
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
     }
 

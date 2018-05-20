@@ -4,6 +4,8 @@ import com.abocode.jfaster.core.common.model.json.ImportFile;
 import com.abocode.jfaster.core.extend.template.DataSourceMap;
 import com.abocode.jfaster.core.tag.vo.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.util.ConvertUtils;
+import com.abocode.jfaster.core.util.LogUtils;
+import com.abocode.jfaster.core.util.StreamUtils;
 import com.abocode.jfaster.platform.view.ReflectHelper;
 import com.abocode.jfaster.web.system.entity.Operation;
 import com.abocode.jfaster.web.system.entity.RoleFunction;
@@ -141,7 +143,7 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 		}
 		return object;
@@ -165,21 +167,17 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 		String ctxPath = request.getSession().getServletContext().getRealPath("/");
 		String downLoadPath = "";
 		long fileLength = 0;
+		try {
 		if (uploadFile.getRealPath() != null&&uploadFile.getContent() == null) {
 			downLoadPath = ctxPath + uploadFile.getRealPath();
 			fileLength = new File(downLoadPath).length();
-			try {
-				bis = new BufferedInputStream(new FileInputStream(downLoadPath));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+			bis = new BufferedInputStream(new FileInputStream(downLoadPath));
 		} else {
 			if (uploadFile.getContent() != null)
 				bis = new ByteArrayInputStream(uploadFile.getContent());
 			fileLength = uploadFile.getContent().length;
 		}
-		try {
-			if (!uploadFile.isView() && uploadFile.getExtend() != null) {
+		if (!uploadFile.isView() && uploadFile.getExtend() != null) {
 				if (uploadFile.getExtend().equals("text")) {
 					response.setContentType("text/plain;");
 				} else if (uploadFile.getExtend().equals("doc")) {
@@ -203,7 +201,7 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 				bos.write(buff, 0, bytesRead);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		} finally {
 			try {
 				if (bis != null) {
@@ -213,7 +211,7 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 					bos.close();
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				LogUtils.error(e.getMessage());
 			}
 		}
 		return response;
@@ -268,7 +266,7 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 			uploadFile.setExtend("bak");
 			viewOrDownloadFile(uploadFile);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 		return response;
 	}
@@ -331,7 +329,7 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 	}
 
@@ -559,7 +557,7 @@ public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceS
 			            	content.append(s).append(",");
 			            }
 			        }catch(Exception e) {
-			            e.printStackTrace();
+			            LogUtils.error(e.getMessage());
 			        }
 
 			}

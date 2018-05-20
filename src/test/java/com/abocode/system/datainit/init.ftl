@@ -137,7 +137,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
           
         </#list>
         } catch (ParseException e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 	}
 

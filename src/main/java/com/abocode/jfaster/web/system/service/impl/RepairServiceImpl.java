@@ -3,16 +3,15 @@ package com.abocode.jfaster.web.system.service.impl;
 import com.abocode.jfaster.core.common.service.impl.CommonServiceImpl;
 import com.abocode.jfaster.web.system.service.RepairService;
 import com.abocode.jfaster.web.utils.DateUtils;
-import com.abocode.jfaster.web.utils.LogUtils;
+import com.abocode.jfaster.core.util.LogUtils;
 import com.abocode.jfaster.web.system.service.MutiLangService;
 import com.abocode.jfaster.web.system.entity.*;
+import com.abocode.jfaster.core.util.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.List;
 
 /**
@@ -24,7 +23,6 @@ import java.util.List;
 @Service("repairService")
 @Transactional
 public class RepairServiceImpl extends CommonServiceImpl implements RepairService {
-
     /**
      * @Description 先清空数据库，然后再修复数据库
      * @author tanghan 2013-7-19
@@ -85,46 +83,31 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
     private void repairTerritory() {
         try {
             ClassPathResource sqlFile = new ClassPathResource("sql/repair/RepairDao_batchRepairTerritory.sql");
-            InputStreamReader isr = null;
-            isr = new InputStreamReader(sqlFile.getInputStream(), "utf-8");
-            BufferedReader br = new BufferedReader(isr);
-            String str = "";
-            while ((str = br.readLine()) != null) {
-                commonDao.updateBySql(str);
-            }
+            String str= StreamUtils.inputStreamTOString(sqlFile.getInputStream());
+            commonDao.updateBySql(str);
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
     }
 
     private void repairMutilang() {
         try {
             ClassPathResource sqlFile = new ClassPathResource("sql/repair/RepairDao_batchRepairMutilang.sql");
-            InputStreamReader isr = null;
-            isr = new InputStreamReader(sqlFile.getInputStream(), "utf-8");
-            BufferedReader br = new BufferedReader(isr);
-            String str = "";
-            while ((str = br.readLine()) != null) {
-                commonDao.updateBySql(str);
-            }
+            String str= StreamUtils.inputStreamTOString(sqlFile.getInputStream());
+            commonDao.updateBySql(str);
             mutiLangService.refleshMutiLangCach();
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
     }
 
     private void repairTemplate() {
         try {
             ClassPathResource sqlFile = new ClassPathResource("sql/repair/RepairDao_batchRepairTemplate.sql");
-            InputStreamReader isr = null;
-            isr = new InputStreamReader(sqlFile.getInputStream(), "utf-8");
-            BufferedReader br = new BufferedReader(isr);
-            String str = "";
-            while ((str = br.readLine()) != null) {
-                commonDao.updateBySql(str);
-            }
+            String str= StreamUtils.inputStreamTOString(sqlFile.getInputStream());
+            commonDao.updateBySql(str);
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
     }
 

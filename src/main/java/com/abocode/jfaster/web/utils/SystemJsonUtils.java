@@ -1,5 +1,6 @@
 package com.abocode.jfaster.web.utils;
 
+import com.abocode.jfaster.core.util.LogUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import com.abocode.jfaster.core.common.model.json.ComboBox;
 import com.abocode.jfaster.core.util.ConvertUtils;
@@ -87,11 +88,11 @@ public class SystemJsonUtils {
 				perStr = (String)PropertyUtils.getProperty(object, perFieldName);
 				sufStr = (String)PropertyUtils.getProperty(object, sufFieldName);
 			} catch (InvocationTargetException e) {
-				e.printStackTrace();
+				LogUtils.error(e.getMessage());
 			} catch (NoSuchMethodException e) {
-				e.printStackTrace();
+				LogUtils.error(e.getMessage());
 			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+				LogUtils.error(e.getMessage());
 			}
 			strList.add(perStr + "_" +sufStr);
 		}

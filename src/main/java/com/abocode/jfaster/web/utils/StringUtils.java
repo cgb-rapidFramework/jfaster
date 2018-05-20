@@ -1,5 +1,6 @@
 package com.abocode.jfaster.web.utils;
 
+import com.abocode.jfaster.core.util.LogUtils;
 import com.abocode.jfaster.platform.util.StringExpandUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -114,7 +115,7 @@ public class StringUtils extends StringExpandUtils {
             try {
                 trem = URLDecoder.decode(property, "UTF-8");
             } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+                LogUtils.error(e.getMessage());
             }
         }
         return trem;

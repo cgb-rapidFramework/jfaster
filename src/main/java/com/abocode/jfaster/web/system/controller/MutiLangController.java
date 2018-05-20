@@ -1,5 +1,6 @@
 package com.abocode.jfaster.web.system.controller;
 
+import com.abocode.jfaster.core.util.LogUtils;
 import org.apache.log4j.Logger;
 import com.abocode.jfaster.core.common.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
@@ -128,7 +129,7 @@ public class MutiLangController extends BaseController {
 				mutiLangService.initAllMutiLang();
 				systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 			} catch (Exception e) {
-				e.printStackTrace();
+				LogUtils.error(e.getMessage());
 				message = MutiLangUtils.paramUpdFail("common.language");
 			}
 		} else {

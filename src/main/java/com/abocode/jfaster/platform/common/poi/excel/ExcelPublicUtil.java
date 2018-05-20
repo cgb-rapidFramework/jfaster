@@ -4,6 +4,7 @@ import com.abocode.jfaster.platform.common.poi.excel.annotation.Excel;
 import com.abocode.jfaster.platform.common.poi.excel.annotation.ExcelCollection;
 import com.abocode.jfaster.platform.common.poi.excel.annotation.ExcelEntity;
 import com.abocode.jfaster.platform.common.poi.excel.annotation.ExcelIgnore;
+import com.abocode.jfaster.core.util.LogUtils;
 import org.apache.poi.POIXMLDocumentPart;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.PictureData;
@@ -145,7 +146,7 @@ public class ExcelPublicUtil {
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 		return obj; 
 		

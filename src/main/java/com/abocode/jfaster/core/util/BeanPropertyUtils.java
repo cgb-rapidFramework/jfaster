@@ -159,11 +159,11 @@ public class BeanPropertyUtils
 			Object propvalue = PropertyUtils.getSimpleProperty(bean,propname);
 			map.put(propname, propvalue);
 		} catch (IllegalAccessException e) {
-			//e.printStackTrace();
+			//LogUtils.error(e.getMessage());
 		} catch (InvocationTargetException e) {
-			//e.printStackTrace();
+			//LogUtils.error(e.getMessage());
 		} catch (NoSuchMethodException e) {
-			//e.printStackTrace();
+			//LogUtils.error(e.getMessage());
 		}
 	}
   }
@@ -326,7 +326,7 @@ public class BeanPropertyUtils
                 entity = toEntity(clas, data, labels);
                 entitys.add(entity);
             } catch (Exception e) {
-                e.printStackTrace();
+                LogUtils.error(e.getMessage());
             }
 
         }

@@ -3,10 +3,11 @@ package com.abocode.jfaster.web.system.controller;
 import com.abocode.jfaster.core.common.model.json.*;
 import com.abocode.jfaster.core.tag.vo.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.util.ConvertUtils;
+import com.abocode.jfaster.core.util.LogUtils;
 import com.abocode.jfaster.platform.constant.Globals;
 import com.abocode.jfaster.web.system.entity.*;
 import com.abocode.jfaster.web.system.service.ResourceService;
-import com.abocode.jfaster.web.utils.BeanToTagUtils;
+import com.abocode.jfaster.web.utils.*;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Property;
@@ -21,9 +22,6 @@ import com.abocode.jfaster.web.common.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.web.system.service.MutiLangService;
 import com.abocode.jfaster.web.system.service.SystemService;
 import com.abocode.jfaster.web.system.service.UserService;
-import com.abocode.jfaster.web.utils.FunctionComparator;
-import com.abocode.jfaster.web.utils.NumberComparator;
-import com.abocode.jfaster.web.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -647,7 +645,7 @@ public class RoleController extends BaseController {
 			operationcodes = URLDecoder.decode(
 					request.getParameter("operationcodes"), "utf-8");
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 		CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
 		cq1.eq("TSRole.id", roleId);
@@ -706,7 +704,7 @@ public class RoleController extends BaseController {
 			dataRulecodes = URLDecoder.decode(
 					request.getParameter("dataRulecodes"), "utf-8");
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 		CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
 		cq1.eq("TSRole.id", roleId);

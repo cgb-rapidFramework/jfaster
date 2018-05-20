@@ -1,5 +1,7 @@
 package com.abocode.jfaster.web.utils;
 
+import com.abocode.jfaster.core.util.LogUtils;
+
 /**
  * Created by Franky on 2016/3/15.
  */
@@ -9,7 +11,7 @@ public class ClassLoaderUtils extends ClassLoader {
 		try {
 			myclass = Class.forName(className);
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 		return myclass;
 	}

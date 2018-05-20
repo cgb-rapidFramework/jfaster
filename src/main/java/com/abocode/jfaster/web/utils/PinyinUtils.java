@@ -3,6 +3,7 @@ package com.abocode.jfaster.web.utils;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.abocode.jfaster.core.util.LogUtils;
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
@@ -140,7 +141,7 @@ public class PinyinUtils {
 
             } catch (BadHanyuPinyinOutputFormatCombination e) {
 
-                e.printStackTrace();
+                LogUtils.error(e.getMessage());
 
             }
 
@@ -189,7 +190,7 @@ public class PinyinUtils {
 
         } catch (BadHanyuPinyinOutputFormatCombination e) {
 
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
 
         }
 
@@ -462,7 +463,7 @@ public class PinyinUtils {
                 }
             }
         } catch (BadHanyuPinyinOutputFormatCombination e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
         return t4;
     }
@@ -523,7 +524,7 @@ public class PinyinUtils {
                     pinyinName += PinyinHelper.toHanyuPinyinStringArray(
                             nameChar[i], defaultFormat)[0].charAt(0);
                 } catch (BadHanyuPinyinOutputFormatCombination e) {
-                    e.printStackTrace();
+                    LogUtils.error(e.getMessage());
                 }
             } else {
                 pinyinName += nameChar[i];
@@ -550,7 +551,7 @@ public class PinyinUtils {
                     pinyinName += PinyinHelper.toHanyuPinyinStringArray(
                             nameChar[i], defaultFormat)[0];
                 } catch (BadHanyuPinyinOutputFormatCombination e) {
-                    e.printStackTrace();
+                    LogUtils.error(e.getMessage());
                 }
             } else {
                 pinyinName += nameChar[i];
@@ -608,7 +609,7 @@ public class PinyinUtils {
                         temp[i] = PinyinHelper.toHanyuPinyinStringArray(
                                 srcChar[i], hanYuPinOutputFormat);
                     } catch (BadHanyuPinyinOutputFormatCombination e) {
-                        e.printStackTrace();
+                        LogUtils.error(e.getMessage());
                     }
                 } else if (((int) c >= 65 && (int) c <= 90)
                         || ((int) c >= 97 && (int) c <= 122)) {

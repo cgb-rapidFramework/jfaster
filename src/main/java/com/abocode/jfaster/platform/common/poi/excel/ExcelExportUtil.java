@@ -23,6 +23,7 @@ import com.abocode.jfaster.core.util.ContextHolderUtils;
 import com.abocode.jfaster.platform.common.poi.excel.annotation.ExcelCollection;
 import com.abocode.jfaster.platform.common.poi.excel.entity.ExcelTitle;
 import com.abocode.jfaster.platform.common.poi.excel.entity.TemplateExportParams;
+import com.abocode.jfaster.core.util.LogUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
@@ -155,7 +156,7 @@ public final class ExcelExportUtil {
 						,styles);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtils.error(e.getMessage());
 		}
 	}
 	/**
@@ -404,7 +405,7 @@ public final class ExcelExportUtil {
 				patriarch.createPicture(anchor,
 						row.getSheet().getWorkbook().addPicture(value,getImageType(value)));
 			} catch (IOException e) {
-				e.printStackTrace();
+				LogUtils.error(e.getMessage());
 			}
 		}else{
 			byte[] value = (byte[]) (entity.getGetMethods() != null ? getFieldBySomeMethod(

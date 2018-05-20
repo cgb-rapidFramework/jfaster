@@ -726,7 +726,7 @@ public class SystemMenuUtils {
 				icon = SystemContainer.IconContainer.allTSIcons.get(tsIcon.getId()).getIconClas();
 			}
 		}catch (Exception e){
-//			e.printStackTrace();
+//			LogUtils.error(e.getMessage());
 		}
 		return icon;
 	}
