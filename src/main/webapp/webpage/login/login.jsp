@@ -1,4 +1,4 @@
-<%@ page import="com.abocode.jfaster.platform.util.BrowserUtils" %>
+<%@ page import="com.abocode.jfaster.core.common.util.BrowserUtils" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>

@@ -1,6 +1,6 @@
 package com.abocode.jfaster.core.extend.hqlsearch.parse;
 
-import com.abocode.jfaster.core.common.hibernate.qbc.CriteriaQuery;
+import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.extend.hqlsearch.parse.vo.HqlParseEnum;
 import com.abocode.jfaster.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
 

@@ -1,5 +1,5 @@
 package com.abocode.jfaster.core.extend.template;
-import com.abocode.jfaster.core.util.LogUtils;
+import com.abocode.jfaster.core.common.util.LogUtils;
 
 import java.io.IOException;
 import java.io.InputStream;

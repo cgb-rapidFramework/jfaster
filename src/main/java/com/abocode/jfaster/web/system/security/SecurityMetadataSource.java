@@ -1,8 +1,8 @@
 package com.abocode.jfaster.web.system.security;
 
-import com.abocode.jfaster.web.system.entity.Role;
-import com.abocode.jfaster.web.system.entity.RoleFunction;
-import com.abocode.jfaster.web.system.service.SystemService;
+import com.abocode.jfaster.web.system.domain.entity.Role;
+import com.abocode.jfaster.web.system.domain.entity.RoleFunction;
+import com.abocode.jfaster.web.system.domain.repository.SystemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

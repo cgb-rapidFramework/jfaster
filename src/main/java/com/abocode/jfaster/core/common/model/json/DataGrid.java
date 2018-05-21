@@ -2,8 +2,8 @@ package com.abocode.jfaster.core.common.model.json;
 
 import java.util.List;
 
-import com.abocode.jfaster.core.tag.vo.datatable.SortDirection;
-import com.abocode.jfaster.core.util.ContextHolderUtils;
+import com.abocode.jfaster.platform.view.interactions.datatable.SortDirection;
+import com.abocode.jfaster.core.common.util.ContextHolderUtils;
 
 
 /**

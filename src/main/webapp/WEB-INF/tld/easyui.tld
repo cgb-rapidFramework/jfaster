@@ -10,7 +10,7 @@
 	
 	<tag>
         <name>mutiLang</name>
-        <tag-class>com.abocode.jfaster.platform.common.tag.easyui.MutiLangTag</tag-class>
+        <tag-class>com.abocode.jfaster.platform.view.widgets.easyui.MutiLangTag</tag-class>
         <body-content>JSP</body-content>
         <description>多语言输出</description>
         <attribute>
@@ -30,7 +30,7 @@
 	
 	<tag>
 		<name>base</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.BaseTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.BaseTag</tag-class>
 		<body-content>JSP</body-content>
 		<description>父类标签生成JS CSS</description>
 		<attribute>
@@ -47,7 +47,7 @@
 	</tag>
 	<tag>
 		<name>datagrid</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.DataGridTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.DataGridTag</tag-class>
 		<body-content>JSP</body-content>
 		<description>数据列表</description>
 		<attribute>
@@ -197,7 +197,7 @@
 	</tag>
 	<tag>
 		<name>dgCol</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.DataGridColumnTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.DataGridColumnTag</tag-class>
 		<body-content>JSP</body-content>
 		<description>列表字段</description>
 		<attribute>
@@ -349,7 +349,7 @@
 	</tag>
 	<tag>
 		<name>dgDelOpt</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.DataGridDelOptTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.DataGridDelOptTag</tag-class>
 		<body-content>JSP</body-content>
 		<description>列表删除操作</description>
 		<attribute>
@@ -396,7 +396,7 @@
 	</tag>
 	<tag>
 		<name>dgDefOpt</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.DataGridDefOptTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.DataGridDefOptTag</tag-class>
 		<body-content>JSP</body-content>
 		<description>列表URL操作</description>
 		<attribute>
@@ -425,7 +425,7 @@
 	</tag>
 	<tag>
 		<name>dgOpenOpt</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.DataGridOpenOptTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.DataGridOpenOptTag</tag-class>
 		<body-content>JSP</body-content>
 		<description>弹出窗模式操作</description>
 		<attribute>
@@ -469,7 +469,7 @@
 	</tag>
 	<tag>
 		<name>dgFunOpt</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.DataGridFunOptTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.DataGridFunOptTag</tag-class>
 		<body-content>JSP</body-content>
 		<description>列表自定义函数操作</description>
 		<attribute>
@@ -506,7 +506,7 @@
 	</tag>
 	<tag>
 		<name>dgToolBar</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.DataGridToolBarTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.DataGridToolBarTag</tag-class>
 		<body-content>JSP</body-content>
 		<description>列表工具条标签</description>
 		<attribute>
@@ -562,7 +562,7 @@
 	</tag>
 	<tag>
 		<name>dgConfOpt</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.DataGridConfOptTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.DataGridConfOptTag</tag-class>
 		<body-content>JSP</body-content>
 		<description>列表询问操作</description>
 		<attribute>
@@ -597,7 +597,7 @@
 	</tag>
 	<tag>
 		<name>comboBox</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.ComboBoxTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.ComboBoxTag</tag-class>
 		<body-content>JSP</body-content>
 		<description>下拉选择框</description>
 		<attribute>
@@ -642,7 +642,7 @@
 	</tag>
 	<tag>
 		<name>comboTree</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.ComboTreeTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.ComboTreeTag</tag-class>
 		<body-content>JSP</body-content>
 		<description>下拉树形选择框</description>
 		<attribute>
@@ -681,7 +681,7 @@
 	</tag>
 	<tag>
 		<name>tabs</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.TabsTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.TabsTag</tag-class>
 		<body-content>JSP</body-content>
 		<description>选项卡标签</description>
 		<attribute>
@@ -748,7 +748,7 @@
 	</tag>
 	<tag>
 		<name>tab</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.TabTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.TabTag</tag-class>
 		<body-content>JSP</body-content>
 		<description>选项卡选项标签</description>
 		<attribute>
@@ -796,7 +796,7 @@
 	</tag>
 	<tag>
 		<name>upload</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.UploadTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.UploadTag</tag-class>
 		<body-content>JSP</body-content>
 		<description>选项卡选项标签</description>
 		<attribute>
@@ -880,7 +880,7 @@
 	</tag>
 	<tag>
 		<name>ckeditor</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.CkeditorTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.CkeditorTag</tag-class>
 		<body-content>JSP</body-content>
 		<description>ckeditor标签</description>
 		<attribute>
@@ -902,7 +902,7 @@
 	</tag>
 	<tag>
 		<name>formvalid</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.FormValidationTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.FormValidationTag</tag-class>
 		<body-content>JSP</body-content>
 		<description>表单验证标签</description>
 		<attribute>
@@ -986,7 +986,7 @@
 	<!-- 自定义的选中操作 -->
 	<tag>
 		<name>choose</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.ChooseTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.ChooseTag</tag-class>
 		<body-content>JSP</body-content>
 		<small-icon>111</small-icon>
 		<description>选则操作</description>
@@ -1081,7 +1081,7 @@
 	<!-- 颜色控件 -->
 	<tag>
 		<name>colorchange</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.ColorChangeTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.ColorChangeTag</tag-class>
 		<body-content>JSP</body-content>
 		<display-name>改变HTML控件颜色</display-name>
 		<small-icon>111</small-icon>
@@ -1090,7 +1090,7 @@
 	<!-- 菜单生成控件 -->
 	<tag>
 		<name>menu</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.MenuTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.MenuTag</tag-class>
 		<body-content>JSP</body-content>
 		<display-name>左侧菜单生成控件</display-name>
 		<small-icon>111</small-icon>
@@ -1122,7 +1122,7 @@
 	<!-- 自动完成 -->
 	<tag>
 		<name>autocomplete</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.AutocompleteTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.AutocompleteTag</tag-class>
 		<body-content>JSP</body-content>
 		<display-name>自动完成控件</display-name>
 		<small-icon>111</small-icon>
@@ -1239,7 +1239,7 @@
 	<!-- 选择下拉框 -->
 	<tag>
 		<name>dictSelect</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.DictSelectTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.DictSelectTag</tag-class>
 		<body-content>JSP</body-content>
 		<display-name>下拉选择控件</display-name>
 		<small-icon>111</small-icon>
@@ -1327,7 +1327,7 @@
 	<!-- 按钮权限标签 -->
 	<tag>
 		<name>authFilter</name>
-		<tag-class>com.abocode.jfaster.platform.common.tag.easyui.AuthFilterTag</tag-class>
+		<tag-class>com.abocode.jfaster.platform.view.widgets.easyui.AuthFilterTag</tag-class>
 		<body-content>JSP</body-content>
 		<display-name>按钮权限标签</display-name>
 		<description>将当前用户对应菜单中不拥有按钮权限的按钮和操作隐藏</description>

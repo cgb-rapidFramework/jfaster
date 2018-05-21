@@ -13,7 +13,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import com.abocode.jfaster.core.annotation.Ehcache;
+import com.abocode.jfaster.core.common.annotation.Ehcache;
 import org.springframework.stereotype.Component;
 
 
@@ -37,7 +37,7 @@ public class EhcacheAspect {
 		}
 	}
 
-	@Pointcut("@annotation(com.abocode.jfaster.core.annotation.Ehcache)")
+	@Pointcut("@annotation(com.abocode.jfaster.core.common.annotation.Ehcache)")
 	public void simplePointcut() {
 	}
 

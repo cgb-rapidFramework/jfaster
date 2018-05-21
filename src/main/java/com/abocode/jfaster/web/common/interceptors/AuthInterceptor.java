@@ -1,16 +1,16 @@
 package com.abocode.jfaster.web.common.interceptors;
 
-import com.abocode.jfaster.core.util.ContextHolderUtils;
-import com.abocode.jfaster.core.util.ConvertUtils;
-import com.abocode.jfaster.platform.constant.Globals;
-import com.abocode.jfaster.web.system.bean.ClientBean;
-import com.abocode.jfaster.web.system.entity.*;
-import com.abocode.jfaster.web.utils.DataRuleUtils;
+import com.abocode.jfaster.core.common.util.ContextHolderUtils;
+import com.abocode.jfaster.core.common.util.ConvertUtils;
+import com.abocode.jfaster.core.common.constants.Globals;
+import com.abocode.jfaster.web.system.interfaces.bean.ClientBean;
+import com.abocode.jfaster.web.system.domain.entity.*;
+import com.abocode.jfaster.core.common.util.DataRuleUtils;
 import org.apache.log4j.Logger;
 import com.abocode.jfaster.web.common.hqlsearch.SysContextSqlConvert;
 import com.abocode.jfaster.web.common.manager.ClientManager;
-import com.abocode.jfaster.web.system.service.SystemService;
-import com.abocode.jfaster.web.utils.ConfigUtils;
+import com.abocode.jfaster.web.system.domain.repository.SystemService;
+import com.abocode.jfaster.core.common.util.ConfigUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.HandlerInterceptor;

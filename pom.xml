@@ -38,7 +38,6 @@
 		<!--jfaster-platform begin-->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!--<bms-core.version>2.1.0-RELEASE</bms-core.version>-->
-		<poi.version>3.9</poi.version>
 		<json-lib.version>2.4</json-lib.version>
 		<!--jfaster-platform end-->
 	</properties>
@@ -290,11 +289,6 @@
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 			<version>1.9.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>3.9</version>
 		</dependency>
 		<!--非maven构建下引入 end-->
 

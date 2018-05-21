@@ -128,7 +128,7 @@
 
 	<servlet>
 		<servlet-name>RandCodeImage</servlet-name>
-		<servlet-class>com.abocode.jfaster.web.system.controller.RandCodeImageServlet</servlet-class>
+		<servlet-class>com.abocode.jfaster.web.system.web.RandCodeImageServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>RandCodeImage</servlet-name>

@@ -1,0 +1,25 @@
+package com.abocode.jfaster.core.common.constants;
+public final class Constants {
+	private Constants() {
+	}
+	
+	/**
+	 * 开发模式
+	 */
+	public static final String MODE_DEVELOP = "DEV";
+	
+	/**
+	 * 发布模式
+	 */
+	public static final String MODE_PUBLISH = "PUB";
+	
+	/**
+	 * 删除：1
+	 */
+	public static final int DELETE_FLG_1 = 1;
+	/**
+	 * 删除：0『正常』
+	 */
+	public static final int DELETE_FLG_0 = 0;
+	 
+}

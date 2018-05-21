@@ -15,8 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.abocode.jfaster.web.system.entity.*;
-import com.abocode.jfaster.core.util.LogUtils;
+import com.abocode.jfaster.web.system.domain.entity.*;
+import com.abocode.jfaster.core.common.util.LogUtils;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;

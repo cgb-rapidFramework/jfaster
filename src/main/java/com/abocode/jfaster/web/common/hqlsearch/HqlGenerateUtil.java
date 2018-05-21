@@ -1,16 +1,16 @@
 package com.abocode.jfaster.web.common.hqlsearch;
 
-import com.abocode.jfaster.core.annotation.query.QueryTimeFormat;
+import com.abocode.jfaster.core.common.annotation.query.QueryTimeFormat;
 import com.abocode.jfaster.core.extend.hqlsearch.parse.ObjectParseUtil;
 import com.abocode.jfaster.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;
-import com.abocode.jfaster.web.utils.DataRuleUtils;
-import com.abocode.jfaster.core.util.LogUtils;
-import com.abocode.jfaster.web.utils.SessionUtils;
+import com.abocode.jfaster.core.common.util.DataRuleUtils;
+import com.abocode.jfaster.core.common.util.LogUtils;
+import com.abocode.jfaster.core.common.util.SessionUtils;
 import org.apache.commons.beanutils.PropertyUtils;
-import com.abocode.jfaster.core.common.hibernate.qbc.CriteriaQuery;
+import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
-import com.abocode.jfaster.web.system.entity.DataRule;
-import com.abocode.jfaster.web.utils.StringUtils;
+import com.abocode.jfaster.web.system.domain.entity.DataRule;
+import com.abocode.jfaster.core.common.util.StringUtils;
 import org.springframework.util.NumberUtils;
 
 import java.beans.PropertyDescriptor;

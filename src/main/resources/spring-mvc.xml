@@ -10,7 +10,7 @@
 		http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd ">
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
 	<!-- 加载controller的时候,不加载service,因为此时事物并未生效,若此时加载了service,那么事物无法对service进行拦截 -->
-	<context:component-scan base-package="com.abocode.jfaster.web.*">
+	<context:component-scan base-package="com.abocode.jfaster.core.*,com.abocode.jfaster.web.*">
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Service" />
 	</context:component-scan>
@@ -64,7 +64,7 @@
      
 	<!-- 方言 -->
 	<bean id="dialect"
-		class="com.abocode.jfaster.core.common.hibernate.dialect.DialectFactoryBean">
+		class="com.abocode.jfaster.core.persistence.hibernate.dialect.DialectFactoryBean">
 		<property name="dbType" value="${jdbc.dbType}" />
 	</bean>
 	<!-- 异常处理类 -->

@@ -1,13 +1,13 @@
 package com.abocode.jfaster.web.common.aop;
 
-import com.abocode.jfaster.core.util.ConvertUtils;
-import com.abocode.jfaster.core.util.LogUtils;
-import com.abocode.jfaster.web.utils.SessionUtils;
+import com.abocode.jfaster.core.common.util.ConvertUtils;
+import com.abocode.jfaster.core.common.util.LogUtils;
+import com.abocode.jfaster.core.common.util.SessionUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
-import com.abocode.jfaster.platform.constant.DataBaseConstant;
-import com.abocode.jfaster.web.system.entity.User;
+import com.abocode.jfaster.core.common.constants.DataBaseConstant;
+import com.abocode.jfaster.web.system.domain.entity.User;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;

@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.abocode.jfaster.core.util.ContextHolderUtils;
-import com.abocode.jfaster.web.system.bean.ClientBean;
+import com.abocode.jfaster.core.common.util.ContextHolderUtils;
+import com.abocode.jfaster.web.system.interfaces.bean.ClientBean;
 
 /**
  * 对在线用户的管理

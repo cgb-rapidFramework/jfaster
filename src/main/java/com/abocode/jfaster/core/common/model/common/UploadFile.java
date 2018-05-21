@@ -1,6 +1,6 @@
 package com.abocode.jfaster.core.common.model.common;
 
-import com.abocode.jfaster.core.util.ConvertUtils;
+import com.abocode.jfaster.core.common.util.ConvertUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -10,9 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 上传下载模型类
- * 
- * @author 张代浩
- * 
  */
 public class UploadFile {
 	private String byteField = "content";// 二进制文件内容保存到数据库的对应实体类字段

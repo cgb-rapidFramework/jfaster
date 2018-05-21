@@ -1,7 +1,7 @@
 package com.abocode.jfaster.web.common.hqlsearch;
 
-import com.abocode.jfaster.web.system.entity.DataRule;
-import com.abocode.jfaster.web.utils.SessionUtils;
+import com.abocode.jfaster.web.system.domain.entity.DataRule;
+import com.abocode.jfaster.core.common.util.SessionUtils;
 import com.abocode.jfaster.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
 
 /**
