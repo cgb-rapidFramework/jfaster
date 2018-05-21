@@ -7,6 +7,8 @@ import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.ComboBox;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.model.json.ValidForm;
+import com.abocode.jfaster.web.system.application.event.UserApplicationService;
+import com.abocode.jfaster.web.system.interfaces.IUserService;
 import com.abocode.jfaster.web.system.interfaces.view.FunctionView;
 import com.abocode.jfaster.platform.poi.excel.ExcelExportUtil;
 import com.abocode.jfaster.platform.poi.excel.ExcelImportUtil;
@@ -40,6 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
@@ -62,6 +65,8 @@ public class UserController extends BaseController {
 	@Autowired
 	private ResourceService resourceService;
 	private UserService userService;
+	@Resource
+	private IUserService userApplicationService;
 	private SystemService systemService;
 	private String message = null;
 
@@ -87,38 +92,8 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(params = "menu")
 	public void menu(HttpServletRequest request, HttpServletResponse response) {
-		FunctionComparator sort = new FunctionComparator();
 		User u = SessionUtils.getCurrentUser();
-		// 登陆者的权限
-		Set<Function> loginActionlist = new HashSet();// 已有权限菜单
-		List<RoleUser> rUsers = systemService.findAllByProperty(RoleUser.class, "TSUser.id", u.getId());
-		for (RoleUser ru : rUsers) {
-			Role role = ru.getTSRole();
-			List<RoleFunction> roleFunctionList = systemService.findAllByProperty(RoleFunction.class, "TSRole.id", role.getId());
-			if (roleFunctionList.size() > 0) {
-				for (RoleFunction roleFunction : roleFunctionList) {
-					Function function = roleFunction.getTSFunction();
-					loginActionlist.add(function);
-				}
-			}
-		}
-		List<FunctionView> bigActionlist = new ArrayList();// 一级权限菜单
-		List<FunctionView> smailActionlist = new ArrayList();// 二级权限菜单
-		if (loginActionlist.size() > 0) {
-			for (Function function : loginActionlist) {
-				FunctionView functionBean = BeanToTagUtils.convertFunction(function);
-				if (function.getFunctionLevel() == 0) {
-					bigActionlist.add(functionBean);
-				} else if (function.getFunctionLevel() == 1) {
-					smailActionlist.add(functionBean);
-				}
-			}
-		}
-		// 菜单栏排序
-		Collections.sort(bigActionlist, sort);
-		Collections.sort(smailActionlist, sort);
-		String logString = SystemMenuUtils.getMenu(bigActionlist, smailActionlist);
-		// request.setAttribute("loginMenu",logString);
+        String logString=userApplicationService.getMenus(u);
 		try {
 			response.getWriter().write(logString);
 		} catch (IOException e) {
