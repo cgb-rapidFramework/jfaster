@@ -6,7 +6,6 @@ import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.web.system.interfaces.bean.ClientBean;
 import com.abocode.jfaster.web.system.domain.entity.*;
 import com.abocode.jfaster.core.common.util.DataRuleUtils;
-import org.apache.log4j.Logger;
 import com.abocode.jfaster.web.common.hqlsearch.SysContextSqlConvert;
 import com.abocode.jfaster.web.common.manager.ClientManager;
 import com.abocode.jfaster.web.system.domain.repository.SystemService;
@@ -35,7 +34,6 @@ import java.util.Set;
  */
 public class AuthInterceptor implements HandlerInterceptor {
 	 
-	private static final Logger logger = Logger.getLogger(AuthInterceptor.class);
 	private SystemService systemService;
 	private List<String> excludeUrls;
 	private static List<Function> functionList;

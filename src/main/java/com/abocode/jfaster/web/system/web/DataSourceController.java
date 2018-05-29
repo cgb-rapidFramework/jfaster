@@ -1,7 +1,6 @@
 package com.abocode.jfaster.web.system.web;
 
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,10 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/dataSourceController")
 public class DataSourceController extends BaseController {
-	/**
-	 * Logger for this class
-	 */
-	private static final Logger logger = Logger.getLogger(DataSourceController.class);
 
 	/**
 	 * 跳转到连接池监控页面

@@ -13,7 +13,6 @@ import com.abocode.jfaster.web.system.domain.entity.Template;
 import com.abocode.jfaster.web.system.domain.repository.SystemService;
 import com.abocode.jfaster.web.system.domain.repository.TemplateService;
 import com.abocode.jfaster.core.common.util.LogUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -38,10 +37,6 @@ import com.abocode.jfaster.platform.view.widgets.easyui.TagUtil;
 @Controller
 @RequestMapping("/templateController")
 public class TemplateController extends BaseController {
-	/**
-	 * Logger for this class
-	 */
-	private static final Logger logger = Logger.getLogger(TemplateController.class);
 
 	@Autowired
 	private TemplateService templateService;

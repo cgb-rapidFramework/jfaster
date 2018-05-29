@@ -5,4 +5,6 @@ import com.abocode.jfaster.web.system.domain.entity.User;
 public interface IUserService {
 
     String getMenus(User u);
+
+    Object getAll();
 }

@@ -3,7 +3,6 @@ package com.abocode.jfaster.web.common.aop;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.util.LogUtils;
 import com.abocode.jfaster.core.common.util.SessionUtils;
-import org.apache.log4j.Logger;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 import com.abocode.jfaster.core.common.constants.DataBaseConstant;
@@ -20,19 +19,13 @@ import java.util.Date;
  */
 @Component
 public class HibernateAspect extends EmptyInterceptor {
-	private static final Logger logger = Logger.getLogger(HibernateAspect.class);
 	private static final long serialVersionUID = 1L;
 
 
 
 public boolean onSave(Object entity, Serializable id, Object[] state,
 		String[] propertyNames, Type[] types) {
-	User currentUser = null;
-	try {
-		currentUser = SessionUtils.getCurrentUser();
-	} catch (RuntimeException e) {
-		logger.warn("当前session为空,无法获取用户");
-	}
+	User currentUser = SessionUtils.getCurrentUser();
 	if(currentUser==null){
 		return true;
 	}
@@ -106,12 +99,7 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 public boolean onFlushDirty(Object entity, Serializable id,
 		Object[] currentState, Object[] previousState,
 		String[] propertyNames, Type[] types) {
-	User currentUser = null;
-	try {
-		currentUser = SessionUtils.getCurrentUser();
-	} catch (RuntimeException e1) {
-		logger.warn("当前session为空,无法获取用户");
-	}
+	User currentUser = SessionUtils.getCurrentUser();
 	if(currentUser==null){
 		return true;
 	}

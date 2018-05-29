@@ -6,7 +6,6 @@ import com.abocode.jfaster.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.web.system.domain.entity.*;
 import com.abocode.jfaster.web.system.domain.repository.ResourceService;
-import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
@@ -41,10 +40,6 @@ import java.util.*;
 @Controller
 @RequestMapping("/roleController")
 public class RoleController extends BaseController {
-	/**
-	 * Logger for this class
-	 */
-	private static final Logger logger = Logger.getLogger(RoleController.class);
 	private UserService userService;
 	private SystemService systemService;
 	@Autowired
@@ -353,7 +348,6 @@ public class RoleController extends BaseController {
 			}
 			j.setMsg("角色更新成功");
 		} catch (Exception e) {
-			logger.error(ExceptionUtils.getExceptionMessage(e));
 			j.setMsg("角色更新失败");
 		}
 		return j;
@@ -427,7 +421,6 @@ public class RoleController extends BaseController {
 			updateCompare(set, role, map);
 			j.setMsg("权限更新成功");
 		} catch (Exception e) {
-			logger.error(ExceptionUtils.getExceptionMessage(e));
 			j.setMsg("权限更新失败");
 		}
 		return j;

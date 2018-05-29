@@ -7,9 +7,7 @@ import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.ComboBox;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.model.json.ValidForm;
-import com.abocode.jfaster.web.system.application.event.UserApplicationService;
 import com.abocode.jfaster.web.system.interfaces.IUserService;
-import com.abocode.jfaster.web.system.interfaces.view.FunctionView;
 import com.abocode.jfaster.platform.poi.excel.ExcelExportUtil;
 import com.abocode.jfaster.platform.poi.excel.ExcelImportUtil;
 import com.abocode.jfaster.platform.poi.excel.entity.ExcelTitle;
@@ -25,7 +23,6 @@ import com.abocode.jfaster.web.system.interfaces.bean.ExlUserBean;
 import com.abocode.jfaster.web.system.domain.entity.*;
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.hibernate.criterion.Property;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
@@ -61,7 +58,6 @@ import java.util.*;
 @Controller
 @RequestMapping("/userController")
 public class UserController extends BaseController {
-	private static final Logger logger = Logger.getLogger(UserController.class);
 	@Autowired
 	private ResourceService resourceService;
 	private UserService userService;

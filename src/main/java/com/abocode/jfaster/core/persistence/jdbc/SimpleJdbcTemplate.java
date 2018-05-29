@@ -4,7 +4,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.util.Assert;
 
@@ -41,9 +40,9 @@ public class SimpleJdbcTemplate {
 			Assert.hasText(sql,"sql语句不正确!");
 			Assert.notNull(clazz,"集合中对象类型不能为空!");
 			if(parameters!=null){
-				return jdbcTemplate.query(sql, resultBeanMapper(clazz),parameters);
+				return jdbcTemplate.queryForList(sql,  parameters);
 			}else{
-				return jdbcTemplate.query(sql, resultBeanMapper(clazz));
+				return  jdbcTemplate.queryForList(sql,clazz);
 			}
 		}catch (Exception e) {
 			return null;
@@ -65,9 +64,10 @@ public class SimpleJdbcTemplate {
 			Assert.hasText(sql,"sql语句不正确!");
 			Assert.notNull(clazz,"集合中对象类型不能为空!");
 			if(parameters!=null){
-				return jdbcTemplate.queryForObject(sql, resultBeanMapper(clazz), parameters);
+
+				return jdbcTemplate.queryForList(sql,  parameters);
 			}else{
-				return jdbcTemplate.queryForObject(sql, resultBeanMapper(clazz));
+				return  jdbcTemplate.queryForList(sql,clazz);
 			}
 		}catch (Exception e) {
 			return null;
@@ -187,11 +187,7 @@ public class SimpleJdbcTemplate {
         int[] updateCounts = jdbcTemplate.batchUpdate(sql,batch);
         return updateCounts;
 	}
-	
-	
-	protected ParameterizedBeanPropertyRowMapper resultBeanMapper(Class clazz) {
-		return ParameterizedBeanPropertyRowMapper.newInstance(clazz);
-	}
+
 	
 	protected BeanPropertySqlParameterSource paramBeanMapper(Object object) {
 		return new BeanPropertySqlParameterSource(object);

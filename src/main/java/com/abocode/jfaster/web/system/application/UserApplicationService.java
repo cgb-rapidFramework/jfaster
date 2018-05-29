@@ -1,8 +1,7 @@
-package com.abocode.jfaster.web.system.application.event;
+package com.abocode.jfaster.web.system.application;
 
 import com.abocode.jfaster.core.common.util.BeanToTagUtils;
 import com.abocode.jfaster.core.common.util.FunctionComparator;
-import com.abocode.jfaster.core.common.util.LogUtils;
 import com.abocode.jfaster.core.common.util.SystemMenuUtils;
 import com.abocode.jfaster.web.system.domain.entity.*;
 import com.abocode.jfaster.web.system.domain.repository.SystemService;
@@ -49,5 +48,10 @@ public class UserApplicationService implements IUserService {
         Collections.sort(smailActionlist, sort);
         String logString = SystemMenuUtils.getMenu(bigActionlist, smailActionlist);
          return logString;
+    }
+
+    @Override
+    public Object getAll() {
+        return systemService.findAll(User.class);
     }
 }

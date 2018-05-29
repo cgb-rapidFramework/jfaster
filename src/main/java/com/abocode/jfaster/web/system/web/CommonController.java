@@ -1,6 +1,5 @@
 package com.abocode.jfaster.web.system.web;
 
-import org.apache.log4j.Logger;
 import com.abocode.jfaster.platform.view.interactions.easyui.Autocomplete;
 import com.abocode.jfaster.core.common.util.StringUtils;
 import com.abocode.jfaster.web.system.domain.repository.SystemService;
@@ -26,10 +25,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/commonController")
 public class CommonController extends BaseController {
-	/**
-	 * Logger for this class
-	 */
-	private static final Logger logger = Logger.getLogger(CommonController.class);
 	private SystemService systemService;
 	@Autowired
 	public void setSystemService(SystemService systemService) {

@@ -16,7 +16,6 @@ import com.abocode.jfaster.web.system.domain.repository.ResourceService;
 import com.abocode.jfaster.web.system.domain.repository.SystemService;
 import com.abocode.jfaster.web.system.domain.repository.UserService;
 import com.abocode.jfaster.core.common.util.StringUtils;
-import org.apache.log4j.Logger;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
@@ -48,10 +47,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/departController")
 public class DepartController extends BaseController {
-	/**
-	 * Logger for this class
-	 */
-	private static final Logger logger = Logger.getLogger(DepartController.class);
+
 	@Autowired
 	private DepartService departService;
 	@Autowired

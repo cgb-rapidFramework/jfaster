@@ -4,7 +4,6 @@ import com.abocode.jfaster.core.common.model.json.*;
 import com.abocode.jfaster.core.extend.hqlsearch.parse.ObjectParseUtil;
 import com.abocode.jfaster.web.system.interfaces.bean.ClientBean;
 import com.abocode.jfaster.web.system.domain.entity.*;
-import org.apache.log4j.Logger;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;
 import com.abocode.jfaster.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
@@ -46,7 +45,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/systemController")
 public class SystemController extends BaseController {
-	private static final Logger logger = Logger.getLogger(SystemController.class);
 	private UserService userService;
 	@Autowired
 	private ResourceService resourceService;

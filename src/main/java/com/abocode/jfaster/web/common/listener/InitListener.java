@@ -10,6 +10,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
 
 /**
@@ -17,7 +18,7 @@ import javax.servlet.ServletContextEvent;
  * @author laien
  *
  */
-public class InitListener  implements javax.servlet.ServletContextListener {
+public class InitListener  implements ServletContextListener {
 
 	
 	public void contextDestroyed(ServletContextEvent arg0) {

@@ -11,7 +11,6 @@ import com.abocode.jfaster.web.system.domain.repository.ResourceService;
 import com.abocode.jfaster.web.system.domain.repository.SystemService;
 import com.abocode.jfaster.core.common.util.BeanToTagUtils;
 import com.abocode.jfaster.web.system.domain.entity.*;
-import org.apache.log4j.Logger;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.common.model.json.ComboTree;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
@@ -43,11 +42,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/functionController")
 public class FunctionController extends BaseController {
-	/**
-	 * Logger for this class
-	 */
-	private static final Logger logger = Logger
-			.getLogger(FunctionController.class);
 	@Autowired
 	private ResourceService resourceService;
 	private UserService userService;

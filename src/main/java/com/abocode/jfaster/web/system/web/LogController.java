@@ -9,7 +9,6 @@ import com.abocode.jfaster.web.system.domain.repository.LogService;
 import com.abocode.jfaster.web.system.domain.repository.SystemService;
 import com.abocode.jfaster.core.common.util.DateUtils;
 import com.abocode.jfaster.core.common.util.LogUtils;
-import org.apache.log4j.Logger;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.platform.view.widgets.easyui.TagUtil;
 import com.abocode.jfaster.core.common.util.StringUtils;
@@ -38,11 +37,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("/logController")
 public class LogController extends BaseController {
-	/**
-	 * Logger for this class
-	 */
-	private static final Logger logger = Logger.getLogger(LogController.class);
-
     //用户浏览器统计分析的国际化KEY
     private static final String USER_BROWSER_ANALYSIS = "user.browser.analysis";
 	private SystemService systemService;

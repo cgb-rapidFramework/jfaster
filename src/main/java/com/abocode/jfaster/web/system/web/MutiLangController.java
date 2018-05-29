@@ -1,7 +1,6 @@
 package com.abocode.jfaster.web.system.web;
 
 import com.abocode.jfaster.core.common.util.LogUtils;
-import org.apache.log4j.Logger;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
@@ -36,11 +35,6 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/mutiLangController")
 public class MutiLangController extends BaseController {
-	/**
-	 * Logger for this class
-	 */
-	private static final Logger logger = Logger.getLogger(MutiLangController.class);
-
 	@Autowired
 	private MutiLangService mutiLangService;
 	@Autowired

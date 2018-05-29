@@ -1,29 +1,22 @@
 package com.abocode.jfaster.web.system.web;
 
-import com.abocode.jfaster.core.common.model.json.AjaxJson;
-import com.abocode.jfaster.core.extend.datasource.DataSourceType;
-import com.abocode.jfaster.core.common.util.ContextHolderUtils;
-import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.constants.Globals;
-import com.abocode.jfaster.web.system.interfaces.bean.ClientBean;
-import com.abocode.jfaster.web.system.interfaces.constant.TemplateConstant;
-import com.abocode.jfaster.web.system.domain.entity.*;
-import com.abocode.jfaster.web.common.manager.ClientManager;
-import com.abocode.jfaster.core.common.util.BeanToTagUtils;
-import com.abocode.jfaster.core.common.util.SessionShareCenter;
-import com.abocode.jfaster.core.common.util.SessionUtils;
-import com.google.gson.Gson;
-import org.apache.log4j.Logger;
-import com.abocode.jfaster.core.extend.datasource.DataSourceContextHolder;
-import com.abocode.jfaster.web.system.interfaces.view.FunctionView;
-import com.abocode.jfaster.web.system.interfaces.view.TemplateView;
 import com.abocode.jfaster.core.common.container.SystemContainer;
-import com.abocode.jfaster.core.common.util.SystemMenuUtils;
+import com.abocode.jfaster.core.common.model.json.AjaxJson;
+import com.abocode.jfaster.core.common.util.*;
+import com.abocode.jfaster.core.extend.datasource.DataSourceContextHolder;
+import com.abocode.jfaster.core.extend.datasource.DataSourceType;
+import com.abocode.jfaster.web.common.manager.ClientManager;
+import com.abocode.jfaster.web.system.domain.entity.*;
 import com.abocode.jfaster.web.system.domain.repository.MutiLangService;
 import com.abocode.jfaster.web.system.domain.repository.SystemService;
 import com.abocode.jfaster.web.system.domain.repository.TemplateService;
 import com.abocode.jfaster.web.system.domain.repository.UserService;
-import com.abocode.jfaster.core.common.util.NumberComparator;
+import com.abocode.jfaster.web.system.interfaces.bean.ClientBean;
+import com.abocode.jfaster.web.system.interfaces.constant.TemplateConstant;
+import com.abocode.jfaster.web.system.interfaces.view.FunctionView;
+import com.abocode.jfaster.web.system.interfaces.view.TemplateView;
+import com.google.gson.Gson;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -52,7 +45,6 @@ import java.util.*;
 @Controller
 @RequestMapping("/loginController")
 public class LoginController extends BaseController {
-	private Logger log = Logger.getLogger(LoginController.class);
 	private SystemService systemService;
 	private UserService userService;
 	private String message = null;

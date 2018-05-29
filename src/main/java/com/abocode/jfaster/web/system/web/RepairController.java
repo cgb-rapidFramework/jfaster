@@ -1,7 +1,6 @@
 package com.abocode.jfaster.web.system.web;
 
 import com.abocode.jfaster.web.system.domain.repository.RepairService;
-import org.apache.log4j.Logger;
 import com.abocode.jfaster.web.system.domain.repository.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -19,12 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/repairController")
 public class RepairController extends BaseController {
-
-	/**
-	 * Logger for this class
-	 */
-	private static final Logger logger = Logger.getLogger(RepairController.class);
-			
 	private SystemService systemService;
     
 	private RepairService repairService;

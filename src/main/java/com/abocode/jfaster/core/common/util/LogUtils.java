@@ -1,10 +1,11 @@
 package com.abocode.jfaster.core.common.util;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.annotation.Priority;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.StringReader;
@@ -27,7 +28,7 @@ public class LogUtils {
     }
     return objLog;
   }
-  
+
   private static String getConfigFile(){
     String s = LogUtils.class.getClassLoader().getResource("").toString();
     String filePath = s + LOGCONFIG;
@@ -224,7 +225,7 @@ public class LogUtils {
       sb.append(']');
       sb.append(" - ");
       sb.append(msg);
-      getLogger().log((Priority) Level.toLevel(level), sb.toString(), e);
+      getLogger().log(Level.toLevel(level), sb.toString(), e);
     }catch(Exception ex){
       LogUtils.info(ex.getLocalizedMessage());
     }

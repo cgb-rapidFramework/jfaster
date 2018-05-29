@@ -1,3 +1,4 @@
+/*
 package com.abocode.jfaster.web.system.web;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +11,6 @@ import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.web.common.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.web.system.domain.repository.JobService;
 import com.abocode.jfaster.web.system.domain.repository.SystemService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -25,25 +25,20 @@ import com.abocode.jfaster.platform.view.widgets.easyui.TagUtil;
 
 import com.abocode.jfaster.web.system.domain.entity.Job;
 
-/**   
+*/
+/**
  * @Title: Controller
  * @Description: job
  * @author zhangdaihao
  * @date 2016-04-29 22:58:41
  * @version V1.0   
  *
- */
+ *//*
+
 @Scope("prototype")
 @Controller
 @RequestMapping("/jobController")
 public class JobController extends BaseController {
-	/**
-	 * Logger for this class
-	 */
-	private static final Logger logger = Logger.getLogger(JobController.class);
-
-	@Autowired
-	private JobService jobService;
 	@Autowired
 	private SystemService systemService;
 	private String message;
@@ -56,24 +51,28 @@ public class JobController extends BaseController {
 		this.message = message;
 	}
 
-	/**
+	*/
+/**
 	 * job列表 页面跳转
 	 * 
 	 * @return
-	 */
+	 *//*
+
 	@RequestMapping(params = "job")
 	public ModelAndView job(HttpServletRequest request) {
 		return new ModelAndView("system/job/jobList");
 	}
 
-	/**
+	*/
+/**
 	 * easyui AJAX请求数据
 	 * 
 	 * @param request
 	 * @param response
 	 * @param dataGrid
 	 * @param job
-	 */
+	 *//*
+
 
 	@RequestMapping(params = "datagrid")
 	public void datagrid(Job job, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
@@ -84,11 +83,13 @@ public class JobController extends BaseController {
 		TagUtil.datagrid(response, dataGrid);
 	}
 
-	/**
+	*/
+/**
 	 * 删除job
 	 * 
 	 * @return
-	 */
+	 *//*
+
 	@RequestMapping(params = "del")
 	@ResponseBody
 	public AjaxJson del(Job job, HttpServletRequest request) {
@@ -100,17 +101,18 @@ public class JobController extends BaseController {
 			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 			j.setMsg(message);
 		} catch (Exception e) {
-			logger.error(e);
 			j.setMsg("job废止失败");
 		}
 		return j;
 	}
 
-	/**
+	*/
+/**
 	 * 暂停job
 	 *
 	 * @return
-	 */
+	 *//*
+
 	@RequestMapping(params = "pause")
 	@ResponseBody
 	public AjaxJson pause(Job job, HttpServletRequest request) {
@@ -123,17 +125,18 @@ public class JobController extends BaseController {
 
 			j.setMsg(message);
 		} catch (Exception e) {
-			logger.error(e);
 			j.setMsg("job暂停失败");
 		}
 		return j;
 	}
 
-	/**
+	*/
+/**
 	 * 恢复job
 	 *
 	 * @return
-	 */
+	 *//*
+
 	@RequestMapping(params = "resume")
 	@ResponseBody
 	public AjaxJson resume(Job job, HttpServletRequest request) {
@@ -146,17 +149,18 @@ public class JobController extends BaseController {
 
 			j.setMsg(message);
 		} catch (Exception e) {
-			logger.error(e);
 			j.setMsg("job恢复失败");
 		}
 		return j;
 	}
 
-	/**
+	*/
+/**
 	 * 立即运行一次job
 	 *
 	 * @return
-	 */
+	 *//*
+
 	@RequestMapping(params = "runOnce")
 	@ResponseBody
 	public AjaxJson runOnce(Job job, HttpServletRequest request) {
@@ -169,18 +173,19 @@ public class JobController extends BaseController {
 
 			j.setMsg(message);
 		} catch (Exception e) {
-			logger.error(e);
 			j.setMsg("job立即运行一次失败");
 		}
 		return j;
 	}
 
-	/**
+	*/
+/**
 	 * 添加job
 	 * 
 	 * @param job
 	 * @return
-	 */
+	 *//*
+
 	@RequestMapping(params = "save")
 	@ResponseBody
 	public AjaxJson save(Job job, HttpServletRequest request) {
@@ -194,7 +199,6 @@ public class JobController extends BaseController {
 					jobService.updateJob(t);
 					systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 				} catch (Exception e) {
-					logger.error(e);
 					message = "job更新失败";
 				}
 			} else {
@@ -204,17 +208,18 @@ public class JobController extends BaseController {
 			}
 			j.setMsg(message);
 		} catch (Exception e) {
-			logger.error(e);
 			j.setMsg("job添加失败");
 		}
 		return j;
 	}
 
-	/**
+	*/
+/**
 	 * job列表页面跳转
 	 * 
 	 * @return
-	 */
+	 *//*
+
 	@RequestMapping(params = "addorupdate")
 	public ModelAndView addorupdate(Job job, HttpServletRequest req) {
 		if (StringUtils.isNotEmpty(job.getId())) {
@@ -224,3 +229,4 @@ public class JobController extends BaseController {
 		return new ModelAndView("system/job/job");
 	}
 }
+*/

@@ -1,7 +1,6 @@
 package com.abocode.jfaster.web.system.web;
 
 import com.abocode.jfaster.core.common.model.json.DataGrid;
-import org.apache.log4j.Logger;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.platform.view.widgets.easyui.TagUtil;
@@ -32,11 +31,6 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/configController")
 public class ConfigController extends BaseController {
-	/**
-	 * Logger for this class
-	 */
-	private static final Logger logger = Logger
-			.getLogger(ConfigController.class);
 	private SystemService systemService;
 	private String message;
 
