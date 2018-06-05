@@ -31,7 +31,7 @@ public class Territory extends IdEntity implements java.io.Serializable {
 	private double ywgs84;//wgs84格式纬度(mapabc 的坐标系)
 	private List<Territory> TSTerritorys = new ArrayList<Territory>();
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "territoryparentid")
 	@ForeignKey(name="null")//取消hibernate的外键生成
 	public Territory getTSTerritory() {
@@ -40,7 +40,7 @@ public class Territory extends IdEntity implements java.io.Serializable {
 	public void setTSTerritory(Territory TSTerritory) {
 		this.TSTerritory = TSTerritory;
 	}
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TSTerritory")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "TSTerritory")
 	public List<Territory> getTSTerritorys() {
 		return TSTerritorys;
 	}

@@ -26,7 +26,7 @@ public class Type extends IdEntity implements java.io.Serializable {
 	private String typecode;//类型编码
 	private List<Type> TSTypes =new ArrayList();
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "typegroupid")
 	public TypeGroup getTSTypegroup() {
 		return this.TSTypegroup;
@@ -36,7 +36,7 @@ public class Type extends IdEntity implements java.io.Serializable {
 		this.TSTypegroup = TSTypegroup;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "typepid")
 	public Type getTSType() {
 		return this.TSType;
@@ -64,7 +64,7 @@ public class Type extends IdEntity implements java.io.Serializable {
 		this.typecode = typecode;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TSType")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "TSType")
 	public List<Type> getTSTypes() {
 		return this.TSTypes;
 	}

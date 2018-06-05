@@ -19,7 +19,7 @@ public class Depart extends IdEntity implements java.io.Serializable {
     private String orgCode;//机构编码
     private String orgType;//机构编码
 	private List<Depart> TSDeparts = new ArrayList<Depart>();//下属部门
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "parentdepartid")
 	public Depart getTSPDepart() {
 		return this.TSPDepart;
@@ -47,7 +47,7 @@ public class Depart extends IdEntity implements java.io.Serializable {
 		this.description = description;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TSPDepart")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "TSPDepart")
 	public List<Depart> getTSDeparts() {
 		return TSDeparts;
 	}

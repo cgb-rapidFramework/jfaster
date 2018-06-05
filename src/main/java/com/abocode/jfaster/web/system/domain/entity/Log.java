@@ -28,7 +28,7 @@ public class Log extends IdEntity implements java.io.Serializable {
 	private String broswer;//用户浏览器类型
 	private String note;
     private String userid;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "userid",insertable=false,updatable=false)
 	public User getTSUser() {
 		return this.TSUser;

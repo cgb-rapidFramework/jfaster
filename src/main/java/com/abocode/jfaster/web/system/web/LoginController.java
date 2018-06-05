@@ -61,7 +61,6 @@ public class LoginController extends BaseController {
 
 	@Autowired
 	public void setUserService(UserService userService) {
-
 		this.userService = userService;
 	}
 
@@ -324,9 +323,9 @@ public class LoginController extends BaseController {
 		if (client.getFunctions() == null || client.getFunctions().size() == 0) {
 			Map<String, Function> loginActionlist = new HashMap<String, Function>();
 			StringBuilder hqlsb1=new StringBuilder("select distinct f from Function f,RoleFunction rf,RoleUser ru  ")
-					.append("where ru.TSRole.id=rf.TSRole.id and rf.TSFunction.id=f.id and ru.TSUser.id=? ");
+					.append("where ru.TSRole.id=rf.TSRole.id and rf.TSFunction.id=f.id and ru.TSUser.id=?0 ");
 			StringBuilder hqlsb2=new StringBuilder("select distinct c from Function c,RoleOrg b,UserOrg a ")
-					.append("where a.tsDepart.id=b.tsDepart.id and b.tsRole.id=c.id and a.tsUser.id=?");
+					.append("where a.tsDepart.id=b.tsDepart.id and b.tsRole.id=c.id and a.tsUser.id=?0");
 			 Object[] object=new Object[]{user.getId()};
 	             List<Function> list1 = systemService.findByHql(hqlsb1.toString(),object);
 	           List<Function> list2 = systemService.findByHql(hqlsb2.toString(),object);

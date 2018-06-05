@@ -69,7 +69,7 @@ public class Operation extends IdEntity implements java.io.Serializable {
 	public void setStatus(Short status) {
 		this.status = status;
 	}
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "iconid")
 	public Icon getTSIcon() {
 		return TSIcon;
@@ -79,7 +79,7 @@ public class Operation extends IdEntity implements java.io.Serializable {
 		TSIcon = tSIcon;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "functionid")
 	public Function getTSFunction() {
 		return TSFunction;

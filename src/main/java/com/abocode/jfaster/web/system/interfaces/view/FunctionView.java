@@ -45,7 +45,7 @@ public class FunctionView extends IdEntity implements java.io.Serializable {
 
 	private IconView TSIconDesk;//云桌面菜单图标
 	private List<FunctionView> TSFunctions = new ArrayList<FunctionView>();
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "desk_iconid")
     public IconView getTSIconDesk() {
         return TSIconDesk;
@@ -53,7 +53,7 @@ public class FunctionView extends IdEntity implements java.io.Serializable {
     public void setTSIconDesk(IconView TSIconDesk) {
         this.TSIconDesk = TSIconDesk;
     }
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "iconid")
 	public IconView getTSIcon() {
 		return TSIcon;
@@ -61,7 +61,7 @@ public class FunctionView extends IdEntity implements java.io.Serializable {
 	public void setTSIcon(IconView tSIcon) {
 		TSIcon = tSIcon;
 	}
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "parentfunctionid")
 	public FunctionView getTSFunction() {
 		return this.TSFunction;
@@ -114,7 +114,7 @@ public class FunctionView extends IdEntity implements java.io.Serializable {
 	public void setFunctionOrder(String functionOrder) {
 		this.functionOrder = functionOrder;
 	}
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TSFunction")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "TSFunction")
 	public List<FunctionView> getTSFunctions() {
 		return TSFunctions;
 	}

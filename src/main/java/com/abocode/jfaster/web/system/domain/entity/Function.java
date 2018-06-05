@@ -4,12 +4,12 @@ import com.abocode.jfaster.core.repository.entity.IdEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 菜单权限表
- *
- * @author 张代浩
  */
 @Entity
 @Table(name = "t_s_function")
@@ -23,8 +23,9 @@ public class Function extends IdEntity implements java.io.Serializable {
     private Short functionType;//菜单类型
     private Icon TSIcon = new Icon();//菜单图标
     private Icon TSIconDesk = new Icon();//云桌面菜单图标
+    private List<Function> TSFunctions = new ArrayList<Function>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "desk_iconid")
     public Icon getTSIconDesk() {
         return TSIconDesk;
@@ -34,10 +35,9 @@ public class Function extends IdEntity implements java.io.Serializable {
         this.TSIconDesk = TSIconDesk;
     }
 
-    private List<Function> TSFunctions = new ArrayList<Function>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-//    @ManyToOne(cascade = CascadeType.ALL)
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "iconid")
     public Icon getTSIcon() {
         return TSIcon;
@@ -47,7 +47,7 @@ public class Function extends IdEntity implements java.io.Serializable {
         TSIcon = tSIcon;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "parentfunctionid")
     public Function getTSFunction() {
         return this.TSFunction;
@@ -102,7 +102,7 @@ public class Function extends IdEntity implements java.io.Serializable {
         this.functionOrder = functionOrder;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TSFunction")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "TSFunction")
     public List<Function> getTSFunctions() {
         return TSFunctions;
     }

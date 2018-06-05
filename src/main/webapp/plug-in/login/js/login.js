@@ -121,7 +121,7 @@ function Login(orgId) {
 		error : function() {// 请求失败处理函数
 		},
 		success : function(data) {
-			var d = $.parseJSON(data);
+			var d = data;
 			if (d.success) {
 				loginsuccess();
                 // todo zhanggm 没有处理多语言，暂时这样判断下吧
