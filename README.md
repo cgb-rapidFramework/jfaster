@@ -36,9 +36,11 @@
 该部分为业务代码的实现，使用代码生成器快速生成所有代码，是一套小而巧的框架，技术选型最优的选择。
 
 ### 使用说明
-
- - JFaster.zip为mysql的数据库脚本（其他数据库请使用hibernate自行初始化，修改hibernate的生成策略即可）。
- - 代码生成器路径:[http://git.oschina.net/abocode-source/code-maker](http://git.oschina.net/abocode-source/code-maker)
+JFaster.zip为mysql的数据库脚本（其他数据库请使用hibernate自行初始化，修改hibernate的生成策略即可）。
+#### 下载地址
+ - gitee:[https://gitee.com/abocode-source/bms-project.git](http://git.oschina.net/abocode-source/code-maker)
+ - github:[https://github.com/abocode/jfaster.git](https://github.com/abocode/jfaster.git)
+ - 生成器路径:[http://git.oschina.net/abocode-source/code-maker](http://git.oschina.net/abocode-source/code-maker)
 
 ## 系统功能介
 
