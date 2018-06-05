@@ -95,7 +95,6 @@ public class LoginController extends BaseController {
 	 * @param request
 	 * @return
 	 */
-	@SuppressWarnings("unused")
 	@RequestMapping(params = "checkuser")
 	@ResponseBody
 	public AjaxJson checkuser(User user, HttpServletRequest request) {
@@ -127,9 +126,9 @@ public class LoginController extends BaseController {
 				request.getSession().setAttribute("user",u); //用于切换部门时使用
 				String orgId = request.getParameter("orgId");
 				if (ConvertUtils.isEmpty(orgId)) { // 没有传组织机构参数，则获取当前用户的组织机构
-					int orgNum=u.getUserOrgList().size();
+//					int orgNum=u.getUserOrgList().size();
 					//获取默认部门
-//					Long orgNum = systemService.queryForCount("select count(1) from t_s_user_org where user_id =?",new Object[]{u.getId()});
+					Long orgNum = systemService.queryForCount("select count(1) from t_s_user_org where user_id =?",new Object[]{u.getId()});
 					if (orgNum > 1) {
 						User res=new User();
 						res.setId(u.getId());

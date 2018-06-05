@@ -5,7 +5,9 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 系统用户表
@@ -27,8 +29,8 @@ public class User extends IdEntity implements java.io.Serializable {
 	private String browser;// 用户使用浏览器类型
 	private String userKey;// 用户验证唯一标示
 	private Depart currentDepart = new Depart();// 当前部门
-	private List<UserOrg> userOrgList = new ArrayList<UserOrg>();
-	private List<RoleUser> roleUserList = new ArrayList<RoleUser>();
+	private Set<UserOrg> userOrgList = new HashSet<UserOrg>();
+	private Set<RoleUser> roleUserList = new HashSet<RoleUser>();
 	private List<Depart> departs = new ArrayList<Depart>();
 	private List<Role> roles = new ArrayList<Role>();
 	@Column(name = "password", length = 100)
@@ -68,22 +70,22 @@ public class User extends IdEntity implements java.io.Serializable {
 	}
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "tsUser")
-	public List<UserOrg> getUserOrgList() {
+	@OneToMany(mappedBy = "tsUser",fetch = FetchType.EAGER)
+	public Set<UserOrg> getUserOrgList() {
 		return userOrgList;
 	}
 
-	public void setUserOrgList(List<UserOrg> userOrgList) {
+	public void setUserOrgList(Set<UserOrg> userOrgList) {
 		this.userOrgList = userOrgList;
 	}
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "TSUser")
-	public List<RoleUser> getRoleUserList() {
+	@OneToMany(mappedBy = "TSUser",fetch = FetchType.EAGER)
+	public Set<RoleUser> getRoleUserList() {
 		return roleUserList;
 	}
 
-	public void setRoleUserList(List<RoleUser> roleUserList) {
+	public void setRoleUserList(Set<RoleUser> roleUserList) {
 		this.roleUserList = roleUserList;
 	}
 

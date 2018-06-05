@@ -8,16 +8,10 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
-
-/**
- * 
- * @author  张代浩
- *
- */
 @Component
 @Aspect
 public class LogInterceptor {
-	@Before("execution(* com.renfang.controller.*.*(..))")
+	@Before("execution(* com.abocode.jfaster.web.*.*(..))")
 	public void beforeMethod(JoinPoint joinPoint) throws Exception {
 		String temp = joinPoint.getStaticPart().toShortString();
 		String longTemp = joinPoint.getStaticPart().toLongString();
