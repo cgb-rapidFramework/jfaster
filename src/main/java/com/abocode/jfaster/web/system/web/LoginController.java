@@ -7,11 +7,13 @@ import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.extend.datasource.DataSourceContextHolder;
 import com.abocode.jfaster.core.extend.datasource.DataSourceType;
 import com.abocode.jfaster.web.common.manager.ClientManager;
+import com.abocode.jfaster.web.system.application.FunctionApplicationService;
 import com.abocode.jfaster.web.system.domain.entity.*;
 import com.abocode.jfaster.web.system.domain.repository.MutiLangService;
 import com.abocode.jfaster.web.system.domain.repository.SystemService;
 import com.abocode.jfaster.web.system.domain.repository.TemplateService;
 import com.abocode.jfaster.web.system.domain.repository.UserService;
+import com.abocode.jfaster.web.system.interfaces.IFunctionService;
 import com.abocode.jfaster.web.system.interfaces.bean.ClientBean;
 import com.abocode.jfaster.web.system.interfaces.constant.TemplateConstant;
 import com.abocode.jfaster.web.system.interfaces.view.FunctionView;
@@ -53,6 +55,8 @@ public class LoginController extends BaseController {
 	private MutiLangService mutiLangService;
 	@Autowired
 	private TemplateService templateService;
+	@Autowired
+    private IFunctionService functionService;
 	
 	@Autowired
 	public void setSystemService(SystemService systemService) {
@@ -218,7 +222,7 @@ public class LoginController extends BaseController {
 			Cookie cookie=CacheUtils.putCookie("SYSTEM-LANGCODE",langCode);
 			response.addCookie(cookie);*/
 			//加载菜单
-			request.setAttribute("menuMap", getFunctionMap(user));
+			request.setAttribute("menuMap", functionService.getFunctionMap(user));
 			return templateEntity.getPageMain();
 		} else {
 			return  templateEntity.getPageLogin();
@@ -271,76 +275,15 @@ public class LoginController extends BaseController {
                 request.setAttribute(tsConfig.getCode(), tsConfig.getContents());
             }
             modelAndView.setViewName("main/left");
-            request.setAttribute("menuMap",this.getFunctionMap(user));
+            request.setAttribute("menuMap",functionService.getFunctionMap(user));
         }
 		return modelAndView;
 	}
 
-	/**
-	 * 获取权限的map
-	 *
-	 * @param user
-	 * @return
-	 */
-	private Map<Integer, List<FunctionView>> getFunctionMap(User user) {
-		Map<Integer, List<FunctionView>> functionMap = new HashMap<Integer, List<FunctionView>>();
-		Map<String, Function> loginActionlist = getUserFunction(user);
-		if (loginActionlist.size() > 0) {
-			Collection<Function> allFunctions = loginActionlist.values();
-			for (Function function : allFunctions) {
-	            /*if(function.getFunctionType().intValue()==Globals.Function_TYPE_FROM.intValue()){
-					//如果为表单或者弹出 不显示在系统菜单里面
-					continue;
-				}*/
-				if (!functionMap.containsKey(function.getFunctionLevel() + 0)) {
-					functionMap.put(function.getFunctionLevel() + 0,
-							new ArrayList<FunctionView>());
-				}
-
-				FunctionView functionBean= BeanToTagUtils.convertFunction(function);
-				functionMap.get(function.getFunctionLevel() + 0).add(functionBean);
-			}
-			// 菜单栏排序
-			Collection<List<FunctionView>> c = functionMap.values();
-			for (List<FunctionView> list : c) {
-				Collections.sort(list, new NumberComparator());
-			}
-		}
-		return functionMap;
-	}
 
 
 
-	/**
-	 * 获取用户菜单列表
-	 *
-	 * @param user
-	 * @return
-	 */
-	private Map<String, Function> getUserFunction(User user) {
-		HttpSession session = ContextHolderUtils.getSession();
-		ClientBean client = ClientManager.getInstance().getClient(session.getId());
-		if (client.getFunctions() == null || client.getFunctions().size() == 0) {
-			Map<String, Function> loginActionlist = new HashMap<String, Function>();
-			StringBuilder hqlsb1=new StringBuilder("select distinct f from Function f,RoleFunction rf,RoleUser ru  ")
-					.append("where ru.TSRole.id=rf.TSRole.id and rf.TSFunction.id=f.id and ru.TSUser.id=?0 ");
-			StringBuilder hqlsb2=new StringBuilder("select distinct c from Function c,RoleOrg b,UserOrg a ")
-					.append("where a.tsDepart.id=b.tsDepart.id and b.tsRole.id=c.id and a.tsUser.id=?0");
-			 Object[] object=new Object[]{user.getId()};
-	             List<Function> list1 = systemService.findByHql(hqlsb1.toString(),object);
-	           List<Function> list2 = systemService.findByHql(hqlsb2.toString(),object);
-	           for(Function function:list1){
-		              loginActionlist.put(function.getId(),function);
-		           }
-	           for(Function function:list2){
-		              loginActionlist.put(function.getId(),function);
-		           }
-            client.setFunctions(loginActionlist);
-            //保存菜单到seesion中心
-            session.setAttribute("functions"+session.getId(), loginActionlist);
-		}
-		return client.getFunctions();
-	}
+
 
     /**
      * 根据 角色实体 组装 用户权限列表
@@ -391,7 +334,7 @@ public class LoginController extends BaseController {
 			return new ModelAndView(
 					new RedirectView("loginController.do?login"));
 		}
-		request.setAttribute("menuMap", getFunctionMap(user));
+		request.setAttribute("menuMap", functionService.getFunctionMap(user));
 		List<Config> configs = userService.findAll(Config.class);
 		for (Config tsConfig : configs) {
 			request.setAttribute(tsConfig.getCode(), tsConfig.getContents());
@@ -416,7 +359,7 @@ public class LoginController extends BaseController {
 			return new ModelAndView(
 					new RedirectView("loginController.do?login"));
 		}
-		Map<Integer, List<FunctionView>>  menuMap=getFunctionMap(user);
+		Map<Integer, List<FunctionView>>  menuMap=functionService.getFunctionMap(user);
 		request.setAttribute("menuMap", menuMap);
 		List<Config> configs = userService.findAll(Config.class);
 		for (Config tsConfig : configs) {
@@ -443,7 +386,7 @@ public class LoginController extends BaseController {
 			session.removeAttribute(Globals.USER_SESSION);
 			throw new Exception("用户不存在");
 		}
-		List<FunctionView> primaryMenu = getFunctionMap(user).get(0);
+		List<FunctionView> primaryMenu = functionService.getFunctionMap(user).get(0);
         String floor = "";
         if (primaryMenu == null) {
             return floor;
@@ -520,7 +463,7 @@ public class LoginController extends BaseController {
 				session.removeAttribute(Globals.USER_SESSION);
 				throw new Exception("用户不存在");
 			}
-			String PMenu = SystemMenuUtils.getWebosMenu(getFunctionMap(SessionUtils.getCurrentUser()));
+			String PMenu = SystemMenuUtils.getWebosMenu(functionService.getFunctionMap(SessionUtils.getCurrentUser()));
 			ContextHolderUtils.getSession().setAttribute("getPrimaryMenuForWebos", PMenu);
 			j.setMsg(PMenu);
 		}
