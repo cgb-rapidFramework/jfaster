@@ -94,7 +94,6 @@ public class TemplateController extends BaseController {
 		message = "模版管理删除成功";
 		templateService.delete(template);
 		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
-		
 		j.setMsg(message);
 		return j;
 	}

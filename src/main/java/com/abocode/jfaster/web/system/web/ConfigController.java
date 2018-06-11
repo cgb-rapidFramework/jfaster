@@ -9,7 +9,6 @@ import com.abocode.jfaster.web.system.domain.entity.Config;
 import com.abocode.jfaster.web.system.domain.repository.SystemService;
 import com.abocode.jfaster.core.common.util.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
- * 配置信息处理类
- * 
+ * 配置信息处理类 *
  * @author franky
  * 
  */
 @Deprecated
-@Scope("prototype")
 @Controller
 @RequestMapping("/configController")
 public class ConfigController extends BaseController {

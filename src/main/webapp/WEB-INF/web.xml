@@ -82,13 +82,13 @@
 		<description>request监听器</description>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
-	<!--<listener>
+	<listener>
 		<description>系统初始化监听器</description>
 		<listener-class>com.abocode.jfaster.web.common.listener.InitListener</listener-class>
-	</listener>-->
-	<!--<listener>
+	</listener>
+	<listener>
 		<listener-class>com.abocode.jfaster.web.common.listener.OnlineListener</listener-class>
-	</listener>-->
+	</listener>
 	<servlet>
 		<description>spring mvc servlet</description>
 		<servlet-name>springMvc</servlet-name>

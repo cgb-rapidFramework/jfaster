@@ -3,7 +3,6 @@ package com.abocode.jfaster.web.system.interfaces.bean;
 /**
  * Created by Franky on 2016/3/15.
  */
-
 public class DuplicateBean implements java.io.Serializable {
 
 	/**

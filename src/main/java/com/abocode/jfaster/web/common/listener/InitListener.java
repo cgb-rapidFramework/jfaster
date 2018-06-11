@@ -31,7 +31,6 @@ public class InitListener  implements ServletContextListener {
 		SystemService systemService = (SystemService) webApplicationContext.getBean("systemService");
 		MenuInitService menuInitService = (MenuInitService) webApplicationContext.getBean("menuInitService");
 		MutiLangService mutiLangService = (MutiLangService) webApplicationContext.getBean("mutiLangService");
-		JobService jobService =(JobService) webApplicationContext.getBean("jobService");
 		/**
 		 * 第一部分：对数据字典进行缓存
 		 */
@@ -52,14 +51,6 @@ public class InitListener  implements ServletContextListener {
 		 * 第三部分：加载多语言内容
 		 */
 		mutiLangService.initAllMutiLang();
-		/**
-		 * 初始化任务调度
-		 */
-		try {
-			jobService.initJob();
-		} catch (Exception e) {
-			LogUtils.error(e.getMessage());
-		}
 	}
 
 }

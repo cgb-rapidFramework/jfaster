@@ -33,7 +33,6 @@ public class Territory extends IdEntity implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "territoryparentid")
-	@ForeignKey(name="null")//取消hibernate的外键生成
 	public Territory getTSTerritory() {
 		return this.TSTerritory;
 	}

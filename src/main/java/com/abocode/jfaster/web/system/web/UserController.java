@@ -1,12 +1,12 @@
 package com.abocode.jfaster.web.system.web;
 
 import com.abocode.jfaster.core.common.util.*;
-import com.abocode.jfaster.core.persistence.jdbc.JdbcDao;
 import com.abocode.jfaster.core.common.model.common.UploadFile;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.ComboBox;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.model.json.ValidForm;
+import com.abocode.jfaster.web.system.interfaces.ISystemService;
 import com.abocode.jfaster.web.system.interfaces.IUserService;
 import com.abocode.jfaster.platform.poi.excel.ExcelExportUtil;
 import com.abocode.jfaster.platform.poi.excel.ExcelImportUtil;
@@ -17,7 +17,6 @@ import com.abocode.jfaster.web.common.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.web.system.interfaces.bean.DuplicateBean;
 import com.abocode.jfaster.web.system.interfaces.constant.UserConstant;
 import com.abocode.jfaster.web.system.domain.repository.ResourceService;
-import com.abocode.jfaster.web.system.domain.repository.SystemService;
 import com.abocode.jfaster.web.system.domain.repository.UserService;
 import com.abocode.jfaster.web.system.interfaces.bean.ExlUserBean;
 import com.abocode.jfaster.web.system.domain.entity.*;
@@ -60,26 +59,12 @@ import java.util.*;
 public class UserController extends BaseController {
 	@Autowired
 	private ResourceService resourceService;
+	@Resource
 	private UserService userService;
 	@Resource
 	private IUserService userApplicationService;
-	private SystemService systemService;
-	private String message = null;
-
-	@Autowired
-	private JdbcDao jdbcDao;
-
-	@Autowired
-	public void setSystemService(SystemService systemService) {
-		this.systemService = systemService;
-	}
-
-	@Autowired
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
-
-
+	@Resource
+	private ISystemService systemApplicationService;
 	/**
 	 * 菜单列表
 	 *
@@ -105,7 +90,7 @@ public class UserController extends BaseController {
 	@RequestMapping(params = "user")
 	public String user(HttpServletRequest request) {
 		// 给部门查询条件中的下拉框准备数据
-		List<Depart> departList = systemService.getList(Depart.class);
+		List<Depart> departList = userService.getList(Depart.class);
 		request.setAttribute("departsReplace", SystemJsonUtils.listToReplaceStr(departList, "departname", "id"));
 		return "system/user/userList";
 	}
@@ -146,18 +131,18 @@ public class UserController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		User user = SessionUtils.getCurrentUser();
 		String password = ConvertUtils.getString(request.getParameter("password"));
-		String newpassword = ConvertUtils.getString(request.getParameter("newpassword"));
+		String newPassword = ConvertUtils.getString(request.getParameter("newpassword"));
 		String pString = PasswordUtils.encrypt(user.getUserName(), password, PasswordUtils.getStaticSalt());
 		if (!pString.equals(user.getPassword())) {
 			j.setMsg("原密码不正确");
 			j.setSuccess(false);
 		} else {
 			try {
-				user.setPassword(PasswordUtils.encrypt(user.getUserName(), newpassword, PasswordUtils.getStaticSalt()));
+				user.setPassword(PasswordUtils.encrypt(user.getUserName(), newPassword, PasswordUtils.getStaticSalt()));
 			} catch (Exception e) {
 				LogUtils.error(e.getMessage());
 			}
-			systemService.update(user);
+			userService.update(user);
 			j.setMsg("修改成功");
 
 		}
@@ -174,7 +159,7 @@ public class UserController extends BaseController {
 	@RequestMapping(params = "changepasswordforuser")
 	public ModelAndView changepasswordforuser(User user, HttpServletRequest req) {
 		if (StringUtils.isNotEmpty(user.getId())) {
-			user = systemService.findEntity(User.class, user.getId());
+			user = userService.findEntity(User.class, user.getId());
 			req.setAttribute("userView", user);
 			idandname(req, user);
 		}
@@ -188,18 +173,7 @@ public class UserController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String id = ConvertUtils.getString(req.getParameter("id"));
 		String password = ConvertUtils.getString(req.getParameter("password"));
-		if (StringUtils.isNotEmpty(id)) {
-			User users = systemService.findEntity(User.class, id);
-			System.out.println(users.getUserName());
-			users.setPassword(PasswordUtils.encrypt(users.getUserName(), password, PasswordUtils.getStaticSalt()));
-			users.setStatus(Globals.User_Normal);
-			systemService.update(users);
-			message = "用户: " + users.getUserName() + "密码重置成功";
-			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
-		}
-
-		j.setMsg(message);
-
+		userApplicationService.restPassword(id,password);
 		return j;
 	}
 
@@ -213,8 +187,8 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public AjaxJson lock(String id, HttpServletRequest req) {
 		AjaxJson j = new AjaxJson();
-
-		User user = systemService.findEntity(User.class, id);
+		String message;
+		User user = userService.findEntity(User.class, id);
 		if ("admin".equals(user.getUserName())) {
 			message = "超级管理员[admin]不可锁定";
 			j.setMsg(message);
@@ -224,12 +198,9 @@ public class UserController extends BaseController {
 			user.setStatus(Globals.User_Forbidden);
 			userService.update(user);
 			message = "用户：" + user.getUserName() + "锁定成功";
-			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
-
 		} else {
 			message = "锁定账户失败";
 		}
-
 		j.setMsg(message);
 		return j;
 	}
@@ -247,14 +218,14 @@ public class UserController extends BaseController {
 		List<ComboBox> comboBoxs = new ArrayList<ComboBox>();
 		List<Role> roles = new ArrayList();
 		if (StringUtils.isNotEmpty(id)) {
-			List<RoleUser> roleUser = systemService.findAllByProperty(RoleUser.class, "TSUser.id", id);
+			List<RoleUser> roleUser = userService.findAllByProperty(RoleUser.class, "TSUser.id", id);
 			if (roleUser.size() > 0) {
 				for (RoleUser ru : roleUser) {
 					roles.add(ru.getTSRole());
 				}
 			}
 		}
-		List<Role> roleList = systemService.getList(Role.class);
+		List<Role> roleList = userService.getList(Role.class);
 		comboBoxs = TagUtil.getComboBox(roleList, roles, comboBox);
 		return comboBoxs;
 	}
@@ -271,18 +242,13 @@ public class UserController extends BaseController {
 		List<ComboBox> comboBoxs = new ArrayList<ComboBox>();
 		List<Depart> departs = new ArrayList();
 		if (StringUtils.isNotEmpty(id)) {
-//			TSUser user = systemService.find(TSUser.class, id);
-//			if (user.getTSDepart() != null) {
-//				TSDepart depart = systemService.get(TSDepart.class, user.getTSDepart().getId());
-//				departs.add(depart);
-//			}
 			Object[] object=new Object[]{id};
-			List<Depart[]> resultList = systemService.findByHql("from Depart d,TSUserOrg uo where d.id=uo.orgId and uo.id=?", object);
+			List<Depart[]> resultList = userService.findByHql("from Depart d,TSUserOrg uo where d.id=uo.orgId and uo.id=?0", object);
 			for (Depart[] departArr : resultList) {
 				departs.add(departArr[0]);
 			}
 		}
-		List<Depart> departList = systemService.getList(Depart.class);
+		List<Depart> departList = userService.getList(Depart.class);
 		comboBoxs = TagUtil.getComboBox(departList, departs, comboBox);
 		return comboBoxs;
 	}
@@ -298,7 +264,7 @@ public class UserController extends BaseController {
 	public void datagrid(User user, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		String orgIds = request.getParameter("orgIds");
 		CriteriaQuery cq =this.buildCq(user,dataGrid,orgIds);
-		this.systemService.findDataGridReturn(cq, true);
+		this.userService.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
 
@@ -344,21 +310,21 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public AjaxJson del(User user, HttpServletRequest req) {
 		AjaxJson j = new AjaxJson();
+		String message;
 		if ("admin".equals(user.getUserName())) {
 			message = "超级管理员[admin]不可删除";
 			j.setMsg(message);
 			return j;
 		}
-		user = systemService.findEntity(User.class, user.getId());
-		List<RoleUser> roleUser = systemService.findAllByProperty(RoleUser.class, "TSUser.id", user.getId());
+		user = userService.findEntity(User.class, user.getId());
+		List<RoleUser> roleUser = userService.findAllByProperty(RoleUser.class, "TSUser.id", user.getId());
 		if (!user.getStatus().equals(Globals.User_ADMIN)) {
 			if (roleUser.size() > 0) {
 				// 删除用户时先删除用户和角色关系表
 				delRoleUser(user);
-				systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId()); // 删除 用户-机构 数据
+				userService.executeSql("delete from t_s_user_org where user_id=?", user.getId()); // 删除 用户-机构 数据
 				userService.delete(user);
 				message = "用户：" + user.getUserName() + "删除成功";
-				systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 			} else {
 				userService.delete(user);
 				message = "用户：" + user.getUserName() + "删除成功";
@@ -373,10 +339,10 @@ public class UserController extends BaseController {
 
 	public void delRoleUser(User user) {
 		// 同步删除用户角色关联表
-		List<RoleUser> roleUserList = systemService.findAllByProperty(RoleUser.class, "TSUser.id", user.getId());
+		List<RoleUser> roleUserList = userService.findAllByProperty(RoleUser.class, "TSUser.id", user.getId());
 		if (roleUserList.size() >= 1) {
 			for (RoleUser tRoleUser : roleUserList) {
-				systemService.delete(tRoleUser);
+				userService.delete(tRoleUser);
 			}
 		}
 	}
@@ -393,7 +359,7 @@ public class UserController extends BaseController {
 		ValidForm v = new ValidForm();
 		String userName = ConvertUtils.getString(request.getParameter("param"));
 		String code = ConvertUtils.getString(request.getParameter("code"));
-		List<User> roles = systemService.findAllByProperty(User.class, "userName", userName);
+		List<User> roles = userService.findAllByProperty(User.class, "userName", userName);
 		if (roles.size() > 0 && !code.equals(userName)) {
 			v.setInfo("用户名已存在");
 			v.setStatus("n");
@@ -414,43 +380,39 @@ public class UserController extends BaseController {
 	public AjaxJson saveUser(HttpServletRequest req, User user) {
 		AjaxJson j = new AjaxJson();
 		// 得到用户的角色
+		String  message;
 		String roleid = ConvertUtils.getString(req.getParameter("roleid"));
 		String password = ConvertUtils.getString(req.getParameter("password"));
 		if (StringUtils.isNotEmpty(user.getId())) {
-			User users = systemService.findEntity(User.class, user.getId());
+			User users = userService.findEntity(User.class, user.getId());
 			users.setEmail(user.getEmail());
 			users.setOfficePhone(user.getOfficePhone());
 			users.setMobilePhone(user.getMobilePhone());
-			systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId());
+			userService.executeSql("delete from t_s_user_org where user_id=?", user.getId());
 			saveUserOrgList(req, user);
 //            users.setTSDepart(user.getTSDepart());
 			users.setRealName(user.getRealName());
 			users.setStatus(Globals.User_Normal);
-			systemService.update(users);
-			List<RoleUser> ru = systemService.findAllByProperty(RoleUser.class, "TSUser.id", user.getId());
-			systemService.deleteEntities(ru);
+			userService.update(users);
+			List<RoleUser> ru = userService.findAllByProperty(RoleUser.class, "TSUser.id", user.getId());
+			userService.deleteEntities(ru);
 			message = "用户: " + users.getUserName() + "更新成功";
 			if (StringUtils.isNotEmpty(roleid)) {
 				saveRoleUser(users, roleid);
 			}
-			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 		} else {
-			User users = systemService.findUniqueByProperty(User.class, "userName", user.getUserName());
+			User users = userService.findUniqueByProperty(User.class, "userName", user.getUserName());
 			if (users != null) {
 				message = "用户: " + users.getUserName() + "已经存在";
 			} else {
 				user.setPassword(PasswordUtils.encrypt(user.getUserName(), password, PasswordUtils.getStaticSalt()));
-//				if (user.getTSDepart().equals("")) {
-//					user.setTSDepart(null);
-//				}
 				user.setStatus(Globals.User_Normal);
-				systemService.save(user);
+				userService.save(user);
 				saveUserOrgList(req, user);
 				message = "用户: " + user.getUserName() + "添加成功";
 				if (StringUtils.isNotEmpty(roleid)) {
 					saveRoleUser(user, roleid);
 				}
-				systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 			}
 
 		}
@@ -481,7 +443,7 @@ public class UserController extends BaseController {
 			userOrgList.add(userOrg);
 		}
 		if (!userOrgList.isEmpty()) {
-			systemService.batchSave(userOrgList);
+			userService.batchSave(userOrgList);
 		}
 	}
 
@@ -489,10 +451,10 @@ public class UserController extends BaseController {
 		String[] roleids = roleidstr.split(",");
 		for (int i = 0; i < roleids.length; i++) {
 			RoleUser rUser = new RoleUser();
-			Role role = systemService.findEntity(Role.class, roleids[i]);
+			Role role = userService.findEntity(Role.class, roleids[i]);
 			rUser.setTSRole(role);
 			rUser.setTSUser(user);
-			systemService.save(rUser);
+			userService.save(rUser);
 
 		}
 	}
@@ -517,7 +479,7 @@ public class UserController extends BaseController {
 	@RequestMapping(params = "datagridRole")
 	public void datagridRole(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(Role.class, dataGrid);
-		this.systemService.findDataGridReturn(cq, true);
+		this.userService.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
 
@@ -531,17 +493,17 @@ public class UserController extends BaseController {
 		List<Depart> departList = new ArrayList<Depart>();
 		String departid = ConvertUtils.getString(req.getParameter("departid"));
 		if (!StringUtils.isEmpty(departid)) {
-			departList.add((Depart) systemService.findEntity(Depart.class, departid));
+			departList.add((Depart) userService.findEntity(Depart.class, departid));
 		} else {
-			departList.addAll((List) systemService.getList(Depart.class));
+			departList.addAll((List) userService.getList(Depart.class));
 		}
 		req.setAttribute("departList", departList);
 		List<String> orgIdList = new ArrayList<String>();
 		if (StringUtils.isNotEmpty(user.getId())) {
-			user = systemService.findEntity(User.class, user.getId());
+			user = userService.findEntity(User.class, user.getId());
 			req.setAttribute("userView", user);
 			idandname(req, user);
-			orgIdList = systemService.findByHql("select d.id from Depart d,UserOrg uo where d.id=uo.tsDepart.id and uo.tsUser.id=?", new String[]{user.getId()});
+			orgIdList = userService.findByHql("select d.id from Depart d,UserOrg uo where d.id=uo.tsDepart.id and uo.tsUser.id=?0", new String[]{user.getId()});
 		}
 		req.setAttribute("orgIdList", new Gson().toJson(orgIdList));
 		return new ModelAndView("system/user/user");
@@ -561,18 +523,18 @@ public class UserController extends BaseController {
 			userId=	ConvertUtils.getString(request.getParameter("userId"));
 		}
 		List<Depart> orgList = new ArrayList<Depart>();
-		List<Object[]> orgArrList = systemService.findByHql("from Depart d,UserOrg uo where d.id=uo.tsDepart.id and uo.tsUser.id=?", new String[]{userId});
+		List<Object[]> orgArrList = userService.findByHql("from Depart d,UserOrg uo where d.id=uo.tsDepart.id and uo.tsUser.id=?", new String[]{userId});
 		for (Object[] departs : orgArrList) {
 			orgList.add((Depart) departs[0]);
 		}
 		request.setAttribute("orgList", orgList);
-		User user = systemService.findEntity(User.class, userId);
+		User user = userService.findEntity(User.class, userId);
 		request.setAttribute("user", user);
 		return new ModelAndView("system/user/userOrgSelect");
 	}
 
 	public void idandname(HttpServletRequest req, User user) {
-		List<RoleUser> roleUsers = systemService.findAllByProperty(RoleUser.class, "TSUser.id", user.getId());
+		List<RoleUser> roleUsers = userService.findAllByProperty(RoleUser.class, "TSUser.id", user.getId());
 		String roleId = "";
 		String roleName = "";
 		if (roleUsers.size() > 0) {
@@ -591,7 +553,7 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(params = "choose")
 	public String choose(HttpServletRequest request) {
-		List<Role> roles = systemService.findAll(Role.class);
+		List<Role> roles = userService.findAll(Role.class);
 		request.setAttribute("roleList", roles);
 		return "system/membership/checkuser";
 	}
@@ -629,7 +591,7 @@ public class UserController extends BaseController {
 		}
 		String userid = "";
 		if (roleid.length() > 0) {
-			List<RoleUser> roleUsers = systemService.findAllByProperty(RoleUser.class, "TRole.roleid", ConvertUtils.getInt(roleid, 0));
+			List<RoleUser> roleUsers = userService.findAllByProperty(RoleUser.class, "TRole.roleid", ConvertUtils.getInt(roleid, 0));
 			if (roleUsers.size() > 0) {
 				for (RoleUser tRoleUser : roleUsers) {
 					userid += tRoleUser.getTSUser().getId() + ",";
@@ -638,7 +600,7 @@ public class UserController extends BaseController {
 			cq.in("userid", ConvertUtils.getInts(userid.split(",")));
 			cq.add();
 		}
-		this.systemService.findDataGridReturn(cq, true);
+		this.userService.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
 
@@ -647,7 +609,7 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(params = "roleDepart")
 	public String roleDepart(HttpServletRequest request) {
-		List<Role> roles = systemService.findAll(Role.class);
+		List<Role> roles = userService.findAll(Role.class);
 		request.setAttribute("roleList", roles);
 		return "system/membership/roledepart";
 	}
@@ -680,7 +642,7 @@ public class UserController extends BaseController {
 	@RequestMapping(params = "datagridDepart")
 	public void datagridDepart(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(Depart.class, dataGrid);
-		systemService.findDataGridReturn(cq, true);
+		userService.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
 
@@ -740,7 +702,7 @@ public class UserController extends BaseController {
 	public AjaxJson savesign(HttpServletRequest req) {
 		UploadFile uploadFile = new UploadFile(req);
 		String id = uploadFile.get("id");
-		User user = systemService.findEntity(User.class, id);
+		User user = userService.findEntity(User.class, id);
 		uploadFile.setRealPath("signatureFile");
 		uploadFile.setCusPath("signature");
 		uploadFile.setByteField("signature");
@@ -748,9 +710,8 @@ public class UserController extends BaseController {
 		uploadFile.setRename(false);
 		uploadFile.setObject(user);
 		AjaxJson j = new AjaxJson();
-		message = user.getUserName() + "设置签名成功";
+		String message = user.getUserName() + "设置签名成功";
 		resourceService.uploadFile(uploadFile);
-		systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		j.setMsg(message);
 
 		return j;
@@ -774,7 +735,7 @@ public class UserController extends BaseController {
 			cq.like("realName", user.getRealName());
 		}
 		cq.add();
-		this.systemService.findDataGridReturn(cq, true);
+		this.userService.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
 
@@ -873,7 +834,7 @@ public class UserController extends BaseController {
 						return j;
 					}
 					//判断帐号是否存在
-					User u = this.systemService.findUniqueByProperty(User.class, "userName", exlUserVo.getUserName());
+					User u = this.userService.findUniqueByProperty(User.class, "userName", exlUserVo.getUserName());
 					if (StringUtils.isNotEmpty(u)) {
 						j.setMsg("<font color='red'>失败!</font>" + exlUserVo.getUserName() + " 帐号已经存在");
 						return j;
@@ -883,7 +844,7 @@ public class UserController extends BaseController {
 					List<Depart> exlDeparts = new ArrayList<Depart>();
 					String[] departNames = exlUserVo.getDepartName().split(",");
 					for (int i = 0; i < departNames.length; i++) {
-						List<Depart> departs = systemService.findAllByProperty(Depart.class, "departname", departNames[i]);
+						List<Depart> departs = userService.findAllByProperty(Depart.class, "departname", departNames[i]);
 						if (departs.size() == 0) {
 							j.setMsg("<font color='red'>失败!</font>" + exlUserVo.getDepartName() + " 组织机构不存在");
 							return j;
@@ -896,7 +857,7 @@ public class UserController extends BaseController {
 					String[] roleNames = exlUserVo.getRoleName().split(",");
 					for (int i = 0; i < roleNames.length; i++) {
 						//判断角色是否存在
-						List<Role> roles = systemService.findAllByProperty(Role.class, "roleName", roleNames[i]);
+						List<Role> roles = userService.findAllByProperty(Role.class, "roleName", roleNames[i]);
 						if (roles.size() == 0) {
 							j.setMsg("<font color='red'>失败!</font>" + exlUserVo.getRoleName() + " 角色不存在");
 							return j;
@@ -925,7 +886,7 @@ public class UserController extends BaseController {
 						UserOrg userOrg = new UserOrg();
 						userOrg.setTsUser(userEntity);
 						userOrg.setTsDepart(depart);
-						this.systemService.save(userOrg);
+						this.userService.save(userOrg);
 					}
 
 					//保存角色
@@ -933,7 +894,7 @@ public class UserController extends BaseController {
 						RoleUser roleUser = new RoleUser();
 						roleUser.setTSRole(role);
 						roleUser.setTSUser(userEntity);
-						this.systemService.save(roleUser);
+						this.userService.save(roleUser);
 					}
 				}
 				j.setMsg("<font color='green'> 文件导入成功！</font>");
@@ -958,7 +919,6 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(params = "exportUser")
 	public void exportUser(User user, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-		//TODO 暂时未加入组织id过滤
 		dataGrid.setPage(0);
 		dataGrid.setRows(1000000);
 		String orgIds = request.getParameter("orgIds");
@@ -1004,22 +964,9 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(params = "doDuplicateCheck")
 	@ResponseBody
-	public AjaxJson doDuplicateCheck(DuplicateBean duplicateCheckPage, HttpServletRequest request) {
-
+	public AjaxJson doDuplicateCheck(DuplicateBean duplicateCheckPage) {
 		AjaxJson j = new AjaxJson();
-		Long num = null;
-
-		if(StringUtils.isNotEmpty(duplicateCheckPage.getRowObid())){
-			//[2].编辑页面校验
-			String sql = "SELECT count(*) FROM "+duplicateCheckPage.getTableName()
-					+" WHERE "+duplicateCheckPage.getFieldName() +" =? and id != ?";
-			num = jdbcDao.getCountForJdbcParam(sql, new Object[]{duplicateCheckPage.getFieldVlaue(),duplicateCheckPage.getRowObid()});
-		}else{
-			//[1].添加页面校验
-			String sql = "SELECT count(*) FROM "+duplicateCheckPage.getTableName()
-					+" WHERE "+duplicateCheckPage.getFieldName() +" =?";
-			num = jdbcDao.getCountForJdbcParam(sql, new Object[]{duplicateCheckPage.getFieldVlaue()});
-		}
+		Long num = systemApplicationService.findCountByTable(duplicateCheckPage);
 		if(num==null||num==0){
 			//该值可用
 			j.setSuccess(true);

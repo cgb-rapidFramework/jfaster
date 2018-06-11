@@ -13,7 +13,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 
 /**
- * 监听在线用户上线下线  add by duanql 2013-06-07
+ * 监听在线用户上线下线
  */
 public class OnlineListener implements ServletContextListener,HttpSessionListener {
 

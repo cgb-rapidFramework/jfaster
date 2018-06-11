@@ -1,7 +1,9 @@
 package com.abocode.jfaster.web.system.application;
 
+import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.util.BeanToTagUtils;
 import com.abocode.jfaster.core.common.util.FunctionComparator;
+import com.abocode.jfaster.core.common.util.PasswordUtils;
 import com.abocode.jfaster.core.common.util.SystemMenuUtils;
 import com.abocode.jfaster.web.system.domain.entity.*;
 import com.abocode.jfaster.web.system.domain.repository.SystemService;
@@ -53,5 +55,13 @@ public class UserApplicationService implements IUserService {
     @Override
     public Object getAll() {
         return systemService.findAll(User.class);
+    }
+
+    @Override
+    public void restPassword(String id, String password) {
+        User users = systemService.findEntity(User.class, id);
+        users.setPassword(PasswordUtils.encrypt(users.getUserName(), password, PasswordUtils.getStaticSalt()));
+        users.setStatus(Globals.User_Normal);
+        systemService.update(users);
     }
 }
