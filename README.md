@@ -38,9 +38,13 @@
 ### 使用说明
 JFaster.zip为mysql的数据库脚本（其他数据库请使用hibernate自行初始化，修改hibernate的生成策略即可）。
 #### 下载地址
- - gitee:[https://gitee.com/abocode-source/bms-project.git](http://git.oschina.net/abocode-source/code-maker)
+ - gitee:[https://gitee.com/abocode-source/bms-project.git](https://gitee.com/abocode-source/bms-project)
  - github:[https://github.com/abocode/jfaster.git](https://github.com/abocode/jfaster.git)
  - 生成器路径:[http://git.oschina.net/abocode-source/code-maker](http://git.oschina.net/abocode-source/code-maker)
+
+#### 使用手册
+ - doc/开发文档
+  
 
 ## 系统功能介
 
