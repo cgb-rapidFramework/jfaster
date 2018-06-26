@@ -1,9 +1,9 @@
 package com.abocode.jfaster.web.system.domain.repository;
 
-import com.abocode.jfaster.core.repository.service.CommonService;
+import com.abocode.jfaster.core.domain.repository.CommonRepository;
 import com.abocode.jfaster.web.system.domain.entity.Job;
 
-public interface JobService extends CommonService{
+public interface JobService extends CommonRepository {
     /**
      * 初始化定时任务
      */

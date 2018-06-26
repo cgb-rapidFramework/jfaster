@@ -1,6 +1,6 @@
 package com.abocode.jfaster.web.system.domain.repository.persistence.hibernate;
 
-import com.abocode.jfaster.core.repository.service.impl.CommonServiceImpl;
+import com.abocode.jfaster.core.domain.repository.persistence.hibernate.CommonRepositoryImpl;
 import com.abocode.jfaster.web.system.domain.repository.LogService;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +10,6 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service("logService")
-public class LogServiceImpl extends CommonServiceImpl implements LogService{
+public class LogServiceImpl extends CommonRepositoryImpl implements LogService{
 
 }

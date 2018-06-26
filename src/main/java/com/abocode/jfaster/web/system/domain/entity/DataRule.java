@@ -1,6 +1,7 @@
 package com.abocode.jfaster.web.system.domain.entity;
 
-import com.abocode.jfaster.core.repository.entity.IdEntity;
+import com.abocode.jfaster.core.domain.entity.IdEntity;
+
 
 import java.io.Serializable;
 import java.util.Date;

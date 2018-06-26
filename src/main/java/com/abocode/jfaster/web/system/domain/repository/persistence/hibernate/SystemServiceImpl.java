@@ -1,16 +1,16 @@
 package com.abocode.jfaster.web.system.domain.repository.persistence.hibernate;
 
 import com.abocode.jfaster.core.common.util.*;
-import com.abocode.jfaster.web.system.interfaces.view.IconView;
+import com.abocode.jfaster.web.system.application.dto.view.IconView;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.repository.service.impl.CommonServiceImpl;
-import com.abocode.jfaster.web.system.interfaces.view.OperationView;
-import com.abocode.jfaster.web.system.interfaces.view.TypeView;
-import com.abocode.jfaster.web.system.interfaces.view.TypeGroupView;
+import com.abocode.jfaster.core.domain.repository.persistence.hibernate.CommonRepositoryImpl;
+import com.abocode.jfaster.web.system.application.dto.view.OperationView;
+import com.abocode.jfaster.web.system.application.dto.view.TypeView;
+import com.abocode.jfaster.web.system.application.dto.view.TypeGroupView;
 import com.abocode.jfaster.core.common.container.SystemContainer;
 import com.abocode.jfaster.core.common.container.SystemContainer.IconContainer;
 import com.abocode.jfaster.core.common.container.SystemContainer.TypeGroupContainer;
-import com.abocode.jfaster.web.system.interfaces.bean.DictBean;
+import com.abocode.jfaster.web.system.application.dto.bean.DictBean;
 import com.abocode.jfaster.web.system.domain.entity.*;
 import com.abocode.jfaster.web.system.domain.repository.SystemService;
 import com.abocode.jfaster.web.system.domain.repository.UserService;
@@ -25,7 +25,7 @@ import java.util.*;
 
 @Service("systemService")
 @Transactional
-public class SystemServiceImpl extends CommonServiceImpl implements SystemService {
+public class SystemServiceImpl extends CommonRepositoryImpl implements SystemService {
 
 	
 	@Autowired

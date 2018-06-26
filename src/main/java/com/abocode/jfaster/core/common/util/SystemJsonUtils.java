@@ -2,7 +2,7 @@ package com.abocode.jfaster.core.common.util;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import com.abocode.jfaster.core.common.model.json.ComboBox;
-import com.abocode.jfaster.platform.view.widgets.easyui.TagUtil;
+import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
 import com.abocode.jfaster.web.system.domain.entity.Function;
 import com.abocode.jfaster.web.system.domain.entity.Role;
 

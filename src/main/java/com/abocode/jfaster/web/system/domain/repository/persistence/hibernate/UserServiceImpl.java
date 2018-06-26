@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.abocode.jfaster.core.common.model.json.DataGrid;
-import com.abocode.jfaster.core.repository.service.impl.CommonServiceImpl;
+import com.abocode.jfaster.core.domain.repository.persistence.hibernate.CommonRepositoryImpl;
 import com.abocode.jfaster.web.system.domain.entity.RoleUser;
 import com.abocode.jfaster.web.system.domain.entity.UserOrg;
-import com.abocode.jfaster.web.system.interfaces.bean.ExlUserBean;
+import com.abocode.jfaster.web.system.application.dto.bean.ExlUserBean;
 import com.abocode.jfaster.core.common.util.PasswordUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Projections;
@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("userService")
 @Transactional
-public class UserServiceImpl extends CommonServiceImpl implements UserService {
+public class UserServiceImpl extends CommonRepositoryImpl implements UserService {
 
 	/**
 	 * 检查用户是否存在

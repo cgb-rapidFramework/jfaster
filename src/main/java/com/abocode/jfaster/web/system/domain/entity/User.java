@@ -1,6 +1,6 @@
 package com.abocode.jfaster.web.system.domain.entity;
 
-import com.abocode.jfaster.core.repository.entity.IdEntity;
+import com.abocode.jfaster.core.domain.entity.IdEntity;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;

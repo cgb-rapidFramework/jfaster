@@ -1,7 +1,7 @@
 package com.abocode.jfaster.web.system.domain.repository;
 
-import com.abocode.jfaster.core.repository.service.CommonService;
-import com.abocode.jfaster.web.system.interfaces.bean.DictBean;
+import com.abocode.jfaster.core.domain.repository.CommonRepository;
+import com.abocode.jfaster.web.system.application.dto.bean.DictBean;
 import com.abocode.jfaster.web.system.domain.entity.*;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.Set;
  * @author  张代浩
  *
  */
-public interface SystemService extends CommonService{
+public interface SystemService extends CommonRepository {
 	/**
  	 * 方法描述:  查询数据字典
  	 * 作    者： yiming.zhang

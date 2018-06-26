@@ -1,6 +1,6 @@
 package com.abocode.jfaster.web.system.domain.repository.persistence.hibernate;
 
-import com.abocode.jfaster.core.repository.service.impl.CommonServiceImpl;
+import com.abocode.jfaster.core.domain.repository.persistence.hibernate.CommonRepositoryImpl;
 import com.abocode.jfaster.web.system.domain.entity.Depart;
 import com.abocode.jfaster.web.system.domain.repository.DepartService;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
  * Created by guanxf on 2016/3/20.
  */
 @Service("departService")
-public class DepartServiceImpl extends CommonServiceImpl implements DepartService {
+public class DepartServiceImpl extends CommonRepositoryImpl implements DepartService {
 
 
     @Override

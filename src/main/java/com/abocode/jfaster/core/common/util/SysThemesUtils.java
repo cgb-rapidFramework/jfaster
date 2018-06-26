@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
 
-import com.abocode.jfaster.web.system.interfaces.view.TemplateView;
+import com.abocode.jfaster.web.system.application.dto.view.TemplateView;
 import com.abocode.jfaster.core.common.container.SystemContainer;
 
 /**

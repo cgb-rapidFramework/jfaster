@@ -4,8 +4,8 @@ import com.abocode.jfaster.core.common.model.json.ImportFile;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.common.util.FileUtils;
 import com.abocode.jfaster.core.extend.template.DataSourceMap;
-import com.abocode.jfaster.platform.view.interactions.easyui.ComboTreeModel;
-import com.abocode.jfaster.web.system.interfaces.view.ReflectHelper;
+import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
+import com.abocode.jfaster.web.system.application.dto.view.ReflectHelper;
 import com.abocode.jfaster.web.system.domain.entity.Operation;
 import com.abocode.jfaster.web.system.domain.entity.RoleFunction;
 import com.abocode.jfaster.web.system.domain.repository.ResourceService;
@@ -16,10 +16,10 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import com.abocode.jfaster.core.common.model.json.ComboTree;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
-import com.abocode.jfaster.core.repository.service.impl.CommonServiceImpl;
+import com.abocode.jfaster.core.domain.repository.persistence.hibernate.CommonRepositoryImpl;
 import com.abocode.jfaster.core.extend.template.Template;
-import com.abocode.jfaster.platform.view.interactions.easyui.TreeGridModel;
-import com.abocode.jfaster.platform.view.widgets.easyui.TagUtil;
+import com.abocode.jfaster.core.platform.view.interactions.easyui.TreeGridModel;
+import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
 import com.abocode.jfaster.web.system.domain.entity.Depart;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +37,7 @@ import java.util.*;
 
 @Service("resourceService")
 @Transactional
-public  class ResourceServiceImpl extends CommonServiceImpl implements ResourceService {
+public  class ResourceServiceImpl extends CommonRepositoryImpl implements ResourceService {
 	/**
 	 * 文件上传
 	 * 

@@ -2,7 +2,7 @@ package com.abocode.jfaster.web.common.manager;
 
 import java.util.Comparator;
 
-import com.abocode.jfaster.web.system.interfaces.bean.ClientBean;
+import com.abocode.jfaster.web.system.application.dto.bean.ClientBean;
 
 public class ClientSort implements Comparator<ClientBean> {
 

@@ -1,4 +1,6 @@
 package com.abocode.jfaster.web.system.domain.entity;
+import com.abocode.jfaster.core.domain.entity.IdEntity;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -9,9 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.abocode.jfaster.core.repository.entity.IdEntity;
-import org.hibernate.annotations.ForeignKey;
 
 /**
  *地域管理表

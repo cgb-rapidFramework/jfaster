@@ -4,15 +4,15 @@ import com.abocode.jfaster.core.common.model.common.UploadFile;
 import com.abocode.jfaster.core.common.model.json.ComboTree;
 import com.abocode.jfaster.core.common.model.json.ImportFile;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
-import com.abocode.jfaster.core.repository.service.CommonService;
-import com.abocode.jfaster.platform.view.interactions.easyui.ComboTreeModel;
-import com.abocode.jfaster.platform.view.interactions.easyui.TreeGridModel;
+import com.abocode.jfaster.core.domain.repository.CommonRepository;
+import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
+import com.abocode.jfaster.core.platform.view.interactions.easyui.TreeGridModel;
 import com.abocode.jfaster.web.system.domain.entity.Depart;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public interface ResourceService extends CommonService {
+public interface ResourceService extends CommonRepository {
 	/**
 	 * 文件上传
 	 * 

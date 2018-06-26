@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.abocode.jfaster.core.common.model.json.DataGrid;
-import com.abocode.jfaster.platform.view.interactions.datatable.DataTables;
-import com.abocode.jfaster.platform.view.interactions.datatable.SortDirection;
-import com.abocode.jfaster.platform.view.interactions.datatable.SortInfo;
+import com.abocode.jfaster.core.platform.view.interactions.datatable.DataTables;
+import com.abocode.jfaster.core.platform.view.interactions.datatable.SortDirection;
+import com.abocode.jfaster.core.platform.view.interactions.datatable.SortInfo;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;

@@ -1,7 +1,7 @@
 package com.abocode.jfaster.web.system.domain.repository;
 
-import com.abocode.jfaster.core.repository.service.CommonService;
+import com.abocode.jfaster.core.domain.repository.CommonRepository;
 
-public interface TemplateService extends CommonService{
+public interface TemplateService extends CommonRepository {
     void setDefault(String id);
 }

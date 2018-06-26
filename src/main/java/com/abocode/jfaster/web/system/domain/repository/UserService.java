@@ -1,9 +1,9 @@
 package com.abocode.jfaster.web.system.domain.repository;
 
 import com.abocode.jfaster.core.common.model.json.DataGrid;
-import com.abocode.jfaster.web.system.interfaces.bean.ExlUserBean;
+import com.abocode.jfaster.web.system.application.dto.bean.ExlUserBean;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.repository.service.CommonService;
+import com.abocode.jfaster.core.domain.repository.CommonRepository;
 import com.abocode.jfaster.web.system.domain.entity.User;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  * @author  张代浩
  *
  */
-public interface UserService extends CommonService{
+public interface UserService extends CommonRepository {
 	
 	public User checkUserExits(User user);
 	public String getUserRole(User user);

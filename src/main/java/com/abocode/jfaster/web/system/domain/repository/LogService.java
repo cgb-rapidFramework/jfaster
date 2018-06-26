@@ -3,7 +3,7 @@
  */
 package com.abocode.jfaster.web.system.domain.repository;
 
-import com.abocode.jfaster.core.repository.service.CommonService;
+import com.abocode.jfaster.core.domain.repository.CommonRepository;
 
 
 /**
@@ -11,6 +11,6 @@ import com.abocode.jfaster.core.repository.service.CommonService;
  * @author  方文荣
  *
  */
-public interface LogService extends CommonService{
+public interface LogService extends CommonRepository {
 
 }

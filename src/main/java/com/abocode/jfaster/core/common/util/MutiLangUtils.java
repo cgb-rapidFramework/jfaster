@@ -1,6 +1,6 @@
 package com.abocode.jfaster.core.common.util;
 
-import com.abocode.jfaster.web.system.interfaces.view.ReflectHelper;
+import com.abocode.jfaster.web.system.application.dto.view.ReflectHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;

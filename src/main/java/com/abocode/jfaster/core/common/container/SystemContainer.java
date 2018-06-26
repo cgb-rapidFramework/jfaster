@@ -1,9 +1,9 @@
 package com.abocode.jfaster.core.common.container;
 
-import com.abocode.jfaster.web.system.interfaces.view.IconView;
-import com.abocode.jfaster.web.system.interfaces.view.OperationView;
-import com.abocode.jfaster.web.system.interfaces.view.TypeGroupView;
-import com.abocode.jfaster.web.system.interfaces.view.TypeView;
+import com.abocode.jfaster.web.system.application.dto.view.IconView;
+import com.abocode.jfaster.web.system.application.dto.view.OperationView;
+import com.abocode.jfaster.web.system.application.dto.view.TypeGroupView;
+import com.abocode.jfaster.web.system.application.dto.view.TypeView;
 
 import java.util.HashMap;
 import java.util.List;

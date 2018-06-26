@@ -1,7 +1,7 @@
 package com.abocode.jfaster.web.system.domain.entity;
 // default package
 
-import com.abocode.jfaster.core.repository.entity.IdEntity;
+import com.abocode.jfaster.core.domain.entity.IdEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

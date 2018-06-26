@@ -1,6 +1,6 @@
 package com.abocode.jfaster.web.system.domain.repository.persistence.hibernate;
 
-import com.abocode.jfaster.core.repository.service.impl.CommonServiceImpl;
+import com.abocode.jfaster.core.domain.repository.persistence.hibernate.CommonRepositoryImpl;
 import com.abocode.jfaster.web.system.domain.repository.RepairService;
 import com.abocode.jfaster.core.common.util.DateUtils;
 import com.abocode.jfaster.core.common.util.LogUtils;
@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Service("repairService")
 @Transactional
-public class RepairServiceImpl extends CommonServiceImpl implements RepairService {
+public class RepairServiceImpl extends CommonRepositoryImpl implements RepairService {
     /**
      * @Description 先清空数据库，然后再修复数据库
      * @author tanghan 2013-7-19

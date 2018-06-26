@@ -3,7 +3,7 @@ package com.abocode.jfaster.web.common.interceptors;
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.constants.Globals;
-import com.abocode.jfaster.web.system.interfaces.bean.ClientBean;
+import com.abocode.jfaster.web.system.application.dto.bean.ClientBean;
 import com.abocode.jfaster.web.system.domain.entity.*;
 import com.abocode.jfaster.core.common.util.DataRuleUtils;
 import com.abocode.jfaster.web.common.hqlsearch.SysContextSqlConvert;

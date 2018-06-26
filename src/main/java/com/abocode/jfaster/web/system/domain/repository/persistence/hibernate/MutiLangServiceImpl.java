@@ -1,6 +1,6 @@
 package com.abocode.jfaster.web.system.domain.repository.persistence.hibernate;
 
-import com.abocode.jfaster.core.repository.service.impl.CommonServiceImpl;
+import com.abocode.jfaster.core.domain.repository.persistence.hibernate.CommonRepositoryImpl;
 import com.abocode.jfaster.core.common.container.MutilangContainer;
 import com.abocode.jfaster.core.common.util.BrowserUtils;
 import com.abocode.jfaster.web.system.domain.entity.MutiLang;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Service("mutiLangService")
 @Transactional
-public class MutiLangServiceImpl extends CommonServiceImpl implements MutiLangService {
+public class MutiLangServiceImpl extends CommonRepositoryImpl implements MutiLangService {
 
     @Autowired
     private HttpServletRequest request;

@@ -14,18 +14,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-/**
- * <p>Title: </p>
- * <p>Description: </p>
- * @author  张代浩
- * @version 1.0
+/***
+ * Bean copy
  */
+public class BeanPropertyUtils   extends PropertyUtilsBean {
 
-public class BeanPropertyUtils
-    extends PropertyUtilsBean {
-
-  private static void convert(Object dest, Object orig) throws
-      IllegalAccessException, InvocationTargetException {
+  private static void convert(Object dest, Object orig){
 
       // Validate existence of the specified beans
       if (dest == null) {
@@ -115,7 +109,6 @@ public class BeanPropertyUtils
 	  PropertyDescriptor origDescriptors[] = PropertyUtils.getPropertyDescriptors(databean);
       for (int i = 0; i < origDescriptors.length; i++) {
           String name = origDescriptors[i].getName();
-//          String type = origDescriptors[i].getPropertyType().toString();
           if ("class".equals(name)) {
               continue; // No point in trying to set an object's class
           }

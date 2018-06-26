@@ -2,7 +2,7 @@ package com.abocode.jfaster.core.common.util;
 
 import com.abocode.jfaster.web.system.domain.entity.RoleFunction;
 import com.abocode.jfaster.core.common.constants.DataBaseConstant;
-import com.abocode.jfaster.web.system.interfaces.bean.ClientBean;
+import com.abocode.jfaster.web.system.application.dto.bean.ClientBean;
 import com.abocode.jfaster.web.system.domain.entity.Role;
 import com.abocode.jfaster.web.system.domain.entity.User;
 import com.abocode.jfaster.web.common.manager.ClientManager;

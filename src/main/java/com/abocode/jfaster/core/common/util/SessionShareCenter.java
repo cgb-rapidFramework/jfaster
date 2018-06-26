@@ -1,8 +1,7 @@
 package com.abocode.jfaster.core.common.util;
 
-import com.abocode.jfaster.core.common.util.ContextHolderUtils;
 import com.abocode.jfaster.web.common.manager.ClientManager;
-import com.abocode.jfaster.web.system.interfaces.bean.ClientBean;
+import com.abocode.jfaster.web.system.application.dto.bean.ClientBean;
 import com.abocode.jfaster.web.system.domain.entity.Role;
 
 import javax.servlet.http.HttpSession;

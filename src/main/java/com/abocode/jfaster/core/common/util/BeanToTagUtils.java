@@ -2,13 +2,13 @@ package com.abocode.jfaster.core.common.util;
 
 import com.abocode.jfaster.web.system.domain.entity.Function;
 import com.abocode.jfaster.web.system.domain.entity.TypeGroup;
-import com.abocode.jfaster.web.system.interfaces.view.IconView;
-import com.abocode.jfaster.web.system.interfaces.view.TypeView;
-import com.abocode.jfaster.web.system.interfaces.view.TypeGroupView;
+import com.abocode.jfaster.web.system.application.dto.view.IconView;
+import com.abocode.jfaster.web.system.application.dto.view.TypeView;
+import com.abocode.jfaster.web.system.application.dto.view.TypeGroupView;
 import com.abocode.jfaster.web.system.domain.entity.Icon;
 import com.abocode.jfaster.web.system.domain.entity.Type;
-import com.abocode.jfaster.web.system.interfaces.bean.FunctionBean;
-import com.abocode.jfaster.web.system.interfaces.view.FunctionView;
+import com.abocode.jfaster.web.system.application.dto.bean.FunctionBean;
+import com.abocode.jfaster.web.system.application.dto.view.FunctionView;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;

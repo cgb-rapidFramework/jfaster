@@ -1,6 +1,6 @@
 package com.abocode.jfaster.core.common.util;
 
-import com.abocode.jfaster.web.system.interfaces.view.FunctionView;
+import com.abocode.jfaster.web.system.application.dto.view.FunctionView;
 
 import java.util.Comparator;
 

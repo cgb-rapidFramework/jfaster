@@ -6,8 +6,8 @@ import com.abocode.jfaster.web.system.domain.repository.MenuInitService;
 import com.abocode.jfaster.core.common.annotation.config.AutoMenu;
 import com.abocode.jfaster.core.common.annotation.config.AutoMenuOperation;
 import com.abocode.jfaster.core.common.annotation.config.MenuCodeType;
-import com.abocode.jfaster.core.repository.service.impl.CommonServiceImpl;
-import com.abocode.jfaster.web.system.interfaces.view.FunctionView;
+import com.abocode.jfaster.core.domain.repository.persistence.hibernate.CommonRepositoryImpl;
+import com.abocode.jfaster.web.system.application.dto.view.FunctionView;
 import com.abocode.jfaster.web.system.domain.entity.Operation;
 import com.abocode.jfaster.core.common.util.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -23,7 +23,7 @@ import java.util.Set;
 
 @Service("menuInitService")
 @Transactional
-public class MenuInitServiceImpl extends CommonServiceImpl implements
+public class MenuInitServiceImpl extends CommonRepositoryImpl implements
         MenuInitService {
 
 	private static final String KEY_SPLIT = "-";//map key 分隔符

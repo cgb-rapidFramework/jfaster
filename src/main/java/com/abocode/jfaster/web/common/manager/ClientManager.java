@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
-import com.abocode.jfaster.web.system.interfaces.bean.ClientBean;
+import com.abocode.jfaster.web.system.application.dto.bean.ClientBean;
 
 /**
  * 对在线用户的管理

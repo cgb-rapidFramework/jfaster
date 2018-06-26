@@ -5,14 +5,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import com.abocode.jfaster.platform.view.interactions.easyui.Autocomplete;
+import com.abocode.jfaster.core.platform.view.interactions.easyui.Autocomplete;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.HqlQuery;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.PageList;
 import com.abocode.jfaster.core.common.model.json.DataGridReturn;
-import com.abocode.jfaster.platform.view.interactions.datatable.DataTableReturn;
+import com.abocode.jfaster.core.platform.view.interactions.datatable.DataTableReturn;
 
 /**
  * 

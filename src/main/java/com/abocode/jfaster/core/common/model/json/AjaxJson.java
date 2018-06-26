@@ -3,6 +3,7 @@ package com.abocode.jfaster.core.common.model.json;
 import java.util.HashMap;
 import java.util.Map;
 import com.google.gson.Gson;
+import lombok.NoArgsConstructor;
 
 /**
  * $.ajax后需要接受的JSON
@@ -10,6 +11,7 @@ import com.google.gson.Gson;
  * @author
  * 
  */
+@NoArgsConstructor
 public class AjaxJson {
 
 	private boolean success = true;// 是否成功
@@ -54,5 +56,8 @@ public class AjaxJson {
 		obj.put("obj", this.obj);
 		obj.put("attributes", this.attributes);
 		return  new Gson().toJson(obj);
+	}
+	public AjaxJson(String msg) {
+		this.msg = msg;
 	}
 }

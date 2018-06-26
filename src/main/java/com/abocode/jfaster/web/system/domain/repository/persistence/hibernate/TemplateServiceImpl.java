@@ -1,16 +1,16 @@
 package com.abocode.jfaster.web.system.domain.repository.persistence.hibernate;
 
-import com.abocode.jfaster.web.system.interfaces.constant.TemplateConstant;
+import com.abocode.jfaster.web.system.constant.TemplateConstant;
 import com.abocode.jfaster.web.system.domain.entity.Template;
 import com.abocode.jfaster.web.system.domain.repository.TemplateService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.abocode.jfaster.core.repository.service.impl.CommonServiceImpl;
+import com.abocode.jfaster.core.domain.repository.persistence.hibernate.CommonRepositoryImpl;
 
 @Service("templateService")
 @Transactional
-public class TemplateServiceImpl extends CommonServiceImpl implements TemplateService {
+public class TemplateServiceImpl extends CommonRepositoryImpl implements TemplateService {
 
     @Override
     public void setDefault(String id) {
