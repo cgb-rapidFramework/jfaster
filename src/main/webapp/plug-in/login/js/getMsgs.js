@@ -13,7 +13,7 @@ $(function(){
 	$.post(
 		'tSSmsController.do?getMsgs',
 	    function(data){
-			var d = $.parseJSON(data);
+			var d = data;
 			console.log(d);
 			if(d.success && $.trim(d.msg) != ''){
 				tip(d.msg);

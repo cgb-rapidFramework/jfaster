@@ -1416,7 +1416,7 @@ function baocunpingmu() {
 			alert("保存失败请重试！");
 		},
 		success : function(data) {
-			var d = $.parseJSON(data);
+			var d = data;
 			if (d.success) {
 				$("#draws").val("");
 				alert("保存成功！");
@@ -1441,7 +1441,7 @@ function shanchupingmu() {
 			alert("删除失败请重试！");
 		},
 		success : function(data) {
-			var d = $.parseJSON(data);
+			var d = data;
 			if (d.success) {
 				alert("删除成功！");
 				reloaddrawList();
@@ -1472,7 +1472,7 @@ function bianjipingmu() {
 		error : function() {// 请求失败处理函数
 		},
 		success : function(data) {
-			var d = $.parseJSON(data);
+			var d = data;
 			$('#draws').val(draws);
 			$('#drawName').val(d.drawname);
 			$('#note').val(d.note);
@@ -1596,7 +1596,7 @@ function dingweiProject(v) {
 		error : function() {// 请求失败处理函数
 		},
 		success : function(data) {
-			var d = $.parseJSON(data);
+			var d = data;
 			projectDetail(d);
 		}
 	});
@@ -1751,7 +1751,7 @@ function quyutjztt(displayType){
 		error : function() {// 请求失败处理函数
 		},
 		success : function(data) { 
-			retstr = $.parseJSON(data);
+			retstr = data;
 			
 			var tc = "zhengzhou:m_xingzhengqujie";//图层
 			var tjsj="";//区域统计数据

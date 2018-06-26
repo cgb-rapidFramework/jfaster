@@ -16,7 +16,7 @@ public class Pager {
 	/**
 	 * @param allCount
 	 *            记录行数
-	 * @param offset
+	 * @param curPagerNo
 	 *            记录开始数目
 	 * @param pageSize
 	 *            每页显示的记录数

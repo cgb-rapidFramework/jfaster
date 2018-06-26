@@ -1,11 +1,8 @@
 package com.abocode.jfaster.web.common.listener;
-
-import com.abocode.jfaster.web.system.domain.repository.JobService;
 import com.abocode.jfaster.web.system.domain.repository.MenuInitService;
 import com.abocode.jfaster.web.system.domain.repository.SystemService;
 import com.abocode.jfaster.core.common.util.ConfigUtils;
 import com.abocode.jfaster.web.system.domain.repository.MutiLangService;
-import com.abocode.jfaster.core.common.util.LogUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 

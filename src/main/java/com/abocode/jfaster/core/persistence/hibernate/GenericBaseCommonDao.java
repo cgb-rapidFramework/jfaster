@@ -731,7 +731,6 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 * @param isOffset
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public List<T> findListByCq(final CriteriaQuery cq, Boolean isOffset) {
 		Criteria criteria = cq.getDetachedCriteria().getExecutableCriteria(
 				getSession());

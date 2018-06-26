@@ -13,21 +13,11 @@ public class PagerUtil {
 	}
 
 	public static String getBar(String action, String form, int allCounts, int curPageNO, int pageSize, Map<String, Object> map) {
-		Pager pager = null;
-		try {
-			if (curPageNO > (int) Math.ceil((double) allCounts / pageSize))
-				curPageNO = (int) Math.ceil((double) allCounts / pageSize);
-			if (curPageNO <= 1)
-				curPageNO = 1;
-			// 得到offset
-			pager = new Pager(allCounts, curPageNO, pageSize, map);
-		} catch (Exception e) {
-			throw new RuntimeException();
-		}
+		Pager pager = buildPager(allCounts,curPageNO,pageSize,map);
 		return pager.getToolBar(action, form);
 	}
 
-	public static String getBar(String url, int allCounts, int curPageNO, int pageSize, Map<String, Object> map) {
+	private static Pager buildPager(int allCounts, int curPageNO, int pageSize, Map<String, Object> map) {
 		Pager pager = null;
 		try {
 			if (curPageNO > (int) Math.ceil((double) allCounts / pageSize))
@@ -35,11 +25,16 @@ public class PagerUtil {
 			if (curPageNO <= 1)
 				curPageNO = 1;
 			// 得到offset
-			// 生成工具条
 			pager = new Pager(allCounts, curPageNO, pageSize, map);
+
 		} catch (Exception e) {
 			throw new RuntimeException();
 		}
+		return  pager;
+	}
+
+	public static String getBar(String url, int allCounts, int curPageNO, int pageSize, Map<String, Object> map) {
+		Pager pager = buildPager(allCounts,curPageNO,pageSize,map);
 		return pager.getToolBar(url);
 	}
 

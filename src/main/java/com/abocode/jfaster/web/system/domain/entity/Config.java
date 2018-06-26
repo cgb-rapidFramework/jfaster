@@ -20,7 +20,7 @@ public class Config extends IdEntity implements java.io.Serializable {
 	private String contents;
 	private String note;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userid")
 	public User getTSUser() {
 		return this.TSUser;

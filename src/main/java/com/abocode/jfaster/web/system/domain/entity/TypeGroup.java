@@ -40,7 +40,7 @@ public class TypeGroup extends IdEntity implements java.io.Serializable {	privat
 		this.typegroupcode = typegroupcode;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "TSTypegroup")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TSTypegroup")
 	public List<Type> getTSTypes() {
 		return this.TSTypes;
 	}

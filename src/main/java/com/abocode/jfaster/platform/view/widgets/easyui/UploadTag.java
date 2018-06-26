@@ -171,7 +171,7 @@ public class UploadTag extends TagSupport {
         sb.append("},");
         //上传成功处理函数
         sb.append("onUploadSuccess : function(file, data, response) {");
-        sb.append("var d=$.parseJSON(data);");
+        sb.append("var d=data;");
         if (view) {
             sb.append("var fileitem=\"<span id=\'\"+d.attributes.fileKey+\"\'><a href=\'#\' onclick=openwindow(\'文件查看\',\'\"+d.attributes.viewhref+\"\',\'文件查看\',\'480\',\'360\') title=\'查看\'>\"+d.attributes.name+\"</a><img border=\'0\' onclick=confuploadify(\'\"+d.attributes.delurl+\"\',\'\"+d.attributes.fileKey+\"\') title=\'删除\' src=\'plug-in/uploadify/img/uploadify-cancel.png\' widht=\'15\' height=\'15\'>&nbsp;&nbsp;</span>\";");
             sb.append("m.put(d.attributes.fileKey,fileitem);");

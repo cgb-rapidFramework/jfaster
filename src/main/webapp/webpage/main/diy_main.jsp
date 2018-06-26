@@ -882,7 +882,7 @@ fa fa-times
                             type:"post",
                             data:$('#formobj2').serialize(),// 要提交的表单 ,
                             success:function(data){
-                                var d = $.parseJSON(data);
+                                var d = data;
                                 if (d.success) {
                                     var msg = d.msg;
                                     bootbox.alert(msg);

@@ -236,7 +236,7 @@
       error : function() {// 请求失败处理函数
       },
       success : function(data) {
-        var d = $.parseJSON(data);
+        var d = data;
         if (d.success) {
           loginsuccess();
           var title, okButton;

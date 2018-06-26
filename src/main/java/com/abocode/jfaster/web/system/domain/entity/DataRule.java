@@ -142,7 +142,7 @@ public class DataRule extends IdEntity implements Serializable {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "functionId")
 	public Function getTSFunction() {
 		return TSFunction;

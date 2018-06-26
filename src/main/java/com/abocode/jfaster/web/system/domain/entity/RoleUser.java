@@ -18,7 +18,7 @@ public class RoleUser extends IdEntity implements java.io.Serializable {
 	private User TSUser;
 	private Role TSRole;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userid")
 	public User getTSUser() {
 		return this.TSUser;
@@ -28,7 +28,7 @@ public class RoleUser extends IdEntity implements java.io.Serializable {
 		this.TSUser = TSUser;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "roleid")
 	public Role getTSRole() {
 		return this.TSRole;

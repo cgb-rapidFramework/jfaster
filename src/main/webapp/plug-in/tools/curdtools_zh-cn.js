@@ -115,7 +115,7 @@ function deleteALLSelect(title,url,gname) {
 					},
 					cache : false,
 					success : function(data) {
-						var d = $.parseJSON(data);
+						var d = data;
 						if (d.success) {
 							var msg = d.msg;
 							tip(msg);
@@ -216,7 +216,7 @@ function deluploadify(url, id) {
 		error : function() {// 请求失败处理函数
 		},
 		success : function(data) {
-			var d = $.parseJSON(data);
+			var d = data;
 			if (d.success) {
 				$("#" + id).remove();// 移除SPAN
 				$("#fileShow").empty();// 移除显示的图片
@@ -582,7 +582,7 @@ function doSubmit(url,name,data) {
 		error : function() {// 请求失败处理函数
 		},
 		success : function(data) {
-			var d = $.parseJSON(data);
+			var d = data;
 			if (d.success) {
 				var msg = d.msg;
 				tip(msg);

@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import org.hibernate.criterion.Criterion;
 /**
 * @ClassName: CriterionList 
-* @Description: TODO(查询条件集合) 
-* @author jeecg 
+* @author abocode
 * @date 2012-10-25 上午09:32:20 
 *
  */

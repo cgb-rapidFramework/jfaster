@@ -24,7 +24,7 @@
 			error : function() {// 请求失败处理函数
 			},
 			success : function(data) {
-				var d = jq.parseJSON(data);
+				var d = data
 				if (d.success) {
 					jq.dialog.tips('操作成功', 2);
 				}

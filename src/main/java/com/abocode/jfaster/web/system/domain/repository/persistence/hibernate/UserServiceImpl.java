@@ -10,7 +10,6 @@ import com.abocode.jfaster.web.system.domain.entity.UserOrg;
 import com.abocode.jfaster.web.system.interfaces.bean.ExlUserBean;
 import com.abocode.jfaster.core.common.util.PasswordUtils;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
@@ -49,9 +48,9 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 	 */
 	public void pwdInit(User user, String newPwd){
 		String query ="from User u where u.userName = :username ";
-		Query queryObject = getSession().createQuery(query);
+		org.hibernate.query.Query queryObject = getSession().createQuery(query);
 		queryObject.setParameter("username", user.getUserName());
-		List<User> users =  ((Criteria) queryObject).list();
+		List<User> users =  queryObject.list();
 		if(null != users && users.size() > 0){
 			user = users.get(0);
 			String pwd = PasswordUtils.encrypt(user.getUserName(), newPwd, PasswordUtils.getStaticSalt());

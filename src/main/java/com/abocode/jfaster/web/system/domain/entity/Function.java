@@ -25,7 +25,7 @@ public class Function extends IdEntity implements java.io.Serializable {
     private Icon TSIconDesk = new Icon();//云桌面菜单图标
     private List<Function> TSFunctions = new ArrayList<Function>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "desk_iconid")
     public Icon getTSIconDesk() {
         return TSIconDesk;
@@ -37,7 +37,7 @@ public class Function extends IdEntity implements java.io.Serializable {
 
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "iconid")
     public Icon getTSIcon() {
         return TSIcon;
@@ -47,7 +47,7 @@ public class Function extends IdEntity implements java.io.Serializable {
         TSIcon = tSIcon;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parentfunctionid")
     public Function getTSFunction() {
         return this.TSFunction;
@@ -102,7 +102,7 @@ public class Function extends IdEntity implements java.io.Serializable {
         this.functionOrder = functionOrder;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "TSFunction")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "TSFunction")
     public List<Function> getTSFunctions() {
         return TSFunctions;
     }
