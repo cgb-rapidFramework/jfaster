@@ -6,6 +6,7 @@ import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.extend.datasource.DataSourceContextHolder;
 import com.abocode.jfaster.core.extend.datasource.DataSourceType;
+import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.web.common.manager.ClientManager;
 import com.abocode.jfaster.web.system.domain.entity.*;
 import com.abocode.jfaster.web.system.domain.repository.MutiLangService;

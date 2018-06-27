@@ -1,6 +1,7 @@
 package com.abocode.jfaster.web.system.interfaces.web;
 
 
+import com.abocode.jfaster.core.interfaces.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;

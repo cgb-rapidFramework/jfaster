@@ -7,6 +7,7 @@ import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.util.BeanPropertyUtils;
 import com.abocode.jfaster.core.common.constants.Globals;
+import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.web.common.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.web.system.constant.TemplateConstant;
 import com.abocode.jfaster.web.system.domain.entity.Template;

@@ -2,6 +2,7 @@ package com.abocode.jfaster.web.system.interfaces.web;
 
 import com.abocode.jfaster.core.common.model.json.*;
 import com.abocode.jfaster.core.extend.hqlsearch.parse.ObjectParseUtil;
+import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.web.system.application.dto.bean.ClientBean;
 import com.abocode.jfaster.web.system.domain.entity.*;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;

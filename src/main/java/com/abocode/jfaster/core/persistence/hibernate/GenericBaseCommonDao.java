@@ -631,11 +631,10 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 */
 	public DataGridReturn findDataGridReturn(final CriteriaQuery cq,
 			final boolean isOffset) {
-		Criteria criteria = cq.getDetachedCriteria().getExecutableCriteria(
+		CriteriaImpl criteria = (CriteriaImpl) cq.getDetachedCriteria().getExecutableCriteria(
 				getSession());
-		CriteriaImpl impl = (CriteriaImpl) criteria;
 		// 先把Projection和OrderBy条件取出来,清空两者来执行Count操作
-		Projection projection = impl.getProjection();
+		Projection projection = criteria.getProjection();
 		final int allCounts = ((Long) criteria.setProjection(
 				Projections.rowCount()).uniqueResult()).intValue();
 		criteria.setProjection(projection);
@@ -660,8 +659,6 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		} else {
 			pageSize = allCounts;
 		}
-		// DetachedCriteriaUtil.selectColumn(cq.getDetachedCriteria(),
-		// cq.getField().split(","), cq.getClass1(), false);
 		List list = criteria.list();
 		cq.getDataGrid().setResults(list);
 		cq.getDataGrid().setTotal(allCounts);

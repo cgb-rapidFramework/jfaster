@@ -4,6 +4,7 @@ import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.model.json.HighChart;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.util.MutiLangUtils;
+import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.web.system.domain.entity.Log;
 import com.abocode.jfaster.web.system.domain.repository.LogService;
 import com.abocode.jfaster.web.system.domain.repository.SystemService;

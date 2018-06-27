@@ -1,6 +1,7 @@
 package com.abocode.jfaster.web.system.interfaces.web;
 
 import com.abocode.jfaster.core.common.util.LogUtils;
+import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.DataGrid;

@@ -104,8 +104,7 @@ public class BeanPropertyUtils   extends PropertyUtilsBean {
 	 * @throws NoSuchMethodException
 	 * copy
 	 */
-  public static void copyBeanNotNull2Bean(Object databean,Object tobean)throws Exception
-  {
+  public static void copyBeanNotNull2Bean(Object databean,Object tobean){
 	  PropertyDescriptor origDescriptors[] = PropertyUtils.getPropertyDescriptors(databean);
       for (int i = 0; i < origDescriptors.length; i++) {
           String name = origDescriptors[i].getName();

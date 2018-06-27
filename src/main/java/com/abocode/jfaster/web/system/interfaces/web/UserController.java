@@ -6,6 +6,7 @@ import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.ComboBox;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.model.json.ValidForm;
+import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.web.system.application.ISystemService;
 import com.abocode.jfaster.web.system.application.IUserService;
 import com.abocode.jfaster.core.platform.poi.excel.ExcelExportUtil;
@@ -523,7 +524,7 @@ public class UserController extends BaseController {
 			userId=	ConvertUtils.getString(request.getParameter("userId"));
 		}
 		List<Depart> orgList = new ArrayList<Depart>();
-		List<Object[]> orgArrList = userService.findByHql("from Depart d,UserOrg uo where d.id=uo.tsDepart.id and uo.tsUser.id=?", new String[]{userId});
+		List<Object[]> orgArrList = userService.findByHql("from Depart d,UserOrg uo where d.id=uo.tsDepart.id and uo.tsUser.id=?0", new String[]{userId});
 		for (Object[] departs : orgArrList) {
 			orgList.add((Depart) departs[0]);
 		}

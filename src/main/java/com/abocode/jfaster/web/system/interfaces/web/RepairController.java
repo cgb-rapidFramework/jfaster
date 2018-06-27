@@ -1,5 +1,6 @@
 package com.abocode.jfaster.web.system.interfaces.web;
 
+import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.web.system.domain.repository.RepairService;
 import com.abocode.jfaster.web.system.domain.repository.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;

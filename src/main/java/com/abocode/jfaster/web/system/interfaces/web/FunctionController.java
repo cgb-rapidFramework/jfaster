@@ -2,6 +2,7 @@ package com.abocode.jfaster.web.system.interfaces.web;
 
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
+import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.core.platform.view.interactions.datatable.SortDirection;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.common.util.ConvertUtils;

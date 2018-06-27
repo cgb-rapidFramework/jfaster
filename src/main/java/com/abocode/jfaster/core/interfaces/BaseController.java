@@ -1,4 +1,4 @@
-package com.abocode.jfaster.web.system.interfaces.web;
+package com.abocode.jfaster.core.interfaces;
 
 import com.abocode.jfaster.core.common.util.SystemJsonUtils;
 import com.abocode.jfaster.core.domain.repository.CommonRepository;

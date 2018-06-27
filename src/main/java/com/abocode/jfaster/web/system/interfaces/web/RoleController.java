@@ -2,6 +2,7 @@ package com.abocode.jfaster.web.system.interfaces.web;
 
 import com.abocode.jfaster.core.common.model.json.*;
 import com.abocode.jfaster.core.common.util.*;
+import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.web.system.domain.entity.*;
