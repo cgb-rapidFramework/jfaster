@@ -1,6 +1,5 @@
 # JFaster项目说明
 
-### 
 - 该项目由个人发起忙，只用于技术交流，不用于做商业用途。
 - 项目的所有代码均开源共享，框架在jeecg的思想上发展而来，并且在真实环境中经过大量的检验，系统的安全、稳定、可靠。
 - 项目框架为：spring MVC+Hibernate+bootstrap+easyui+poi。
@@ -23,15 +22,17 @@
 
 ## 模块说明
 
-### core说明
+### core核心域说明
 
- 该模块封装了Spring JdbcTemplate和Hibernate对数据库的操作，统一查询方法命名Hibernate采用findXXX()，纯jdbc操作则使用queryXXX()。
+对基础领域的封装
+ 
+ - common 一些基础工具类，对异常、缓存、工具类的实现
+ - domain 对基础业务逻辑的封装，如部分持久化方法
+ - interfaces 对基础接口层的封装，及定义
+ - persistence 持久化方法，对数据库持久化操作的定义,对数据库的操作，统一查询方法命名Hibernate采用findXXX()，纯jdbc操作则使用queryXXX()
+ - platform 该部分对页面显示元素、数据集及大量基础工具进行封装，在项目开发中可以直接进行使用。
 
-### platform说明
-
-该部分对页面显示元素、数据集及大量基础工具进行封装，在项目开发中可以直接进行使用。
-
-### project说明
+### web说明
 
 该部分为业务代码的实现，使用代码生成器快速生成所有代码，是一套小而巧的框架，技术选型最优的选择。
 
@@ -40,13 +41,12 @@ JFaster.zip为mysql的数据库脚本（其他数据库请使用hibernate自行�
 #### 下载地址
  - gitee:[https://gitee.com/abocode-source/bms-project.git](https://gitee.com/abocode-source/bms-project)
  - github:[https://github.com/abocode/jfaster.git](https://github.com/abocode/jfaster.git)
- - 生成器路径:[http://git.oschina.net/abocode-source/code-maker](http://git.oschina.net/abocode-source/code-maker)
+ - 生成器路径:[https://github.com/abocode/code-maker](https://github.com/abocode/code-maker.git)
 
 #### 使用手册
- - doc/开发文档
-  
+ - doc/开发文档 
 
-## 系统功能介
+## 系统功能介介绍
 
      1.用户、菜单、角色、权限完全拥有。
      2.作为管理系统框架：角色可配置权限，用户可配置权限,可以精确到具体的按钮，够吗？
