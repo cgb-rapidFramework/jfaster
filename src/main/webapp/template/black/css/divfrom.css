@@ -27,8 +27,10 @@ body{
     border-radius:10px;
     border:2px solid #fff;
     background-color:rgb(85, 85, 85);
-    width:650px;
-    overflow:hidden;
+    width: 650px;
+    height: 386px;
+    margin-top: -65px;
+    overflow: hidden;
 }
 #steps{
     width:650px;

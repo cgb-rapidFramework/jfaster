@@ -797,14 +797,7 @@ a.l-btn span.l-btn-left {
 a.l-btn-plain span.l-btn-left {
   padding-left: 5px;
 }
-/* a.l-btn span span.l-btn-text {
-  display: inline-block;
-  vertical-align: baseline;
-  width: auto;
-  height: 16px;
-  line-height: 16px;
-  padding: 0;
-} */
+
 a.l-btn span span.l-btn-icon-left {
   padding: 0 0 0 20px;
   background-position: left center;
@@ -837,7 +830,7 @@ a:hover.l-btn-disabled span.l-btn-left {
   background-position: 0 -48px;
 }
 a.l-btn .l-btn-focus {
-  outline: #0000FF solid thin;
+  outline: #e9e9e9 solid 0;
 }
 a.l-btn {
   color: #777;

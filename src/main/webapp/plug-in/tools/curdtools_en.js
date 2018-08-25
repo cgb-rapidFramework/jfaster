@@ -9,7 +9,11 @@ var iframe;// iframe操作对象
 var win;//窗口对象
 var gridname="";//操作datagrid对象名称
 var W;
-var windowapi=frameElement.api;
+var windowapi;
+if(frameElement!=null){
+    windowapi=frameElement.api;
+}
+
 if(typeof(windowapi) != 'undefined'){
 	W = windowapi.opener;//内容页中调用窗口实例对象接口
 }

@@ -837,7 +837,7 @@ a:hover.l-btn-disabled span.l-btn-left {
   background-position: 0 -48px;
 }
 a.l-btn .l-btn-focus {
-  outline: #0000FF solid thin;
+  outline: #0000FF solid 0;
 }
 a.l-btn {
   color: #777;
