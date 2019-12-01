@@ -21,6 +21,10 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
+	<bean class="com.abocode.jfaster.web.common.config.SwaggerConfig"/>
+	<mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html"/>
+	<mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**"/>
+
 	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
 	<bean id="mappingJacksonHttpMessageConverter"
 		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
@@ -92,7 +96,7 @@
 			<mvc:mapping path="/**" />
 			<bean class="com.abocode.jfaster.web.common.interceptors.EncodingInterceptor" />
 		</mvc:interceptor>
-		<mvc:interceptor>
+		<!--<mvc:interceptor>
 			<mvc:mapping path="/**" />
 			<bean class="com.abocode.jfaster.web.common.interceptors.AuthInterceptor">
 				<property name="excludeUrls">
@@ -103,9 +107,11 @@
 						<value>loginController.do?checkuser</value>
 						<value>repairController.do?repair</value>
 						<value>userController.do?userOrgSelect</value>
+						<value>/api/**</value>
+						<value>/swagger-resources/**</value>
 					</list>
 				</property>
 			</bean>
-		</mvc:interceptor>
+		</mvc:interceptor>-->
 	</mvc:interceptors>
 </beans>
