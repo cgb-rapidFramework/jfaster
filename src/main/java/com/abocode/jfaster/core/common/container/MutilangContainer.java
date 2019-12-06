@@ -27,7 +27,6 @@ public class MutilangContainer {
         } else {
             String[] argArray = langArg.split(",");
             langContext = getLang(lanKey);
-
             for (int i = 0; i < argArray.length; i++) {
                 String langKeyArg = argArray[i].trim();
                 String langKeyContext = getLang(langKeyArg);
@@ -47,14 +46,11 @@ public class MutilangContainer {
         String language = BrowserUtils.getBrowserLanguage();
         String langContext = MutilangContainer.mutiLangMap.get(langKey + "_" + language);
         if (StringUtils.isEmpty(langContext)) {
-            langContext = MutilangContainer.mutiLangMap.get("common.notfind.langkey" + "_" + language);
-            if ("null".equals(langContext) || langContext == null || langKey.startsWith("?")) {
-                langContext = "";
-            }
-            langContext = langKey;
+          return  langKey;
         }
         return langContext;
     }
+
 
 
     /***

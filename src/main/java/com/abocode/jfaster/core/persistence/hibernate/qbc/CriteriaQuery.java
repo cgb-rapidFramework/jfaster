@@ -19,7 +19,7 @@ import org.hibernate.transform.Transformers;
 import org.hibernate.type.Type;
 import org.springframework.util.StringUtils;
 
-public class CriteriaQuery implements Serializable {
+public class CriteriaQuery{
     /**
      * 当前页
      */
@@ -32,19 +32,46 @@ public class CriteriaQuery implements Serializable {
      *请求的action 地址
      */
     private String myAction;
-    private String myForm;// form 名字
-    private CriterionList criterionList = new CriterionList();//自定义查询条件集合
-    private CriterionList jqcriterionList = new CriterionList();//jquery datatable控件生成查询条件集合
-    private int isUseimage = 0;// 翻页工具条样式
+    /***
+     *  form 名字
+     */
+    private String myForm;
+    /***
+     * 自定义查询条件集合
+     */
+    private CriterionList criterionList = new CriterionList();
+    /***
+     * jquery datatable控件生成查询条件集合
+     */
+    private CriterionList jqcriterionList = new CriterionList();
+    /***
+     *  翻页工具条样式
+     */
+    private int isUseimage = 0;
     private DetachedCriteria detachedCriteria;
-    private static Map<String, Object> map= new HashMap<String, Object>();;
-    private static Map<String, Object> ordermap =new HashMap<String, Object>();;//排序字段
-    private boolean flag = true;// 对同一字段进行第二次重命名查询时值设置FASLE不保存重命名查询条件
-    private String field = "";//查询需要显示的字段
-    private Class entityClass;//POJO
-    private List results;// 结果集
+    private static Map<String, Object> map= new HashMap<String, Object>();
+    /***
+     * 排序字段
+     */
+    private static Map<String, Object> ordermap =new HashMap<String, Object>();
+    /***
+     * 对同一字段进行第二次重命名查询时值设置FASLE不保存重命名查询条件
+     */
+    private boolean flag = true;
+    /***
+     * 查询需要显示的字段
+     */
+    private String field = "";
+    private Class entityClass;
+    /***
+     * 结果集
+     */
+    private List results;
     private int total;
-    private List<String> alias = new ArrayList<String>();//保存创建的aliasName 防止重复创建
+    /****
+     * 保存创建的aliasName 防止重复创建
+     */
+    private List<String> alias = new ArrayList<String>();
 
     public List getResults() {
         return results;
@@ -99,8 +126,6 @@ public class CriteriaQuery implements Serializable {
 
     public CriteriaQuery(Class c) {
         this.detachedCriteria = DetachedCriteria.forClass(c);
-        this.map = new HashMap<String, Object>();
-        this.ordermap = new HashMap<String, Object>();
     }
 
     public CriteriaQuery(Class c, int curPage, String myAction, String myForm) {
@@ -114,14 +139,11 @@ public class CriteriaQuery implements Serializable {
         this.myAction = myAction;
         this.curPage = curPage;
         this.detachedCriteria = DetachedCriteria.forClass(c);
-        this.map = new HashMap<String, Object>();
-        this.ordermap = new HashMap<String, Object>();
     }
 
     public CriteriaQuery(Class entityClass, int curPage) {
         this.curPage = curPage;
         this.detachedCriteria = DetachedCriteria.forClass(entityClass);
-        this.map = new HashMap<String, Object>();
     }
 
     public CriteriaQuery(Class entityClass, DataGrid dg) {
@@ -131,8 +153,6 @@ public class CriteriaQuery implements Serializable {
         this.entityClass = entityClass;
         this.dataGrid = dg;
         this.pageSize = dg.getRows();
-        this.map = new HashMap<String, Object>();
-        this.ordermap = new HashMap<String, Object>();
     }
 
     public CriteriaQuery(Class entityClass, DataTables dataTables) {
@@ -145,8 +165,6 @@ public class CriteriaQuery implements Serializable {
         this.entityClass = entityClass;
         this.dataTables = dataTables;
         this.pageSize = dataTables.getDisplayLength();
-        this.map = new HashMap<String, Object>();
-        this.ordermap = new HashMap<String, Object>();
         addJqCriteria(dataTables);
     }
 
