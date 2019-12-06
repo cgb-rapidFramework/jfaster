@@ -25,7 +25,7 @@ public class SystemJsonUtils {
 			if (roles.size() > 0) {
 				buffer.append("{\"id\":" + node.getId() + ",\"text\":\"" + node.getRoleName() + "\"");
 				for (Role node1 : roles) {
-					if (node.getId() == node1.getId()) {
+					if (node.getId().equals( node1.getId())) {
 						buffer.append(",\"selected\":true");
 					}
 				}
@@ -57,7 +57,7 @@ public class SystemJsonUtils {
 			box.setText(node.getRoleName());
 			if (roles.size() > 0) {
 				for (Role node1 : roles) {
-					if (node.getId() == node1.getId()) {
+					if (node.getId().equals(node1.getId())) {
 						box.setSelected(true);
 					}
 				}

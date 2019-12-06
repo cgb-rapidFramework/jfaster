@@ -1,6 +1,7 @@
 package com.abocode.jfaster.web.system.domain.entity;
 
 import com.abocode.jfaster.core.domain.entity.IdEntity;
+import org.omg.CORBA.OBJ_ADAPTER;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -88,20 +89,4 @@ public class Operation extends IdEntity implements java.io.Serializable {
 	public void setTSFunction(Function tSFunction) {
 		TSFunction = tSFunction;
 	}
-	
-	@Override
-    public boolean equals(Object obj) {  
-        if(this == obj)  
-            return false;  
-        if(obj == null)  
-            return false;  
-        if(getClass() != obj.getClass() )  
-            return false;  
-        Operation other = (Operation)obj;
-        if (getId().equals(other.getId())){
-        	return true; 
-        }else {
-        	return false;  
-        }
-    }  
 }

@@ -6,6 +6,7 @@ import com.abocode.jfaster.core.platform.poi.excel.annotation.ExcelTarget;
 import com.abocode.jfaster.core.platform.poi.excel.entity.ExcelCollectionParams;
 import com.abocode.jfaster.core.platform.poi.excel.entity.ExcelImportEntity;
 import com.abocode.jfaster.core.platform.poi.excel.entity.ImportParams;
+import org.apache.commons.io.IOUtils;
 import org.apache.poi.POIXMLDocument;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -56,11 +57,7 @@ public final class ExcelImportUtil {
 		} catch (Exception e) {
 			LogUtils.error(e.getMessage());
 		}finally{
-			try {
-				in.close();
-			} catch (IOException e) {
-				LogUtils.error(e.getMessage());
-			}
+			IOUtils.closeQuietly(in);
 		}
 		return result;
 	}

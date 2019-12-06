@@ -16,10 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service("menuInitService")
 @Transactional
@@ -71,7 +68,7 @@ public class MenuInitServiceImpl extends CommonRepositoryImpl implements
 		
 		//扫描Src目录下
 //		Set<Class<?>> classSet = PackagesToScanUtil.getClasses(".*");
-		Set<Class<?>> classSet =null;
+		Set<Class<?>> classSet =new HashSet<Class<?>>();
 		for (Class<?> clazz : classSet) {
 			//判断当前类是否设置了菜单注解
 			//未设置菜单注解就算在该类的方法上设置了菜单操作按钮注解也不进行菜单操作按钮的匹配

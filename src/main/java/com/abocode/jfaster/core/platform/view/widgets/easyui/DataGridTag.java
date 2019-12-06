@@ -695,7 +695,7 @@ public class DataGridTag extends TagSupport {
                                             + " as text from " + dic[0];
                                     //TODO
 //									List<Map<String, Object>> list = systemService.queryForListMap(sql);
-                                    List<Map<String, Object>> list = null;
+                                    List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
                                     sb.append("<select name=\"" + col.getField().replaceAll("_", "\\.") + "\" WIDTH=\"100\" style=\"width: 104px\"> ");
                                     sb.append(StringExpandUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutilangContainer.getLang("common.please.select")));
                                     for (Map<String, Object> map : list) {

@@ -5,11 +5,17 @@ public final class Globals {
      */
     public static String USER_SESSION = "USER_SESSION";
     /**
-     * 人员类型
+     * 正常
      */
-    public static Short User_Normal = 1;//正常
-    public static Short User_Forbidden = 0;//禁用
-    public static Short User_ADMIN = -1;//超级管理员
+    public static Short User_Normal = 1;
+    /***
+     * 禁用
+     */
+    public static Short User_Forbidden = 0;
+    /***
+     * 超级管理员
+     */
+    public static Short User_ADMIN = -1;
     /**
      * 日志级别定义
      */

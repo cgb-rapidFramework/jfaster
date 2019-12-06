@@ -172,7 +172,7 @@ public class MutiLangUtils {
         if (StringUtils.isEmpty(list)) {
             return;
         }
-        if (attributes == null && attributes.length == 0) {
+        if (StringUtils.isEmpty(attributes)) {
             return;
         }
         List<Object> newList = new ArrayList<Object>();

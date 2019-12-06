@@ -128,27 +128,23 @@ public class BaseController {
 		String labelFields = autocomplete.getLabelField();
 		String[] fieldArr = labelFields.split(",");
 		String valueField = autocomplete.getValueField();
-		String[] allFieldArr = null;
 		if (!com.abocode.jfaster.core.common.util.StringUtils.isEmpty(valueField)) {
-			allFieldArr = new String[fieldArr.length+1];
+			String[] allFieldArr  = new String[fieldArr.length+1];
 			for (int i=0; i<fieldArr.length; i++) {
 				allFieldArr[i] = fieldArr[i];
 			}
 			allFieldArr[fieldArr.length] = valueField;
-		}
-
-		try {
-			/*String str = TagUtil.getAutoList(autocomplete, autoList);
-			str = "(" + str + ")";*/
-			response.setContentType("application/json;charset=UTF-8");
-			response.setHeader("Pragma", "No-cache");
-			response.setHeader("Cache-Control", "no-cache");
-			response.setDateHeader("Expires", 0);
-			response.getWriter().write(SystemJsonUtils.listToJson(allFieldArr, allFieldArr.length, autoList));
-			response.getWriter().flush();
-			response.getWriter().close();
-		} catch (Exception e1) {
-			e1.printStackTrace();
+			try {
+				response.setContentType("application/json;charset=UTF-8");
+				response.setHeader("Pragma", "No-cache");
+				response.setHeader("Cache-Control", "no-cache");
+				response.setDateHeader("Expires", 0);
+				response.getWriter().write(SystemJsonUtils.listToJson(allFieldArr, allFieldArr.length, autoList));
+				response.getWriter().flush();
+				response.getWriter().close();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 

@@ -26,7 +26,7 @@ public class TabTag extends TagSupport {
     private boolean closable = false;//是否带关闭按钮
     private String langArg;
 
-    public int doStartTag() throws JspTagException {
+    public int doStartTag(){
         return EVAL_PAGE;
     }
 
@@ -46,9 +46,7 @@ public class TabTag extends TagSupport {
     }
 
     public void setTitle(String title) {
-        //add by Rocky, 处理多语言
-        String lang_context = MutiLangUtils.getLang(title, langArg);
-        this.title = lang_context;
+        this.title = MutiLangUtils.getLang(title, langArg);
     }
 
     public void setIcon(String icon) {

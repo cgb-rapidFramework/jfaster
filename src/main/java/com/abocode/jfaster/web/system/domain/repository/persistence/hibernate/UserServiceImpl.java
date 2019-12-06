@@ -15,6 +15,7 @@ import org.hibernate.criterion.Restrictions;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.web.system.domain.entity.User;
 import com.abocode.jfaster.web.system.domain.repository.UserService;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +34,7 @@ public class UserServiceImpl extends CommonRepositoryImpl implements UserService
 	public User checkUserExits(User user) {
 		String password = PasswordUtils.encrypt(user.getUserName(), user.getPassword(), PasswordUtils.getStaticSalt());
 		String query = "from User u where u.userName = :username and u.password=:passowrd";
-		org.hibernate.Query queryObject =getSession().createQuery(query);
+		Query queryObject =getSession().createQuery(query);
 		queryObject.setParameter("username", user.getUserName());
 		queryObject.setParameter("passowrd", password);
 		List<User> users =queryObject.list();
@@ -86,11 +87,11 @@ public class UserServiceImpl extends CommonRepositoryImpl implements UserService
 		// 参数组装
 		for (User model : users) {
 			ExlUserBean exlUserVo = new ExlUserBean();
-			String departName="";
+			StringBuffer sb=new StringBuffer();
 			for (UserOrg org:model.getUserOrgList()){
-				departName+=org.getTsDepart().getDepartname()+",";
+				sb.append(org.getTsDepart().getDepartname()).append(",");
 			}
-			exlUserVo.setDepartName(departName);
+			exlUserVo.setDepartName(sb.toString());
 			exlUserVo.setEmail(model.getEmail());
 			exlUserVo.setMobilePhone(model.getMobilePhone());
 			exlUserVo.setOfficePhone(model.getOfficePhone());

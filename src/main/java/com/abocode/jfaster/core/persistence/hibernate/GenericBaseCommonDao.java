@@ -11,7 +11,7 @@ import com.abocode.jfaster.core.common.util.BeanPropertyUtils;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.util.LogUtils;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.*;
@@ -84,7 +84,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		List<DBTable> resultList = new ArrayList<DBTable>();
 		SessionFactory factory = getSession().getSessionFactory();
 		Map<String, ClassMetadata> metaMap = factory.getAllClassMetadata();
-		for (String key : (Set<String>) metaMap.keySet()) {
+		for (String key : metaMap.keySet()) {
 			DBTable dbTable = new DBTable();
 			AbstractEntityPersister classMetadata = (AbstractEntityPersister) metaMap
 					.get(key);
@@ -120,7 +120,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	@SuppressWarnings("unchecked")
 	public <T> List<T> findAllByProperty(Class<T> entityClass,
 			String propertyName, Object value) {
-		Assert.hasText(propertyName);
+		Assert.hasText(propertyName,"属性不能为空");
 		return (List<T>) createCriteria(entityClass,
 				Restrictions.eq(propertyName, value)).list();
 	}
@@ -296,7 +296,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 */
 	public <T> T findUniqueByHql(String hql) {
 		T t = null;
-		Query queryObject = getSession().createQuery(hql);
+		org.hibernate.query.Query queryObject = getSession().createQuery(hql);
 		List<T> list = queryObject.list();
 		if (list.size() == 1) {
 			getSession().flush();
@@ -315,7 +315,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 */
 	public Map<Object, Object> findHashMapbyHql(String hql) {
 
-		Query query = getSession().createQuery(hql);
+		org.hibernate.query.Query query = getSession().createQuery(hql);
 		List list = query.list();
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
@@ -428,7 +428,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 */
 	public <T> T findUniqueByProperty(Class<T> entityClass, String propertyName,
 			Object value) {
-		Assert.hasText(propertyName);
+		Assert.hasText(propertyName,"属性不能为空");
 		return (T) createCriteria(entityClass,
 				Restrictions.eq(propertyName, value)).uniqueResult();
 	}

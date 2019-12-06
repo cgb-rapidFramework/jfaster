@@ -660,9 +660,8 @@ public class SystemController extends BaseController {
 		Role role = this.systemService.find(Role.class, roleid);
 		List<RoleFunction> roleFunctionList = systemService.findAllByProperty(RoleFunction.class, "TSRole.id", role.getId());
 		systemService.deleteEntities(roleFunctionList);
-		String[] roleFunctions = null;
-		if (rolefunction != "") {
-			roleFunctions = rolefunction.split(",");
+		if (!StringUtils.isEmpty(rolefunction)) {
+			String[] roleFunctions  = rolefunction.split(",");
 			for (String s : roleFunctions) {
 				RoleFunction rf = new RoleFunction();
 				Function f = this.systemService.find(Function.class, Integer.valueOf(s));

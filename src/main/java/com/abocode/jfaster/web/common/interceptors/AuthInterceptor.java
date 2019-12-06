@@ -187,17 +187,17 @@ public class AuthInterceptor implements HandlerInterceptor {
 				break;
 			}
 		}
-		if (!bMgrUrl) {
-			return true;
-		}
-		 
 		String funcid= ConvertUtils.getString(request.getParameter("clickFunctionId"));
 		if(!bMgrUrl && (requestPath.indexOf("loginController.do")!=-1||funcid.length()==0)){
 			return true;
-		} 
+		}
+
+		if (!bMgrUrl) {
+			return true;
+		}
+
 		User currLoginUser = ClientManager.getInstance().getClient(ContextHolderUtils.getSession().getId()).getUser();
         String userid = currLoginUser.getId();
-		//requestPath=requestPath.substring(0, requestPath.indexOf("?")+1);
 		String sql = "SELECT DISTINCT f.id FROM t_s_function f,t_s_role_function  rf,t_s_role_user ru " +
 					" WHERE f.id=rf.functionid AND rf.roleid=ru.roleid AND " +
 					"ru.userid='"+userid+"' AND f.functionurl like '"+requestPath+"%'";

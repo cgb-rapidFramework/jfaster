@@ -1,6 +1,8 @@
 package com.abocode.jfaster.core.common.util;
 
 
+import org.apache.commons.io.IOUtils;
+
 import java.io.*;
 import java.util.Properties;
 
@@ -30,11 +32,7 @@ public class PropertiesUtils {
         } catch (IOException e) {
             LogUtils.error(e.getMessage());
         } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                LogUtils.error(e.getMessage());
-            }
+            IOUtils.closeQuietly(is);
         }
         return value;
     }
@@ -49,11 +47,7 @@ public class PropertiesUtils {
         } catch (IOException e) {
             LogUtils.error(e.getMessage());
         } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                LogUtils.error(e.getMessage());
-            }
+            IOUtils.closeQuietly(is);
         }
         return p;
     }

@@ -287,15 +287,18 @@ public final class ExcelExportOfTemplateUtil {
 				Collection<?> list = (Collection<?>) entity.getGetMethod()
 						.invoke(t, new Object[] {});
 				int listC = 0;
-				for (Object obj : list) {
-					createListCells(patriarch, index + listC, cellNum, obj,
-							entity.getList(), sheet, workbook);
-					listC++;
+				if (list!=null){
+					for (Object obj : list) {
+						createListCells(patriarch, index + listC, cellNum, obj,
+								entity.getList(), sheet, workbook);
+						listC++;
+					}
+					cellNum += entity.getList().size();
+					if (list.size() > maxHeight) {
+						maxHeight = list.size();
+					}
 				}
-				cellNum += entity.getList().size();
-				if (list != null && list.size() > maxHeight) {
-					maxHeight = list.size();
-				}
+
 			} else {
 				Object value = getCellValue(entity, t);
 				if (entity.getType() != 2) {

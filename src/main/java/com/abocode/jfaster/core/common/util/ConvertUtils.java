@@ -84,7 +84,7 @@ public class ConvertUtils {
 	}
 
 	public static int getInt(String s, int defval) {
-		if (s == null || s == "") {
+		if (StringUtils.isEmpty(s)) {
 			return (defval);
 		}
 		try {
@@ -95,7 +95,7 @@ public class ConvertUtils {
 	}
 
 	public static int getInt(String s) {
-		if (s == null || s == "") {
+		if (StringUtils.isEmpty(s)) {
 			return 0;
 		}
 		try {
@@ -106,7 +106,7 @@ public class ConvertUtils {
 	}
 
 	public static boolean getBoolean(String s) {
-		if (s == null || s == "") {
+		if (StringUtils.isEmpty(s)) {
 			return false;
 		}
 		try {
@@ -117,7 +117,7 @@ public class ConvertUtils {
 	}
 
 	public static int getInt(String s, Integer df) {
-		if (s == null || s == "") {
+		if (StringUtils.isEmpty(s)) {
 			return df;
 		}
 		try {
@@ -128,10 +128,10 @@ public class ConvertUtils {
 	}
 
 	public static Integer[] getInts(String[] s) {
-		Integer[] integer = new Integer[s.length];
 		if (s == null) {
 			return null;
 		}
+		Integer[] integer = new Integer[s.length];
 		for (int i = 0; i < s.length; i++) {
 			integer[i] = Integer.parseInt(s[i]);
 		}
@@ -140,7 +140,7 @@ public class ConvertUtils {
 	}
 
 	public static double getDouble(String s, double defval) {
-		if (s == null || s == "") {
+		if (StringUtils.isEmpty(s)) {
 			return (defval);
 		}
 		try {

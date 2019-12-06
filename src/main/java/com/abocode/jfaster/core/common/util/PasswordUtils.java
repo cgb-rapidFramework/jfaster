@@ -109,22 +109,18 @@ public class PasswordUtils {
 	 * @throws Exception
 	 */
 	public static String decrypt(String ciphertext, String password, byte[] salt) {
-
 		Key key = getPBEKey(password);
-		byte[] passDec = null;
 		PBEParameterSpec parameterSpec = new PBEParameterSpec(getStaticSalt(), ITERATIONCOUNT);
 		try {
 			Cipher cipher = Cipher.getInstance(ALGORITHM);
-
 			cipher.init(Cipher.DECRYPT_MODE, key, parameterSpec);
-
-			passDec = cipher.doFinal(hexStringToBytes(ciphertext));
+			byte[] passDec  = cipher.doFinal(hexStringToBytes(ciphertext));
+			return new String(passDec);
 		}
-
 		catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
-		return new String(passDec);
+       return  "";
 	}
 
 	/**
@@ -135,7 +131,7 @@ public class PasswordUtils {
 	 * @return
 	 */
 	public static String bytesToHexString(byte[] src) {
-		StringBuilder stringBuilder = new StringBuilder("");
+		StringBuilder stringBuilder = new StringBuilder();
 		if (src == null || src.length <= 0) {
 			return null;
 		}

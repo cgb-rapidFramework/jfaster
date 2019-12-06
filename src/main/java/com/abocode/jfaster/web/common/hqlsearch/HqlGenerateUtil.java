@@ -22,7 +22,7 @@ import java.util.Map;
 
 /**
  * 
- * @author 张代浩
+ * @author guanxf
  * @de
  * 
  */
@@ -31,8 +31,6 @@ public class HqlGenerateUtil {
 	private static final String END = "_end";
 	private static final String BEGIN = "_begin";
 
-	private static final SimpleDateFormat time = new SimpleDateFormat(
-			"yyyy-MM-dd hh:mm:ss");
 
 	/**
 	 * 自动生成查询条件HQL 模糊查询 不带有日期组合
@@ -122,6 +120,8 @@ public class HqlGenerateUtil {
 					}
 					// for：查询拼装的替换
 				} else if ("class java.util.Date".equals(type)) {
+					SimpleDateFormat time = new SimpleDateFormat(
+							"yyyy-MM-dd hh:mm:ss");
 					QueryTimeFormat format = origDescriptors[i].getReadMethod()
 							.getAnnotation(QueryTimeFormat.class);
 					SimpleDateFormat userDefined = null;

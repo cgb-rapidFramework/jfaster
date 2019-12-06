@@ -450,11 +450,10 @@ public class FunctionController extends BaseController {
 		cq.add();
 		List<Function> functionList = systemService.findListByCq(
 				cq, false);
-		if (functionList.size() > 0 && functionList != null) {
+		if (functionList != null && functionList.size() > 0 ) {
 			for (int i = 0; i < functionList.size(); i++) {
-				String icon = "";
-				if (!"".equals(functionList.get(i).getTSIconDesk())
-						&& functionList.get(i).getTSIconDesk() != null) {
+				String icon;
+				if (!StringUtils.isEmpty(functionList.get(i).getTSIconDesk())) {
 					icon = functionList.get(i).getTSIconDesk().getIconPath();
 				} else {
 					icon = "plug-in/sliding/icon/default.png";

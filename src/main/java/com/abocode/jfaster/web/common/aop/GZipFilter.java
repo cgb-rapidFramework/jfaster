@@ -1,5 +1,7 @@
 package com.abocode.jfaster.web.common.aop;
 
+import sun.misc.IOUtils;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -106,10 +108,7 @@ public class GZipFilter implements Filter {
             output.write(data);
         } catch (IOException e) {
         } finally {
-            try {
-                output.close();
-            } catch (IOException e) {
-            }
+            org.apache.commons.io.IOUtils.closeQuietly(output);
         }
         return byteOutput.toByteArray();
     }

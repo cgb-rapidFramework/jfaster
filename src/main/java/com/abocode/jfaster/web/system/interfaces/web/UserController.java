@@ -195,7 +195,7 @@ public class UserController extends BaseController {
 			j.setMsg(message);
 			return j;
 		}
-		if (user.getStatus() != Globals.User_Forbidden) {
+		if (Globals.User_Forbidden.equals(user.getStatus())) {
 			user.setStatus(Globals.User_Forbidden);
 			userService.update(user);
 			message = "用户：" + user.getUserName() + "锁定成功";

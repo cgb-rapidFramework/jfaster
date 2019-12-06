@@ -56,7 +56,7 @@ public class TagUtil {
                     values[i] = ((Map<?, ?>) list.get(j)).get(fieldName);
                 else {
                     Object value= fieldNameToValues(fieldName, list.get(j));
-                    if (value != "" && value != null) {
+                    if (!StringUtils.isEmpty(value)) {
                         String strValue=value.toString();
                         if(strValue.endsWith(",")){
                             value = strValue.substring(0,strValue.length()-1);
@@ -227,7 +227,7 @@ public class TagUtil {
             childFieldName = fields.substring(fields.indexOf("_") + 1);//外键字段名
         }
         value = reflectHelper.getMethodValue(fieldName) == null ? "" : reflectHelper.getMethodValue(fieldName);
-        if (value != "" && value != null && (fields.indexOf("_") != -1 || fields.indexOf(".") != -1)) {
+        if (!StringUtils.isEmpty(value)&& (fields.indexOf("_") != -1 || fields.indexOf(".") != -1)) {
             if (value instanceof List) {
                 Object tempValue = "";
                 for (Object listValue : (List) value) {
@@ -238,7 +238,7 @@ public class TagUtil {
                 value = fieldNameToValues(childFieldName, value);
             }
         }
-        if (value != "" && value != null) {
+        if (!StringUtils.isEmpty(value)) {
             //无特殊字符
             value = value.toString();
         }
@@ -464,7 +464,7 @@ public class TagUtil {
             if (roles.size() > 0) {
                 buffer.append("{\"id\":" + node.getId() + ",\"text\":\"" + node.getRoleName() + "\"");
                 for (RoleView node1 : roles) {
-                    if (node.getId() == node1.getId()) {
+                    if (node.getId().equals(node1.getId())) {
                         buffer.append(",\"selected\":true");
                     }
                 }
