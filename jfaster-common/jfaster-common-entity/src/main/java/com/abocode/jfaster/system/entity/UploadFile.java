@@ -1,0 +1,40 @@
+package com.abocode.jfaster.system.entity;
+
+import com.abocode.jfaster.core.AbstractIdEntity;
+import lombok.Data;
+
+import javax.persistence.*;
+import java.util.Date;
+
+/**
+ * @author  franky
+ * 项目附件父表(其他附件表需继承该表)
+ */
+@Entity
+@Table(name = "t_s_UploadFile")
+@Inheritance(strategy = InheritanceType.JOINED)
+@Data
+public  class UploadFile extends AbstractIdEntity implements java.io.Serializable {
+	private static final long serialVersionUID = 1L;
+	// 业务类主键
+	@Column(name = "session_key", length = 32)
+	private String sessionKey;
+	// 附件名称
+	@Column(name = "name", length = 100)
+	private String name;
+	// 附件内容
+	@Column(name = "content",length=3000)
+	@Lob
+	private byte[] content;
+	// 附件物理路径
+	@Column(name = "path", length = 100)
+	private String path;
+
+	// 扩展名
+	@Column(name = "extend", length = 32)
+	private String extend;
+	@Column(name = "createdate", length = 35)
+	private Date createdate;
+
+
+}
