@@ -22,10 +22,10 @@ public class UserApplicationService implements UserService {
         FunctionComparator sort = new FunctionComparator();
         // 登陆者的权限
         Set<Function> loginActionlist = new HashSet();// 已有权限菜单
-        List<RoleUser> rUsers = systemService.findAllByProperty(RoleUser.class, "User.id", u.getId());
+        List<RoleUser> rUsers = systemService.findAllByProperty(RoleUser.class, "user.id", u.getId());
         for (RoleUser ru : rUsers) {
             Role role = ru.getRole();
-            List<RoleFunction> roleFunctionList = systemService.findAllByProperty(RoleFunction.class, "Role.id", role.getId());
+            List<RoleFunction> roleFunctionList = systemService.findAllByProperty(RoleFunction.class, "role.id", role.getId());
             if (roleFunctionList.size() > 0) {
                 for (RoleFunction roleFunction : roleFunctionList) {
                     Function function = roleFunction.getFunction();

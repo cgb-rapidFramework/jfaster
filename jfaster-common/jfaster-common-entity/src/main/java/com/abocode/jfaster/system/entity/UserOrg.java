@@ -13,5 +13,5 @@ public class UserOrg extends AbstractIdEntity implements java.io.Serializable {
     private User user;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "org_id")
-    private Org depart;
+    private Org org;
 }

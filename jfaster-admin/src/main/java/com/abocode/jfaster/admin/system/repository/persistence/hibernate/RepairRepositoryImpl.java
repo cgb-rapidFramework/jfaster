@@ -38,21 +38,18 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
         commonDao.executeHql("delete RoleFunction");
         commonDao.executeHql("delete RoleUser");
         commonDao.executeHql("delete User");
-        commonDao.executeHql("update Function  set Function = null");
+        commonDao.executeHql("update Function  set parentFunction = null");
         commonDao.executeHql("delete Function");
         commonDao.executeHql("update Org t set t.parentOrg = null");
-        commonDao.executeHql("delete Depart");
+        commonDao.executeHql("delete Org");
         commonDao.executeHql("delete Icon");
         commonDao.executeHql("delete Role");
         commonDao.executeHql("delete Type");
         commonDao.executeHql("delete TypeGroup");
-//		commonDao.executeHql("update Demo t set t.Demo = null");
-//		commonDao.executeHql("delete Demo");
-		commonDao.executeHql("delete JobEntity");
-        commonDao.executeHql("update Territory t set t.Territory = null");
+        commonDao.executeHql("update Territory t set t.parentTerritory = null");
         commonDao.executeHql("delete Territory");
-        commonDao.executeHql("delete TemplateEntity");
-        commonDao.executeHql("delete MutiLangEntity");
+        commonDao.executeHql("delete Template");
+        commonDao.executeHql("delete MutiLang");
         repair();
     }
 
@@ -63,7 +60,7 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
 
     synchronized public void repair() {
         repaireIcon(); // 修复图标
-        repairDepart();// 修复部门表
+        repairOrg();// 修复部门表
         repairRole();// 修复角色
         repairUser(); // 修复基本用户
         repairUserRole();// 修复用户和角色的关系
@@ -75,7 +72,7 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
         repairRoleFunction();// 修复角色和权限的关系
         repairTemplate();// 修复模版
         repairMutilang();// 修复多国语言
-        repairTerritory();// 修复地域
+//        repairTerritory();// 修复地域
     }
 
     private void repairTerritory() {
@@ -132,7 +129,7 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
      * @Description 修复部门表
      * @author tanghan 2013-7-20
      */
-    private void repairDepart() {
+    private void repairOrg() {
         Org eiu = new Org();
         eiu.setOrgName("系统管理");
         eiu.setDescription("12");
@@ -145,7 +142,7 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
      */
     private void repairUser() {
         this.commonDao.getSession().clear();
-        Org eiu = this.commonDao.findAllByProperty(Org.class, "departname", "系统管理").get(0);
+        Org eiu = this.commonDao.findAllByProperty(Org.class, "orgName", "系统管理").get(0);
 
         User admin = new User();
         admin.setSignatureFile("images/renfang/qm/licf.gif");
@@ -157,7 +154,7 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
 
         UserOrg adminUserOrg = new UserOrg();
         adminUserOrg.setUser(admin);
-        adminUserOrg.setDepart(eiu);
+        adminUserOrg.setOrg(eiu);
         commonDao.save(adminUserOrg);
 
         User scott = new User();
@@ -166,11 +163,11 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
         scott.setRealName("scott");
         scott.setUsername("scott");
         scott.setPassword("97c07a884bf272b5");
-        // scott.setDepart(RAndD);
+        // scott.setOrg(RAndD);
         commonDao.saveOrUpdate(scott);
         UserOrg scottUserOrg = new UserOrg();
         scottUserOrg.setUser(scott);
-        scottUserOrg.setDepart(eiu);
+        scottUserOrg.setOrg(eiu);
         commonDao.save(scottUserOrg);
 
     }
@@ -323,16 +320,16 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
      * @author tanghan 2013-7-22
      */
     private void repairType() {
-        TypeGroup icontype = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "图标类型").get(0);
-        TypeGroup ordertype = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "订单类型").get(0);
-        TypeGroup custom = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "客户类型").get(0);
-        TypeGroup servicetype = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "服务项目类型").get(0);
-        TypeGroup datatable = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "数据表").get(0);
-        TypeGroup filetype = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "文档分类").get(0);
-        TypeGroup sex = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "性别类").get(0);
-        TypeGroup searchmode = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "查询模式").get(0);
-        TypeGroup yesorno = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "逻辑条件").get(0);
-        TypeGroup fieldtype = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "字段类型").get(0);
+        TypeGroup icontype = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "图标类型").get(0);
+        TypeGroup ordertype = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "订单类型").get(0);
+        TypeGroup custom = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "客户类型").get(0);
+        TypeGroup servicetype = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "服务项目类型").get(0);
+        TypeGroup datatable = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "数据表").get(0);
+        TypeGroup filetype = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "文档分类").get(0);
+        TypeGroup sex = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "性别类").get(0);
+        TypeGroup searchmode = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "查询模式").get(0);
+        TypeGroup yesorno = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "逻辑条件").get(0);
+        TypeGroup fieldtype = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "字段类型").get(0);
 
         Type menu = new Type();
         menu.setTypeName("菜单图标");
@@ -737,7 +734,7 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
         useranalyse.setFunctionOrder("17");
         useranalyse.setParentFunction(state);
         useranalyse.setIcon(pie);
-        useranalyse.setIconDesk(repairInconForDesk("User", "用户分析"));
+        useranalyse.setIconDesk(repairInconForDesk("user", "用户分析"));
         commonDao.saveOrUpdate(useranalyse);
 
         Function druid = new Function();

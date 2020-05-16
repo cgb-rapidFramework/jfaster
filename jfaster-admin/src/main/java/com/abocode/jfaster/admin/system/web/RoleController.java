@@ -152,14 +152,14 @@ public class RoleController extends BaseController {
 	 */
 	protected void delRoleFunction(Role role) {
 		List<RoleFunction> roleFunctions = systemService.findAllByProperty(
-				RoleFunction.class, "Role.id", role.getId());
+				RoleFunction.class, "role.id", role.getId());
 		if (roleFunctions.size() > 0) {
 			for (RoleFunction tsRoleFunction : roleFunctions) {
 				systemService.delete(tsRoleFunction);
 			}
 		}
 		List<RoleUser> roleUsers = systemService.findAllByProperty(
-				RoleUser.class, "Role.id", role.getId());
+				RoleUser.class, "role.id", role.getId());
 		for (RoleUser tsRoleUser : roleUsers) {
 			systemService.delete(tsRoleUser);
 		}
@@ -224,11 +224,11 @@ public class RoleController extends BaseController {
 		CriteriaQuery cq = new CriteriaQuery(User.class, dataGrid);
 		//查询条件组装器
         String roleId = request.getParameter("roleId");
-        List<RoleUser> roleUser = systemService.findAllByProperty(RoleUser.class, "Role.id", roleId);
+        List<RoleUser> roleUser = systemService.findAllByProperty(RoleUser.class, "role.id", roleId);
         /*
         CriteriaQuery subCq = new CriteriaQuery(TSRoleUser.class);
-        subCq.setProjection(Property.forName("User.id"));
-        subCq.eq("Role.id", roleId);
+        subCq.setProjection(Property.forName("user.id"));
+        subCq.eq("role.id", roleId);
         subCq.add();
         cq.add(Property.forName("id").in(subCq.getDetachedCriteria()));
         cq.add();
@@ -266,14 +266,14 @@ public class RoleController extends BaseController {
 		List<User> loginActionlist = new ArrayList<User>();
 		if (user != null) {
 
-			List<RoleUser> roleUser = systemService.findAllByProperty(RoleUser.class, "Role.id", roleId);
+			List<RoleUser> roleUser = systemService.findAllByProperty(RoleUser.class, "role.id", roleId);
 			if (roleUser.size() > 0) {
 				for (RoleUser ru : roleUser) {
 					loginActionlist.add(ru.getUser());
 				}
 			}
 		}
-		ComboTreeModel comboTreeModel = new ComboTreeModel("id", "username", "User");
+		ComboTreeModel comboTreeModel = new ComboTreeModel("id", "username", "user");
 		List<ComboTree> comboTrees  = resourceService.ComboTree(loginActionlist,comboTreeModel,loginActionlist, false);
 		return comboTrees;
 	}
@@ -343,7 +343,7 @@ public class RoleController extends BaseController {
 
 					RoleOrg roleOrg = new RoleOrg();
 					roleOrg.setRole(role);
-					roleOrg.setDepart(depart);
+					roleOrg.setOrg(depart);
 					roleOrgList.add(roleOrg);
 				}
 				systemService.batchSave(roleOrgList);
@@ -409,7 +409,7 @@ public class RoleController extends BaseController {
 			String rolefunction = request.getParameter("rolefunctions");
 			Role role = this.systemService.find(Role.class, roleId);
 			List<RoleFunction> roleFunctionList = systemService
-					.findAllByProperty(RoleFunction.class, "Role.id",
+					.findAllByProperty(RoleFunction.class, "role.id",
 							role.getId());
 			Map<String, RoleFunction> map = new HashMap<String, RoleFunction>();
 			for (RoleFunction functionOfRole : roleFunctionList) {
@@ -568,9 +568,9 @@ public class RoleController extends BaseController {
 	 */
 	public void savep(String roleId, String functionid, String ids) {
 		StringBuffer hql=new StringBuffer();
-		hql.append(" from TRoleFunction t where ");
-		hql.append(" t.TSRole.id=" + roleId );
-		hql.append(" and t.TFunction.functionid=" + functionid);
+		hql.append(" from RoleFunction t where ");
+		hql.append(" t.org.id=" + roleId );
+		hql.append(" and t.function.function_id=" + functionid);
 		RoleFunction rFunction = systemService.findUniqueByHql(hql.toString());
 		if (rFunction != null) {
 			rFunction.setOperation(ids);
@@ -585,7 +585,7 @@ public class RoleController extends BaseController {
 	 */
 	public void clearp(String roleId) {
 		List<RoleFunction> rFunctions = systemService.findAllByProperty(
-				RoleFunction.class, "Role.id", roleId);
+				RoleFunction.class, "role.id", roleId);
 		if (rFunctions.size() > 0) {
 			for (RoleFunction tRoleFunction : rFunctions) {
 				tRoleFunction.setOperation(null);
@@ -639,7 +639,7 @@ public class RoleController extends BaseController {
 			LogUtils.error(e.getMessage());
 		}
 		CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
-		cq1.eq("Role.id", roleId);
+		cq1.eq("role.id", roleId);
 		cq1.eq("Function.id", functionId);
 		cq1.add();
 		List<RoleFunction> rFunctions = systemService.findListByCq(
@@ -698,7 +698,7 @@ public class RoleController extends BaseController {
 			LogUtils.error(e.getMessage());
 		}
 		CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
-		cq1.eq("Role.id", roleId);
+		cq1.eq("role.id", roleId);
 		cq1.eq("Function.id", functionId);
 		cq1.add();
 		List<RoleFunction> rFunctions = systemService.findListByCq(
@@ -738,8 +738,8 @@ public class RoleController extends BaseController {
 
         // 获取 当前组织机构的用户信息
         CriteriaQuery subCq = new CriteriaQuery(RoleUser.class);
-        subCq.setProjection(Property.forName("User.id"));
-        subCq.eq("Role.id", roleId);
+        subCq.setProjection(Property.forName("user.id"));
+        subCq.eq("role.id", roleId);
         subCq.add();
         
 

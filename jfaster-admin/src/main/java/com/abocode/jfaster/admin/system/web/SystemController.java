@@ -151,7 +151,7 @@ public class SystemController extends BaseController {
 		String typegroupid = request.getParameter("typegroupid");
 		String typename = request.getParameter("typename");
 		CriteriaQuery cq = new CriteriaQuery(Type.class, dataGrid);
-		cq.eq("Typegroup.id", typegroupid);
+		cq.eq("typeGroup.id", typegroupid);
 		cq.like("typename", typename);
 		cq.add();
 		this.systemService.findDataGridReturn(cq, true);
@@ -179,7 +179,7 @@ public class SystemController extends BaseController {
 		List<TreeGrid> treeGrids = new ArrayList<TreeGrid>();
 		if (treegrid.getId() != null) {
 			cq = new CriteriaQuery(Type.class);
-			cq.eq("Typegroup.id", treegrid.getId().substring(1));
+			cq.eq("typeGroup.id", treegrid.getId().substring(1));
 			cq.add();
 			List<Type> typeList = systemService.findListByCq(cq, false);
 			for (Type obj : typeList) {
@@ -658,7 +658,7 @@ public class SystemController extends BaseController {
 		Integer roleid = ConvertUtils.getInt(request.getParameter("roleid"), 0);
 		String rolefunction = request.getParameter("rolefunctions");
 		Role role = this.systemService.find(Role.class, roleid);
-		List<RoleFunction> roleFunctionList = systemService.findAllByProperty(RoleFunction.class, "Role.id", role.getId());
+		List<RoleFunction> roleFunctionList = systemService.findAllByProperty(RoleFunction.class, "role.id", role.getId());
 		systemService.deleteEntities(roleFunctionList);
 		if (!StringUtils.isEmpty(rolefunction)) {
 			String[] roleFunctions  = rolefunction.split(",");

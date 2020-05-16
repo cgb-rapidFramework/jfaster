@@ -1995,7 +1995,7 @@ closefun
 \<t:autocomplete selectfun="aa" closefun="close" valueField="id"
 searchField="username"
 
-labelField="username,realName" name="user" entityName="User" datatype="\*"
+labelField="username,realName" name="user" entityName="user" datatype="\*"
 nullmsg="请
 
 输入关键字" errormsg="数据不存在,请重新输入"\>\</t:autocomplete\>

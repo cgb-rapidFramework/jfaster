@@ -64,7 +64,7 @@ public class UserRepositoryImpl extends CommonRepositoryImpl implements UserRepo
 
     public String getUserRole(User user) {
         String userRole = "";
-        List<RoleUser> sRoleUser = this.commonDao.findAllByProperty(RoleUser.class, "User.id", user.getId());
+        List<RoleUser> sRoleUser = this.commonDao.findAllByProperty(RoleUser.class, "user.id", user.getId());
         for (RoleUser tsRoleUser : sRoleUser) {
             userRole += tsRoleUser.getRole().getRoleCode() + ",";
         }
@@ -74,7 +74,7 @@ public class UserRepositoryImpl extends CommonRepositoryImpl implements UserRepo
 
     public int getUsersOfThisRole(String id) {
         Criteria criteria = getSession().createCriteria(RoleUser.class);
-        criteria.add(Restrictions.eq("Role.id", id));
+        criteria.add(Restrictions.eq("role.id", id));
         int allCounts = ((Long) criteria.setProjection(
                 Projections.rowCount()).uniqueResult()).intValue();
         return allCounts;
@@ -89,7 +89,7 @@ public class UserRepositoryImpl extends CommonRepositoryImpl implements UserRepo
             ExlUserBean exlUserVo = new ExlUserBean();
             StringBuffer sb = new StringBuffer();
             for (UserOrg org : model.getUserOrgList()) {
-                sb.append(org.getDepart().getOrgName()).append(",");
+                sb.append(org.getOrg().getOrgName()).append(",");
             }
             exlUserVo.setDepartName(sb.toString());
             exlUserVo.setEmail(model.getEmail());
@@ -111,7 +111,7 @@ public class UserRepositoryImpl extends CommonRepositoryImpl implements UserRepo
     public List<Role> findRoleById(String id) {
         List<Role> roles = new ArrayList<Role>();
         if (StringUtils.isNotEmpty(id)) {
-            List<RoleUser> roleUser = findAllByProperty(RoleUser.class, "User.id", id);
+            List<RoleUser> roleUser = findAllByProperty(RoleUser.class, "user.id", id);
             if (roleUser.size() > 0) {
                 for (RoleUser ru : roleUser) {
                     roles.add(ru.getRole());

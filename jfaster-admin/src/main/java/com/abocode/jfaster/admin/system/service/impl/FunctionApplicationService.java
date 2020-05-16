@@ -32,9 +32,9 @@ public class FunctionApplicationService implements FunctionService {
         if (client.getFunctions() == null || client.getFunctions().size() == 0) {
             Map<String, Function> loginActionlist = new HashMap<String, Function>();
             StringBuilder hqlsb1=new StringBuilder("select distinct f from Function f,RoleFunction rf,RoleUser ru  ")
-                    .append("where ru.TSRole.id=rf.TSRole.id and rf.TSFunction.id=f.id and ru.TSUser.id=?0 ");
+                    .append("where ru.role.id=rf.role.id and rf.function.id=f.id and ru.user.id=?0 ");
             StringBuilder hqlsb2=new StringBuilder("select distinct c from Function c,RoleOrg b,UserOrg a ")
-                    .append("where a.tsDepart.id=b.tsDepart.id and b.tsRole.id=c.id and a.tsUser.id=?0");
+                    .append("where a.org.id=b.org.id and b.role.id=c.id and a.user.id=?0");
             Object[] object=new Object[]{user.getId()};
             List<Function> list1 = systemService.findByHql(hqlsb1.toString(),object);
             List<Function> list2 = systemService.findByHql(hqlsb2.toString(),object);

@@ -179,7 +179,7 @@ public class LoginController extends BaseController {
      * @return
      */
     @RequestMapping(params = "login")
-    public String login(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
+    public String login(ModelMap modelMap, HttpServletRequest request) {
         Template templateEntity = this.templateService.findUniqueByProperty(Template.class, "status", AvailableEnum.AVAILABLE.getValue());
 
         DataSourceContextHolder.setDataSourceType(DataSourceType.dataSource_jeecg);
@@ -187,7 +187,7 @@ public class LoginController extends BaseController {
         String roles = "";
         if (user != null) {
             List<Role> roleList = new ArrayList();
-            List<RoleUser> rUsers = systemService.findAllByProperty(RoleUser.class, "User.id", user.getId());
+            List<RoleUser> rUsers = systemService.findAllByProperty(RoleUser.class, "user.id", user.getId());
             for (RoleUser ru : rUsers) {
                 Role role = ru.getRole();
                 roles += role.getRoleName() + ",";
@@ -274,7 +274,7 @@ public class LoginController extends BaseController {
      * @param role            角色实体
      */
     private void assembleFunctionsByRole(Map<String, Function> loginActionlist, Role role) {
-        List<RoleFunction> roleFunctionList = systemService.findAllByProperty(RoleFunction.class, "Role.id", role.getId());
+        List<RoleFunction> roleFunctionList = systemService.findAllByProperty(RoleFunction.class, "role.id", role.getId());
         for (RoleFunction roleFunction : roleFunctionList) {
             Function function = roleFunction.getFunction();
             loginActionlist.put(function.getId(), function);

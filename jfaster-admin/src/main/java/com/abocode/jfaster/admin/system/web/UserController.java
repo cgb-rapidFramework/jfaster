@@ -285,7 +285,7 @@ public class UserController extends BaseController {
             return j;
         }
         user = userService.findEntity(User.class, user.getId());
-        List<RoleUser> roleUser = userService.findAllByProperty(RoleUser.class, "User.id", user.getId());
+        List<RoleUser> roleUser = userService.findAllByProperty(RoleUser.class, "user.id", user.getId());
         if (!user.getStatus().equals(Globals.User_ADMIN)) {
             if (roleUser.size() > 0) {
                 // 删除用户时先删除用户和角色关系表
@@ -307,7 +307,7 @@ public class UserController extends BaseController {
 
     public void delRoleUser(User user) {
         // 同步删除用户角色关联表
-        List<RoleUser> roleUserList = userService.findAllByProperty(RoleUser.class, "User.id", user.getId());
+        List<RoleUser> roleUserList = userService.findAllByProperty(RoleUser.class, "user.id", user.getId());
         if (roleUserList.size() >= 1) {
             for (RoleUser tRoleUser : roleUserList) {
                 userService.delete(tRoleUser);
@@ -358,11 +358,11 @@ public class UserController extends BaseController {
             users.setMobilePhone(user.getMobilePhone());
             userService.executeSql("delete from t_s_user_org where user_id=?", user.getId());
             saveUserOrgList(req, user);
-//            users.setDepart(user.getDepart());
+//            users.setOrg(user.getDepart());
             users.setRealName(user.getRealName());
             users.setStatus(Globals.User_Normal);
             userService.update(users);
-            List<RoleUser> ru = userService.findAllByProperty(RoleUser.class, "User.id", user.getId());
+            List<RoleUser> ru = userService.findAllByProperty(RoleUser.class, "user.id", user.getId());
             userService.deleteEntities(ru);
             message = "用户: " + users.getUsername() + "更新成功";
             if (StringUtils.isNotEmpty(roleid)) {
@@ -406,7 +406,7 @@ public class UserController extends BaseController {
 
             UserOrg userOrg = new UserOrg();
             userOrg.setUser(user);
-            userOrg.setDepart(depart);
+            userOrg.setOrg(depart);
 
             userOrgList.add(userOrg);
         }
@@ -502,7 +502,7 @@ public class UserController extends BaseController {
     }
 
     public void idandname(HttpServletRequest req, User user) {
-        List<RoleUser> roleUsers = userService.findAllByProperty(RoleUser.class, "User.id", user.getId());
+        List<RoleUser> roleUsers = userService.findAllByProperty(RoleUser.class, "user.id", user.getId());
         String roleId = "";
         String roleName = "";
         if (roleUsers.size() > 0) {
@@ -853,7 +853,7 @@ public class UserController extends BaseController {
                     for (Org depart : userEntity.getOrgs()) {
                         UserOrg userOrg = new UserOrg();
                         userOrg.setUser(userEntity);
-                        userOrg.setDepart(depart);
+                        userOrg.setOrg(depart);
                         this.userService.save(userOrg);
                     }
 

@@ -120,7 +120,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 		for (TypeGroup typeGroup : typeGroups) {
 			TypeGroupView typegroupBean= BeanToTagConverter.convertTypeGroup(typeGroup);
 			TypeGroupContainer.allTypeGroups.put(typeGroup.getTypeGroupCode().toLowerCase(), typegroupBean);
-			List<Type> tsTypes = this.commonDao.findAllByProperty(Type.class, "Typegroup.id", typeGroup.getId());
+			List<Type> tsTypes = this.commonDao.findAllByProperty(Type.class, "typeGroup.id", typeGroup.getId());
 			List<TypeView> types= BeanToTagConverter.convertTypes(tsTypes);
 			TypeGroupContainer.allTypes.put(typeGroup.getTypeGroupCode().toLowerCase(), types);
 		}
@@ -130,7 +130,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 	public void refleshTypesCach(Type type) {
 		TypeGroup tsTypegroup = type.getTypeGroup();
 		TypeGroup typeGroupEntity = this.commonDao.find(TypeGroup.class, tsTypegroup.getId());
-		List<Type> tsTypes = this.commonDao.findAllByProperty(Type.class, "Typegroup.id", tsTypegroup.getId());
+		List<Type> tsTypes = this.commonDao.findAllByProperty(Type.class, "typeGroup.id", tsTypegroup.getId());
 		List<TypeView> types= BeanToTagConverter.convertTypes(tsTypes);
 		TypeGroupContainer.allTypes.put(typeGroupEntity.getTypeGroupCode().toLowerCase(), types);
 	}
@@ -156,7 +156,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 		Set<String> operationCodes = new HashSet<String>();
 		Role role = commonDao.find(Role.class, roleId);
 		CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
-		cq1.eq("Role.id", role.getId());
+		cq1.eq("role.id", role.getId());
 		cq1.eq("Function.id", functionId);
 		cq1.add();
 		List<RoleFunction> rFunctions = findListByCq(cq1, false);
@@ -180,11 +180,11 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 	 */
 	public Set<String> getOperationCodesByUserIdAndFunctionId(String userId, String functionId) {
 		Set<String> operationCodes = new HashSet<String>();
-		List<RoleUser> rUsers = findAllByProperty(RoleUser.class, "User.id", userId);
+		List<RoleUser> rUsers = findAllByProperty(RoleUser.class, "user.id", userId);
 		for (RoleUser ru : rUsers) {
 			Role role = ru.getRole();
 			CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
-			cq1.eq("Role.id", role.getId());
+			cq1.eq("role.id", role.getId());
 			cq1.eq("Function.id", functionId);
 			cq1.add();
 			List<RoleFunction> rFunctions = findListByCq(cq1, false);
@@ -216,7 +216,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 			// 刷新缓存
 			HttpSession session = ContextHolderUtils.getSession();
 			User user = SessionUtils.getCurrentUser();
-			List<RoleUser> rUsers = this.findAllByProperty(RoleUser.class, "User.id", user.getId());
+			List<RoleUser> rUsers = this.findAllByProperty(RoleUser.class, "user.id", user.getId());
 			for (RoleUser ru : rUsers) {
 				Role role = ru.getRole();
 				session.removeAttribute(role.getId());
@@ -267,7 +267,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 		Set<String> operationCodes = new HashSet<String>();
 		Role role = commonDao.find(Role.class, roleId);
 		CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
-		cq1.eq("Role.id", role.getId());
+		cq1.eq("role.id", role.getId());
 		cq1.eq("Function.id", functionId);
 		cq1.add();
 		List<RoleFunction> rFunctions = findListByCq(cq1, false);
@@ -287,11 +287,11 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 			String functionId) {
 		// TODO Auto-generated method stub
 		Set<String> dataRulecodes = new HashSet<String>();
-		List<RoleUser> rUsers = findAllByProperty(RoleUser.class, "User.id", userId);
+		List<RoleUser> rUsers = findAllByProperty(RoleUser.class, "user.id", userId);
 		for (RoleUser ru : rUsers) {
 			Role role = ru.getRole();
 			CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
-			cq1.eq("Role.id", role.getId());
+			cq1.eq("role.id", role.getId());
 			cq1.eq("Function.id", functionId);
 			cq1.add();
 			List<RoleFunction> rFunctions = findListByCq(cq1, false);
@@ -350,7 +350,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 		List<Function> loginActionList = new ArrayList<Function>();// 已有权限菜单
 		Role role = this.find(Role.class, roleId);
 		if (role != null) {
-			List<RoleFunction> roleFunctionList = this.findAllByProperty(RoleFunction.class, "Role.id", role.getId());
+			List<RoleFunction> roleFunctionList = this.findAllByProperty(RoleFunction.class, "role.id", role.getId());
 			if (roleFunctionList.size() > 0) {
 				for (RoleFunction roleFunction : roleFunctionList) {
 					Function function = roleFunction.getFunction();

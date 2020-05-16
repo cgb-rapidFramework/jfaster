@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class RoleOrg extends AbstractIdEntity implements java.io.Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "org_id")
-    private Org depart;
+    private Org org;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")

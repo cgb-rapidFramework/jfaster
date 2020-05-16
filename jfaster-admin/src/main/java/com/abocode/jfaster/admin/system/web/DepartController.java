@@ -391,7 +391,7 @@ public class DepartController extends BaseController {
 
             UserOrg userOrg = new UserOrg();
             userOrg.setUser(user);
-            userOrg.setDepart(depart);
+            userOrg.setOrg(depart);
 
             userOrgList.add(userOrg);
         }
