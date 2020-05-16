@@ -22,8 +22,9 @@ public class AjaxJson {
 		return attributes;
 	}
 
-	public void setAttributes(Map<String, Object> attributes) {
+	public AjaxJson setAttributes(Map<String, Object> attributes) {
 		this.attributes = attributes;
+		return this;
 	}
 
 	public String getMsg() {

@@ -31,14 +31,10 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 	
 	@Autowired
 	private UserRepository userService;
-	
-	public User checkUserExits(User user) throws Exception {
-		return this.userService.checkUserExits(user);
-	}
+
 	
 	public List<DictBean> queryDict(String dicTable, String dicCode, String dicText){
 		 throw new RuntimeException("this's function not implements");
-
 		//step.1 如果没有字典表则使用系统字典表/*
 		/*
 		List<DictBean> dictList = null;
@@ -50,7 +46,6 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 		}
 		return dictList;
 		*/
-
 	}
 
 	/**

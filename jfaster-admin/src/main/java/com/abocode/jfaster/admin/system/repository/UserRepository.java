@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface UserRepository extends CommonRepository {
 
-    User checkUserExits(User user);
+    User checkUserExits(String username,String password);
 
     String getUserRole(User user);
 

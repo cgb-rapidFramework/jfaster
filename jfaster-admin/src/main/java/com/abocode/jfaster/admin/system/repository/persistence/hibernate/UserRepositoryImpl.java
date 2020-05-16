@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * @author 张代浩
+ * @author guanxf
  */
 @Service
 @Transactional
@@ -31,11 +31,11 @@ public class UserRepositoryImpl extends CommonRepositoryImpl implements UserRepo
     /**
      * 检查用户是否存在
      */
-    public User checkUserExits(User user) {
-        String password = PasswordUtils.encrypt(user.getUsername(), user.getPassword(), PasswordUtils.getStaticSalt());
+    public User checkUserExits(String username,String password) {
+        password = PasswordUtils.encrypt(username, password, PasswordUtils.getStaticSalt());
         String query = "from User u where u.username = :username and u.password=:passowrd";
         Query queryObject = getSession().createQuery(query);
-        queryObject.setParameter("username", user.getUsername());
+        queryObject.setParameter("username", username);
         queryObject.setParameter("passowrd", password);
         List<User> users = queryObject.list();
         if (users != null && users.size() > 0) {

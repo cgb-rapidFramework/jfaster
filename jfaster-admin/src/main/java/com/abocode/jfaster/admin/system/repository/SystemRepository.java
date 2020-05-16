@@ -24,14 +24,7 @@ import java.util.Set;
  	 * 返回类型： List<DictEntity>
  	 */
  	 List<DictBean> queryDict(String dicTable, String dicCode, String dicText);
-	
-	/**
-	 * 登陆用户检查
-	 * @param user
-	 * @return
-	 * @throws Exception
-	 */
-	 User checkUserExits(User user) throws Exception;
+
 	/**
 	 * 日志添加
 	 * @param LogContent 内容

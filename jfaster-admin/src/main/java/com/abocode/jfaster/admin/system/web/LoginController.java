@@ -1,9 +1,11 @@
 package com.abocode.jfaster.admin.system.web;
 
+import com.abocode.jfaster.admin.system.service.UserLoginService;
 import com.abocode.jfaster.api.core.AvailableEnum;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.container.SystemContainer;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
+import com.abocode.jfaster.core.common.model.json.AjaxJsonBuilder;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.extend.datasource.DataSourceContextHolder;
 import com.abocode.jfaster.core.extend.datasource.DataSourceType;
@@ -24,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,7 +34,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -42,26 +44,18 @@ import java.util.*;
 @Controller
 @RequestMapping("/loginController")
 public class LoginController extends BaseController {
+    @Autowired
     private SystemRepository systemService;
+    @Autowired
     private UserRepository userService;
-    private String message = null;
-
     @Autowired
     private MutiLangRepository mutiLangService;
     @Autowired
     private TemplateRepository templateService;
     @Autowired
     private FunctionService functionService;
-
     @Autowired
-    public void setSystemService(SystemRepository systemService) {
-        this.systemService = systemService;
-    }
-
-    @Autowired
-    public void setUserService(UserRepository userService) {
-        this.userService = userService;
-    }
+    private UserLoginService userLoginService;
 
     @RequestMapping(params = "goPwdInit")
     public String goPwdInit() {
@@ -94,83 +88,24 @@ public class LoginController extends BaseController {
     @RequestMapping(params = "checkuser")
     @ResponseBody
     public AjaxJson checkuser(User user, HttpServletRequest request) {
-        HttpSession session = ContextHolderUtils.getSession();
-        DataSourceContextHolder
-                .setDataSourceType(DataSourceType.dataSource_jeecg);
-        AjaxJson j = new AjaxJson();
         if (request.getParameter("langCode") != null) {
             request.getSession().setAttribute("lang", request.getParameter("langCode"));
         }
-        String randCode = request.getParameter("randCode");
-        if (StringUtils.isEmpty(randCode)) {
-            j.setMsg(mutiLangService.getLang("common.enter.verifycode"));
-            j.setSuccess(false);
-        } else if (!randCode.equalsIgnoreCase(String.valueOf(session.getAttribute("randCode")))) {
-            j.setMsg(mutiLangService.getLang("common.verifycode.error"));
-            j.setSuccess(false);
-        } else {
-            User u = userService.checkUserExits(user);
-            if (u == null) {
-                j.setMsg(mutiLangService.getLang("common.username.or.password.error"));
-                j.setSuccess(false);
-                return j;
-            }
-            if (u != null && u.getStatus() != 0) {
-                Map<String, Object> attrMap = new HashMap<String, Object>();
-                j.setAttributes(attrMap);
-                request.getSession().setAttribute("user", u); //用于切换部门时使用
-                String orgId = request.getParameter("orgId");
-                if (ConvertUtils.isEmpty(orgId)) { // 没有传组织机构参数，则获取当前用户的组织机构
-//					int orgNum=u.getUserOrgList().size();
-                    //获取默认部门
-                    Long orgNum = systemService.queryForCount("select count(1) from t_s_user_org where user_id =?", new Object[]{u.getId()});
-                    if (orgNum > 1) {
-                        User res = new User();
-                        res.setId(u.getId());
-                        //暂时未处理多部门
-                        attrMap.put("orgNum", orgNum);
-                        attrMap.put("user", res);
-                    } else {
-                        Map<String, Object> userOrgMap = systemService.queryForMap("select org_id as orgId from t_s_user_org where user_id=?", u.getId());
-                        saveLoginSuccessInfo(request, u, (String) userOrgMap.get("orgId"));
-                    }
-                } else {
-                    attrMap.put("orgNum", 1);
-                    saveLoginSuccessInfo(request, u, orgId);
-                }
-            } else {
-                j.setMsg(mutiLangService.getLang("common.username.not.activation"));
-                j.setSuccess(false);
-            }
-        }
-        return j;
-    }
-
-    /**
-     * 保存用户登录的信息，并将当前登录用户的组织机构赋值到用户实体中；
-     *
-     * @param req   request
-     * @param user  当前登录用户
-     * @param orgId 组织主键
-     */
-    private void saveLoginSuccessInfo(HttpServletRequest req, User user, String orgId) {
-        Org currentDepart = systemService.find(Org.class, orgId);
-        user.setCurrentDepart(currentDepart);
-
         HttpSession session = ContextHolderUtils.getSession();
-        message = mutiLangService.getLang("common.user") + ": " + user.getUsername() + "["
-                + currentDepart.getOrgName() + "]" + mutiLangService.getLang("common.login.success");
-
-        ClientBean client = new ClientBean();
-        client.setIp(com.abocode.jfaster.core.common.util.StringUtils.getIpAddr(req));
-        client.setLogindatetime(new Date());
-        client.setUser(user);
-        SessionShareCenter.putUserId(client.getUser().getId());
-        SessionShareCenter.putClient(client);
-        ClientManager.getInstance().addClinet(session.getId(), client);
-        // 添加登陆日志
-        systemService.addLog(message, Globals.Log_Type_LOGIN, Globals.Log_Leavel_INFO);
+        DataSourceContextHolder.setDataSourceType(DataSourceType.dataSource_jeecg);
+        String randCode = request.getParameter("randCode");
+        Assert.hasText(randCode, mutiLangService.getLang("common.enter.verifycode"));
+        Assert.isTrue(!randCode.equalsIgnoreCase(String.valueOf(session.getAttribute("randCode"))), mutiLangService.getLang("common.verifycode.error"));
+        User u = userService.checkUserExits(user.getUsername(), user.getPassword());
+        Assert.isTrue(u != null, mutiLangService.getLang("common.username.or.password.error"));
+        Assert.isTrue(u.getStatus() != 0, mutiLangService.getLang("common.username.not.activation"));
+        request.getSession().setAttribute("user", u); //用于切换部门时使用
+        String orgId = request.getParameter("orgId");
+        String ip = com.abocode.jfaster.core.common.util.StringUtils.getIpAddr(request);
+        Map<String, Object> attrMap = userLoginService.getLoginMap(u, orgId, ip);
+        return AjaxJsonBuilder.success().setAttributes(attrMap);
     }
+
 
     /**
      * 用户登录
@@ -180,23 +115,14 @@ public class LoginController extends BaseController {
      */
     @RequestMapping(params = "login")
     public String login(ModelMap modelMap, HttpServletRequest request) {
-        Template templateEntity = this.templateService.findUniqueByProperty(Template.class, "status", AvailableEnum.AVAILABLE.getValue());
-
         DataSourceContextHolder.setDataSourceType(DataSourceType.dataSource_jeecg);
+        Template templateEntity = this.templateService.findUniqueByProperty(Template.class, "status", AvailableEnum.AVAILABLE.getValue());
+        Assert.isTrue(templateEntity!=null,"未找到相关的模版");
+
         User user = SessionUtils.getCurrentUser();
         String roles = "";
         if (user != null) {
-            List<Role> roleList = new ArrayList();
-            List<RoleUser> rUsers = systemService.findAllByProperty(RoleUser.class, "user.id", user.getId());
-            for (RoleUser ru : rUsers) {
-                Role role = ru.getRole();
-                roles += role.getRoleName() + ",";
-                roleList.add(role);
-            }
-            if (roles.length() > 0) {
-                roles = roles.substring(0, roles.length() - 1);
-            }
-            modelMap.put("roleName", roles);
+            List<Role> roleList=userLoginService.cahModelMap(modelMap,user.getId());
             modelMap.put("username", user.getUsername());
             modelMap.put("currentOrgName", ClientManager.getInstance().getClient().getUser().getCurrentDepart().getOrgName());
             //将角色信息放入session
@@ -209,7 +135,6 @@ public class LoginController extends BaseController {
             //设置主题
             String systemTemplate = gson.toJson(templateBean);
             SystemContainer.TemplateContainer.template.put("SYSTEM-TEMPLATE", systemTemplate);
-
             //放置语言
 			/*String langCode= (String) request.getSession().getAttribute("lang");
 			Cookie cookie=CacheUtils.putCookie("SYSTEM-LANGCODE",langCode);
@@ -225,6 +150,7 @@ public class LoginController extends BaseController {
 
     /**
      * 退出系统
+     *
      * @return
      */
     @RequestMapping(params = "logout")
