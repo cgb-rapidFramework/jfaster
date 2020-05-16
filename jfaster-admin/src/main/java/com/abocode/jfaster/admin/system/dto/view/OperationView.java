@@ -27,20 +27,20 @@ public class OperationView extends AbstractIdEntity implements java.io.Serializa
 	}
 
 	@Column(name = "operationname", length = 50)
-	public String getOperationname() {
+	public String getOperationName() {
 		return this.operationname;
 	}
 
-	public void setOperationname(String operationname) {
+	public void setOperationName(String operationname) {
 		this.operationname = operationname;
 	}
 
 	@Column(name = "operationcode", length = 50)
-	public String getOperationcode() {
+	public String getOperationCode() {
 		return this.operationcode;
 	}
 
-	public void setOperationcode(String operationcode) {
+	public void setOperationCode(String operationcode) {
 		this.operationcode = operationcode;
 	}
 
@@ -49,7 +49,7 @@ public class OperationView extends AbstractIdEntity implements java.io.Serializa
 		return this.operationicon;
 	}
 
-	public void setOperationicon(String operationicon) {
+	public void setOperationIcon(String operationicon) {
 		this.operationicon = operationicon;
 	}
 

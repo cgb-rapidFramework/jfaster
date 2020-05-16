@@ -131,7 +131,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
           log${ll.id}.setNote("${ll.note}");
           log${ll.id}.setUser(admin);
           log${ll.id}.setOperatetime(DataUtils.parseTimestamp("${ll.operatetime}", "yyyy-MM-dd HH:mm"));
-          log${ll.id}.setOperatetype((short)${ll.operatetype});
+          log${ll.id}.setoperationType((short)${ll.operationType});
           log${ll.id}.setLoglevel((short)${ll.loglevel});
           commonDao.saveOrUpdate(log${ll.id});
           
@@ -152,7 +152,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         TSBaseUser tsBaseUser${bb.id} = new TSBaseUser();
         tsBaseUser${bb.id}.setStatus((short)${bb.status});
         tsBaseUser${bb.id}.setRealName("${bb.realName}");
-        tsBaseUser${bb.id}.setUserName("${bb.userName}");
+        tsBaseUser${bb.id}.setUsername("${bb.username}");
         tsBaseUser${bb.id}.setPassword("${bb.password}");
         tsBaseUser${bb.id}.setDepart(eiu);
         tsBaseUser${bb.id}.setActivitiSync((short)${bb.activitiSync});
@@ -169,8 +169,8 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
 	private void repairType() {
 	  <#list type as t>
          TSType type${t.id} = new TSType();
-         type${t.id}.setTypename("${t.typename}");
-         type${t.id}.setTypecode("${t.typecode}");
+         type${t.id}.setTypeName("${t.typename}");
+         type${t.id}.setTypeCode("${t.typecode}");
          commonDao.saveOrUpdate(type${t.id});
          
       </#list>
@@ -239,7 +239,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
        uploadFile${being.id}.setAttachmenttitle("${being.title}");
        uploadFile${being.id}.setRealpath("${being.path}");
        <#--uploadFile${being.id}.setSwfpath("${being.swfpath}");-->
-       uploadFile${being.id}.setExtend("${being.extend}");
+       uploadFile${being.id}.setIconExtend("${being.extend}");
        commonDao.saveOrUpdate(uploadFile${being.id});
         </#list>
 	}
@@ -255,8 +255,8 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
 		back.setIconName("返回");
 		back.setIconType((short)1);
 		back.setIconPath("plug-in/accordion/images/back.png");
-        back.setIconClas("back");	
-        back.setExtend("png");
+        back.setIconClazz("back");
+        back.setIconExtend("png");
         commonDao.saveOrUpdate(back);
         
         TSIcon pie = new TSIcon();
@@ -264,56 +264,56 @@ public class RepairServiceImpl extends CommonServiceImpl implements RepairServic
         pie.setIconName("饼图");
         pie.setIconType((short)1);
         pie.setIconPath("plug-in/accordion/images/pie.png");
-        pie.setIconClas("pie");	
-        pie.setExtend("png");
+        pie.setIconClazz("pie");
+        pie.setIconExtend("png");
         commonDao.saveOrUpdate(pie);
         
         TSIcon pictures = new TSIcon();
         pictures.setIconName("图片");
         pictures.setIconType((short)1);
         pictures.setIconPath("plug-in/accordion/images/pictures.png");
-        pictures.setIconClas("pictures");	
-        pictures.setExtend("png");
+        pictures.setIconClazz("pictures");
+        pictures.setIconExtend("png");
         commonDao.saveOrUpdate(pictures);
         
         TSIcon pencil = new TSIcon();
         pencil.setIconName("笔");
         pencil.setIconType((short)1);
         pencil.setIconPath("plug-in/accordion/images/pencil.png");
-        pencil.setIconClas("pencil");	
-        pencil.setExtend("png");
+        pencil.setIconClazz("pencil");
+        pencil.setIconExtend("png");
         commonDao.saveOrUpdate(pencil);
         
         TSIcon map = new TSIcon();
         map.setIconName("地图");
         map.setIconType((short)1);
         map.setIconPath("plug-in/accordion/images/map.png");
-        map.setIconClas("map");	
-        map.setExtend("png");
+        map.setIconClazz("map");
+        map.setIconExtend("png");
         commonDao.saveOrUpdate(map);
         
         TSIcon group_add = new TSIcon();
         group_add.setIconName("组");
         group_add.setIconType((short)1);
         group_add.setIconPath("plug-in/accordion/images/group_add.png");
-        group_add.setIconClas("group_add");	
-        group_add.setExtend("png");
+        group_add.setIconClazz("group_add");
+        group_add.setIconExtend("png");
         commonDao.saveOrUpdate(group_add);
         
         TSIcon calculator = new TSIcon();
         calculator.setIconName("计算器");
         calculator.setIconType((short)1);
         calculator.setIconPath("plug-in/accordion/images/calculator.png");
-        calculator.setIconClas("calculator");	
-        calculator.setExtend("png");
+        calculator.setIconClazz("calculator");
+        calculator.setIconExtend("png");
         commonDao.saveOrUpdate(calculator);
         
         TSIcon folder = new TSIcon();
         folder.setIconName("文件夹");
         folder.setIconType((short)1);
         folder.setIconPath("plug-in/accordion/images/folder.png");
-        folder.setIconClas("folder");	
-        folder.setExtend("png");
+        folder.setIconClazz("folder");
+        folder.setIconExtend("png");
         commonDao.saveOrUpdate(folder);
 	}
 

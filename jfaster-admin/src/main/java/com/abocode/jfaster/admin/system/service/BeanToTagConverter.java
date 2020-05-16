@@ -1,5 +1,6 @@
-package com.abocode.jfaster.core.common.util;
+package com.abocode.jfaster.admin.system.service;
 
+import com.abocode.jfaster.core.common.util.StringUtils;
 import com.abocode.jfaster.system.entity.Function;
 import com.abocode.jfaster.system.entity.TypeGroup;
 import com.abocode.jfaster.admin.system.dto.view.IconView;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * Created by Franky on 2016/3/15.
  */
-public class BeanToTagUtils {
+public class BeanToTagConverter {
 	/**
 	 * 转换菜单
 	 * @param function
@@ -40,7 +41,7 @@ public class BeanToTagUtils {
 			}
 
 			List<Function> functionLists=function.getFunctions();
-			functionBean.setFunctions(BeanToTagUtils.convertFunctions(functionLists));
+			functionBean.setFunctions(BeanToTagConverter.convertFunctions(functionLists));
 			
 			//functionBean.setFunction(TSFunction);
 			if(!StringUtils.isEmpty(function.getIcon())){
@@ -93,7 +94,7 @@ public class BeanToTagUtils {
 public static List<TypeView> convertTypes(List<Type> tsTypes) {
 	List<TypeView> types=new ArrayList<TypeView>();
 	for(Type tsType:tsTypes){
-		TypeView typeBean=BeanToTagUtils.convertType(tsType);
+		TypeView typeBean= BeanToTagConverter.convertType(tsType);
 		types.add(typeBean);
 	}
 	return types;
@@ -108,11 +109,11 @@ public static TypeView convertType(Type tsType) {
 	if(tsType!=null){
 		 type=new TypeView();
 		type.setId(tsType.getId());
-		type.setType(BeanToTagUtils.convertType(tsType.getType()));
-		type.setTypegroup(BeanToTagUtils.convertTypeGroup(tsType.getTypeGroup()));
-		type.setTypes(BeanToTagUtils.convertTypes(tsType.getTypes()));
-		type.setTypecode(tsType.getTypecode());
-		type.setTypename(tsType.getTypename());		
+		type.setType(BeanToTagConverter.convertType(tsType.getType()));
+		type.setTypegroup(BeanToTagConverter.convertTypeGroup(tsType.getTypeGroup()));
+		type.setTypes(BeanToTagConverter.convertTypes(tsType.getTypes()));
+		type.setTypeCode(tsType.getTypeCode());
+		type.setTypeName(tsType.getTypeName());
 	}
 	return type;
 }

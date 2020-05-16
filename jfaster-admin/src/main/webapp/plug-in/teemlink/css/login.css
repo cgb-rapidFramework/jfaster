@@ -41,7 +41,7 @@ a:visited{text-decoration:none; color:#4c4c4c;}
 .domain li a{padding-left:5px;display:block;}
 .domain li a:hover{padding-left:5px;display:block;background:#e3e3e3;}
 
-.userName,.password{background:url("../image/input.png") no-repeat 100% 0%;display:block;float:left;margin-top:3px; border:0; width:172px; padding:0 5px; height:26px; line-height:26px; _vertical-align:middle;}
+.username,.password{background:url("../image/input.png") no-repeat 100% 0%;display:block;float:left;margin-top:3px; border:0; width:172px; padding:0 5px; height:26px; line-height:26px; _vertical-align:middle;}
 *+html input{vertical-align:middle;}
 .checkCode input{display:block;float:left;margin-right:5px;width:70px;height:26px;line-height:26px;background:url("../image/checkCode.png")/*tpa=http://dev01.teemlink.com:8080/obpm/portal/share/images/login/checkCode.png*/ no-repeat;}
 .checkCode img{display:block;float:left;margin-top:3px;}

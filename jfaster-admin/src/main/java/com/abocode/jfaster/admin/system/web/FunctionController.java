@@ -10,7 +10,7 @@ import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.util.MutiLangUtils;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
-import com.abocode.jfaster.core.common.util.BeanToTagUtils;
+import com.abocode.jfaster.admin.system.service.BeanToTagConverter;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.common.model.json.ComboTree;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
@@ -127,7 +127,7 @@ public class FunctionController extends BaseController {
 		CriteriaQuery cq = new CriteriaQuery(Operation.class, dataGrid);
 		String functionId = ConvertUtils.getString(request
 				.getParameter("functionId"));
-		cq.eq("TSFunction.id", functionId);
+		cq.eq("Function.id", functionId);
 		cq.add();
 		this.systemService.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
@@ -144,7 +144,7 @@ public class FunctionController extends BaseController {
 	public AjaxJson del(Function function, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		// // 删除权限时先删除权限与角色之间关联表信息
-		List<RoleFunction> roleFunctions = systemService.findAllByProperty(RoleFunction.class, "TSFunction.id", function.getId());
+		List<RoleFunction> roleFunctions = systemService.findAllByProperty(RoleFunction.class, "Function.id", function.getId());
 		if (roleFunctions.size() > 0) {
 			message="菜单已分配无法删除";
 		} else {
@@ -196,7 +196,7 @@ public class FunctionController extends BaseController {
 				tsFunction.setFunctionLevel(Short.valueOf(parent.getFunctionLevel()
 						+ 1 + ""));
 				systemService.saveOrUpdate(tsFunction);
-				List<Function> subFunction1 = systemService.findAllByProperty(Function.class, "TSFunction.id", tsFunction.getId());
+				List<Function> subFunction1 = systemService.findAllByProperty(Function.class, "Function.id", tsFunction.getId());
 				updateSubFunction(subFunction1,tsFunction);
 		   }
        }
@@ -230,7 +230,7 @@ public class FunctionController extends BaseController {
 			userService.saveOrUpdate(function);
 			systemService.addLog(message, Globals.Log_Type_UPDATE,
 					Globals.Log_Leavel_INFO);
-			List<Function> subFunction = systemService.findAllByProperty(Function.class, "TSFunction.id", function.getId());
+			List<Function> subFunction = systemService.findAllByProperty(Function.class, "Function.id", function.getId());
 			updateSubFunction(subFunction,function);
 			systemService.flushRoleFunciton(function.getId(), function);
 		} else {
@@ -268,7 +268,7 @@ public class FunctionController extends BaseController {
 	@RequestMapping(params = "saveop")
 	@ResponseBody
 	public AjaxJson saveop(Operation operation, HttpServletRequest request) {
-		String pid = request.getParameter("TSFunction.id");
+		String pid = request.getParameter("Function.id");
 		if (pid.equals("")) {
 			operation.setFunction(null);
 		}
@@ -354,25 +354,25 @@ public class FunctionController extends BaseController {
 			cq.notEq("id", selfId);
 		}
 		if (treegrid.getId() != null) {
-			cq.eq("TSFunction.id", treegrid.getId());
+			cq.eq("Function.id", treegrid.getId());
 		}
 		if (treegrid.getId() == null) {
-			cq.isNull("TSFunction");
+			cq.isNull("Function");
 		}
 		cq.addOrder("functionOrder", SortDirection.asc);
 		cq.add();
 		List<Function> functionList = systemService.findListByCq(cq, false);
 		
-		List<FunctionView> functionBeanList= BeanToTagUtils.convertFunctions(functionList);
+		List<FunctionView> functionBeanList= BeanToTagConverter.convertFunctions(functionList);
         Collections.sort(functionBeanList, new NumberComparator());
 		TreeGridModel treeGridModel = new TreeGridModel();
-		treeGridModel.setIcon("TSIcon_iconPath");
+		treeGridModel.setIcon("Icon_iconPath");
 		treeGridModel.setTextField("functionName");
-		treeGridModel.setParentText("TSFunction_functionName");
-		treeGridModel.setParentId("TSFunction_id");
+		treeGridModel.setParentText("Function_functionName");
+		treeGridModel.setParentId("Function_id");
 		treeGridModel.setSrc("functionUrl");
 		treeGridModel.setIdField("id");
-		treeGridModel.setChildList("TSFunctions");
+		treeGridModel.setChildList("Functions");
 		// 添加排序字段
 		treeGridModel.setOrder("functionOrder");
 		treeGridModel.setFunctionType("functionType");
@@ -391,9 +391,9 @@ public class FunctionController extends BaseController {
 			HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(Function.class, dataGrid);
 		String id = ConvertUtils.getString(request.getParameter("id"));
-		cq.isNull("TSFunction");
+		cq.isNull("Function");
 		if (id != null) {
-			cq.eq("TSFunction.id", id);
+			cq.eq("Function.id", id);
 		}
 		cq.add();
 		this.systemService.findDataGridReturn(cq, true);
@@ -412,16 +412,16 @@ public class FunctionController extends BaseController {
 			cq.notEq("id", request.getParameter("selfId"));
 		}
 		if (comboTree.getId() != null) {
-			cq.eq("TSFunction.id", comboTree.getId());
+			cq.eq("Function.id", comboTree.getId());
 		}
 		if (comboTree.getId() == null) {
-			cq.isNull("TSFunction");
+			cq.isNull("Function");
 		}
 		cq.add();
 		List<Function> functionList = systemService.findListByCq(
 				cq, false);
 		ComboTreeModel comboTreeModel = new ComboTreeModel("id",
-				"functionName", "TSFunctions");
+				"functionName", "Functions");
 		List<ComboTree> comboTrees = resourceService.ComboTree(functionList, comboTreeModel,
 				null, false);
 		MutiLangUtils.setMutiTree(comboTrees);
@@ -442,7 +442,7 @@ public class FunctionController extends BaseController {
 
 		cq.notEq("functionLevel", Short.valueOf("0"));
 		if (name == null || "".equals(name)) {
-			cq.isNull("TSFunction");
+			cq.isNull("Function");
 		} else {
 			String name1 = "%" + name + "%";
 			cq.like("functionName", name1);
@@ -534,7 +534,7 @@ public class FunctionController extends BaseController {
 		CriteriaQuery cq = new CriteriaQuery(DataRule.class, dataGrid);
 		String functionId = ConvertUtils.getString(request
 				.getParameter("functionId"));
-		cq.eq("TSFunction.id", functionId);
+		cq.eq("Function.id", functionId);
 		cq.add();
 		this.systemService.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
@@ -608,7 +608,7 @@ public class FunctionController extends BaseController {
 	public int justHaveDataRule(DataRule dataRule) {
 		String sql = "SELECT id FROM t_s_data_rule WHERE functionId='"+dataRule.getFunction()
 				.getId()+"' AND rule_column='"+dataRule.getRuleColumn()+"' AND rule_conditions='"+dataRule
-				.getRuleConditions()+"'";
+				.getRuleCondition()+"'";
 
 		List<String> hasOperList = this.systemService.findListBySql(sql);
 		return hasOperList.size();

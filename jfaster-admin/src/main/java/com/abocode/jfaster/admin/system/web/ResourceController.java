@@ -136,7 +136,7 @@ public class ResourceController {
         }
         attachment.setSessionKey(sessionKey);
 //		attachment.setSubclassname(MyClassLoader.getPackPath(attachment));
-        attachment.setCreatedate(DateUtils.getTimestamp());
+        attachment.setCreateDate(DateUtils.getTimestamp());
         com.abocode.jfaster.core.common.model.common.UploadFile uploadFile = new com.abocode.jfaster.core.common.model.common.UploadFile(request, attachment);
         String fileType=request.getParameter("fileType");
         if(StringUtils.isEmpty(fileType)){
@@ -203,7 +203,7 @@ public class ResourceController {
     @RequestMapping(params = "viewFile")
     public ModelAndView viewFile(HttpServletRequest request) {
         String fileKey = ConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
-        String subclassname = ConvertUtils.getString(request.getParameter("subclassname"), "TSUploadFile");
+        String subclassname = ConvertUtils.getString(request.getParameter("subclassname"), "UploadFile");
         String contentfield = ConvertUtils.getString(request.getParameter("contentfield"));
         Class fileClass = ClassLoaderUtils.getClassByScn(subclassname);// 附件的实际类
         Object fileobj = systemService.findEntity(fileClass, fileKey);
@@ -236,7 +236,7 @@ public class ResourceController {
     @RequestMapping(params = "downloadFile")
     public void downloadFile(HttpServletRequest request, HttpServletResponse response) {
         String fileid = ConvertUtils.getString(request.getParameter("fileKey"));
-        String subclassname = ConvertUtils.getString(request.getParameter("subclassname"), "TSUploadFile");
+        String subclassname = ConvertUtils.getString(request.getParameter("subclassname"), "UploadFile");
         Class fileClass = ClassLoaderUtils.getClassByScn(subclassname);// 附件的实际类
         Object fileobj = systemService.findEntity(fileClass, fileid);
         ReflectHelper reflectHelper = new ReflectHelper(fileobj);
@@ -246,7 +246,7 @@ public class ResourceController {
         String path = ConvertUtils.getString(reflectHelper.getMethodValue("path"));
         String extend = ConvertUtils.getString(reflectHelper.getMethodValue("extend"));
         String attachmenttitle = ConvertUtils.getString(reflectHelper.getMethodValue("title"));
-        uploadFile.setExtend(extend);
+        uploadFile.setIconExtend(extend);
         uploadFile.setTitleField(attachmenttitle);
         uploadFile.setRealPath(path);
         uploadFile.setContent(content);

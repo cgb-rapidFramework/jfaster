@@ -24,7 +24,7 @@ a:hover {
 
 	$(function() {
 		$('#layout_jeecg_onlineDatagrid').datagrid({
-			url : 'systemController.do?datagridOnline&field=ip,logindatetime,user.userName,',
+			url : 'systemController.do?datagridOnline&field=ip,logindatetime,user.username,',
 			title : '',
 			iconCls : '',
 			fit : true,
@@ -45,7 +45,7 @@ a:hover {
 			} ] ],
 			columns : [ [ {
 				title : '<t:mutiLang langKey="common.login.name"/>',
-				field : 'user.userName',
+				field : 'user.username',
 				width : 100,
 				align : 'center',
 				sortable : true,
@@ -133,7 +133,7 @@ a:hover {
             <tr>
                 <td valign="top" height="50">
                     <span style="color: #CC33FF"><t:mutiLang langKey="common.user"/>:</span>
-                    <span style="color: #666633">${userName }</span>
+                    <span style="color: #666633">${username }</span>
                     <span style="color: #CC33FF"><t:mutiLang langKey="current.org"/>:</span>
                     <span style="color: #666633">${currentOrgName }</span>
                     <span style="color: #CC33FF"><t:mutiLang langKey="common.role"/>:</span>

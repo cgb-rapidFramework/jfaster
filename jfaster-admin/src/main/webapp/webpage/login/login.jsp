@@ -94,7 +94,7 @@ label.iPhoneCheckLabelOn span {
 					<input name="userKey" type="hidden" id="userKey"
 						value="D1B5CC2FE46C4CC983C073BCA897935608D926CD32992B5900" />
 					<div class="tip">
-						<input class="userName" name="userName" type="text" id="userName"
+						<input class="username" name="username" type="text" id="username"
 							title="" iscookie="true" value="admin" nullmsg="" />
 					</div>
 					<div class="tip">

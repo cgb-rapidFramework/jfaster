@@ -51,14 +51,14 @@ public class AuthFilterTag extends TagSupport{
 					if (ConvertUtils.isEmpty(MyoperationCode))
 						break;
 					OperationView operation = SystemContainer.OperationContainer.operations.get(MyoperationCode);
-					if (operation.getOperationcode().startsWith(".") || operation.getOperationcode().startsWith("#")){
+					if (operation.getOperationCode().startsWith(".") || operation.getOperationCode().startsWith("#")){
 						if (operation.getOperationType().intValue()==Globals.OPERATION_TYPE_HIDE){
-							//out.append("$(\""+name+"\").find(\"#"+operation.getOperationcode().replaceAll(" ", "")+"\").hide();");
-							out.append("$(\""+operation.getOperationcode().replaceAll(" ", "")+"\").hide();");
+							//out.append("$(\""+name+"\").find(\"#"+operation.getOperationCode().replaceAll(" ", "")+"\").hide();");
+							out.append("$(\""+operation.getOperationCode().replaceAll(" ", "")+"\").hide();");
 						}else {
-							//out.append("$(\""+name+"\").find(\"#"+operation.getOperationcode().replaceAll(" ", "")+"\").find(\":input\").attr(\"disabled\",\"disabled\");");
-							out.append("$(\""+operation.getOperationcode().replaceAll(" ", "")+"\").attr(\"disabled\",\"disabled\");");
-							out.append("$(\""+operation.getOperationcode().replaceAll(" ", "")+"\").find(\":input\").attr(\"disabled\",\"disabled\");");
+							//out.append("$(\""+name+"\").find(\"#"+operation.getOperationCode().replaceAll(" ", "")+"\").find(\":input\").attr(\"disabled\",\"disabled\");");
+							out.append("$(\""+operation.getOperationCode().replaceAll(" ", "")+"\").attr(\"disabled\",\"disabled\");");
+							out.append("$(\""+operation.getOperationCode().replaceAll(" ", "")+"\").find(\":input\").attr(\"disabled\",\"disabled\");");
 						}
 					}
 				}

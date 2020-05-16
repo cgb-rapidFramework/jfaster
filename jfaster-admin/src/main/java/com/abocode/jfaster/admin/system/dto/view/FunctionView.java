@@ -114,7 +114,7 @@ public class FunctionView extends AbstractIdEntity implements java.io.Serializab
 	public void setFunctionOrder(String functionOrder) {
 		this.functionOrder = functionOrder;
 	}
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TSFunction")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "Function")
 	public List<FunctionView> getFunctions() {
 		return TSFunctions;
 	}

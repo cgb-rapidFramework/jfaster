@@ -173,7 +173,7 @@ public class DataGridColumnTag extends TagSupport {
         return extend;
     }
 
-    public void setExtend(String extend) {
+    public void setIconExtend(String extend) {
         this.extend = extend;
     }
 
@@ -185,7 +185,7 @@ public class DataGridColumnTag extends TagSupport {
         this.autocomplete = autocomplete;
     }
 
-    public void setExtendParams(String extendParams) {
+    public void setIconExtendParams(String extendParams) {
         this.extendParams = extendParams;
     }
 

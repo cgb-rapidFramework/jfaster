@@ -62,7 +62,7 @@ public class MenuInitRepositoryImpl extends CommonRepositoryImpl implements
 			StringBuffer key = new StringBuffer();
 			key.append(operation.getFunction() == null ? "" : operation.getFunction().getId());
 			key.append(KEY_SPLIT);
-			key.append(operation.getOperationcode() == null ? "" : operation.getOperationcode());
+			key.append(operation.getOperationCode() == null ? "" : operation.getOperationCode());
 			operationMap.put(key.toString(), operation);
 		}
 		
@@ -137,9 +137,9 @@ public class MenuInitRepositoryImpl extends CommonRepositoryImpl implements
 								//判断菜单操作按钮map的key是否包含当前key，不包含则插入一条菜单操作按钮数据
 								if (!operationMap.containsKey(menuOperationKey.toString())) {
 									Operation operation = new Operation();
-									operation.setOperationname(autoMenuOperation.name());
-									operation.setOperationcode(code);
-									operation.setOperationicon(null);
+									operation.setOperationName(autoMenuOperation.name());
+									operation.setOperationCode(code);
+									operation.setOperationIcon(null);
 									operation.setStatus(Short.parseShort(Integer.toString(autoMenuOperation.status())));
 									operation.setFunction(function);
 									

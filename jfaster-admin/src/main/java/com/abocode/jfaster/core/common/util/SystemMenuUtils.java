@@ -28,7 +28,7 @@ public class SystemMenuUtils {
 		for (FunctionView node : set) {
 			String iconClas = "default";// 权限图标样式
 			if (node.getIcon() != null) {
-				iconClas = node.getIcon().getIconClas();
+				iconClas = node.getIcon().getIconClazz();
 			}
 			buffer.append("{\"menuid\":\"" + node.getId() + "\",\"icon\":\""
 					+ iconClas + "\"," + "\"menuname\":\""
@@ -64,7 +64,7 @@ public class SystemMenuUtils {
 
 			{
 				buffer.append("{\"menuid\":\"" + node.getId()
-						+ " \",\"icon\":\"" + node.getIcon().getIconClas()
+						+ " \",\"icon\":\"" + node.getIcon().getIconClazz()
 						+ "\"," + "\"menuname\":\"" + MutiLangUtils.getLang(node.getFunctionName())
 						+ "\",\"url\":\"" + node.getFunctionUrl() + "\"");
 				if (count == set1.size()) {
@@ -130,7 +130,7 @@ public class SystemMenuUtils {
 		StringBuffer menuString = new StringBuffer();
 		for (FunctionView pFunction : pFunctions) {
 			menuString.append("<div  title=\"" + MutiLangUtils.getLang(pFunction.getFunctionName())
-					+ "\" iconCls=\"" + pFunction.getIcon().getIconClas()
+					+ "\" iconCls=\"" + pFunction.getIcon().getIconClazz()
 					+ "\">");
 			int submenusize = pFunction.getFunctions().size();
 			if (submenusize == 0) {
@@ -144,7 +144,7 @@ public class SystemMenuUtils {
 				if (function.getFunction().getId().equals(pFunction.getId())) {
 					String icon = "folder";
 					if (function.getIcon() != null) {
-						icon = function.getIcon().getIconClas();
+						icon = function.getIcon().getIconClazz();
 					}
 					// menuString.append("<li><div> <a class=\""+function.getFunctionName()+"\" iconCls=\""+icon+"\" target=\"tabiframe\"  href=\""+function.getFunctionUrl()+"\"> <span class=\"icon "+icon+"\" >&nbsp;</span> <span class=\"nav\">"+function.getFunctionName()+"</span></a></div></li>");
 					menuString.append("<li><div onclick=\"addTab(\'"
@@ -181,7 +181,7 @@ public class SystemMenuUtils {
 		List<FunctionView> list = map.get(0);
 		for (FunctionView function : list) {
 			menuString.append("<div   title=\"" + MutiLangUtils.getLang(function.getFunctionName())
-					+ "\" iconCls=\"" + function.getIcon().getIconClas()
+					+ "\" iconCls=\"" + function.getIcon().getIconClazz()
 					+ "\">");
 			int submenusize = function.getFunctions().size();
 			if (submenusize == 0) {
@@ -233,7 +233,7 @@ public class SystemMenuUtils {
         } else if("shortcut".equals(style)) {
             for (FunctionView function : list) {
                 menuString.append("<div   title=\"" + MutiLangUtils.getLang(function.getFunctionName())
-                        + "\" iconCls=\"" + function.getIcon().getIconClas()
+                        + "\" iconCls=\"" + function.getIcon().getIconClazz()
                         + "\">");
                 int submenusize = function.getFunctions().size();
                 if (submenusize == 0) {
@@ -270,7 +270,7 @@ public class SystemMenuUtils {
 					menuString.append("<div  class=\"easyui-accordion\"  fit=\"false\" border=\"false\">");
 					menuString.append("<div></div>");//easy ui 默认展开第一级,所以这里设置一个控制,就不展开了
 					menuString.append("<div title=\"" + MutiLangUtils.getLang(function.getFunctionName())
-							+ "\" iconCls=\"" + function.getIcon().getIconClas()
+							+ "\" iconCls=\"" + function.getIcon().getIconClazz()
 							+ "\"><ul>");
 					menuString.append(getChild(function,level+1,map));
 					menuString.append("</ul></div>");
@@ -295,7 +295,7 @@ public class SystemMenuUtils {
 				if(function.getFunctions().size()==0||!map.containsKey(level+1)){
 					menuString.append(getLeafOfTree(function));
 				}else if(map.containsKey(level+1)){
-					menuString.append("<li state=\"closed\" iconCls=\"" + function.getIcon().getIconClas()+"\" ><span>"+ MutiLangUtils.getLang(function.getFunctionName()) +"</span>");
+					menuString.append("<li state=\"closed\" iconCls=\"" + function.getIcon().getIconClazz()+"\" ><span>"+ MutiLangUtils.getLang(function.getFunctionName()) +"</span>");
 					menuString.append("<ul >");
 					menuString.append(getChildOfTree(function,level+1,map));
 					menuString.append("</ul></li>");
@@ -313,7 +313,7 @@ public class SystemMenuUtils {
 		StringBuffer menuString = new StringBuffer();
 		String icon = "folder";
 		if (function.getIcon() != null) {
-			icon = function.getIcon().getIconClas();
+			icon = function.getIcon().getIconClazz();
 		}
 		menuString.append("<li><div onclick=\"addTab(\'");
 		menuString.append(MutiLangUtils.getLang(function.getFunctionName()));
@@ -347,7 +347,7 @@ public class SystemMenuUtils {
 		StringBuffer menuString = new StringBuffer();
 		String icon = "folder";
 		if (function.getIcon() != null) {
-			icon = function.getIcon().getIconClas();
+			icon = function.getIcon().getIconClazz();
 		}
 		menuString.append("<li iconCls=\"");
 		menuString.append(icon);
@@ -723,7 +723,7 @@ public class SystemMenuUtils {
 	private static String getDefaultIcon(String icon, IconView tsIcon) {
 		try{
 			if (tsIcon != null) {
-				icon = SystemContainer.IconContainer.allTSIcons.get(tsIcon.getId()).getIconClas();
+				icon = SystemContainer.IconContainer.allTSIcons.get(tsIcon.getId()).getIconClazz();
 			}
 		}catch (Exception e){
 //			LogUtils.error(e.getMessage());
@@ -766,7 +766,7 @@ public class SystemMenuUtils {
 					String icon = "folder";
 					try{
 						if (function.getIcon() != null) {
-							icon = SystemContainer.IconContainer.allTSIcons.get(function.getIcon().getId()).getIconClas();
+							icon = SystemContainer.IconContainer.allTSIcons.get(function.getIcon().getId()).getIconClazz();
 						}
 					}catch(Exception e){
 						//TODO handle icon load exception
@@ -787,7 +787,7 @@ public class SystemMenuUtils {
 		StringBuffer menuString = new StringBuffer();
 		String icon = "folder";
 		if (function.getIcon() != null) {
-			icon = SystemContainer.IconContainer.allTSIcons.get(function.getIcon().getId()).getIconClas();
+			icon = SystemContainer.IconContainer.allTSIcons.get(function.getIcon().getId()).getIconClazz();
 		}
 		String name =MutiLangUtils.getLang(function.getFunctionName()) ;
 		menuString.append("<li iconCls=\"");

@@ -122,15 +122,15 @@ public class DictSelectTag extends TagSupport {
                 }
                 if ("radio".equals(type)) {
                     for (TypeView type : types) {
-                        radio(type.getTypename(), type.getTypecode(), sb);
+                        radio(type.getTypeName(), type.getTypeCode(), sb);
                     }
                 } else if ("checkbox".equals(type)) {
                     for (TypeView type : types) {
-                        checkbox(type.getTypename(), type.getTypecode(), sb);
+                        checkbox(type.getTypeName(), type.getTypeCode(), sb);
                     }
                 } else if ("text".equals(type)) {
                     for (TypeView type : types) {
-                        text(type.getTypename(), type.getTypecode(), sb);
+                        text(type.getTypeName(), type.getTypeCode(), sb);
                     }
                 } else {
                     sb.append("<select name=\"" + field + "\"");
@@ -148,7 +148,7 @@ public class DictSelectTag extends TagSupport {
                     sb.append(">");
                     select("common.please.select", "", sb);
                     for (TypeView type : types) {
-                        select(type.getTypename(), type.getTypecode(), sb);
+                        select(type.getTypeName(), type.getTypeCode(), sb);
                     }
                     sb.append("</select>");
                 }
@@ -373,7 +373,7 @@ public class DictSelectTag extends TagSupport {
         return extendJson;
     }
 
-    public void setExtendJson(String extendJson) {
+    public void setIconExtendJson(String extendJson) {
         this.extendJson = extendJson;
     }
 }

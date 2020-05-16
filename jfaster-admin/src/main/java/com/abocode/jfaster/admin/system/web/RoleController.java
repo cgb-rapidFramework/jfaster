@@ -1,5 +1,6 @@
 package com.abocode.jfaster.admin.system.web;
 
+import com.abocode.jfaster.admin.system.service.BeanToTagConverter;
 import com.abocode.jfaster.core.common.model.json.*;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.interfaces.BaseController;
@@ -151,14 +152,14 @@ public class RoleController extends BaseController {
 	 */
 	protected void delRoleFunction(Role role) {
 		List<RoleFunction> roleFunctions = systemService.findAllByProperty(
-				RoleFunction.class, "TSRole.id", role.getId());
+				RoleFunction.class, "Role.id", role.getId());
 		if (roleFunctions.size() > 0) {
 			for (RoleFunction tsRoleFunction : roleFunctions) {
 				systemService.delete(tsRoleFunction);
 			}
 		}
 		List<RoleUser> roleUsers = systemService.findAllByProperty(
-				RoleUser.class, "TSRole.id", role.getId());
+				RoleUser.class, "Role.id", role.getId());
 		for (RoleUser tsRoleUser : roleUsers) {
 			systemService.delete(tsRoleUser);
 		}
@@ -223,11 +224,11 @@ public class RoleController extends BaseController {
 		CriteriaQuery cq = new CriteriaQuery(User.class, dataGrid);
 		//查询条件组装器
         String roleId = request.getParameter("roleId");
-        List<RoleUser> roleUser = systemService.findAllByProperty(RoleUser.class, "TSRole.id", roleId);
+        List<RoleUser> roleUser = systemService.findAllByProperty(RoleUser.class, "Role.id", roleId);
         /*
         CriteriaQuery subCq = new CriteriaQuery(TSRoleUser.class);
-        subCq.setProjection(Property.forName("TSUser.id"));
-        subCq.eq("TSRole.id", roleId);
+        subCq.setProjection(Property.forName("User.id"));
+        subCq.eq("Role.id", roleId);
         subCq.add();
         cq.add(Property.forName("id").in(subCq.getDetachedCriteria()));
         cq.add();
@@ -265,14 +266,14 @@ public class RoleController extends BaseController {
 		List<User> loginActionlist = new ArrayList<User>();
 		if (user != null) {
 
-			List<RoleUser> roleUser = systemService.findAllByProperty(RoleUser.class, "TSRole.id", roleId);
+			List<RoleUser> roleUser = systemService.findAllByProperty(RoleUser.class, "Role.id", roleId);
 			if (roleUser.size() > 0) {
 				for (RoleUser ru : roleUser) {
 					loginActionlist.add(ru.getUser());
 				}
 			}
 		}
-		ComboTreeModel comboTreeModel = new ComboTreeModel("id", "userName", "TSUser");
+		ComboTreeModel comboTreeModel = new ComboTreeModel("id", "username", "User");
 		List<ComboTree> comboTrees  = resourceService.ComboTree(loginActionlist,comboTreeModel,loginActionlist, false);
 		return comboTrees;
 	}
@@ -334,7 +335,7 @@ public class RoleController extends BaseController {
 					orgId);
 			if (!roleIdList.isEmpty()) {
 				List<RoleOrg> roleOrgList = new ArrayList<RoleOrg>();
-				Depart depart = new Depart();
+				Org depart = new Org();
 				depart.setId(orgId);
 				for (String roleId : roleIdList) {
 					Role role = new Role();
@@ -369,16 +370,16 @@ public class RoleController extends BaseController {
                                         HttpServletRequest request, ComboTree comboTree) {
 		CriteriaQuery cq = new CriteriaQuery(Function.class);
 		if (comboTree.getId() != null) {
-			cq.eq("TSFunction.id", comboTree.getId());
+			cq.eq("Function.id", comboTree.getId());
 		}
 		if (comboTree.getId() == null) {
-			cq.isNull("TSFunction");
+			cq.isNull("Function");
 		}
 		cq.notEq("functionLevel", Short.parseShort("-1"));
 		cq.add();
 		List<Function> functionList = systemService.findListByCq(
 				cq, false);
-		List<FunctionView> functionBeanList= BeanToTagUtils.convertFunctions(functionList);
+		List<FunctionView> functionBeanList= BeanToTagConverter.convertFunctions(functionList);
 		Collections.sort(functionBeanList, new NumberComparator());
 		List<ComboTree> comboTrees = new ArrayList<ComboTree>();
 		String roleId = request.getParameter("roleId");
@@ -386,9 +387,9 @@ public class RoleController extends BaseController {
 		List<Function> loginActionList=this.systemService.getFucntionList(roleId);
 
 		ComboTreeModel comboTreeModel = new ComboTreeModel("id",
-				"functionName", "TSFunctions");
+				"functionName", "Functions");
 		comboTrees = resourceService.ComboTree(functionBeanList, comboTreeModel,
-				BeanToTagUtils.convertFunctions(loginActionList), false);
+				BeanToTagConverter.convertFunctions(loginActionList), false);
 		MutiLangUtils.setMutiTree(comboTrees);
 		return comboTrees;
 	}
@@ -408,7 +409,7 @@ public class RoleController extends BaseController {
 			String rolefunction = request.getParameter("rolefunctions");
 			Role role = this.systemService.find(Role.class, roleId);
 			List<RoleFunction> roleFunctionList = systemService
-					.findAllByProperty(RoleFunction.class, "TSRole.id",
+					.findAllByProperty(RoleFunction.class, "Role.id",
 							role.getId());
 			Map<String, RoleFunction> map = new HashMap<String, RoleFunction>();
 			for (RoleFunction functionOfRole : roleFunctionList) {
@@ -492,10 +493,10 @@ public class RoleController extends BaseController {
 		String roleId = request.getParameter("roleId");
 		CriteriaQuery cq = new CriteriaQuery(Function.class);
 		if (treegrid.getId() != null) {
-			cq.eq("TSFunction.id", treegrid.getId());
+			cq.eq("Function.id", treegrid.getId());
 		}
 		if (treegrid.getId() == null) {
-			cq.isNull("TSFunction");
+			cq.isNull("Function");
 		}
 		cq.add();
 		List<Function> functionList = systemService.findListByCq(
@@ -584,7 +585,7 @@ public class RoleController extends BaseController {
 	 */
 	public void clearp(String roleId) {
 		List<RoleFunction> rFunctions = systemService.findAllByProperty(
-				RoleFunction.class, "TSRole.id", roleId);
+				RoleFunction.class, "Role.id", roleId);
 		if (rFunctions.size() > 0) {
 			for (RoleFunction tRoleFunction : rFunctions) {
 				tRoleFunction.setOperation(null);
@@ -605,7 +606,7 @@ public class RoleController extends BaseController {
 	public ModelAndView operationListForFunction(HttpServletRequest request,
 			String functionId, String roleId) {
 		CriteriaQuery cq = new CriteriaQuery(Operation.class);
-		cq.eq("TSFunction.id", functionId);
+		cq.eq("Function.id", functionId);
 		cq.eq("status", Short.valueOf("0"));
 		cq.add();
 		List<Operation> operationList = this.systemService
@@ -638,8 +639,8 @@ public class RoleController extends BaseController {
 			LogUtils.error(e.getMessage());
 		}
 		CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
-		cq1.eq("TSRole.id", roleId);
-		cq1.eq("TSFunction.id", functionId);
+		cq1.eq("Role.id", roleId);
+		cq1.eq("Function.id", functionId);
 		cq1.add();
 		List<RoleFunction> rFunctions = systemService.findListByCq(
 				cq1, false);
@@ -664,7 +665,7 @@ public class RoleController extends BaseController {
 	public ModelAndView dataRuleListForFunction(HttpServletRequest request,
 			String functionId, String roleId) {
 		CriteriaQuery cq = new CriteriaQuery(DataRule.class);
-		cq.eq("TSFunction.id", functionId);
+		cq.eq("Function.id", functionId);
 		cq.add();
 		List<DataRule> dataRuleList = this.systemService
 				.findListByCq(cq, false);
@@ -697,8 +698,8 @@ public class RoleController extends BaseController {
 			LogUtils.error(e.getMessage());
 		}
 		CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
-		cq1.eq("TSRole.id", roleId);
-		cq1.eq("TSFunction.id", functionId);
+		cq1.eq("Role.id", roleId);
+		cq1.eq("Function.id", functionId);
 		cq1.add();
 		List<RoleFunction> rFunctions = systemService.findListByCq(
 				cq1, false);
@@ -737,8 +738,8 @@ public class RoleController extends BaseController {
 
         // 获取 当前组织机构的用户信息
         CriteriaQuery subCq = new CriteriaQuery(RoleUser.class);
-        subCq.setProjection(Property.forName("TSUser.id"));
-        subCq.eq("TSRole.id", roleId);
+        subCq.setProjection(Property.forName("User.id"));
+        subCq.eq("Role.id", roleId);
         subCq.add();
         
 

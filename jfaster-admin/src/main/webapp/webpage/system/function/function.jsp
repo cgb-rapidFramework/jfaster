@@ -83,7 +83,7 @@
         <label class="Validform_label"> <t:mutiLang langKey="parent.function"/>: </label>
         <input id="cc" <c:if test="${functionView.TSFunction.functionLevel eq 0}"> value="${functionView.TSFunction.id}"</c:if>
 		<c:if test="${functionView.TSFunction.functionLevel > 0}"> value="${functionView.TSFunction.functionName}"</c:if>>
-        <input id="functionId" name="TSFunction.id" style="display: none;" value="${functionView.TSFunction.id}">
+        <input id="functionId" name="Function.id" style="display: none;" value="${functionView.TSFunction.id}">
     </div>
 	<div class="form" id="funurl">
         <label class="Validform_label">
@@ -93,7 +93,7 @@
     </div>
     <div class="form">
         <label class="Validform_label"> <t:mutiLang langKey="common.icon"/>: </label>
-        <select name="TSIcon.id">
+        <select name="Icon.id">
             <c:forEach items="${iconlist}" var="icon">
                 <option value="${icon.id}" <c:if test="${icon.id==function.TSIcon.id || (function.id eq null && icon.iconClas eq 'pictures') }">selected="selected"</c:if>>
                     <t:mutiLang langKey="${icon.iconName}"/>
@@ -103,7 +103,7 @@
     </div>
     <div class="form">
         <label class="Validform_label"> <t:mutiLang langKey="desktop.icon"/>: </label>
-        <select name="TSIconDesk.id">
+        <select name="IconDesk.id">
             <c:forEach items="${iconDeskList}" var="icon">
                 <option value="${icon.id}" <c:if test="${icon.id==function.TSIconDesk.id || (function.id eq null && icon.iconClas eq 'System Folder') }">selected="selected"</c:if>>
                     <t:mutiLang langKey="${icon.iconName}"/>

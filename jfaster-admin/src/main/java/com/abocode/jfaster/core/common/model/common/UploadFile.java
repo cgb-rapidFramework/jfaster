@@ -170,7 +170,7 @@ public class UploadFile {
 		return extend;
 	}
 
-	public void setExtend(String extend) {
+	public void setIconExtend(String extend) {
 		this.extend = extend;
 	}
 

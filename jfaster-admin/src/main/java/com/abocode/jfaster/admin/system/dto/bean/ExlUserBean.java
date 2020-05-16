@@ -13,7 +13,7 @@ public class ExlUserBean {
     @NotNull
     @Pattern(regexp = "([a-zA-Z0-9_]*[a-zA-Z_][a-zA-Z0-9_]*)")
     @Size(min =4, max = 30)
-    private String userName;// 用户名
+    private String username;// 用户名
     @Excel(exportName = "真实姓名", exportConvertSign = 0, exportFieldWidth = 18, importConvertSign = 0)
     @NotNull
     @Size(min = 2, max = 30)
@@ -48,12 +48,12 @@ public class ExlUserBean {
 
     private Short status=0;// 状态1：在线,2：离线,0：禁用
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getRealName() {
@@ -104,7 +104,7 @@ public class ExlUserBean {
         this.status = status;
     }
 
-    public String getDepartName() {
+    public String getOrgName() {
         return departName;
     }
 

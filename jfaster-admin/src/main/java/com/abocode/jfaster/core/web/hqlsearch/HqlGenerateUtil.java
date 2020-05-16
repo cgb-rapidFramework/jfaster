@@ -191,7 +191,7 @@ public class HqlGenerateUtil {
 	private static void addRuleToCriteria(DataRule tsDataRule,
 			String aliasName, Class propertyType, CriteriaQuery cq) {
 		HqlRuleEnum rule = HqlRuleEnum.getByValue(tsDataRule
-				.getRuleConditions());
+				.getRuleCondition());
 		if (rule.equals(HqlRuleEnum.IN)) {
 			String[] values = tsDataRule.getRuleValue().split(",");
 			Object[] objs = new Object[values.length];

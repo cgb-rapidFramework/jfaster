@@ -8,7 +8,7 @@
 			actionUrl="categoryController.do?datagrid" idField="id"
 			treegrid="true" pagination="false">
 			<t:dgCol title="类型名称" field="name" treefield="text" width="300"></t:dgCol>
-			<t:dgCol title="common.icon" field="TSIcon_iconPath" treefield="code"
+			<t:dgCol title="common.icon" field="Icon_iconPath" treefield="code"
 				image="true"></t:dgCol>
 			<t:dgCol title="类型编码" field="code" treefield="id"></t:dgCol>
 			<t:dgCol title="common.operation" field="opt" width="100"></t:dgCol>

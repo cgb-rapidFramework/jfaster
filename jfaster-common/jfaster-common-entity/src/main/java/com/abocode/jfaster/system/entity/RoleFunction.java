@@ -14,13 +14,13 @@ import javax.persistence.Table;
 @Data
 public class RoleFunction extends AbstractIdEntity implements java.io.Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "functionid")
+    @JoinColumn(name = "function_id")
     private Function function;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "roleid")
+    @JoinColumn(name = "role_id")
     private Role role;
-    @Column(name = "operation", length = 100)
+    @Column(length = 100)
     private String operation;
-    @Column(name = "datarule", length = 100)
+    @Column(name = "data_rule",length = 100)
     private String dataRule;
 }

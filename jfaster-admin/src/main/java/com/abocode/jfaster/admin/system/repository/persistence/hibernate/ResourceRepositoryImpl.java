@@ -20,7 +20,7 @@ import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositor
 import com.abocode.jfaster.core.extend.template.Template;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.TreeGridModel;
 import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
-import com.abocode.jfaster.system.entity.Depart;
+import com.abocode.jfaster.system.entity.Org;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
@@ -60,10 +60,10 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                 String realPath = "";
                 String entityName = uploadFile.getObject().getClass().getSimpleName();
                 // 设置文件上传路径
-                if (entityName.equals("TSTemplate")) {
+                if (entityName.equals("Template")) {
                     realPath = localDiskPath + "/" + ResourceUtils.RESOURCE_TEMPLATE + "/";
                     path = ResourceUtils.RESOURCE_TEMPLATE + "/";
-                } else if (entityName.equals("TSIcon")) {
+                } else if (entityName.equals("Icon")) {
                     realPath = localDiskPath + "/" + uploadFile.getCusPath() + "/";
                     path = uploadFile.getCusPath() + "/";
                 } else {
@@ -260,7 +260,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
             UploadFile uploadFile = new UploadFile(request, response);
             uploadFile.setRealPath(importFile.getFileName());
             uploadFile.setTitleField(importFile.getFileName());
-            uploadFile.setExtend("bak");
+            uploadFile.setIconExtend("bak");
             viewOrDownloadFile(uploadFile);
         } catch (Exception e) {
             LogUtils.error(e.getMessage());
@@ -338,19 +338,19 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
      * @return
      */
     @SuppressWarnings("unchecked")
-    public ComboTree tree(Depart depart, boolean recursive) {
+    public ComboTree tree(Org depart, boolean recursive) {
         ComboTree tree = new ComboTree();
         tree.setId(ConvertUtils.getString(depart.getId()));
-        tree.setText(depart.getDepartname());
-        List<Depart> departsList = this.commonDao.findAllByProperty(Depart.class, "TSPDepart.id", depart.getId());
+        tree.setText(depart.getOrgName());
+        List<Org> departsList = this.commonDao.findAllByProperty(Org.class, "PDepart.id", depart.getId());
         if (departsList != null && departsList.size() > 0) {
             tree.setState("closed");
             tree.setChecked(false);
             if (recursive) {// 递归查询子节点
-                List<Depart> departList = new ArrayList<Depart>(departsList);
+                List<Org> departList = new ArrayList<Org>(departsList);
                 //Collections.sort(departList, new SetListSort());// 排序
                 List<ComboTree> children = new ArrayList<ComboTree>();
-                for (Depart d : departList) {
+                for (Org d : departList) {
                     ComboTree t = tree(d, true);
                     children.add(t);
                 }
@@ -470,7 +470,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
             }
             if (treeGridModel.getRoleid() != null) {
                 String[] opStrings = {};
-                List<RoleFunction> roleFunctions = this.commonDao.findAllByProperty(RoleFunction.class, "TSFunction.id", id);
+                List<RoleFunction> roleFunctions = this.commonDao.findAllByProperty(RoleFunction.class, "Function.id", id);
 
                 if (roleFunctions.size() > 0) {
                     for (RoleFunction tRoleFunction : roleFunctions) {
@@ -484,12 +484,12 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                         }
                     }
                 }
-                List<Operation> operateions = this.commonDao.findAllByProperty(Operation.class, "TSFunction.id", id);
+                List<Operation> operateions = this.commonDao.findAllByProperty(Operation.class, "Function.id", id);
                 StringBuffer attributes = new StringBuffer();
                 if (operateions.size() > 0) {
                     for (Operation tOperation : operateions) {
                         if (opStrings.length < 1) {
-                            attributes.append("<input type=checkbox name=operatons value=" + tOperation.getId() + "_" + id + ">" + tOperation.getOperationname());
+                            attributes.append("<input type=checkbox name=operatons value=" + tOperation.getId() + "_" + id + ">" + tOperation.getOperationName());
                         } else {
                             StringBuffer sb = new StringBuffer();
                             sb.append("<input type=checkbox name=operatons");
@@ -498,7 +498,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                                     sb.append(" checked=checked");
                                 }
                             }
-                            sb.append(" value=" + tOperation.getId() + "_" + id + ">" + tOperation.getOperationname());
+                            sb.append(" value=" + tOperation.getId() + "_" + id + ">" + tOperation.getOperationName());
                             attributes.append(sb.toString());
                         }
                     }
@@ -523,9 +523,9 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
 
 
     @Override
-    public List<ComboTree> comTree(List<Depart> all, ComboTree comboTree) {
+    public List<ComboTree> comTree(List<Org> all, ComboTree comboTree) {
         List<ComboTree> trees = new ArrayList<ComboTree>();
-        for (Depart depart : all) {
+        for (Org depart : all) {
             trees.add(tree(depart, true));
         }
         return trees;

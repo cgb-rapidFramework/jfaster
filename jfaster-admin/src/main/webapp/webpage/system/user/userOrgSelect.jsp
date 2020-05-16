@@ -13,9 +13,9 @@
 		<tr>
 			<td align="right" width="15%" nowrap><label class="Validform_label">  <t:mutiLang langKey="common.username"/>: </label></td>
 			<td class="value" width="85%">
-                <c:if test="${user.id!=null }"> ${user.userName } </c:if>
+                <c:if test="${user.id!=null }"> ${user.username } </c:if>
                 <c:if test="${user.id==null }">
-                    <input id="userName" class="inputxt" name="userName" validType="t_s_base_user,userName,id" value="${user.userName }" datatype="s2-10" />
+                    <input id="username" class="inputxt" name="username" validType="t_s_base_user,username,id" value="${user.username }" datatype="s2-10" />
                     <span class="Validform_checktip"> <t:mutiLang langKey="username.rang2to10"/></span>
                 </c:if>
             </td>

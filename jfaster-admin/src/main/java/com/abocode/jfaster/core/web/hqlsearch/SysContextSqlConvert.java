@@ -5,13 +5,7 @@ import com.abocode.jfaster.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
 import com.abocode.jfaster.system.entity.DataRule;
 
 /**
- * 数据库列表序列化转换sql
- * 
- * @ClassName: SqlJsonConvert
- * @Description: TODO
- * @author Comsys-skyCc cmzcheng@gmail.com
- * @date 2014-8-25 下午7:12:41
- * 
+ * 数据库列表序列化转换sql *
  */
 public class SysContextSqlConvert {
 
@@ -34,7 +28,7 @@ public class SysContextSqlConvert {
 		if(dataRule == null) 
 		return "";
 		String sqlValue="";
-		HqlRuleEnum ruleEnum=HqlRuleEnum.getByValue(dataRule.getRuleConditions());
+		HqlRuleEnum ruleEnum=HqlRuleEnum.getByValue(dataRule.getRuleCondition());
 		String ValueTemp = "";
 		
 		//针对特殊标示处理#{sysOrgCode}，判断替换

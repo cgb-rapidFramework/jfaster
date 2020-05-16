@@ -60,10 +60,10 @@ public class TerritoryController extends BaseController {
 	public List<TreeGrid> territoryGrid(HttpServletRequest request, TreeGrid treegrid) {
 		CriteriaQuery cq = new CriteriaQuery(Territory.class);
 			if (treegrid.getId() != null) {
-				cq.eq("TSTerritory.id", treegrid.getId());
+				cq.eq("Territory.id", treegrid.getId());
 			}
 			if (treegrid.getId() == null) {
-				cq.eq("TSTerritory.id","0");//这个是全国最高级
+				cq.eq("Territory.id","0");//这个是全国最高级
 			}
 		
 		cq.addOrder("territorySort", SortDirection.asc);
@@ -73,11 +73,11 @@ public class TerritoryController extends BaseController {
 		TreeGridModel treeGridModel = new TreeGridModel();
 		treeGridModel.setIcon("");
 		treeGridModel.setTextField("territoryName");
-		treeGridModel.setParentText("TSTerritory_territoryName");
-		treeGridModel.setParentId("TSTerritory_id");
+		treeGridModel.setParentText("Territory_territoryName");
+		treeGridModel.setParentId("Territory_id");
 		treeGridModel.setSrc("territoryCode");
 		treeGridModel.setIdField("id");
-		treeGridModel.setChildList("TSTerritorys");
+		treeGridModel.setChildList("Territorys");
 		treeGridModel.setOrder("territorySort");
 		treeGrids = resourceService.treegrid(territoryList, treeGridModel);
 		return treeGrids;
@@ -108,14 +108,14 @@ public class TerritoryController extends BaseController {
 	public List<ComboTree> setPTerritory(HttpServletRequest request, ComboTree comboTree) {
 		CriteriaQuery cq = new CriteriaQuery(Territory.class);
 		if (comboTree.getId() != null) {
-			cq.eq("TSTerritory.id", comboTree.getId());
+			cq.eq("Territory.id", comboTree.getId());
 		}
 		if (comboTree.getId() == null) {
-			cq.isNull("TSTerritory");
+			cq.isNull("Territory");
 		}
 		cq.add();
 		List<Territory> territoryList = systemService.findListByCq(cq, false);
-		ComboTreeModel comboTreeModel = new ComboTreeModel("id", "territoryName", "TSTerritorys");
+		ComboTreeModel comboTreeModel = new ComboTreeModel("id", "territoryName", "Territorys");
 		List<ComboTree> comboTrees  = resourceService.ComboTree(territoryList, comboTreeModel, null, false);
 		return comboTrees;
 	}

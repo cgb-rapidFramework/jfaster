@@ -35,7 +35,7 @@ public class DepartView extends AbstractIdEntity implements java.io.Serializable
 	}
 
 	@Column(name = "departname", nullable = false, length = 100)
-	public String getDepartname() {
+	public String getOrgName() {
 		return this.departname;
 	}
 
@@ -52,12 +52,12 @@ public class DepartView extends AbstractIdEntity implements java.io.Serializable
 		this.description = description;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TSPDepart")
-	public List<DepartView> getDeparts() {
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "PDepart")
+	public List<DepartView> getOrgs() {
 		return TSDeparts;
 	}
 
-	public void setDeparts(List<DepartView> tSDeparts) {
+	public void setOrgs(List<DepartView> tSDeparts) {
 		TSDeparts = tSDeparts;
 	}
 

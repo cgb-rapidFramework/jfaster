@@ -42,10 +42,10 @@ public class IconView extends AbstractIdEntity implements java.io.Serializable {
 		this.iconPath = iconPath;
 	}
 	@Column(name = "iconclas", length = 200)
-	public String getIconClas() {
+	public String getIconClazz() {
 		return iconClas;
 	}
-	public void setIconClas(String iconClas) {
+	public void setIconClazz(String iconClas) {
 		this.iconClas = iconClas;
 	}
 
@@ -61,7 +61,7 @@ public class IconView extends AbstractIdEntity implements java.io.Serializable {
 		return extend;
 	}
 
-	public void setExtend(String extend) {
+	public void setIconExtend(String extend) {
 		this.extend = extend;
 	}
 

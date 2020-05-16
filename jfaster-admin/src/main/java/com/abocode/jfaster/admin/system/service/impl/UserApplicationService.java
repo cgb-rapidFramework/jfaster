@@ -1,7 +1,7 @@
 package com.abocode.jfaster.admin.system.service.impl;
 
 import com.abocode.jfaster.core.common.constants.Globals;
-import com.abocode.jfaster.core.common.util.BeanToTagUtils;
+import com.abocode.jfaster.admin.system.service.BeanToTagConverter;
 import com.abocode.jfaster.core.common.util.FunctionComparator;
 import com.abocode.jfaster.core.common.util.PasswordUtils;
 import com.abocode.jfaster.core.common.util.SystemMenuUtils;
@@ -22,10 +22,10 @@ public class UserApplicationService implements UserService {
         FunctionComparator sort = new FunctionComparator();
         // 登陆者的权限
         Set<Function> loginActionlist = new HashSet();// 已有权限菜单
-        List<RoleUser> rUsers = systemService.findAllByProperty(RoleUser.class, "TSUser.id", u.getId());
+        List<RoleUser> rUsers = systemService.findAllByProperty(RoleUser.class, "User.id", u.getId());
         for (RoleUser ru : rUsers) {
             Role role = ru.getRole();
-            List<RoleFunction> roleFunctionList = systemService.findAllByProperty(RoleFunction.class, "TSRole.id", role.getId());
+            List<RoleFunction> roleFunctionList = systemService.findAllByProperty(RoleFunction.class, "Role.id", role.getId());
             if (roleFunctionList.size() > 0) {
                 for (RoleFunction roleFunction : roleFunctionList) {
                     Function function = roleFunction.getFunction();
@@ -37,7 +37,7 @@ public class UserApplicationService implements UserService {
         List<FunctionView> smailActionlist = new ArrayList();// 二级权限菜单
         if (loginActionlist.size() > 0) {
             for (Function function : loginActionlist) {
-                FunctionView functionBean = BeanToTagUtils.convertFunction(function);
+                FunctionView functionBean = BeanToTagConverter.convertFunction(function);
                 if (function.getFunctionLevel() == 0) {
                     bigActionlist.add(functionBean);
                 } else if (function.getFunctionLevel() == 1) {
@@ -60,7 +60,7 @@ public class UserApplicationService implements UserService {
     @Override
     public void restPassword(String id, String password) {
         User users = systemService.findEntity(User.class, id);
-        users.setPassword(PasswordUtils.encrypt(users.getUserName(), password, PasswordUtils.getStaticSalt()));
+        users.setPassword(PasswordUtils.encrypt(users.getUsername(), password, PasswordUtils.getStaticSalt()));
         users.setStatus(Globals.User_Normal);
         systemService.update(users);
     }

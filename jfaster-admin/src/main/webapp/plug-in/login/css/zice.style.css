@@ -756,7 +756,7 @@ text-align:center;
 #login input:focus{
 	color:#000;
 }
-#login .userName {
+#login .username {
 	background-image: url(../images/user_.png);
 }
 #login .password {

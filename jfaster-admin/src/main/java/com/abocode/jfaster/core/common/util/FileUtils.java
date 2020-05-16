@@ -153,7 +153,7 @@ public class FileUtils {
             List list=dataGrid.getResults();
             for(Object obj:list){
                 Icon icon=(Icon)obj;
-                String fileName="icon"+ UUID.randomUUID()+"."+icon.getExtend();
+                String fileName="icon"+ UUID.randomUUID()+"."+icon.getIconExtend();
                 File tempFile=new File(fileDirName+File.separator+fileName);
                 if(icon.getIconContent()!=null){
                     byte2image(icon.getIconContent(),tempFile);

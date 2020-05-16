@@ -10,7 +10,7 @@
 		http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd ">
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
 	<!-- 加载controller的时候,不加载service,因为此时事物并未生效,若此时加载了service,那么事物无法对service进行拦截 -->
-	<context:component-scan base-package="com.abocode.jfaster.admin.core.*,com.abocode.jfaster.web.*">
+	<context:component-scan base-package="com.abocode.jfaster.core.*,com.abocode.jfaster.admin.*">
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Service" />
 	</context:component-scan>
@@ -96,9 +96,9 @@
 			<mvc:mapping path="/**" />
 			<bean class="com.abocode.jfaster.core.web.interceptors.EncodingInterceptor" />
 		</mvc:interceptor>
-		<!--<mvc:interceptor>
+		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<bean class="com.abocode.jfaster.web.common.interceptors.AuthInterceptor">
+			<bean class="com.abocode.jfaster.core.web.interceptors.AuthInterceptor">
 				<property name="excludeUrls">
 					<list>
 						<value>loginController.do?goPwdInit</value>
@@ -112,6 +112,6 @@
 					</list>
 				</property>
 			</bean>
-		</mvc:interceptor>-->
+		</mvc:interceptor>
 	</mvc:interceptors>
 </beans>

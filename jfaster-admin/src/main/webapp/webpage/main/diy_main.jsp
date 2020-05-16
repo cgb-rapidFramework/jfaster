@@ -104,7 +104,7 @@
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
                         <%--<img class="nav-user-photo" src="plug-in/ace/avatars/user.jpg" alt="Jason's Photo" />--%>
 								<span class="user-info">
-									<small style="color:#D50001;">欢迎,${userName }</small>
+									<small style="color:#D50001;">欢迎,${username }</small>
 									<span style="color: #CC33FF">
                     <span style="color: #000000"><t:mutiLang langKey="common.role"/>:</span>
                     <span style="color: #000000">${roleName }</span>

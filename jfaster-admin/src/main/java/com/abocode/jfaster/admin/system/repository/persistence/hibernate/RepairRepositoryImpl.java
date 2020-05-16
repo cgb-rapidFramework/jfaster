@@ -33,25 +33,24 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
 
     public void deleteAndRepair() {
         // 由于表中有主外键关系，清空数据库需注意
-        commonDao.executeHql("delete TSLog");
-        commonDao.executeHql("delete TSOperation");
-        commonDao.executeHql("delete TSRoleFunction");
-        commonDao.executeHql("delete TSRoleUser");
-        commonDao.executeHql("delete TSUser");
-        commonDao.executeHql("delete TSBaseUser");
-        commonDao.executeHql("update TSFunction ts set ts.TSFunction = null");
-        commonDao.executeHql("delete TSFunction");
-        commonDao.executeHql("update TSDepart t set t.TSPDepart = null");
-        commonDao.executeHql("delete TSDepart");
-        commonDao.executeHql("delete TSIcon");
-        commonDao.executeHql("delete TSRole");
-        commonDao.executeHql("delete TSType");
-        commonDao.executeHql("delete TSTypegroup");
-//		commonDao.executeHql("update TSDemo t set t.TSDemo = null");
-//		commonDao.executeHql("delete TSDemo");
+        commonDao.executeHql("delete Log");
+        commonDao.executeHql("delete Operation");
+        commonDao.executeHql("delete RoleFunction");
+        commonDao.executeHql("delete RoleUser");
+        commonDao.executeHql("delete User");
+        commonDao.executeHql("update Function  set Function = null");
+        commonDao.executeHql("delete Function");
+        commonDao.executeHql("update Org t set t.parentOrg = null");
+        commonDao.executeHql("delete Depart");
+        commonDao.executeHql("delete Icon");
+        commonDao.executeHql("delete Role");
+        commonDao.executeHql("delete Type");
+        commonDao.executeHql("delete TypeGroup");
+//		commonDao.executeHql("update Demo t set t.Demo = null");
+//		commonDao.executeHql("delete Demo");
 		commonDao.executeHql("delete JobEntity");
-        commonDao.executeHql("update TSTerritory t set t.TSTerritory = null");
-        commonDao.executeHql("delete TSTerritory");
+        commonDao.executeHql("update Territory t set t.Territory = null");
+        commonDao.executeHql("delete Territory");
         commonDao.executeHql("delete TemplateEntity");
         commonDao.executeHql("delete MutiLangEntity");
         repair();
@@ -70,7 +69,6 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
         repairUserRole();// 修复用户和角色的关系
         repairTypeAndGroup();// 修复字典类型
         repairType();// 修复字典值
-        repairJob();// 修复任务管理
         repairLog();// 修复日志表
         repairMenu();// 修复菜单权限
         repairOperation(); // 修复操作表
@@ -111,22 +109,7 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
         }
     }
 
-    /**
-     * 修复任务管理
-     *
-     * @author JueYue
-     * @serialData 2013年11月5日
-     */
-    private void repairJob() {
-        Job job = new Job();
-        job.setName("testjob1");
-        job.setGroup("default");
-        job.setExpression("0 0/5 * * * ?");
-        job.setDescription("测试job1");
-        job.setStatus("2");
-        job.setClazz("DemoJob");
-        commonDao.saveOrUpdate(job);
-    }
+
 
     /**
      * @Description 修复日志表
@@ -135,12 +118,12 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
     private void repairLog() {
         User admin = commonDao.findAllByProperty(User.class, "signatureFile", "images/renfang/qm/licf.gif").get(0);
         Log log1 = new Log();
-        log1.setLogcontent("用户: admin登录成功");
+        log1.setLogContent("用户: admin登录成功");
         log1.setBroswer("Chrome");
         log1.setNote("169.254.200.136");
         log1.setUser(admin);
-        log1.setOperatetime(DateUtils.getTimestamp());
-        log1.setOperatetype((short) 1);
+        log1.setOperationTime(DateUtils.getTimestamp());
+        log1.setOperationType((short) 1);
         log1.setLoglevel((short) 1);
         commonDao.saveOrUpdate(log1);
     }
@@ -150,8 +133,8 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
      * @author tanghan 2013-7-20
      */
     private void repairDepart() {
-        Depart eiu = new Depart();
-        eiu.setDepartname("系统管理");
+        Org eiu = new Org();
+        eiu.setOrgName("系统管理");
         eiu.setDescription("12");
         commonDao.saveOrUpdate(eiu);
     }
@@ -162,13 +145,13 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
      */
     private void repairUser() {
         this.commonDao.getSession().clear();
-        Depart eiu = this.commonDao.findAllByProperty(Depart.class, "departname", "系统管理").get(0);
+        Org eiu = this.commonDao.findAllByProperty(Org.class, "departname", "系统管理").get(0);
 
         User admin = new User();
         admin.setSignatureFile("images/renfang/qm/licf.gif");
         admin.setStatus((short) 1);
         admin.setRealName("管理员");
-        admin.setUserName("admin");
+        admin.setUsername("admin");
         admin.setPassword("c44b01947c9e6e3f");
         commonDao.save(admin);
 
@@ -181,7 +164,7 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
         scott.setEmail("guanxf_m@126.com");
         scott.setStatus((short) 1);
         scott.setRealName("scott");
-        scott.setUserName("scott");
+        scott.setUsername("scott");
         scott.setPassword("97c07a884bf272b5");
         // scott.setDepart(RAndD);
         commonDao.saveOrUpdate(scott);
@@ -251,29 +234,29 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
         Function function = commonDao.findAllByProperty(Function.class, "functionName", "系统管理").get(0);
 
         Operation add = new Operation();
-        add.setOperationname("录入");
-        add.setOperationcode("add");
+        add.setOperationName("录入");
+        add.setOperationCode("add");
         add.setIcon(back);
         add.setFunction(function);
         commonDao.saveOrUpdate(add);
 
         Operation edit = new Operation();
-        edit.setOperationname("编辑");
-        edit.setOperationcode("edit");
+        edit.setOperationName("编辑");
+        edit.setOperationCode("edit");
         edit.setIcon(back);
         edit.setFunction(function);
         commonDao.saveOrUpdate(edit);
 
         Operation del = new Operation();
-        del.setOperationname("删除");
-        del.setOperationcode("del");
+        del.setOperationName("删除");
+        del.setOperationCode("del");
         del.setIcon(back);
         del.setFunction(function);
         commonDao.saveOrUpdate(del);
 
         Operation szqm = new Operation();
-        szqm.setOperationname("审核");
-        szqm.setOperationcode("szqm");
+        szqm.setOperationName("审核");
+        szqm.setOperationCode("szqm");
         szqm.setIcon(back);
         szqm.setFunction(function);
         commonDao.saveOrUpdate(szqm);
@@ -352,134 +335,134 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
         TypeGroup fieldtype = commonDao.findAllByProperty(TypeGroup.class, "typegroupname", "字段类型").get(0);
 
         Type menu = new Type();
-        menu.setTypename("菜单图标");
-        menu.setTypecode("2");
+        menu.setTypeName("菜单图标");
+        menu.setTypeCode("2");
         menu.setTypeGroup(icontype);
         commonDao.saveOrUpdate(menu);
 
         Type systemicon = new Type();
-        systemicon.setTypename("系统图标");
-        systemicon.setTypecode("1");
+        systemicon.setTypeName("系统图标");
+        systemicon.setTypeCode("1");
         systemicon.setTypeGroup(icontype);
         commonDao.saveOrUpdate(systemicon);
 
         Type file = new Type();
-        file.setTypename("附件");
-        file.setTypecode("files");
+        file.setTypeName("附件");
+        file.setTypeCode("files");
         file.setTypeGroup(filetype);
         commonDao.saveOrUpdate(file);
 
         Type goodorder = new Type();
-        goodorder.setTypename("优质订单");
-        goodorder.setTypecode("1");
+        goodorder.setTypeName("优质订单");
+        goodorder.setTypeCode("1");
         goodorder.setTypeGroup(ordertype);
         commonDao.saveOrUpdate(goodorder);
 
         Type general = new Type();
-        general.setTypename("普通订单");
-        general.setTypecode("2");
+        general.setTypeName("普通订单");
+        general.setTypeCode("2");
         general.setTypeGroup(ordertype);
         commonDao.saveOrUpdate(general);
 
         Type sign = new Type();
-        sign.setTypename("签约客户");
-        sign.setTypecode("1");
+        sign.setTypeName("签约客户");
+        sign.setTypeCode("1");
         sign.setTypeGroup(custom);
         commonDao.saveOrUpdate(sign);
 
         Type commoncustom = new Type();
-        commoncustom.setTypename("普通客户");
-        commoncustom.setTypecode("2");
+        commoncustom.setTypeName("普通客户");
+        commoncustom.setTypeCode("2");
         commoncustom.setTypeGroup(custom);
         commonDao.saveOrUpdate(commoncustom);
 
         Type vipservice = new Type();
-        vipservice.setTypename("特殊服务");
-        vipservice.setTypecode("1");
+        vipservice.setTypeName("特殊服务");
+        vipservice.setTypeCode("1");
         vipservice.setTypeGroup(servicetype);
         commonDao.saveOrUpdate(vipservice);
 
         Type commonservice = new Type();
-        commonservice.setTypename("普通服务");
-        commonservice.setTypecode("2");
+        commonservice.setTypeName("普通服务");
+        commonservice.setTypeCode("2");
         commonservice.setTypeGroup(servicetype);
         commonDao.saveOrUpdate(commonservice);
 
         Type single = new Type();
-        single.setTypename("单条件查询");
-        single.setTypecode("single");
+        single.setTypeName("单条件查询");
+        single.setTypeCode("single");
         single.setTypeGroup(searchmode);
         commonDao.saveOrUpdate(single);
 
         Type group = new Type();
-        group.setTypename("范围查询");
-        group.setTypecode("group");
+        group.setTypeName("范围查询");
+        group.setTypeCode("group");
         group.setTypeGroup(searchmode);
         commonDao.saveOrUpdate(group);
 
         Type yes = new Type();
-        yes.setTypename("是");
-        yes.setTypecode("Y");
+        yes.setTypeName("是");
+        yes.setTypeCode("Y");
         yes.setTypeGroup(yesorno);
         commonDao.saveOrUpdate(yes);
 
         Type no = new Type();
-        no.setTypename("否");
-        no.setTypecode("N");
+        no.setTypeName("否");
+        no.setTypeCode("N");
         no.setTypeGroup(yesorno);
         commonDao.saveOrUpdate(no);
 
         Type type_integer = new Type();
-        type_integer.setTypename("Integer");
-        type_integer.setTypecode("Integer");
+        type_integer.setTypeName("Integer");
+        type_integer.setTypeCode("Integer");
         type_integer.setTypeGroup(fieldtype);
         commonDao.saveOrUpdate(type_integer);
 
         Type type_date = new Type();
-        type_date.setTypename("Date");
-        type_date.setTypecode("Date");
+        type_date.setTypeName("Date");
+        type_date.setTypeCode("Date");
         type_date.setTypeGroup(fieldtype);
         commonDao.saveOrUpdate(type_date);
 
         Type type_string = new Type();
-        type_string.setTypename("String");
-        type_string.setTypecode("String");
+        type_string.setTypeName("String");
+        type_string.setTypeCode("String");
         type_string.setTypeGroup(fieldtype);
         commonDao.saveOrUpdate(type_string);
 
         Type type_long = new Type();
-        type_long.setTypename("Long");
-        type_long.setTypecode("Long");
+        type_long.setTypeName("Long");
+        type_long.setTypeCode("Long");
         type_long.setTypeGroup(fieldtype);
         commonDao.saveOrUpdate(type_long);
 
         Type systable = new Type();
-        systable.setTypename("系统基础表");
-        systable.setTypecode("t_s");
+        systable.setTypeName("系统基础表");
+        systable.setTypeCode("t_s");
         systable.setTypeGroup(datatable);
         commonDao.saveOrUpdate(systable);
 
         Type business = new Type();
-        business.setTypename("业务表");
-        business.setTypecode("t_b");
+        business.setTypeName("业务表");
+        business.setTypeCode("t_b");
         business.setTypeGroup(datatable);
         commonDao.saveOrUpdate(business);
 
         Type news = new Type();
-        news.setTypename("新闻");
-        news.setTypecode("news");
+        news.setTypeName("新闻");
+        news.setTypeCode("news");
         news.setTypeGroup(filetype);
         commonDao.saveOrUpdate(news);
 
         Type man = new Type();
-        man.setTypename("男性");
-        man.setTypecode("0");
+        man.setTypeName("男性");
+        man.setTypeCode("0");
         man.setTypeGroup(sex);
         commonDao.saveOrUpdate(man);
 
         Type woman = new Type();
-        woman.setTypename("女性");
-        woman.setTypecode("1");
+        woman.setTypeName("女性");
+        woman.setTypeCode("1");
         woman.setTypeGroup(sex);
         commonDao.saveOrUpdate(woman);
     }
@@ -512,16 +495,16 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
         defaultIcon.setIconName("默认图");
         defaultIcon.setIconType((short) 1);
         defaultIcon.setIconPath("plug-in/accordion/images/default.png");
-        defaultIcon.setIconClas("default");
-        defaultIcon.setExtend("png");
+        defaultIcon.setIconClazz("default");
+        defaultIcon.setIconExtend("png");
         commonDao.saveOrUpdate(defaultIcon);
 
         Icon back = new Icon();
         back.setIconName("返回");
         back.setIconType((short) 1);
         back.setIconPath("plug-in/accordion/images/back.png");
-        back.setIconClas("back");
-        back.setExtend("png");
+        back.setIconClazz("back");
+        back.setIconExtend("png");
         commonDao.saveOrUpdate(back);
 
         Icon pie = new Icon();
@@ -529,56 +512,56 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
         pie.setIconName("饼图");
         pie.setIconType((short) 1);
         pie.setIconPath("plug-in/accordion/images/pie.png");
-        pie.setIconClas("pie");
-        pie.setExtend("png");
+        pie.setIconClazz("pie");
+        pie.setIconExtend("png");
         commonDao.saveOrUpdate(pie);
 
         Icon pictures = new Icon();
         pictures.setIconName("图片");
         pictures.setIconType((short) 1);
         pictures.setIconPath("plug-in/accordion/images/pictures.png");
-        pictures.setIconClas("pictures");
-        pictures.setExtend("png");
+        pictures.setIconClazz("pictures");
+        pictures.setIconExtend("png");
         commonDao.saveOrUpdate(pictures);
 
         Icon pencil = new Icon();
         pencil.setIconName("笔");
         pencil.setIconType((short) 1);
         pencil.setIconPath("plug-in/accordion/images/pencil.png");
-        pencil.setIconClas("pencil");
-        pencil.setExtend("png");
+        pencil.setIconClazz("pencil");
+        pencil.setIconExtend("png");
         commonDao.saveOrUpdate(pencil);
 
         Icon map = new Icon();
         map.setIconName("地图");
         map.setIconType((short) 1);
         map.setIconPath("plug-in/accordion/images/map.png");
-        map.setIconClas("map");
-        map.setExtend("png");
+        map.setIconClazz("map");
+        map.setIconExtend("png");
         commonDao.saveOrUpdate(map);
 
         Icon group_add = new Icon();
         group_add.setIconName("组");
         group_add.setIconType((short) 1);
         group_add.setIconPath("plug-in/accordion/images/group_add.png");
-        group_add.setIconClas("group_add");
-        group_add.setExtend("png");
+        group_add.setIconClazz("group_add");
+        group_add.setIconExtend("png");
         commonDao.saveOrUpdate(group_add);
 
         Icon calculator = new Icon();
         calculator.setIconName("计算器");
         calculator.setIconType((short) 1);
         calculator.setIconPath("plug-in/accordion/images/calculator.png");
-        calculator.setIconClas("calculator");
-        calculator.setExtend("png");
+        calculator.setIconClazz("calculator");
+        calculator.setIconExtend("png");
         commonDao.saveOrUpdate(calculator);
 
         Icon folder = new Icon();
         folder.setIconName("文件夹");
         folder.setIconType((short) 1);
         folder.setIconPath("plug-in/accordion/images/folder.png");
-        folder.setIconClas("folder");
-        folder.setExtend("png");
+        folder.setIconClazz("folder");
+        folder.setIconExtend("png");
         commonDao.saveOrUpdate(folder);
     }
 
@@ -595,8 +578,8 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
         deskIncon.setIconName(iconLabelName);
         deskIncon.setIconType((short) 3);
         deskIncon.setIconPath(iconPath);
-        deskIncon.setIconClas("deskIcon");
-        deskIncon.setExtend("png");
+        deskIncon.setIconClazz("deskIcon");
+        deskIncon.setIconExtend("png");
         commonDao.saveOrUpdate(deskIncon);
 
         return deskIncon;
@@ -613,8 +596,8 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
         deskIncon.setIconName("默认图标");
         deskIncon.setIconType((short) 3);
         deskIncon.setIconPath(iconPath);
-        deskIncon.setIconClas("deskIcon");
-        deskIncon.setExtend("png");
+        deskIncon.setIconClazz("deskIcon");
+        deskIncon.setIconExtend("png");
         commonDao.saveOrUpdate(deskIncon);
 
         return deskIncon;
@@ -774,7 +757,7 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
         log.setFunctionOrder("21");
         log.setParentFunction(syscontrol);
         log.setIcon(defaultIcon);
-        log.setIconDesk(repairInconForDesk("fastsearch", "系统日志"));
+        log.setIconDesk(repairInconForDesk("fasearch", "系统日志"));
         commonDao.saveOrUpdate(log);
 
         Function timeTask = new Function();
@@ -789,7 +772,7 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
 
         Function reportdemo = new Function();
         reportdemo.setFunctionName("报表示例");
-        reportdemo.setFunctionUrl("reportDemoController.do?studentStatisticTabs&isIframe");
+        reportdemo.setFunctionUrl("reportDemoController.do?studentatisticTabs&isIframe");
         reportdemo.setFunctionLevel((short) 1);
         reportdemo.setFunctionOrder("21");
         reportdemo.setParentFunction(state);

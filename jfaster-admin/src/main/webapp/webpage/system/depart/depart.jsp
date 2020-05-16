@@ -57,7 +57,7 @@
         </div>
         <div class="form">
             <label class="Validform_label"> <t:mutiLang langKey="parent.depart"/>: </label>
-            <input id="cc" name="TSPDepart.id" value="${departView.TSPDepart.id}">
+            <input id="cc" name="PDepart.id" value="${departView.TSPDepart.id}">
         </div>
         <div class="form">
             <input type="hidden" name="orgCode" value="${departView.orgCode }">

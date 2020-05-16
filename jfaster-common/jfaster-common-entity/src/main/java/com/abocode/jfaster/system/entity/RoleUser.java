@@ -14,9 +14,9 @@ import javax.persistence.Table;
 @Data
 public class RoleUser extends AbstractIdEntity implements java.io.Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "userid")
+	@JoinColumn(name = "user_id")
 	private User user;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "roleid")
+	@JoinColumn(name = "role_id")
 	private Role role;
 }

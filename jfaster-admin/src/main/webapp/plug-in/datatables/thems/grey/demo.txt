@@ -70,10 +70,10 @@
 				"mDataProp" : "id",
 				"mData" : "id"
 			}, {
-				"sName" : "userName",
+				"sName" : "username",
 				"sTitle" : "用户名",
-				"mDataProp" : "userName",
-				"mData" : "userName",
+				"mDataProp" : "username",
+				"mData" : "username",
 				"sWidth":"20%"
 			}, {
 				"sName" : "mobilePhone",
@@ -84,10 +84,10 @@
 				"bSearchable" : false,
 				"sWidth":"20%"
 			}, {
-				"sName" : "TSDepart_departname",
+				"sName" : "Depart_departname",
 				"sTitle" : "部门",
-				"mDataProp" : "TSDepart_departname",
-				"mData" : "TSDepart_departname",
+				"mDataProp" : "Depart_departname",
+				"mData" : "Depart_departname",
 				"sWidth":"20%"
 			}, {
 				"sTitle" : "操作",

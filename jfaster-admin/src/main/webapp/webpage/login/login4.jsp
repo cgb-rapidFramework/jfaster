@@ -76,7 +76,7 @@
                   <div class="space-6"></div>
                       <label class="block clearfix">
 								<span class="block input-icon input-icon-right">
-									<input type="text"  name="userName" class="form-control" placeholder="请输入用户名"  id="userName" value="admin"/>
+									<input type="text"  name="username" class="form-control" placeholder="请输入用户名"  id="username" value="admin"/>
 									<i class="ace-icon fa fa-user"></i>
 								</span>
                       </label>
@@ -198,7 +198,7 @@
   }
   //表单验证
   function validForm(){
-    if($.trim($("#userName").val()).length==0){
+    if($.trim($("#username").val()).length==0){
       showErrorMsg("请输入用户名");
       return false;
     }

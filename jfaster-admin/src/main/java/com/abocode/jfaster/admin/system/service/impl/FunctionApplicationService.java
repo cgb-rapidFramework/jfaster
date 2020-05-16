@@ -1,6 +1,6 @@
 package com.abocode.jfaster.admin.system.service.impl;
 
-import com.abocode.jfaster.core.common.util.BeanToTagUtils;
+import com.abocode.jfaster.admin.system.service.BeanToTagConverter;
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
 import com.abocode.jfaster.core.common.util.NumberComparator;
 import com.abocode.jfaster.core.web.manager.ClientManager;
@@ -73,7 +73,7 @@ public class FunctionApplicationService implements FunctionService {
                             new ArrayList<FunctionView>());
                 }
 
-                FunctionView functionBean= BeanToTagUtils.convertFunction(function);
+                FunctionView functionBean= BeanToTagConverter.convertFunction(function);
                 functionMap.get(function.getFunctionLevel() + 0).add(functionBean);
             }
             // 菜单栏排序

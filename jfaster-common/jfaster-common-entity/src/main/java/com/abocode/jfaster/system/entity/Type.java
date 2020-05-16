@@ -22,15 +22,15 @@ import javax.persistence.Table;
 @Data
 public class Type extends AbstractIdEntity implements java.io.Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "typegroupid")
+	@JoinColumn(name = "type_group_id")
 	private TypeGroup typeGroup;//类型分组
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "typepid")
+	@JoinColumn(name = "typep_id")
 	private Type type;//父类型
-	@Column(name = "typename", length = 50)
-	private String typename;//类型名称
-	@Column(name = "typecode", length = 50)
-	private String typecode;//类型编码
+	@Column(name = "type_name",length = 50)
+	private String typeName;//类型名称
+	@Column(name = "type_code",length = 50)
+	private String typeCode;//类型编码
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "type")
 	private List<Type> types =new ArrayList();

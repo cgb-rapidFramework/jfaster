@@ -25,9 +25,9 @@
      <div class="content noPad clearfix">
       <t:dategrid name="userList" title="用户管理" actionUrl="userController.do?datagrid" style="dynamicTable display table table-bordered" idField="id">
        <t:dgCol title="ID" field="id" hidden="true"></t:dgCol>
-       <t:dgCol title="用户名" field="userName"></t:dgCol>
+       <t:dgCol title="用户名" field="username"></t:dgCol>
        <t:dgCol title="手机" field="mobilePhone" query="true"></t:dgCol>
-       <t:dgCol title="部门" field="TSDepart_departname" sortable="false"></t:dgCol>
+       <t:dgCol title="部门" field="Depart_departname" sortable="false"></t:dgCol>
        <t:dgCol title="操作" field="opt"></t:dgCol>
        <t:dgurl type="1" url="userController.do?del&id={0}" arg="id" name="删除"></t:dgurl>
       </t:dategrid>

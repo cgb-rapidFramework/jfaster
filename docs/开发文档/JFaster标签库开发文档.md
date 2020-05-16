@@ -1139,7 +1139,7 @@ message
 
 (name\#eq\#admin)表达式类型支持eq,ne,empty
 
-\<t:dgConfOpt exp="TSPrjstatus_code\#eq\#new"
+\<t:dgConfOpt exp="Prjstatus_code\#eq\#new"
 
 exp
 
@@ -1993,9 +1993,9 @@ closefun
 6.2.用法
 
 \<t:autocomplete selectfun="aa" closefun="close" valueField="id"
-searchField="userName"
+searchField="username"
 
-labelField="userName,realName" name="user" entityName="TSUser" datatype="\*"
+labelField="username,realName" name="user" entityName="User" datatype="\*"
 nullmsg="请
 
 输入关键字" errormsg="数据不存在,请重新输入"\>\</t:autocomplete\>
@@ -2088,7 +2088,7 @@ listHeight
 
 7.2.用法
 
-\<t:comboBox url="JFasterDemoController.do?combox" name="sex" text="userName"
+\<t:comboBox url="JFasterDemoController.do?combox" name="sex" text="username"
 
 id="id"\>\</t:comboBox\>
 

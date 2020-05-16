@@ -26,7 +26,7 @@
 
 <t:datagrid name="userList" title="common.operation" actionUrl="userController.do?datagrid" fit="true" fitColumns="true" idField="id" queryMode="group">
 	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
-	<t:dgCol title="common.username" sortable="false" field="userName" query="true" width="10"></t:dgCol>
+	<t:dgCol title="common.username" sortable="false" field="username" query="true" width="10"></t:dgCol>
 	<t:dgCol title="common.department" field="userOrgList.tsDepart.departname" query="false" width="12"></t:dgCol>
 	<t:dgCol title="common.real.name" field="realName" query="true" width="10"></t:dgCol>
 	<t:dgCol title="common.role" field="roleUserList.TSRole.roleName" width="10"></t:dgCol>
@@ -34,7 +34,7 @@
 
     <%--<t:dgCol title="common.username" field="opt"></t:dgCol>--%>
     <%--<t:dgFunOpt funname="setSignature(id)" title="设置签名" />--%>
-    <%--<t:dgDelOpt title="common.delete" url="userController.do?del&id={id}&userName={userName}" />--%>
+    <%--<t:dgDelOpt title="common.delete" url="userController.do?del&id={id}&username={username}" />--%>
 	<t:dgToolBar title="common.add.param" langArg="common.user" icon="icon-add" url="userController.do?addorupdate" funname="add"></t:dgToolBar>
 	<t:dgToolBar title="common.edit.param" langArg="common.user" icon="icon-edit" url="userController.do?addorupdate" funname="update"></t:dgToolBar>
 	<t:dgToolBar title="common.password.reset" icon="icon-edit" url="userController.do?changepasswordforuser" funname="update"></t:dgToolBar>

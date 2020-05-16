@@ -11,9 +11,9 @@ import javax.persistence.Table;
 @Data
 public class Role extends AbstractIdEntity implements java.io.Serializable {
 	//角色名称
-	@Column(name = "rolename", nullable = false, length = 100)
+	@Column(name = "role_name",nullable = false, length = 100)
 	private String roleName;
 	//角色编码
-	@Column(name = "rolecode", length = 10)
+	@Column(name = "role_code",length = 10)
 	private String roleCode;
 }

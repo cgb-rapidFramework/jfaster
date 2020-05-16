@@ -181,7 +181,7 @@ public class CriteriaQuery{
      * 表示法cq.add(cq.or(cq.and(cq, 0, 1), cq, 2))----- hql2:(this_.0 like ? or
      * this_.1 like ?) 表示法:cq.add(cq.or(cq, 0, 1));
      * 例子：cq.in("TBPrjstatus.code", status);
-     * cq.eq("attn", user.getUserName());
+     * cq.eq("attn", user.getUsername());
      * cq.isNull("attn");
      * cq.add(cq.and(cq.or(cq, 1, 2), cq, 0));
      */

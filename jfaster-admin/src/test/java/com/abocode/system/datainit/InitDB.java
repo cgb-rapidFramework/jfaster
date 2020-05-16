@@ -72,7 +72,7 @@
 //				baseUser.setUserKey(rs.getString("userkey"));
 //				baseUser.setStatus(rs.getShort("status"));
 //				baseUser.setRealName(rs.getString("realname"));
-//				baseUser.setUserName(rs.getString("username"));
+//				baseUser.setUsername(rs.getString("username"));
 //				baseUser.setPassword(rs.getString("password"));
 //				baseUser.setMobilePhone(rs.getString("mobilephone"));
 //				baseUser.setOfficePhone(rs.getString("officephone"));
@@ -151,8 +151,8 @@
 //			{
 //				Type tsType = new Type();
 //				tsType.setId(i+"");
-//				tsType.setTypename(rs.getString("typename"));
-//				tsType.setTypecode(rs.getString("typecode"));
+//				tsType.setTypeName(rs.getString("typename"));
+//				tsType.setTypeCode(rs.getString("typecode"));
 //				type.add(tsType);
 //				i++;
 //			}
@@ -171,7 +171,7 @@
 //				slog.setBroswer(rs.getString("broswer"));
 //				slog.setNote(rs.getString("note"));
 //				slog.setOperatetime(rs.getTimestamp("operatetime"));
-//				slog.setOperatetype(rs.getShort("operatetype"));
+//				slog.setoperationType(rs.getShort("operationType"));
 //				log.add(slog);
 //				i++;
 //			}

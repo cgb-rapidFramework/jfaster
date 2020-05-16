@@ -85,7 +85,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 			return true;
 		} else {
 			if (client != null && client.getUser()!=null ) {
-				if((!hasMenuAuth(request)) && !client.getUser().getUserName().equals("admin")){
+				if((!hasMenuAuth(request)) && !client.getUser().getUsername().equals("admin")){
 					 response.sendRedirect("loginController.do?noAuth");
 					//request.getRequestDispatcher("webpage/common/noAuth.jsp").forward(request, response);
 					return false;
@@ -118,7 +118,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 				}
 				if(!ConvertUtils.isEmpty(functionId)){
 					//List<String> allOperation=this.systemService.findListbySql("SELECT operationcode FROM t_s_operation  WHERE functionid='"+functionId+"'");
-					List<Operation> allOperation=this.systemService.findAllByProperty(Operation.class, "TSFunction.id", functionId);
+					List<Operation> allOperation=this.systemService.findAllByProperty(Operation.class, "Function.id", functionId);
 					
 					List<Operation> newall = new ArrayList<Operation>();
 					if(allOperation.size()>0){

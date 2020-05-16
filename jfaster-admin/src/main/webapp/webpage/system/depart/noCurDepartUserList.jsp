@@ -8,7 +8,7 @@
                     actionUrl="departController.do?addUserToOrgList&orgId=${orgId}" fit="true" fitColumns="true"
                     idField="id" checkbox="true" queryMode="group">
             <t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
-            <t:dgCol title="common.username" sortable="false" field="userName" query="true"></t:dgCol>
+            <t:dgCol title="common.username" sortable="false" field="username" query="true"></t:dgCol>
             <t:dgCol title="common.real.name" field="realName" query="true"></t:dgCol>
             <t:dgCol title="common.status" sortable="true" field="status" replace="common.active_1,common.inactive_0,super.admin_-1"></t:dgCol>
         </t:datagrid>

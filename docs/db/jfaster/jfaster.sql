@@ -3483,7 +3483,7 @@ CREATE TABLE `t_s_log` (
   `loglevel` smallint(6) DEFAULT NULL,
   `note` longtext,
   `operatetime` datetime NOT NULL,
-  `operatetype` smallint(6) DEFAULT NULL,
+  `operationType` smallint(6) DEFAULT NULL,
   `userid` longtext,
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

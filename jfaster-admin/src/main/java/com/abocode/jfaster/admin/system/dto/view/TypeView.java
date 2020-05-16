@@ -44,24 +44,24 @@ public class TypeView extends AbstractIdEntity implements java.io.Serializable {
     }
 
     @Column(name = "typename", length = 50)
-    public String getTypename() {
+    public String getTypeName() {
         return this.typename;
     }
 
-    public void setTypename(String typename) {
+    public void setTypeName(String typename) {
         this.typename = typename;
     }
 
     @Column(name = "typecode", length = 50)
-    public String getTypecode() {
+    public String getTypeCode() {
         return this.typecode;
     }
 
-    public void setTypecode(String typecode) {
+    public void setTypeCode(String typecode) {
         this.typecode = typecode;
     }
 
-    //	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TSType")
+    //	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "Type")
 //	public List<TPProcess> getProcesses() {
 //		return this.TSProcesses;
 //	}

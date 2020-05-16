@@ -222,7 +222,7 @@ public class DataGridColumn {
 		return extend;
 	}
 
-	public void setExtend(String extend) {
+	public void setIconExtend(String extend) {
 		this.extend = extend;
 	}
 
@@ -246,7 +246,7 @@ public class DataGridColumn {
 		return extendParams;
 	}
 
-	public void setExtendParams(String extendParams) {
+	public void setIconExtendParams(String extendParams) {
 		this.extendParams = extendParams;
 	}
 

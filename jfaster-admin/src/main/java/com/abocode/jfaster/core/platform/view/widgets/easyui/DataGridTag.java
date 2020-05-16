@@ -284,11 +284,11 @@ public class DataGridTag extends TagSupport {
         dataGridColumn.setDictionary(dictionary);
         dataGridColumn.setPopup(popup);
         dataGridColumn.setFrozenColumn(frozenColumn);
-        dataGridColumn.setExtend(extend);
+        dataGridColumn.setIconExtend(extend);
         dataGridColumn.setStyle(style);
         dataGridColumn.setDownloadName(downloadName);
         dataGridColumn.setAutocomplete(isAuto);
-        dataGridColumn.setExtendParams(extendParams);
+        dataGridColumn.setIconExtendParams(extendParams);
         columnList.add(dataGridColumn);
         Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
         if (null != operationCodes) {
@@ -299,7 +299,7 @@ public class DataGridTag extends TagSupport {
 				systemService = ApplicationContextUtil.getContext().getBean(
 							SystemService.class);
 				TSOperation operation = systemService.getEntity(TSOperation.class, MyoperationCode);
-				if(operation.getOperationcode().equals(field)){
+				if(operation.getOperationCode().equals(field)){
 					columnList.remove(dataGridColumn);
 				}*/
             }
@@ -349,8 +349,8 @@ public class DataGridTag extends TagSupport {
                 List<TypeView> typeList = SystemContainer.TypeGroupContainer.allTypes.get(dictionary.toLowerCase());
                 if (typeList != null && !typeList.isEmpty()) {
                     for (TypeView type : typeList) {
-                        text += MutiLangUtils.doMutiLang(type.getTypename(), "") + ",";
-                        value += type.getTypecode() + ",";
+                        text += MutiLangUtils.doMutiLang(type.getTypeName(), "") + ",";
+                        value += type.getTypeCode() + ",";
                     }
                     setColumn(field, text, value);
                 }
@@ -710,8 +710,8 @@ public class DataGridTag extends TagSupport {
                                     sb.append("<select name=\"" + col.getField().replaceAll("_", "\\.") + "\" WIDTH=\"100\" style=\"width: 104px\"> ");
                                     sb.append(StringExpandUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutilangContainer.getLang("common.please.select")));
                                     for (TypeView type : types) {
-                                        sb.append(" <option value=\"" + type.getTypecode() + "\">");
-                                        sb.append(MutilangContainer.getLang(type.getTypename()));
+                                        sb.append(" <option value=\"" + type.getTypeCode() + "\">");
+                                        sb.append(MutilangContainer.getLang(type.getTypeName()));
                                         sb.append(" </option>");
                                     }
                                     sb.append("</select>");
@@ -1251,21 +1251,21 @@ public class DataGridTag extends TagSupport {
             Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
             if (null != operationCodes) {
                 for (String MyoperationCode : operationCodes) {
-                    System.out.println("TSOperation code未完善");
+                    System.out.println("Operation code未完善");
 					/*
 					if (oConvertUtils.isEmpty(MyoperationCode))
 						break;
 					systemService = ApplicationContextUtil.getContext().getBean(
 								SystemService.class);
 					TSOperation operation = systemService.getEntity(TSOperation.class, MyoperationCode);
-					if (operation.getOperationcode().startsWith(".") || operation.getOperationcode().startsWith("#")){
+					if (operation.getOperationCode().startsWith(".") || operation.getOperationCode().startsWith("#")){
 						if (operation.getOperationType().intValue()==Globals.OPERATION_TYPE_HIDE){
-							//out.append("$(\""+name+"\").find(\"#"+operation.getOperationcode().replaceAll(" ", "")+"\").hide();");
-							sb.append("$(\""+operation.getOperationcode().replaceAll(" ", "")+"\").hide();");
+							//out.append("$(\""+name+"\").find(\"#"+operation.getOperationCode().replaceAll(" ", "")+"\").hide();");
+							sb.append("$(\""+operation.getOperationCode().replaceAll(" ", "")+"\").hide();");
 						}else {
-							//out.append("$(\""+name+"\").find(\"#"+operation.getOperationcode().replaceAll(" ", "")+"\").find(\":input\").attr(\"disabled\",\"disabled\");");
-							sb.append("$(\""+operation.getOperationcode().replaceAll(" ", "")+"\").attr(\"disabled\",\"disabled\");");
-							sb.append("$(\""+operation.getOperationcode().replaceAll(" ", "")+"\").find(\":input\").attr(\"disabled\",\"disabled\");");
+							//out.append("$(\""+name+"\").find(\"#"+operation.getOperationCode().replaceAll(" ", "")+"\").find(\":input\").attr(\"disabled\",\"disabled\");");
+							sb.append("$(\""+operation.getOperationCode().replaceAll(" ", "")+"\").attr(\"disabled\",\"disabled\");");
+							sb.append("$(\""+operation.getOperationCode().replaceAll(" ", "")+"\").find(\":input\").attr(\"disabled\",\"disabled\");");
 						}
 					}
 				*/
@@ -1297,7 +1297,7 @@ public class DataGridTag extends TagSupport {
 					systemService = ApplicationContextUtil.getContext().getBean(
 								SystemService.class);
 					TSOperation operation = systemService.findEntity(TSOperation.class, MyoperationCode);
-					operationCodesStr.add(operation.getOperationcode());
+					operationCodesStr.add(operation.getOperationCode());
 
 				}*/
                 if (!operationCodesStr.contains(operationCode)) {
@@ -1399,7 +1399,7 @@ public class DataGridTag extends TagSupport {
         this.rowStyler = rowStyler;
     }
 
-    public void setExtendParams(String extendParams) {
+    public void setIconExtendParams(String extendParams) {
         this.extendParams = extendParams;
     }
 
@@ -1721,8 +1721,8 @@ public class DataGridTag extends TagSupport {
         if (types != null) {
             for (int i = 0; i < types.size(); i++) {
                 TypeView type = types.get(i);
-                appendLine(sb, " {'conditionId':'" + type.getTypecode() + "','conditionName':'"
-                        + MutiLangUtils.getLang(type.getTypename()) + "'}");
+                appendLine(sb, " {'conditionId':'" + type.getTypeCode() + "','conditionName':'"
+                        + MutiLangUtils.getLang(type.getTypeName()) + "'}");
                 if (i < types.size() - 1) {
                     appendLine(sb, ",");
                 }
@@ -1969,8 +1969,8 @@ public class DataGridTag extends TagSupport {
                                     sb.append(StringExpandUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtils.getLang("common.please.select")));
                                     if (!StringExpandUtils.isEmpty(types)) {
                                         for (TypeView type : types) {
-                                            sb.append(" <option value=\"" + type.getTypecode() + "\">");
-                                            sb.append(MutiLangUtils.getLang(type.getTypename()));
+                                            sb.append(" <option value=\"" + type.getTypeCode() + "\">");
+                                            sb.append(MutiLangUtils.getLang(type.getTypeName()));
                                             sb.append(" </option>");
                                         }
                                     }

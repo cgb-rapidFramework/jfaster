@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * @Title: Entity
@@ -21,23 +22,25 @@ import javax.persistence.*;
 @Data
 public class Template extends AbstractIdEntity implements java.io.Serializable {
 	/**模版编码*/
-	private java.lang.String theme;
+	private String theme;
 	/**模版名称*/
-	private java.lang.String name;
+	private String name;
 	/**风格*/
-	private java.lang.String style;
+	private String style;
 	/**模版图片*/
-	private java.lang.String image;
+	private String image;
 	/**主页*/
-	private java.lang.String pageMain;
+	@Column(name = "page_main")
+	private String pageMain;
 	/**登录页面*/
-	private java.lang.String pageLogin;
+	@Column(name = "page_login")
+	private String pageLogin;
 	/**状态0-未使用，1-使用*/
-	private java.lang.Integer status;
-	/**更新日期*/
-	private java.util.Date updateDate;
-	/**更新人编号*/
-	private java.lang.String updateBy;
-	/**更新人姓名*/
-	private java.lang.String updateName;
+	private Integer status;
+	@Column(name = "update_by",nullable=false,length=20)
+	private String updateBy;
+	@Column(name = "update_by_id",nullable=false,length=32)
+	private String updateById;
+	@Column(name = "update_date",nullable=false,length=32)
+	private Date updateDate;
 }

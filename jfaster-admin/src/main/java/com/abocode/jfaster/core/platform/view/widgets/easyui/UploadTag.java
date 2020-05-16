@@ -242,7 +242,7 @@ public class UploadTag extends TagSupport {
         this.formData = formData;
     }
 
-    public void setExtend(String extend) {
+    public void setIconExtend(String extend) {
         this.extend = extend;
     }
 

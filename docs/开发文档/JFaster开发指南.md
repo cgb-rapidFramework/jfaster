@@ -4130,7 +4130,7 @@ dataSourceController.do?goDruid&isIframe
 
 >   第二步：对应 query="true"的 dategrid字段设置查询字段组件
 
-\<input type="text" name="userName" id="userName" style="width: 80px"/\>
+\<input type="text" name="username" id="username" style="width: 80px"/\>
 
 >   第三步：设置查询按钮
 

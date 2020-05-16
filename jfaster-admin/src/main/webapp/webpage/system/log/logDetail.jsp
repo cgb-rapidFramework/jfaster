@@ -10,17 +10,17 @@
 <t:formvalid formid="formobj" layout="div" dialog="true">
 	<fieldset class="step"><legend> <%-- <t:mutiLang langKey="common.loginfo"/> --%> 日志详情</legend>
 	
-	<div class="form"><label class="form"> <%-- <t:mutiLang langKey="common.username"/> --%>操作人:${logView.TSUser.userName } </label>
+	<div class="form"><label class="form"> <%-- <t:mutiLang langKey="common.username"/> --%>操作人:${logView.TSUser.username } </label>
 	 </div>
 	<div class="form"><label class="form"> <%-- <t:mutiLang langKey="common.logtype"/> --%>日志类型: </label>
 	   <!-- 以后再统一由数据字典维护  fangwenrong-->
-	   <c:if test="${logView.operatetype==1}"><t:mutiLang langKey="common.login"/></c:if>
-	   <c:if test="${logView.operatetype==2}"><t:mutiLang langKey="common.logout"/></c:if>
-	   <c:if test="${logView.operatetype==3}"><t:mutiLang langKey="common.insert"/></c:if>
-	   <c:if test="${logView.operatetype==4}"><t:mutiLang langKey="common.delete"/></c:if>
-	   <c:if test="${logView.operatetype==5}"><t:mutiLang langKey="common.update"/></c:if>
-	   <c:if test="${logView.operatetype==6}"><t:mutiLang langKey="common.upload"/></c:if>
-	   <c:if test="${logView.operatetype==7}"><t:mutiLang langKey="common.other"/></c:if>
+	   <c:if test="${logView.operationType==1}"><t:mutiLang langKey="common.login"/></c:if>
+	   <c:if test="${logView.operationType==2}"><t:mutiLang langKey="common.logout"/></c:if>
+	   <c:if test="${logView.operationType==3}"><t:mutiLang langKey="common.insert"/></c:if>
+	   <c:if test="${logView.operationType==4}"><t:mutiLang langKey="common.delete"/></c:if>
+	   <c:if test="${logView.operationType==5}"><t:mutiLang langKey="common.update"/></c:if>
+	   <c:if test="${logView.operationType==6}"><t:mutiLang langKey="common.upload"/></c:if>
+	   <c:if test="${logView.operationType==7}"><t:mutiLang langKey="common.other"/></c:if>
 	</div>
 	<div class="form"><label class="form"> <t:mutiLang langKey="log.content"/>: </label> ${logView.logcontent }</div>
 	<div class="form"><label class="form"> <%-- <t:mutiLang langKey="common.loglevel"/> --%>日志等级: </label>

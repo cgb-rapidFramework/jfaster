@@ -11,8 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableScheduling
 @EnableAsync
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = {"com.abocode.jfaster"})
-@EntityScan("cn.mrray.raybaas")
+@EntityScan("com.abocode.jfaster")
 @EnableJpaAuditing
 public class Application {
     public static void main(String[] args) {

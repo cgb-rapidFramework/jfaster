@@ -209,7 +209,7 @@ public class SessionUtils {
 		//替换为系统的登录用户账号
 		if (key.equals(DataBaseConstant.SYS_USER_CODE)
 				|| key.equals(DataBaseConstant.SYS_USER_CODE_TABLE)) {
-			return getCurrentUser().getUserName();
+			return getCurrentUser().getUsername();
 		}
 		//替换为系统登录用户真实名字
 		if (key.equals(DataBaseConstant.SYS_USER_NAME)

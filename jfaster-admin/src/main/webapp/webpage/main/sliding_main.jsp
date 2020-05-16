@@ -179,7 +179,7 @@
 			<div uin="0" class="taskbar_start_menu_selfinfo" id="startMenuSelfInfo">       
 				<div style="float: left; line-height: 15px;">
                      <span style="color: #6DB6D9">当前用户: </span>
-                     <span style="color: #FFFFFF">${userName }</span><br>
+                     <span style="color: #FFFFFF">${username }</span><br>
                      <span style="color: #6DB6D9">当前岗位: </span>
                      <span style="color: #FFFFFF">${currentOrgName }</span><br>
                      <span style="color: #6DB6D9">职务: </span>

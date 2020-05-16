@@ -44,7 +44,7 @@
         <ul class="loginInfo">
             <li>
 	            <span>用户名：</span>
-	            <input type="text"  class="userName" value="admin" name="userName" id="userName"/>
+	            <input type="text"  class="username" value="admin" name="username" id="username"/>
             </li>
             <li>
             	<span>密 &nbsp;码：</span>

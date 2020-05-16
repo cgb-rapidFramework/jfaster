@@ -66,7 +66,7 @@
             <input id="cc"
                 <c:if test="${territoryView.TSTerritory.territoryLevel eq 0}"> value="${territoryView.TSTerritory.id}"</c:if>
                 <c:if test="${territoryView.TSTerritory.territoryLevel > 0}"> value="${territoryView.TSTerritory.territoryName}"</c:if>>
-            <input id="territoryId" name="TSTerritory.id" style="display: none;" value="${territoryView.TSTerritory.id}">
+            <input id="territoryId" name="Territory.id" style="display: none;" value="${territoryView.TSTerritory.id}">
         </div>
         <div class="form" id="codediv">
             <label class="Validform_label"> <t:mutiLang langKey="area.code"/>: </label>

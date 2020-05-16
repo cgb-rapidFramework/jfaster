@@ -13,6 +13,6 @@ public abstract class AbstractIdEntity {
 	@Id
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
-	@Column(name ="ID",nullable=false,length=32)
+	@Column(name ="id",nullable=false,length=32)
 	private String id;
 }

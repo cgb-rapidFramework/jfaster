@@ -6,7 +6,7 @@
 	<t:dgCol title="operate.code" field="operationcode"></t:dgCol>
 	<t:dgCol title="common.type" field="operationType" replace="common.hide_0,operationType.disabled_1"></t:dgCol>
 	<t:dgCol title="common.status" field="status" replace="common.enable_0,common.disable_1"></t:dgCol>
-<!--	<t:dgCol title="permission.name" field="TSFunction_functionName"></t:dgCol>-->
+<!--	<t:dgCol title="permission.name" field="Function_functionName"></t:dgCol>-->
 	<t:dgCol title="common.operation" field="opt" width="100"></t:dgCol>
 	<t:dgDelOpt url="functionController.do?delop&id={id}" title="common.delete"></t:dgDelOpt>
 	<t:dgFunOpt funname="editoperation(id,operationname)" title="common.edit"></t:dgFunOpt>

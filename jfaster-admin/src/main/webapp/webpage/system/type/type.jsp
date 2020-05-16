@@ -8,7 +8,7 @@
 <body style="overflow-y: hidden" scroll="no">
 <t:formvalid formid="formobj" layout="div" dialog="true" action="systemController.do?saveType">
     <input name="id" type="hidden" value="${typeView.id }">
-    <input name="TSTypegroup.id" type="hidden" value="${typegroupid}">
+    <input name="Typegroup.id" type="hidden" value="${typegroupid}">
     <fieldset class="step">
         <div class="form">
             <label class="Validform_label"> <t:mutiLang langKey="lang.dictionary.type"/>: </label>

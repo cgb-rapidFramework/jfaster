@@ -33,9 +33,9 @@
                 <label class="Validform_label">  <t:mutiLang langKey="common.username"/>: </label>
             </td>
 			<td class="value" width="85%">
-                <c:if test="${userView.id!=null }"> ${userView.userName } </c:if>
+                <c:if test="${userView.id!=null }"> ${userView.username } </c:if>
                 <c:if test="${userView.id==null }">
-                    <input id="userName" class="inputxt" name="userName" validType="t_s_base_user,userName,id" value="${userView.userName }" datatype="*2-30" />
+                    <input id="username" class="inputxt" name="username" validType="t_s_base_user,username,id" value="${userView.username }" datatype="*2-30" />
                     <span class="Validform_checktip">用户名范围在2~30位字符 </span>
                 </c:if>
             </td>

@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	
-	$("#userName").attr("nullmsg",pleaseinutusername);
-	$("#userName").attr("title",username);
+	$("#username").attr("nullmsg",pleaseinutusername);
+	$("#username").attr("title",username);
 	
 	$("#password").attr("nullmsg",pleaseinutpassword);
 	$("#password").attr("title",password);

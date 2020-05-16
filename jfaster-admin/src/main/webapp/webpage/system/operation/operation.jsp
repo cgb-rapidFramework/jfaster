@@ -24,7 +24,7 @@
         <!-- 图标字段现在不用暂时隐藏-->
         <div class="form" style="display: none;">
             <label class="Validform_label"> <t:mutiLang langKey="common.icon.name"/>: </label>
-            <select name="TSIcon.id">
+            <select name="Icon.id">
                 <c:forEach items="${iconlist}" var="icon">
                     <option value="${icon.id}" <c:if test="${icon.id==function.TSIcon.id }">selected="selected"</c:if>>${icon.iconName}</option>
                 </c:forEach>
@@ -41,7 +41,7 @@
 	            </option>
             </select>
         </div>
-        <input name="TSFunction.id" value="${functionId}" type="hidden">
+        <input name="Function.id" value="${functionId}" type="hidden">
         <div class="form">
             <label class="Validform_label"> <t:mutiLang langKey="common.status"/> </label>
         <select name="status">

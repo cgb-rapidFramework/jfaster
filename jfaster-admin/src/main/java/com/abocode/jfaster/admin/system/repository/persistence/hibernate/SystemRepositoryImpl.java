@@ -1,6 +1,7 @@
 package com.abocode.jfaster.admin.system.repository.persistence.hibernate;
 
 import com.abocode.jfaster.admin.system.dto.view.IconView;
+import com.abocode.jfaster.admin.system.service.BeanToTagConverter;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
@@ -55,17 +56,17 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 	/**
 	 * 添加日志
 	 */
-	public void addLog(String logcontent, Short loglevel, Short operatetype) {
+	public void addLog(String logcontent, Short loglevel, Short operationType) {
 		HttpServletRequest request = ContextHolderUtils.getRequest();
 		String broswer = BrowserUtils.checkBrowse(request);
 		Log log = new Log();
-		log.setLogcontent(logcontent);
+		log.setLogContent(logcontent);
 		log.setLoglevel(loglevel);
-		log.setOperatetype(operatetype);
+		log.setOperationType(operationType);
 		log.setNote(ConvertUtils.getIp());
 		log.setBroswer(broswer);
-		log.setOperatetime(DateUtils.getTimestamp());
-		log.setUserid(SessionUtils.getCurrentUser().getId());
+		log.setOperationTime(DateUtils.getTimestamp());
+		log.setUserId(SessionUtils.getCurrentUser().getId());
 		commonDao.saveOrUpdate(log);
 	}
 
@@ -80,8 +81,8 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 		Type actType = commonDao.findUniqueByProperty(Type.class, "typecode", typecode);
 		if (actType == null) {
 			actType = new Type();
-			actType.setTypecode(typecode);
-			actType.setTypename(typename);
+			actType.setTypeCode(typecode);
+			actType.setTypeName(typename);
 			actType.setTypeGroup(tsTypegroup);
 			commonDao.save(actType);
 		}
@@ -117,10 +118,10 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 	public void initAllTypeGroups() {
 		List<TypeGroup> typeGroups = this.commonDao.findAll(TypeGroup.class);
 		for (TypeGroup typeGroup : typeGroups) {
-			TypeGroupView typegroupBean= BeanToTagUtils.convertTypeGroup(typeGroup);
+			TypeGroupView typegroupBean= BeanToTagConverter.convertTypeGroup(typeGroup);
 			TypeGroupContainer.allTypeGroups.put(typeGroup.getTypeGroupCode().toLowerCase(), typegroupBean);
-			List<Type> tsTypes = this.commonDao.findAllByProperty(Type.class, "TSTypegroup.id", typeGroup.getId());
-			List<TypeView> types=BeanToTagUtils.convertTypes(tsTypes);
+			List<Type> tsTypes = this.commonDao.findAllByProperty(Type.class, "Typegroup.id", typeGroup.getId());
+			List<TypeView> types= BeanToTagConverter.convertTypes(tsTypes);
 			TypeGroupContainer.allTypes.put(typeGroup.getTypeGroupCode().toLowerCase(), types);
 		}
 	}
@@ -129,8 +130,8 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 	public void refleshTypesCach(Type type) {
 		TypeGroup tsTypegroup = type.getTypeGroup();
 		TypeGroup typeGroupEntity = this.commonDao.find(TypeGroup.class, tsTypegroup.getId());
-		List<Type> tsTypes = this.commonDao.findAllByProperty(Type.class, "TSTypegroup.id", tsTypegroup.getId());
-		List<TypeView> types=BeanToTagUtils.convertTypes(tsTypes);
+		List<Type> tsTypes = this.commonDao.findAllByProperty(Type.class, "Typegroup.id", tsTypegroup.getId());
+		List<TypeView> types= BeanToTagConverter.convertTypes(tsTypes);
 		TypeGroupContainer.allTypes.put(typeGroupEntity.getTypeGroupCode().toLowerCase(), types);
 	}
 
@@ -139,7 +140,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 		TypeGroupContainer.allTypeGroups.clear();
 		List<TypeGroup> typeGroups = this.commonDao.findAll(TypeGroup.class);
 		for (TypeGroup tsTypegroup : typeGroups) {
-			TypeGroupView typegroupBean=BeanToTagUtils.convertTypeGroup(tsTypegroup);
+			TypeGroupView typegroupBean= BeanToTagConverter.convertTypeGroup(tsTypegroup);
 			TypeGroupContainer.allTypeGroups.put(tsTypegroup.getTypeGroupCode().toLowerCase(), typegroupBean);
 		}
 	}
@@ -155,8 +156,8 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 		Set<String> operationCodes = new HashSet<String>();
 		Role role = commonDao.find(Role.class, roleId);
 		CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
-		cq1.eq("TSRole.id", role.getId());
-		cq1.eq("TSFunction.id", functionId);
+		cq1.eq("Role.id", role.getId());
+		cq1.eq("Function.id", functionId);
 		cq1.add();
 		List<RoleFunction> rFunctions = findListByCq(cq1, false);
 		if (null != rFunctions && rFunctions.size() > 0) {
@@ -179,12 +180,12 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 	 */
 	public Set<String> getOperationCodesByUserIdAndFunctionId(String userId, String functionId) {
 		Set<String> operationCodes = new HashSet<String>();
-		List<RoleUser> rUsers = findAllByProperty(RoleUser.class, "TSUser.id", userId);
+		List<RoleUser> rUsers = findAllByProperty(RoleUser.class, "User.id", userId);
 		for (RoleUser ru : rUsers) {
 			Role role = ru.getRole();
 			CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
-			cq1.eq("TSRole.id", role.getId());
-			cq1.eq("TSFunction.id", functionId);
+			cq1.eq("Role.id", role.getId());
+			cq1.eq("Function.id", functionId);
 			cq1.add();
 			List<RoleFunction> rFunctions = findListByCq(cq1, false);
 			if (null != rFunctions && rFunctions.size() > 0) {
@@ -207,15 +208,15 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 			return;
 		}
 		Icon oldIcon = this.findEntity(Icon.class, functionEntity.getIcon().getId());
-		if(StringUtils.isEmpty(oldIcon.getIconClas())){
+		if(StringUtils.isEmpty(oldIcon.getIconClazz())){
               return;
 		}
 
-		if (!oldIcon.getIconClas().equals(newFunction.getIcon().getIconClas())) {
+		if (!oldIcon.getIconClazz().equals(newFunction.getIcon().getIconClazz())) {
 			// 刷新缓存
 			HttpSession session = ContextHolderUtils.getSession();
 			User user = SessionUtils.getCurrentUser();
-			List<RoleUser> rUsers = this.findAllByProperty(RoleUser.class, "TSUser.id", user.getId());
+			List<RoleUser> rUsers = this.findAllByProperty(RoleUser.class, "User.id", user.getId());
 			for (RoleUser ru : rUsers) {
 				Role role = ru.getRole();
 				session.removeAttribute(role.getId());
@@ -266,8 +267,8 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 		Set<String> operationCodes = new HashSet<String>();
 		Role role = commonDao.find(Role.class, roleId);
 		CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
-		cq1.eq("TSRole.id", role.getId());
-		cq1.eq("TSFunction.id", functionId);
+		cq1.eq("Role.id", role.getId());
+		cq1.eq("Function.id", functionId);
 		cq1.add();
 		List<RoleFunction> rFunctions = findListByCq(cq1, false);
 		if (null != rFunctions && rFunctions.size() > 0) {
@@ -286,12 +287,12 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 			String functionId) {
 		// TODO Auto-generated method stub
 		Set<String> dataRulecodes = new HashSet<String>();
-		List<RoleUser> rUsers = findAllByProperty(RoleUser.class, "TSUser.id", userId);
+		List<RoleUser> rUsers = findAllByProperty(RoleUser.class, "User.id", userId);
 		for (RoleUser ru : rUsers) {
 			Role role = ru.getRole();
 			CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
-			cq1.eq("TSRole.id", role.getId());
-			cq1.eq("TSFunction.id", functionId);
+			cq1.eq("Role.id", role.getId());
+			cq1.eq("Function.id", functionId);
 			cq1.add();
 			List<RoleFunction> rFunctions = findListByCq(cq1, false);
 			if (null != rFunctions && rFunctions.size() > 0) {
@@ -313,7 +314,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 	public  void initAllTSIcons() {
 		List<Icon> list = this.findAll(Icon.class);
 		for (Icon tsIcon : list) {
-			IconView icon=BeanToTagUtils.convertIcon(tsIcon);
+			IconView icon= BeanToTagConverter.convertIcon(tsIcon);
 			IconContainer.allTSIcons.put(tsIcon.getId(), icon);
 		}
 	}
@@ -322,7 +323,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 	 * @param tsIcon
 	 */
 	public  void updateTSIcons(Icon tsIcon) {
-		IconView icon=BeanToTagUtils.convertIcon(tsIcon);
+		IconView icon= BeanToTagConverter.convertIcon(tsIcon);
 		IconContainer.allTSIcons.put(tsIcon.getId(), icon);
 	}
 	/**
@@ -339,7 +340,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 		for (Operation operation:operationList){
 			OperationView operationBean=new OperationView();
 			BeanUtils.copyProperties(operation,operationBean);
-			SystemContainer.OperationContainer.operations.put(operation.getOperationcode(),operationBean);
+			SystemContainer.OperationContainer.operations.put(operation.getOperationCode(),operationBean);
 		}
 	}
 
@@ -349,7 +350,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 		List<Function> loginActionList = new ArrayList<Function>();// 已有权限菜单
 		Role role = this.find(Role.class, roleId);
 		if (role != null) {
-			List<RoleFunction> roleFunctionList = this.findAllByProperty(RoleFunction.class, "TSRole.id", role.getId());
+			List<RoleFunction> roleFunctionList = this.findAllByProperty(RoleFunction.class, "Role.id", role.getId());
 			if (roleFunctionList.size() > 0) {
 				for (RoleFunction roleFunction : roleFunctionList) {
 					Function function = roleFunction.getFunction();

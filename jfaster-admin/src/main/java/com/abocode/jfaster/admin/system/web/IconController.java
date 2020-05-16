@@ -105,7 +105,7 @@ public class IconController extends BaseController {
 		icon.setIconType(iconType);
 		UploadFile uploadFile = new UploadFile(request, icon);
 		uploadFile.setCusPath("plug-in/accordion/images");
-		uploadFile.setExtend("extend");
+		uploadFile.setIconExtend("extend");
 		uploadFile.setTitleField("iconclas");
 		uploadFile.setRealPath("iconPath");
 		uploadFile.setObject(icon);
@@ -113,7 +113,7 @@ public class IconController extends BaseController {
 		uploadFile.setRename(false);
 		resourceService.uploadFile(uploadFile);
 		// 图标的css样式
-		String css = "." + icon.getIconClas() + "{background:url('../images/" + icon.getIconClas() + "." + icon.getExtend() + "') no-repeat}";
+		String css = "." + icon.getIconClazz() + "{background:url('../images/" + icon.getIconClazz() + "." + icon.getIconExtend() + "') no-repeat}";
 		write(request, css);
 		message = MutiLangUtils.paramAddSuccess("common.icon");
 		j.setMsg(message);
@@ -143,7 +143,7 @@ public class IconController extends BaseController {
 		icon.setIconType(iconType);
 		systemService.saveOrUpdate(icon);
 		// 图标的css样式
-		String css = "." + icon.getIconClas() + "{background:url('../images/" + icon.getIconClas() + "." + icon.getExtend() + "') no-repeat}";
+		String css = "." + icon.getIconClazz() + "{background:url('../images/" + icon.getIconClazz() + "." + icon.getIconExtend() + "') no-repeat}";
 		write(request, css);
 		message = "更新成功";
 		j.setMsg(message);
@@ -195,7 +195,7 @@ public class IconController extends BaseController {
 					ImageIO.write(imag, "PNG", file);// 输出到 png 文件
 				}
 			}
-			String css = "." + c.getIconClas() + "{background:url('../images/" + c.getIconClas() + "." + c.getExtend() + "') no-repeat}";
+			String css = "." + c.getIconClazz() + "{background:url('../images/" + c.getIconClazz() + "." + c.getIconExtend() + "') no-repeat}";
 			write(request, css);
 		}
         json.setMsg(MutiLangUtils.paramAddSuccess("common.icon.style"));
@@ -260,7 +260,7 @@ public class IconController extends BaseController {
 	 * @return true允许；false不允许；
 	 */
 	private boolean isPermitDel(Icon icon) {
-		List<Function> functions = systemService.findAllByProperty(Function.class, "TSIcon.id", icon.getId());
+		List<Function> functions = systemService.findAllByProperty(Function.class, "Icon.id", icon.getId());
 		if (functions==null||functions.isEmpty()) {
 			return true;
 		}
@@ -272,14 +272,14 @@ public class IconController extends BaseController {
      */
 	@Deprecated
 	public void upEntity(Icon icon) {
-		List<Function> functions = systemService.findAllByProperty(Function.class, "TSIcon.id", icon.getId());
+		List<Function> functions = systemService.findAllByProperty(Function.class, "Icon.id", icon.getId());
 		if (functions.size() > 0) {
 			for (Function tsFunction : functions) {
 				tsFunction.setIcon(null);
 				systemService.saveOrUpdate(tsFunction);
 			}
 		}
-		List<Operation> operations = systemService.findAllByProperty(Operation.class, "TSIcon.id", icon.getId());
+		List<Operation> operations = systemService.findAllByProperty(Operation.class, "Icon.id", icon.getId());
 		if (operations.size() > 0) {
 			for (Operation tsOperation : operations) {
 				tsOperation.setIcon(null);

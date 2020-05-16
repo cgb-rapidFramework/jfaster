@@ -151,7 +151,7 @@ public class SystemController extends BaseController {
 		String typegroupid = request.getParameter("typegroupid");
 		String typename = request.getParameter("typename");
 		CriteriaQuery cq = new CriteriaQuery(Type.class, dataGrid);
-		cq.eq("TSTypegroup.id", typegroupid);
+		cq.eq("Typegroup.id", typegroupid);
 		cq.like("typename", typename);
 		cq.add();
 		this.systemService.findDataGridReturn(cq, true);
@@ -179,14 +179,14 @@ public class SystemController extends BaseController {
 		List<TreeGrid> treeGrids = new ArrayList<TreeGrid>();
 		if (treegrid.getId() != null) {
 			cq = new CriteriaQuery(Type.class);
-			cq.eq("TSTypegroup.id", treegrid.getId().substring(1));
+			cq.eq("Typegroup.id", treegrid.getId().substring(1));
 			cq.add();
 			List<Type> typeList = systemService.findListByCq(cq, false);
 			for (Type obj : typeList) {
 				TreeGrid treeNode = new TreeGrid();
 				treeNode.setId("T"+obj.getId());
-				treeNode.setText(obj.getTypename());
-				treeNode.setCode(obj.getTypecode());
+				treeNode.setText(obj.getTypeName());
+				treeNode.setCode(obj.getTypeCode());
 				treeGrids.add(treeNode);
 			}
 		} else {
@@ -235,7 +235,7 @@ public class SystemController extends BaseController {
 			systemService.delete(typegroup);
 		} else {
 			Type type = systemService.findEntity(Type.class, id.substring(1));
-			message = "数据字典类型: " + mutiLangService.getLang(type.getTypename()) + "被删除 成功";
+			message = "数据字典类型: " + mutiLangService.getLang(type.getTypeName()) + "被删除 成功";
 			systemService.delete(type);
 		}
 		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -284,7 +284,7 @@ public class SystemController extends BaseController {
 			j.setSuccess(false);
 			return  j;
 		}
-		message = "类型: " + mutiLangService.getLang(type.getTypename()) + "被删除 成功";
+		message = "类型: " + mutiLangService.getLang(type.getTypeName()) + "被删除 成功";
 		systemService.delete(type);
 		//刷新缓存
 		systemService.refleshTypesCach(type);
@@ -372,11 +372,11 @@ public class SystemController extends BaseController {
 	public AjaxJson saveType(Type type, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		if (StringUtils.isNotEmpty(type.getId())) {
-			message = "类型: " + mutiLangService.getLang(type.getTypename()) + "被更新成功";
+			message = "类型: " + mutiLangService.getLang(type.getTypeName()) + "被更新成功";
 			userService.saveOrUpdate(type);
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 		} else {
-			message = "类型: " + mutiLangService.getLang(type.getTypename()) + "被添加成功";
+			message = "类型: " + mutiLangService.getLang(type.getTypeName()) + "被添加成功";
 			userService.save(type);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}
@@ -445,7 +445,7 @@ public class SystemController extends BaseController {
 
 	@RequestMapping(params = "datagridDepart")
 	public void datagridDepart(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-		CriteriaQuery cq = new CriteriaQuery(Depart.class, dataGrid);
+		CriteriaQuery cq = new CriteriaQuery(Org.class, dataGrid);
 		this.systemService.findDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 		;
@@ -458,10 +458,10 @@ public class SystemController extends BaseController {
 	 */
 	@RequestMapping(params = "delDepart")
 	@ResponseBody
-	public AjaxJson delDepart(Depart depart, HttpServletRequest request) {
+	public AjaxJson delDepart(Org depart, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		depart = systemService.findEntity(Depart.class, depart.getId());
-		message = "部门: " + depart.getDepartname() + "被删除 成功";
+		depart = systemService.findEntity(Org.class, depart.getId());
+		message = "部门: " + depart.getOrgName() + "被删除 成功";
 		systemService.delete(depart);
 		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 
@@ -476,11 +476,11 @@ public class SystemController extends BaseController {
 	 */
 	@RequestMapping(params = "saveDepart")
 	@ResponseBody
-	public AjaxJson saveDepart(Depart depart, HttpServletRequest request) {
+	public AjaxJson saveDepart(Org depart, HttpServletRequest request) {
 		// 设置上级部门
-		String pid = request.getParameter("TSPDepart.id");
+		String pid = request.getParameter("PDepart.id");
 		if (pid.equals("")) {
-			depart.setParentDepart(null);
+			depart.setParentOrg(null);
 		}
 		AjaxJson j = new AjaxJson();
 		if (StringUtils.isNotEmpty(depart.getId())) {
@@ -506,11 +506,11 @@ public class SystemController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "addorupdateDepart")
-	public ModelAndView addorupdateDepart(Depart depart, HttpServletRequest req) {
-		List<Depart> departList = systemService.getList(Depart.class);
+	public ModelAndView addorupdateDepart(Org depart, HttpServletRequest req) {
+		List<Org> departList = systemService.getList(Org.class);
 		req.setAttribute("departList", departList);
 		if (depart.getId() != null) {
-			depart = systemService.findEntity(Depart.class, depart.getId());
+			depart = systemService.findEntity(Org.class, depart.getId());
 			req.setAttribute("departView", depart);
 		}
 		return new ModelAndView("system/depart/depart");
@@ -525,15 +525,15 @@ public class SystemController extends BaseController {
 	@RequestMapping(params = "setPFunction")
 	@ResponseBody
 	public List<ComboTree> setPFunction(HttpServletRequest request, ComboTree comboTree) {
-		CriteriaQuery cq = new CriteriaQuery(Depart.class);
+		CriteriaQuery cq = new CriteriaQuery(Org.class);
 		if (StringUtils.isNotEmpty(comboTree.getId())) {
-			cq.eq("TSPDepart.id", comboTree.getId());
+			cq.eq("PDepart.id", comboTree.getId());
 		}
 		if (StringUtils.isEmpty(comboTree.getId())) {
-			cq.isNull("TSPDepart.id");
+			cq.isNull("PDepart.id");
 		}
 		cq.add();
-		List<Depart> departsList = systemService.findListByCq(cq, false);
+		List<Org> departsList = systemService.findListByCq(cq, false);
 		List<ComboTree> comboTrees = resourceService.comTree(departsList, comboTree);
 		return comboTrees;
 
@@ -642,7 +642,7 @@ public class SystemController extends BaseController {
 		List<ComboTree> comboTrees = new ArrayList<ComboTree>();
 		String  roleId =request.getParameter("roleid");
 		List<Function> loginActionList=this.systemService.getFucntionList(roleId);
-		ComboTreeModel comboTreeModel = new ComboTreeModel("id", "functionName", "TSFunctions");
+		ComboTreeModel comboTreeModel = new ComboTreeModel("id", "functionName", "Functions");
 		comboTrees = resourceService.ComboTree(functionList, comboTreeModel, loginActionList, false);
 		return comboTrees;
 	}
@@ -658,7 +658,7 @@ public class SystemController extends BaseController {
 		Integer roleid = ConvertUtils.getInt(request.getParameter("roleid"), 0);
 		String rolefunction = request.getParameter("rolefunctions");
 		Role role = this.systemService.find(Role.class, roleid);
-		List<RoleFunction> roleFunctionList = systemService.findAllByProperty(RoleFunction.class, "TSRole.id", role.getId());
+		List<RoleFunction> roleFunctionList = systemService.findAllByProperty(RoleFunction.class, "Role.id", role.getId());
 		systemService.deleteEntities(roleFunctionList);
 		if (!StringUtils.isEmpty(rolefunction)) {
 			String[] roleFunctions  = rolefunction.split(",");
