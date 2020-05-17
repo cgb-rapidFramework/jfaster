@@ -8,7 +8,6 @@ import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.util.BeanPropertyUtils;
 import com.abocode.jfaster.core.common.constants.Globals;
-import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.core.web.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.system.entity.Template;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
@@ -37,7 +36,7 @@ import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
 @Scope("prototype")
 @Controller
 @RequestMapping("/templateController")
-public class TemplateController extends BaseController {
+public class TemplateController{
 
 	@Autowired
 	private TemplateRepository templateService;

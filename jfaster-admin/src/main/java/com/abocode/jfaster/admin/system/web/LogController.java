@@ -4,7 +4,6 @@ import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.model.json.HighChart;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.util.MutiLangUtils;
-import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.system.entity.Log;
 import com.abocode.jfaster.admin.system.repository.LogRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
@@ -37,7 +36,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/logController")
-public class LogController extends BaseController {
+public class LogController{
     //用户浏览器统计分析的国际化KEY
     private static final String USER_BROWSER_ANALYSIS = "user.browser.analysis";
 	private SystemRepository systemService;

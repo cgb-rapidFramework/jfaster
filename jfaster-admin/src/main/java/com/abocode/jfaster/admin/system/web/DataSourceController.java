@@ -1,7 +1,6 @@
 package com.abocode.jfaster.admin.system.web;
 
 
-import com.abocode.jfaster.core.interfaces.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,11 +11,9 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("/dataSourceController")
-public class DataSourceController extends BaseController {
-
+public class DataSourceController{
 	/**
 	 * 跳转到连接池监控页面
-	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "goDruid")

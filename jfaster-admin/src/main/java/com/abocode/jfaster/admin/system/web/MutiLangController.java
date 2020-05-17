@@ -1,7 +1,6 @@
 package com.abocode.jfaster.admin.system.web;
 
 import com.abocode.jfaster.core.common.util.LogUtils;
-import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
@@ -35,7 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 @Scope("prototype")
 @Controller
 @RequestMapping("/mutiLangController")
-public class MutiLangController extends BaseController {
+public class MutiLangController{
 	@Autowired
 	private MutiLangRepository mutiLangService;
 	@Autowired

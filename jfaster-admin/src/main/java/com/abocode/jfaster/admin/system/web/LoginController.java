@@ -9,14 +9,12 @@ import com.abocode.jfaster.core.common.model.json.AjaxJsonBuilder;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.extend.datasource.DataSourceContextHolder;
 import com.abocode.jfaster.core.extend.datasource.DataSourceType;
-import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.core.web.manager.ClientManager;
 import com.abocode.jfaster.admin.system.repository.MutiLangRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.repository.TemplateRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
 import com.abocode.jfaster.admin.system.service.FunctionService;
-import com.abocode.jfaster.admin.system.dto.bean.ClientBean;
 import com.abocode.jfaster.admin.system.dto.view.FunctionView;
 import com.abocode.jfaster.admin.system.dto.view.TemplateView;
 import com.abocode.jfaster.system.entity.*;
@@ -27,7 +25,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -43,7 +40,7 @@ import java.util.*;
 @Scope("prototype")
 @Controller
 @RequestMapping("/loginController")
-public class LoginController extends BaseController {
+public class LoginController{
     @Autowired
     private SystemRepository systemService;
     @Autowired

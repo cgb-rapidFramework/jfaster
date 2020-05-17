@@ -1,7 +1,6 @@
 package com.abocode.jfaster.admin.system.web;
 
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
-import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.core.platform.view.interactions.datatable.SortDirection;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.common.constants.Globals;
@@ -33,7 +32,7 @@ import java.util.List;
 @Scope("prototype")
 @Controller
 @RequestMapping("/territoryController")
-public class TerritoryController extends BaseController {
+public class TerritoryController{
 	@Autowired
 	private ResourceRepository resourceService;
 	private String message = null;

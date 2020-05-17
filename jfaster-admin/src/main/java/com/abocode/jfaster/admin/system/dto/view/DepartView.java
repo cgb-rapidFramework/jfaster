@@ -52,7 +52,7 @@ public class DepartView extends AbstractIdEntity implements java.io.Serializable
 		this.description = description;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "PDepart")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "parentOrg")
 	public List<DepartView> getOrgs() {
 		return TSDeparts;
 	}

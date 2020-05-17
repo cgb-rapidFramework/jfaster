@@ -4,7 +4,6 @@ import com.abocode.jfaster.api.core.AvailableEnum;
 import com.abocode.jfaster.core.common.model.common.UploadFile;
 import com.abocode.jfaster.core.common.model.json.*;
 import com.abocode.jfaster.core.common.util.*;
-import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.admin.system.service.SystemService;
 import com.abocode.jfaster.admin.system.service.UserService;
 import com.abocode.jfaster.core.platform.poi.excel.ExcelExportUtil;
@@ -55,7 +54,7 @@ import java.util.*;
 @Scope("prototype")
 @Controller
 @RequestMapping("/userController")
-public class UserController extends BaseController {
+public class UserController{
     @Autowired
     private ResourceRepository resourceService;
     @Resource
@@ -252,7 +251,7 @@ public class UserController extends BaseController {
         Short[] userstate = new Short[]{Globals.User_Normal, Globals.User_ADMIN, Globals.User_Forbidden};
         cq.in("status", userstate);
 
-        List<String> orgIdList = extractIdListByComma(orgIds);
+        List<String> orgIdList = IdUtils.extractIdListByComma(orgIds);
         // 获取 当前组织机构的用户信息
         if (!CollectionUtils.isEmpty(orgIdList)) {
             CriteriaQuery subCq = new CriteriaQuery(UserOrg.class);
@@ -399,7 +398,7 @@ public class UserController extends BaseController {
         String orgIds = ConvertUtils.getString(request.getParameter("orgIds"));
 
         List<UserOrg> userOrgList = new ArrayList<UserOrg>();
-        List<String> orgIdList = extractIdListByComma(orgIds);
+        List<String> orgIdList = IdUtils.extractIdListByComma(orgIds);
         for (String orgId : orgIdList) {
             Org depart = new Org();
             depart.setId(orgId);

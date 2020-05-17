@@ -342,7 +342,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
         ComboTree tree = new ComboTree();
         tree.setId(ConvertUtils.getString(depart.getId()));
         tree.setText(depart.getOrgName());
-        List<Org> departsList = this.commonDao.findAllByProperty(Org.class, "PDepart.id", depart.getId());
+        List<Org> departsList = this.commonDao.findAllByProperty(Org.class, "parentOrg.id", depart.getId());
         if (departsList != null && departsList.size() > 0) {
             tree.setState("closed");
             tree.setChecked(false);

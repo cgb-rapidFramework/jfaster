@@ -3,7 +3,6 @@ package com.abocode.jfaster.admin.system.web;
 import com.abocode.jfaster.admin.system.service.BeanToTagConverter;
 import com.abocode.jfaster.core.common.model.json.*;
 import com.abocode.jfaster.core.common.util.*;
-import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
@@ -41,7 +40,7 @@ import java.util.*;
 @Scope("prototype")
 @Controller
 @RequestMapping("/roleController")
-public class RoleController extends BaseController {
+public class RoleController{
 	private UserRepository userService;
 	private SystemRepository systemService;
 	@Autowired
@@ -330,7 +329,7 @@ public class RoleController extends BaseController {
 		try {
 			String orgId = request.getParameter("orgId");
 			String roleIds = request.getParameter("roleIds");
-			List<String> roleIdList = extractIdListByComma(roleIds);
+			List<String> roleIdList =IdUtils.extractIdListByComma(roleIds);
 			systemService.executeSql("delete from t_s_role_org where org_id=?",
 					orgId);
 			if (!roleIdList.isEmpty()) {
@@ -773,7 +772,7 @@ public class RoleController extends BaseController {
         String userIds = ConvertUtils.getString(request.getParameter("userIds"));
 
         List<RoleUser> roleUserList = new ArrayList<RoleUser>();
-        List<String> userIdList = extractIdListByComma(userIds);
+        List<String> userIdList = IdUtils.extractIdListByComma(userIds);
         for (String userId : userIdList) {
             User user = new User();
             user.setId(userId);

@@ -1,7 +1,6 @@
 package com.abocode.jfaster.admin.system.web;
 
 import com.abocode.jfaster.core.common.model.json.DataGrid;
-import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
@@ -23,12 +22,10 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 配置信息处理类 *
  * @author franky
- * 
  */
-@Deprecated
 @Controller
 @RequestMapping("/configController")
-public class ConfigController extends BaseController {
+public class ConfigController{
 	private SystemRepository systemService;
 	private String message;
 

@@ -1,6 +1,5 @@
 package com.abocode.jfaster.admin.system.web;
 
-import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.admin.system.repository.RepairRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Scope("prototype")
 @Controller
 @RequestMapping("/repairController")
-public class RepairController extends BaseController {
+public class RepairController{
 	private SystemRepository systemService;
     
 	private RepairRepository repairService;

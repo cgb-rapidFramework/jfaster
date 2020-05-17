@@ -5,7 +5,6 @@ import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.util.*;
-import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.core.web.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.system.entity.Function;
 import com.abocode.jfaster.system.entity.Icon;
@@ -39,7 +38,7 @@ import java.util.List;
 @Scope("prototype")
 @Controller
 @RequestMapping("/iconController")
-public class IconController extends BaseController {
+public class IconController{
 	private SystemRepository systemService;
 	@Autowired
 	private ResourceRepository resourceService;

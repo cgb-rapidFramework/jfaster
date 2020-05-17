@@ -2,7 +2,6 @@ package com.abocode.jfaster.admin.system.web;
 
 import com.abocode.jfaster.core.common.model.json.*;
 import com.abocode.jfaster.core.extend.hqlsearch.parse.ObjectParseUtil;
-import com.abocode.jfaster.core.interfaces.BaseController;
 import com.abocode.jfaster.admin.system.dto.bean.ClientBean;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;
@@ -45,7 +44,7 @@ import java.util.List;
 @Scope("prototype")
 @Controller
 @RequestMapping("/systemController")
-public class SystemController extends BaseController {
+public class SystemController{
 	private UserRepository userService;
 	@Autowired
 	private ResourceRepository resourceService;
@@ -478,7 +477,7 @@ public class SystemController extends BaseController {
 	@ResponseBody
 	public AjaxJson saveDepart(Org depart, HttpServletRequest request) {
 		// 设置上级部门
-		String pid = request.getParameter("PDepart.id");
+		String pid = request.getParameter("parentOrg.id");
 		if (pid.equals("")) {
 			depart.setParentOrg(null);
 		}
@@ -527,10 +526,10 @@ public class SystemController extends BaseController {
 	public List<ComboTree> setPFunction(HttpServletRequest request, ComboTree comboTree) {
 		CriteriaQuery cq = new CriteriaQuery(Org.class);
 		if (StringUtils.isNotEmpty(comboTree.getId())) {
-			cq.eq("PDepart.id", comboTree.getId());
+			cq.eq("parentOrg.id", comboTree.getId());
 		}
 		if (StringUtils.isEmpty(comboTree.getId())) {
-			cq.isNull("PDepart.id");
+			cq.isNull("parentOrg.id");
 		}
 		cq.add();
 		List<Org> departsList = systemService.findListByCq(cq, false);
