@@ -39,24 +39,10 @@ import java.util.List;
 @Controller
 @RequestMapping("/iconController")
 public class IconController{
+	@Autowired
 	private SystemRepository systemService;
 	@Autowired
 	private ResourceRepository resourceService;
-	private String message;
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	@Autowired
-	public void setSystemService(SystemRepository systemService) {
-		this.systemService = systemService;
-	}
-
 	/**
 	 * 图标列表页面跳转
 	 * 
@@ -114,7 +100,7 @@ public class IconController{
 		// 图标的css样式
 		String css = "." + icon.getIconClazz() + "{background:url('../images/" + icon.getIconClazz() + "." + icon.getIconExtend() + "') no-repeat}";
 		write(request, css);
-		message = MutiLangUtils.paramAddSuccess("common.icon");
+		String message = MutiLangUtils.paramAddSuccess("common.icon");
 		j.setMsg(message);
 		return j;
 	}	
@@ -144,7 +130,7 @@ public class IconController{
 		// 图标的css样式
 		String css = "." + icon.getIconClazz() + "{background:url('../images/" + icon.getIconClazz() + "." + icon.getIconExtend() + "') no-repeat}";
 		write(request, css);
-		message = "更新成功";
+		String message = "更新成功";
 		j.setMsg(message);
 		return j;
 	}
@@ -234,7 +220,8 @@ public class IconController{
 		icon = systemService.findEntity(Icon.class, icon.getId());
 		
 		boolean isPermit=isPermitDel(icon);
-		
+
+		String message;
 		if(isPermit){
 			systemService.delete(icon);
 
