@@ -1,12 +1,14 @@
 package com.abocode.jfaster.admin.system.repository.persistence.hibernate;
 
-import com.abocode.jfaster.core.common.model.common.UploadFile;
+import com.abocode.jfaster.core.common.exception.BusinessException;
+import com.abocode.jfaster.admin.system.dto.UploadFileDto;
 import com.abocode.jfaster.core.common.model.json.ImportFile;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.extend.template.DataSourceMap;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.admin.system.dto.view.ReflectHelper;
 import com.abocode.jfaster.system.entity.Operation;
+import com.abocode.jfaster.system.entity.Role;
 import com.abocode.jfaster.system.entity.RoleFunction;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import org.dom4j.Document;
@@ -44,7 +46,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
      * @param uploadFile
      * @throws Exception
      */
-    public Object uploadFile(UploadFile uploadFile) {
+    public Object uploadFile(UploadFileDto uploadFile) {
         Object object = uploadFile.getObject();
         if (uploadFile.getFileKey() != null) {
             commonDao.update(object);
@@ -150,7 +152,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
-    public HttpServletResponse viewOrDownloadFile(UploadFile uploadFile) {
+    public HttpServletResponse viewOrDownloadFile(UploadFileDto uploadFile) {
         uploadFile.getResponse().setContentType("UTF-8");
         uploadFile.getResponse().setCharacterEncoding("UTF-8");
         BufferedOutputStream bos = null;
@@ -159,7 +161,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
         String ctxPath = request.getSession().getServletContext().getRealPath("/");
         String downLoadPath = "";
         long fileLength = 0;
-        InputStream bis=null;
+        InputStream bis = null;
         try {
             if (uploadFile.getRealPath() != null && uploadFile.getContent() == null) {
                 downLoadPath = ctxPath + uploadFile.getRealPath();
@@ -188,7 +190,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                 response.setHeader("Content-disposition", "attachment; filename=" + new String((uploadFile.getTitleField() + "." + uploadFile.getExtend()).getBytes("GBK"), "ISO8859-1"));
                 response.setHeader("Content-Length", String.valueOf(fileLength));
             }
-            if (bis!=null){
+            if (bis != null) {
                 bos = new BufferedOutputStream(response.getOutputStream());
                 byte[] buff = new byte[2048];
                 int bytesRead;
@@ -257,7 +259,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
             xmlWriter.write(document);
             xmlWriter.close();
             // 下载生成的XML文件
-            UploadFile uploadFile = new UploadFile(request, response);
+            UploadFileDto uploadFile = new UploadFileDto(request, response);
             uploadFile.setRealPath(importFile.getFileName());
             uploadFile.setTitleField(importFile.getFileName());
             uploadFile.setIconExtend("bak");
@@ -533,7 +535,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
     }
 
     @Override
-    public String getUploadFileContent(UploadFile uploadFile) {
+    public String getUploadFileContent(UploadFileDto uploadFile) {
         StringBuffer content = new StringBuffer();
         try {
             uploadFile.getMultipartRequest().setCharacterEncoding("UTF-8");
@@ -564,5 +566,44 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
         return content.toString();
     }
 
+    @Override
+    public void readAndParserXml(String ctxPath, UploadFileDto uploadFile) {
+        File file = new File(ctxPath);
+        if (!file.exists()) {
+            file.mkdir();// 创建文件根目录
+        }
+        MultipartHttpServletRequest multipartRequest = uploadFile.getMultipartRequest();
+        Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+        String fileName = "";
+        for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
+            MultipartFile mf = entity.getValue();// 获取上传文件对象
+            fileName = mf.getOriginalFilename();// 获取文件名
+            String savePath = file.getPath() + "/" + fileName;
+            File savefile = new File(savePath);
+            try {
+                FileCopyUtils.copy(mf.getBytes(), savefile);
+            } catch (IOException e) {
+                throw new BusinessException("解析xml失败", e);
+            }
+        }
+        parserXml(ctxPath + "/" + fileName);
+    }
+
+    @Override
+    public List<ComboTree> findComboTree(String orgId) {
+        List<Role[]> orgRoleArrList = findByHql(
+                        "from Role r, RoleOrg ro, Org o WHERE r.id=ro.role.id AND ro.parentOrg.id=o.id AND o.id=?",
+                        new Object[]{orgId});
+        List<Role> orgRoleList = new ArrayList<Role>();
+        for (Object[] roleArr : orgRoleArrList) {
+            orgRoleList.add((Role) roleArr[0]);
+        }
+
+        List<Object> allRoleList = getList(Role.class);
+        ComboTreeModel comboTreeModel = new ComboTreeModel("id", "roleName", "");
+        List<ComboTree> comboTrees = ComboTree(allRoleList,
+                comboTreeModel, orgRoleList, false);
+        return  comboTrees;
+    }
 
 }

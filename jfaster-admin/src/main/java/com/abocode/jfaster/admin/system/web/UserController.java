@@ -1,7 +1,7 @@
 package com.abocode.jfaster.admin.system.web;
 
 import com.abocode.jfaster.api.core.AvailableEnum;
-import com.abocode.jfaster.core.common.model.common.UploadFile;
+import com.abocode.jfaster.admin.system.dto.UploadFileDto;
 import com.abocode.jfaster.core.common.model.json.*;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.admin.system.service.SystemService;
@@ -667,7 +667,7 @@ public class UserController{
     @RequestMapping(params = "savesign", method = RequestMethod.POST)
     @ResponseBody
     public AjaxJson savesign(HttpServletRequest req) {
-        UploadFile uploadFile = new UploadFile(req);
+        UploadFileDto uploadFile = new UploadFileDto(req);
         String id = uploadFile.get("id");
         User user = userService.findEntity(User.class, id);
         uploadFile.setRealPath("signatureFile");

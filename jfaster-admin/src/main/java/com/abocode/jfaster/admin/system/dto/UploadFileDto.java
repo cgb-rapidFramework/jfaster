@@ -1,4 +1,4 @@
-package com.abocode.jfaster.core.common.model.common;
+package com.abocode.jfaster.admin.system.dto;
 
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import org.springframework.util.StringUtils;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 上传下载模型类
  */
-public class UploadFile {
+public class UploadFileDto {
 	private String byteField = "content";// 二进制文件内容保存到数据库的对应实体类字段
 	private String titleField = "name";// 文件名(标题)保存到数据库的对应实体类字段
 	private String basePath = "resource/upload";// 文件保存目录根路径
@@ -36,7 +36,7 @@ public class UploadFile {
 		this.response = response;
 	}
 
-	public UploadFile(HttpServletRequest request, Object object) {
+	public UploadFileDto(HttpServletRequest request, Object object) {
 		String fileKey = ConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
 		if (!StringUtils.isEmpty(fileKey)) {
 			this.fileKey = fileKey;
@@ -47,17 +47,17 @@ public class UploadFile {
 		this.object = object;
 	}
 
-	public UploadFile(HttpServletRequest request) {
+	public UploadFileDto(HttpServletRequest request) {
 		this.multipartRequest = (MultipartHttpServletRequest) request;
 
 	}
 
-	public UploadFile(HttpServletRequest request, HttpServletResponse response) {
+	public UploadFileDto(HttpServletRequest request, HttpServletResponse response) {
 		this.request = request;
 		this.response = response;
 	}
 
-	public UploadFile() {
+	public UploadFileDto() {
 
 	}
 

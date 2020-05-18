@@ -9,42 +9,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
+ * 第一次启动时执行
  * @Description   修复数据库
- * @ClassName: RepairController
- * @author tanghan
- * @date 2013-7-19 下午01:23:08
  */
 @Scope("prototype")
 @Controller
 @RequestMapping("/repairController")
 public class RepairController{
+	@Autowired
 	private SystemRepository systemService;
-    
+	@Autowired
 	private RepairRepository repairService;
-	
-	private String message;
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	@Autowired
-	public void setRepairService(RepairRepository repairService) {
-		this.repairService = repairService;
-	}
-
-	@Autowired
-	public void setSystemService(SystemRepository systemService) {
-		this.systemService = systemService;
-	}
-
-	/** 
-	 * @Description repair
-	 */
 	@RequestMapping(params = "repair")
 	public ModelAndView repair() {
 		repairService.deleteAndRepair();

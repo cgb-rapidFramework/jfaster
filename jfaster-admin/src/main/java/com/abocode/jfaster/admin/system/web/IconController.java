@@ -1,17 +1,13 @@
 package com.abocode.jfaster.admin.system.web;
 
 import com.abocode.jfaster.admin.system.service.IconService;
-import com.abocode.jfaster.core.common.exception.BusinessException;
-import com.abocode.jfaster.core.common.model.common.UploadFile;
+import com.abocode.jfaster.admin.system.dto.UploadFileDto;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.AjaxJsonBuilder;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
-import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.web.hqlsearch.HqlGenerateUtil;
-import com.abocode.jfaster.system.entity.Function;
 import com.abocode.jfaster.system.entity.Icon;
-import com.abocode.jfaster.system.entity.Operation;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
@@ -93,7 +89,7 @@ public class IconController{
 		icon.setId(id);
 		icon.setIconName(iconName);
 		icon.setIconType(iconType);
-		UploadFile uploadFile = new UploadFile(request, icon);
+		UploadFileDto uploadFile = new UploadFileDto(request, icon);
 		uploadFile.setCusPath("plug-in/accordion/images");
 		uploadFile.setIconExtend("extend");
 		uploadFile.setTitleField("iconclas");

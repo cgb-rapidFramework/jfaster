@@ -1,6 +1,8 @@
 package com.abocode.jfaster.admin.system.web;
 
+import com.abocode.jfaster.admin.system.dto.UploadFileDto;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
+import com.abocode.jfaster.core.common.model.json.AjaxJsonBuilder;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.model.json.ImportFile;
 import com.abocode.jfaster.core.common.util.*;
@@ -12,18 +14,14 @@ import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
 import com.abocode.jfaster.system.entity.UploadFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +36,6 @@ public class ResourceController {
     private SystemRepository systemService;
     @Autowired
     private ResourceRepository resourceService;
-
-
       /**
      * 生成XML文件
      *
@@ -64,31 +60,11 @@ public class ResourceController {
      */
     @RequestMapping(params = "parserXml")
     @ResponseBody
-    public AjaxJson parserXml(HttpServletRequest request, HttpServletResponse response) {
-        AjaxJson json = new AjaxJson();
-        String fileName = null;
-        com.abocode.jfaster.core.common.model.common.UploadFile uploadFile = new com.abocode.jfaster.core.common.model.common.UploadFile(request);
+    public AjaxJson parserXml(HttpServletRequest request) {
         String ctxPath = request.getSession().getServletContext().getRealPath("");
-        File file = new File(ctxPath);
-        if (!file.exists()) {
-            file.mkdir();// 创建文件根目录
-        }
-        MultipartHttpServletRequest multipartRequest = uploadFile.getMultipartRequest();
-        Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
-        for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
-            MultipartFile mf = entity.getValue();// 获取上传文件对象
-            fileName = mf.getOriginalFilename();// 获取文件名
-            String savePath = file.getPath() + "/" + fileName;
-            File savefile = new File(savePath);
-            try {
-                FileCopyUtils.copy(mf.getBytes(), savefile);
-            } catch (IOException e) {
-                LogUtils.error(e.getMessage());
-            }
-        }
-        resourceService.parserXml(ctxPath + "/" + fileName);
-        json.setSuccess(true);
-        return json;
+        UploadFileDto uploadFile = new UploadFileDto(request);
+        resourceService.readAndParserXml(ctxPath,uploadFile);
+        return AjaxJsonBuilder.success();
     }
 
     /**
@@ -135,9 +111,8 @@ public class ResourceController {
             attachment.setName(documentTitle);
         }
         attachment.setSessionKey(sessionKey);
-//		attachment.setSubclassname(MyClassLoader.getPackPath(attachment));
         attachment.setCreateDate(DateUtils.getTimestamp());
-        com.abocode.jfaster.core.common.model.common.UploadFile uploadFile = new com.abocode.jfaster.core.common.model.common.UploadFile(request, attachment);
+        UploadFileDto uploadFile = new UploadFileDto(request, attachment);
         String fileType=request.getParameter("fileType");
         if(StringUtils.isEmpty(fileType)){
             fileType="files";
@@ -176,22 +151,13 @@ public class ResourceController {
     @RequestMapping(params = "deleteFile")
     @ResponseBody
     public AjaxJson deleteFile(HttpServletRequest request) {
-        String message = "文件已经不存在了";
-        AjaxJson j = new AjaxJson();
         String fileKey = ConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
-        if(StringUtils.isNotEmpty(fileKey)){
-            UploadFile attachment = systemService.findEntity(UploadFile.class,fileKey);
-            /*
-              String subclassname = attachment.getSubclassname(); // 子类类名
-               Object objfile = systemService.findEntity(MyClassLoader.getClassByScn(subclassname), attachment.getId());// 子类对象
-               systemService.delete(objfile);
-            */
-            ResourceUtils.delete(ResourceUtils.getResourceLocalPath()+"/"+attachment.getPath());
-            systemService.delete(attachment);
-            message= attachment.getName()+ "删除成功";
-        }
-        j.setMsg(message);
-        return j;
+        Assert.isTrue(StringUtils.isNotEmpty(fileKey),"文件已经不存在了");
+        UploadFile attachment = systemService.findEntity(UploadFile.class,fileKey);
+        ResourceUtils.delete(ResourceUtils.getResourceLocalPath()+"/"+attachment.getPath());
+        systemService.delete(attachment);
+        String message = attachment.getName() + "删除成功";
+        return AjaxJsonBuilder.success(message);
     }
 
 
@@ -240,7 +206,7 @@ public class ResourceController {
         Class fileClass = ClassLoaderUtils.getClassByScn(subclassname);// 附件的实际类
         Object fileobj = systemService.findEntity(fileClass, fileid);
         ReflectHelper reflectHelper = new ReflectHelper(fileobj);
-        com.abocode.jfaster.core.common.model.common.UploadFile uploadFile = new com.abocode.jfaster.core.common.model.common.UploadFile(request, response);
+        UploadFileDto uploadFile = new UploadFileDto(request, response);
         String contentfield = ConvertUtils.getString(request.getParameter("contentfield"), uploadFile.getByteField());
         byte[] content = (byte[]) reflectHelper.getMethodValue(contentfield);
         String path = ConvertUtils.getString(reflectHelper.getMethodValue("path"));
@@ -270,14 +236,14 @@ public class ResourceController {
         cq.eq("businessKey", businessKey);
         if (StringUtils.isNotEmpty(type)) {
             cq.createAlias("TBInfotype", "TBInfotype");
-            cq.eq("TBInfotype.typename", type);
+            cq.eq("TBInfotype.typeName", type);
         }
         if (StringUtils.isNotEmpty(filekey)) {
             cq.eq("id", filekey);
         }
         if (StringUtils.isNotEmpty(code)) {
             cq.createAlias("TBInfotype", "TBInfotype");
-            cq.eq("TBInfotype.typecode", code);
+            cq.eq("TBInfotype.typeCode", code);
         }
         cq.add();
         this.systemService.findDataGridReturn(cq, true);
