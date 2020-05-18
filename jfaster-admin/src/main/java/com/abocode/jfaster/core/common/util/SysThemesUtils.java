@@ -3,10 +3,13 @@ package com.abocode.jfaster.core.common.util;
 import javax.servlet.http.HttpServletRequest;
 
 import com.abocode.jfaster.core.common.container.SystemContainer;
+import com.abocode.jfaster.core.common.exception.BusinessException;
 import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
 
 import com.abocode.jfaster.admin.system.dto.view.TemplateView;
+
+import java.io.*;
 
 /**
  * 系统样式获取工具类
@@ -167,5 +170,41 @@ public class SysThemesUtils {
         StringBuffer sb = new StringBuffer("");
         sb.append("<link rel=\"stylesheet\" href=\"template/" + templateBean.getTheme() + "/css/tablefrom.css\" type=\"text/css\"/>");
         return sb.toString();
+    }
+
+
+    /**
+     * 添加图标样式
+     * @param css
+     */
+    public static void write(String  path, String css) {
+        try {
+            File file = new File(path);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter out = new FileWriter(file, true);
+            out.write("\r\n");
+            out.write(css);
+            out.close();
+        } catch (Exception e) {
+            throw  new BusinessException("写主题失败",e);
+        }
+    }
+
+    /**
+     * 清空文件内容
+     * @param path
+     */
+    public  static void clearFile(String path) {
+        try {
+            FileOutputStream fos = new FileOutputStream(new File(path));
+            fos.write("".getBytes());
+            fos.close();
+        } catch (FileNotFoundException e) {
+            LogUtils.error(e.getMessage());
+        } catch (IOException e) {
+            LogUtils.error(e.getMessage());
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.abocode.jfaster.admin.system.web;
 
+import com.abocode.jfaster.admin.system.service.ChartService;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.model.json.HighChart;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
@@ -37,22 +38,12 @@ import java.util.Map;
 @Controller
 @RequestMapping("/logController")
 public class LogController{
-    //用户浏览器统计分析的国际化KEY
-    private static final String USER_BROWSER_ANALYSIS = "user.browser.analysis";
+	@Autowired
 	private SystemRepository systemService;
-	
+	@Autowired
 	private LogRepository logService;
-
 	@Autowired
-	public void setSystemService(SystemRepository systemService) {
-		this.systemService = systemService;
-	}
-	
-	@Autowired
-	public void setLogService(LogRepository logService) {
-		this.logService = logService;
-	}
-
+	private ChartService chartService;
 	/**
 	 * 日志列表页面跳转
 	 * 
@@ -74,19 +65,13 @@ public class LogController{
 	public void datagrid(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(Log.class, dataGrid);
 		String loglevel = request.getParameter("loglevel");
-		if (loglevel == null || loglevel.equals("0")) {
-		} else {
+		if (loglevel != null &&!loglevel.equals("0")) {
 			cq.eq("loglevel", ConvertUtils.getShort(loglevel));
 			cq.add();
 		}
         String operatetime_begin = request.getParameter("operatetime_begin");
         if(operatetime_begin != null) {
-            Timestamp beginValue = null;
-            try {
-                beginValue = DateUtils.parseTimestamp(operatetime_begin, "yyyy-MM-dd");
-            } catch (ParseException e) {
-                LogUtils.error(e.getMessage());
-            }
+            Timestamp beginValue =  DateUtils.parseTimestamp(operatetime_begin, "yyyy-MM-dd");;
             cq.ge("operatetime", beginValue);
         }
         String operatetime_end = request.getParameter("operatetime_end");
@@ -94,12 +79,7 @@ public class LogController{
             if (operatetime_end.length() == 10) {
                 operatetime_end =operatetime_end + " 23:59:59";
             }
-            Timestamp endValue = null;
-            try {
-                endValue = DateUtils.parseTimestamp(operatetime_end, "yyyy-MM-dd hh:mm:ss");
-            } catch (ParseException e) {
-                LogUtils.error(e.getMessage());
-            }
+            Timestamp endValue = DateUtils.parseTimestamp(operatetime_end, "yyyy-MM-dd hh:mm:ss");
             cq.le("operatetime", endValue);
         }
         cq.add();
@@ -158,35 +138,6 @@ public class LogController{
 	@RequestMapping(params = "getBroswerBar")
 	@ResponseBody
 	public List<HighChart> getBroswerBar(HttpServletRequest request, String reportType, HttpServletResponse response) {
-		List<HighChart> list = new ArrayList<HighChart>();
-		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT broswer ,count(broswer) FROM Log group by broswer");
-		List userBroswerList = systemService.findByHql(sb.toString());
-		Long count = systemService.queryForCount("SELECT COUNT(1) FROM T_S_Log WHERE 1=1");
-		List lt = new ArrayList();
-		HighChart hc = new HighChart();
-		hc.setName(MutiLangUtils.getLang(USER_BROWSER_ANALYSIS));
-		hc.setType(reportType);
-		Map<String, Object> map;
-		if (userBroswerList.size() > 0) {
-			for (Object object : userBroswerList) {
-				map = new HashMap<String, Object>();
-				Object[] obj = (Object[]) object;
-				map.put("name", obj[0]);
-				map.put("y", obj[1]);
-				Long groupCount = (Long) obj[1];
-				Double  percentage = 0.0;
-				if (count != null && count.intValue() != 0) {
-					percentage = new Double(groupCount)/count;
-				}
-				map.put("percentage", percentage*100);
-				lt.add(map);
-			}
-		}
-		hc.setData(lt);
-		list.add(hc);
-		return list;
+		return  chartService.buildChart(reportType);
 	}
-
-
 }

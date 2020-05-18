@@ -1,5 +1,6 @@
 package com.abocode.jfaster.admin.system.service.impl;
 
+import com.abocode.jfaster.admin.system.repository.MutiLangRepository;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
 import com.abocode.jfaster.admin.system.service.BeanToTagConverter;
@@ -37,7 +38,8 @@ public class FunctionServiceImpl implements FunctionService {
     private UserRepository userService;
     @Autowired
     private ResourceRepository resourceService;
-
+    @Autowired
+    private MutiLangRepository mutiLangRepository;
     /**
      * 获取用户菜单列表
      *
@@ -290,5 +292,64 @@ public class FunctionServiceImpl implements FunctionService {
         List<TreeGrid> treeGrids = resourceService.treegrid(functionList, treeGridModel);
         MutiLangUtils.setMutiTree(treeGrids);
         return treeGrids;
+    }
+
+    @Override
+    public String getPrimaryMenu(User user) {
+
+        List<FunctionView> primaryMenu =getFunctionMap(user).get(0);
+        String floor = "";
+        if (primaryMenu == null) {
+            return floor;
+        }
+        for (FunctionView function : primaryMenu) {
+            if (function.getFunctionLevel() == 0) {
+
+                String lang_key = function.getFunctionName();
+                String lang_context = mutiLangRepository.getLang(lang_key);
+
+                if ("Online 开发".equals(lang_context)) {
+
+                    floor += " <li><img class='imag1' src='plug-in/login/images/online.png' /> "
+                            + " <img class='imag2' src='plug-in/login/images/online_up.png' style='display: none;' />" + " </li> ";
+                } else if ("统计查询".equals(lang_context)) {
+
+                    floor += " <li><img class='imag1' src='plug-in/login/images/guanli.png' /> "
+                            + " <img class='imag2' src='plug-in/login/images/guanli_up.png' style='display: none;' />" + " </li> ";
+                } else if ("系统管理".equals(lang_context)) {
+
+                    floor += " <li><img class='imag1' src='plug-in/login/images/xtgl.png' /> "
+                            + " <img class='imag2' src='plug-in/login/images/xtgl_up.png' style='display: none;' />" + " </li> ";
+                } else if ("常用示例".equals(lang_context)) {
+
+                    floor += " <li><img class='imag1' src='plug-in/login/images/cysl.png' /> "
+                            + " <img class='imag2' src='plug-in/login/images/cysl_up.png' style='display: none;' />" + " </li> ";
+                } else if ("系统监控".equals(lang_context)) {
+
+                    floor += " <li><img class='imag1' src='plug-in/login/images/xtjk.png' /> "
+                            + " <img class='imag2' src='plug-in/login/images/xtjk_up.png' style='display: none;' />" + " </li> ";
+                } else if (lang_context.contains("消息推送")) {
+                    String s = "<div style='width:67px;position: absolute;top:40px;text-align:center;color:#909090;font-size:12px;'>消息推送</div>";
+                    floor += " <li style='position: relative;'><img class='imag1' src='plug-in/login/images/msg.png' /> "
+                            + " <img class='imag2' src='plug-in/login/images/msg_up.png' style='display: none;' />"
+                            + s + "</li> ";
+                } else {
+                    //其他的为默认通用的图片模式
+                    String s = "";
+                    if (lang_context.length() >= 5 && lang_context.length() < 7) {
+                        s = "<div style='width:67px;position: absolute;top:40px;text-align:center;color:#909090;font-size:12px;'><span style='letter-spacing:-1px;'>" + lang_context + "</span></div>";
+                    } else if (lang_context.length() < 5) {
+                        s = "<div style='width:67px;position: absolute;top:40px;text-align:center;color:#909090;font-size:12px;'>" + lang_context + "</div>";
+                    } else if (lang_context.length() >= 7) {
+                        s = "<div style='width:67px;position: absolute;top:40px;text-align:center;color:#909090;font-size:12px;'><span style='letter-spacing:-1px;'>" + lang_context.substring(0, 6) + "</span></div>";
+                    }
+                    floor += " <li style='position: relative;'><img class='imag1' src='plug-in/login/images/default.png' /> "
+                            + " <img class='imag2' src='plug-in/login/images/default_up.png' style='display: none;' />"
+                            + s + "</li> ";
+                }
+            }
+        }
+
+        return floor;
     }
 }

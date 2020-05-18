@@ -23,4 +23,6 @@ public interface FunctionService {
     List<ComboTree> setParentFunction(String selfId, String id);
 
     List<TreeGrid> findTreeGrid(String selfId, String id);
+
+    String getPrimaryMenu(User user);
 }

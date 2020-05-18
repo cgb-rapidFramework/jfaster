@@ -1,7 +1,10 @@
 package com.abocode.jfaster.admin.system.web;
 
+import com.abocode.jfaster.admin.system.service.IconService;
+import com.abocode.jfaster.core.common.exception.BusinessException;
 import com.abocode.jfaster.core.common.model.common.UploadFile;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
+import com.abocode.jfaster.core.common.model.json.AjaxJsonBuilder;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.util.*;
@@ -16,6 +19,7 @@ import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,6 +47,8 @@ public class IconController{
 	private SystemRepository systemService;
 	@Autowired
 	private ResourceRepository resourceService;
+	@Autowired
+	private IconService  iconService;
 	/**
 	 * 图标列表页面跳转
 	 * 
@@ -79,8 +85,7 @@ public class IconController{
 	 */
 	@RequestMapping(params = "saveOrUpdateIcon", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxJson saveOrUpdateIcon(HttpServletRequest request) throws Exception {
-		AjaxJson j = new AjaxJson();
+	public AjaxJson saveOrUpdateIcon(HttpServletRequest request) {
 		Icon icon = new Icon();
 		Short iconType = ConvertUtils.getShort(request.getParameter("iconType"));
 		String iconName = ConvertUtils.getString(request.getParameter("iconName"));
@@ -99,10 +104,10 @@ public class IconController{
 		resourceService.uploadFile(uploadFile);
 		// 图标的css样式
 		String css = "." + icon.getIconClazz() + "{background:url('../images/" + icon.getIconClazz() + "." + icon.getIconExtend() + "') no-repeat}";
-		write(request, css);
+		String path = request.getSession().getServletContext().getRealPath("/plug-in/accordion/css/icons.css");
+		SysThemesUtils.write(path, css);
 		String message = MutiLangUtils.paramAddSuccess("common.icon");
-		j.setMsg(message);
-		return j;
+		return AjaxJsonBuilder.success(message);
 	}	
 	/**
 	 * 没有上传文件时更新信息
@@ -111,11 +116,9 @@ public class IconController{
 	 * @return
 	 * @throws Exception
 	 */
-	@SuppressWarnings("deprecation")
 	@RequestMapping(params = "update", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxJson update(HttpServletRequest request) throws Exception {
-		AjaxJson j = new AjaxJson();
 		Short iconType = ConvertUtils.getShort(request.getParameter("iconType"));
 		String iconName = java.net.URLDecoder.decode(ConvertUtils.getString(request.getParameter("iconName")));
 		String id = request.getParameter("id");
@@ -129,31 +132,11 @@ public class IconController{
 		systemService.saveOrUpdate(icon);
 		// 图标的css样式
 		String css = "." + icon.getIconClazz() + "{background:url('../images/" + icon.getIconClazz() + "." + icon.getIconExtend() + "') no-repeat}";
-		write(request, css);
-		String message = "更新成功";
-		j.setMsg(message);
-		return j;
+		String path = request.getSession().getServletContext().getRealPath("/plug-in/accordion/css/icons.css");
+		SysThemesUtils.write(path, css);
+		return AjaxJsonBuilder.success();
 	}
-	/**
-	 * 添加图标样式
-	 * 
-	 * @param request
-	 * @param css
-	 */
-	protected void write(HttpServletRequest request, String css) {
-		try {
-			String path = request.getSession().getServletContext().getRealPath("/plug-in/accordion/css/icons.css");
-			File file = new File(path);
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-			FileWriter out = new FileWriter(file, true);
-			out.write("\r\n");
-			out.write(css);
-			out.close();
-		} catch (Exception e) {
-		}
-	}
+
 
 	/**
 	 * 恢复图标（将数据库图标数据写入图标存放的路径下）
@@ -165,14 +148,13 @@ public class IconController{
 	@RequestMapping(params = "repair")
 	@ResponseBody
 	public AjaxJson repair(HttpServletRequest request) throws Exception {
-		AjaxJson json = new AjaxJson();
 		List<Icon> icons = systemService.findAll(Icon.class);
-		String rootpath = request.getSession().getServletContext().getRealPath("/");
-		String csspath = request.getSession().getServletContext().getRealPath("/plug-in/accordion/css/icons.css");
+		String rootPath = request.getSession().getServletContext().getRealPath("/");
+		String cssPath = request.getSession().getServletContext().getRealPath("/plug-in/accordion/css/icons.css");
 		// 清空CSS文件内容
-		clearFile(csspath);
+		SysThemesUtils.clearFile(cssPath);
 		for (Icon c : icons) {
-			File file = new File(rootpath + c.getIconPath());
+			File file = new File(rootPath.concat(c.getIconPath()));
 			if (!file.exists()) {
 				byte[] content = c.getIconContent();
 				if (content != null) {
@@ -181,97 +163,27 @@ public class IconController{
 				}
 			}
 			String css = "." + c.getIconClazz() + "{background:url('../images/" + c.getIconClazz() + "." + c.getIconExtend() + "') no-repeat}";
-			write(request, css);
+			String path = request.getSession().getServletContext().getRealPath("/plug-in/accordion/css/icons.css");
+			SysThemesUtils.write(path, css);
 		}
-        json.setMsg(MutiLangUtils.paramAddSuccess("common.icon.style"));
-        json.setSuccess(true);
-		return json;
+		return AjaxJsonBuilder.success(MutiLangUtils.paramAddSuccess("common.icon.style"));
 	}
 
-	/**
-	 * 清空文件内容
-	 * 
-	 * @param path
-	 */
-	protected void clearFile(String path) {
-		try {
-			FileOutputStream fos = new FileOutputStream(new File(path));
-			fos.write("".getBytes());
-			fos.close();
-		} catch (FileNotFoundException e) {
-			LogUtils.error(e.getMessage());
-		} catch (IOException e) {
-			LogUtils.error(e.getMessage());
-		}
-	}
 
 	/**
 	 * 删除图标
 	 * 
 	 * @param icon
-	 * @param request
 	 * @return
 	 */
 	@RequestMapping(params = "del")
 	@ResponseBody
-	public AjaxJson del(Icon icon, HttpServletRequest request) {
-		AjaxJson j = new AjaxJson();
-		
+	public AjaxJson del(Icon icon) {
 		icon = systemService.findEntity(Icon.class, icon.getId());
-		
-		boolean isPermit=isPermitDel(icon);
-
-		String message;
-		if(isPermit){
-			systemService.delete(icon);
-
-            message = MutiLangUtils.paramDelSuccess("common.icon");
-			
-			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
-
-            j.setMsg(message);
-
-            return j;
-		}
-		
-        message = MutiLangUtils.paramDelFail("common.icon,common.icon.isusing");
-        j.setMsg(message);
-		
-		return j;
-	}
-
-	/**
-	 * 检查是否允许删除该图标。
-	 * @param icon 图标。
-	 * @return true允许；false不允许；
-	 */
-	private boolean isPermitDel(Icon icon) {
-		List<Function> functions = systemService.findAllByProperty(Function.class, "Icon.id", icon.getId());
-		if (functions==null||functions.isEmpty()) {
-			return true;
-		}
-		return false;
-	}
-
-	/**	 *
-	 * @param icon
-     */
-	@Deprecated
-	public void upEntity(Icon icon) {
-		List<Function> functions = systemService.findAllByProperty(Function.class, "Icon.id", icon.getId());
-		if (functions.size() > 0) {
-			for (Function tsFunction : functions) {
-				tsFunction.setIcon(null);
-				systemService.saveOrUpdate(tsFunction);
-			}
-		}
-		List<Operation> operations = systemService.findAllByProperty(Operation.class, "Icon.id", icon.getId());
-		if (operations.size() > 0) {
-			for (Operation tsOperation : operations) {
-				tsOperation.setIcon(null);
-				systemService.saveOrUpdate(tsOperation);
-			}
-		}
+		boolean isPermit=iconService.isPermitDel(icon);
+		Assert.isTrue(isPermit,MutiLangUtils.paramDelFail("common.icon,common.icon.isusing"));
+		iconService.save(icon);
+		return AjaxJsonBuilder.success();
 	}
 
 	/**

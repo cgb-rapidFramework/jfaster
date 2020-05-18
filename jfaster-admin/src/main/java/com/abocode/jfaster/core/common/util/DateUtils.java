@@ -286,12 +286,15 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
      * @param src     将要转换的原始字符窜
      * @param pattern 转换的匹配格式
      * @return 如果转换成功则返回转换后的时间戳
-     * @throws ParseException
      */
-    public static Timestamp parseTimestamp(String src, String pattern)
-            throws ParseException {
-        Date date = parseDate(src, pattern);
-        return new Timestamp(date.getTime());
+    public static Timestamp parseTimestamp(String src, String pattern) {
+        try {
+            Date date = parseDate(src, pattern);
+            return new Timestamp(date.getTime());
+        } catch (ParseException e) {
+          throw  new IllegalArgumentException("时间转换错误");
+        }
+
     }
     /**
      * String类型 转换为Date,
