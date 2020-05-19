@@ -60,7 +60,6 @@ public class RoleController {
 
     /**
      * easyuiAJAX请求数据
-     *
      * @param request
      * @param response
      * @param dataGrid
@@ -70,17 +69,14 @@ public class RoleController {
     public void roleGrid(Role role, HttpServletRequest request,
                          HttpServletResponse response, DataGrid dataGrid) {
         CriteriaQuery cq = new CriteriaQuery(Role.class, dataGrid);
-        HqlGenerateUtil.installHql(cq,
-                role);
+        HqlGenerateUtil.installHql(cq, role);
         cq.add();
         this.systemRepository.findDataGridReturn(cq, true);
         TagUtil.datagrid(response, dataGrid);
-        ;
     }
 
     /**
      * 删除角色
-     *
      * @param role
      * @return
      */
@@ -96,20 +92,15 @@ public class RoleController {
 
     /**
      * 检查角色
-     *
-     * @param role
      * @return
      */
     @RequestMapping(params = "checkRole")
     @ResponseBody
-    public ValidForm checkRole(Role role, HttpServletRequest request,
-                               HttpServletResponse response) {
+    public ValidForm checkRole(HttpServletRequest request) {
         ValidForm v = new ValidForm();
-        String roleCode = ConvertUtils
-                .getString(request.getParameter("param"));
+        String roleCode = ConvertUtils.getString(request.getParameter("param"));
         String code = ConvertUtils.getString(request.getParameter("code"));
-        List<Role> roles = systemRepository.findAllByProperty(Role.class,
-                "roleCode", roleCode);
+        List<Role> roles = systemRepository.findAllByProperty(Role.class, "roleCode", roleCode);
         if (roles.size() > 0 && !code.equals(roleCode)) {
             v.setInfo("角色编码已存在");
             v.setStatus("n");
@@ -132,7 +123,6 @@ public class RoleController {
 
     /**
      * 角色列表页面跳转
-     *
      * @return
      */
     @RequestMapping(params = "fun")
@@ -144,7 +134,6 @@ public class RoleController {
 
     /**
      * 角色所有用户信息列表页面跳转
-     *
      * @return
      */
     @RequestMapping(params = "userList")
@@ -155,7 +144,6 @@ public class RoleController {
 
     /**
      * 用户列表查询
-     *
      * @param request
      * @param response
      * @param dataGrid
@@ -165,19 +153,7 @@ public class RoleController {
         CriteriaQuery cq = new CriteriaQuery(User.class, dataGrid);
         //查询条件组装器
         String roleId = request.getParameter("roleId");
-        List<RoleUser> roleUser = systemRepository.findAllByProperty(RoleUser.class, "role.id", roleId);
-        Criterion cc = null;
-        if (roleUser.size() > 0) {
-            for (int i = 0; i < roleUser.size(); i++) {
-                if (i == 0) {
-                    cc = Restrictions.eq("id", roleUser.get(i).getUser().getId());
-                } else {
-                    cc = cq.getor(cc, Restrictions.eq("id", roleUser.get(i).getUser().getId()));
-                }
-            }
-        } else {
-            cc = Restrictions.eq("id", "-1");
-        }
+        Criterion cc = roleService.buildCriterion(roleId);
         cq.add(cc);
         HqlGenerateUtil.installHql(cq, user);
         this.systemRepository.findDataGridReturn(cq, true);
@@ -186,33 +162,19 @@ public class RoleController {
 
     /**
      * 获取用户列表
-     *
      * @param user
      * @param request
      * @return
      */
     @RequestMapping(params = "getUserList")
     @ResponseBody
-    public List<ComboTree> getUserList(User user, HttpServletRequest request,
-                                       ComboTree comboTree) {
+    public List<ComboTree> getUserList(User user, HttpServletRequest request) {
         String roleId = request.getParameter("roleId");
-        List<User> loginActionlist = new ArrayList<User>();
-        if (user != null) {
-            List<RoleUser> roleUser = systemRepository.findAllByProperty(RoleUser.class, "role.id", roleId);
-            if (roleUser.size() > 0) {
-                for (RoleUser ru : roleUser) {
-                    loginActionlist.add(ru.getUser());
-                }
-            }
-        }
-        ComboTreeModel comboTreeModel = new ComboTreeModel("id", "username", "user");
-        List<ComboTree> comboTrees = resourceRepository.ComboTree(loginActionlist, comboTreeModel, loginActionlist, false);
-        return comboTrees;
+        return roleService.findComboTree(roleId, user);
     }
 
     /**
      * 角色树列表页面跳转
-     *
      * @return
      */
     @RequestMapping(params = "roleTree")
@@ -223,7 +185,6 @@ public class RoleController {
 
     /**
      * 获取 组织机构的角色树
-     *
      * @param request
      * @return 组织机构的角色树
      */
@@ -236,7 +197,6 @@ public class RoleController {
 
     /**
      * 更新 组织机构的角色列表
-     *
      * @param request request
      * @return 操作结果
      */
@@ -260,98 +220,27 @@ public class RoleController {
     @RequestMapping(params = "setAuthority")
     @ResponseBody
     public List<ComboTree> setAuthority(HttpServletRequest request, ComboTree comboTree) {
-        CriteriaQuery cq = new CriteriaQuery(Function.class);
-        if (comboTree.getId() != null) {
-            cq.eq("Function.id", comboTree.getId());
-        }
-        if (comboTree.getId() == null) {
-            cq.isNull("Function");
-        }
-        cq.notEq("functionLevel", Short.parseShort("-1"));
-        cq.add();
-        List<Function> functionList = systemRepository.findListByCq( cq, false);
-        List<FunctionView> functionBeanList = BeanToTagConverter.convertFunctions(functionList);
-        Collections.sort(functionBeanList, new NumberComparator());
-        List<ComboTree> comboTrees = new ArrayList<ComboTree>();
         String roleId = request.getParameter("roleId");
-        List<Function> loginActionList = this.systemRepository.getFucntionList(roleId);
-        ComboTreeModel comboTreeModel = new ComboTreeModel("id",
-                "functionName", "Functions");
-        comboTrees = resourceRepository.ComboTree(functionBeanList, comboTreeModel,
-                BeanToTagConverter.convertFunctions(loginActionList), false);
-        MutiLangUtils.setMutiTree(comboTrees);
-        return comboTrees;
+        return roleService.findComboTree(roleId, comboTree);
     }
 
     /**
      * 更新权限
-     *
      * @param request
      * @return
      */
     @RequestMapping(params = "updateAuthority")
     @ResponseBody
     public AjaxJson updateAuthority(HttpServletRequest request) {
-        AjaxJson j = new AjaxJson();
-        try {
-            String roleId = request.getParameter("roleId");
-            String rolefunction = request.getParameter("rolefunctions");
-            Role role = this.systemRepository.find(Role.class, roleId);
-            List<RoleFunction> roleFunctionList = systemRepository
-                    .findAllByProperty(RoleFunction.class, "role.id",
-                            role.getId());
-            Map<String, RoleFunction> map = new HashMap<String, RoleFunction>();
-            for (RoleFunction functionOfRole : roleFunctionList) {
-                map.put(functionOfRole.getFunction().getId(), functionOfRole);
-            }
-            String[] roleFunctions = rolefunction.split(",");
-            Set<String> set = new HashSet<String>();
-            for (String s : roleFunctions) {
-                set.add(s);
-            }
-            updateCompare(set, role, map);
-            j.setMsg("权限更新成功");
-        } catch (Exception e) {
-            j.setMsg("权限更新失败");
-        }
-        return j;
+        String roleId = request.getParameter("roleId");
+        String roleFunction = request.getParameter("rolefunctions");
+        roleService.updateAuthority(roleId, roleFunction);
+        return AjaxJsonBuilder.success();
     }
 
-    /**
-     * 权限比较
-     *
-     * @param set  最新的权限列表
-     * @param role 当前角色
-     * @param map  旧的权限列表
-     */
-    private void updateCompare(Set<String> set, Role role,
-                               Map<String, RoleFunction> map) {
-        List<RoleFunction> entitys = new ArrayList<RoleFunction>();
-        List<RoleFunction> deleteEntitys = new ArrayList<RoleFunction>();
-        for (String s : set) {
-            if (map.containsKey(s)) {
-                map.remove(s);
-            } else {
-                RoleFunction rf = new RoleFunction();
-                Function f = this.systemRepository.find(Function.class, s);
-                rf.setFunction(f);
-                rf.setRole(role);
-                entitys.add(rf);
-            }
-        }
-        Collection<RoleFunction> collection = map.values();
-        Iterator<RoleFunction> it = collection.iterator();
-        for (; it.hasNext(); ) {
-            deleteEntitys.add(it.next());
-        }
-        systemRepository.batchSave(entitys);
-        systemRepository.deleteEntities(deleteEntitys);
-
-    }
 
     /**
      * 角色页面跳转
-     *
      * @param role
      * @param req
      * @return
@@ -367,138 +256,47 @@ public class RoleController {
 
     /**
      * 权限操作列表
-     *
      * @param treegrid
      * @param request
      * @return
      */
     @RequestMapping(params = "setOperate")
     @ResponseBody
-    public List<TreeGrid> setOperate(HttpServletRequest request,
-                                     TreeGrid treegrid) {
+    public List<TreeGrid> setOperate(HttpServletRequest request, TreeGrid treegrid) {
         String roleId = request.getParameter("roleId");
-        CriteriaQuery cq = new CriteriaQuery(Function.class);
-        if (treegrid.getId() != null) {
-            cq.eq("Function.id", treegrid.getId());
-        }
-        if (treegrid.getId() == null) {
-            cq.isNull("Function");
-        }
-        cq.add();
-        List<Function> functionList = systemRepository.findListByCq(
-                cq, false);
-        Collections.sort(functionList, new FunctionComparator());
-        TreeGridModel treeGridModel = new TreeGridModel();
-        treeGridModel.setRoleid(roleId);
-        List<TreeGrid> treeGrids = resourceRepository.treegrid(functionList, treeGridModel);
-        return treeGrids;
+        return roleService.setOperate(roleId, treegrid.getId());
 
     }
 
     /**
      * 操作录入
-     *
      * @param request
      * @return
      */
     @RequestMapping(params = "saveOperate")
     @ResponseBody
     public AjaxJson saveOperate(HttpServletRequest request) {
-        AjaxJson j = new AjaxJson();
         String fop = request.getParameter("fp");
         String roleId = request.getParameter("roleId");
-        // 录入操作前清空上一次的操作数据
-        clearp(roleId);
-        String[] fun_op = fop.split(",");
-        String aa = "";
-        String bb = "";
-        // 只有一个被选中
-        if (fun_op.length == 1) {
-            bb = fun_op[0].split("_")[1];
-            aa = fun_op[0].split("_")[0];
-            savep(roleId, bb, aa);
-        } else {
-            // 至少2个被选中
-            for (int i = 0; i < fun_op.length; i++) {
-                String cc = fun_op[i].split("_")[0]; // 操作id
-                if (i > 0 && bb.equals(fun_op[i].split("_")[1])) {
-                    aa += "," + cc;
-                    if (i == (fun_op.length - 1)) {
-                        savep(roleId, bb, aa);
-                    }
-                } else if (i > 0) {
-                    savep(roleId, bb, aa);
-                    aa = fun_op[i].split("_")[0]; // 操作ID
-                    if (i == (fun_op.length - 1)) {
-                        bb = fun_op[i].split("_")[1]; // 权限id
-                        savep(roleId, bb, aa);
-                    }
-
-                } else {
-                    aa = fun_op[i].split("_")[0]; // 操作ID
-                }
-                bb = fun_op[i].split("_")[1]; // 权限id
-
-            }
-        }
-
-        return j;
-    }
-
-    /**
-     * 更新操作
-     *
-     * @param roleId
-     * @param functionid
-     * @param ids
-     */
-    public void savep(String roleId, String functionid, String ids) {
-        StringBuffer hql = new StringBuffer();
-        hql.append(" from RoleFunction t where ");
-        hql.append(" t.org.id=" + roleId);
-        hql.append(" and t.function.function_id=" + functionid);
-        RoleFunction rFunction = systemRepository.findUniqueByHql(hql.toString());
-        if (rFunction != null) {
-            rFunction.setOperation(ids);
-            systemRepository.saveOrUpdate(rFunction);
-        }
-    }
-
-    /**
-     * 清空操作
-     *
-     * @param roleId
-     */
-    public void clearp(String roleId) {
-        List<RoleFunction> rFunctions = systemRepository.findAllByProperty(
-                RoleFunction.class, "role.id", roleId);
-        if (rFunctions.size() > 0) {
-            for (RoleFunction tRoleFunction : rFunctions) {
-                tRoleFunction.setOperation(null);
-                systemRepository.saveOrUpdate(tRoleFunction);
-            }
-        }
+        roleService.saveOperate(roleId, fop);
+        return AjaxJsonBuilder.success();
     }
 
     /**
      * 按钮权限展示
-     *
      * @param request
      * @param functionId
      * @param roleId
      * @return
      */
     @RequestMapping(params = "operationListForFunction")
-    public ModelAndView operationListForFunction(HttpServletRequest request,
-                                                 String functionId, String roleId) {
+    public ModelAndView operationListForFunction(HttpServletRequest request, String functionId, String roleId) {
         CriteriaQuery cq = new CriteriaQuery(Operation.class);
-        cq.eq("Function.id", functionId);
+        cq.eq("function.id", functionId);
         cq.eq("status", Short.valueOf("0"));
         cq.add();
-        List<Operation> operationList = this.systemRepository
-                .findListByCq(cq, false);
-        Set<String> operationCodes = systemRepository
-                .getOperationCodesByRoleIdAndFunctionId(roleId, functionId);
+        List<Operation> operationList = this.systemRepository.findListByCq(cq, false);
+        Set<String> operationCodes = systemRepository.getOperationCodesByRoleIdAndFunctionId(roleId, functionId);
         request.setAttribute("operationList", operationList);
         request.setAttribute("operationcodes", operationCodes);
         request.setAttribute("functionId", functionId);
@@ -507,56 +305,33 @@ public class RoleController {
 
     /**
      * 更新按钮权限
-     *
      * @param request
      * @return
      */
     @RequestMapping(params = "updateOperation")
     @ResponseBody
     public AjaxJson updateOperation(HttpServletRequest request) {
-        AjaxJson j = new AjaxJson();
         String roleId = request.getParameter("roleId");
         String functionId = request.getParameter("functionId");
-        String operationcodes = null;
-        try {
-            operationcodes = URLDecoder.decode(
-                    request.getParameter("operationcodes"), "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            LogUtils.error(e.getMessage());
-        }
-        CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
-        cq1.eq("role.id", roleId);
-        cq1.eq("Function.id", functionId);
-        cq1.add();
-        List<RoleFunction> rFunctions = systemRepository.findListByCq(
-                cq1, false);
-        if (null != rFunctions && rFunctions.size() > 0) {
-            RoleFunction tsRoleFunction = rFunctions.get(0);
-            tsRoleFunction.setOperation(operationcodes);
-            systemRepository.saveOrUpdate(tsRoleFunction);
-        }
-        j.setMsg("按钮权限更新成功");
-        return j;
+        String operationcodes = ConvertUtils.decode(request.getParameter("operationcodes"));
+        roleService.updateOperation(roleId, functionId, operationcodes);
+        return AjaxJsonBuilder.success();
     }
 
     /**
      * 按钮权限展示
-     *
      * @param request
      * @param functionId
      * @param roleId
      * @return
      */
     @RequestMapping(params = "dataRuleListForFunction")
-    public ModelAndView dataRuleListForFunction(HttpServletRequest request,
-                                                String functionId, String roleId) {
+    public ModelAndView dataRuleListForFunction(HttpServletRequest request,String functionId, String roleId) {
         CriteriaQuery cq = new CriteriaQuery(DataRule.class);
-        cq.eq("Function.id", functionId);
+        cq.eq("function.id", functionId);
         cq.add();
-        List<DataRule> dataRuleList = this.systemRepository
-                .findListByCq(cq, false);
-        Set<String> dataRulecodes = systemRepository
-                .getOperationCodesByRoleIdAndruleDataId(roleId, functionId);
+        List<DataRule> dataRuleList = this.systemRepository.findListByCq(cq, false);
+        Set<String> dataRulecodes = systemRepository.getOperationCodesByRoleIdAndruleDataId(roleId, functionId);
         request.setAttribute("dataRuleList", dataRuleList);
         request.setAttribute("dataRulecodes", dataRulecodes);
         request.setAttribute("functionId", functionId);
@@ -573,36 +348,17 @@ public class RoleController {
     @RequestMapping(params = "updateDataRule")
     @ResponseBody
     public AjaxJson updateDataRule(HttpServletRequest request) {
-        AjaxJson j = new AjaxJson();
         String roleId = request.getParameter("roleId");
         String functionId = request.getParameter("functionId");
-        String dataRulecodes = null;
-        try {
-            dataRulecodes = URLDecoder.decode(
-                    request.getParameter("dataRulecodes"), "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            LogUtils.error(e.getMessage());
-        }
-        CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
-        cq1.eq("role.id", roleId);
-        cq1.eq("Function.id", functionId);
-        cq1.add();
-        List<RoleFunction> rFunctions = systemRepository.findListByCq(
-                cq1, false);
-        if (null != rFunctions && rFunctions.size() > 0) {
-            RoleFunction tsRoleFunction = rFunctions.get(0);
-            tsRoleFunction.setDataRule(dataRulecodes);
-            systemRepository.saveOrUpdate(tsRoleFunction);
-        }
-        j.setMsg("数据权限更新成功");
-        return j;
+        String dataRuleCodes = ConvertUtils.decode(request.getParameter("dataRulecodes"));
+        roleService.updateDataRule(roleId, functionId, dataRuleCodes);
+        return AjaxJsonBuilder.success();
     }
 
 
     /**
      * 添加 用户到角色 的页面  跳转
-     *
-     * @param req request
+     * @param req
      * @return 处理结果信息
      */
     @RequestMapping(params = "goAddUserToRole")
@@ -613,70 +369,36 @@ public class RoleController {
     /**
      * 获取 除当前 角色之外的用户信息列表
      *
-     * @param request request
+     * @param request
      * @return 处理结果信息
      */
     @RequestMapping(params = "addUserToRoleList")
     public void addUserToOrgList(User user, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
         String roleId = request.getParameter("roleId");
-
         CriteriaQuery cq = new CriteriaQuery(User.class, dataGrid);
         HqlGenerateUtil.installHql(cq, user);
-
         // 获取 当前组织机构的用户信息
         CriteriaQuery subCq = new CriteriaQuery(RoleUser.class);
         subCq.setProjection(Property.forName("user.id"));
         subCq.eq("role.id", roleId);
         subCq.add();
-
-
         cq.add(Property.forName("id").notIn(subCq.getDetachedCriteria()));
         cq.add();
-
         this.systemRepository.findDataGridReturn(cq, true);
         TagUtil.datagrid(response, dataGrid);
     }
 
     /**
      * 添加 用户到角色
-     *
-     * @param req request
+     * @param req
      * @return 处理结果信息
      */
     @RequestMapping(params = "doAddUserToRole")
     @ResponseBody
     public AjaxJson doAddUserToOrg(HttpServletRequest req) {
-        AjaxJson j = new AjaxJson();
-        Role role = systemRepository.findEntity(Role.class, req.getParameter("roleId"));
-        saveRoleUserList(req, role);
-		String message = MutiLangUtils.paramAddSuccess("common.user");
-        systemRepository.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
-        j.setMsg(message);
-        return j;
-    }
-
-    /**
-     * 保存 角色-用户 关系信息
-     *
-     * @param request request
-     */
-    private void saveRoleUserList(HttpServletRequest request, Role role) {
-        String userIds = ConvertUtils.getString(request.getParameter("userIds"));
-
-        List<RoleUser> roleUserList = new ArrayList<RoleUser>();
-        List<String> userIdList = IdUtils.extractIdListByComma(userIds);
-        for (String userId : userIdList) {
-            User user = new User();
-            user.setId(userId);
-
-            RoleUser roleUser = new RoleUser();
-            roleUser.setUser(user);
-            roleUser.setRole(role);
-
-            roleUserList.add(roleUser);
-        }
-        if (!roleUserList.isEmpty()) {
-            systemRepository.batchSave(roleUserList);
-        }
+        String userIds = ConvertUtils.getString(req.getParameter("userIds"));
+        String roleId = req.getParameter("roleId");
+        roleService.doAddUserToOrg(roleId,userIds);
+        return AjaxJsonBuilder.success();
     }
 }

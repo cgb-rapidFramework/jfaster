@@ -6,10 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.sql.Date;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -413,4 +410,11 @@ public class ConvertUtils {
 		return (userIp >= begin) && (userIp <= end);
 	}
 
+	public static String decode(String str) {
+		try {
+			return  URLDecoder.decode( str, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			throw  new RuntimeException(e.getMessage());
+		}
+	}
 }
