@@ -13,9 +13,6 @@ import java.util.Date;
  * @Title: Entity
  * @Description: 模版管理
  * @author guanxf
- * @date 2016-05-15 23:43:02
- * @version V1.0
- *
  */
 @Entity
 @Table(name = "t_s_template")

@@ -1,5 +1,6 @@
 package com.abocode.jfaster.admin.system.service;
 
+import com.abocode.jfaster.admin.system.dto.RoleIdAndNameDto;
 import com.abocode.jfaster.core.common.model.json.ComboTree;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
 import com.abocode.jfaster.system.entity.Role;
@@ -32,4 +33,6 @@ public interface RoleService{
     void updateDataRule(String roleId, String functionId, String dataRulecodes);
 
     void doAddUserToOrg(String roleId, String userIds);
+
+    RoleIdAndNameDto findByUserId(String id);
 }

@@ -1,5 +1,6 @@
 package com.abocode.jfaster.admin.system.service.impl;
 
+import com.abocode.jfaster.admin.system.dto.RoleIdAndNameDto;
 import com.abocode.jfaster.admin.system.dto.view.FunctionView;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
@@ -169,7 +170,7 @@ public class RoleServiceImpl implements RoleService {
         TreeGridModel treeGridModel = new TreeGridModel();
         treeGridModel.setRoleid(roleId);
         List<TreeGrid> treeGrids = resourceRepository.treegrid(functionList, treeGridModel);
-        return  treeGrids;
+        return treeGrids;
     }
 
     @Override
@@ -211,7 +212,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void updateOperation(String roleId, String functionId,String operationcodes) {
+    public void updateOperation(String roleId, String functionId, String operationcodes) {
         CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
         cq1.eq("role.id", roleId);
         cq1.eq("function.id", functionId);
@@ -264,6 +265,7 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * 更新操作
+     *
      * @param roleId
      * @param functionid
      * @param ids
@@ -282,6 +284,7 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * 清空操作
+     *
      * @param roleId
      */
     private void clearp(String roleId) {
@@ -297,6 +300,7 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * 权限比较
+     *
      * @param set  最新的权限列表
      * @param role 当前角色
      * @param map  旧的权限列表
@@ -344,5 +348,19 @@ public class RoleServiceImpl implements RoleService {
         for (RoleUser tsRoleUser : roleUsers) {
             systemRepository.delete(tsRoleUser);
         }
+    }
+
+    @Override
+    public RoleIdAndNameDto findByUserId(String id) {
+        List<RoleUser> roleUsers = userRepository.findAllByProperty(RoleUser.class, "user.id",id);
+        String roleId = "";
+        String roleName = "";
+        if (roleUsers.size() > 0) {
+            for (RoleUser tRoleUser : roleUsers) {
+                roleId += tRoleUser.getRole().getId() + ",";
+                roleName += tRoleUser.getRole().getRoleName() + ",";
+            }
+        }
+        return new RoleIdAndNameDto(roleId, roleName);
     }
 }

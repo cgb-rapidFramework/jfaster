@@ -138,4 +138,31 @@ public class OrgServiceImpl implements OrgService {
             systemRepository.batchSave(userOrgList);
         }
     }
+
+    @Override
+    public List<Org> find(String orgId) {
+        List<Org> departList = new ArrayList<Org>();
+
+        if (!StringUtils.isEmpty(orgId)) {
+            departList.add((Org) userRepository.findEntity(Org.class, orgId));
+        } else {
+            departList.addAll((List) userRepository.getList(Org.class));
+        }
+        return  departList;
+    }
+
+    @Override
+    public List<String> findIdByUserId(String id) {
+        return    userRepository.findByHql("select d.id from Org d,UserOrg uo where d.id=uo.parentOrg.id and uo.user.id=?0", new String[]{id});
+    }
+
+    @Override
+    public List<Org> findOrgByUserId(String userId) {
+        List<Org> orgList = new ArrayList<Org>();
+        List<Object[]> orgArrList = userRepository.findByHql("from Org d,UserOrg uo where d.id=uo.parentOrg.id and uo.user.id=?0", new String[]{userId});
+        for (Object[] departs : orgArrList) {
+            orgList.add((Org) departs[0]);
+        }
+        return  orgList;
+    }
 }

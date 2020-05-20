@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 @Service
-public class SystemApplicationService  implements SystemService {
+public class SystemServiceImpl implements SystemService {
     @Resource
     private JdbcDao jdbcDao;
 

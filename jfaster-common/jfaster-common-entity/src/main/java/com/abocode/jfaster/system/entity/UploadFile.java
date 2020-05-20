@@ -11,7 +11,7 @@ import java.util.Date;
  * 项目附件父表(其他附件表需继承该表)
  */
 @Entity
-@Table(name = "t_s_UploadFile")
+@Table(name = "t_s_upload_file")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Data
 public class UploadFile extends AbstractIdEntity implements java.io.Serializable {

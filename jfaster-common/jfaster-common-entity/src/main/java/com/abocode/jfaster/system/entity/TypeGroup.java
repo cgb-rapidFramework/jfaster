@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "t_s_typegroup")
+@Table(name = "t_s_type_group")
 @Data
 public class TypeGroup extends AbstractIdEntity implements java.io.Serializable {
     @Column(name = "type_group_name",length = 50)

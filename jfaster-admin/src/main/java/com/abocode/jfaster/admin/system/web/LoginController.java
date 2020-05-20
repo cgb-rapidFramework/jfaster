@@ -276,7 +276,6 @@ public class LoginController {
 
     /**
      * 返回数据
-     *
      * @throws Exception
      */
     @RequestMapping(params = "getPrimaryMenuForWebos")

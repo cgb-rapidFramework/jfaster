@@ -487,12 +487,11 @@ public class TagUtil {
      *
      * @param all      全部对象
      * @param in       已拥有的对象
-     * @param comboBox 模型
+     * @param fields 模型
      * @return
      */
-    public static List<ComboBox> getComboBox(List all, List in, ComboBox comboBox) {
+    public static List<ComboBox> getComboBox(List all, List in,  String[] fields) {
         List<ComboBox> comboxBoxs = new ArrayList<ComboBox>();
-        String[] fields = new String[]{comboBox.getId(), comboBox.getText()};
         Object[] values = new Object[fields.length];
         for (Object node : all) {
             ComboBox box = new ComboBox();

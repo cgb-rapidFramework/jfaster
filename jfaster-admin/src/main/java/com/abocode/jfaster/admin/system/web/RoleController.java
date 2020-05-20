@@ -1,19 +1,13 @@
 package com.abocode.jfaster.admin.system.web;
 
-import com.abocode.jfaster.admin.system.service.BeanToTagConverter;
 import com.abocode.jfaster.admin.system.service.RoleService;
 import com.abocode.jfaster.core.common.model.json.*;
 import com.abocode.jfaster.core.common.util.*;
-import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
-import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import com.abocode.jfaster.system.entity.*;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Property;
-import org.hibernate.criterion.Restrictions;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.platform.view.interactions.easyui.TreeGridModel;
-import com.abocode.jfaster.admin.system.dto.view.FunctionView;
 import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
 import com.abocode.jfaster.core.web.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
@@ -28,8 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.*;
 
 /**

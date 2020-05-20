@@ -16,4 +16,10 @@ public interface OrgService {
     List<ComboTree> buildComboTree();
 
     void saveOrgUserList(Org depart, String orgIds);
+
+    List<Org> find(String orgId);
+
+    List<String> findIdByUserId(String id);
+
+    List<Org> findOrgByUserId(String userId);
 }
