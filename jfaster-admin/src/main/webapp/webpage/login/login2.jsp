@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import="com.abocode.jfaster.core.common.util.SysThemesUtils"%>
-<%@ page import="com.abocode.jfaster.admin.system.dto.view.TemplateView" %>
+<%@page import="com.abocode.jfaster.core.platform.utils.SysThemesUtils"%>
+<%@ page import="com.abocode.jfaster.core.platform.view.TemplateView" %>
 <%@ page import="com.abocode.jfaster.core.common.util.BrowserUtils" %>
 <%@include file="/context/mytags.jsp"%>
 <!DOCTYPE html>

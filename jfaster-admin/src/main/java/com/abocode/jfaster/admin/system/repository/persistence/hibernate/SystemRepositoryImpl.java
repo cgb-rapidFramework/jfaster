@@ -1,16 +1,16 @@
 package com.abocode.jfaster.admin.system.repository.persistence.hibernate;
 
-import com.abocode.jfaster.admin.system.dto.view.IconView;
+import com.abocode.jfaster.core.platform.view.IconView;
 import com.abocode.jfaster.admin.system.service.BeanToTagConverter;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
-import com.abocode.jfaster.admin.system.dto.view.OperationView;
-import com.abocode.jfaster.admin.system.dto.view.TypeView;
-import com.abocode.jfaster.admin.system.dto.view.TypeGroupView;
-import com.abocode.jfaster.core.common.container.SystemContainer;
-import com.abocode.jfaster.core.common.container.SystemContainer.IconContainer;
-import com.abocode.jfaster.core.common.container.SystemContainer.TypeGroupContainer;
+import com.abocode.jfaster.core.platform.view.OperationView;
+import com.abocode.jfaster.core.platform.view.TypeView;
+import com.abocode.jfaster.core.platform.view.TypeGroupView;
+import com.abocode.jfaster.core.platform.SystemContainer;
+import com.abocode.jfaster.core.platform.SystemContainer.IconContainer;
+import com.abocode.jfaster.core.platform.SystemContainer.TypeGroupContainer;
 import com.abocode.jfaster.admin.system.dto.bean.DictBean;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;

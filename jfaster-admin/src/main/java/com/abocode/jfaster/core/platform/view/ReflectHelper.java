@@ -1,4 +1,4 @@
-package com.abocode.jfaster.admin.system.dto.view;
+package com.abocode.jfaster.core.platform.view;
 
 
 import java.lang.reflect.Method;

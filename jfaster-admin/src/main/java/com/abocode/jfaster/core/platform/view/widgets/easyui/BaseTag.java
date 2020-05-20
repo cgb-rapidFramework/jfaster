@@ -1,10 +1,10 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
 import com.abocode.jfaster.core.common.util.ConvertUtils;
-import com.abocode.jfaster.admin.system.dto.view.TemplateView;
+import com.abocode.jfaster.core.platform.view.TemplateView;
 import com.abocode.jfaster.core.common.util.JspWriterUtils;
-import com.abocode.jfaster.core.common.util.MutiLangUtils;
-import com.abocode.jfaster.core.common.util.SysThemesUtils;
+import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.SysThemesUtils;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;

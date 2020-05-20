@@ -1,9 +1,9 @@
-package com.abocode.jfaster.core.common.util;
+package com.abocode.jfaster.core.platform.utils;
 
-import com.abocode.jfaster.admin.system.dto.view.IconView;
-import com.abocode.jfaster.core.common.container.SystemContainer;
+import com.abocode.jfaster.core.platform.view.IconView;
+import com.abocode.jfaster.core.platform.SystemContainer;
 import org.apache.commons.lang.StringUtils;
-import com.abocode.jfaster.admin.system.dto.view.FunctionView;
+import com.abocode.jfaster.core.platform.view.FunctionView;
 
 import java.util.List;
 import java.util.Map;
@@ -60,7 +60,7 @@ public class SystemMenuUtils {
 
 			// 查找所有父节点为pid的所有对象，然后拼接为json格式的数据
 			count++;
-			if (node.getFunction().getId().equals(pid))
+			if (node.getParentFunction().getId().equals(pid))
 
 			{
 				buffer.append("{\"menuid\":\"" + node.getId()
@@ -101,7 +101,7 @@ public class SystemMenuUtils {
 			}
 			for (FunctionView function : functions) {
 
-				if (function.getFunction().getId().equals(pFunction.getId())) {
+				if (function.getParentFunction().getId().equals(pFunction.getId())) {
 					menuString
 							.append("<li><a href=\""
 									+ function.getFunctionUrl()
@@ -141,7 +141,7 @@ public class SystemMenuUtils {
 			}
 			for (FunctionView function : functions) {
 
-				if (function.getFunction().getId().equals(pFunction.getId())) {
+				if (function.getParentFunction().getId().equals(pFunction.getId())) {
 					String icon = "folder";
 					if (function.getIcon() != null) {
 						icon = function.getIcon().getIconClazz();
@@ -263,7 +263,7 @@ public class SystemMenuUtils {
 		StringBuffer menuString = new StringBuffer();
 		List<FunctionView> list = map.get(level);
 		for (FunctionView function : list) {
-			if (function.getFunction().getId().equals(parent.getId())){
+			if (function.getParentFunction().getId().equals(parent.getId())){
 				if(function.getFunctions().size()==0||!map.containsKey(level+1)){
 					menuString.append(getLeaf(function));
 				}else if(map.containsKey(level+1)){
@@ -291,7 +291,7 @@ public class SystemMenuUtils {
 		StringBuffer menuString = new StringBuffer();
 		List<FunctionView> list = map.get(level);
 		for (FunctionView function : list) {
-			if (function.getFunction().getId().equals(parent.getId())){
+			if (function.getParentFunction().getId().equals(parent.getId())){
 				if(function.getFunctions().size()==0||!map.containsKey(level+1)){
 					menuString.append(getLeafOfTree(function));
 				}else if(map.containsKey(level+1)){
@@ -418,7 +418,7 @@ public class SystemMenuUtils {
 		}
 		menuString.append("		<ul class=\"dropdown-menu\"> ");
 		for (FunctionView function : list) {
-			if (function.getFunction().getId().equals(parent.getId())){
+			if (function.getParentFunction().getId().equals(parent.getId())){
 				boolean hasSub = function.getFunctions().size()!=0 && map.containsKey(level+1);
 				String menu_url = function.getFunctionUrl();
 				if(StringUtils.isNotEmpty(menu_url)){
@@ -528,7 +528,7 @@ public class SystemMenuUtils {
 			return "";
 		}
 		for (FunctionView function : list) {
-			if (function.getFunction().getId().equals(parent.getId())){
+			if (function.getParentFunction().getId().equals(parent.getId())){
 				boolean hasSub = function.getFunctions().size()!=0 && map.containsKey(level+1);
 //				String menu_url = function.getFunctionUrl();
 //				if(StringUtils.isNotEmpty(menu_url)){
@@ -556,7 +556,7 @@ public class SystemMenuUtils {
 			return "";
 		}
 		for (FunctionView function : list) {
-			if (function.getFunction().getId().equals(parent.getId())){
+			if (function.getParentFunction().getId().equals(parent.getId())){
 				DeskpanelString.append("'"+function.getId()+"',");
 			}
 		}
@@ -571,7 +571,7 @@ public class SystemMenuUtils {
 			return "";
 		}
 		for (FunctionView function : list) {
-			if (function.getFunction().getId().equals(parent.getId())){
+			if (function.getParentFunction().getId().equals(parent.getId())){
 				dataString.append("'"+function.getId()+"':{ ");
 				dataString.append("appid:'"+function.getId()+"',");
 				dataString.append("url:'"+function.getFunctionUrl()+"',");
@@ -679,7 +679,7 @@ public class SystemMenuUtils {
 		StringBuffer menuString = new StringBuffer();
 		List<FunctionView> list = map.get(level);
 		for (FunctionView function : list) {
-			if (function.getFunction().getId().equals(parent.getId())){
+			if (function.getParentFunction().getId().equals(parent.getId())){
 				if(!function.hasSubFunction(map)){
 					menuString.append(getLeafOfACETree(function));
 				}else if(map.containsKey(level+1)){
@@ -759,7 +759,7 @@ public class SystemMenuUtils {
 		StringBuffer menuString = new StringBuffer();
 		List<FunctionView> list = map.get(level);
 		for (FunctionView function : list) {
-			if (function.getFunction().getId().equals(parent.getId())){
+			if (function.getParentFunction().getId().equals(parent.getId())){
 				if(!function.hasSubFunction(map)){
 					menuString.append(getLeafOfDIYTree(function));
 				}else if(map.containsKey(level+1)){

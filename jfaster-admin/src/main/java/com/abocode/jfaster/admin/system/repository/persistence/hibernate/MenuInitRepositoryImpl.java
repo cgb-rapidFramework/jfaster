@@ -7,7 +7,7 @@ import com.abocode.jfaster.core.common.annotation.config.AutoMenu;
 import com.abocode.jfaster.core.common.annotation.config.AutoMenuOperation;
 import com.abocode.jfaster.core.common.annotation.config.MenuCodeType;
 import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
-import com.abocode.jfaster.admin.system.dto.view.FunctionView;
+import com.abocode.jfaster.core.platform.view.FunctionView;
 import com.abocode.jfaster.system.entity.Operation;
 import com.abocode.jfaster.core.common.util.StringUtils;
 import org.springframework.beans.BeanUtils;

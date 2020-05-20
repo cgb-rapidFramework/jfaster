@@ -1,7 +1,6 @@
 package com.abocode.jfaster.admin.system.web;
 
 import com.abocode.jfaster.admin.system.repository.MutiLangRepository;
-import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
 import com.abocode.jfaster.core.common.constants.Globals;
@@ -10,7 +9,7 @@ import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
 import com.abocode.jfaster.core.common.model.json.ValidForm;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
-import com.abocode.jfaster.core.common.util.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
 import com.abocode.jfaster.core.common.util.StringUtils;
 import com.abocode.jfaster.core.extend.hqlsearch.parse.ObjectParseUtil;
 import com.abocode.jfaster.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;

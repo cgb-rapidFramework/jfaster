@@ -2,14 +2,10 @@ package com.abocode.jfaster.admin.system.web;
 
 import com.abocode.jfaster.admin.system.service.MutiLangService;
 import com.abocode.jfaster.core.common.model.json.AjaxJsonBuilder;
-import com.abocode.jfaster.core.common.util.LogUtils;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
-import com.abocode.jfaster.core.common.util.BeanPropertyUtils;
 import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
-import com.abocode.jfaster.core.common.constants.Globals;
-import com.abocode.jfaster.core.common.util.MutiLangUtils;
 import com.abocode.jfaster.core.web.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.system.entity.MutiLang;
 import com.abocode.jfaster.admin.system.repository.MutiLangRepository;

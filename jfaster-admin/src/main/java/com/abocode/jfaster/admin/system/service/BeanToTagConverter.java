@@ -3,13 +3,13 @@ package com.abocode.jfaster.admin.system.service;
 import com.abocode.jfaster.core.common.util.StringUtils;
 import com.abocode.jfaster.system.entity.Function;
 import com.abocode.jfaster.system.entity.TypeGroup;
-import com.abocode.jfaster.admin.system.dto.view.IconView;
-import com.abocode.jfaster.admin.system.dto.view.TypeView;
-import com.abocode.jfaster.admin.system.dto.view.TypeGroupView;
+import com.abocode.jfaster.core.platform.view.IconView;
+import com.abocode.jfaster.core.platform.view.TypeView;
+import com.abocode.jfaster.core.platform.view.TypeGroupView;
 import com.abocode.jfaster.system.entity.Icon;
 import com.abocode.jfaster.system.entity.Type;
 import com.abocode.jfaster.admin.system.dto.bean.FunctionBean;
-import com.abocode.jfaster.admin.system.dto.view.FunctionView;
+import com.abocode.jfaster.core.platform.view.FunctionView;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class BeanToTagConverter {
 				FunctionView parentFunctionBean=new FunctionView();
 				BeanUtils.copyProperties(parentFunction, parentFunctionVo);
 				BeanUtils.copyProperties(parentFunctionVo, parentFunctionBean);
-				functionBean.setFunction(parentFunctionBean);
+				functionBean.setParentFunction(parentFunctionBean);
 			}
 
 			List<Function> functionLists=function.getFunctions();
@@ -110,7 +110,7 @@ public static TypeView convertType(Type tsType) {
 		 type=new TypeView();
 		type.setId(tsType.getId());
 		type.setType(BeanToTagConverter.convertType(tsType.getType()));
-		type.setTypegroup(BeanToTagConverter.convertTypeGroup(tsType.getTypeGroup()));
+		type.setTypeGroup(BeanToTagConverter.convertTypeGroup(tsType.getTypeGroup()));
 		type.setTypes(BeanToTagConverter.convertTypes(tsType.getTypes()));
 		type.setTypeCode(tsType.getTypeCode());
 		type.setTypeName(tsType.getTypeName());

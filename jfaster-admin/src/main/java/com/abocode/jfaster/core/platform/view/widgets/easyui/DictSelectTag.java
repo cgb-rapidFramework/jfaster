@@ -7,11 +7,11 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import com.abocode.jfaster.admin.system.dto.view.TypeGroupView;
+import com.abocode.jfaster.core.platform.view.TypeGroupView;
 import com.abocode.jfaster.core.common.util.JspWriterUtils;
-import com.abocode.jfaster.core.common.util.MutiLangUtils;
-import com.abocode.jfaster.admin.system.dto.view.TypeView;
-import com.abocode.jfaster.core.common.container.SystemContainer;
+import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.view.TypeView;
+import com.abocode.jfaster.core.platform.SystemContainer;
 
 import com.google.gson.Gson;
 import org.springframework.util.StringUtils;
@@ -115,7 +115,7 @@ public class DictSelectTag extends TagSupport {
             if (typeGroup != null) {
                 if (hasLabel) {
                     if (StringUtils.isEmpty(this.title)) {
-                        this.title = MutiLangUtils.getLang(typeGroup.getTypegroupname());
+                        this.title = MutiLangUtils.getLang(typeGroup.getTypeGroupName());
                     }
                     sb.append(this.title + ":");
                     sb.append("</label>");

@@ -1,4 +1,4 @@
-package com.abocode.jfaster.core.common.container;
+package com.abocode.jfaster.core.platform;
 
 import com.abocode.jfaster.core.common.util.BrowserUtils;
 import org.springframework.util.StringUtils;

@@ -3,7 +3,7 @@ package com.abocode.jfaster.admin.system.service.impl;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.service.IconService;
 import com.abocode.jfaster.core.common.constants.Globals;
-import com.abocode.jfaster.core.common.util.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
 import com.abocode.jfaster.system.entity.Function;
 import com.abocode.jfaster.system.entity.Icon;
 import org.springframework.stereotype.Service;

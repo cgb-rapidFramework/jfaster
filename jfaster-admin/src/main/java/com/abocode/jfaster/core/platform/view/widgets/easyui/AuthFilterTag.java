@@ -1,9 +1,9 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
 import com.abocode.jfaster.core.common.util.ConvertUtils;
-import com.abocode.jfaster.admin.system.dto.view.OperationView;
+import com.abocode.jfaster.core.platform.view.OperationView;
 import com.abocode.jfaster.core.common.constants.Globals;
-import com.abocode.jfaster.core.common.container.SystemContainer;
+import com.abocode.jfaster.core.platform.SystemContainer;
 import com.abocode.jfaster.core.common.util.JspWriterUtils;
 
 import javax.servlet.jsp.JspException;

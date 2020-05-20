@@ -3,7 +3,7 @@ package com.abocode.jfaster.admin.system.service.impl;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.service.ChartService;
 import com.abocode.jfaster.core.common.model.json.HighChart;
-import com.abocode.jfaster.core.common.util.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

@@ -6,7 +6,7 @@ import com.abocode.jfaster.core.common.model.json.ImportFile;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.extend.template.DataSourceMap;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
-import com.abocode.jfaster.admin.system.dto.view.ReflectHelper;
+import com.abocode.jfaster.core.platform.view.ReflectHelper;
 import com.abocode.jfaster.system.entity.Operation;
 import com.abocode.jfaster.system.entity.Role;
 import com.abocode.jfaster.system.entity.RoleFunction;

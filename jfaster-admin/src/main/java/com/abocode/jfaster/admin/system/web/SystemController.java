@@ -1,31 +1,13 @@
 package com.abocode.jfaster.admin.system.web;
 
 import com.abocode.jfaster.core.common.model.json.*;
-import com.abocode.jfaster.core.extend.hqlsearch.parse.ObjectParseUtil;
 import com.abocode.jfaster.admin.system.dto.bean.ClientBean;
-import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;
-import com.abocode.jfaster.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
-import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
-import com.abocode.jfaster.core.platform.view.interactions.easyui.TreeGridModel;
-import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
-import com.abocode.jfaster.core.common.constants.Globals;
-import com.abocode.jfaster.core.common.util.MutiLangUtils;
 import com.abocode.jfaster.core.web.manager.ClientManager;
 import com.abocode.jfaster.core.web.manager.ClientSort;
-import com.abocode.jfaster.admin.system.repository.MutiLangRepository;
-import com.abocode.jfaster.admin.system.repository.ResourceRepository;
-import com.abocode.jfaster.admin.system.repository.SystemRepository;
-import com.abocode.jfaster.admin.system.repository.UserRepository;
-import com.abocode.jfaster.core.common.util.FunctionComparator;
-import com.abocode.jfaster.core.common.util.StringUtils;
-import com.abocode.jfaster.system.entity.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 

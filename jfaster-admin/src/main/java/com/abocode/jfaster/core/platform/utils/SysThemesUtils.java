@@ -1,13 +1,14 @@
-package com.abocode.jfaster.core.common.util;
+package com.abocode.jfaster.core.platform.utils;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.abocode.jfaster.core.common.container.SystemContainer;
+import com.abocode.jfaster.core.common.util.LogUtils;
+import com.abocode.jfaster.core.platform.SystemContainer;
 import com.abocode.jfaster.core.common.exception.BusinessException;
 import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
 
-import com.abocode.jfaster.admin.system.dto.view.TemplateView;
+import com.abocode.jfaster.core.platform.view.TemplateView;
 
 import java.io.*;
 

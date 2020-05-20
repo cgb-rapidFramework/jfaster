@@ -2,7 +2,7 @@ package com.abocode.jfaster.admin.system.repository.persistence.hibernate;
 
 import com.abocode.jfaster.admin.system.repository.MutiLangRepository;
 import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
-import com.abocode.jfaster.core.common.container.MutilangContainer;
+import com.abocode.jfaster.core.platform.MutilangContainer;
 import com.abocode.jfaster.core.common.util.BrowserUtils;
 import com.abocode.jfaster.system.entity.MutiLang;
 import com.abocode.jfaster.core.common.util.StringUtils;

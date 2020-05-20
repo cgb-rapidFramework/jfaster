@@ -4,7 +4,7 @@ import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
 import com.abocode.jfaster.admin.system.service.OperationService;
 import com.abocode.jfaster.core.common.constants.Globals;
-import com.abocode.jfaster.core.common.util.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
 import com.abocode.jfaster.core.common.util.StringUtils;
 import com.abocode.jfaster.system.entity.Operation;
 import org.springframework.beans.factory.annotation.Autowired;

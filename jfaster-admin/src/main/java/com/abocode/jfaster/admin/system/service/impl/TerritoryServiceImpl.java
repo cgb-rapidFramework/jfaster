@@ -6,7 +6,6 @@ import com.abocode.jfaster.admin.system.service.TerritoryService;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.model.json.ComboTree;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
-import com.abocode.jfaster.core.common.util.MutiLangUtils;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.platform.view.interactions.datatable.SortDirection;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;

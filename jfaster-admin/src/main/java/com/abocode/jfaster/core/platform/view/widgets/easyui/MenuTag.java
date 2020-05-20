@@ -7,9 +7,9 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import com.abocode.jfaster.admin.system.dto.view.FunctionView;
+import com.abocode.jfaster.core.platform.view.FunctionView;
 import com.abocode.jfaster.core.common.util.JspWriterUtils;
-import com.abocode.jfaster.core.common.util.SystemMenuUtils;
+import com.abocode.jfaster.core.platform.utils.SystemMenuUtils;
 
 
 /**

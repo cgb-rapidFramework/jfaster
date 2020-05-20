@@ -1,7 +1,9 @@
-package com.abocode.jfaster.core.common.util;
+package com.abocode.jfaster.core.platform.utils;
 
-import com.abocode.jfaster.admin.system.dto.view.ReflectHelper;
-import com.abocode.jfaster.core.common.container.MutilangContainer;
+import com.abocode.jfaster.core.common.util.BeanPropertyUtils;
+import com.abocode.jfaster.core.common.util.LogUtils;
+import com.abocode.jfaster.core.platform.view.ReflectHelper;
+import com.abocode.jfaster.core.platform.MutilangContainer;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
