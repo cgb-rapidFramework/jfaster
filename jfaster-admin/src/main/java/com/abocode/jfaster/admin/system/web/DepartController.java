@@ -6,7 +6,7 @@ import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
-import com.abocode.jfaster.core.web.hqlsearch.HqlGenerateUtil;
+import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.system.entity.Org;
 import com.abocode.jfaster.system.entity.User;
 import com.abocode.jfaster.system.entity.UserOrg;

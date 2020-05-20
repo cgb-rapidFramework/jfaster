@@ -1,4 +1,4 @@
-package com.abocode.jfaster.core.extend.datasource;
+package com.abocode.jfaster.core.persistence.datasource;
 
 import java.util.Map;
 

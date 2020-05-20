@@ -18,7 +18,7 @@ import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.platform.poi.excel.ExcelImportUtil;
 import com.abocode.jfaster.core.platform.poi.excel.entity.ImportParams;
 import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
-import com.abocode.jfaster.core.web.hqlsearch.HqlGenerateUtil;
+import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.system.entity.*;
 import org.hibernate.criterion.Property;
 import org.springframework.beans.BeanUtils;

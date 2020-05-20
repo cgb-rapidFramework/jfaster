@@ -8,7 +8,7 @@ import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
 import com.abocode.jfaster.core.platform.utils.SysThemesUtils;
-import com.abocode.jfaster.core.web.hqlsearch.HqlGenerateUtil;
+import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.system.entity.Icon;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;

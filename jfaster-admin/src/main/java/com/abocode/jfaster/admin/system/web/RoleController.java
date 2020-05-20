@@ -9,7 +9,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Property;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
-import com.abocode.jfaster.core.web.hqlsearch.HqlGenerateUtil;
+import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

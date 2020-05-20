@@ -1,4 +1,4 @@
-package com.abocode.jfaster.core.extend.template;
+package com.abocode.jfaster.core.persistence.datasource;
 import com.abocode.jfaster.core.common.util.LogUtils;
 
 import java.io.IOException;
@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-@SuppressWarnings("unchecked")
 public class DataSourceMap {
 	private static Map<Object,Object> dsm;
 	
@@ -18,7 +17,7 @@ public class DataSourceMap {
 	    Properties p=new Properties();
 	    try {
 			p.load(is);
-			dsm=(HashMap<Object,Object>) new HashMap<Object,Object>();
+			dsm=new HashMap<Object,Object>();
 			Set ps=p.entrySet();
 			for (Iterator iterator = ps.iterator(); iterator.hasNext();) {
 				Map.Entry<Object, Object> entry = (Map.Entry<Object, Object>) iterator.next();

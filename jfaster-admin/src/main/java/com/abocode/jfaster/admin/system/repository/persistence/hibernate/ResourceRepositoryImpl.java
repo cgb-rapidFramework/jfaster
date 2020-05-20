@@ -4,7 +4,6 @@ import com.abocode.jfaster.core.common.exception.BusinessException;
 import com.abocode.jfaster.admin.system.dto.UploadFileDto;
 import com.abocode.jfaster.core.common.model.json.ImportFile;
 import com.abocode.jfaster.core.common.util.*;
-import com.abocode.jfaster.core.extend.template.DataSourceMap;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.platform.view.ReflectHelper;
 import com.abocode.jfaster.system.entity.Operation;
@@ -19,7 +18,6 @@ import org.dom4j.io.XMLWriter;
 import com.abocode.jfaster.core.common.model.json.ComboTree;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
 import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
-import com.abocode.jfaster.core.extend.template.Template;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.TreeGridModel;
 import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
 import com.abocode.jfaster.system.entity.Org;
@@ -214,10 +212,6 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
             }
         }
         return response;
-    }
-
-    public Map<Object, Object> getDataSourceMap(Template template) {
-        return DataSourceMap.getDataSourceMap();
     }
 
     /**

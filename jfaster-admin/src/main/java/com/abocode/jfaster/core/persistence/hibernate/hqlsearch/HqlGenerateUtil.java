@@ -1,13 +1,13 @@
-package com.abocode.jfaster.core.web.hqlsearch;
+package com.abocode.jfaster.core.persistence.hibernate.hqlsearch;
 
 import com.abocode.jfaster.core.common.annotation.query.QueryTimeFormat;
-import com.abocode.jfaster.core.extend.hqlsearch.parse.ObjectParseUtil;
-import com.abocode.jfaster.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;
+import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.ObjectParseUtil;
+import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.PageValueConvertRuleEnum;
 import com.abocode.jfaster.core.common.util.DataRuleUtils;
 import com.abocode.jfaster.core.common.util.LogUtils;
 import com.abocode.jfaster.core.common.util.SessionUtils;
 import com.abocode.jfaster.core.common.util.StringUtils;
-import com.abocode.jfaster.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
+import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.vo.HqlRuleEnum;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import org.apache.commons.beanutils.PropertyUtils;
 import com.abocode.jfaster.system.entity.DataRule;

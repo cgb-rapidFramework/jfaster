@@ -1,7 +1,7 @@
-package com.abocode.jfaster.core.web.hqlsearch;
+package com.abocode.jfaster.core.persistence.hibernate.hqlsearch;
 
 import com.abocode.jfaster.core.common.util.SessionUtils;
-import com.abocode.jfaster.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
+import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.vo.HqlRuleEnum;
 import com.abocode.jfaster.system.entity.DataRule;
 
 /**

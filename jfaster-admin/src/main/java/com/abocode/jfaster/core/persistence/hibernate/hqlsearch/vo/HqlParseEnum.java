@@ -1,4 +1,4 @@
-package com.abocode.jfaster.core.extend.hqlsearch.parse.vo;
+package com.abocode.jfaster.core.persistence.hibernate.hqlsearch.vo;
 
 /**
  * HQL 解析 常量

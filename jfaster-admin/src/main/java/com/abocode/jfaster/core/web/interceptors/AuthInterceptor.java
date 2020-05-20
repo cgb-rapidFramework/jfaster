@@ -5,7 +5,7 @@ import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.admin.system.dto.bean.ClientBean;
 import com.abocode.jfaster.core.common.util.DataRuleUtils;
-import com.abocode.jfaster.core.web.hqlsearch.SysContextSqlConvert;
+import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.SysContextSqlConvert;
 import com.abocode.jfaster.core.web.manager.ClientManager;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.core.common.util.ConfigUtils;
@@ -31,9 +31,7 @@ import java.util.Set;
 
 /**
  * 权限拦截器
- * 
- * @author  张代浩
- * 
+ *
  */
 public class AuthInterceptor implements HandlerInterceptor {
 	 

@@ -6,7 +6,7 @@ import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
-import com.abocode.jfaster.core.web.hqlsearch.HqlGenerateUtil;
+import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.system.entity.MutiLang;
 import com.abocode.jfaster.admin.system.repository.MutiLangRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
