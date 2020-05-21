@@ -1,6 +1,5 @@
 package com.abocode.jfaster.core.persistence.hibernate.hqlsearch;
 
-import com.abocode.jfaster.core.common.annotation.query.QueryTimeFormat;
 import com.abocode.jfaster.core.common.util.DataRuleUtils;
 import com.abocode.jfaster.core.common.util.LogUtils;
 import com.abocode.jfaster.core.common.util.StringUtils;

@@ -3,7 +3,6 @@ package com.abocode.jfaster.core.web.aop;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.util.LogUtils;
 import com.abocode.jfaster.core.web.utils.SessionUtils;
-import com.abocode.jfaster.core.common.constants.DataBaseConstant;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 import com.abocode.jfaster.system.entity.User;

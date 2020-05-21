@@ -23,7 +23,6 @@ import org.hibernate.internal.CriteriaImpl;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.persister.entity.AbstractEntityPersister;
 import org.hibernate.type.Type;
-import com.abocode.jfaster.core.common.annotation.EntityTitle;
 import com.abocode.jfaster.core.persistence.DBTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

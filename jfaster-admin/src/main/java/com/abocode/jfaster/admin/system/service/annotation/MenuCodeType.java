@@ -1,4 +1,4 @@
-package com.abocode.jfaster.core.common.annotation.config;
+package com.abocode.jfaster.admin.system.service.annotation;
 
 /**
  * 

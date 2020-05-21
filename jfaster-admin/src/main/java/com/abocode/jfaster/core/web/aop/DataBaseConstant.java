@@ -1,4 +1,4 @@
-package com.abocode.jfaster.core.common.constants;
+package com.abocode.jfaster.core.web.aop;
 
 /**
  * 数据库上下文常量

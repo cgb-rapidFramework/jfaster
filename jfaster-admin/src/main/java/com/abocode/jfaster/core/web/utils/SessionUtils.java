@@ -1,6 +1,6 @@
 package com.abocode.jfaster.core.web.utils;
 
-import com.abocode.jfaster.core.common.constants.DataBaseConstant;
+import com.abocode.jfaster.core.web.aop.DataBaseConstant;
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.util.DateUtils;

@@ -3,7 +3,6 @@ package com.abocode.jfaster.core.web.aop;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
-import com.abocode.jfaster.core.common.annotation.Ehcache;
 import com.google.gson.Gson;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
@@ -37,7 +36,7 @@ public class EhcacheAspect {
 		}
 	}
 
-	@Pointcut("@annotation(com.abocode.jfaster.core.common.annotation.Ehcache)")
+	@Pointcut("@annotation(com.abocode.jfaster.core.web.aop.Ehcache)")
 	public void simplePointcut() {
 	}
 

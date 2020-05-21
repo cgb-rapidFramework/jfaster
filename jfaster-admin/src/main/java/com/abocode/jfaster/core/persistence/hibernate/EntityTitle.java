@@ -1,4 +1,4 @@
-package com.abocode.jfaster.core.common.annotation;
+package com.abocode.jfaster.core.persistence.hibernate;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -1,6 +1,5 @@
 package com.abocode.jfaster.core.common.util;
 
-import com.abocode.jfaster.core.common.constants.Constants;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -12,7 +11,15 @@ import java.util.ResourceBundle;
  * @author 张代浩
  */
 public class JeecgSqlUtil {
+    /**
+     * 开发模式
+     */
+    private static final String MODE_DEVELOP = "DEV";
 
+    /**
+     * 发布模式
+     */
+    private static final String MODE_PUBLISH = "PUB";
     /**
      * SQL文件路径获取参数
      */
@@ -97,13 +104,12 @@ public class JeecgSqlUtil {
 
 
     public static String getMethodSql(String methodUrl) {
-
         //[1].开发模式：dev SQL文件每次都加载
-        if (Constants.MODE_DEVELOP.equals(bundle.getObject("sqlReadMode"))) {
+        if (MODE_DEVELOP.equals(bundle.getObject("sqlReadMode"))) {
             return getMethodSqlLogicJar(methodUrl);
         }
         //[2].发布模式：pub SQL文件只加载一次
-        else if (Constants.MODE_PUBLISH.equals(bundle.getObject("sqlReadMode"))) {
+        else if (MODE_PUBLISH.equals(bundle.getObject("sqlReadMode"))) {
             Element element = dictCache.get(methodUrl);
             if (element == null) {
                 element = new Element(methodUrl, (Serializable) getMethodSqlLogicJar(methodUrl));

@@ -1,4 +1,4 @@
-package com.abocode.jfaster.core.common.annotation;
+package com.abocode.jfaster.core.web.aop;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

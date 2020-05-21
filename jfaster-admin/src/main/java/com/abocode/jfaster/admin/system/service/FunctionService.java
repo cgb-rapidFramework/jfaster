@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface FunctionService {
+    void initMenu();
+
     Map<Integer, List<FunctionView>>  getFunctionMap(User user);
 
     void delById(String id);
