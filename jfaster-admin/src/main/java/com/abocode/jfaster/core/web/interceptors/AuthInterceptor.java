@@ -3,12 +3,13 @@ package com.abocode.jfaster.core.web.interceptors;
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.constants.Globals;
-import com.abocode.jfaster.admin.system.dto.bean.ClientBean;
+import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.vo.HqlRuleEnum;
+import com.abocode.jfaster.core.web.manager.ClientBean;
 import com.abocode.jfaster.core.common.util.DataRuleUtils;
-import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.SysContextSqlConvert;
 import com.abocode.jfaster.core.web.manager.ClientManager;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.core.common.util.ConfigUtils;
+import com.abocode.jfaster.core.web.utils.SessionUtils;
 import com.abocode.jfaster.system.entity.DataRule;
 import com.abocode.jfaster.system.entity.Function;
 import com.abocode.jfaster.system.entity.Operation;
@@ -153,7 +154,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 					for (String dataRuleId : dataruleCodes) {
 						DataRule dataRule = systemService.findEntity(DataRule.class, dataRuleId);
 						    MENU_DATA_AUTHOR_RULES.add(dataRule);
-							MENU_DATA_AUTHOR_RULE_SQL += SysContextSqlConvert.setSqlModel(dataRule);
+							MENU_DATA_AUTHOR_RULE_SQL += setSqlModel(dataRule);
 					
 					}
 					 DataRuleUtils.installDataSearchConditon(request, MENU_DATA_AUTHOR_RULES);//菜单数据规则集合
@@ -169,7 +170,52 @@ public class AuthInterceptor implements HandlerInterceptor {
 
 		}
 	}
-	
+
+	private  String setSqlModel(DataRule dataRule){
+		if(dataRule == null)
+			return "";
+		String sqlValue="";
+		HqlRuleEnum ruleEnum=HqlRuleEnum.getByValue(dataRule.getRuleCondition());
+		String ValueTemp = "";
+
+		//针对特殊标示处理#{sysOrgCode}，判断替换
+		if (dataRule.getRuleValue().contains("{")) {
+			ValueTemp = dataRule.getRuleValue().substring(2,dataRule.getRuleValue().length() - 1);
+		} else {
+			ValueTemp = dataRule.getRuleValue();
+		}
+
+		String TempValue = SessionUtils.getUserSystemData(ValueTemp) == null ? ValueTemp: SessionUtils.getUserSystemData(ValueTemp);//将系统变量
+		switch (ruleEnum) {
+			case GT:
+				sqlValue+=" and "+dataRule.getRuleColumn()+" <'"+TempValue+"'";
+				break;
+			case GE:
+				sqlValue+=" and "+dataRule.getRuleColumn()+" >='"+TempValue+"'";
+				break;
+			case LT:
+				sqlValue+=" and "+dataRule.getRuleColumn()+" <'"+TempValue+"'";
+				break;
+			case LE:
+				sqlValue+=" and "+dataRule.getRuleColumn()+" =>'"+TempValue+"'";
+				break;
+			case  EQ:
+				sqlValue+=" and "+dataRule.getRuleColumn()+" ='"+TempValue+"'";
+				break;
+			case LIKE:
+				sqlValue+=" and "+dataRule.getRuleColumn()+" like %'"+TempValue+"'%";
+				break;
+			case NE:
+				sqlValue+=" and "+dataRule.getRuleColumn()+" !='"+TempValue+"'";
+				break;
+			case IN:
+				sqlValue+=" and "+dataRule.getRuleColumn()+" IN('"+TempValue+"')";
+			default:
+				break;
+		}
+		return sqlValue;
+	}
+
 	/**
 	 * 判断用户是否有菜单访问权限
 	 * @param request

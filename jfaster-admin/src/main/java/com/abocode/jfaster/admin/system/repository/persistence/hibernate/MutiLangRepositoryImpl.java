@@ -15,10 +15,6 @@ import java.util.List;
 @Service
 @Transactional
 public class MutiLangRepositoryImpl extends CommonRepositoryImpl implements MutiLangRepository {
-
-    @Autowired
-    private HttpServletRequest request;
-
     /**
      * 初始化语言信息，TOMCAT启动时直接加入到内存中
      **/

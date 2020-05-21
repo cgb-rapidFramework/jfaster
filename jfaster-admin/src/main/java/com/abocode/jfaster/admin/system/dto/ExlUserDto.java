@@ -1,4 +1,4 @@
-package com.abocode.jfaster.admin.system.dto.bean;
+package com.abocode.jfaster.admin.system.dto;
 
 import com.abocode.jfaster.core.platform.poi.excel.annotation.Excel;
 
@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 /**
  * Created by Franky on 2016/3/15.
  */
-public class ExlUserBean {
+public class ExlUserDto {
     @Excel(exportName = "用户名", exportConvertSign = 0, exportFieldWidth = 18, importConvertSign = 0)
     @NotNull
     @Pattern(regexp = "([a-zA-Z0-9_]*[a-zA-Z_][a-zA-Z0-9_]*)")

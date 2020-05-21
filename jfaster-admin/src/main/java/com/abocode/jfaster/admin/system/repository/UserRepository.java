@@ -1,7 +1,7 @@
 package com.abocode.jfaster.admin.system.repository;
 
 import com.abocode.jfaster.core.common.model.json.DataGrid;
-import com.abocode.jfaster.admin.system.dto.bean.ExlUserBean;
+import com.abocode.jfaster.admin.system.dto.ExlUserDto;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.repository.CommonRepository;
 import com.abocode.jfaster.system.entity.Role;
@@ -19,7 +19,7 @@ public interface UserRepository extends CommonRepository {
 
     int getUsersOfThisRole(String id);
 
-    List<ExlUserBean> getExlUserList(DataGrid dataGrid, User user, CriteriaQuery cq);
+    List<ExlUserDto> getExlUserList(DataGrid dataGrid, User user, CriteriaQuery cq);
 
     List<Role> findRoleById(String id);
 }

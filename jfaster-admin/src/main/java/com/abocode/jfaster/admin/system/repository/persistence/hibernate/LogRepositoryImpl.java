@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * 日志Service接口实现类
- * @author  方文荣
- *
  */
 @Service
 public class LogRepositoryImpl extends CommonRepositoryImpl implements LogRepository {

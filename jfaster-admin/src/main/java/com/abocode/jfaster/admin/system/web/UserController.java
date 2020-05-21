@@ -10,10 +10,11 @@ import com.abocode.jfaster.admin.system.service.SystemService;
 import com.abocode.jfaster.admin.system.service.UserService;
 import com.abocode.jfaster.core.platform.poi.excel.ExcelExportUtil;
 import com.abocode.jfaster.core.platform.poi.excel.entity.ExcelTitle;
-import com.abocode.jfaster.admin.system.dto.bean.DuplicateBean;
+import com.abocode.jfaster.admin.system.dto.DuplicateBean;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
-import com.abocode.jfaster.admin.system.dto.bean.ExlUserBean;
+import com.abocode.jfaster.admin.system.dto.ExlUserDto;
+import com.abocode.jfaster.core.web.utils.SessionUtils;
 import com.abocode.jfaster.system.entity.*;
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
@@ -586,7 +587,7 @@ public class UserController {
     @RequestMapping(params = "exportUser")
     public void exportUser(User user, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
         String orgIds = request.getParameter("orgIds");
-        List<ExlUserBean> exlUserList = userService.findExportUserList(user, orgIds, dataGrid);
+        List<ExlUserDto> exlUserList = userService.findExportUserList(user, orgIds, dataGrid);
         download(request, response, exlUserList);
     }
 
@@ -604,7 +605,7 @@ public class UserController {
     }
 
 
-    private void download(HttpServletRequest request, HttpServletResponse response, List<ExlUserBean> exlUserList) {
+    private void download(HttpServletRequest request, HttpServletResponse response, List<ExlUserDto> exlUserList) {
         // 生成提示信息，
         response.setContentType("application/vnd.ms-excel");
         OutputStream fOut = null;
@@ -620,7 +621,7 @@ public class UserController {
             }
             // 进行转码，使其支持中文文件名
             // 产生工作簿对象
-            HSSFWorkbook workbook = ExcelExportUtil.exportExcel(new ExcelTitle(null, null, exportFileName), ExlUserBean.class, exlUserList);
+            HSSFWorkbook workbook = ExcelExportUtil.exportExcel(new ExcelTitle(null, null, exportFileName), ExlUserDto.class, exlUserList);
             fOut = response.getOutputStream();
             workbook.write(fOut);
         } catch (Exception e) {

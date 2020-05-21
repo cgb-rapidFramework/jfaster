@@ -18,6 +18,8 @@ import com.abocode.jfaster.admin.system.repository.UserRepository;
 import com.abocode.jfaster.admin.system.service.FunctionService;
 import com.abocode.jfaster.core.platform.view.FunctionView;
 import com.abocode.jfaster.core.platform.view.TemplateView;
+import com.abocode.jfaster.core.web.utils.SessionShareCenter;
+import com.abocode.jfaster.core.web.utils.SessionUtils;
 import com.abocode.jfaster.system.entity.*;
 import com.google.gson.Gson;
 import org.springframework.beans.BeanUtils;

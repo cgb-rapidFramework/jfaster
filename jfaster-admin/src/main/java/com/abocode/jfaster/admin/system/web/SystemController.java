@@ -1,7 +1,7 @@
 package com.abocode.jfaster.admin.system.web;
 
 import com.abocode.jfaster.core.common.model.json.*;
-import com.abocode.jfaster.admin.system.dto.bean.ClientBean;
+import com.abocode.jfaster.core.web.manager.ClientBean;
 import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
 import com.abocode.jfaster.core.web.manager.ClientManager;
 import com.abocode.jfaster.core.web.manager.ClientSort;

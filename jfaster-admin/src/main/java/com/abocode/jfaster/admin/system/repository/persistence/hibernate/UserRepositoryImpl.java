@@ -10,7 +10,7 @@ import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositor
 import com.abocode.jfaster.system.entity.Role;
 import com.abocode.jfaster.system.entity.RoleUser;
 import com.abocode.jfaster.system.entity.UserOrg;
-import com.abocode.jfaster.admin.system.dto.bean.ExlUserBean;
+import com.abocode.jfaster.admin.system.dto.ExlUserDto;
 import com.abocode.jfaster.core.common.util.PasswordUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Projections;
@@ -81,12 +81,12 @@ public class UserRepositoryImpl extends CommonRepositoryImpl implements UserRepo
     }
 
     @Override
-    public List<ExlUserBean> getExlUserList(DataGrid dataGrid, User user, CriteriaQuery cq) {
+    public List<ExlUserDto> getExlUserList(DataGrid dataGrid, User user, CriteriaQuery cq) {
         List<User> users = this.findListByCq(cq, true);
-        List<ExlUserBean> exlUserList = new ArrayList<ExlUserBean>();
+        List<ExlUserDto> exlUserList = new ArrayList<ExlUserDto>();
         // 参数组装
         for (User model : users) {
-            ExlUserBean exlUserVo = new ExlUserBean();
+            ExlUserDto exlUserVo = new ExlUserDto();
             StringBuffer sb = new StringBuffer();
             for (UserOrg org : model.getUserOrgList()) {
                 sb.append(org.getOrg().getOrgName()).append(",");

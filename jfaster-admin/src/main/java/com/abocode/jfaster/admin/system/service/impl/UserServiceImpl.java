@@ -1,6 +1,6 @@
 package com.abocode.jfaster.admin.system.service.impl;
 
-import com.abocode.jfaster.admin.system.dto.bean.ExlUserBean;
+import com.abocode.jfaster.admin.system.dto.ExlUserDto;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
 import com.abocode.jfaster.api.core.AvailableEnum;
 import com.abocode.jfaster.core.common.constants.Globals;
@@ -235,18 +235,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public void importFile(Map<String, MultipartFile> fileMap) {
         MultipartFile file;
-        List<ExlUserBean> userList;
+        List<ExlUserDto> userList;
         List<User> userEntities = new ArrayList<User>();
         for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
             try {
                 //解析文件
                 file = entity.getValue();
-                userList = (List<ExlUserBean>) ExcelImportUtil
+                userList = (List<ExlUserDto>) ExcelImportUtil
                         .importExcelByIs(file.getInputStream(),
-                                ExlUserBean.class, new ImportParams());
+                                ExlUserDto.class, new ImportParams());
                 //验证文件
                 Assert.isTrue(!(null == userList || userList.size() == 0), "<font color='red'>失败!</font> Excel中没有可以导入的数据");
-                for (ExlUserBean exlUserVo : userList) {
+                for (ExlUserDto exlUserVo : userList) {
                     AjaxJson j = ValidateUtils.volatileBean(exlUserVo);
                     Assert.isTrue(j.isSuccess(), "数据验证失败");
 
@@ -313,11 +313,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<ExlUserBean> findExportUserList(User user, String orgIds, DataGrid dataGrid) {
+    public List<ExlUserDto> findExportUserList(User user, String orgIds, DataGrid dataGrid) {
         dataGrid.setPage(0);
         dataGrid.setRows(1000000);
         CriteriaQuery cq = buildCq(user, dataGrid, orgIds);
-        List<ExlUserBean> exlUserList = this.userRepository.getExlUserList(dataGrid, user, cq);
+        List<ExlUserDto> exlUserList = this.userRepository.getExlUserList(dataGrid, user, cq);
         return  exlUserList;
     }
 }

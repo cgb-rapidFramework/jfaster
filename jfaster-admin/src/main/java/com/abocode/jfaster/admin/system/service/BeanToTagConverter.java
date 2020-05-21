@@ -1,5 +1,6 @@
 package com.abocode.jfaster.admin.system.service;
 
+import com.abocode.jfaster.admin.system.dto.FunctionDto;
 import com.abocode.jfaster.core.common.util.StringUtils;
 import com.abocode.jfaster.system.entity.Function;
 import com.abocode.jfaster.system.entity.TypeGroup;
@@ -8,7 +9,6 @@ import com.abocode.jfaster.core.platform.view.TypeView;
 import com.abocode.jfaster.core.platform.view.TypeGroupView;
 import com.abocode.jfaster.system.entity.Icon;
 import com.abocode.jfaster.system.entity.Type;
-import com.abocode.jfaster.admin.system.dto.bean.FunctionBean;
 import com.abocode.jfaster.core.platform.view.FunctionView;
 import org.springframework.beans.BeanUtils;
 
@@ -26,14 +26,14 @@ public class BeanToTagConverter {
 		FunctionView functionBean=null;
 		if(!StringUtils.isEmpty(function)){
 			functionBean=new FunctionView();
-			FunctionBean functionVo=new FunctionBean();
+			FunctionDto functionVo=new FunctionDto();
 			BeanUtils.copyProperties(function, functionVo);
 			BeanUtils.copyProperties(functionVo, functionBean);
 
 			//设置
 			Function parentFunction=function.getParentFunction();
 			if(parentFunction!=null){
-				FunctionBean parentFunctionVo=new FunctionBean();
+				FunctionDto parentFunctionVo=new FunctionDto();
 				FunctionView parentFunctionBean=new FunctionView();
 				BeanUtils.copyProperties(parentFunction, parentFunctionVo);
 				BeanUtils.copyProperties(parentFunctionVo, parentFunctionBean);

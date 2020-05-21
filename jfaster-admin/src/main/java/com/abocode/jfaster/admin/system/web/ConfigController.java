@@ -7,7 +7,7 @@ import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.system.entity.Config;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
-import com.abocode.jfaster.core.common.util.SessionUtils;
+import com.abocode.jfaster.core.web.utils.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;

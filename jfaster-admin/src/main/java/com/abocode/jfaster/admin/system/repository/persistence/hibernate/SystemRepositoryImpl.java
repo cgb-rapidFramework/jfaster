@@ -11,12 +11,10 @@ import com.abocode.jfaster.core.platform.view.TypeGroupView;
 import com.abocode.jfaster.core.platform.SystemContainer;
 import com.abocode.jfaster.core.platform.SystemContainer.IconContainer;
 import com.abocode.jfaster.core.platform.SystemContainer.TypeGroupContainer;
-import com.abocode.jfaster.admin.system.dto.bean.DictBean;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
-import com.abocode.jfaster.admin.system.repository.UserRepository;
+import com.abocode.jfaster.core.web.utils.SessionUtils;
 import com.abocode.jfaster.system.entity.*;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,27 +25,6 @@ import java.util.*;
 @Service
 @Transactional
 public class SystemRepositoryImpl extends CommonRepositoryImpl implements SystemRepository {
-
-	
-	@Autowired
-	private UserRepository userService;
-
-	
-	public List<DictBean> queryDict(String dicTable, String dicCode, String dicText){
-		 throw new RuntimeException("this's function not implements");
-		//step.1 如果没有字典表则使用系统字典表/*
-		/*
-		List<DictBean> dictList = null;
-		if(StringUtils.isEmpty(dicTable)){
-			dictList = jeecgDictDao.querySystemDict(dicCode);
-		}else {
-			dicText = StringUtils.isEmpty(dicText, dicCode);
-			dictList = jeecgDictDao.queryCustomDict(dicTable, dicCode, dicText);
-		}
-		return dictList;
-		*/
-	}
-
 	/**
 	 * 添加日志
 	 */

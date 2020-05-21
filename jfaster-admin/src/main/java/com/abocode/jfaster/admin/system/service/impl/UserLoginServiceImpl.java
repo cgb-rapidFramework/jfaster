@@ -1,13 +1,13 @@
 package com.abocode.jfaster.admin.system.service.impl;
 
-import com.abocode.jfaster.admin.system.dto.bean.ClientBean;
+import com.abocode.jfaster.core.web.manager.ClientBean;
 import com.abocode.jfaster.admin.system.repository.MutiLangRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.service.UserLoginService;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
-import com.abocode.jfaster.core.common.util.SessionShareCenter;
+import com.abocode.jfaster.core.web.utils.SessionShareCenter;
 import com.abocode.jfaster.core.web.manager.ClientManager;
 import com.abocode.jfaster.system.entity.Org;
 import com.abocode.jfaster.system.entity.Role;

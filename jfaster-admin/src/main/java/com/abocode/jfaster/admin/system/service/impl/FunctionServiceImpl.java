@@ -21,7 +21,7 @@ import com.abocode.jfaster.system.entity.Function;
 import com.abocode.jfaster.system.entity.Operation;
 import com.abocode.jfaster.system.entity.User;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
-import com.abocode.jfaster.admin.system.dto.bean.ClientBean;
+import com.abocode.jfaster.core.web.manager.ClientBean;
 import com.abocode.jfaster.core.platform.view.FunctionView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

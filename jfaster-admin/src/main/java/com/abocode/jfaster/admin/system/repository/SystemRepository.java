@@ -1,29 +1,11 @@
 package com.abocode.jfaster.admin.system.repository;
 
 import com.abocode.jfaster.core.repository.CommonRepository;
-import com.abocode.jfaster.admin.system.dto.bean.DictBean;
 import com.abocode.jfaster.system.entity.*;
 
 import java.util.List;
 import java.util.Set;
-
-/**
- * 
- * @author  张代浩
- *
- */
  public  interface SystemRepository extends CommonRepository {
-	/**
- 	 * 方法描述:  查询数据字典
- 	 * 作    者： yiming.zhang
- 	 * 日    期： 2014年5月11日-下午4:22:42
- 	 * @param dicTable
- 	 * @param dicCode
- 	 * @param dicText
- 	 * @return 
- 	 * 返回类型： List<DictEntity>
- 	 */
- 	 List<DictBean> queryDict(String dicTable, String dicCode, String dicText);
 
 	/**
 	 * 日志添加
