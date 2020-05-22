@@ -63,12 +63,12 @@ public class UserRepositoryImpl extends CommonRepositoryImpl implements UserRepo
 
 
     public String getUserRole(User user) {
-        String userRole = "";
+        StringBuffer userRole = new StringBuffer();
         List<RoleUser> sRoleUser = this.commonDao.findAllByProperty(RoleUser.class, "user.id", user.getId());
         for (RoleUser tsRoleUser : sRoleUser) {
-            userRole += tsRoleUser.getRole().getRoleCode() + ",";
+            userRole.append(tsRoleUser.getRole().getRoleCode()).append(",") ;
         }
-        return userRole;
+        return userRole.toString();
     }
 
 
@@ -96,11 +96,11 @@ public class UserRepositoryImpl extends CommonRepositoryImpl implements UserRepo
             exlUserVo.setMobilePhone(model.getMobilePhone());
             exlUserVo.setOfficePhone(model.getOfficePhone());
             exlUserVo.setRealName(model.getRealName());
-            String roleName = "";
+            StringBuffer roleName = new StringBuffer();
             for (RoleUser role : model.getRoleUserList()) {
-                roleName += role.getRole().getRoleName() + ",";
+                roleName.append(role.getRole().getRoleName()).append(",");
             }
-            exlUserVo.setRoleName(roleName);
+            exlUserVo.setRoleName(roleName.toString());
             exlUserVo.setUsername(model.getUsername());
             exlUserList.add(exlUserVo);
         }

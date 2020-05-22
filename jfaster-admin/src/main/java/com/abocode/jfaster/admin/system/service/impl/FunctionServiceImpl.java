@@ -193,9 +193,7 @@ public class FunctionServiceImpl implements FunctionService {
 
     @Override
     public String search(String name) {
-        String menuListMap = "";
         CriteriaQuery cq = new CriteriaQuery(Function.class);
-
         cq.notEq("functionLevel", Short.valueOf("0"));
         if (name == null || "".equals(name)) {
             cq.isNull("Function");
@@ -206,6 +204,7 @@ public class FunctionServiceImpl implements FunctionService {
         cq.add();
         List<Function> functionList = systemService.findListByCq(
                 cq, false);
+        StringBuffer menuListMap = new StringBuffer();
         if (functionList != null && functionList.size() > 0) {
             for (int i = 0; i < functionList.size(); i++) {
                 String icon;
@@ -214,8 +213,8 @@ public class FunctionServiceImpl implements FunctionService {
                 } else {
                     icon = "plug-in/sliding/icon/default.png";
                 }
-                menuListMap = menuListMap
-                        + "<div type='"
+
+                menuListMap.append(menuListMap).append("<div type='"
                         + i
                         + 1
                         + "' class='menuSearch_Info' id='"
@@ -236,12 +235,12 @@ public class FunctionServiceImpl implements FunctionService {
                         + functionList.get(i).getFunctionName() + "</div>"
                         + "<div class='appButton_appName_inner_right1'></div>" +
                         // "</div>" +
-                        "</div>";
+                        "</div>");
             }
         } else {
-            menuListMap = menuListMap + "很遗憾，在系统中没有检索到与“" + name + "”相关的信息！";
+            menuListMap.append(menuListMap).append("很遗憾，在系统中没有检索到与“" + name + "”相关的信息！");
         }
-        return menuListMap;
+        return menuListMap.toString();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.abocode.jfaster.admin.system.dto;
 
 import com.abocode.jfaster.core.common.util.ConvertUtils;
+import lombok.Data;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 上传下载模型类
  */
+@Data
 public class UploadFileDto {
 	private String byteField = "content";// 二进制文件内容保存到数据库的对应实体类字段
 	private String titleField = "name";// 文件名(标题)保存到数据库的对应实体类字段
@@ -27,14 +29,6 @@ public class UploadFileDto {
 	private MultipartHttpServletRequest multipartRequest;
 	private HttpServletRequest request;
 	private HttpServletResponse response;
-
-	/**
-	 * @param response
-	 *            the response to set
-	 */
-	public void setResponse(HttpServletResponse response) {
-		this.response = response;
-	}
 
 	public UploadFileDto(HttpServletRequest request, Object object) {
 		String fileKey = ConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
@@ -60,149 +54,8 @@ public class UploadFileDto {
 	public UploadFileDto() {
 
 	}
-
-	public String getSwfpath() {
-		return swfpath;
-	}
-
-	public void setSwfpath(String swfpath) {
-		this.swfpath = swfpath;
-	}
-
-	/**
-	 * @return the realPath
-	 */
-	public String getRealPath() {
-		return realPath;
-	}
-
-	/**
-	 * @param realPath
-	 *            the realPath to set
-	 */
-	public void setRealPath(String realPath) {
-		this.realPath = realPath;
-	}
-
-	/**
-	 * @return the response
-	 */
-	public HttpServletResponse getResponse() {
-		return response;
-	}
-
-	/**
-	 * @return the request
-	 */
-	public HttpServletRequest getRequest() {
-		return request;
-	}
-
-	/**
-	 * @param request
-	 *            the request to set
-	 */
-	public void setRequest(HttpServletRequest request) {
-		this.request = request;
-	}
-
-	/**
-	 * @return the multipartRequest
-	 */
-	public MultipartHttpServletRequest getMultipartRequest() {
-		return multipartRequest;
-	}
-
 	public String get(String name) {
 		return getMultipartRequest().getParameter(name);
 
 	}
-
-	/**
-	 * @param multipartRequest
-	 *            the multipartRequest to set
-	 */
-	public void setMultipartRequest(MultipartHttpServletRequest multipartRequest) {
-		this.multipartRequest = multipartRequest;
-	}
-
-	public Object getObject() {
-		return object;
-	}
-
-	public String getBasePath() {
-		return basePath;
-	}
-
-	public void setBasePath(String basePath) {
-		this.basePath = basePath;
-	}
-
-	public void setObject(Object object) {
-		this.object = object;
-	}
-
-	public String getByteField() {
-		return byteField;
-	}
-
-	public void setByteField(String byteField) {
-		this.byteField = byteField;
-	}
-
-	public String getTitleField() {
-		return titleField;
-	}
-
-	public void setTitleField(String titleField) {
-		this.titleField = titleField;
-	}
-
-	public String getCusPath() {
-		return cusPath;
-	}
-
-	public void setCusPath(String cusPath) {
-		this.cusPath = cusPath;
-	}
-
-	public String getExtend() {
-		return extend;
-	}
-
-	public void setIconExtend(String extend) {
-		this.extend = extend;
-	}
-
-	public boolean isView() {
-		return view;
-	}
-
-	public void setView(boolean view) {
-		this.view = view;
-	}
-
-	public byte[] getContent() {
-		return content;
-	}
-
-	public void setContent(byte[] content) {
-		this.content = content;
-	}
-
-	public String getFileKey() {
-		return fileKey;
-	}
-
-	public void setFileKey(String fileKey) {
-		this.fileKey = fileKey;
-	}
-	public boolean isRename() {
-		return rename;
-	}
-
-	public void setRename(boolean rename) {
-		this.rename = rename;
-	}
-
 }

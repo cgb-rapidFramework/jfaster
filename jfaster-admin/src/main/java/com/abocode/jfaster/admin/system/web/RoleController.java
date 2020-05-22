@@ -75,7 +75,6 @@ public class RoleController {
     @RequestMapping(params = "delRole")
     @ResponseBody
     public AjaxJson delRole(Role role) {
-        AjaxJson j = new AjaxJson();
         int count = userRepository.getUsersOfThisRole(role.getId());
         Assert.isTrue(count == 0, "角色: 仍被用户使用，请先删除关联关系");
         roleService.del(role);

@@ -212,7 +212,7 @@ public class ResourceController {
         String path = ConvertUtils.getString(reflectHelper.getMethodValue("path"));
         String extend = ConvertUtils.getString(reflectHelper.getMethodValue("extend"));
         String attachmenttitle = ConvertUtils.getString(reflectHelper.getMethodValue("title"));
-        uploadFile.setIconExtend(extend);
+        uploadFile.setExtend(extend);
         uploadFile.setTitleField(attachmenttitle);
         uploadFile.setRealPath(path);
         uploadFile.setContent(content);

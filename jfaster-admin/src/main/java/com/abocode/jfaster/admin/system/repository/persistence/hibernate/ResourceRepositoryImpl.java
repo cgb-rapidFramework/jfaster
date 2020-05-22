@@ -231,7 +231,6 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
             String[] fields = importFile.getField().split(",");
             // 得到导出对象的集合
             List objList = findAll(entityClass);
-            Class classType = entityClass.getClass();
             for (Object t : objList) {
                 Element childElement = rElement.addElement(importFile.getEntityName());
                 for (int i = 0; i < fields.length; i++) {
@@ -256,7 +255,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
             UploadFileDto uploadFile = new UploadFileDto(request, response);
             uploadFile.setRealPath(importFile.getFileName());
             uploadFile.setTitleField(importFile.getFileName());
-            uploadFile.setIconExtend("bak");
+            uploadFile.setExtend("bak");
             viewOrDownloadFile(uploadFile);
         } catch (Exception e) {
             LogUtils.error(e.getMessage());

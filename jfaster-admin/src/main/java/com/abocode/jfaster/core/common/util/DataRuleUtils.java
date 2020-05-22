@@ -60,12 +60,13 @@ public class DataRuleUtils {
 	public static synchronized void installDataSearchConditon(
 			HttpServletRequest request, String MENU_DATA_AUTHOR_RULE_SQL) {
 		// 1.先从request获取MENU_DATA_AUTHOR_RULE_SQL，如果存则获取到sql串
-		String ruleSql = (String)loadDataSearchConditonSQLString();
+		String ruleSql =loadDataSearchConditonSQLString();
 		if (!StringUtils.hasText(ruleSql)) {
-			ruleSql += MENU_DATA_AUTHOR_RULE_SQL; // 2.如果不存在，则new一个sql串
+			// 2.如果不存在，则new一个sql串
+			ruleSql += MENU_DATA_AUTHOR_RULE_SQL;
 		}
 		request.setAttribute(Globals.MENU_DATA_AUTHOR_RULE_SQL,
-				MENU_DATA_AUTHOR_RULE_SQL);// 3.往sql串里面增量拼新的条件
+				ruleSql);// 3.往sql串里面增量拼新的条件
 
 	}
 }
