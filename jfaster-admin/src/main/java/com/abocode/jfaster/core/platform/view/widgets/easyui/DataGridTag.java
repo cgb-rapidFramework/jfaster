@@ -706,15 +706,18 @@ public class DataGridTag extends TagSupport {
                                     sb.append("</select>");
                                 } else {
                                     Map<String, List<TypeView>> typedatas = SystemContainer.TypeGroupContainer.allTypes;
-                                    List<TypeView> types = typedatas.get(col.getDictionary().toLowerCase());
-                                    sb.append("<select name=\"" + col.getField().replaceAll("_", "\\.") + "\" WIDTH=\"100\" style=\"width: 104px\"> ");
-                                    sb.append(StringExpandUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutilangContainer.getLang("common.please.select")));
-                                    for (TypeView type : types) {
-                                        sb.append(" <option value=\"" + type.getTypeCode() + "\">");
-                                        sb.append(MutilangContainer.getLang(type.getTypeName()));
-                                        sb.append(" </option>");
+                                    if (!typedatas.isEmpty()){
+                                        List<TypeView> types = typedatas.get(col.getDictionary().toLowerCase());
+                                        sb.append("<select name=\"" + col.getField().replaceAll("_", "\\.") + "\" WIDTH=\"100\" style=\"width: 104px\"> ");
+                                        sb.append(StringExpandUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutilangContainer.getLang("common.please.select")));
+                                        for (TypeView type : types) {
+                                            sb.append(" <option value=\"" + type.getTypeCode() + "\">");
+                                            sb.append(MutilangContainer.getLang(type.getTypeName()));
+                                            sb.append(" </option>");
+                                        }
+                                        sb.append("</select>");
                                     }
-                                    sb.append("</select>");
+
                                 }
 
                             } else if (col.isAutocomplete()) {

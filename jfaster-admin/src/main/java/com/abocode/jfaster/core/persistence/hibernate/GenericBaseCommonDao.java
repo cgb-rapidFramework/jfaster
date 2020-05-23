@@ -565,8 +565,8 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		}
 
 		// 判断是否有排序字段
-		if (cq.getOrdermap() != null) {
-			cq.setOrder(cq.getOrdermap());
+		if (!cq.getOrderMap().isEmpty()) {
+			cq.setOrder(cq.getOrderMap());
 		}
 		int pageSize = cq.getPageSize();// 每页显示数
 		int curPageNO = PagerUtil.getcurPageNo(allCounts, cq.getCurPage(),
@@ -609,8 +609,8 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		}
 
 		// 判断是否有排序字段
-		if (cq.getOrdermap() != null) {
-			cq.setOrder(cq.getOrdermap());
+		if (!cq.getOrderMap().isEmpty()) {
+			cq.setOrder(cq.getOrderMap());
 		}
 		int pageSize = cq.getPageSize();// 每页显示数
 		int curPageNO = PagerUtil.getcurPageNo(allCounts, cq.getCurPage(),
@@ -648,8 +648,8 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		}
 
 		// 判断是否有排序字段
-		if (!cq.getOrdermap().isEmpty()) {
-			cq.setOrder(cq.getOrdermap());
+		if (!cq.getOrderMap().isEmpty()) {
+			cq.setOrder(cq.getOrderMap());
 		}
 		int pageSize = cq.getPageSize();// 每页显示数
 		int curPageNO = PagerUtil.getcurPageNo(allCounts, cq.getCurPage(),
@@ -733,9 +733,9 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	public List<T> findListByCq(final CriteriaQuery cq, Boolean isOffset) {
 		Criteria criteria = cq.getDetachedCriteria().getExecutableCriteria(
 				getSession());
-		// 判断是否有排序字段 TODO
-		if (cq.getOrdermap() != null) {
-			cq.setOrder(cq.getOrdermap());
+		// 判断是否有排序字段
+		if (!cq.getOrderMap().isEmpty()) {
+			cq.setOrder(cq.getOrderMap());
 		}
 		if (isOffset){
 			criteria.setFirstResult((cq.getCurPage()-1)*cq.getPageSize());

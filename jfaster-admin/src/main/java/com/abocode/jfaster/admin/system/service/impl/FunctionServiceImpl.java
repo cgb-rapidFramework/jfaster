@@ -150,7 +150,7 @@ public class FunctionServiceImpl implements FunctionService {
                 tsFunction.setFunctionLevel(Short.valueOf(parent.getFunctionLevel()
                         + 1 + ""));
                 systemService.saveOrUpdate(tsFunction);
-                List<Function> subFunction1 = systemService.findAllByProperty(Function.class, "function.id", tsFunction.getId());
+                List<Function> subFunction1 = systemService.findAllByProperty(Function.class, "parentFunction.id", tsFunction.getId());
                 updateSubFunction(subFunction1, tsFunction);
             }
         }
@@ -164,7 +164,7 @@ public class FunctionServiceImpl implements FunctionService {
             userService.saveOrUpdate(function);
             systemService.addLog(message, Globals.Log_Type_UPDATE,
                     Globals.Log_Leavel_INFO);
-            List<Function> subFunction = systemService.findAllByProperty(Function.class, "function.id", function.getId());
+            List<Function> subFunction = systemService.findAllByProperty(Function.class, "parentFunction.id", function.getId());
             updateSubFunction(subFunction, function);
             systemService.flushRoleFunciton(function.getId(), function);
         } else {
@@ -196,7 +196,7 @@ public class FunctionServiceImpl implements FunctionService {
         CriteriaQuery cq = new CriteriaQuery(Function.class);
         cq.notEq("functionLevel", Short.valueOf("0"));
         if (name == null || "".equals(name)) {
-            cq.isNull("function");
+            cq.isNull("parentFunction");
         } else {
             String name1 = "%" + name + "%";
             cq.like("functionName", name1);
@@ -250,10 +250,10 @@ public class FunctionServiceImpl implements FunctionService {
             cq.notEq("id", selfId);
         }
         if (comboTreeId != null) {
-            cq.eq("function.id", comboTreeId);
+            cq.eq("parentFunction.id", comboTreeId);
         }
         if (comboTreeId == null) {
-            cq.isNull("function");
+            cq.isNull("parentFunction");
         }
         cq.add();
         List<Function> functionList = systemService.findListByCq(
@@ -273,7 +273,7 @@ public class FunctionServiceImpl implements FunctionService {
             cq.notEq("id", selfId);
         }
         if (treeGridId != null) {
-            cq.eq("function.id", treeGridId);
+            cq.eq("parentFunction.id", treeGridId);
         }
         if (treeGridId == null) {
             cq.isNull("function");

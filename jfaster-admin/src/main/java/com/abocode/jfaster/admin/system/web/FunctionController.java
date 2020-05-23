@@ -107,7 +107,7 @@ public class FunctionController {
         CriteriaQuery cq = new CriteriaQuery(Operation.class, dataGrid);
         String functionId = ConvertUtils.getString(request
                 .getParameter("functionId"));
-        cq.eq("function.id", functionId);
+        cq.eq("parentFunction.id", functionId);
         cq.add();
         this.systemService.findDataGridReturn(cq, true);
         TagUtil.datagrid(response, dataGrid);
@@ -123,7 +123,7 @@ public class FunctionController {
     @ResponseBody
     public AjaxJson del(Function function) {
         // // 删除权限时先删除权限与角色之间关联表信息
-        List<RoleFunction> roleFunctions = systemService.findAllByProperty(RoleFunction.class, "function.id", function.getId());
+        List<RoleFunction> roleFunctions = systemService.findAllByProperty(RoleFunction.class, "parentFunction.id", function.getId());
         Assert.isTrue(roleFunctions.size() > 0, "菜单已分配无法删除");
         functionService.delById(function.getId());
         return AjaxJsonBuilder.success();
@@ -177,7 +177,7 @@ public class FunctionController {
     @RequestMapping(params = "saveop")
     @ResponseBody
     public AjaxJson saveop(Operation operation, HttpServletRequest request) {
-        String pid = request.getParameter("function.id");
+        String pid = request.getParameter("parentFunction.id");
         if (pid.equals("")) {
             operation.setFunction(null);
         }
@@ -256,7 +256,7 @@ public class FunctionController {
         String id = ConvertUtils.getString(request.getParameter("id"));
         cq.isNull("function");
         if (id != null) {
-            cq.eq("function.id", id);
+            cq.eq("parentFunction.id", id);
         }
         cq.add();
         this.systemService.findDataGridReturn(cq, true);
@@ -315,7 +315,7 @@ public class FunctionController {
         CriteriaQuery cq = new CriteriaQuery(DataRule.class, dataGrid);
         String functionId = ConvertUtils.getString(request
                 .getParameter("functionId"));
-        cq.eq("function.id", functionId);
+        cq.eq("parentFunction.id", functionId);
         cq.add();
         this.systemService.findDataGridReturn(cq, true);
         TagUtil.datagrid(response, dataGrid);

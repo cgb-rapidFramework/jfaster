@@ -669,7 +669,7 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
 
         Function typegroup = new Function();
         typegroup.setFunctionName("数据字典");
-        typegroup.setFunctionUrl("systemController.do?typeGroupList");
+        typegroup.setFunctionUrl("typeController.do?typeGroupList");
         typegroup.setFunctionLevel((short) 1);
         typegroup.setFunctionOrder("6");
         typegroup.setParentFunction(sys);

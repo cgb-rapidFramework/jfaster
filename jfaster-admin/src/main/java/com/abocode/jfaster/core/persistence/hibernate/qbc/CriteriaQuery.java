@@ -52,7 +52,8 @@ public class CriteriaQuery{
     /***
      * 排序字段
      */
-    private static Map<String, Object> ordermap =new HashMap<String, Object>();
+    private  Map<String, Object> orderMap= new HashMap<String, Object>();
+
     /***
      * 对同一字段进行第二次重命名查询时值设置FASLE不保存重命名查询条件
      */
@@ -367,7 +368,7 @@ public class CriteriaQuery{
      * @param ordervalue ：排序字段值（"asc","desc"）
      */
     public void addOrder(String ordername, SortDirection ordervalue) {
-        ordermap.put(ordername, ordervalue);
+        orderMap.put(ordername, ordervalue);
 
     }
 
@@ -399,14 +400,6 @@ public class CriteriaQuery{
         for (int i = 0; i < aliass.length - 1; i++) {
             createAlias(aliass[i], aliass[i]);
         }
-    }
-
-    public static Map<String, Object> getOrdermap() {
-        return ordermap;
-    }
-
-    public static void setOrdermap(Map<String, Object> ordermap) {
-        CriteriaQuery.ordermap = ordermap;
     }
 
     /**
@@ -695,4 +688,7 @@ public class CriteriaQuery{
         this.flag = flag;
     }
 
+    public Map<String, Object> getOrderMap() {
+        return orderMap;
+    }
 }

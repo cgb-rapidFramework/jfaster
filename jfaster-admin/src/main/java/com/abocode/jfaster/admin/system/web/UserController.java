@@ -79,7 +79,7 @@ public class UserController {
     @RequestMapping(params = "user")
     public String user(HttpServletRequest request) {
         List<Org> departList = userRepository.getList(Org.class);
-        request.setAttribute("departsReplace", SystemJsonUtils.listToReplaceStr(departList, "departName", "id"));
+        request.setAttribute("departsReplace", SystemJsonUtils.listToReplaceStr(departList, "orgName", "id"));
         return "system/user/userList";
     }
 
