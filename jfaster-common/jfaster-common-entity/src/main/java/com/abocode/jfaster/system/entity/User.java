@@ -55,4 +55,22 @@ public class User extends AbstractIdEntity implements java.io.Serializable {
 	@JsonIgnore
 	@Transient
 	private List<Role> roles = new ArrayList<Role>();
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"id='" + getId() + '\'' +
+				", username='" + username + '\'' +
+				", realName='" + realName + '\'' +
+				", password='" + password + '\'' +
+				", signature='" + signature + '\'' +
+				", status=" + status +
+				", signatureFile='" + signatureFile + '\'' +
+				", mobilePhone='" + mobilePhone + '\'' +
+				", officePhone='" + officePhone + '\'' +
+				", email='" + email + '\'' +
+				", browser='" + browser + '\'' +
+				", userKey='" + userKey + '\'' +
+				'}';
+	}
 }

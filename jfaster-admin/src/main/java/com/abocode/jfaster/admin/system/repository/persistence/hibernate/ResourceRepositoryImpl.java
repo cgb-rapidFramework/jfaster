@@ -465,7 +465,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
             }
             if (treeGridModel.getRoleid() != null) {
                 String[] opStrings = {};
-                List<RoleFunction> roleFunctions = this.commonDao.findAllByProperty(RoleFunction.class, "Function.id", id);
+                List<RoleFunction> roleFunctions = this.commonDao.findAllByProperty(RoleFunction.class, "function.id", id);
 
                 if (roleFunctions.size() > 0) {
                     for (RoleFunction tRoleFunction : roleFunctions) {
@@ -479,7 +479,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                         }
                     }
                 }
-                List<Operation> operateions = this.commonDao.findAllByProperty(Operation.class, "Function.id", id);
+                List<Operation> operateions = this.commonDao.findAllByProperty(Operation.class, "function.id", id);
                 StringBuffer attributes = new StringBuffer();
                 if (operateions.size() > 0) {
                     for (Operation tOperation : operateions) {

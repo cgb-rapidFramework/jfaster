@@ -23,4 +23,13 @@ public class RoleFunction extends AbstractIdEntity implements java.io.Serializab
     private String operation;
     @Column(name = "data_rule",length = 100)
     private String dataRule;
+
+    @Override
+    public String toString() {
+        return "RoleFunction{" +
+                "id='" + getId() + '\'' +
+                ",operation='" + operation + '\'' +
+                ", dataRule='" + dataRule + '\'' +
+                '}';
+    }
 }

@@ -25,7 +25,7 @@ public class Function extends AbstractIdEntity implements java.io.Serializable {
     @Column(name = "function_level")
     private Short functionLevel;
     //菜单地址
-    @Column(name = "url",length = 100)
+    @Column(name = "function_url",length = 100)
     private String functionUrl;
     //菜单地址打开方式
     @Column(name = "function_iframe")
@@ -47,4 +47,17 @@ public class Function extends AbstractIdEntity implements java.io.Serializable {
     //子菜单
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentFunction")
     private List<Function> functions = new ArrayList<Function>();
+
+    @Override
+    public String toString() {
+        return "Function{" +
+                "id='" + getId() + '\'' +
+                ", functionName='" + functionName + '\'' +
+                ", functionLevel=" + functionLevel +
+                ", functionUrl='" + functionUrl + '\'' +
+                ", functionIframe=" + functionIframe +
+                ", functionOrder='" + functionOrder + '\'' +
+                ", functionType=" + functionType +
+                '}';
+    }
 }

@@ -117,7 +117,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 				}
 				if(!ConvertUtils.isEmpty(functionId)){
 					//List<String> allOperation=this.systemService.findListbySql("SELECT operationcode FROM t_s_operation  WHERE functionid='"+functionId+"'");
-					List<Operation> allOperation=this.systemService.findAllByProperty(Operation.class, "Function.id", functionId);
+					List<Operation> allOperation=this.systemService.findAllByProperty(Operation.class, "function.id", functionId);
 					
 					List<Operation> newall = new ArrayList<Operation>();
 					if(allOperation.size()>0){
@@ -246,14 +246,14 @@ public class AuthInterceptor implements HandlerInterceptor {
 		User currLoginUser = ClientManager.getInstance().getClient(ContextHolderUtils.getSession().getId()).getUser();
         String userid = currLoginUser.getId();
 		String sql = "SELECT DISTINCT f.id FROM t_s_function f,t_s_role_function  rf,t_s_role_user ru " +
-					" WHERE f.id=rf.functionid AND rf.roleid=ru.roleid AND " +
-					"ru.userid='"+userid+"' AND f.functionurl like '"+requestPath+"%'";
+					" WHERE f.id=rf.function_id AND rf.role_id=ru.role_id AND " +
+					"ru.user_id='"+userid+"' AND f.function_url like '"+requestPath+"%'";
 		List list = this.systemService.queryForListMap(sql);
 		if(list.size()==0){
             String orgId = currLoginUser.getCurrentDepart().getId();
             String functionOfOrgSql = "SELECT DISTINCT f.id from t_s_function f, t_s_role_function rf, t_s_role_org ro  " +
-                    "WHERE f.ID=rf.functionid AND rf.roleid=ro.role_id " +
-                    "AND ro.org_id='" +orgId+ "' AND f.functionurl like '"+requestPath+"%'";
+                    "WHERE f.ID=rf.function_id AND rf.role_id=ro.role_id " +
+                    "AND ro.org_id='" +orgId+ "' AND f.function_url like '"+requestPath+"%'";
             List functionOfOrgList = this.systemService.queryForListMap(functionOfOrgSql);
 			return functionOfOrgList.size() > 0;
         }else{

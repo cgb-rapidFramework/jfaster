@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
 <html>
 <head>
     <title>欢迎使用abocode.com</title>

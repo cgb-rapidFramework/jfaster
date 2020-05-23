@@ -95,7 +95,7 @@ public class LoginController {
         DataSourceContextHolder.setDataSourceType(DataSourceType.dataSource_jeecg);
         String randCode = request.getParameter("randCode");
         Assert.hasText(randCode, mutiLangRepository.getLang("common.enter.verifycode"));
-        Assert.isTrue(!randCode.equalsIgnoreCase(String.valueOf(session.getAttribute("randCode"))), mutiLangRepository.getLang("common.verifycode.error"));
+        Assert.isTrue(randCode.equalsIgnoreCase(String.valueOf(session.getAttribute("randCode"))), mutiLangRepository.getLang("common.verifycode.error"));
         User u = userService.checkUserExits(user.getUsername(), user.getPassword());
         Assert.isTrue(u != null, mutiLangRepository.getLang("common.username.or.password.error"));
         Assert.isTrue(u.getStatus() != 0, mutiLangRepository.getLang("common.username.not.activation"));

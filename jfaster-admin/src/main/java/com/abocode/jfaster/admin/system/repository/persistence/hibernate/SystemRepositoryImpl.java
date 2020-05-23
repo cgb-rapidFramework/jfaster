@@ -129,7 +129,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 		Role role = commonDao.find(Role.class, roleId);
 		CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
 		cq1.eq("role.id", role.getId());
-		cq1.eq("Function.id", functionId);
+		cq1.eq("function.id", functionId);
 		cq1.add();
 		List<RoleFunction> rFunctions = findListByCq(cq1, false);
 		if (null != rFunctions && rFunctions.size() > 0) {
@@ -154,10 +154,9 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 		Set<String> operationCodes = new HashSet<String>();
 		List<RoleUser> rUsers = findAllByProperty(RoleUser.class, "user.id", userId);
 		for (RoleUser ru : rUsers) {
-			Role role = ru.getRole();
 			CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
-			cq1.eq("role.id", role.getId());
-			cq1.eq("Function.id", functionId);
+			cq1.eq("role.id", ru.getRole().getId());
+			cq1.eq("function.id", functionId);
 			cq1.add();
 			List<RoleFunction> rFunctions = findListByCq(cq1, false);
 			if (null != rFunctions && rFunctions.size() > 0) {
@@ -240,7 +239,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 		Role role = commonDao.find(Role.class, roleId);
 		CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
 		cq1.eq("role.id", role.getId());
-		cq1.eq("Function.id", functionId);
+		cq1.eq("function.id", functionId);
 		cq1.add();
 		List<RoleFunction> rFunctions = findListByCq(cq1, false);
 		if (null != rFunctions && rFunctions.size() > 0) {
@@ -264,7 +263,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 			Role role = ru.getRole();
 			CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
 			cq1.eq("role.id", role.getId());
-			cq1.eq("Function.id", functionId);
+			cq1.eq("function.id", functionId);
 			cq1.add();
 			List<RoleFunction> rFunctions = findListByCq(cq1, false);
 			if (null != rFunctions && rFunctions.size() > 0) {

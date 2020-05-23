@@ -16,4 +16,13 @@ public class Role extends AbstractIdEntity implements java.io.Serializable {
 	//角色编码
 	@Column(name = "role_code",length = 10)
 	private String roleCode;
+
+	@Override
+	public String toString() {
+		return "Role{" +
+				"roleName='" + roleName + '\'' +
+				",id='" + getId() + '\'' +
+				", roleCode='" + roleCode + '\'' +
+				'}';
+	}
 }

@@ -226,10 +226,15 @@
             <artifactId>springfox-swagger2</artifactId>
             <version>${swagger.version}</version>
         </dependency>
-        <dependency>
+       <!-- <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-bean-validators</artifactId>
             <version>${swagger.version}</version>
+        </dependency>-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.25</version>
         </dependency>
     </dependencies>
     <organization>
@@ -244,9 +249,9 @@
                 <version>2.2</version>
                 <configuration>
                     <path>/jfaster-admin</path>
-                    <port>8080</port>
+                    <port>8088</port>
                     <uriEncoding>UTF-8</uriEncoding>
-                    <url>http://localhost:8080/manager/html</url>
+                    <url>http://localhost:8088/manager/html</url>
                 </configuration>
             </plugin>
             <plugin>

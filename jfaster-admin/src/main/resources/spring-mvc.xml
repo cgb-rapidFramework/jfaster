@@ -21,7 +21,7 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
-	<bean class="com.abocode.jfaster.core.web.config.SwaggerConfig"/>
+<!--	<bean class="com.abocode.jfaster.core.web.config.SwaggerConfig"/>-->
 	<mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html"/>
 	<mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**"/>
 

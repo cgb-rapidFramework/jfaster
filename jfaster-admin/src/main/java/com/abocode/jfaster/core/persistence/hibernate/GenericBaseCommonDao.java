@@ -733,7 +733,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	public List<T> findListByCq(final CriteriaQuery cq, Boolean isOffset) {
 		Criteria criteria = cq.getDetachedCriteria().getExecutableCriteria(
 				getSession());
-		// 判断是否有排序字段
+		// 判断是否有排序字段 TODO
 		if (cq.getOrdermap() != null) {
 			cq.setOrder(cq.getOrdermap());
 		}

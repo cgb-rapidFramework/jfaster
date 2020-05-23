@@ -81,7 +81,7 @@
     <Loggers>
         <!--过滤掉simm.spring.restapi一些无用的DEBUG信息-->
         <logger name="simm.spring.restapi" level="INFO"></logger>
-        <Root level="info">
+        <Root level="INFO">
             <appender-ref ref="Console"/>
             <appender-ref ref="RollingFileDebug"/>
             <appender-ref ref="RollingFileInfo"/>
