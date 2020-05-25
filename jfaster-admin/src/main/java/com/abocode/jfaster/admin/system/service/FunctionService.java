@@ -1,13 +1,16 @@
 package com.abocode.jfaster.admin.system.service;
 
+import com.abocode.jfaster.admin.system.dto.DataRuleDto;
 import com.abocode.jfaster.core.common.model.json.ComboTree;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
 import com.abocode.jfaster.system.entity.Function;
+import com.abocode.jfaster.system.entity.Operation;
 import com.abocode.jfaster.system.entity.User;
 import com.abocode.jfaster.core.platform.view.FunctionView;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface FunctionService {
     void initMenu();
@@ -27,4 +30,10 @@ public interface FunctionService {
     List<TreeGrid> findTreeGrid(String selfId, String id);
 
     String getPrimaryMenu(User user);
+
+    List<Operation> findById(String functionId, String userId);
+
+    DataRuleDto installDataRule(Set<String> dataRuleCodes);
+
+    boolean hasMenuAuth(String requestPath, String clickFunctionId);
 }

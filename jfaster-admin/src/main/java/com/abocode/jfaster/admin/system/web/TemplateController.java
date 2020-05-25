@@ -7,6 +7,7 @@ import com.abocode.jfaster.admin.system.service.TemplateService;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.AjaxJsonBuilder;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
+import com.abocode.jfaster.core.common.model.json.DataGridReturn;
 import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.system.entity.Template;
 import com.abocode.jfaster.admin.system.repository.TemplateRepository;
@@ -59,7 +60,7 @@ public class TemplateController {
         CriteriaQuery cq = new CriteriaQuery(Template.class, dataGrid);
         //查询条件组装器
         HqlGenerateUtil.installHql(cq, template, request.getParameterMap());
-        this.templateRepository.findDataGridReturn(cq, true);
+         this.templateRepository.findDataGridReturn(cq, true);
         TagUtil.datagrid(response, dataGrid);
     }
 

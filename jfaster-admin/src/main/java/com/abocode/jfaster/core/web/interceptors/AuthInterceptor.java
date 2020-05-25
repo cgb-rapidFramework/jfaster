@@ -1,5 +1,7 @@
 package com.abocode.jfaster.core.web.interceptors;
 
+import com.abocode.jfaster.admin.system.dto.DataRuleDto;
+import com.abocode.jfaster.admin.system.service.FunctionService;
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.constants.Globals;
@@ -32,246 +34,96 @@ import java.util.Set;
 
 /**
  * 权限拦截器
- *
  */
 public class AuthInterceptor implements HandlerInterceptor {
-	 
-	private SystemRepository systemService;
-	private List<String> excludeUrls;
-	private static List<Function> functionList;
+    @Autowired
+    private SystemRepository systemService;
+    @Autowired
+    private FunctionService functionService;
+    private List<String> excludeUrls;
 
+    public List<String> getExcludeUrls() {
+        return excludeUrls;
+    }
 
-	public List<String> getExcludeUrls() {
-		return excludeUrls;
-	}
+    public void setExcludeUrls(List<String> excludeUrls) {
+        this.excludeUrls = excludeUrls;
+    }
 
-	public void setExcludeUrls(List<String> excludeUrls) {
-		this.excludeUrls = excludeUrls;
-	}
+    /**
+     * 在controller后拦截
+     */
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object object, Exception exception) throws Exception {
+    }
 
-	public SystemRepository getSystemService() {
-		return systemService;
-	}
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object object, ModelAndView modelAndView) throws Exception {
 
-	@Autowired
-	public void setSystemService(SystemRepository systemService) {
-		this.systemService = systemService;
-	}
+    }
 
-	/**
-	 * 在controller后拦截
-	 */
-	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object object, Exception exception) throws Exception {
-	}
+    /**
+     * 在controller前拦截
+     */
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
+        String requestPath = ConfigUtils.getRequestPath(request);// 用户访问的资源地址
+        HttpSession session = ContextHolderUtils.getSession();
+        ClientBean client = ClientManager.getInstance().getClient(session.getId());
+        if (client == null) {
+            client = ClientManager.getInstance().getClient(
+                    request.getParameter("sessionId"));
+        }
+        if (excludeUrls.contains(requestPath)) {
+            //如果该请求不在拦截范围内，直接返回true
+            return true;
+        }
+        String clickFunctionId = ConvertUtils.getString(request.getParameter("clickFunctionId"));
+        if (client != null && client.getUser() != null) {
+            if ((!functionService.hasMenuAuth(requestPath,clickFunctionId)) && !client.getUser().getUsername().equals("admin")) {
+                response.sendRedirect("loginController.do?noAuth");
+                return false;
+            }
+            String functionId = "";
+            //onlinecoding的访问地址有规律可循，数据权限链接篡改
+            if (requestPath.equals("cgAutoListController.do?datagrid")) {
+                requestPath += "&configId=" + request.getParameter("configId");
+            }
+            if (requestPath.equals("cgAutoListController.do?list")) {
+                requestPath += "&id=" + request.getParameter("id");
+            }
+            if (requestPath.equals("cgFormBuildController.do?ftlForm")) {
+                requestPath += "&tableName=" + request.getParameter("tableName");
+            }
+            //这个地方用全匹配？应该是模糊查询吧
+            //TODO
+            List<Function> functions = systemService.findAllByProperty(Function.class, "functionUrl", requestPath);
+            if (functions.size() > 0) {
+                functionId = functions.get(0).getId();
+            }
 
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object object, ModelAndView modelAndView) throws Exception {
+            //Step.1 第一部分处理页面表单和列表的页面控件权限（页面表单字段+页面按钮等控件）
+            if (!ConvertUtils.isEmpty(functionId)) {
+                //获取菜单对应的页面控制权限（包括表单字段和操作按钮）
+                Set<String> operationCodes = systemService.getOperationCodesByUserIdAndFunctionId(client.getUser().getId(), functionId);
+                request.setAttribute(Globals.OPERATIONCODES, operationCodes);
+            }
+            List<Operation> operations = functionService.findById(functionId, client.getUser().getId());
+            request.setAttribute(Globals.NOAUTO_OPERATIONCODES, operations);
 
-	}
+            //数据权限规则的查询
+            //查询所有的当前这个用户所对应的角色和菜单的datarule的数据规则id
+            Set<String> dataRuleCodes = systemService.getOperationCodesByUserIdAndDataId(client.getUser().getId(), functionId);
+            request.setAttribute("dataRulecodes", dataRuleCodes);
+            DataRuleDto dataRuleDto = functionService.installDataRule(dataRuleCodes);
+            request.setAttribute(Globals.MENU_DATA_AUTHOR_RULES, dataRuleDto.getDataRules()); // 3.往list里面增量存指
+            request.setAttribute(Globals.MENU_DATA_AUTHOR_RULE_SQL, dataRuleDto.getRuleSql());// 3.往sql串里面增量拼新的条件
+            return true;
+        } else {
+            forward(request, response);
+            return false;
+        }
+    }
 
-	/**
-	 * 在controller前拦截
-	 */
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
-		String requestPath = ConfigUtils.getRequestPath(request);// 用户访问的资源地址
-		HttpSession session = ContextHolderUtils.getSession();
-		ClientBean client = ClientManager.getInstance().getClient(session.getId());
-		if(client == null){ 
-			client = ClientManager.getInstance().getClient(
-					request.getParameter("sessionId"));
-		}
-		if (excludeUrls.contains(requestPath)) {
-			//如果该请求不在拦截范围内，直接返回true
-			return true;
-		} else {
-			if (client != null && client.getUser()!=null ) {
-				if((!hasMenuAuth(request)) && !client.getUser().getUsername().equals("admin")){
-					 response.sendRedirect("loginController.do?noAuth");
-					//request.getRequestDispatcher("webpage/common/noAuth.jsp").forward(request, response);
-					return false;
-				} 
-				//String functionId=ConvertUtils.getString(request.getParameter("clickFunctionId"));
-				String functionId="";
-				//onlinecoding的访问地址有规律可循，数据权限链接篡改
-				if(requestPath.equals("cgAutoListController.do?datagrid")) {
-					requestPath += "&configId=" +  request.getParameter("configId");
-				}
-				if(requestPath.equals("cgAutoListController.do?list")) {
-					requestPath += "&id=" +  request.getParameter("id");
-				}
-				if(requestPath.equals("cgFormBuildController.do?ftlForm")) {
-					requestPath += "&tableName=" +  request.getParameter("tableName");
-				}
-				//这个地方用全匹配？应该是模糊查询吧
-				//TODO
-				List<Function> functions = systemService.findAllByProperty(Function.class, "functionUrl", requestPath);
-				
-				if (functions.size()>0){
-					functionId = functions.get(0).getId();
-				}
-				
-				//Step.1 第一部分处理页面表单和列表的页面控件权限（页面表单字段+页面按钮等控件）
-				if(!ConvertUtils.isEmpty(functionId)){
-					//获取菜单对应的页面控制权限（包括表单字段和操作按钮）
-					Set<String> operationCodes = systemService.getOperationCodesByUserIdAndFunctionId(client.getUser().getId(), functionId);
-					request.setAttribute(Globals.OPERATIONCODES, operationCodes);
-				}
-				if(!ConvertUtils.isEmpty(functionId)){
-					//List<String> allOperation=this.systemService.findListbySql("SELECT operationcode FROM t_s_operation  WHERE functionid='"+functionId+"'");
-					List<Operation> allOperation=this.systemService.findAllByProperty(Operation.class, "function.id", functionId);
-					
-					List<Operation> newall = new ArrayList<Operation>();
-					if(allOperation.size()>0){
-						for(Operation s:allOperation){
-						    //s=s.replaceAll(" ", "");
-							newall.add(s); 
-						}						 
-						String hasOperSql="SELECT operation FROM t_s_role_function fun, t_s_role_user role WHERE  " +
-							"fun.functionid='"+functionId+"' AND fun.operation!=''  AND fun.roleid=role.roleid AND role.userid='"+client.getUser().getId()+"' ";
-						
-						List<String> hasOperList = this.systemService.findListBySql(hasOperSql);
-					    for(String operationIds:hasOperList){
-							    for(String operationId:operationIds.split(",")){
-							    	operationId=operationId.replaceAll(" ", "");
-							        Operation operation =  new Operation();
-							        operation.setId(operationId);
-							    	newall.remove(operation);
-							    } 
-						} 
-					}
-					request.setAttribute(Globals.NOAUTO_OPERATIONCODES, newall);
-					
-					 //Step.2  第二部分处理列表数据级权限
-					 //小川 -- 菜单数据规则集合(数据权限)
-					 List<DataRule> MENU_DATA_AUTHOR_RULES = new ArrayList<DataRule>();
-					 //小川 -- 菜单数据规则sql(数据权限)
-					 String MENU_DATA_AUTHOR_RULE_SQL="";
-
-					
-				 	//数据权限规则的查询
-				 	//查询所有的当前这个用户所对应的角色和菜单的datarule的数据规则id
-					Set<String> dataruleCodes = systemService.getOperationCodesByUserIdAndDataId(client.getUser().getId(), functionId);
-					request.setAttribute("dataRulecodes", dataruleCodes);
-					for (String dataRuleId : dataruleCodes) {
-						DataRule dataRule = systemService.findEntity(DataRule.class, dataRuleId);
-						    MENU_DATA_AUTHOR_RULES.add(dataRule);
-							MENU_DATA_AUTHOR_RULE_SQL += setSqlModel(dataRule);
-					
-					}
-					 DataRuleUtils.installDataSearchConditon(request, MENU_DATA_AUTHOR_RULES);//菜单数据规则集合
-					 DataRuleUtils.installDataSearchConditon(request, MENU_DATA_AUTHOR_RULE_SQL);//菜单数据规则sql
-
-				}
-				return true;
-			} else {
-				//forword(request);
-				forward(request, response);
-				return false;
-			}
-
-		}
-	}
-
-	private  String setSqlModel(DataRule dataRule){
-		if(dataRule == null)
-			return "";
-		String sqlValue="";
-		HqlRuleEnum ruleEnum=HqlRuleEnum.getByValue(dataRule.getRuleCondition());
-		String ValueTemp = "";
-
-		//针对特殊标示处理#{sysOrgCode}，判断替换
-		if (dataRule.getRuleValue().contains("{")) {
-			ValueTemp = dataRule.getRuleValue().substring(2,dataRule.getRuleValue().length() - 1);
-		} else {
-			ValueTemp = dataRule.getRuleValue();
-		}
-
-		String TempValue = SessionUtils.getUserSystemData(ValueTemp) == null ? ValueTemp: SessionUtils.getUserSystemData(ValueTemp);//将系统变量
-		switch (ruleEnum) {
-			case GT:
-				sqlValue+=" and "+dataRule.getRuleColumn()+" <'"+TempValue+"'";
-				break;
-			case GE:
-				sqlValue+=" and "+dataRule.getRuleColumn()+" >='"+TempValue+"'";
-				break;
-			case LT:
-				sqlValue+=" and "+dataRule.getRuleColumn()+" <'"+TempValue+"'";
-				break;
-			case LE:
-				sqlValue+=" and "+dataRule.getRuleColumn()+" =>'"+TempValue+"'";
-				break;
-			case  EQ:
-				sqlValue+=" and "+dataRule.getRuleColumn()+" ='"+TempValue+"'";
-				break;
-			case LIKE:
-				sqlValue+=" and "+dataRule.getRuleColumn()+" like %'"+TempValue+"'%";
-				break;
-			case NE:
-				sqlValue+=" and "+dataRule.getRuleColumn()+" !='"+TempValue+"'";
-				break;
-			case IN:
-				sqlValue+=" and "+dataRule.getRuleColumn()+" IN('"+TempValue+"')";
-			default:
-				break;
-		}
-		return sqlValue;
-	}
-
-	/**
-	 * 判断用户是否有菜单访问权限
-	 * @param request
-	 * @return
-	 */
-	private boolean hasMenuAuth(HttpServletRequest request){
-		String requestPath = ConfigUtils.getRequestPath(request);// 用户访问的资源地址
-		// 是否是功能表中管理的url
-		boolean bMgrUrl = false;
-		if (functionList == null) {
-			functionList = systemService.findAll(Function.class);
-		}
-		for (Function function : functionList) {
-			if (function.getFunctionUrl() != null && function.getFunctionUrl().startsWith(requestPath)) {
-				bMgrUrl = true;
-				break;
-			}
-		}
-		String funcid= ConvertUtils.getString(request.getParameter("clickFunctionId"));
-		if(!bMgrUrl && (requestPath.indexOf("loginController.do")!=-1||funcid.length()==0)){
-			return true;
-		}
-
-		if (!bMgrUrl) {
-			return true;
-		}
-
-		User currLoginUser = ClientManager.getInstance().getClient(ContextHolderUtils.getSession().getId()).getUser();
-        String userid = currLoginUser.getId();
-		String sql = "SELECT DISTINCT f.id FROM t_s_function f,t_s_role_function  rf,t_s_role_user ru " +
-					" WHERE f.id=rf.function_id AND rf.role_id=ru.role_id AND " +
-					"ru.user_id='"+userid+"' AND f.function_url like '"+requestPath+"%'";
-		List list = this.systemService.queryForListMap(sql);
-		if(list.size()==0){
-            String orgId = currLoginUser.getCurrentDepart().getId();
-            String functionOfOrgSql = "SELECT DISTINCT f.id from t_s_function f, t_s_role_function rf, t_s_role_org ro  " +
-                    "WHERE f.ID=rf.function_id AND rf.role_id=ro.role_id " +
-                    "AND ro.org_id='" +orgId+ "' AND f.function_url like '"+requestPath+"%'";
-            List functionOfOrgList = this.systemService.queryForListMap(functionOfOrgSql);
-			return functionOfOrgList.size() > 0;
-        }else{
-			return true;
-		}
-	}
-	/**
-	 * 转发
-	 * 
-	 * @return
-	 */
-	@RequestMapping(params = "forword")
-	public ModelAndView forword(HttpServletRequest request) {
-		return new ModelAndView(new RedirectView("loginController.do?login"));
-	}
-
-	private void forward(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("webpage/login/timeout.jsp").forward(request, response);
-	}
+    private void forward(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("webpage/login/timeout.jsp").forward(request, response);
+    }
 
 }

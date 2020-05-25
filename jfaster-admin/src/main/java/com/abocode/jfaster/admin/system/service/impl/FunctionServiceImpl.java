@@ -1,5 +1,6 @@
 package com.abocode.jfaster.admin.system.service.impl;
 
+import com.abocode.jfaster.admin.system.dto.DataRuleDto;
 import com.abocode.jfaster.admin.system.repository.MutiLangRepository;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
@@ -12,6 +13,8 @@ import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.model.json.ComboTree;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
+import com.abocode.jfaster.core.common.util.DataRuleUtils;
+import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.ObjectParseUtil;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
 import com.abocode.jfaster.core.platform.utils.NumberComparator;
 import com.abocode.jfaster.core.common.util.StringUtils;
@@ -20,10 +23,7 @@ import com.abocode.jfaster.core.platform.view.interactions.datatable.SortDirecti
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.TreeGridModel;
 import com.abocode.jfaster.core.web.manager.ClientManager;
-import com.abocode.jfaster.system.entity.Function;
-import com.abocode.jfaster.system.entity.Icon;
-import com.abocode.jfaster.system.entity.Operation;
-import com.abocode.jfaster.system.entity.User;
+import com.abocode.jfaster.system.entity.*;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.core.web.manager.ClientBean;
 import com.abocode.jfaster.core.platform.view.FunctionView;
@@ -498,6 +498,87 @@ public class FunctionServiceImpl implements FunctionService {
                 }
             }
 
+        }
+    }
+
+    @Override
+    public List<Operation> findById(String functionId, String uid) {
+        List<Operation> allOperation = this.systemService.findAllByProperty(Operation.class, "function.id", functionId);
+        List<Operation> operations = new ArrayList<Operation>();
+        if (allOperation.size() > 0) {
+            for (Operation s : allOperation) {
+                operations.add(s);
+            }
+            String hasOperSql = "SELECT operation FROM t_s_role_function fun, t_s_role_user role WHERE  " +
+                    "fun.functionid='" + functionId + "' AND fun.operation!=''  AND fun.roleid=role.roleid AND role.userid='" + uid + "' ";
+
+            List<String> hasOperList = this.systemService.findListBySql(hasOperSql);
+            for (String operationIds : hasOperList) {
+                for (String operationId : operationIds.split(",")) {
+                    operationId = operationId.replaceAll(" ", "");
+                    Operation operation = new Operation();
+                    operation.setId(operationId);
+                    operations.remove(operation);
+                }
+            }
+
+        }
+        return operations;
+    }
+
+    @Override
+    public DataRuleDto installDataRule(Set<String> dataRuleCodes) {
+        //Step.2  第二部分处理列表数据级权限
+        //小川 -- 菜单数据规则集合(数据权限)
+        List<DataRule> MENU_DATA_AUTHOR_RULES = new ArrayList<DataRule>();
+        //小川 -- 菜单数据规则sql(数据权限)
+        String MENU_DATA_AUTHOR_RULE_SQL = "";
+        for (String dataRuleId : dataRuleCodes) {
+            DataRule dataRule = systemService.findEntity(DataRule.class, dataRuleId);
+            MENU_DATA_AUTHOR_RULES.add(dataRule);
+            MENU_DATA_AUTHOR_RULE_SQL += ObjectParseUtil.setSqlModel(dataRule);
+
+        }
+        List<DataRule> dataRules = DataRuleUtils.installDataSearchConditon(MENU_DATA_AUTHOR_RULES);//菜单数据规则集合
+        String data = DataRuleUtils.installDataSearchConditon(MENU_DATA_AUTHOR_RULE_SQL);//菜单数据规则sql
+        return new DataRuleDto(dataRules, data);
+    }
+
+    @Override
+    public boolean hasMenuAuth(String requestPath, String clickFunctionId) {
+        // 是否是功能表中管理的url
+        boolean bMgrUrl = false;
+        List<Function> functionList = systemService.findAll(Function.class);
+        for (Function function : functionList) {
+            if (function.getFunctionUrl() != null && function.getFunctionUrl().startsWith(requestPath)) {
+                bMgrUrl = true;
+                break;
+            }
+        }
+
+        if (!bMgrUrl && (requestPath.indexOf("loginController.do") != -1 || clickFunctionId.length() == 0)) {
+            return true;
+        }
+
+        if (!bMgrUrl) {
+            return true;
+        }
+
+        User currLoginUser = ClientManager.getInstance().getClient(ContextHolderUtils.getSession().getId()).getUser();
+        String userid = currLoginUser.getId();
+        String sql = "SELECT DISTINCT f.id FROM t_s_function f,t_s_role_function  rf,t_s_role_user ru " +
+                " WHERE f.id=rf.function_id AND rf.role_id=ru.role_id AND " +
+                "ru.user_id='" + userid + "' AND f.function_url like '" + requestPath + "%'";
+        List list = this.systemService.queryForListMap(sql);
+        if (list.size() == 0) {
+            String orgId = currLoginUser.getCurrentDepart().getId();
+            String functionOfOrgSql = "SELECT DISTINCT f.id from t_s_function f, t_s_role_function rf, t_s_role_org ro  " +
+                    "WHERE f.ID=rf.function_id AND rf.role_id=ro.role_id " +
+                    "AND ro.org_id='" + orgId + "' AND f.function_url like '" + requestPath + "%'";
+            List functionOfOrgList = this.systemService.queryForListMap(functionOfOrgSql);
+            return functionOfOrgList.size() > 0;
+        } else {
+            return true;
         }
     }
 }

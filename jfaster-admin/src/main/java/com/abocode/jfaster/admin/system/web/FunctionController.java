@@ -79,15 +79,12 @@ public class FunctionController {
 
     /**
      * easyuiAJAX请求数据
-     *
-     * @param request
      * @param response
      * @param dataGrid
      */
 
     @RequestMapping(params = "datagrid")
-    public void datagrid(HttpServletRequest request,
-                         HttpServletResponse response, DataGrid dataGrid) {
+    public void datagrid(HttpServletResponse response, DataGrid dataGrid) {
         CriteriaQuery cq = new CriteriaQuery(Function.class, dataGrid);
         this.systemService.findDataGridReturn(cq, true);
         TagUtil.datagrid(response, dataGrid);

@@ -24,7 +24,7 @@
         <!-- <proxool.version>0.9.1</proxool.version> -->
         <commons-pool.version>1.6</commons-pool.version>
         <commons-dbcp.version>1.4</commons-dbcp.version>
-        <druid.version>1.0.18</druid.version>
+        <druid.version>1.1.22</druid.version>
         <oracle.version>10.2.0.2.0</oracle.version>
         <sqlserver.version>4.0</sqlserver.version>
         <postgresql.version>9.3-1104-jdbc41</postgresql.version>

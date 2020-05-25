@@ -1,35 +1,31 @@
-package com.abocode.jfaster.admin.system.repository.persistence.hibernate;
+package com.abocode.jfaster.admin.system.service.impl;
 
 import com.abocode.jfaster.admin.system.repository.MutiLangRepository;
-import com.abocode.jfaster.admin.system.repository.RepairRepository;
-import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
+import com.abocode.jfaster.admin.system.repository.SystemRepository;
+import com.abocode.jfaster.admin.system.service.FunctionService;
+import com.abocode.jfaster.admin.system.service.InitService;
+import com.abocode.jfaster.core.common.util.ConfigUtils;
 import com.abocode.jfaster.core.common.util.DateUtils;
 import com.abocode.jfaster.core.common.util.LogUtils;
 import com.abocode.jfaster.core.common.util.StreamUtils;
+import com.abocode.jfaster.core.persistence.ICommonDao;
 import com.abocode.jfaster.system.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * @author tanghan
- * @Description 修复数据库Service
- * @ClassName: RepairService
- * @date 2013-7-19 下午01:31:00
- */
 @Service
-@Transactional
-public class RepairRepositoryImpl extends CommonRepositoryImpl implements RepairRepository {
-    /**
-     * @Description 先清空数据库，然后再修复数据库
-     * @author tanghan 2013-7-19
-     */
-
+public class InitServiceImpl implements InitService {
     @Autowired
-    private MutiLangRepository mutiLangService;
+    private MutiLangRepository mutiLangRepository;
+    @Autowired
+    private ICommonDao commonDao;
+    @Autowired
+    private SystemRepository systemService;
+    @Autowired
+    private FunctionService functionService;
 
     public void deleteAndRepair() {
         // 由于表中有主外键关系，清空数据库需注意
@@ -51,6 +47,29 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
         commonDao.executeHql("delete Template");
         commonDao.executeHql("delete MutiLang");
         repair();
+    }
+
+    @Override
+    public void contextInitialized() {
+        /**
+         * 第一部分：对数据字典进行缓存
+         */
+        systemService.initAllTypeGroups();
+        //初始化图标
+        systemService.initAllTSIcons();
+        systemService.initOperations();
+        /**
+         * 第二部分：自动加载新增菜单和菜单操作权限
+         * 说明：只会添加，不会删除（添加在代码层配置，但是在数据库层未配置的）
+         */
+        if ("true".equals(ConfigUtils.getConfigByName("auto.scan.menu.flag").toLowerCase())) {
+            functionService.initMenu();
+        }
+
+        /**
+         * 第三部分：加载多语言内容
+         */
+        mutiLangRepository.initAllMutiLang();
     }
 
     /**
@@ -78,7 +97,7 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
     private void repairTerritory() {
         try {
             ClassPathResource sqlFile = new ClassPathResource("sql/repair/RepairDao_batchRepairTerritory.sql");
-            String str= StreamUtils.inputStreamTOString(sqlFile.getInputStream());
+            String str = StreamUtils.inputStreamTOString(sqlFile.getInputStream());
             commonDao.updateBySql(str);
         } catch (Exception e) {
             LogUtils.error(e.getMessage());
@@ -88,9 +107,9 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
     private void repairMutilang() {
         try {
             ClassPathResource sqlFile = new ClassPathResource("sql/repair/RepairDao_batchRepairMutilang.sql");
-            String str= StreamUtils.inputStreamTOString(sqlFile.getInputStream());
+            String str = StreamUtils.inputStreamTOString(sqlFile.getInputStream());
             commonDao.updateBySql(str);
-            mutiLangService.refleshMutiLangCach();
+            mutiLangRepository.refleshMutiLangCach();
         } catch (Exception e) {
             LogUtils.error(e.getMessage());
         }
@@ -99,13 +118,12 @@ public class RepairRepositoryImpl extends CommonRepositoryImpl implements Repair
     private void repairTemplate() {
         try {
             ClassPathResource sqlFile = new ClassPathResource("sql/repair/RepairDao_batchRepairTemplate.sql");
-            String str= StreamUtils.inputStreamTOString(sqlFile.getInputStream());
+            String str = StreamUtils.inputStreamTOString(sqlFile.getInputStream());
             commonDao.updateBySql(str);
         } catch (Exception e) {
             LogUtils.error(e.getMessage());
         }
     }
-
 
 
     /**

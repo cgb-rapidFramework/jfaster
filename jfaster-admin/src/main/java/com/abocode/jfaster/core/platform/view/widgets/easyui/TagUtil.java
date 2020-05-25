@@ -154,8 +154,8 @@ public class TagUtil {
      * @param dg
      * @return
      */
-    private static Object getObject(DataGrid dg) {
-        Object jObject;
+    private static DataObject getObject(DataGrid dg) {
+        DataObject jObject;
         if (!StringUtils.isEmpty(dg.getFooter())) {
             jObject = getDataObject(dg.getField().split(","), dg.getTotal(), dg.getResults(), dg.getFooter().split(","));
         } else {
