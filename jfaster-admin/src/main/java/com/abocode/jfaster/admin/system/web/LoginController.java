@@ -286,7 +286,7 @@ public class LoginController {
     public AjaxJson getPrimaryMenuForWebos() throws Exception {
         //将菜单加载到Session，用户只在登录的时候加载一次
         Object getPrimaryMenuForWebos = ContextHolderUtils.getSession().getAttribute("getPrimaryMenuForWebos");
-        String message = getPrimaryMenuForWebos.toString();
+        String message;
         if (ConvertUtils.isEmpty(getPrimaryMenuForWebos)) {
             User user = SessionUtils.getCurrentUser();
             HttpSession session = ContextHolderUtils.getSession();
@@ -297,6 +297,8 @@ public class LoginController {
             }
             message = SystemMenuUtils.getWebosMenu(functionService.getFunctionMap(SessionUtils.getCurrentUser()));
             ContextHolderUtils.getSession().setAttribute("getPrimaryMenuForWebos", message);
+        }else {
+            message=getPrimaryMenuForWebos.toString();
         }
         return AjaxJsonBuilder.success(message);
     }

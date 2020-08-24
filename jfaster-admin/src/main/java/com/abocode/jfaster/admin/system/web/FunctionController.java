@@ -312,7 +312,7 @@ public class FunctionController {
         CriteriaQuery cq = new CriteriaQuery(DataRule.class, dataGrid);
         String functionId = ConvertUtils.getString(request
                 .getParameter("functionId"));
-        cq.eq("parentFunction.id", functionId);
+        cq.eq("function.id", functionId);
         cq.add();
         this.systemService.findDataGridReturn(cq, true);
         TagUtil.datagrid(response, dataGrid);

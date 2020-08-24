@@ -276,7 +276,7 @@ public class FunctionServiceImpl implements FunctionService {
             cq.eq("parentFunction.id", treeGridId);
         }
         if (treeGridId == null) {
-            cq.isNull("function");
+            cq.isNull("parentFunction");
         }
         cq.addOrder("functionOrder", SortDirection.asc);
         cq.add();

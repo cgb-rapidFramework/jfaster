@@ -31,9 +31,9 @@ function dataFlush(){
         type: "post",
   	  	success: function (data) {
             //修改webOS界面菜单不出现的问题
-            var menu;
-            menu = eval("(" +data+")");
-            var array = menu.msg.split("$$");
+            // var menu;
+            // menu = eval("(" +data+")");
+            var array = data.msg.split("$$");
             menujson=array[0];
             menujson = eval("("+menujson+")");
             iconjson=array[1];

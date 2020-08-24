@@ -1,5 +1,8 @@
 package com.abocode.jfaster.core.common.model.json;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
 /**
@@ -8,15 +11,14 @@ import java.util.List;
  * @author 
  * 
  */
+@Getter
+@Setter
 public class DataGridReturn  extends  DataGrid{
-	public DataGridReturn(Integer total, List rows) {
+	private int total;// 总记录数
+	private List results;// 每行记录
+	public DataGridReturn(int total, List results) {
+		super(total,results);
 		this.total = total;
-		this.rows = rows;
+		this.results = results;
 	}
-
-	private Integer total;// 总记录数
-	private List rows;// 每行记录
-	private List footer;
-
-
 }

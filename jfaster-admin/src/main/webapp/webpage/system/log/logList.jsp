@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
-<t:datagrid title="log.manage" name="logList" actionUrl="logController.do?datagrid" idField="id" sortName="operatetime" sortOrder="desc" pageSize="1000" extendParams="view:scrollview,">
+<t:datagrid title="log.manage" name="logList" actionUrl="logController.do?datagrid" idField="id" sortName="operationTime" sortOrder="desc" pageSize="1000">
 	<t:dgCol title="log.level" field="loglevel" hidden="true"></t:dgCol>
 	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
-	<t:dgCol title="log.content" field="logcontent" width="200"></t:dgCol>
+	<t:dgCol title="log.content" field="logContent" width="200"></t:dgCol>
 	<t:dgCol title="operate.ip" field="note" width="200"></t:dgCol>
 	<t:dgCol title="common.browser" field="broswer" width="100"></t:dgCol>
-	<t:dgCol title="operate.time" field="operatetime" formatter="yyyy-MM-dd hh:mm:ss" width="100"></t:dgCol>
+	<t:dgCol title="operate.time" field="operationTime" formatter="yyyy-MM-dd hh:mm:ss" width="100"></t:dgCol>
 </t:datagrid>
 <div id="logListtb" style="padding: 3px; height: 25px">
     <div name="searchColums" style="float: right; padding-right: 15px;">
