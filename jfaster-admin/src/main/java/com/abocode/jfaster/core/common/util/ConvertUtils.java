@@ -1,16 +1,14 @@
 package com.abocode.jfaster.core.common.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.net.*;
-import java.sql.Date;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+@Slf4j
 public class ConvertUtils {
     public static boolean isEmpty(Object object) {
         if (object == null) {
@@ -37,17 +35,6 @@ public class ConvertUtils {
         return temp;
     }
 
-    public static String StrToUTF(String strIn, String sourceCode, String targetCode) {
-        strIn = "";
-        try {
-            strIn = new String(strIn.getBytes("ISO-8859-1"), "GBK");
-        } catch (UnsupportedEncodingException e) {
-            LogUtils.error(e.getMessage());
-        }
-        return strIn;
-
-    }
-
     private static String code2code(String strIn, String sourceCode, String targetCode) {
         String strOut = null;
         if (strIn == null || (strIn.trim()).equals(""))
@@ -59,7 +46,7 @@ public class ConvertUtils {
             }
             strOut = new String(b, targetCode);
         } catch (Exception e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
             return null;
         }
         return strOut;
@@ -98,17 +85,6 @@ public class ConvertUtils {
         }
     }
 
-    public static int getInt(String s, Integer df) {
-        if (StringUtils.isEmpty(s)) {
-            return df;
-        }
-        try {
-            return (Integer.parseInt(s));
-        } catch (NumberFormatException e) {
-            return 0;
-        }
-    }
-
     public static Integer[] getInts(String[] s) {
         if (s == null) {
             return null;
@@ -120,18 +96,6 @@ public class ConvertUtils {
         return integer;
 
     }
-
-    public static double getDouble(String s, double defval) {
-        if (StringUtils.isEmpty(s)) {
-            return (defval);
-        }
-        try {
-            return (Double.parseDouble(s));
-        } catch (NumberFormatException e) {
-            return (defval);
-        }
-    }
-
 
     public static Short getShort(String s) {
         if (!StringUtils.isEmpty(s)) {
@@ -152,25 +116,6 @@ public class ConvertUtils {
         }
     }
 
-    public static int getInt(BigDecimal s, int defval) {
-        if (s == null) {
-            return (defval);
-        }
-        return s.intValue();
-    }
-
-    public static Integer[] getIntegerArray(String[] object) {
-        int len = object.length;
-        Integer[] result = new Integer[len];
-        try {
-            for (int i = 0; i < len; i++) {
-                result[i] = new Integer(object[i].trim());
-            }
-            return result;
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
 
     public static String getString(String s) {
         return (getString(s, ""));
@@ -205,14 +150,6 @@ public class ConvertUtils {
         return (s.toString().trim());
     }
 
-    public static long stringToLong(String str) {
-        Long test = new Long(0);
-        try {
-            test = Long.valueOf(str);
-        } catch (Exception e) {
-        }
-        return test.longValue();
-    }
 
     /**
      * 获取本机IP
@@ -224,70 +161,9 @@ public class ConvertUtils {
             ip = address.getHostAddress();
 
         } catch (UnknownHostException e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         }
         return ip;
-    }
-
-    /**
-     * 判断一个类是否为基本数据类型。
-     *
-     * @param clazz 要判断的类。
-     * @return true 表示为基本数据类型。
-     */
-    private static boolean isBaseDataType(Class clazz) throws Exception {
-        return (clazz.equals(String.class) || clazz.equals(Integer.class) || clazz.equals(Byte.class) || clazz.equals(Long.class) || clazz.equals(Double.class) || clazz.equals(Float.class) || clazz.equals(Character.class) || clazz.equals(Short.class) || clazz.equals(BigDecimal.class) || clazz.equals(BigInteger.class) || clazz.equals(Boolean.class) || clazz.equals(Date.class) || clazz.isPrimitive());
-    }
-
-    /**
-     * @param request IP
-     * @return IP Address
-     */
-    public static String getIpAddrByRequest(HttpServletRequest request) {
-        String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
-        return ip;
-    }
-
-    /**
-     * @return 本机IP
-     * @throws SocketException
-     */
-    public static String getRealIp() throws SocketException {
-        String localip = null;// 本地IP，如果没有配置外网IP则返回它
-        String netip = null;// 外网IP
-
-        Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
-        InetAddress ip = null;
-        boolean finded = false;// 是否找到外网IP
-        while (netInterfaces.hasMoreElements() && !finded) {
-            NetworkInterface ni = netInterfaces.nextElement();
-            Enumeration<InetAddress> address = ni.getInetAddresses();
-            while (address.hasMoreElements()) {
-                ip = address.nextElement();
-                if (!ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {// 外网IP
-                    netip = ip.getHostAddress();
-                    finded = true;
-                    break;
-                } else if (ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {// 内网IP
-                    localip = ip.getHostAddress();
-                }
-            }
-        }
-
-        if (netip != null && !"".equals(netip)) {
-            return netip;
-        } else {
-            return localip;
-        }
     }
 
     /**
@@ -360,37 +236,6 @@ public class ConvertUtils {
         }
         return map;
 
-    }
-
-    public static boolean isInnerIP(String ipAddress) {
-        boolean isInnerIp = false;
-        long ipNum = getIpNum(ipAddress);
-        /**
-         * 私有IP：A类 10.0.0.0-10.255.255.255 B类 172.16.0.0-172.31.255.255 C类 192.168.0.0-192.168.255.255 当然，还有127这个网段是环回地址
-         **/
-        long aBegin = getIpNum("10.0.0.0");
-        long aEnd = getIpNum("10.255.255.255");
-        long bBegin = getIpNum("172.16.0.0");
-        long bEnd = getIpNum("172.31.255.255");
-        long cBegin = getIpNum("192.168.0.0");
-        long cEnd = getIpNum("192.168.255.255");
-        isInnerIp = isInner(ipNum, aBegin, aEnd) || isInner(ipNum, bBegin, bEnd) || isInner(ipNum, cBegin, cEnd) || ipAddress.equals("127.0.0.1");
-        return isInnerIp;
-    }
-
-    private static long getIpNum(String ipAddress) {
-        String[] ip = ipAddress.split("\\.");
-        long a = Integer.parseInt(ip[0]);
-        long b = Integer.parseInt(ip[1]);
-        long c = Integer.parseInt(ip[2]);
-        long d = Integer.parseInt(ip[3]);
-
-        long ipNum = a * 256 * 256 * 256 + b * 256 * 256 + c * 256 + d;
-        return ipNum;
-    }
-
-    private static boolean isInner(long userIp, long begin, long end) {
-        return (userIp >= begin) && (userIp <= end);
     }
 
     public static String decode(String str) {

@@ -17,6 +17,7 @@ import com.abocode.jfaster.admin.system.dto.ExlUserDto;
 import com.abocode.jfaster.core.web.utils.SessionUtils;
 import com.abocode.jfaster.system.entity.*;
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
@@ -44,6 +45,7 @@ import java.util.*;
 @Scope("prototype")
 @Controller
 @RequestMapping("/userController")
+@Slf4j
 public class UserController {
     @Autowired
     private ResourceRepository resourceRepository;
@@ -552,13 +554,13 @@ public class UserController {
             // 返回客户端
             fOut.write(readFileToByteArray);
         } catch (Exception e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         } finally {
             try {
                 fOut.flush();
                 fOut.close();
             } catch (IOException e) {
-                LogUtils.error(e.getMessage());
+                log.error(e.getMessage());
             }
         }
     }
@@ -610,7 +612,7 @@ public class UserController {
         response.setContentType("application/vnd.ms-excel");
         OutputStream fOut = null;
         try {
-            String exportFileName = "用户列表" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_SS);
+            String exportFileName = "用户列表" + DateUtils.formatDate(new Date(), "YYYY_MM_DD_HH_MM_SS");
             // 根据浏览器进行转码，使其支持中文文件名
             String browse = BrowserUtils.checkBrowse(request);
             if ("MSIE".equalsIgnoreCase(browse.substring(0, 4))) {
@@ -625,7 +627,7 @@ public class UserController {
             fOut = response.getOutputStream();
             workbook.write(fOut);
         } catch (Exception e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         } finally {
             try {
                 if (fOut != null) {

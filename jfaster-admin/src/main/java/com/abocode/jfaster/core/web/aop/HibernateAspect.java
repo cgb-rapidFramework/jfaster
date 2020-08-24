@@ -1,8 +1,9 @@
 package com.abocode.jfaster.core.web.aop;
 
 import com.abocode.jfaster.core.common.util.ConvertUtils;
-import com.abocode.jfaster.core.common.util.LogUtils;
+
 import com.abocode.jfaster.core.web.utils.SessionUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 import com.abocode.jfaster.system.entity.User;
@@ -17,6 +18,7 @@ import java.util.Date;
  * @author  张代浩
  */
 @Component
+@Slf4j
 public class HibernateAspect extends EmptyInterceptor {
 	private static final long serialVersionUID = 1L;
 
@@ -89,7 +91,7 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 		     }
 		 }
 	} catch (RuntimeException e) {
-		LogUtils.error(e.getMessage());
+		log.error(e.getMessage());
 	}
 	 return true;
 }

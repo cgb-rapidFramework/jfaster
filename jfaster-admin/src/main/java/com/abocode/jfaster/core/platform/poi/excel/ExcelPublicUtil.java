@@ -4,7 +4,8 @@ import com.abocode.jfaster.core.platform.poi.excel.annotation.Excel;
 import com.abocode.jfaster.core.platform.poi.excel.annotation.ExcelCollection;
 import com.abocode.jfaster.core.platform.poi.excel.annotation.ExcelEntity;
 import com.abocode.jfaster.core.platform.poi.excel.annotation.ExcelIgnore;
-import com.abocode.jfaster.core.common.util.LogUtils;
+
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.POIXMLDocumentPart;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.PictureData;
@@ -14,7 +15,7 @@ import org.openxmlformats.schemas.drawingml.x2006.spreadsheetDrawing.CTMarker;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
-
+@Slf4j
 public class ExcelPublicUtil {
 	
 	
@@ -48,21 +49,6 @@ public class ExcelPublicUtil {
 		return clazz.isAssignableFrom(List.class)||
 				clazz.isAssignableFrom(Set.class)||
 				clazz.isAssignableFrom(Collection.class);
-//		String colleciton = "java.util.Collection";
-//		Class<?>[] faces = clazz.getInterfaces();
-//		for (Class<?> face : faces) {
-//			if(face.getName().equals(colleciton)){
-//				return true;
-//			}else{
-//				if(face.getSuperclass()!= Object.class&&face.getSuperclass()!=null){
-//					return isCollection(face.getSuperclass());
-//				}
-//			}
-//		}
-//		if(clazz.getSuperclass()!= Object.class&&clazz.getSuperclass()!=null){
-//			return isCollection(clazz.getSuperclass());
-//		}
-//		return false;
 	}
 	/**
 	 * 判断是否不要在这个excel操作中
@@ -146,7 +132,7 @@ public class ExcelPublicUtil {
 			}
 			
 		} catch (Exception e) {
-			LogUtils.error(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return obj; 
 		

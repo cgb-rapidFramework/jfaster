@@ -1,7 +1,6 @@
 package com.abocode.jfaster.core.persistence.hibernate.hqlsearch;
 
 import com.abocode.jfaster.core.common.util.DataRuleUtils;
-import com.abocode.jfaster.core.common.util.LogUtils;
 import com.abocode.jfaster.core.common.util.StringUtils;
 import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.vo.HqlRuleEnum;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
@@ -164,7 +163,7 @@ public class HqlGenerateUtil {
                     }
                 }
             } catch (Exception e) {
-                LogUtils.error(e.getMessage());
+                log.error(e.getMessage());
             }
         }
     }
@@ -278,7 +277,7 @@ public class HqlGenerateUtil {
                 }
             }
         } catch (Exception e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         }
         return isNotEmpty;
     }

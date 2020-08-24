@@ -7,11 +7,12 @@ import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.util.JspWriterUtils;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
 import com.abocode.jfaster.core.platform.utils.SysThemesUtils;
-import com.abocode.jfaster.core.common.util.LogUtils;
+
 import com.abocode.jfaster.core.platform.MutilangContainer;
 import com.abocode.jfaster.core.platform.SystemContainer;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.DataGridColumn;
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import com.abocode.jfaster.core.platform.view.TemplateView;
 import com.abocode.jfaster.core.platform.view.TypeView;
@@ -23,14 +24,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.text.MessageFormat;
 import java.util.*;
-
-
-/**
- * 类描述：DATAGRID标签处理类
- *
- * @author 张代浩
- * @version 1.0
- */
+@Slf4j
 public class DataGridTag extends TagSupport {
     protected String fields = "";// 显示字段
     protected String searchFields = "";// 查询字段  Author:qiulu  Date:20130618 for：添加对区间查询的支持
@@ -802,33 +796,7 @@ public class DataGridTag extends TagSupport {
         field = dealSyscode(field, 1);
         StringBuilder re = new StringBuilder();
         try {
-           /*  Gson gson=new Gson();
-            Iterator it =gson.fromJson(field,Iterator.class);
-            while (it.hasNext()) {
-                String key = String.valueOf(it.next());
-                gson=new Gson();
-                JSONObject nextObj = ((JSONObject) obj.get(key));
-                Iterator itvalue = nextObj.keys();
-                re.append(key + "=" + "\"");
-                if (nextObj.size() <= 1) {
-                    String onlykey = String.valueOf(itvalue.next());
-                    if ("value".equals(onlykey)) {
-                        re.append(nextObj.get(onlykey) + "");
-                    } else {
-                        re.append(onlykey + ":" + nextObj.get(onlykey) + "");
-                    }
-                } else {
-                    while (itvalue.hasNext()) {
-                        String multkey = String.valueOf(itvalue.next());
-                        String multvalue = nextObj.getString(multkey);
-                        re.append(multkey + ":" + multvalue + ",");
-                    }
-                    re.deleteCharAt(re.length() - 1);
-                }
-                re.append("\" ");
-            }*/
-
-            JSONObject obj = JSONObject.fromObject(field);
+           JSONObject obj = JSONObject.fromObject(field);
             Iterator it = obj.keys();
             while (it.hasNext()) {
                 String key = String.valueOf(it.next());
@@ -853,30 +821,10 @@ public class DataGridTag extends TagSupport {
                 re.append("\" ");
             }
         } catch (Exception e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
             return "";
         }
         return dealSyscode(re.toString(), 2);
-    }
-
-
-    /**
-     * 生成扩展属性
-     *
-     * @param field
-     * @return
-     */
-    private String extendAttributeOld(String field) {
-        StringBuffer sb = new StringBuffer();
-        //增加扩展属性
-        if (!StringExpandUtils.isEmpty(field)) {
-            Gson gson = new Gson();
-            Map<String, String> mp = gson.fromJson(field, Map.class);
-            for (Map.Entry<String, String> entry : mp.entrySet()) {
-                sb.append(entry.getKey() + "=" + gson.toJson(entry.getValue()) + "\"");
-            }
-        }
-        return sb.toString();
     }
 
     /**

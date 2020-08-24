@@ -3,12 +3,12 @@ package com.abocode.jfaster.admin.system.web;
 import com.abocode.jfaster.admin.system.service.UserLoginService;
 import com.abocode.jfaster.api.core.AvailableEnum;
 import com.abocode.jfaster.core.common.constants.Globals;
+import com.abocode.jfaster.core.persistence.datasource.DataSourceType;
 import com.abocode.jfaster.core.platform.SystemContainer;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.AjaxJsonBuilder;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.persistence.datasource.DataSourceContextHolder;
-import com.abocode.jfaster.core.persistence.datasource.DataSourceType;
 import com.abocode.jfaster.core.platform.utils.SystemMenuUtils;
 import com.abocode.jfaster.core.web.manager.ClientManager;
 import com.abocode.jfaster.admin.system.repository.MutiLangRepository;
@@ -92,7 +92,7 @@ public class LoginController {
             request.getSession().setAttribute("lang", request.getParameter("langCode"));
         }
         HttpSession session = ContextHolderUtils.getSession();
-        DataSourceContextHolder.setDataSourceType(DataSourceType.dataSource_jeecg);
+        DataSourceContextHolder.setDataSourceType(DataSourceType.Default);
         String randCode = request.getParameter("randCode");
         Assert.hasText(randCode, mutiLangRepository.getLang("common.enter.verifycode"));
         Assert.isTrue(randCode.equalsIgnoreCase(String.valueOf(session.getAttribute("randCode"))), mutiLangRepository.getLang("common.verifycode.error"));
@@ -115,7 +115,7 @@ public class LoginController {
      */
     @RequestMapping(params = "login")
     public String login(ModelMap modelMap, HttpServletRequest request) {
-        DataSourceContextHolder.setDataSourceType(DataSourceType.dataSource_jeecg);
+        DataSourceContextHolder.setDataSourceType(DataSourceType.Default);
         Template templateEntity = this.templateService.findUniqueByProperty(Template.class, "status", AvailableEnum.AVAILABLE.getValue());
         Assert.isTrue(templateEntity != null, "未找到相关的模版");
 

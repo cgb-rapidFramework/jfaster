@@ -2,10 +2,6 @@ package com.abocode.jfaster.core.common.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-/**
- * Created by admin on 2016/1/4.
- */
 public class ResourceUtils extends FileUtils{
     //定义资源类型
     public final  static String  RESOURCE_TEMPLATE="resource/template";
@@ -42,15 +38,5 @@ public class ResourceUtils extends FileUtils{
     public static  String getResourceLocalPath(){
         String  serverPath=ConfigUtils.getConfigByName("resource.server.path");
         return  serverPath;
-    }
-
-    /***
-     * 获取资源请求路径
-     *
-     * @return
-     */
-    public static  String getResourcePublicURL(){
-        String  url=ConfigUtils.getConfigByName("resource.public.url");
-        return  url;
     }
 }

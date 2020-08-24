@@ -1,10 +1,11 @@
 package com.abocode.jfaster.core.platform.utils;
 
 import com.abocode.jfaster.core.common.util.BeanPropertyUtils;
-import com.abocode.jfaster.core.common.util.LogUtils;
+
 import com.abocode.jfaster.core.platform.view.ReflectHelper;
 import com.abocode.jfaster.core.platform.MutilangContainer;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.StringUtils;
@@ -14,16 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 字符串处理及转换工具类
- *
- * @author 张代浩
- */
+@Slf4j
 public class MutiLangUtils {
     public final static String DEFUALT_LANG = "zh-cn";
-
-    private static Log logger = LogFactory.getLog(MutiLangUtils.class);
-
 
     /**
      * 组装查询条件：对多语言字段进行 查询条件的组装
@@ -161,9 +155,6 @@ public class MutiLangUtils {
         return context;
     }
 
-
-    // add-begin--Author:zhangguoming  Date:20140928 for：多语言
-
     /**
      * 处理列表中对象的多语言属性值，即为列表中实体对象的属性值替换为多语言所对应的值
      *
@@ -185,7 +176,7 @@ public class MutiLangUtils {
                 cloneObj = Class.forName(obj.getClass().getName()).newInstance();
                 BeanPropertyUtils.copyBean2Bean(cloneObj, obj);
             } catch (Exception e) {
-                LogUtils.error(e.getMessage());
+                log.error(e.getMessage());
                 continue;
             }
             ReflectHelper reflectHelper = new ReflectHelper(cloneObj);

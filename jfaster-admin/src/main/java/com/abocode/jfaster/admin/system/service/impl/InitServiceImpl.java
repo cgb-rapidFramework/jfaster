@@ -6,10 +6,11 @@ import com.abocode.jfaster.admin.system.service.FunctionService;
 import com.abocode.jfaster.admin.system.service.InitService;
 import com.abocode.jfaster.core.common.util.ConfigUtils;
 import com.abocode.jfaster.core.common.util.DateUtils;
-import com.abocode.jfaster.core.common.util.LogUtils;
+
 import com.abocode.jfaster.core.common.util.StreamUtils;
 import com.abocode.jfaster.core.persistence.ICommonDao;
 import com.abocode.jfaster.system.entity.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Slf4j
 public class InitServiceImpl implements InitService {
     @Autowired
     private MutiLangRepository mutiLangRepository;
@@ -100,7 +102,7 @@ public class InitServiceImpl implements InitService {
             String str = StreamUtils.inputStreamTOString(sqlFile.getInputStream());
             commonDao.updateBySql(str);
         } catch (Exception e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -111,7 +113,7 @@ public class InitServiceImpl implements InitService {
             commonDao.updateBySql(str);
             mutiLangRepository.refleshMutiLangCach();
         } catch (Exception e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -121,7 +123,7 @@ public class InitServiceImpl implements InitService {
             String str = StreamUtils.inputStreamTOString(sqlFile.getInputStream());
             commonDao.updateBySql(str);
         } catch (Exception e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -504,7 +506,7 @@ public class InitServiceImpl implements InitService {
      * @author tanghan 2013-7-19
      */
     private void repaireIcon() {
-        LogUtils.info("修复图标中");
+        log.info("修复图标中");
 
         Icon defaultIcon = new Icon();
         defaultIcon.setIconName("默认图");

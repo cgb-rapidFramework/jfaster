@@ -8,26 +8,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
-/**
- * Created by Franky on 2016/3/15.
- */
+@Slf4j
 public class DateUtils extends PropertyEditorSupport {// 各种时间格式
-     public static final String  YYYY_MM_DD ="yyyy-MM-dd";
-    public static final String YYYYMMDD ="yyyyMMdd";
-    public static final String YYYY_MM_DD_HH_MM =  "yyyy-MM-dd HH:mm";
-    public static final String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
-    public static final String HH_MM ="HH:mm";
-    public static final  String YYYY_MM_DD_HH_MM_SS ="yyyy-MM-dd HH:mm:ss";
-    private static final long DAY_TO_MILLIS = 24 * 3600 * 1000;
-    private static final long HOUR_TO_MILLIS = 3600 * 1000;
-    private static final long MINUTE_TO_MILLIS = 60 * 1000;
-    private static final long SECOND_TO_MILLIS = 1000;
+
 
     // 指定模式的时间格式
     private static SimpleDateFormat getSimpleDateFormat(String pattern) {
         return new SimpleDateFormat(pattern);
     }
+
     /**
      * 指定毫秒数表示的日期
      *
@@ -39,23 +30,13 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
     }
 
     /**
-     * 字符串转换时间戳
-     * @param str
-     * @return
-     */
-    public static Timestamp strToTimestamp(String str,String  format) {
-        Date date = strToDate(str,format);
-        return new Timestamp(date.getTime());
-    }
-
-    /**
      * 字符串转换成日期
      *
      * @param str
      * @param sdf
      * @return
      */
-    public static Date strToDate(String str, String  sdf) {
+    public static Date strToDate(String str, String sdf) {
         if (null == str || "".equals(str)) {
             return null;
         }
@@ -64,28 +45,11 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
             date = getSimpleDateFormat(sdf).parse(str);
             return date;
         } catch (ParseException e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         }
         return null;
     }
 
-    /**
-     * 格式化时间
-     *
-     * @param date
-     * @param format
-     * @return
-     */
-    public static String dateToStr(String date, String format) {
-        SimpleDateFormat sdf = getSimpleDateFormat(format);
-        Date _date = null;
-        try {
-            _date = sdf.parse(date);
-        } catch (ParseException e) {
-            LogUtils.error(e.getMessage());
-        }
-        return sdf.format(_date);
-    }
 
     /**
      * 日期转换为字符串
@@ -104,16 +68,6 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
     }
 
     /**
-     * 指定毫秒数的时间戳
-     *
-     * @param millis 毫秒数
-     * @return 指定毫秒数的时间戳
-     */
-    public static Timestamp getTimestamp(long millis) {
-        return new Timestamp(millis);
-    }
-
-    /**
      * 系统当前的时间戳
      *
      * @return 系统当前的时间戳
@@ -122,33 +76,6 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
         return new Timestamp(new Date().getTime());
     }
 
-    /**
-     * 指定日期的时间戳
-     *
-     * @param date 指定日期
-     * @return 指定日期的时间戳
-     */
-    public static Timestamp getTimestamp(Date date) {
-        return new Timestamp(date.getTime());
-    }
-
-    /**
-     * 系统时间的毫秒数
-     * @return 系统时间的毫秒数
-     */
-    public static long getMillis() {
-        return new Date().getTime();
-    }
-
-    /**
-     * 指定日历的毫秒数
-     *
-     * @param cal 指定日历
-     * @return 指定日历的毫秒数
-     */
-    public static long getMillis(Calendar cal) {
-        return cal.getTime().getTime();
-    }
 
     /**
      * 指定日期的毫秒数
@@ -160,25 +87,14 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
         return date.getTime();
     }
 
-    /**
-     * 指定时间戳的毫秒数
-     *
-     * @param ts 指定时间戳
-     * @return 指定时间戳的毫秒数
-     */
-    public static long getMillis(Timestamp ts) {
-        return ts.getTime();
-    }
-
-
 
     /**
      * 指定毫秒数表示日期的默认显示
      *
      * @param millis 指定的毫秒数
      */
-    public static String formatDate(long millis,String format) {
-        return  getSimpleDateFormat(format).format(new Date(millis));
+    public static String formatDate(long millis, String format) {
+        return getSimpleDateFormat(format).format(new Date(millis));
     }
 
     /**
@@ -212,14 +128,15 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
     public static String formatDate(Date date, String pattern) {
         return getSimpleDateFormat(pattern).format(date);
     }
+
     /**
      * 指定毫秒数表示日期的默认显示，具体格式：年-月-日 时：分
      *
      * @param millis 指定的毫秒数
      * @return 指定毫秒数表示日期按“年-月-日 时：分“格式显示
      */
-    public static String formatTime(long millis,String  format) {
-        return  getSimpleDateFormat(format).format(new Date(millis));
+    public static String formatTime(long millis, String format) {
+        return getSimpleDateFormat(format).format(new Date(millis));
     }
 
     /**
@@ -228,8 +145,8 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
      * @param cal 指定的日期
      * @return 指定日期按“年-月-日 时：分“格式显示
      */
-    public static String formatTime(Calendar cal,String format) {
-        return  getSimpleDateFormat(format).format(cal.getTime());
+    public static String formatTime(Calendar cal, String format) {
+        return getSimpleDateFormat(format).format(cal.getTime());
     }
 
     /**
@@ -238,9 +155,10 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
      * @param date 指定的日期
      * @return 指定日期按“年-月-日 时：分“格式显示
      */
-    public static String formatTime(Date date,String format) {
-        return  getSimpleDateFormat(format).format(date);
+    public static String formatTime(Date date, String format) {
+        return getSimpleDateFormat(format).format(date);
     }
+
     /**
      * 根据指定的格式将字符串转换成Date 如输入：To003-11-19 11:To0:To0将按照这个转成时间
      *
@@ -277,7 +195,7 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
         Calendar cal;
         cal = parseCalendar(date, pattern);
         cal.add(Calendar.DATE, amount);
-        return formatDate(cal,pattern);
+        return formatDate(cal, pattern);
     }
 
     /**
@@ -292,10 +210,11 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
             Date date = parseDate(src, pattern);
             return new Timestamp(date.getTime());
         } catch (ParseException e) {
-          throw  new IllegalArgumentException("时间转换错误");
+            throw new IllegalArgumentException("时间转换错误");
         }
 
     }
+
     /**
      * String类型 转换为Date,
      * 如果参数长度为10 转换格式”yyyy-MM-dd“
@@ -304,12 +223,14 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
      * String类型的时间值
      */
     public void setAsText(String text) throws IllegalArgumentException {
+        String YYYY_MM_DD = "yyyy-MM-dd";
+        String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
         if (StringUtils.hasText(text)) {
             try {
                 if (text.indexOf(":") == -1 && text.length() == 10) {
-                    setValue( getSimpleDateFormat(DateUtils.YYYY_MM_DD).parse(text));
+                    setValue(getSimpleDateFormat(YYYY_MM_DD).parse(text));
                 } else if (text.indexOf(":") > 0 && text.length() == 19) {
-                    setValue(getSimpleDateFormat(DateUtils.YYYY_MM_DD_HH_MM_SS).parse(text));
+                    setValue(getSimpleDateFormat(YYYY_MM_DD_HH_MM_SS).parse(text));
                 } else {
                     throw new IllegalArgumentException(
                             "Could not parse date, date format is error ");
@@ -327,6 +248,7 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
 
     /**
      * 获取年
+     *
      * @return
      */
     public static int getYear() {
@@ -335,43 +257,5 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
         return calendar.get(Calendar.YEAR);
     }
 
-    /**
-     * 计算两个时间之间的差值，根据标志的不同而不同
-     *
-     * @param flag      计算标志，表示按照年/月/日/时/分/秒等计算
-     * @param beginTime 减数
-     * @param endTime   被减数
-     * @return 两个日期之间的差值
-     */
-    public static int getDateDiff(char flag, Date beginTime, Date endTime) {
-        long millisDiff = getMillis(endTime) - getMillis(beginTime);
-        if (flag == 'd') {
-            return (int) (millisDiff / DAY_TO_MILLIS);
-        }
 
-        if (flag == 'h') {
-            return (int) (millisDiff / HOUR_TO_MILLIS);
-        }
-
-        if (flag == 'm') {
-            return (int) (millisDiff / MINUTE_TO_MILLIS);
-        }
-
-        if (flag == 's') {
-            return (int) (millisDiff / SECOND_TO_MILLIS);
-        }
-        return 0;
-    }
-
-    /***
-     * 获取n分钟以后的时间
-     * @param minute
-     * @return
-     */
-    public static String getDateAfterMinutes(int minute, String format) {
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MINUTE, minute);// 5分钟之前的时间
-        String date = DateUtils.formatDate(cal, format);
-        return date;
-    }
 }

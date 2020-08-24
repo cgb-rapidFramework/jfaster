@@ -27,7 +27,8 @@ import com.abocode.jfaster.core.platform.poi.excel.entity.ComparatorExcelField;
 import com.abocode.jfaster.core.platform.poi.excel.entity.ExcelExportEntity;
 import com.abocode.jfaster.core.platform.poi.excel.entity.ExcelTitle;
 import com.abocode.jfaster.core.platform.poi.excel.entity.TemplateExportParams;
-import com.abocode.jfaster.core.common.util.LogUtils;
+
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
@@ -41,7 +42,6 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 /**
@@ -52,25 +52,8 @@ import org.apache.poi.ss.util.CellRangeAddress;
  * @version 1.0
  * 
  */
+@Slf4j
 public final class ExcelExportUtil {
-	/**
-	 * 一个excel 创建多个sheet
-	 * 
-	 * @param list
-	 *            多个Map key title 对应表格Title key entity 对应表格对应实体 key data
-	 *            Collection 数据
-	 * @return
-	 */
-	public static HSSFWorkbook exportExcel(List<Map<String, Object>> list) {
-		HSSFWorkbook workbook = new HSSFWorkbook();
-		for (Map<String, Object> map : list) {
-			createSheetInUserModel2File(workbook,
-					(ExcelTitle) map.get("title"),
-					(Class<?>) map.get("entity"),
-					(Collection<?>) map.get("data"));
-		}
-		return workbook;
-	}
 
 	/**
 	 * 
@@ -80,8 +63,6 @@ public final class ExcelExportUtil {
 	 *            Excel对象Class
 	 * @param dataSet
 	 *            Excel对象数据List
-	 * @param out
-	 *            输出流
 	 */
 	public static HSSFWorkbook exportExcel(ExcelTitle entity,
 			Class<?> pojoClass, Collection<?> dataSet) {
@@ -89,36 +70,7 @@ public final class ExcelExportUtil {
 		createSheetInUserModel2File(workbook, entity, pojoClass, dataSet);
 		return workbook;
 	}
-	
-	
-	/**
-	 * 导出文件通过模板解析
-	 * 
-	 * @param entity  导出参数类
-	 * @param pojoClass 对应实体
-	 * @param dataSet 实体集合
-	 * @param map 模板集合
-	 * @return
-	 */
-	public static Workbook exportExcel(TemplateExportParams params,
-                                       Class<?> pojoClass, Collection<?> dataSet, Map<String, Object> map) {
-		return ExcelExportOfTemplateUtil.exportExcel(params, pojoClass,
-				dataSet, map);
-	}
-	
-	/**
-	 * 导出文件通过模板解析只有模板,没有集合
-	 * 
-	  * @param entity  导出参数类
-	 * @param pojoClass 对应实体
-	 * @param map 模板集合
-	 * @return
-	 */
-	public static Workbook exportExcel(TemplateExportParams params,
-			Map<String, Object> map) {
-		return ExcelExportOfTemplateUtil.exportExcel(params, null,
-				null, map);
-	}
+
 
 	private static void createSheetInUserModel2File(HSSFWorkbook workbook,
 			ExcelTitle entity, Class<?> pojoClass, Collection<?> dataSet) {
@@ -156,7 +108,7 @@ public final class ExcelExportUtil {
 						,styles);
 			}
 		} catch (Exception e) {
-			LogUtils.error(e.getMessage());
+			log.error(e.getMessage());
 		}
 	}
 	/**
@@ -326,8 +278,6 @@ public final class ExcelExportUtil {
 
 	/**
 	 * 创建表头
-	 * @param entity 
-	 * 
 	 * @param index
 	 */
 	private static void createTitleRow(ExcelTitle title, Sheet sheet, HSSFWorkbook workbook,
@@ -408,7 +358,7 @@ public final class ExcelExportUtil {
 				patriarch.createPicture(anchor,
 						row.getSheet().getWorkbook().addPicture(value,getImageType(value)));
 			} catch (IOException e) {
-				LogUtils.error(e.getMessage());
+				log.error(e.getMessage());
 			}
 		}else{
 			byte[] value = (byte[]) (entity.getGetMethods() != null ? getFieldBySomeMethod(
@@ -441,7 +391,7 @@ public final class ExcelExportUtil {
 	/**
 	 * 创建 表头
 	 * 
-	 * @param title
+	 * @param entity
 	 * @param sheet
 	 * @param workbook
 	 * @param feildWidth
@@ -465,9 +415,6 @@ public final class ExcelExportUtil {
 
 	/**
 	 * 获取导出报表的字段总长度
-	 * 
-	 * @param exportFieldTitle
-	 * @param secondTitle
 	 * @return
 	 */
 	private static int getFieldWidth(List<ExcelExportEntity> excelParams) {
@@ -483,7 +430,6 @@ public final class ExcelExportUtil {
 	 * 
 	 * @param targetId
 	 *            目标ID
-	 * @param filed
 	 * @throws Exception
 	 */
 	private static void getAllExcelField(String targetId, Field[] fields,

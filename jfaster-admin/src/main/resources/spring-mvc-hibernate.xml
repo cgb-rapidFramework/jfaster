@@ -15,7 +15,7 @@
 	<!-- 引入属性文件 -->
 	<context:property-placeholder location="classpath:dbconfig.properties" />
 	<!-- 配置数据源1 -->
-	<bean name="dataSource_jeecg" class="com.alibaba.druid.pool.DruidDataSource"
+	<bean name="master" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
 		<property name="url" value="${jdbc.url}" />
 		<property name="username" value="${jdbc.username}" />
@@ -60,16 +60,14 @@
 		class="com.abocode.jfaster.core.persistence.datasource.DynamicDataSource">
 		<property name="targetDataSources">
 			<map key-type="com.abocode.jfaster.core.persistence.datasource.DataSourceType">
-				<entry key="dataSource_jeecg" value-ref="dataSource_jeecg" />
-				<!-- <entry key="mapdataSource" value-ref="mapdataSource" /> -->
+				<entry key="Default" value-ref="master" />
 			</map>
 		</property>
-		<property name="defaultTargetDataSource" ref="dataSource_jeecg" />
+		<property name="defaultTargetDataSource" ref="master" />
 	</bean>
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<!--<property name="entityInterceptor" ref="hibernateAspect" />-->
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
@@ -107,9 +105,5 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	    <property name="globalRollbackOnParticipationFailure" value="false" /> 
 	</bean>
-	<tx:annotation-driven transaction-manager="transactionManager" />
-
-	<!-- JSR303 Validator定义 -->
-<!--	<bean id="validator"
-		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />-->
+	<tx:annotation-driven />
 </beans>

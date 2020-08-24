@@ -8,12 +8,12 @@ import com.abocode.jfaster.core.platform.view.interactions.datatable.DataTableRe
 import com.abocode.jfaster.core.platform.view.interactions.easyui.Autocomplete;
 import com.abocode.jfaster.core.common.util.BeanPropertyUtils;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
-import com.abocode.jfaster.core.common.util.LogUtils;
 import com.abocode.jfaster.core.common.model.json.DataGridReturn;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.DetachedCriteriaUtil;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.HqlQuery;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.PageList;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.PagerUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Criteria;
 import org.hibernate.query.Query;
 import org.hibernate.Session;
@@ -48,6 +48,7 @@ import java.util.*;
  * @param <PK>
  * @version 1.0
  */
+@Slf4j
 public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		implements IGenericBaseCommonDao {
 	/**
@@ -98,7 +99,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 				EntityTitle t = c.getAnnotation(EntityTitle.class);
 				dbTable.setTableTitle(t != null ? t.name() : "");
 			} catch (ClassNotFoundException e) {
-				LogUtils.error(e.getMessage());
+				log.error(e.getMessage());
 			}
 			resultList.add(dbTable);
 		}
@@ -782,7 +783,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 				BeanPropertyUtils.copyMap2Bean_Nobig(po, m);
 				rsList.add(po);
 			} catch (Exception e) {
-				LogUtils.error(e.getMessage());
+				log.error(e.getMessage());
 			}
 		}
 		return rsList;

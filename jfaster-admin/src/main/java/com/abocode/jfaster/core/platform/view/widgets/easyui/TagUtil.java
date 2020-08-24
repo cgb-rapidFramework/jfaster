@@ -6,8 +6,9 @@ import com.abocode.jfaster.core.platform.view.interactions.easyui.Autocomplete;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.platform.view.ReflectHelper;
 import com.abocode.jfaster.core.platform.view.RoleView;
-import com.abocode.jfaster.core.common.util.LogUtils;
+
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -18,13 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-/**
- * 类描述：标签工具类
- *
- * @author: guanxf
- * @date： 日期：2015-04-18
- */
+@Slf4j
 public class TagUtil {
 
 
@@ -265,24 +260,6 @@ public class TagUtil {
 
 
     /**
-     * 对象转数组
-     *
-     * @param fields
-     * @param o
-     * @return
-     * @throws Exception
-     */
-    protected static Object[] field2Values(String[] fields, Object o) throws Exception {
-        Object[] values = new Object[fields.length];
-        for (int i = 0; i < fields.length; i++) {
-            String fieldName = fields[i].toString();
-            values[i] = fieldNameToValues(fieldName, o);
-        }
-        return values;
-    }
-
-
-    /**
      * 循环LIST对象拼接自动完成控件数据
      *
      * @param autocomplete
@@ -369,45 +346,7 @@ public class TagUtil {
         return type;
     }
 
-    /**
-     * getSortColumnIndex(获取指定字段索引)
-     *
-     * @param fileName
-     * @param fieldString
-     * @return
-     */
-    protected static String getSortColumnIndex(String fileName, String[] fieldString) {
-        String index = "";
-        if (fieldString.length > 0) {
-            for (int i = 0; i < fieldString.length; i++) {
-                if (fileName.equals(fieldString[i])) {
-                    int j = i + 1;
-                    index = ConvertUtils.getString(j);
-                }
-            }
-        }
-        return index;
 
-    }
-/*
-    // JSON返回页面MAP方式
-    public static void ListtoView(HttpServletResponse response, PageList pageList) {
-        response.setContentType("application/json");
-        response.setHeader("Cache-Control", "no-store");
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("total", pageList.getCount());
-        map.put("rows", pageList.getResultList());
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            mapper.writeValue(response.getWriter(), map);
-        } catch (JsonGenerationException e) {
-            LogUtils.error(e.getMessage());
-        } catch (JsonMappingException e) {
-            LogUtils.error(e.getMessage());
-        } catch (IOException e) {
-            LogUtils.error(e.getMessage());
-        }
-    }*/
 
     /**
      * 控件类型：easyui
@@ -425,14 +364,14 @@ public class TagUtil {
             Object object = getObject(dg);
             data = gson.toJson(object);
         } catch (Exception e) {
-          LogUtils.error(e.getMessage());
+          log.error(e.getMessage());
         }
         try {
             PrintWriter pw = response.getWriter();
             pw.write(data);
             pw.flush();
         } catch (IOException e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -450,37 +389,10 @@ public class TagUtil {
             String  data= datatable(field, dataTableReturn.getiTotalDisplayRecords(), dataTableReturn.getAaData());
             response.getWriter().write(new Gson().toJson(data));
         } catch (Exception e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
-    /**
-     * 手工拼接JSON
-     */
-    public static String getComboBoxJson(List<RoleView> list, List<RoleView> roles) {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("[");
-        for (RoleView node : list) {
-            if (roles.size() > 0) {
-                buffer.append("{\"id\":" + node.getId() + ",\"text\":\"" + node.getRoleName() + "\"");
-                for (RoleView node1 : roles) {
-                    if (node.getId().equals(node1.getId())) {
-                        buffer.append(",\"selected\":true");
-                    }
-                }
-                buffer.append("},");
-            } else {
-                buffer.append("{\"id\":" + node.getId() + ",\"text\":\"" + node.getRoleName() + "\"},");
-            }
-
-        }
-        buffer.append("]");
-        // 将,\n]替换成\n]
-        String tmp = buffer.toString();
-        tmp = tmp.replaceAll(",]", "]");
-        return tmp;
-
-    }
 
     /**
      * 根据模型生成JSON

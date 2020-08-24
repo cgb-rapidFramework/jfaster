@@ -2,10 +2,11 @@ package com.abocode.jfaster.core.platform.utils;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.abocode.jfaster.core.common.util.LogUtils;
+
 import com.abocode.jfaster.core.platform.SystemContainer;
 import com.abocode.jfaster.core.common.exception.BusinessException;
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 
 import com.abocode.jfaster.core.platform.view.TemplateView;
@@ -17,6 +18,7 @@ import java.io.*;
  *
  * @author Franky
  */
+@Slf4j
 public class SysThemesUtils {
     /**
      * 获取系统风格
@@ -33,7 +35,7 @@ public class SysThemesUtils {
                 currentTemplate = gson.fromJson(json, TemplateView.class);
             }
         } catch (Exception e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         }
         if (currentTemplate == null) {
             currentTemplate = getDefaultTemplate();
@@ -80,7 +82,6 @@ public class SysThemesUtils {
      * @param templateBean
      * @return
      */
-//	@Deprecated
     public static String getEasyUiIconTheme(TemplateView templateBean) {
         StringBuffer sb = new StringBuffer("");
         sb.append("<link  rel=\"stylesheet\" href=\"template/" + templateBean.getTheme() + "/css/icon.css\" type=\"text/css\"></link>");
@@ -176,9 +177,10 @@ public class SysThemesUtils {
 
     /**
      * 添加图标样式
+     *
      * @param css
      */
-    public static void write(String  path, String css) {
+    public static void write(String path, String css) {
         try {
             File file = new File(path);
             if (!file.exists()) {
@@ -189,23 +191,24 @@ public class SysThemesUtils {
             out.write(css);
             out.close();
         } catch (Exception e) {
-            throw  new BusinessException("写主题失败",e);
+            throw new BusinessException("写主题失败", e);
         }
     }
 
     /**
      * 清空文件内容
+     *
      * @param path
      */
-    public  static void clearFile(String path) {
+    public static void clearFile(String path) {
         try {
             FileOutputStream fos = new FileOutputStream(new File(path));
             fos.write("".getBytes());
             fos.close();
         } catch (FileNotFoundException e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         } catch (IOException e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 }

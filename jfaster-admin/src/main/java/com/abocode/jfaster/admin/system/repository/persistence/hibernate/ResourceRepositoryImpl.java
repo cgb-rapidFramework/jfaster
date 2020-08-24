@@ -10,6 +10,7 @@ import com.abocode.jfaster.system.entity.Operation;
 import com.abocode.jfaster.system.entity.Role;
 import com.abocode.jfaster.system.entity.RoleFunction;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -37,6 +38,7 @@ import java.util.*;
 
 @Service
 @Transactional
+@Slf4j
 public class ResourceRepositoryImpl extends CommonRepositoryImpl implements ResourceRepository {
     /**
      * 文件上传
@@ -119,24 +121,9 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                     // 文件拷贝到指定硬盘目录
                     FileCopyUtils.copy(mf.getBytes(), savefile);
 
-
-//				if (uploadFile.getSwfpath() != null) {
-//					// 转SWF
-//					reflectHelper.setMethodValue(uploadFile.getSwfpath(), path + swfName + ".swf");
-//					SwfToolsUtil.convert2SWF(savePath);
-//				}
-//				FileCopyUtils.copy(mf.getBytes(), savefile);
-
-                    //注释保存swf文件
-//				if (uploadFile.getSwfpath() != null) {
-//					// 转SWF
-//					reflectHelper.setMethodValue(uploadFile.getSwfpath(), path + FileUtils.getFilePrefix(myfilename) + ".swf");
-//					SwfToolsUtil.convert2SWF(savePath);
-//				}
-
                 }
             } catch (Exception e) {
-                LogUtils.error(e.getMessage());
+                log.error(e.getMessage());
             }
         }
         return object;
@@ -198,7 +185,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
             }
 
         } catch (IOException e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         } finally {
             try {
                 if (bis != null) {
@@ -208,7 +195,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                     bos.close();
                 }
             } catch (IOException e) {
-                LogUtils.error(e.getMessage());
+                log.error(e.getMessage());
             }
         }
         return response;
@@ -258,7 +245,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
             uploadFile.setExtend("bak");
             viewOrDownloadFile(uploadFile);
         } catch (Exception e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         }
         return response;
     }
@@ -279,7 +266,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
             for (Iterator i = employees.elementIterator(); i.hasNext(); ) {
                 Element employee = (Element) i.next();
                 // 有实体名反射得到实体类
-                entityClass = GenericsUtils.getEntityClass(employee.getName());
+                entityClass = ClassLoaderUtils.getClassByScn(employee.getName());
                 // 得到实体属性
                 Field[] fields = TagUtil.getFiled(entityClass);
                 // 得到实体的ID
@@ -309,7 +296,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                             } else if (type.equals("double")) {
                                 setMethod.invoke(obj1, new Double(node.getText()));
                             } else if (type.equals("Timestamp")) {
-                                setMethod.invoke(obj1, new Timestamp(DateUtils.strToDate(node.getText(), DateUtils.YYYY_MM_DD_HH_MM_SS).getTime()));
+                                setMethod.invoke(obj1, new Timestamp(DateUtils.strToDate(node.getText(), "YYYY_MM_DD_HH_MM_SS").getTime()));
                             }
                         }
                     }
@@ -321,7 +308,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                 }
             }
         } catch (Exception e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -549,7 +536,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                         content.append(s).append(",");
                     }
                 } catch (Exception e) {
-                    LogUtils.error(e.getMessage());
+                    log.error(e.getMessage());
                 }
 
             }

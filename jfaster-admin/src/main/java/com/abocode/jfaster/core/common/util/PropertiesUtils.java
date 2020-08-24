@@ -1,21 +1,15 @@
 package com.abocode.jfaster.core.common.util;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.util.Properties;
 
-/**
- * @author 张代浩
- */
+@Slf4j
 public class PropertiesUtils {
     private String properiesName = "";
-
-    public PropertiesUtils() {
-
-    }
-
     public PropertiesUtils(String fileName) {
         this.properiesName = fileName;
     }
@@ -30,7 +24,7 @@ public class PropertiesUtils {
             p.load(is);
             value = p.getProperty(key);
         } catch (IOException e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         } finally {
             IOUtils.closeQuietly(is);
         }
@@ -45,38 +39,11 @@ public class PropertiesUtils {
                     properiesName);
             p.load(is);
         } catch (IOException e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         } finally {
             IOUtils.closeQuietly(is);
         }
         return p;
     }
 
-    public void writeProperty(String key, String value) {
-        InputStream is = null;
-        OutputStream os = null;
-        Properties p = new Properties();
-        try {
-            is = new FileInputStream(properiesName);
-            p.load(is);
-            os = new FileOutputStream(PropertiesUtils.class.getClassLoader().getResource(properiesName).getFile());
-
-            p.setProperty(key, value);
-            p.store(os, key);
-            os.flush();
-            os.close();
-        } catch (Exception e) {
-            LogUtils.error(e.getMessage());
-        } finally {
-            try {
-                if (null != is)
-                    is.close();
-                if (null != os)
-                    os.close();
-            } catch (IOException e) {
-                LogUtils.error(e.getMessage());
-            }
-        }
-
-    }
 }

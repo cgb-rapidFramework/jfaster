@@ -247,7 +247,7 @@ public class UserServiceImpl implements UserService {
                 //验证文件
                 Assert.isTrue(!(null == userList || userList.size() == 0), "<font color='red'>失败!</font> Excel中没有可以导入的数据");
                 for (ExlUserDto exlUserVo : userList) {
-                    AjaxJson j = ValidateUtils.volatileBean(exlUserVo);
+                    AjaxJson j = new AjaxJson().volatileBean(exlUserVo);
                     Assert.isTrue(j.isSuccess(), "数据验证失败");
 
                     //判断帐号是否存在

@@ -1,11 +1,12 @@
 package com.abocode.jfaster.core.platform.poi.excel;
 
-import com.abocode.jfaster.core.common.util.LogUtils;
+
 import com.abocode.jfaster.core.platform.poi.excel.annotation.Excel;
 import com.abocode.jfaster.core.platform.poi.excel.annotation.ExcelTarget;
 import com.abocode.jfaster.core.platform.poi.excel.entity.ExcelCollectionParams;
 import com.abocode.jfaster.core.platform.poi.excel.entity.ExcelImportEntity;
 import com.abocode.jfaster.core.platform.poi.excel.entity.ImportParams;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.POIXMLDocument;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -37,6 +38,7 @@ import java.util.*;
  * @date 2013-9-24
  * @version 1.0
  */
+@Slf4j
 public final class ExcelImportUtil {
 
 	/**
@@ -55,7 +57,7 @@ public final class ExcelImportUtil {
 			in = new FileInputStream(file);
 			result = importExcelByIs(in, pojoClass, params);
 		} catch (Exception e) {
-			LogUtils.error(e.getMessage());
+			log.error(e.getMessage());
 		}finally{
 			IOUtils.closeQuietly(in);
 		}

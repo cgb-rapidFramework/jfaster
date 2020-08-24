@@ -6,13 +6,15 @@ import com.abocode.jfaster.admin.system.service.TemplateService;
 import com.abocode.jfaster.api.core.AvailableEnum;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.util.BeanPropertyUtils;
-import com.abocode.jfaster.core.common.util.LogUtils;
+
 import com.abocode.jfaster.system.entity.Template;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 @Service
+@Slf4j
 public class TemplateServiceImpl implements TemplateService {
     @Autowired
     private TemplateRepository templateRepository;
@@ -32,7 +34,7 @@ public class TemplateServiceImpl implements TemplateService {
                 templateRepository.saveOrUpdate(t);
                 systemRepository.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
             } catch (Exception e) {
-                LogUtils.error(e.getMessage());
+                log.error(e.getMessage());
                 message = "模版管理更新失败";
             }
         } else {

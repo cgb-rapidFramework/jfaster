@@ -11,7 +11,6 @@ import java.util.Set;
  * 
  */
 public class ConfigUtils {
-
 	private static final ResourceBundle bundle = java.util.ResourceBundle.getBundle("sysConfig");
 	
 	/**
@@ -37,54 +36,6 @@ public class ConfigUtils {
 	 */
 	public static final String getConfigByName(String name) {
 		return bundle.getString(name);
-	}
-
-	/**
-	 * 获取配置文件参数
-	 * 
-	 * @param path
-	 * @return
-	 */
-	public static final Map<Object, Object> getConfigMap(String path) {
-		ResourceBundle bundle = ResourceBundle.getBundle(path);
-		Set set = bundle.keySet();
-		return ConvertUtils.SetToMap(set);
-	}
-
-	
-	
-	public static String getSysPath() {
-		String path = Thread.currentThread().getContextClassLoader().getResource("").toString();
-		String temp = path.replaceFirst("file:/", "").replaceFirst("WEB-INF/classes/", "");
-		String separator = System.getProperty("file.separator");
-		String resultPath = temp.replaceAll("/", separator + separator).replaceAll("%20", " ");
-		return resultPath;
-	}
-
-	/**
-	 * 获取项目根目录
-	 * 
-	 * @return
-	 */
-	public static String getPorjectPath() {
-		String nowpath; // 当前tomcat的bin目录的路径 如
-		String tempdir;
-		nowpath = System.getProperty("user.dir");
-		tempdir = nowpath.replace("bin", "webapps"); // 把bin 文件夹变到 webapps文件里面
-		tempdir += "\\"; // 拼成D:\java\software\apache-tomcat-6.0.14\webapps\sz_pro
-		return tempdir;
-	}
-
-	public static String getClassPath() {
-		String path = Thread.currentThread().getContextClassLoader().getResource("").toString();
-		String temp = path.replaceFirst("file:/", "");
-		String separator = System.getProperty("file.separator");
-		String resultPath = temp.replaceAll("/", separator + separator);
-		return resultPath;
-	}
-
-	public static String getSystempPath() {
-		return System.getProperty("java.io.tmpdir");
 	}
 
 	public static String getSeparator() {

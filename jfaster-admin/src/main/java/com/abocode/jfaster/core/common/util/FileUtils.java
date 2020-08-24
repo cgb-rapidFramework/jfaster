@@ -2,18 +2,14 @@ package com.abocode.jfaster.core.common.util;
 
 import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.system.entity.Icon;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.stream.FileImageOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.List;
 import java.util.UUID;
-
-/**
- * 文件操作工具类
- *
- * @author 张代浩
- */
+@Slf4j
 public class FileUtils {
 
     /**
@@ -54,17 +50,6 @@ public class FileUtils {
         return fileName.substring(0, splitIndex).replaceAll("\\s*", "");
     }
 
-    /**
-     * 获取文件名称[不含后缀名]
-     * 不去掉文件目录的空格
-     *
-     * @param
-     * @return String
-     */
-    public static String getFilePrefix2(String fileName) {
-        int splitIndex = fileName.lastIndexOf(".");
-        return fileName.substring(0, splitIndex);
-    }
     /**
      * 判断文件是否为图片<br>
      * <br>
@@ -161,7 +146,7 @@ public class FileUtils {
                 }
             }
         } catch (Exception e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -188,7 +173,7 @@ public class FileUtils {
             File folder = new File(folderPath);
             folder.delete(); //删除空文件夹
         } catch (Exception e) {
-            LogUtils.error(e.getMessage());
+            log.error(e.getMessage());
         }
     }
     /**

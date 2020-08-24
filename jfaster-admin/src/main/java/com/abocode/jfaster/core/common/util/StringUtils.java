@@ -1,5 +1,7 @@
 package com.abocode.jfaster.core.common.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -9,6 +11,7 @@ import java.util.Random;
 /**
  * Created by admin on 2015/11/21.
  */
+@Slf4j
 public class StringUtils extends StringExpandUtils {
     /**
      * 获取登录用户IP地址
@@ -38,9 +41,6 @@ public class StringUtils extends StringExpandUtils {
         return list == null || list.isEmpty();
     }
 
-    public static boolean isEmptyNull(String s) {
-        return s == null || s.equals("") ||  s.equals("null");
-    }
 
 
     public static String random(int  size) {
@@ -65,7 +65,6 @@ public class StringUtils extends StringExpandUtils {
                 String temp = array.get(i).toString();
                 if(temp != null && temp.trim().length() > 0) {
                     buffer.append(temp + symbol);
-//                    result = result + temp + symbol;
                 }
             }
             result=buffer.toString();
@@ -112,7 +111,7 @@ public class StringUtils extends StringExpandUtils {
             try {
                 trem = URLDecoder.decode(property, "UTF-8");
             } catch (UnsupportedEncodingException e) {
-                LogUtils.error(e.getMessage());
+                log.error(e.getMessage());
             }
         }
         return trem;

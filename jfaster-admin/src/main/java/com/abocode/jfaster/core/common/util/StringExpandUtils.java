@@ -7,10 +7,6 @@ import java.util.UUID;
  */
 public class StringExpandUtils  extends StringUtils{
 
-    public static String getUUID() {
-        return UUID.randomUUID().toString().replace("-", "");
-    }
-
     /***
      * 替换所有字符
      * @param s

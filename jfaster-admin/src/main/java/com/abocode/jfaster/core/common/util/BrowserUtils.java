@@ -12,9 +12,6 @@ import java.util.regex.Pattern;
  * @author 张代浩
  */
 public class BrowserUtils {
-    public enum BrowserType {
-        IE11, IE10, IE9, IE8, IE7, IE6, Firefox, Safari, Chrome, Opera, Camino, Gecko
-    }
 
     // 判断是否是IE
     public static boolean isIE(HttpServletRequest request) {
@@ -23,79 +20,6 @@ public class BrowserUtils {
                 : false;
     }
 
-    /**
-     * 获取IE版本
-     *
-     * @param request
-     * @return
-     */
-    public static Double getIEversion(HttpServletRequest request) {
-        Double version = 0.0;
-        if (getBrowserType(request, IE11)) {
-            version = 11.0;
-        } else if (getBrowserType(request, IE10)) {
-            version = 10.0;
-        } else if (getBrowserType(request, IE9)) {
-            version = 9.0;
-        } else if (getBrowserType(request, IE8)) {
-            version = 8.0;
-        } else if (getBrowserType(request, IE7)) {
-            version = 7.0;
-        } else if (getBrowserType(request, IE6)) {
-            version = 6.0;
-        }
-        return version;
-    }
-
-    /**
-     * 获取浏览器类型
-     *
-     * @param request
-     * @return
-     */
-    public static BrowserType getBrowserType(HttpServletRequest request) {
-        BrowserType browserType = null;
-        if (getBrowserType(request, IE11)) {
-            browserType = BrowserType.IE11;
-        }
-        if (getBrowserType(request, IE10)) {
-            browserType = BrowserType.IE10;
-        }
-        if (getBrowserType(request, IE9)) {
-            browserType = BrowserType.IE9;
-        }
-        if (getBrowserType(request, IE8)) {
-            browserType = BrowserType.IE8;
-        }
-        if (getBrowserType(request, IE7)) {
-            browserType = BrowserType.IE7;
-        }
-        if (getBrowserType(request, IE6)) {
-            browserType = BrowserType.IE6;
-        }
-        if (getBrowserType(request, FIREFOX)) {
-            browserType = BrowserType.Firefox;
-        }
-        if (getBrowserType(request, SAFARI)) {
-            browserType = BrowserType.Safari;
-        }
-        if (getBrowserType(request, CHROME)) {
-            browserType = BrowserType.Chrome;
-        }
-        if (getBrowserType(request, OPERA)) {
-            browserType = BrowserType.Opera;
-        }
-        if (getBrowserType(request, "Camino")) {
-            browserType = BrowserType.Camino;
-        }
-        return browserType;
-    }
-
-    private static boolean getBrowserType(HttpServletRequest request,
-                                          String brosertype) {
-        return request.getHeader("USER-AGENT").toLowerCase()
-                .indexOf(brosertype) > 0 ? true : false;
-    }
 
     private final static String IE11 = "rv:11.0";
     private final static String IE10 = "MSIE 10.0";
@@ -178,16 +102,5 @@ public class BrowserUtils {
             browserLangCode = ZH_CN;
         }
         return browserLangCode;
-    }
-
-
-    /**
-     * 获取编码
-     *
-     * @param request
-     * @return
-     */
-    public static String getLangCode(HttpServletRequest request) {
-        return CacheUtils.getCookie(request, "SYSTEM-LANGCODE");
     }
 }
