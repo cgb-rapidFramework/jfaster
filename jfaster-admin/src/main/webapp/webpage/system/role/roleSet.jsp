@@ -20,13 +20,13 @@
 		});
 		$("#functionListPanel").panel(
 				{
-					title :'<t:mutiLang langKey="menu.list"/>',
+					title :'<t:language langKey="menu.list"/>',
 					tools:[{iconCls:'icon-save',handler:function(){mysubmit();}}]
 				}
 		);
 		$("#operationListpanel").panel(
 				{
-					title :'<t:mutiLang langKey="operate.button.list"/>',
+					title :'<t:language langKey="operate.button.list"/>',
 					tools:[{iconCls:'icon-save',handler:function(){submitOperation();}}]
 				}
 		);
@@ -92,7 +92,7 @@
 <div class="easyui-layout" fit="true">
 <div region="center" style="padding: 1px;">
 <div class="easyui-panel" style="padding: 1px;" fit="true" border="false" id="functionListPanel"><input type="hidden" name="roleId" value="${roleId}" id="rid"> <a id="selecrAllBtn"
-	onclick="selecrAll();"><t:mutiLang langKey="select.all"/></a> <a id="resetBtn" onclick="reset();"><t:mutiLang langKey="common.reset"/></a>
+	onclick="selecrAll();"><t:language langKey="select.all"/></a> <a id="resetBtn" onclick="reset();"><t:language langKey="common.reset"/></a>
 <ul id="functionid"></ul>
 </div>
 </div>

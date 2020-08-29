@@ -7,14 +7,14 @@
 </head>
 <body style="overflow-y: hidden" scroll="no">
 <t:formvalid formid="formobj" layout="div" dialog="true">
-	<fieldset class="step"><legend> <t:mutiLang langKey="common.userinfo"/> </legend>
+	<fieldset class="step"><legend> <t:language langKey="common.userinfo"/> </legend>
 	
-	<div class="form"><label class="form"> <t:mutiLang langKey="common.username"/>: </label> ${user.username }</div>
-	<div class="form"><label class="form"> <t:mutiLang langKey="common.surname"/>: </label> ${user.realName}</div>
+	<div class="form"><label class="form"> <t:language langKey="common.username"/>: </label> ${user.username }</div>
+	<div class="form"><label class="form"> <t:language langKey="common.surname"/>: </label> ${user.realName}</div>
 	
-	<div class="form"><label class="form"> <t:mutiLang langKey="common.phone"/>: </label> ${user.mobilePhone}</div>
-	<div class="form"><label class="form"> <t:mutiLang langKey="common.tel"/>: </label> ${user.officePhone}</div>
-	<div class="form"><label class="form"> <t:mutiLang langKey="common.common.mail"/>: </label> ${user.email}</div>
+	<div class="form"><label class="form"> <t:language langKey="common.phone"/>: </label> ${user.mobilePhone}</div>
+	<div class="form"><label class="form"> <t:language langKey="common.tel"/>: </label> ${user.officePhone}</div>
+	<div class="form"><label class="form"> <t:language langKey="common.common.mail"/>: </label> ${user.email}</div>
 	</fieldset>
 	</form>
 </t:formvalid>

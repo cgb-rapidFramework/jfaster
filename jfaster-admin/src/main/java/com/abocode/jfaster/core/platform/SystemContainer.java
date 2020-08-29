@@ -44,7 +44,15 @@ public class SystemContainer {
 	 *
 	 */
 	public  final static class TemplateContainer{
-		public static Map<String, String> template= new HashMap<String,String>();
+		private static Map<String, String> template= new HashMap<String,String>();
+
+		public static String  getTemplate() {
+			return template.get("SYSTEM-TEMPLATE");
+		}
+
+		public static void putTemplate(String content) {
+			template.put("SYSTEM-TEMPLATE", content);
+		}
 	}
 
 }

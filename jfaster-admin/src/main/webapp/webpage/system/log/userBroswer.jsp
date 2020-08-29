@@ -19,7 +19,7 @@
 							plotShadow : false
 						},
 						title : {
-							text : "<t:mutiLang langKey="user.browser.analysis"/>"
+							text : "<t:language langKey="user.browser.analysis"/>"
 						},
 						xAxis : {
 							categories : [ 'IE9', 'MSIE 7.0', 'MSIE 8.0', 'MSIE 7.0', 'Firefox', 'Chrome' ]

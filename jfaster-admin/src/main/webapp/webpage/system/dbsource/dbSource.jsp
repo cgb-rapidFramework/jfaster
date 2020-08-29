@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
  <head>
-  <title><t:mutiLang langKey="common.datasource.manage"/></title>
+  <title><t:language langKey="common.datasource.manage"/></title>
   <t:base type="jquery,easyui,tools,DatePicker"></t:base>
  </head>
  <body style="overflow-y: hidden" scroll="no">
@@ -14,7 +14,7 @@
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
-							<t:mutiLang langKey="common.dbtype"/>:
+							<t:language langKey="common.dbtype"/>:
 						</label>
 					</td>
 					<td class="value">
@@ -26,7 +26,7 @@
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
-							<t:mutiLang langKey="common.description"/>:
+							<t:language langKey="common.description"/>:
 						</label>
 					</td>
 					<td class="value">
@@ -38,7 +38,7 @@
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
-							<t:mutiLang langKey="common.driverclass"/>:
+							<t:language langKey="common.driverclass"/>:
 						</label>
 					</td>
 					<td class="value">
@@ -50,7 +50,7 @@
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
-							<t:mutiLang langKey="common.datasrouce.url"/>:
+							<t:language langKey="common.datasrouce.url"/>:
 						</label>
 					</td>
 					<td class="value">
@@ -62,7 +62,7 @@
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
-							<t:mutiLang langKey="common.dbuser"/>:
+							<t:language langKey="common.dbuser"/>:
 						</label>
 					</td>
 					<td class="value">
@@ -74,7 +74,7 @@
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
-							<t:mutiLang langKey="common.dbpassword"/>:
+							<t:language langKey="common.dbpassword"/>:
 						</label>
 					</td>
 					<td class="value">
@@ -86,7 +86,7 @@
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
-							<t:mutiLang langKey="common.dbtype"/>:
+							<t:language langKey="common.dbtype"/>:
 						</label>
 					</td>
 					<td class="value">

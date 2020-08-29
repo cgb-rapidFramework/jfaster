@@ -3,7 +3,7 @@
 <!DOCTYPE html >
 <html>
 <head>
-<title><t:mutiLang langKey="permission.collection"/></title>
+<title><t:language langKey="permission.collection"/></title>
 <t:base type="jquery,easyui,tools"></t:base>
 <script type="text/javascript">
 	function op() {

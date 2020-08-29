@@ -396,7 +396,6 @@ public class DataGridTag extends TagSupport {
     public int doEndTag() throws JspTagException {
         title = MutiLangUtils.doMutiLang(title, langArg);
         JspWriter out = this.pageContext.getOut();
-        TemplateView sysThemesEnum = SysThemesUtils.getSysTheme((HttpServletRequest) super.pageContext.getRequest());
         String text = "";
         if (style.equals("easyui")) {
             text = end().toString();

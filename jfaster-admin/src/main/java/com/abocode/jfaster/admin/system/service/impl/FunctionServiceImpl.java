@@ -1,7 +1,7 @@
 package com.abocode.jfaster.admin.system.service.impl;
 
 import com.abocode.jfaster.admin.system.dto.DataRuleDto;
-import com.abocode.jfaster.admin.system.repository.MutiLangRepository;
+import com.abocode.jfaster.admin.system.repository.LanguageRepository;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
 import com.abocode.jfaster.admin.system.service.BeanToTagConverter;
@@ -46,7 +46,7 @@ public class FunctionServiceImpl implements FunctionService {
     @Autowired
     private ResourceRepository resourceService;
     @Autowired
-    private MutiLangRepository mutiLangRepository;
+    private LanguageRepository languageRepository;
 
     /**
      * 获取用户菜单列表
@@ -313,7 +313,7 @@ public class FunctionServiceImpl implements FunctionService {
             if (function.getFunctionLevel() == 0) {
 
                 String lang_key = function.getFunctionName();
-                String lang_context = mutiLangRepository.getLang(lang_key);
+                String lang_context = languageRepository.getLang(lang_key);
 
                 if ("Online 开发".equals(lang_context)) {
 

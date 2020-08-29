@@ -1,6 +1,6 @@
 package com.abocode.jfaster.admin.system.web;
 
-import com.abocode.jfaster.admin.system.repository.MutiLangRepository;
+import com.abocode.jfaster.admin.system.repository.LanguageRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
 import com.abocode.jfaster.core.common.constants.Globals;
@@ -39,7 +39,7 @@ public class TypeController {
     @Autowired
     private SystemRepository systemRepository;
     @Autowired
-    private MutiLangRepository mutiLangRepository;
+    private LanguageRepository languageRepository;
     /**
      * 类型字典列表页面跳转
      *
@@ -186,11 +186,11 @@ public class TypeController {
         String message;
         if (id.startsWith("G")) {//分组
             TypeGroup typegroup = systemRepository.findEntity(TypeGroup.class, id.substring(1));
-            message = "数据字典分组: " + mutiLangRepository.getLang(typegroup.getTypeGroupName()) + "被删除 成功";
+            message = "数据字典分组: " + languageRepository.getLang(typegroup.getTypeGroupName()) + "被删除 成功";
             systemRepository.delete(typegroup);
         } else {
             Type type = systemRepository.findEntity(Type.class, id.substring(1));
-            message = "数据字典类型: " + mutiLangRepository.getLang(type.getTypeName()) + "被删除 成功";
+            message = "数据字典类型: " + languageRepository.getLang(type.getTypeName()) + "被删除 成功";
             systemRepository.delete(type);
         }
         systemRepository.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -210,14 +210,14 @@ public class TypeController {
     public AjaxJson delTypeGroup(TypeGroup typegroup, HttpServletRequest request) {
         AjaxJson j = new AjaxJson();
         typegroup = systemRepository.findEntity(TypeGroup.class, typegroup.getId());
-        String message = "类型分组: " + mutiLangRepository.getLang(typegroup.getTypeGroupName()) + " 被删除 成功";
+        String message = "类型分组: " + languageRepository.getLang(typegroup.getTypeGroupName()) + " 被删除 成功";
         if (StringUtils.isEmpty(typegroup.getTypes())) {
             systemRepository.delete(typegroup);
             systemRepository.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
             //刷新缓存
             systemRepository.refleshTypeGroupCach();
         } else {
-            message = "类型分组: " + mutiLangRepository.getLang(typegroup.getTypeGroupName()) + " 下有类型信息，不能删除！";
+            message = "类型分组: " + languageRepository.getLang(typegroup.getTypeGroupName()) + " 下有类型信息，不能删除！";
         }
         j.setMsg(message);
         return j;
@@ -240,7 +240,7 @@ public class TypeController {
             j.setSuccess(false);
             return  j;
         }
-        message = "类型: " + mutiLangRepository.getLang(type.getTypeName()) + "被删除 成功";
+        message = "类型: " + languageRepository.getLang(type.getTypeName()) + "被删除 成功";
         systemRepository.delete(type);
         //刷新缓存
         systemRepository.refleshTypesCach(type);
@@ -281,11 +281,11 @@ public class TypeController {
         AjaxJson j = new AjaxJson();
         String message;
         if (StringUtils.isNotEmpty(typegroup.getId())) {
-            message = "类型分组: " + mutiLangRepository.getLang(typegroup.getTypeGroupName()) + "被更新成功";
+            message = "类型分组: " + languageRepository.getLang(typegroup.getTypeGroupName()) + "被更新成功";
             userRepository.saveOrUpdate(typegroup);
             systemRepository.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
         } else {
-            message = "类型分组: " + mutiLangRepository.getLang(typegroup.getTypeGroupName()) + "被添加成功";
+            message = "类型分组: " + languageRepository.getLang(typegroup.getTypeGroupName()) + "被添加成功";
             userRepository.save(typegroup);
             systemRepository.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
         }
@@ -330,11 +330,11 @@ public class TypeController {
         AjaxJson j = new AjaxJson();
         String message;
         if (StringUtils.isNotEmpty(type.getId())) {
-            message = "类型: " + mutiLangRepository.getLang(type.getTypeName()) + "被更新成功";
+            message = "类型: " + languageRepository.getLang(type.getTypeName()) + "被更新成功";
             userRepository.saveOrUpdate(type);
             systemRepository.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
         } else {
-            message = "类型: " + mutiLangRepository.getLang(type.getTypeName()) + "被添加成功";
+            message = "类型: " + languageRepository.getLang(type.getTypeName()) + "被添加成功";
             userRepository.save(type);
             systemRepository.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
         }
@@ -371,7 +371,7 @@ public class TypeController {
         req.setAttribute("typegroupid", typegroupid);
         TypeGroup typegroup = systemRepository.findUniqueByProperty(TypeGroup.class, "id", typegroupid);
         String typegroupname = typegroup.getTypeGroupName();
-        req.setAttribute("typegroupname", mutiLangRepository.getLang(typegroupname));
+        req.setAttribute("typegroupname", languageRepository.getLang(typegroupname));
         if (StringUtils.isNotEmpty(type.getId())) {
             type = systemRepository.findEntity(Type.class, type.getId());
             req.setAttribute("typeView", type);

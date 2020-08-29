@@ -1,17 +1,17 @@
 package com.abocode.jfaster.admin.system.web;
 
-import com.abocode.jfaster.admin.system.dto.UploadFileDto;
+import com.abocode.jfaster.admin.system.dto.FileUploadDto;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.AjaxJsonBuilder;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
-import com.abocode.jfaster.core.common.model.json.ImportFile;
+import com.abocode.jfaster.admin.system.dto.FileImportDto;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.platform.view.ReflectHelper;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
-import com.abocode.jfaster.system.entity.UploadFile;
+import com.abocode.jfaster.system.entity.FileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -45,12 +45,12 @@ public class ResourceController {
     public void createxml(HttpServletRequest request, HttpServletResponse response) {
         String field = request.getParameter("field");
         String entityname = request.getParameter("entityname");
-        ImportFile importFile = new ImportFile(request, response);
-        importFile.setField(field);
-        importFile.setEntityName(entityname);
-        importFile.setFileName(entityname + ".bak");
-        importFile.setEntityClass(ClassLoaderUtils.getClassByScn(entityname));
-        resourceService.createXml(importFile);
+        FileImportDto fileImportDto = new FileImportDto(request, response);
+        fileImportDto.setField(field);
+        fileImportDto.setEntityName(entityname);
+        fileImportDto.setFileName(entityname + ".bak");
+        fileImportDto.setEntityClass(ClassLoaderUtils.getClassByScn(entityname));
+        resourceService.createXml(fileImportDto);
     }
 
     /**
@@ -62,7 +62,7 @@ public class ResourceController {
     @ResponseBody
     public AjaxJson parserXml(HttpServletRequest request) {
         String ctxPath = request.getSession().getServletContext().getRealPath("");
-        UploadFileDto uploadFile = new UploadFileDto(request);
+        FileUploadDto uploadFile = new FileUploadDto(request);
         resourceService.readAndParserXml(ctxPath,uploadFile);
         return AjaxJsonBuilder.success();
     }
@@ -86,7 +86,7 @@ public class ResourceController {
      */
     @RequestMapping(params = "saveFiles", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxJson saveFiles(HttpServletRequest request, UploadFile attachment) {
+    public AjaxJson saveFiles(HttpServletRequest request, FileUpload attachment) {
         AjaxJson j = new AjaxJson();
         String fileKey = ConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
         String documentTitle = ConvertUtils.getString(request.getParameter("documentTitle"));// 文件标题
@@ -95,7 +95,7 @@ public class ResourceController {
         String  sessionKey=request.getParameter("sessionKey");
 
         if(!multi){
-            List<UploadFile> attachments=this.systemService.findAllByProperty(UploadFile.class,"sessionKey",sessionKey);
+            List<FileUpload> attachments=this.systemService.findAllByProperty(FileUpload.class,"sessionKey",sessionKey);
             if(attachments.size()>0){
                 Map<String, Object> attributes= buildAttributes(attachments.get(0));
                 j.setAttributes(attributes);
@@ -107,12 +107,12 @@ public class ResourceController {
 
         if (StringUtils.isNotEmpty(fileKey)) {
             attachment.setId(fileKey);
-            attachment = systemService.findEntity(UploadFile.class, fileKey);
+            attachment = systemService.findEntity(FileUpload.class, fileKey);
             attachment.setName(documentTitle);
         }
         attachment.setSessionKey(sessionKey);
         attachment.setCreateDate(DateUtils.getTimestamp());
-        UploadFileDto uploadFile = new UploadFileDto(request, attachment);
+        FileUploadDto uploadFile = new FileUploadDto(request, attachment);
         String fileType=request.getParameter("fileType");
         if(StringUtils.isEmpty(fileType)){
             fileType="files";
@@ -132,7 +132,7 @@ public class ResourceController {
      * @param attachment
      * @return
      */
-    private Map<String, Object> buildAttributes(UploadFile attachment) {
+    private Map<String, Object> buildAttributes(FileUpload attachment) {
         Map<String, Object> attributes = new HashMap<String, Object>();
         attributes.put("fileKey", attachment.getId());
         attributes.put("url", attachment.getPath());
@@ -153,7 +153,7 @@ public class ResourceController {
     public AjaxJson deleteFile(HttpServletRequest request) {
         String fileKey = ConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
         Assert.isTrue(StringUtils.isNotEmpty(fileKey),"文件已经不存在了");
-        UploadFile attachment = systemService.findEntity(UploadFile.class,fileKey);
+        FileUpload attachment = systemService.findEntity(FileUpload.class,fileKey);
         ResourceUtils.delete(ResourceUtils.getResourceLocalPath()+"/"+attachment.getPath());
         systemService.delete(attachment);
         String message = attachment.getName() + "删除成功";
@@ -206,7 +206,7 @@ public class ResourceController {
         Class fileClass = ClassLoaderUtils.getClassByScn(subclassname);// 附件的实际类
         Object fileobj = systemService.findEntity(fileClass, fileid);
         ReflectHelper reflectHelper = new ReflectHelper(fileobj);
-        UploadFileDto uploadFile = new UploadFileDto(request, response);
+        FileUploadDto uploadFile = new FileUploadDto(request, response);
         String contentfield = ConvertUtils.getString(request.getParameter("contentfield"), uploadFile.getByteField());
         byte[] content = (byte[]) reflectHelper.getMethodValue(contentfield);
         String path = ConvertUtils.getString(reflectHelper.getMethodValue("path"));

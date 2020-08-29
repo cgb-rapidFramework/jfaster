@@ -12,7 +12,7 @@
 		});
 		$("#functionListPanel").panel(
 				{
-					title :'<t:mutiLang langKey="common.role.list"/>',
+					title :'<t:language langKey="common.role.list"/>',
 					tools:[{iconCls:'icon-save',handler:function(){mysubmit();}}]
 				}
 		);
@@ -82,8 +82,8 @@
     <div region="center" style="padding: 1px;">
         <div class="easyui-panel" style="padding: 1px;" fit="true" border="false" id="functionListPanel">
             <input type="hidden" name="orgId" value="${orgId}" id="orgId">
-            <a id="selecrAllBtn" onclick="selecrAll();"><t:mutiLang langKey="select.all"/></a>
-            <a id="resetBtn" onclick="reset();"><t:mutiLang langKey="common.reset"/></a>
+            <a id="selecrAllBtn" onclick="selecrAll();"><t:language langKey="select.all"/></a>
+            <a id="resetBtn" onclick="reset();"><t:language langKey="common.reset"/></a>
             <ul id="orgRoleTree"></ul>
         </div>
     </div>

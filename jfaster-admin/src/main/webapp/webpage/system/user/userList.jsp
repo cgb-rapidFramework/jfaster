@@ -11,8 +11,8 @@
 <div id="tempSearchColums" style="display: none">
     <div name="searchColums">
         <span style="display:-moz-inline-box;display:inline-block;">
-            <span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;" title="<t:mutiLang langKey="common.department"/>">
-                <t:mutiLang langKey="common.department"/>：
+            <span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;" title="<t:language langKey="common.department"/>">
+                <t:language langKey="common.department"/>：
             </span>
             <input id="orgIds" name="orgIds" type="hidden">
             <input readonly="true" type="text" name="departname" style="width: 100px" onclick="choose_297e201048183a730148183ad85c0001()"/>
@@ -50,12 +50,12 @@ function lockObj(title,url, id) {
 	gridname=id;
 	var rowsData = $('#'+id).datagrid('getSelections');
 	if (!rowsData || rowsData.length==0) {
-		tip('<t:mutiLang langKey="please.select.lock.item"/>');
+		tip('<t:language langKey="please.select.lock.item"/>');
 		return;
 	}
 		url += '&id='+rowsData[0].id;
 
-	$.dialog.confirm('<t:mutiLang langKey="is.confirm"/>', function(){
+	$.dialog.confirm('<t:language langKey="is.confirm"/>', function(){
 		lockuploadify(url, '&id');
 	}, function(){
 	});
@@ -91,15 +91,15 @@ function lockuploadify(url, id) {
 //    var windowapi = frameElement.api, W = windowapi.opener;
     function choose_297e201048183a730148183ad85c0001() {
         if (typeof(windowapi) == 'undefined') {
-            $.dialog({content: 'url:departController.do?departSelect', zIndex: 2100, title: '<t:mutiLang langKey="common.department.list"/>', lock: true, width: 400, height: 350, left: '85%', top: '65%', opacity: 0.4, button: [
-                {name: '<t:mutiLang langKey="common.confirm"/>', callback: clickcallback_297e201048183a730148183ad85c0001, focus: true},
-                {name: '<t:mutiLang langKey="common.cancel"/>', callback: function () {
+            $.dialog({content: 'url:departController.do?departSelect', zIndex: 2100, title: '<t:language langKey="common.department.list"/>', lock: true, width: 400, height: 350, left: '85%', top: '65%', opacity: 0.4, button: [
+                {name: '<t:language langKey="common.confirm"/>', callback: clickcallback_297e201048183a730148183ad85c0001, focus: true},
+                {name: '<t:language langKey="common.cancel"/>', callback: function () {
                 }}
             ]});
         } else {
-            $.dialog({content: 'url:departController.do?departSelect', zIndex: 2100, title: '<t:mutiLang langKey="common.department.list"/>', lock: true, parent: windowapi, width: 400, height: 350, left: '85%', top: '65%', opacity: 0.4, button: [
-                {name: '<t:mutiLang langKey="common.confirm"/>', callback: clickcallback_297e201048183a730148183ad85c0001, focus: true},
-                {name: '<t:mutiLang langKey="common.cancel"/>', callback: function () {
+            $.dialog({content: 'url:departController.do?departSelect', zIndex: 2100, title: '<t:language langKey="common.department.list"/>', lock: true, parent: windowapi, width: 400, height: 350, left: '85%', top: '65%', opacity: 0.4, button: [
+                {name: '<t:language langKey="common.confirm"/>', callback: clickcallback_297e201048183a730148183ad85c0001, focus: true},
+                {name: '<t:language langKey="common.cancel"/>', callback: function () {
                 }}
             ]});
         }

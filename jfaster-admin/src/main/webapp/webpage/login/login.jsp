@@ -5,13 +5,13 @@
 <!DOCTYPE html>
 <%
 	String lang = BrowserUtils.getBrowserLanguage();
-    String langurl = "plug-in/mutiLang/" + lang +".js";
+    String langurl = "plug-in/language/" + lang +".js";
 %>
 
 <html>
 <head>
-	<title><t:mutiLang langKey="system.title"/></title>
-<link rel="shortcut icon" href="resources/fc/images/icon/favicon.ico">
+	<title><t:language langKey="system.title"/></title>
+<link rel="shortcut icon" href="plug-in/icon/favicon.ico">
 <script src=<%=langurl%> type="text/javascript"></script>
 <!--[if lt IE 9]>
    <script src="plug-in/login/js/html5.js"></script>
@@ -79,12 +79,12 @@ label.iPhoneCheckLabelOn span {
 	<div id="successLogin"></div>
 	<div class="text_success">
 		<img src="plug-in/login/images/loader_green.gif" alt="Please wait" />
-		<span><t:mutiLang langKey="common.login.success.wait" /></span>
+		<span><t:language langKey="common.login.success.wait" /></span>
 	</div>
 	<div id="login">
 		<div class="inner">
 			<div class="logo">
-				<%--<a style="font-size: 32px;color:gray;"><b><t:mutiLang langKey="system.name" /></b></a>--%>
+				<%--<a style="font-size: 32px;color:gray;"><b><t:language langKey="system.name" /></b></a>--%>
 				<img src="plug-in/login/images/head.png" />
 			</div>
 			<div class="formLogin">
@@ -111,20 +111,20 @@ label.iPhoneCheckLabelOn span {
 					<div class="loginButton">
 						<div style="float: left; margin-left: -9px;">
 							<input type="checkbox" id="on_off" name="remember" checked="ture"
-								class="on_off_checkbox" value="0" /> <span class="f_help"><t:mutiLang
+								class="on_off_checkbox" value="0" /> <span class="f_help"><t:language
 									langKey="common.remember.user" /></span>
 						</div>
 						<div style="float: right; padding: 3px 0; margin-right: -12px;">
 							<div>
 								<ul class="uibutton-group">
-									<li><a class="uibutton normal" href="#" id="but_login"><t:mutiLang
+									<li><a class="uibutton normal" href="#" id="but_login"><t:language
 												langKey="common.login" /></a></li>
-									<li><a class="uibutton normal" href="#" id="forgetpass"><t:mutiLang
+									<li><a class="uibutton normal" href="#" id="forgetpass"><t:language
 												langKey="common.reset" /></a></li>
 								</ul>
 							</div>
 							<%-- 
-                            <div style="float: left; margin-left: 30px;"><a href="init.jsp"><span class="f_help"><t:mutiLang langKey="common.init.data"/></span></a></div>
+                            <div style="float: left; margin-left: 30px;"><a href="init.jsp"><span class="f_help"><t:language langKey="common.init.data"/></span></a></div>
                             --%>
 							<br>
 							<t:dictSelect id="langCode" field="langCode" typeGroupCode="lang"
@@ -142,9 +142,9 @@ label.iPhoneCheckLabelOn span {
 	<div id="versionBar">
 		<div class="copyright">
 			&copy;
-			<t:mutiLang langKey="common.copyright" />
-			<span class="tip"><a href="#"	title=<t:mutiLang langKey="system.right"/>—<t:mutiLang langKey="system.name"/>><t:mutiLang langKey="system.right"/>—<t:mutiLang langKey="system.name"/> <t:mutiLang langKey="system.version"/></a> <t:mutiLang
-					langKey="common.browser.recommend" />:<a href="#" title=<t:mutiLang langKey="system.support"/>><t:mutiLang langKey="system.support"/></a></span>
+			<t:language langKey="common.copyright" />
+			<span class="tip"><a href="#"	title=<t:language langKey="system.right"/>—<t:language langKey="system.name"/>><t:language langKey="system.right"/>—<t:language langKey="system.name"/> <t:language langKey="system.version"/></a> <t:language
+					langKey="common.browser.recommend" />:<a href="#" title=<t:language langKey="system.support"/>><t:language langKey="system.support"/></a></span>
 		</div>
 	</div>
 	<!-- Link JScript-->

@@ -1,6 +1,6 @@
 package com.abocode.jfaster.admin.system.service;
 
-import com.abocode.jfaster.core.common.model.json.HighChart;
+import com.abocode.jfaster.admin.system.dto.HighChartDto;
 
 import java.util.List;
 
@@ -11,5 +11,5 @@ import java.util.List;
  * @date: 2020/5/18
  */
 public interface ChartService {
-    List<HighChart> buildChart(String reportType);
+    List<HighChartDto> buildChart(String reportType);
 }

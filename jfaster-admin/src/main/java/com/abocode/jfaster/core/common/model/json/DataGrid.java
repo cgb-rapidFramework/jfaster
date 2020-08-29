@@ -33,6 +33,7 @@ public class DataGrid {
         this.total = total;
         this.results = results;
     }
+
     public int getRows() {
         if (ContextHolderUtils.getRequest() != null && ContextHolderUtils.getRequest().getParameter("rows") != null) {
             return rows;

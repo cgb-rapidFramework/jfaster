@@ -3,7 +3,7 @@
 <!DOCTYPE html >
 <html>
 	<head>
-		<title><t:mutiLang langKey="system.title"/></title>
+		<title><t:language langKey="system.title"/></title>
 <t:base type="jquery-webos,easyui,tools,DatePicker,autocomplete"></t:base>
 <link rel="shortcut icon" href="images/favicon.ico">
 		<link href="plug-in/sliding/css/main.css" rel="stylesheet" type="text/css" />

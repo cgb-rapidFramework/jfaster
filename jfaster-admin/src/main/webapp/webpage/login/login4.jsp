@@ -7,7 +7,7 @@
 <%
 
   String lang = BrowserUtils.getBrowserLanguage();
-  String langurl = "plug-in/mutiLang/" + lang +".js";
+  String langurl = "plug-in/language/" + lang +".js";
   TemplateView sysTheme = SysThemesUtils.getSysTheme(request);
   String lhgdialogTheme = SysThemesUtils.getLhgdialogTheme(sysTheme);
 %>
@@ -16,7 +16,7 @@
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta charset="utf-8" />
-  <title><t:mutiLang langKey="system.title"/></title>
+  <title><t:language langKey="system.title"/></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <!-- bootstrap & fontawesome -->
   <link rel="stylesheet" href="plug-in/ace/css/bootstrap.css" />
@@ -55,9 +55,9 @@
           <div class="center">
             <h1 id="id-text2" class="grey">
               <i class="ace-icon fa fa-leaf green"></i>
-              <t:mutiLang langKey="system.name"/>
+              <t:language langKey="system.name"/>
             </h1>
-            <h4 class="blue" id="id-company-text"><t:mutiLang langKey="system.right"/></h4>
+            <h4 class="blue" id="id-company-text"><t:language langKey="system.right"/></h4>
           </div>
           <div class="space-6"></div>
           <div class="position-relative">
@@ -118,7 +118,7 @@
                 </form>
               </div>
             </div>
-            <div class="center"><h4 class="blue" id="id-company-support">&copy;技术支持：<t:mutiLang langKey="system.support"/></h4></div>
+            <div class="center"><h4 class="blue" id="id-company-support">&copy;技术支持：<t:language langKey="system.support"/></h4></div>
             <div class="navbar-fixed-top align-right">
               <br />
               &nbsp;

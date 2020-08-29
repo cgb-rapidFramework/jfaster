@@ -13,14 +13,14 @@
 		<tbody>
 			
 			<tr>
-				<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.password"/>: </label></td>
+				<td align="right"><label class="Validform_label"> <t:language langKey="common.password"/>: </label></td>
 				<td class="value"><input type="password" class="inputxt" value="" name="password" plugin="passwordStrength" datatype="*6-18" errormsg="" /> <span class="passwordStrength"
-					style="display: none;"><span><t:mutiLang langKey="common.weak"/></span><span><t:mutiLang langKey="common.middle"/></span><span class="last"><t:mutiLang langKey="common.strong"/></span> </span> <span class="Validform_checktip"><t:mutiLang langKey="password.rang6to18"/></span></td>
+					style="display: none;"><span><t:language langKey="common.weak"/></span><span><t:language langKey="common.middle"/></span><span class="last"><t:language langKey="common.strong"/></span> </span> <span class="Validform_checktip"><t:language langKey="password.rang6to18"/></span></td>
 			</tr>
 			<tr>
-				<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.repeat.password"/>: </label></td>
+				<td align="right"><label class="Validform_label"> <t:language langKey="common.repeat.password"/>: </label></td>
 				<td class="value"><input id="repassword" class="inputxt" type="password"  recheck="password" datatype="*6-18" errormsg="两次输入的密码不一致！"> <span
-					class="Validform_checktip"><t:mutiLang langKey="common.repeat.password"/></span></td>
+					class="Validform_checktip"><t:language langKey="common.repeat.password"/></span></td>
 			</tr>
 	
 		</tbody>

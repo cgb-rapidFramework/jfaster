@@ -1,8 +1,8 @@
 package com.abocode.jfaster.admin.system.repository.persistence.hibernate;
 
 import com.abocode.jfaster.core.common.exception.BusinessException;
-import com.abocode.jfaster.admin.system.dto.UploadFileDto;
-import com.abocode.jfaster.core.common.model.json.ImportFile;
+import com.abocode.jfaster.admin.system.dto.FileUploadDto;
+import com.abocode.jfaster.admin.system.dto.FileImportDto;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.platform.view.ReflectHelper;
@@ -46,7 +46,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
      * @param uploadFile
      * @throws Exception
      */
-    public Object uploadFile(UploadFileDto uploadFile) {
+    public Object uploadFile(FileUploadDto uploadFile) {
         Object object = uploadFile.getObject();
         if (uploadFile.getFileKey() != null) {
             commonDao.update(object);
@@ -137,7 +137,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
-    public HttpServletResponse viewOrDownloadFile(UploadFileDto uploadFile) {
+    public HttpServletResponse viewOrDownloadFile(FileUploadDto uploadFile) {
         uploadFile.getResponse().setContentType("UTF-8");
         uploadFile.getResponse().setCharacterEncoding("UTF-8");
         BufferedOutputStream bos = null;
@@ -204,22 +204,22 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
     /**
      * 生成XML importFile 导出xml工具类
      */
-    public HttpServletResponse createXml(ImportFile importFile) {
-        HttpServletResponse response = importFile.getResponse();
-        HttpServletRequest request = importFile.getRequest();
+    public HttpServletResponse createXml(FileImportDto fileImportDto) {
+        HttpServletResponse response = fileImportDto.getResponse();
+        HttpServletRequest request = fileImportDto.getRequest();
         try {
             // 创建document对象
             Document document = DocumentHelper.createDocument();
             document.setXMLEncoding("UTF-8");
             // 创建根节点
-            String rootname = importFile.getEntityName() + "s";
+            String rootname = fileImportDto.getEntityName() + "s";
             Element rElement = document.addElement(rootname);
-            Class entityClass = importFile.getEntityClass();
-            String[] fields = importFile.getField().split(",");
+            Class entityClass = fileImportDto.getEntityClass();
+            String[] fields = fileImportDto.getField().split(",");
             // 得到导出对象的集合
             List objList = findAll(entityClass);
             for (Object t : objList) {
-                Element childElement = rElement.addElement(importFile.getEntityName());
+                Element childElement = rElement.addElement(fileImportDto.getEntityName());
                 for (int i = 0; i < fields.length; i++) {
                     String fieldName = fields[i];
                     // 第一为实体的主键
@@ -233,15 +233,15 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
 
             }
             String ctxPath = request.getSession().getServletContext().getRealPath("");
-            File fileWriter = new File(ctxPath + "/" + importFile.getFileName());
+            File fileWriter = new File(ctxPath + "/" + fileImportDto.getFileName());
             XMLWriter xmlWriter = new XMLWriter(new FileOutputStream(fileWriter));
 
             xmlWriter.write(document);
             xmlWriter.close();
             // 下载生成的XML文件
-            UploadFileDto uploadFile = new UploadFileDto(request, response);
-            uploadFile.setRealPath(importFile.getFileName());
-            uploadFile.setTitleField(importFile.getFileName());
+            FileUploadDto uploadFile = new FileUploadDto(request, response);
+            uploadFile.setRealPath(fileImportDto.getFileName());
+            uploadFile.setTitleField(fileImportDto.getFileName());
             uploadFile.setExtend("bak");
             viewOrDownloadFile(uploadFile);
         } catch (Exception e) {
@@ -515,7 +515,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
     }
 
     @Override
-    public String getUploadFileContent(UploadFileDto uploadFile) {
+    public String getUploadFileContent(FileUploadDto uploadFile) {
         StringBuffer content = new StringBuffer();
         try {
             uploadFile.getMultipartRequest().setCharacterEncoding("UTF-8");
@@ -547,7 +547,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
     }
 
     @Override
-    public void readAndParserXml(String ctxPath, UploadFileDto uploadFile) {
+    public void readAndParserXml(String ctxPath, FileUploadDto uploadFile) {
         File file = new File(ctxPath);
         if (!file.exists()) {
             file.mkdir();// 创建文件根目录

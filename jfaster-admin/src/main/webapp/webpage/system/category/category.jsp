@@ -34,14 +34,14 @@
 					class="Validform_checktip"></span></td>
 			</tr>
 			<tr>
-				<td align="right"><label class="Validform_label"> <t:mutiLang
+				<td align="right"><label class="Validform_label"> <t:language
 							langKey="common.icon" />:
 				</label></td>
 				<td class="value"><select name="icon.id">
 						<c:forEach items="${iconlist}" var="icon">
 							<option value="${icon.id}"
 								<c:if test="${icon.id==categoryPage.icon.id}">selected="selected"</c:if>>
-								<t:mutiLang langKey="${icon.iconName}" />
+								<t:language langKey="${icon.iconName}" />
 							</option>
 						</c:forEach>
 				</select></td>

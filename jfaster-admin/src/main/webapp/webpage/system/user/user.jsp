@@ -30,7 +30,7 @@
 	<table style="width: 600px;" cellpadding="0" cellspacing="1" class="formtable">
 		<tr>
 			<td align="right" width="15%" nowrap>
-                <label class="Validform_label">  <t:mutiLang langKey="common.username"/>: </label>
+                <label class="Validform_label">  <t:language langKey="common.username"/>: </label>
             </td>
 			<td class="value" width="85%">
                 <c:if test="${userView.id!=null }"> ${userView.username } </c:if>
@@ -41,7 +41,7 @@
             </td>
 		</tr>
 		<tr>
-			<td align="right" width="10%" nowrap><label class="Validform_label"> <t:mutiLang langKey="common.real.name"/>: </label></td>
+			<td align="right" width="10%" nowrap><label class="Validform_label"> <t:language langKey="common.real.name"/>: </label></td>
 			<td class="value" width="10%">
                 <input id="realName" class="inputxt" name="realName" value="${userView.realName }" datatype="*2-30">
                 <span class="Validform_checktip">真实姓名范围在2~30位字符 </span>
@@ -49,27 +49,27 @@
 		</tr>
 		<c:if test="${userView.id==null }">
 			<tr>
-				<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.password"/>: </label></td>
+				<td align="right"><label class="Validform_label"> <t:language langKey="common.password"/>: </label></td>
 				<td class="value">
                     <input type="password" class="inputxt" value="" name="password" plugin="passwordStrength" datatype="*6-18" errormsg="" />
                     <span class="passwordStrength" style="display: none;">
-                        <span><t:mutiLang langKey="common.weak"/></span>
-                        <span><t:mutiLang langKey="common.middle"/></span>
-                        <span class="last"><t:mutiLang langKey="common.strong"/></span>
+                        <span><t:language langKey="common.weak"/></span>
+                        <span><t:language langKey="common.middle"/></span>
+                        <span class="last"><t:language langKey="common.strong"/></span>
                     </span>
-                    <span class="Validform_checktip"> <t:mutiLang langKey="password.rang6to18"/></span>
+                    <span class="Validform_checktip"> <t:language langKey="password.rang6to18"/></span>
                 </td>
 			</tr>
 			<tr>
-				<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.repeat.password"/>: </label></td>
+				<td align="right"><label class="Validform_label"> <t:language langKey="common.repeat.password"/>: </label></td>
 				<td class="value">
                     <input id="repassword" class="inputxt" type="password" value="${userView.password}" recheck="password" datatype="*6-18" errormsg="两次输入的密码不一致！">
-                    <span class="Validform_checktip"><t:mutiLang langKey="common.repeat.password"/></span>
+                    <span class="Validform_checktip"><t:language langKey="common.repeat.password"/></span>
                 </td>
 			</tr>
 		</c:if>
 		<tr>
-			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.department"/>: </label></td>
+			<td align="right"><label class="Validform_label"> <t:language langKey="common.department"/>: </label></td>
 			<td class="value">
                 <select class="easyui-combotree" data-options="url:'departController.do?getOrgTree', multiple:true, cascadeCheck:false"
                         id="orgSelect" name="orgSelect" datatype="select1">
@@ -78,35 +78,35 @@
                     </c:forEach>
                 </select>
                 <input id="orgIds" name="orgIds" type="hidden">
-                <span class="Validform_checktip"><t:mutiLang langKey="please.select.department"/></span>
+                <span class="Validform_checktip"><t:language langKey="please.select.department"/></span>
             </td>
 		</tr>
 		<tr>
-			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.role"/>: </label></td>
+			<td align="right"><label class="Validform_label"> <t:language langKey="common.role"/>: </label></td>
 			<td class="value" nowrap>
                 <input name="roleid" name="roleid" type="hidden" value="${id}" id="roleid">
                 <input name="roleName" class="inputxt" value="${roleName }" id="roleName" readonly="readonly" datatype="*" />
                 <t:choose hiddenName="roleid" hiddenid="id" url="userController.do?roles" name="roleList"
                           icon="icon-search" title="common.role.list" textname="roleName" isclear="true"></t:choose>
-                <span class="Validform_checktip"><t:mutiLang langKey="role.muti.select"/></span>
+                <span class="Validform_checktip"><t:language langKey="role.muti.select"/></span>
             </td>
 		</tr>
 		<tr>
-			<td align="right" nowrap><label class="Validform_label">  <t:mutiLang langKey="common.phone"/>: </label></td>
+			<td align="right" nowrap><label class="Validform_label">  <t:language langKey="common.phone"/>: </label></td>
 			<td class="value">
                 <input class="inputxt" name="mobilePhone" value="${userView.mobilePhone}" datatype="m" errormsg="手机号码不正确" ignore="ignore">
                 <span class="Validform_checktip"></span>
             </td>
 		</tr>
 		<tr>
-			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.tel"/>: </label></td>
+			<td align="right"><label class="Validform_label"> <t:language langKey="common.tel"/>: </label></td>
 			<td class="value">
                 <input class="inputxt" name="officePhone" value="${userView.officePhone}" datatype="n" errormsg="办公室电话不正确,只能是数字" ignore="ignore">
                 <span class="Validform_checktip"></span>
             </td>
 		</tr>
 		<tr>
-			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.common.mail"/>: </label></td>
+			<td align="right"><label class="Validform_label"> <t:language langKey="common.common.mail"/>: </label></td>
 			<td class="value">
                 <input class="inputxt" name="email" value="${userView.email}" datatype="e" errormsg="邮箱格式不正确!" ignore="ignore">
                 <span class="Validform_checktip"></span>

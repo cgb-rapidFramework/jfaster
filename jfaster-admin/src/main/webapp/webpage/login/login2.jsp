@@ -6,15 +6,15 @@
 <!DOCTYPE html>
 <%
     String lang = BrowserUtils.getBrowserLanguage();
-    String langurl = "plug-in/mutiLang/" + lang +".js";
+    String langurl = "plug-in/language/" + lang +".js";
     TemplateView sysTheme = SysThemesUtils.getSysTheme(request);
     String lhgdialogTheme = SysThemesUtils.getLhgdialogTheme(sysTheme);
 %>
 
 <html>
 <head>
-    <title><t:mutiLang langKey="system.title"/></title>
-    <link rel="shortcut icon" href="resources/fc/images/icon/favicon.ico">
+    <title><t:language langKey="system.title"/></title>
+    <link rel="shortcut icon" href="plug-in/icon/favicon.ico">
     <script src=<%=langurl%> type="text/javascript"></script>
     <!--[if lt IE 9]>
     <script src="plug-in/login/js/html5.js"></script>
@@ -39,7 +39,7 @@
     <div class="login">
     	<ul class="titleName">
         	<li class="english"></li>
-            <li class="chinese"><t:mutiLang langKey="system.name"/></li>
+            <li class="chinese"><t:language langKey="system.name"/></li>
         </ul>
         <ul class="loginInfo">
             <li>
@@ -69,13 +69,13 @@
 			
             <li class="keepInfo"><input type="checkbox" id="on_off"  name="remember" value="yes"/>记住用户名</li>
             <li class="tipsArea"><div id="tipsArea">&nbsp;</div></li>           
-            <li class="btnOk"><input type="button"  id="but_login" value="<t:mutiLang langKey="common.login"/>" class="loginBtn loginBg"  /></li>
+            <li class="btnOk"><input type="button"  id="but_login" value="<t:language langKey="common.login"/>" class="loginBtn loginBg"  /></li>
         </ul>
     </div>
 
     <div class="copyright ">
     	<span>
-            &copy; <t:mutiLang langKey="common.copyright" /> 版权所有 <span class="tip"><a href="#" title="<t:mutiLang langKey="system.right"/>"><t:mutiLang langKey="system.right"/></a> (推荐使用IE8+,谷歌浏览器) 技术支持：:<a href="#" title="<t:mutiLang langKey="system.support"/>"><t:mutiLang langKey="system.support"/></a>
+            &copy; <t:language langKey="common.copyright" /> 版权所有 <span class="tip"><a href="#" title="<t:language langKey="system.right"/>"><t:language langKey="system.right"/></a> (推荐使用IE8+,谷歌浏览器) 技术支持：:<a href="#" title="<t:language langKey="system.support"/>"><t:language langKey="system.support"/></a>
         </span>
         </span>
     </div>
@@ -95,9 +95,7 @@
 
 
 </script>
-<!--    <script type="text/javascript" src="plug-in/lhgDialog/lhgdialog.min.js"></script> -->
 <%=lhgdialogTheme %>
-
 </body>
 </html>
 

@@ -11,7 +11,7 @@ import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.persistence.datasource.DataSourceContextHolder;
 import com.abocode.jfaster.core.platform.utils.SystemMenuUtils;
 import com.abocode.jfaster.core.web.manager.ClientManager;
-import com.abocode.jfaster.admin.system.repository.MutiLangRepository;
+import com.abocode.jfaster.admin.system.repository.LanguageRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.repository.TemplateRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
@@ -49,7 +49,7 @@ public class LoginController {
     @Autowired
     private UserRepository userService;
     @Autowired
-    private MutiLangRepository mutiLangRepository;
+    private LanguageRepository languageRepository;
     @Autowired
     private TemplateRepository templateService;
     @Autowired
@@ -94,11 +94,11 @@ public class LoginController {
         HttpSession session = ContextHolderUtils.getSession();
         DataSourceContextHolder.setDataSourceType(DataSourceType.Default);
         String randCode = request.getParameter("randCode");
-        Assert.hasText(randCode, mutiLangRepository.getLang("common.enter.verifycode"));
-        Assert.isTrue(randCode.equalsIgnoreCase(String.valueOf(session.getAttribute("randCode"))), mutiLangRepository.getLang("common.verifycode.error"));
+        Assert.hasText(randCode, languageRepository.getLang("common.enter.verifycode"));
+        Assert.isTrue(randCode.equalsIgnoreCase(String.valueOf(session.getAttribute("randCode"))), languageRepository.getLang("common.verifycode.error"));
         User u = userService.checkUserExits(user.getUsername(), user.getPassword());
-        Assert.isTrue(u != null, mutiLangRepository.getLang("common.username.or.password.error"));
-        Assert.isTrue(u.getStatus() != 0, mutiLangRepository.getLang("common.username.not.activation"));
+        Assert.isTrue(u != null, languageRepository.getLang("common.username.or.password.error"));
+        Assert.isTrue(u.getStatus() != 0, languageRepository.getLang("common.username.not.activation"));
         request.getSession().setAttribute("user", u); //用于切换部门时使用
         String orgId = request.getParameter("orgId");
         String ip = com.abocode.jfaster.core.common.util.StringUtils.getIpAddr(request);
@@ -132,8 +132,7 @@ public class LoginController {
             TemplateView templateBean = new TemplateView();
             BeanUtils.copyProperties(templateEntity, templateBean);
             //设置主题
-            String systemTemplate = gson.toJson(templateBean);
-            SystemContainer.TemplateContainer.template.put("SYSTEM-TEMPLATE", systemTemplate);
+            SystemContainer.TemplateContainer.putTemplate( gson.toJson(templateBean));
             //放置语言
 			/*String langCode= (String) request.getSession().getAttribute("lang");
 			Cookie cookie=CacheUtils.putCookie("SYSTEM-LANGCODE",langCode);

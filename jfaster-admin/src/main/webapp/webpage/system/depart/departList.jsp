@@ -18,14 +18,14 @@
         </t:datagrid>
         <div id="departListtb" style="padding: 3px; height: 25px">
             <div style="float: left;">
-                <a href="#" class="easyui-linkbutton" plain="true" icon="icon-add" onclick="addOrg()"><t:mutiLang langKey="common.add.param" langArg="common.department"/></a>
-                <a href="#" class="easyui-linkbutton" plain="true" icon="icon-edit" onclick="update('<t:mutiLang langKey="common.edit.param" langArg="common.department"/>','departController.do?update','departList')"><t:mutiLang langKey="common.edit.param" langArg="common.department"/></a>
+                <a href="#" class="easyui-linkbutton" plain="true" icon="icon-add" onclick="addOrg()"><t:language langKey="common.add.param" langArg="common.department"/></a>
+                <a href="#" class="easyui-linkbutton" plain="true" icon="icon-edit" onclick="update('<t:language langKey="common.edit.param" langArg="common.department"/>','departController.do?update','departList')"><t:language langKey="common.edit.param" langArg="common.department"/></a>
             </div>
         </div>
     </div>
 </div>
 <div data-options="region:'east',
-	title:'<t:mutiLang langKey="member.list"/>',
+	title:'<t:language langKey="member.list"/>',
 	collapsed:true,
 	split:true,
 	border:false,
@@ -51,15 +51,15 @@
             id = rowsData[0].id;
         }
         var url = "departController.do?add&id=" + id;
-        add('<t:mutiLang langKey="common.add.param" langArg="common.department"/>', url, "departList");
+        add('<t:language langKey="common.add.param" langArg="common.department"/>', url, "departList");
     }
 
     function queryUsersByDepart(departid){
-        var title = '<t:mutiLang langKey="member.list"/>';
+        var title = '<t:language langKey="member.list"/>';
         if(li_east == 0 || $('#main_depart_list').layout('panel','east').panel('options').title != title){
             $('#main_depart_list').layout('expand','east');
         }
-        <%--$('#eastPanel').panel('setTitle','<t:mutiLang langKey="member.list"/>');--%>
+        <%--$('#eastPanel').panel('setTitle','<t:language langKey="member.list"/>');--%>
         $('#main_depart_list').layout('panel','east').panel('setTitle', title);
         $('#main_depart_list').layout('panel','east').panel('resize', {width: 500});
         $('#userListpanel').panel("refresh", "departController.do?userList&departid=" + departid);
@@ -71,10 +71,10 @@
      */
     function setRoleByDepart(departid, departname){
         var currentTitle = $('#main_depart_list').layout('panel', 'east').panel('options').title;
-        if(li_east == 0 || currentTitle.indexOf("<t:mutiLang langKey="current.org"/>") < 0){
+        if(li_east == 0 || currentTitle.indexOf("<t:language langKey="current.org"/>") < 0){
             $('#main_depart_list').layout('expand','east');
         }
-        var title = departname + ':<t:mutiLang langKey="current.org"/>';
+        var title = departname + ':<t:language langKey="current.org"/>';
         $('#main_depart_list').layout('panel','east').panel('setTitle', title);
         $('#main_depart_list').layout('panel','east').panel('resize', {width: 200});
         var url = {

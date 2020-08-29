@@ -3,14 +3,13 @@ package com.abocode.jfaster.admin.system.web;
 import com.abocode.jfaster.admin.system.dto.RoleIdAndNameDto;
 import com.abocode.jfaster.admin.system.service.OrgService;
 import com.abocode.jfaster.admin.system.service.RoleService;
-import com.abocode.jfaster.admin.system.dto.UploadFileDto;
+import com.abocode.jfaster.admin.system.dto.FileUploadDto;
 import com.abocode.jfaster.core.common.model.json.*;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.admin.system.service.SystemService;
 import com.abocode.jfaster.admin.system.service.UserService;
 import com.abocode.jfaster.core.platform.poi.excel.ExcelExportUtil;
 import com.abocode.jfaster.core.platform.poi.excel.entity.ExcelTitle;
-import com.abocode.jfaster.admin.system.dto.DuplicateBean;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
 import com.abocode.jfaster.admin.system.dto.ExlUserDto;
@@ -472,7 +471,7 @@ public class UserController {
     @RequestMapping(params = "savesign", method = RequestMethod.POST)
     @ResponseBody
     public AjaxJson savesign(HttpServletRequest req) {
-        UploadFileDto uploadFile = new UploadFileDto(req);
+        FileUploadDto uploadFile = new FileUploadDto(req);
         String id = uploadFile.get("id");
         User user = userRepository.findEntity(User.class, id);
         uploadFile.setRealPath("signatureFile");
@@ -592,20 +591,6 @@ public class UserController {
         List<ExlUserDto> exlUserList = userService.findExportUserList(user, orgIds, dataGrid);
         download(request, response, exlUserList);
     }
-
-    /**
-     * 校验数据是否在系统中是否存在
-     *
-     * @return
-     */
-    @RequestMapping(params = "doDuplicateCheck")
-    @ResponseBody
-    public AjaxJson doDuplicateCheck(DuplicateBean duplicateCheckPage) {
-        long num = systemService.findCountByTable(duplicateCheckPage);
-        Assert.isTrue(num == 0, "该值不可用，系统中已存在！");
-        return AjaxJsonBuilder.success("该值可用");
-    }
-
 
     private void download(HttpServletRequest request, HttpServletResponse response, List<ExlUserDto> exlUserList) {
         // 生成提示信息，

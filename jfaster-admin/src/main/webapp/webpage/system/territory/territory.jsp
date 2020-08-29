@@ -49,31 +49,31 @@
 	<input name="id" type="hidden" value="${territoryView.id}">
 	<fieldset class="step">
         <div class="form">
-            <label class="Validform_label"> <t:mutiLang langKey="area.name"/>: </label>
+            <label class="Validform_label"> <t:language langKey="area.name"/>: </label>
             <input name="territoryName" class="inputxt" value="${territoryView.territoryName}" datatype="s2-15">
-            <span class="Validform_checktip"><t:mutiLang langKey="areaname.rang2to15"/></span>
+            <span class="Validform_checktip"><t:language langKey="areaname.rang2to15"/></span>
         </div>
         <div class="form">
-            <label class="Validform_label"> <t:mutiLang langKey="area.level"/>: </label>
+            <label class="Validform_label"> <t:language langKey="area.level"/>: </label>
             <select name="territoryLevel" id="territoryLevel" datatype="*">
-                <option value="0" <c:if test="${territoryView.territoryLevel eq 0}">selected="selected"</c:if>><t:mutiLang langKey="main.area"/></option>
-                <option value="1" <c:if test="${territoryView.territoryLevel>0}"> selected="selected"</c:if>><t:mutiLang langKey="sub.area"/></option>
+                <option value="0" <c:if test="${territoryView.territoryLevel eq 0}">selected="selected"</c:if>><t:language langKey="main.area"/></option>
+                <option value="1" <c:if test="${territoryView.territoryLevel>0}"> selected="selected"</c:if>><t:language langKey="sub.area"/></option>
             </select>
             <span class="Validform_checktip"></span>
         </div>
         <div class="form" id="pfun">
-            <label class="Validform_label"> <t:mutiLang langKey="parent.area"/>: </label>
+            <label class="Validform_label"> <t:language langKey="parent.area"/>: </label>
             <input id="cc"
                 <c:if test="${territoryView.TSTerritory.territoryLevel eq 0}"> value="${territoryView.TSTerritory.id}"</c:if>
                 <c:if test="${territoryView.TSTerritory.territoryLevel > 0}"> value="${territoryView.TSTerritory.territoryName}"</c:if>>
             <input id="territoryId" name="Territory.id" style="display: none;" value="${territoryView.TSTerritory.id}">
         </div>
         <div class="form" id="codediv">
-            <label class="Validform_label"> <t:mutiLang langKey="area.code"/>: </label>
+            <label class="Validform_label"> <t:language langKey="area.code"/>: </label>
             <input name="territoryCode" class="inputxt" value="${territoryView.territoryCode}">
         </div>
         <div class="form" id="orderdiv">
-            <label class="Validform_label"> <t:mutiLang langKey="display.order"/>: </label>
+            <label class="Validform_label"> <t:language langKey="display.order"/>: </label>
             <input name="territorySort" class="inputxt" value="${territoryView.territorySort}">
         </div>
 	</fieldset>

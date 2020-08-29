@@ -16,6 +16,6 @@
 <script type="text/javascript">
 function editoperation(operationId,operationname)
 {
-	createwindow("<t:mutiLang langKey="common.edit.param" langArg="common.operation"/>","functionController.do?addorupdateop&functionId=${functionId}&id="+operationId);
+	createwindow("<t:language langKey="common.edit.param" langArg="common.operation"/>","functionController.do?addorupdateop&functionId=${functionId}&id="+operationId);
 }
 </script>

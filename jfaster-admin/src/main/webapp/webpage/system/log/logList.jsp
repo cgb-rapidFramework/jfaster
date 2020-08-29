@@ -11,23 +11,23 @@
 </t:datagrid>
 <div id="logListtb" style="padding: 3px; height: 25px">
     <div name="searchColums" style="float: right; padding-right: 15px;">
-        <t:mutiLang langKey="log.level"/>:
+        <t:language langKey="log.level"/>:
         <select name="loglevel" id="loglevel" onchange="logListsearch();">
-            <option value="0"><t:mutiLang langKey="select.loglevel"/></option>
-            <option value="1"><t:mutiLang langKey="common.login"/></option>
-            <option value="2"><t:mutiLang langKey="common.logout"/></option>
-            <option value="3"><t:mutiLang langKey="common.insert"/></option>
-            <option value="4"><t:mutiLang langKey="common.delete"/></option>
-            <option value="5"><t:mutiLang langKey="common.update"/></option>
-            <option value="6"><t:mutiLang langKey="common.upload"/></option>
-            <option value="7"><t:mutiLang langKey="common.other"/></option>
+            <option value="0"><t:language langKey="select.loglevel"/></option>
+            <option value="1"><t:language langKey="common.login"/></option>
+            <option value="2"><t:language langKey="common.logout"/></option>
+            <option value="3"><t:language langKey="common.insert"/></option>
+            <option value="4"><t:language langKey="common.delete"/></option>
+            <option value="5"><t:language langKey="common.update"/></option>
+            <option value="6"><t:language langKey="common.upload"/></option>
+            <option value="7"><t:language langKey="common.other"/></option>
         </select>
         <span>
-            <span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;" title="操作时间 "><t:mutiLang langKey="operate.time"/>: </span>
+            <span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;" title="操作时间 "><t:language langKey="operate.time"/>: </span>
             <input type="text" name="operatetime_begin" style="width: 100px; height: 24px;">~
             <input type="text" name="operatetime_end" style="width: 100px; height: 24px; margin-right: 20px;">
         </span>
-        <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="logListsearch();"><t:mutiLang langKey="common.query"/></a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="logListsearch();"><t:language langKey="common.query"/></a>
     </div>
 </div>
 <script type="text/javascript">

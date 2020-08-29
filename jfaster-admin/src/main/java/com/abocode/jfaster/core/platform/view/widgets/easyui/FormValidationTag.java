@@ -110,7 +110,7 @@ public class FormValidationTag extends TagSupport {
         if (StringUtils.isEmpty(lang)) {
             lang = "zh-cn";
         }
-        TemplateView sysThemesEnum = SysThemesUtils.getSysTheme((HttpServletRequest) super.pageContext.getRequest());
+        TemplateView sysThemesEnum = SysThemesUtils.getSysTheme();
         StringBuffer sb = new StringBuffer();
         if (layout.equals("div")) {
             sb.append(SysThemesUtils.getValidformDivfromTheme(sysThemesEnum));

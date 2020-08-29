@@ -11,16 +11,16 @@
     <input name="typeGroup.id" type="hidden" value="${typegroupid}">
     <fieldset class="step">
         <div class="form">
-            <label class="Validform_label"> <t:mutiLang langKey="lang.dictionary.type"/>: </label>
+            <label class="Validform_label"> <t:language langKey="lang.dictionary.type"/>: </label>
             <input readonly="true" class="inputxt" value="${typegroupname }">
         </div>
         <div class="form">
-            <label class="Validform_label"> <t:mutiLang langKey="dict.name"/>: </label>
+            <label class="Validform_label"> <t:language langKey="dict.name"/>: </label>
             <input name="typename" class="inputxt" value="${typeView.typename }" datatype="s1-10">
             <span class="Validform_checktip">类型范围在1~10位字符</span>
         </div>
         <div class="form">
-            <label class="Validform_label"> <t:mutiLang langKey="dict.code"/>: </label>
+            <label class="Validform_label"> <t:language langKey="dict.code"/>: </label>
             <input name="typecode" class="inputxt" value="${typeView.typecode }" datatype="*"
                    ajaxurl="systemController.do?checkType&code=${typeView.typecode }&typeGroupCode=${typeView.TSTypegroup.typegroupcode}">
             <span class="Validform_checktip">类型编码在1~10位字符</span>

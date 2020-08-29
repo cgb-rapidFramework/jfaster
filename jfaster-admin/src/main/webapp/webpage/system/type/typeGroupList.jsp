@@ -66,19 +66,19 @@ function typeGridTree_UpdateType() {
 <div id="tempSearchColums" style="display: none">
     <div name="searchColums">
         <span style="display:-moz-inline-box;display:inline-block;">
-            <span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;" title="<t:mutiLang langKey="dict.name"/>"><t:mutiLang langKey="dict.name"/>：</span>
+            <span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;" title="<t:language langKey="dict.name"/>"><t:language langKey="dict.name"/>：</span>
             <input onkeypress="EnterPress2(event)" onkeydown="EnterPress2()" type="text" name="typegroupname" style="width: 100px">
         </span>
         <span style="display:-moz-inline-box;display:inline-block;">
-            <span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;" title="<t:mutiLang langKey="dict.code"/>"><t:mutiLang langKey="dict.code"/>：</span>
+            <span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;" title="<t:language langKey="dict.code"/>"><t:language langKey="dict.code"/>：</span>
             <input onkeypress="EnterPress2(event)" onkeydown="EnterPress2()" type="text" name="typegroupcode" style="width: 100px">
         </span>
     </div>
 </div>
 <div id="tempToolbar" style="display: none">
     <span style="float:right">
-        <a href="#" class="easyui-linkbutton l-btn" iconcls="icon-search" onclick="typeGridTreesearch2()"><t:mutiLang langKey="common.query"/></a>
-        <a href="#" class="easyui-linkbutton l-btn" iconcls="icon-reload" onclick="searchReset2('typeGridTree')"><t:mutiLang langKey="common.reset"/></a>
+        <a href="#" class="easyui-linkbutton l-btn" iconcls="icon-search" onclick="typeGridTreesearch2()"><t:language langKey="common.query"/></a>
+        <a href="#" class="easyui-linkbutton l-btn" iconcls="icon-reload" onclick="searchReset2('typeGridTree')"><t:language langKey="common.reset"/></a>
     </span>
 </div>
 &lt;%&ndash; add-end--Author:zhangguoming  Date:20140807 for：添加字典查询条件 &ndash;%&gt;
@@ -135,7 +135,7 @@ function typeGridTree_UpdateType() {
     });
 
     function queryTypeValue(typegroupid, typegroupname){
-        var title = '<t:mutiLang langKey="lang.dictionary.type"/>: ' + typegroupname;
+        var title = '<t:language langKey="lang.dictionary.type"/>: ' + typegroupname;
         if(li_east == 0){
             $('#main_typegroup_list').layout('expand','east');
         }

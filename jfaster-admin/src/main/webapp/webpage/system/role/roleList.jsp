@@ -15,7 +15,7 @@
 </t:datagrid></div>
 </div>
 <div region="east" style="width: 600px;" split="true">
-<div tools="#tt" class="easyui-panel" title='<t:mutiLang langKey="permission.set"/>' style="padding: 10px;" fit="true" border="false" id="function-panel"></div>
+<div tools="#tt" class="easyui-panel" title='<t:language langKey="permission.set"/>' style="padding: 10px;" fit="true" border="false" id="function-panel"></div>
 </div>
 <div id="tt"></div>
 </div>
@@ -23,7 +23,7 @@
 function setfunbyrole(id,roleName) {
 	$("#function-panel").panel(
 		{
-			title :roleName+ ':' + '<t:mutiLang langKey="current.permission"/>',
+			title :roleName+ ':' + '<t:language langKey="current.permission"/>',
 			href:"roleController.do?fun&roleId=" + id
 		}
 	);
@@ -33,7 +33,7 @@ function setfunbyrole(id,roleName) {
 function userListbyrole(id,roleName) {
 	$("#function-panel").panel(
 		{
-			title :roleName+ ':' + '<t:mutiLang langKey="common.user"/>',
+			title :roleName+ ':' + '<t:language langKey="common.user"/>',
 			href:"roleController.do?userList&roleId=" + id
 		}
 	);
@@ -44,7 +44,7 @@ function userListbyrole(id,roleName) {
 function delRole(id){
 	var tabName= 'roleList';
 	var url= 'roleController.do?delRole&id='+id;
-	$.dialog.confirm('<t:mutiLang langKey="confirm.delete.this.record"/>', function(){
+	$.dialog.confirm('<t:language langKey="confirm.delete.this.record"/>', function(){
 		doSubmit(url,tabName);
 		rowid = '';
 		$("#function-panel").html("");//删除角色后，清空对应的权限

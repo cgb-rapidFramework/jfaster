@@ -17,11 +17,11 @@ import javax.persistence.Table;
 @Table(name = "t_s_operation")
 @Data
 public class Operation extends AbstractIdEntity implements java.io.Serializable {
-    @Column(name = "operation_name",length = 20)
+    @Column(name = "operation_name", length = 20)
     private String operationName;
-    @Column(name = "operation_code",length = 50)
+    @Column(name = "operation_code", length = 50)
     private String operationCode;
-    @Column(name = "operation_icon",length = 100)
+    @Column(name = "operation_icon", length = 100)
     private String operationIcon;
     @Column
     private Short status;

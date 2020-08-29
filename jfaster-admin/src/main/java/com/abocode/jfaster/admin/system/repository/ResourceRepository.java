@@ -1,8 +1,8 @@
 package com.abocode.jfaster.admin.system.repository;
 
-import com.abocode.jfaster.admin.system.dto.UploadFileDto;
+import com.abocode.jfaster.admin.system.dto.FileUploadDto;
 import com.abocode.jfaster.core.common.model.json.ComboTree;
-import com.abocode.jfaster.core.common.model.json.ImportFile;
+import com.abocode.jfaster.admin.system.dto.FileImportDto;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
 import com.abocode.jfaster.core.repository.CommonRepository;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
@@ -18,21 +18,21 @@ public interface ResourceRepository extends CommonRepository {
      *
      * @param uploadFile
      */
-    <T> T uploadFile(UploadFileDto uploadFile);
+    <T> T uploadFile(FileUploadDto uploadFile);
 
     /***
      * 预览及下载文件
      * @param uploadFile
      * @return
      */
-    HttpServletResponse viewOrDownloadFile(UploadFileDto uploadFile);
+    HttpServletResponse viewOrDownloadFile(FileUploadDto uploadFile);
 
     /**
      * 生成XML文件
      *
      * @param fileName XML全路径
      */
-    HttpServletResponse createXml(ImportFile fileName);
+    HttpServletResponse createXml(FileImportDto fileName);
 
     /**
      * 解析XML文件
@@ -77,9 +77,9 @@ public interface ResourceRepository extends CommonRepository {
      * @param uploadFile
      * @return
      */
-    String getUploadFileContent(UploadFileDto uploadFile);
+    String getUploadFileContent(FileUploadDto uploadFile);
 
-    void readAndParserXml(String ctxPath, UploadFileDto uploadFile);
+    void readAndParserXml(String ctxPath, FileUploadDto uploadFile);
 
     List<ComboTree> findComboTree(String orgId);
 }

@@ -91,7 +91,7 @@ public class UserRepositoryImpl extends CommonRepositoryImpl implements UserRepo
             for (UserOrg org : model.getUserOrgList()) {
                 sb.append(org.getOrg().getOrgName()).append(",");
             }
-            exlUserVo.setDepartName(sb.toString());
+            exlUserVo.setOrgName(sb.toString());
             exlUserVo.setEmail(model.getEmail());
             exlUserVo.setMobilePhone(model.getMobilePhone());
             exlUserVo.setOfficePhone(model.getOfficePhone());

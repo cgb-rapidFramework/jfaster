@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 @Entity
 @Table(name = "t_s_role_function")
 @Data
@@ -21,7 +22,7 @@ public class RoleFunction extends AbstractIdEntity implements java.io.Serializab
     private Role role;
     @Column(length = 100)
     private String operation;
-    @Column(name = "data_rule",length = 100)
+    @Column(name = "data_rule", length = 100)
     private String dataRule;
 
     @Override

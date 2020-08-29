@@ -51,67 +51,67 @@
 	<input name="id" type="hidden" value="${functionView.id}">
 	<fieldset class="step">
 	<div class="form">
-        <label class="Validform_label"> <t:mutiLang langKey="menu.name"/>: </label>
+        <label class="Validform_label"> <t:language langKey="menu.name"/>: </label>
         <input name="functionName" class="inputxt" value="${functionView.functionName}" datatype="s4-15">
-        <span class="Validform_checktip"> <t:mutiLang langKey="menuname.rang4to15"/> </span>
+        <span class="Validform_checktip"> <t:language langKey="menuname.rang4to15"/> </span>
     </div>
     <div class="form">
-        <label class="Validform_label"> <t:mutiLang langKey="funcType"/>: </label>
+        <label class="Validform_label"> <t:language langKey="funcType"/>: </label>
         <select name="functionType" id="functionType" datatype="*">
             <option value="0" <c:if test="${functionView.functionType eq 0}">selected="selected"</c:if>>
-                <t:mutiLang langKey="funcType.page"/>
+                <t:language langKey="funcType.page"/>
             </option>
             <option value="1" <c:if test="${functionView.functionType eq 1}"> selected="selected"</c:if>>
-                <t:mutiLang langKey="funcType.from"/>
+                <t:language langKey="funcType.from"/>
             </option>
         </select>
         <span class="Validform_checktip"></span>
     </div>
 	<div class="form">
-        <label class="Validform_label"> <t:mutiLang langKey="menu.level"/>: </label>
+        <label class="Validform_label"> <t:language langKey="menu.level"/>: </label>
         <select name="functionLevel" id="functionLevel" datatype="*">
             <option value="0" <c:if test="${functionView.functionLevel eq 0}">selected="selected"</c:if>>
-                <t:mutiLang langKey="main.function"/>
+                <t:language langKey="main.function"/>
             </option>
             <option value="1" <c:if test="${functionView.functionLevel>0}"> selected="selected"</c:if>>
-                <t:mutiLang langKey="sub.function"/>
+                <t:language langKey="sub.function"/>
             </option>
         </select>
         <span class="Validform_checktip"></span>
     </div>
 	<div class="form" id="pfun">
-        <label class="Validform_label"> <t:mutiLang langKey="parent.function"/>: </label>
+        <label class="Validform_label"> <t:language langKey="parent.function"/>: </label>
         <input id="cc" <c:if test="${functionView.TSFunction.functionLevel eq 0}"> value="${functionView.TSFunction.id}"</c:if>
 		<c:if test="${functionView.TSFunction.functionLevel > 0}"> value="${functionView.TSFunction.functionName}"</c:if>>
         <input id="functionId" name="Function.id" style="display: none;" value="${functionView.TSFunction.id}">
     </div>
 	<div class="form" id="funurl">
         <label class="Validform_label">
-            <t:mutiLang langKey="menu.url"/>:
+            <t:language langKey="menu.url"/>:
         </label>
         <input name="functionUrl" class="inputxt" value="${functionView.functionUrl}">
     </div>
     <div class="form">
-        <label class="Validform_label"> <t:mutiLang langKey="common.icon"/>: </label>
+        <label class="Validform_label"> <t:language langKey="common.icon"/>: </label>
         <select name="Icon.id">
             <c:forEach items="${iconlist}" var="icon">
                 <option value="${icon.id}" <c:if test="${icon.id==function.TSIcon.id || (function.id eq null && icon.iconClas eq 'pictures') }">selected="selected"</c:if>>
-                    <t:mutiLang langKey="${icon.iconName}"/>
+                    <t:language langKey="${icon.iconName}"/>
                 </option>
             </c:forEach>
         </select>
     </div>
     <div class="form">
-        <label class="Validform_label"> <t:mutiLang langKey="desktop.icon"/>: </label>
+        <label class="Validform_label"> <t:language langKey="desktop.icon"/>: </label>
         <select name="IconDesk.id">
             <c:forEach items="${iconDeskList}" var="icon">
                 <option value="${icon.id}" <c:if test="${icon.id==function.TSIconDesk.id || (function.id eq null && icon.iconClas eq 'System Folder') }">selected="selected"</c:if>>
-                    <t:mutiLang langKey="${icon.iconName}"/>
+                    <t:language langKey="${icon.iconName}"/>
                 </option>
             </c:forEach>
         </select>
     </div>
-	<div class="form" id="funorder"><label class="Validform_label"> <t:mutiLang langKey="menu.order"/>: </label> <input name="functionOrder" class="inputxt" value="${functionView.functionOrder}" datatype="n1-3"></div>
+	<div class="form" id="funorder"><label class="Validform_label"> <t:language langKey="menu.order"/>: </label> <input name="functionOrder" class="inputxt" value="${functionView.functionOrder}" datatype="n1-3"></div>
 	</fieldset>
 </t:formvalid> 
 </body>

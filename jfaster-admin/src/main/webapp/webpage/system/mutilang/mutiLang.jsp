@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
  <head>
-  <title><t:mutiLang langKey="lang.maintain"/></title>
+  <title><t:language langKey="lang.maintain"/></title>
   <t:base type="jquery,easyui,tools,DatePicker"></t:base>
  </head>
  <body style="overflow-y: hidden" scroll="no">
@@ -13,7 +13,7 @@
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
-							<t:mutiLang langKey="common.languagekey"/>:
+							<t:language langKey="common.languagekey"/>:
 						</label>
 					</td>
 					<td class="value">
@@ -25,7 +25,7 @@
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
-							<t:mutiLang langKey="common.content"/>:
+							<t:language langKey="common.content"/>:
 						</label>
 					</td>
 					<td class="value">
@@ -37,7 +37,7 @@
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
-							<t:mutiLang langKey="common.language"/>:
+							<t:language langKey="common.language"/>:
 						</label>
 					</td>
 					<td class="value">

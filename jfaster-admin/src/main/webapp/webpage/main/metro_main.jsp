@@ -5,7 +5,7 @@
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta charset="utf-8" />
-	<title><t:mutiLang langKey="system.title"/></title>
+	<title><t:language langKey="system.title"/></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 	<!-- bootstrap & fontawesome -->
 	<link rel="stylesheet" href="plug-in/ace/css/bootstrap.css" />
@@ -62,7 +62,7 @@
 			<a href="#" class="navbar-brand">
 				<small>
 					<!-- <i class="fa fa-leaf"></i> -->
-					<t:mutiLang langKey="system.right"/>—<t:mutiLang langKey="system.name"/>
+					<t:language langKey="system.right"/>—<t:language langKey="system.name"/>
 				</small>
 			</a>
 			<!-- /section:basics/navbar.layout.brand -->
@@ -337,7 +337,7 @@
 								<span class="user-info">
 									<small>Welcome,${username }</small>
 									<span style="color: #CC33FF">
-                    <span style="color: #CC33FF"><t:mutiLang langKey="common.role"/>:</span>
+                    <span style="color: #CC33FF"><t:language langKey="common.role"/>:</span>
                     <span style="color: #666633">${roleName }</span>
 								</span>
 
@@ -346,22 +346,22 @@
 
 				<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 					<li>
-						<a href="javascript:add('<t:mutiLang langKey="common.change.password"/>','userController.do?changepassword','',550,200)">
+						<a href="javascript:add('<t:language langKey="common.change.password"/>','userController.do?changepassword','',550,200)">
 							<i class="ace-icon fa fa-cog"></i>
-							<t:mutiLang langKey="common.change.password"/>
+							<t:language langKey="common.change.password"/>
 						</a>
 					</li>
 
 					<li>
-						<a href="javascript:openwindow('<t:mutiLang langKey="common.profile"/>','userController.do?userinfo')">
+						<a href="javascript:openwindow('<t:language langKey="common.profile"/>','userController.do?userinfo')">
 							<i class="ace-icon fa fa-user"></i>
-							<t:mutiLang langKey="common.profile"/>
+							<t:language langKey="common.profile"/>
 						</a>
 					</li>
 					<li>
 						<a href="javascript:clearLocalstorage()">
 							<i class="ace-icon fa fa-warning"></i>
-							<t:mutiLang langKey="common.clear.localstorage"/>
+							<t:language langKey="common.clear.localstorage"/>
 						</a>
 					</li>
 
@@ -370,7 +370,7 @@
 					<li>
 						<a href="javascript:logout()">
 							<i class="ace-icon fa fa-power-off"></i>
-							<t:mutiLang langKey="common.logout"/>
+							<t:language langKey="common.logout"/>
 						</a>
 					</li>
 				</ul>
@@ -591,8 +591,8 @@
 			<!-- #section:basics/footer -->
 			<div class="footer-content">
 						<span class="bigger-120">
-							<span class="blue bolder"><t:mutiLang langKey="system.right"/>—<t:mutiLang langKey="system.name"/></span>
-							<t:mutiLang langKey="system.version"/>
+							<span class="blue bolder"><t:language langKey="system.right"/>—<t:language langKey="system.name"/></span>
+							<t:language langKey="system.version"/>
 						</span>
 						<span class="action-buttons">
 						    <a href="#">

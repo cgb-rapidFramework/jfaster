@@ -22,7 +22,7 @@
 </div>
 </div>
 <div data-options="region:'east',
-	title:'<t:mutiLang langKey="operate.button.list"/>',
+	title:'<t:language langKey="operate.button.list"/>',
 	collapsed:true,
 	split:true,
 	border:false,

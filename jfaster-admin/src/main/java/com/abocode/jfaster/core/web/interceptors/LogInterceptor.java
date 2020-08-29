@@ -3,13 +3,15 @@ package com.abocode.jfaster.core.web.interceptors;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 
-import com.abocode.jfaster.core.common.model.json.LogAnnotation;
+import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 @Component
 @Aspect
+@Slf4j
 public class LogInterceptor {
 	@Before("execution(* com.abocode.jfaster.*.*(..))")
 	public void beforeMethod(JoinPoint joinPoint) throws Exception {
@@ -49,10 +51,7 @@ public class LogInterceptor {
 		if (method.isAnnotationPresent(LogAnnotation.class)) {
 			LogAnnotation logAnnotation = method
 					.getAnnotation(LogAnnotation.class);
-			String operateModelNm = logAnnotation.operateModelNm();
-			String operateDescribe = logAnnotation.operateDescribe();
-			String operateFuncNm = logAnnotation.operateFuncNm();
-
+            log.info("log:"+ new Gson().toJson(logAnnotation));
 		}
 
 	}

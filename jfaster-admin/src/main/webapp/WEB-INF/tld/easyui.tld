@@ -9,8 +9,8 @@
 	<display-name>"自定义标签"</display-name>
 	
 	<tag>
-        <name>mutiLang</name>
-        <tag-class>com.abocode.jfaster.core.platform.view.widgets.easyui.MutiLangTag</tag-class>
+        <name>language</name>
+        <tag-class>com.abocode.jfaster.core.platform.view.widgets.easyui.LanguageTag</tag-class>
         <body-content>JSP</body-content>
         <description>多语言输出</description>
         <attribute>

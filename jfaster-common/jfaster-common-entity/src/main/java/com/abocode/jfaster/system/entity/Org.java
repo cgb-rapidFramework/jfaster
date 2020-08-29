@@ -6,10 +6,6 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
 
-/**
- * 部门机构表
- * @author  张代浩
- */
 @Entity
 @Table(name = "t_s_org")
 @Data

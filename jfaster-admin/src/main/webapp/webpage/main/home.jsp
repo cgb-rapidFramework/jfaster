@@ -5,10 +5,10 @@
 <!DOCTYPE html>
 <%
 	String lang = BrowserUtils.getBrowserLanguage();
-	String langurl = "plug-in/mutiLang/" + lang +".js";
+	String langurl = "plug-in/language/" + lang +".js";
 %>
 <div style="margin-top: 14px;text-align: center;">
-       欢迎使用，<t:mutiLang langKey="system.right"/>—<t:mutiLang langKey="system.name"/>
+       欢迎使用，<t:language langKey="system.right"/>—<t:language langKey="system.name"/>
 </div>
 <!-- <div style="margin-top: 14px;">
 <h3>Bms开源系统简介</h3>

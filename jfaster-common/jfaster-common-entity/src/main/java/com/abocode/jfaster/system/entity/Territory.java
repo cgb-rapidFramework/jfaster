@@ -38,8 +38,8 @@ public class Territory extends AbstractIdEntity implements java.io.Serializable 
 	@Column(name = "territory_code",nullable = false,length = 10)
 	private String territoryCode;
 	//区域名称拼音
-	@Column(name = "territory_pingyin",length = 40)
-	private String territoryPinyin;
+	@Column(name = "territory_zh",length = 40)
+	private String territoryZh;
 	//wgs84格式经度(mapabc 的坐标系)
 	@Column(nullable = false,length = 40)
 	private double longitude;

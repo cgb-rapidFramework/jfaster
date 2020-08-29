@@ -1,7 +1,7 @@
 package com.abocode.jfaster.admin.system.service.impl;
 
 import com.abocode.jfaster.core.web.manager.ClientBean;
-import com.abocode.jfaster.admin.system.repository.MutiLangRepository;
+import com.abocode.jfaster.admin.system.repository.LanguageRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.service.UserLoginService;
 import com.abocode.jfaster.core.common.constants.Globals;
@@ -25,7 +25,7 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Autowired
     private SystemRepository systemService;
     @Autowired
-    private MutiLangRepository mutiLangService;
+    private LanguageRepository mutiLangService;
     @Override
     public Map<String, Object> getLoginMap(User u, String orgId, String ip) {
         Map<String, Object> attrMap = new HashMap<String, Object>();

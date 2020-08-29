@@ -1,6 +1,6 @@
 package com.abocode.jfaster.admin.system.service.impl;
 
-import com.abocode.jfaster.admin.system.repository.MutiLangRepository;
+import com.abocode.jfaster.admin.system.repository.LanguageRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.service.FunctionService;
 import com.abocode.jfaster.admin.system.service.InitService;
@@ -21,7 +21,7 @@ import java.util.List;
 @Slf4j
 public class InitServiceImpl implements InitService {
     @Autowired
-    private MutiLangRepository mutiLangRepository;
+    private LanguageRepository languageRepository;
     @Autowired
     private ICommonDao commonDao;
     @Autowired
@@ -71,7 +71,7 @@ public class InitServiceImpl implements InitService {
         /**
          * 第三部分：加载多语言内容
          */
-        mutiLangRepository.initAllMutiLang();
+        languageRepository.initLanguage();
     }
 
     /**
@@ -111,7 +111,7 @@ public class InitServiceImpl implements InitService {
             ClassPathResource sqlFile = new ClassPathResource("sql/repair/RepairDao_batchRepairMutilang.sql");
             String str = StreamUtils.inputStreamTOString(sqlFile.getInputStream());
             commonDao.updateBySql(str);
-            mutiLangRepository.refleshMutiLangCach();
+            languageRepository.refreshLanguageCache();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -729,7 +729,7 @@ public class InitServiceImpl implements InitService {
 
         Function language = new Function();
         language.setFunctionName("语言管理");
-        language.setFunctionUrl("mutiLangController.do?mutiLang");
+        language.setFunctionUrl("LangController.do?language");
         language.setFunctionLevel((short) 1);
         language.setFunctionOrder("30");
         language.setParentFunction(sys);

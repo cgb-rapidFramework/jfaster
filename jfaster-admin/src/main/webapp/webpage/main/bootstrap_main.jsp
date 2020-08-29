@@ -3,7 +3,7 @@
 <!DOCTYPE html >
 <html>
 <head>
-<title><t:mutiLang langKey="system.title"/></title>
+<title><t:language langKey="system.title"/></title>
 <t:base type="jquery,easyui,tools,DatePicker,autocomplete"></t:base>
 <link rel="stylesheet" href="plug-in/bootstrap/css/bootstrap.css" type="text/css"></link>
 <style type="text/css">
@@ -47,21 +47,21 @@
 <div id="header">
 <div class="navbar">
 <div class="navbar-inner">
-<div class="container-fluid"><a class="brand" href="http://www.hulasou.com" target="_blank"><t:mutiLang langKey="system.title"/> &nbsp;&nbsp;<span class="slogan"></span></a>
+<div class="container-fluid"><a class="brand" href="http://www.hulasou.com" target="_blank"><t:language langKey="system.title"/> &nbsp;&nbsp;<span class="slogan"></span></a>
 <div class="nav-no-collapse bootstrap-menu">
 
 <ul class="nav pull-right usernav">
-	<li style="line-height: 43px;"><span style="color: #CC33FF"><t:mutiLang langKey="common.user"/>:</span><span style="color: #666633">(${username })</span> <span style="color: #CC33FF"><t:mutiLang langKey="common.role"/></span>:<span style="color: #666633">${roleName
+	<li style="line-height: 43px;"><span style="color: #CC33FF"><t:language langKey="common.user"/>:</span><span style="color: #666633">(${username })</span> <span style="color: #CC33FF"><t:language langKey="common.role"/></span>:<span style="color: #666633">${roleName
 	}</span></li>
-	<li class="dropdown"><a href="#" class="dropdown-toggle avatar" data-toggle="dropdown"> <i class="icon-wrench"></i> <span class="txt"><t:mutiLang langKey="common.control.panel"/></span> <b class="caret"></b> </a>
+	<li class="dropdown"><a href="#" class="dropdown-toggle avatar" data-toggle="dropdown"> <i class="icon-wrench"></i> <span class="txt"><t:language langKey="common.control.panel"/></span> <b class="caret"></b> </a>
 	<ul class="dropdown-menu">
-		<li onclick="openwindow('<t:mutiLang langKey="common.profile"/>','userController.do?userinfo')"><a href="javascript:;"><i class="icon-user"></i> <t:mutiLang langKey="common.profile"/></a></li>
-		<li onclick="add('<t:mutiLang langKey="common.change.password"/>','userController.do?changepassword')"><a href="javascript:;"><i class="icon-pencil"></i> <t:mutiLang langKey="common.change.password"/></a></li>
+		<li onclick="openwindow('<t:language langKey="common.profile"/>','userController.do?userinfo')"><a href="javascript:;"><i class="icon-user"></i> <t:language langKey="common.profile"/></a></li>
+		<li onclick="add('<t:language langKey="common.change.password"/>','userController.do?changepassword')"><a href="javascript:;"><i class="icon-pencil"></i> <t:language langKey="common.change.password"/></a></li>
 	</ul>
 	</li>
-	<li class="dropdown"><a href="#" class="dropdown-toggle avatar" data-toggle="dropdown"> <i class="icon-arrow-left"></i> <span class="txt"><t:mutiLang langKey="common.logout"/></span> <b class="caret"></b> </a>
+	<li class="dropdown"><a href="#" class="dropdown-toggle avatar" data-toggle="dropdown"> <i class="icon-arrow-left"></i> <span class="txt"><t:language langKey="common.logout"/></span> <b class="caret"></b> </a>
 	<ul class="dropdown-menu">
-		<li onclick="exit('loginController.do?logout','<t:mutiLang langKey="common.exit.confirm"/>',1);"><a href="javascript:;"><i class="icon-off"></i><t:mutiLang langKey="common.exit"/></a></li>
+		<li onclick="exit('loginController.do?logout','<t:language langKey="common.exit.confirm"/>',1);"><a href="javascript:;"><i class="icon-off"></i><t:language langKey="common.exit"/></a></li>
 	</ul>
 	</li>
 </ul>
@@ -79,7 +79,7 @@
 <footer class="footer">
 <div class="container">
 <ul class="footer-links">
-	<li style="display: inline;">&copy; <t:mutiLang langKey="common.copyright"/><a href="http://www.hulasou.com" title="<t:mutiLang langKey="system.name" />"><t:mutiLang langKey="system.name" /></a></li>
+	<li style="display: inline;">&copy; <t:language langKey="common.copyright"/><a href="http://www.hulasou.com" title="<t:language langKey="system.name" />"><t:language langKey="system.name" /></a></li>
 </ul>
 </div>
 </footer>

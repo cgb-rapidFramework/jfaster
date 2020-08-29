@@ -15,7 +15,7 @@
         <div class="form">
             <label class="Validform_label"> 规则名称: </label>
             <input name="ruleName" class="inputxt" value="${operationView.ruleName}" datatype="s2-20">
-            <span class="Validform_checktip"> <t:mutiLang langKey="operatename.rang2to20"/></span>
+            <span class="Validform_checktip"> <t:language langKey="operatename.rang2to20"/></span>
         </div>
       <div class="form">
             <label class="Validform_label"> 规则字段: </label>

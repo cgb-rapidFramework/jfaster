@@ -5,7 +5,7 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta charset="utf-8" />
-    <title><t:mutiLang langKey="system.title"/></title>
+    <title><t:language langKey="system.title"/></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <link rel="stylesheet" href="plug-in/jquery/jquery.contextmenu.css"/>
     <!-- bootstrap & fontawesome -->
@@ -106,7 +106,7 @@
 								<span class="user-info">
 									<small style="color:#D50001;">欢迎,${username }</small>
 									<span style="color: #CC33FF">
-                    <span style="color: #000000"><t:mutiLang langKey="common.role"/>:</span>
+                    <span style="color: #000000"><t:language langKey="common.role"/>:</span>
                     <span style="color: #000000">${roleName }</span>
 								</span>
 
@@ -115,22 +115,22 @@
 
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                         <li>
-                            <a href="javascript:add('<t:mutiLang langKey="common.change.password"/>','userController.do?changepassword','',550,200)">
+                            <a href="javascript:add('<t:language langKey="common.change.password"/>','userController.do?changepassword','',550,200)">
                                 <i class="ace-icon fa fa-cog"></i>
-                                <t:mutiLang langKey="common.change.password"/>
+                                <t:language langKey="common.change.password"/>
                             </a>
                         </li>
 
                         <li>
-                            <a href="javascript:openwindow('<t:mutiLang langKey="common.profile"/>','userController.do?userinfo')">
+                            <a href="javascript:openwindow('<t:language langKey="common.profile"/>','userController.do?userinfo')">
                                 <i class="ace-icon fa fa-user"></i>
-                                <t:mutiLang langKey="common.profile"/>
+                                <t:language langKey="common.profile"/>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:clearLocalstorage()">
                                 <i class="ace-icon fa fa-warning"></i>
-                                <t:mutiLang langKey="common.clear.localstorage"/>
+                                <t:language langKey="common.clear.localstorage"/>
                             </a>
                         </li>
 
@@ -139,7 +139,7 @@
                         <li>
                             <a href="javascript:logout()">
                                 <i class="ace-icon fa fa-power-off"></i>
-                                <t:mutiLang langKey="common.logout"/>
+                                <t:language langKey="common.logout"/>
                             </a>
                         </li>
                     </ul>
@@ -400,7 +400,7 @@ fa fa-times
             <div class="footer-content">
 						<span class="bigger-120">
 							<span class="blue bolder">jfaster</span>
-							 Application &copy; <t:mutiLang langKey="system.version.number"/>
+							 Application &copy; <t:language langKey="system.version.number"/>
 						</span>
 
                 &nbsp; &nbsp;

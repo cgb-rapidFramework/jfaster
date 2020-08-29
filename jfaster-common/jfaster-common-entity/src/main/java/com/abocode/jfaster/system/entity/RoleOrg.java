@@ -4,6 +4,7 @@ import com.abocode.jfaster.core.AbstractIdEntity;
 import lombok.Data;
 
 import javax.persistence.*;
+
 @Entity
 @Table(name = "t_s_role_org")
 @Data

@@ -2,7 +2,7 @@ package com.abocode.jfaster.admin.system.web;
 
 import com.abocode.jfaster.admin.system.service.ChartService;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
-import com.abocode.jfaster.core.common.model.json.HighChart;
+import com.abocode.jfaster.admin.system.dto.HighChartDto;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.system.entity.Log;
 import com.abocode.jfaster.admin.system.repository.LogRepository;
@@ -131,7 +131,7 @@ public class LogController{
 	 */
 	@RequestMapping(params = "getBroswerBar")
 	@ResponseBody
-	public List<HighChart> getBroswerBar(HttpServletRequest request, String reportType, HttpServletResponse response) {
+	public List<HighChartDto> getBroswerBar(HttpServletRequest request, String reportType, HttpServletResponse response) {
 		return  chartService.buildChart(reportType);
 	}
 }

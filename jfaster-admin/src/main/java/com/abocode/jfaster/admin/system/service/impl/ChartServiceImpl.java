@@ -2,7 +2,7 @@ package com.abocode.jfaster.admin.system.service.impl;
 
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.service.ChartService;
-import com.abocode.jfaster.core.common.model.json.HighChart;
+import com.abocode.jfaster.admin.system.dto.HighChartDto;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +25,14 @@ public class ChartServiceImpl implements ChartService {
     //用户浏览器统计分析的国际化KEY
     private static final String USER_BROWSER_ANALYSIS = "user.browser.analysis";
     @Override
-    public List<HighChart> buildChart(String reportType) {
-        List<HighChart> list = new ArrayList<HighChart>();
+    public List<HighChartDto> buildChart(String reportType) {
+        List<HighChartDto> list = new ArrayList<HighChartDto>();
         StringBuffer sb = new StringBuffer();
         sb.append("SELECT broswer ,count(broswer) FROM Log group by broswer");
         List userBroswerList = systemService.findByHql(sb.toString());
         Long count = systemService.queryForCount("SELECT COUNT(1) FROM T_S_Log WHERE 1=1");
         List lt = new ArrayList();
-        HighChart hc = new HighChart();
+        HighChartDto hc = new HighChartDto();
         hc.setName(MutiLangUtils.getLang(USER_BROWSER_ANALYSIS));
         hc.setType(reportType);
         Map<String, Object> map;

@@ -52,7 +52,7 @@ public class BaseTag extends TagSupport {
 
 	public String end() {
 		StringBuffer sb = new StringBuffer();
-		TemplateView sysThemesEnum = SysThemesUtils.getSysTheme((HttpServletRequest) super.pageContext.getRequest());
+		TemplateView sysThemesEnum = SysThemesUtils.getSysTheme();
 		String types[] = type.split(",");
 		//插入多语言脚本
 		String lang = (String)((HttpServletRequest) this.pageContext.getRequest()).getSession().getAttribute("lang");
@@ -60,7 +60,7 @@ public class BaseTag extends TagSupport {
 			lang= MutiLangUtils.DEFUALT_LANG;
 		}
 
-		String langjs ="<script type=\"text/javascript\" src=\"plug-in/mutiLang/"+lang+".js\"></script>";
+		String langjs ="<script type=\"text/javascript\" src=\"plug-in/language/"+lang+".js\"></script>";
 		sb.append(langjs);
 		if (ConvertUtils.isIn("jquery-webos", types)) {
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/sliding/js/jquery-1.7.1.min.js\"></script>");
@@ -82,7 +82,6 @@ public class BaseTag extends TagSupport {
 			sb.append(SysThemesUtils.getEasyUiTheme(sysThemesEnum));
 			sb.append(SysThemesUtils.getEasyUiMainTheme(sysThemesEnum));
 			sb.append(SysThemesUtils.getEasyUiIconTheme(sysThemesEnum));
-//			sb.append("<link rel=\"stylesheet\" href=\"plug-in/easyui/themes/icon.css\" type=\"text/css\"></link>");
 			sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"plug-in/accordion/css/accordion.css\">");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/jquery.easyui.min.1.3.2.js\"></script>");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/locale/zh-cn.js\"></script>");

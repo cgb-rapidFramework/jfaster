@@ -1,7 +1,7 @@
 package com.abocode.jfaster.admin.system.web;
 
 import com.abocode.jfaster.admin.system.service.IconService;
-import com.abocode.jfaster.admin.system.dto.UploadFileDto;
+import com.abocode.jfaster.admin.system.dto.FileUploadDto;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.AjaxJsonBuilder;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
@@ -91,7 +91,7 @@ public class IconController{
 		icon.setId(id);
 		icon.setIconName(iconName);
 		icon.setIconType(iconType);
-		UploadFileDto uploadFile = new UploadFileDto(request, icon);
+		FileUploadDto uploadFile = new FileUploadDto(request, icon);
 		uploadFile.setCusPath("plug-in/accordion/images");
 		uploadFile.setExtend("extend");
 		uploadFile.setTitleField("iconclas");

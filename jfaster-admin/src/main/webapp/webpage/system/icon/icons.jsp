@@ -11,16 +11,16 @@
 	<input name="id" id="id" type="hidden" value="${icon.id}">
 	<fieldset class="step">
 	<div class="form">
-        <label class="Validform_label"> <t:mutiLang langKey="common.icon.name"/>: </label>
+        <label class="Validform_label"> <t:language langKey="common.icon.name"/>: </label>
         <input name="iconName" datatype="s2-10" id="iconName" value="${icon.iconName}" class="inputxt">
-        <span class="Validform_checktip"><t:mutiLang langKey="iconname.rang2to10"/></span>
+        <span class="Validform_checktip"><t:language langKey="iconname.rang2to10"/></span>
     </div>
 	<div class="form">
-        <label class="Validform_label"> <t:mutiLang langKey="common.icon.type"/>: </label>
+        <label class="Validform_label"> <t:language langKey="common.icon.type"/>: </label>
         <select name="iconType" id="iconType">
-            <option value="1" <c:if test="${icon.iconType=='1'}">selected="selected"</c:if>><t:mutiLang langKey="system.icon"/></option>
-            <option value="2" <c:if test="${icon.iconType=='2'}">selected="selected"</c:if>><t:mutiLang langKey="menu.icon"/></option>
-            <option value="3" <c:if test="${icon.iconType=='3'}">selected="selected"</c:if>><t:mutiLang langKey="desktop.icon"/></option>
+            <option value="1" <c:if test="${icon.iconType=='1'}">selected="selected"</c:if>><t:language langKey="system.icon"/></option>
+            <option value="2" <c:if test="${icon.iconType=='2'}">selected="selected"</c:if>><t:language langKey="menu.icon"/></option>
+            <option value="3" <c:if test="${icon.iconType=='3'}">selected="selected"</c:if>><t:language langKey="desktop.icon"/></option>
         </select>
     </div>
 	<div class="form" id="filediv"></div>

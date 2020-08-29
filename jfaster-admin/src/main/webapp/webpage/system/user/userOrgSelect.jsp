@@ -11,24 +11,24 @@
 	<input id="id" name="id" type="hidden" value="${user.id }">
 	<table style="width: 600px;" cellpadding="0" cellspacing="1" class="formtable">
 		<tr>
-			<td align="right" width="15%" nowrap><label class="Validform_label">  <t:mutiLang langKey="common.username"/>: </label></td>
+			<td align="right" width="15%" nowrap><label class="Validform_label">  <t:language langKey="common.username"/>: </label></td>
 			<td class="value" width="85%">
                 <c:if test="${user.id!=null }"> ${user.username } </c:if>
                 <c:if test="${user.id==null }">
                     <input id="username" class="inputxt" name="username" validType="t_s_base_user,username,id" value="${user.username }" datatype="s2-10" />
-                    <span class="Validform_checktip"> <t:mutiLang langKey="username.rang2to10"/></span>
+                    <span class="Validform_checktip"> <t:language langKey="username.rang2to10"/></span>
                 </c:if>
             </td>
 		</tr>
 		<tr>
-			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.department"/>: </label></td>
+			<td align="right"><label class="Validform_label"> <t:language langKey="common.department"/>: </label></td>
 			<td class="value">
                 <select id="orgId" name="orgId" datatype="*">
                     <c:forEach items="${orgList}" var="org">
                         <option value="${org.id }">${org.departname}</option>
                     </c:forEach>
                 </select>
-            <span class="Validform_checktip"><t:mutiLang langKey="please.select.department"/></span></td>
+            <span class="Validform_checktip"><t:language langKey="please.select.department"/></span></td>
 		</tr>
 	</table>
 </t:formvalid>
