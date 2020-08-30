@@ -1,16 +1,16 @@
 # UI标签库帮助文档
 
-##  BaseTag(样式和JS引入)
+##  BaseTag
 
 标签用途： 样式表和JS引入标签
 
-### 示例：
+示例：
 
 ```
 <t:base type="jquery,easyui,tools"></t:base>
 ```
 
-### 参数
+参数
 
 | 属性名 | 类型 |描述 |
 |  ----  | ----  |----  |
@@ -34,11 +34,9 @@
 |jeasyuiextensions	|jQuery && jEasyUI 扩展功能集合|
 
 
-## Datagrid(数据列表)
+## DataGrid
 
 标签用途： 数据列表标签
-
-### DataGrid父标签
 
 示例：
 ```
@@ -147,19 +145,22 @@ actionUrl="systemController.do?typeGrid&typegroupid=${typegroup.id}" idField="id
 示例：
 
 <t:dgDefOpt url="commonController.do?viewFile&fileid={id}&subclassname={subclassname}" title="下载"></t:dgDefOpt>
+
 参数：
 
-参数名	描述
-url	方法请求地址
-id	控件ID
-operationCode	权限操作码，对应按钮权限配置（不设置该字段表示不进行按钮权限控制）
-icon	图标
-title	标题
-funname	自定义函数
-langArg	多语言参数
-widht	弹出窗宽度(百分比)默认100%
-height	弹出窗高度(百分比)默认100%
-onclick	工具条选项onclick事件
+|参数名|描述|
+|--- |--- |
+url|方法请求地址
+id|控件ID
+operationCode|权限操作码，对应按钮权限配置（不设置该字段表示不进行按钮权限控制）
+icon|图标
+title|标题
+funname|自定义函数
+langArg|多语言参数
+widht|弹出窗宽度(百分比)默认100%
+height|弹出窗高度(百分比)默认100%
+onclick|工具条选项onclick事件
+
 ####  t:dgFunOpt
 
 自定义函数操作标签 
@@ -169,15 +170,16 @@ onclick	工具条选项onclick事件
 <t:dgFunOpt funname="delCgForm(id,tableName)" title="删除" urlclass="ace_button" urlfont="fa-trash-o"></t:dgFunOpt>
 参数：
 
-参数名	描述
-funname	自定义函数可传出任意字段
-title	操作标题
-operationCode	权限操作码，对应按钮权限配置（不设置该字段表示不进行按钮权限控制）
-exp	是否显示表操作的表达式 例: 字段名#表达式符号#字段值(name#eq#admin),表达式类型支持eq,ne,empty
-langArg	多语言参数
-urlclass	自定义链接风格
-urlfont	自定义链接图标
-urlStyle	自定义链接样式,直接写style里的内容; e.g: (background-color:#18a689;)
+|参数名|描述|
+|--- |--- |
+funname|自定义函数可传出任意字段
+title|操作标题
+operationCode|权限操作码，对应按钮权限配置（不设置该字段表示不进行按钮权限控制）
+exp|是否显示表操作的表达式 例: 字段名#表达式符号#字段值(name#eq#admin),表达式类型支持eq,ne,empty
+langArg|多语言参数
+urlclass|自定义链接风格
+urlfont|自定义链接图标
+urlStyle|自定义链接样式,直接写style里的内容; e.g: (background-color:#18a689;)
 
 #### t:dgDelOpt
 
@@ -188,17 +190,18 @@ urlStyle	自定义链接样式,直接写style里的内容; e.g: (background-colo
 <t:dgDelOpt url="userController.do?delUser&id={id}" title="删除"></t:dgDelOpt>
 参数：
 
-参数名	描述
-url	删除请求地址参数形式 id={id}
-operationCode	权限操作码，对应按钮权限配置（不设置该字段表示不进行按钮权限控制）
-title	操作标题
-message	询问内容
-exp	是否显示表操作的表达式 例: 字段名#表达式符号#字段值(name#eq#admin),表达式类型支持eq,ne,empty
-funname	自定义函数名称
-langArg	多语言参数
-urlclass	自定义链接风格
-urlfont	自定义链接图标
-urlStyle	自定义链接样式,直接写style里的内容; e.g: (background-color:#18a689;)
+|参数名|描述|
+|--- |--- |
+url|删除请求地址参数形式 id={id}
+operationCode|权限操作码，对应按钮权限配置（不设置该字段表示不进行按钮权限控制）
+title|操作标题
+message|询问内容
+exp|是否显示表操作的表达式 例: 字段名#表达式符号#字段值(name#eq#admin),表达式类型支持eq,ne,empty
+funname|自定义函数名称
+langArg|多语言参数
+urlclass|自定义链接风格
+urlfont|自定义链接图标
+urlStyle|自定义链接样式,直接写style里的内容; e.g: (background-color:#18a689;)
 
 #### t:dgOpenOpt
 
@@ -209,17 +212,18 @@ urlStyle	自定义链接样式,直接写style里的内容; e.g: (background-colo
 <t:dgOpenOpt url="expertController.do?expert&id={id}" title="弹出窗"></t:dgOpenOpt>
 参数：
 
-参数名	描述
-url	弹出页面地址
-title	操作标题
-operationCode	权限操作码，对应按钮权限配置（不设置该字段表示不进行按钮权限控制）
-exp	是否显示表操作的表达式 例: 字段名#表达式符号#字段值(name#eq#admin),表达式类型支持eq,ne,empty
-widht	弹出窗宽度(百分比)默认100%
-height	弹出窗高度(百分比)默认100%
-openModel	弹出方式[OpenWin/OpenTab]
-urlclass	自定义链接风格
-urlfont	自定义链接图标
-urlStyle	自定义链接样式,直接写style里的内容; e.g: (background-color:#18a689;)
+|参数名|描述|
+|--- |--- |
+url|弹出页面地址
+title|操作标题
+operationCode|权限操作码，对应按钮权限配置（不设置该字段表示不进行按钮权限控制）
+exp|是否显示表操作的表达式 例: 字段名#表达式符号#字段值(name#eq#admin),表达式类型支持eq,ne,empty
+widht|弹出窗宽度(百分比)默认100%
+height|弹出窗高度(百分比)默认100%
+openModel|弹出方式[OpenWin/OpenTab]
+urlclass|自定义链接风格
+urlfont|自定义链接图标
+urlStyle|自定义链接样式,直接写style里的内容; e.g: (background-color:#18a689;)
 
 ####  t:dgConfOpt
 
@@ -230,17 +234,20 @@ urlStyle	自定义链接样式,直接写style里的内容; e.g: (background-colo
 <t:dgConfOpt title="激活" url="cgformFtlController.do?active&id={id}&formId=${formid}" exp="ftlStatus#eq#0" message="确认激活模板"/>
 参数：
 
-参数名	描述
-url	弹出页面地址
-title	操作标题
-operationCode	权限操作码，对应按钮权限配置（不设置该字段表示不进行按钮权限控制）
-message	询问内容
-exp	是否显示该操作的表达式, 例: 字段名#表达式符号#字段值(name#eq#admin),表达式类型支持eq,ne,empty
-urlclass	自定义链接风格
-urlfont	自定义链接图标
-urlStyle	自定义链接样式,直接写style里的内容; e.g: (background-color:#18a689;)
+|参数名|描述|
+|--- |--- |
+url|弹出页面地址
+title|操作标题
+operationCode|权限操作码，对应按钮权限配置（不设置该字段表示不进行按钮权限控制）
+message|询问内容
+exp|是否显示该操作的表达式, 例: 字段名#表达式符号#字段值(name#eq#admin),表达式类型支持eq,ne,empty
+urlclass|自定义链接风格
+urlfont|自定义链接图标
+urlStyle|自定义链接样式,直接写style里的内容; e.g: (background-color:#18a689;)
 
-#### 操作标签 | dgDefOpt(列表URL操作)
+#### dgDefOpt
+
+操作标签 | dgDefOpt(列表URL操作)
 
 示例：
 
@@ -258,7 +265,9 @@ urlStyle	自定义链接样式,直接写style里的内容; e.g: (background-colo
 | urlfont| | 自定义链接图标样式| 否|
 | urlStyle| | 链接样式,直接写style里的内容; e.g: (background-color:#18a689;)| 否|
 
-#### 操作标签 | exp参数高级用法
+#### exp
+
+操作标签 | exp参数高级用法
 
 [1]、支持exp有多个值判断，比如 state  in(1,4,5,6,8)
 语法：status#eq#N,Y  多个以逗号隔开
@@ -267,7 +276,9 @@ urlStyle	自定义链接样式,直接写style里的内容; e.g: (background-colo
 
 
 
-## FormValidation(表单提交及验证标签)
+## formvalid
+
+FormValidation(表单提交及验证标签)
 
 示例(div)：
 ```
@@ -286,22 +297,26 @@ urlStyle	自定义链接样式,直接写style里的内容; e.g: (background-colo
 
 参数：
 
-属性名	类型	描述	是否必须	默认值
-action	string	表单提交路径	否	null
-formid	string	表单唯一标示	是	formobj
-refresh	boolean	dialog为true时是否刷新父页面	否	TRUE
-callback,如果dialog="false"	string	表单提交完成后的回调函数,如果dialog="true"的话, callback="@Override functionName" 调用的是当前页面的方法 , callback="functionName" 调用的是父页面的方法, callback="functionName" 调用的是当前页面的方法	否	null
-beforeSubmit	string	表单提交前的处理函数	否	null
-btnsub	string	触发表单提交事件的按钮ID	否	btn_sub
-btnreset	string	触发表单重置事件的按钮ID	否	btn_reset
-layout	string	表单布局方式(div和table可选)	是	div
-usePlugin	string	表单外调插件名称(可选插件,jqtransform:表单美化)	否	null
-dialog	boolean	是否是弹出窗口模式	是	TRUE
-tabtitle	string	表单布为div时多选项卡布局分组标题	否	null
-tiptype	string	表单校验提示方式	否	4
-styleClass	string	css class	否	null
-cssTheme	string	formdiv.css主题目录	否	null
-### 表单校验提示方式(tiptype)
+|属性名|类型|描述|是否必须|默认值|
+| -------- | ----- | ---- |---- |---- |
+action|string|表单提交路径|否|null
+formid|string|表单唯一标示|是|formobj
+refresh|boolean|dialog为true时是否刷新父页面|否|TRUE
+callback,如果dialog="false"|string|表单提交完成后的回调函数,如果dialog="true"的话, callback="@Override functionName" 调用的是当前页面的方法 , callback="functionName" 调用的是父页面的方法, callback="functionName" 调用的是当前页面的方法|否|null
+beforeSubmit|string|表单提交前的处理函数|否|null
+btnsub|string|触发表单提交事件的按钮ID|否|btn_sub
+btnreset|string|触发表单重置事件的按钮ID|否|btn_reset
+layout|string|表单布局方式(div和table可选)|是|div
+usePlugin|string|表单外调插件名称(可选插件,jqtransform:表单美化)|否|null
+dialog|boolean|是否是弹出窗口模式|是|TRUE
+tabtitle|string|表单布为div时多选项卡布局分组标题|否|null
+tiptype|string|表单校验提示方式|否|4
+styleClass|string|css class|否|null
+cssTheme|string|formdiv.css主题目录|否|null
+
+### tiptype 
+
+表单校验提示方式(tiptype)
 
 示例：
 ```
@@ -323,13 +338,17 @@ cssTheme	string	formdiv.css主题目录	否	null
 
 参数：
 
-序号	功能描述
-1	自定义弹出框提示；onblur的时候就会提示，当输入正确后，1秒中后会自动消失。
-2	侧边提示(会在当前元素的父级的next对象的子级查找显示提示信息的对象，表单以ajax提交时会弹出自定义提示框显示表单提交状态)；
-3	侧边提示(会在当前元素的siblings对象中查找显示提示信息的对象，表单以ajax提交时会弹出自定义提示框显示表单提交状态)；
-4	侧边提示(会在当前元素的父级的next对象下查找显示提示信息的对象，表单以ajax提交时不显示表单的提交状态)
+|序号|功能描述|
+|---- |---- |
+1|自定义弹出框提示；onblur的时候就会提示，当输入正确后，1秒中后会自动消失。
+2|侧边提示(会在当前元素的父级的next对象的子级查找显示提示信息的对象，表单以ajax提交时会弹出自定义提示框显示表单提交状态)；
+3|侧边提示(会在当前元素的siblings对象中查找显示提示信息的对象，表单以ajax提交时会弹出自定义提示框显示表单提交状态)；
+4|侧边提示(会在当前元素的父级的next对象下查找显示提示信息的对象，表单以ajax提交时不显示表单的提交状态)
 
-## Upload(上传标签)
+
+## Upload
+
+Upload(上传标签)
 
 说明：
 该上传标签是老实现方式，不好用，建议使用轻量级标签WebUploader标签。
@@ -341,46 +360,52 @@ cssTheme	string	formdiv.css主题目录	否	null
 
 参数：
 
-属性名	类型	描述	是否必须	默认值
-id	string	上传控件唯一标示	是	null
-name	string	控件name	是	null
-formData	string	上传文件提交后台的其他表单参数取ID	否	null
-uploader	string	上传提交路径	是	null
-extend	string	上传文件扩展名(可选类型组1,pic[.jpg;,jpeg;.png;.gif;.bmp;.ico;.tif],2,office[.doc;.docx;.txt;.ppt;.xls;.xlsx;.html;*.htm ])	是	
-buttonText	string	控件按钮显示文本	否	浏览
-multi	boolean	是否允许选择多文件	否	TRUE
-queueID	string	显示预上传文件列表的对象ID	否	TRUE
-dialog	boolean	是否是对话框模式打开上传控件	否	TRUE
-callback	string	所有文件上传完成后回调函数	否	null
-auto	boolean	是否是自动上传	否	TRUE
-onUploadSuccess	string	上传成功的处理函数	否	null
-view	string	是否生成查看删除链接默认false,如为true需要在后台返回JSON中添加查看参数(viewhref)和删除参数(delurl)	否	null
-formId	string	后台接受表单id, 不可与formData同时使用	否	null
-fileSizeLimit	string	上传文件大小设置	否	15MB
-outhtml	boolean	是否生成HTML（true/false）一个页面多个upload字段支持	否	TRUE
-onUploadStart	string	上传之前处理函数,只传函数名,该函数有个参数为file对象	否	null
+|属性名|类型|描述|是否必须|默认值|
+|---- |---- |---- |---- |---- |
+id|string|上传控件唯一标示|是|null
+name|string|控件name|是|null
+formData|string|上传文件提交后台的其他表单参数取ID|否|null
+uploader|string|上传提交路径|是|null
+extend|string|上传文件扩展名(可选类型组1,pic[.jpg;,jpeg;.png;.gif;.bmp;.ico;.tif],2,office[.doc;.docx;.txt;.ppt;.xls;.xlsx;.html;*.htm ])|是|
+buttonText|string|控件按钮显示文本|否|浏览
+multi|boolean|是否允许选择多文件|否|TRUE
+queueID|string|显示预上传文件列表的对象ID|否|TRUE
+dialog|boolean|是否是对话框模式打开上传控件|否|TRUE
+callback|string|所有文件上传完成后回调函数|否|null
+auto|boolean|是否是自动上传|否|TRUE
+onUploadSuccess|string|上传成功的处理函数|否|null
+view|string|是否生成查看删除链接默认false,如为true需要在后台返回JSON中添加查看参数(viewhref)和删除参数(delurl)|否|null
+formId|string|后台接受表单id, 不可与formData同时使用|否|null
+fileSizeLimit|string|上传文件大小设置|否|15MB
+outhtml|boolean|是否生成HTML（true/false）一个页面多个upload字段支持|否|TRUE
+onUploadStart|string|上传之前处理函数,只传函数名,该函数有个参数为file对象|否|null
+Disconnected from the target VM, address: '127.0.0.1:53673', transport: 'socket'
+
+Process finished with exit code 0
+
 
 
 ## Tabs
-
-### Tabs容器父标签参数
+ 
+Tabs容器父标签参数
 
 参数：
 
-属性名	类型	描述	是否必须	默认值
-id	string	控件唯一标示	是	null
-width	string	选项卡宽度	否	auto
-heigth	string	选项卡高度	否	auto
-plain	boolean	简单模式	否	FALSE
-fit	boolean	是否适应父容器	否	FALSE
-border	boolean	是否显示边框	否	TRUE
-scrollIncrement	string	滚动像素数	否	TRUE
-scrollDuration	boolean	每个卷轴动画的毫秒数	否	100
-tools	string	选项卡工具条	否	400
-tabs	boolean	是否创建父容器	否	TRUE
-iframe	string	是否是iframe方式创建	否	null
-tabPosition	string	选项卡位置: 'top','bottom','left','right'	否	top
 
+|属性名|类型|描述|是否必须|默认值|
+|---- |---- |---- |---- |---- |
+id|string|控件唯一标示|是|null
+width|string|选项卡宽度|否|auto
+heigth|string|选项卡高度|否|auto
+plain|boolean|简单模式|否|FALSE
+fit|boolean|是否适应父容器|否|FALSE
+border|boolean|是否显示边框|否|TRUE
+scrollIncrement|string|滚动像素数|否|TRUE
+scrollDuration|boolean|每个卷轴动画的毫秒数|否|100
+tools|string|选项卡工具条|否|400
+tabs|boolean|是否创建父容器|否|TRUE
+iframe|string|是否是iframe方式创建|否|null
+tabPosition|string|选项卡位置: 'top','bottom','left','right'|否|top
 
 示例：
 ```
@@ -390,59 +415,68 @@ tabPosition	string	选项卡位置: 'top','bottom','left','right'	否	top
 </t:tabs>
 ```
 
-### Tab子标签参数
+### Tab
+
+Tab子标签参数
 参数：
+|属性名|类型|描述|是否必须|
+|---- |---- |---- |---- |
+id|string|控件唯一标示|是
+href|string|Href方式请求地址|否
+iframe|string|Iframe方式请求地址|否
+title|string|选项卡标题|是
+icon|string|选项卡图标|否
+width|string|选项卡宽度|否
+heigth|string|选项卡高度|否
+closable|boolean|是否带关闭按钮|否
 
-属性名	类型	描述	是否必须
-id	string	控件唯一标示	是
-href	string	Href方式请求地址	否
-iframe	string	Iframe方式请求地址	否
-title	string	选项卡标题	是
-icon	string	选项卡图标	否
-width	string	选项卡宽度	否
-heigth	string	选项卡高度	否
-closable	boolean	是否带关闭按钮	否
 
+## Autocomplete
 
-## Autocomplete(自动补全标签)
+Autocomplete(自动补全标签)
 示例：
 
 <t:autocomplete selectfun="aa" closefun="close" valueField="id" searchField="userName" labelField="userName,realName" name="user" entityName="TSUser" datatype="*" nullmsg="请输入关键字" errormsg="数据不存在,请重新输入">  
 </t:autocomplete>
 参数：
 
-属性名	类型	描述	是否必须	默认值
-name	string	input 的ID/NAME	是	null
-entityName	string	查询Hiber实体名	是	null
-searchField	string	查询关键字字段	是	null
-minLength	string	触发提示文字长度	否	1
-defValue	string	默认显示值	否	null
-datatype	string	数据验证类型	否	null
-nullmsg	string	数据为空时验证	否	null
-errormsg	string	数据格式不对时验证	否	null
-parse	string	转换数据	否	null
-formatItem	string	格式化要显示的数据	否	null
-result	string	选择后回调方法	否	null
-maxRows	string	最多显示条数	否	10
-dataSource	string	数据源请求通用URL	否	commonController.do?getAutoList
+|属性名|类型|描述|是否必须|默认值|
+|---- |---- |---- |---- |---- |
+name|string|input 的ID/NAME|是|null
+entityName|string|查询Hiber实体名|是|null
+searchField|string|查询关键字字段|是|null
+minLength|string|触发提示文字长度|否|1
+defValue|string|默认显示值|否|null
+datatype|string|数据验证类型|否|null
+nullmsg|string|数据为空时验证|否|null
+errormsg|string|数据格式不对时验证|否|null
+parse|string|转换数据|否|null
+formatItem|string|格式化要显示的数据|否|null
+result|string|选择后回调方法|否|null
+maxRows|string|最多显示条数|否|10
+dataSource|string|数据源请求通用URL|否|commonController.do?getAutoList
 
-## ComboTree(下拉树形选择框)
+## ComboTree
+
+ComboTree (下拉树形选择框)
 示例：
 
 <t:comboTree url="jeecgUitagController.do?getComboTreeData" value="402880e447e99cf10147e9a03b320003" name=" depid " id="depid" width="200"></t:comboTree> 
 参数：
 
-属性名	类型	描述	是否必须	默认值
-name	string	input 控件name	是	null
-url	string	请求数据URL	是	null
-id	string	input 控件id	是	null
-width	string	控件宽度	否	140PX
-value	string	默认赋值	否	null
-multiple	boolean	是否多选	否	FALSE
-onlyLeafCheck	boolean	是否只选择子节点	否	FALSE
+|属性名|类型|描述|是否必须|默认值|
+|---- |---- |---- |---- |---- |
+name|string|input 控件name|是|null
+url|string|请求数据URL|是|null
+id|string|input 控件id|是|null
+width|string|控件宽度|否|140PX
+value|string|默认赋值|否|null
+multiple|boolean|是否多选|否|FALSE
+onlyLeafCheck|boolean|是否只选择子节点|否|FALSE
 
+## ComboBox 
 
-## ComboBox (下拉选择框)
+ ComboBox (下拉选择框)
 
 Menu(左侧菜单生成标签)
 示例：
@@ -450,88 +484,109 @@ Menu(左侧菜单生成标签)
 <t:menu parentFun="${parentFun}" childFun="${childFun} " ></t:menu>
 参数：
 
-属性名	类型	描述	是否必须	默认值
-style	string	菜单样式	否	null
-parentFun	string	一级菜单	是	null
-childFun	string	二级菜单	是	null
-menuFun	string	菜单信息	否	null
+|属性名|类型|描述|是否必须|默认值|
+|---- |---- |---- |---- |---- |
+style|string|菜单样式|否|null
+parentFun|string|一级菜单|是|null
+childFun|string|二级菜单|是|null
+menuFun|string|菜单信息|否|null
+
 说明：
 此标签不通用，建议开发者不要使用。
 
 
-## Choose(弹出选择标签)
+## Choose
+
+Choose(弹出选择标签)
 示例：
 
+```
 <input id="roleid" name="roleid" type="hidden" value="${id}"/>
 <input name="roleName" id="roleName" class="inputxt" value="${roleName }" readonly="readonly" datatype="*" />
-
 <t:choose hiddenName="roleid" hiddenid="id" textname="roleName" url="userController.do?roles" name="roleList" icon="icon-search" title="选中角色" isclear="true" isInit="true"></t:choose> 
+```
 
 参数：
 
-属性名	类型	描述	是否必须	默认值
-title	string	标题	否	null
-hiddenName	string	隐藏域的ID	是	null
-hiddenid	string	选中数据返回值	是	null
-textname	string	选中数据返回显示文本	否	null
-url	string	远程访问地址	是	null
-name	string	弹出列表datagrid的ID名	是	null
-isInit	boolean	是否传入初始化值	否	null
-isclear	boolean	是否带清空按钮	否	FALSE
-icon	string	选择按钮的图标	否	null
-height	string	弹出框的高度	否	null
-width	string	弹出框的宽度	否	null
-left	string	弹出框的左间距	否	null
-top	string	弹出框的上端间距	否	null
-fun	string	自定义函数	否	null
-langArg	string	多语言参数	否	null
-inputTextname	string	显示域控件的ID	否	null
+|属性名|类型|描述|是否必须|默认值|
+|---- |---- |---- |---- |---- |
+title|string|标题|否|null
+hiddenName|string|隐藏域的ID|是|null
+hiddenid|string|选中数据返回值|是|null
+textname|string|选中数据返回显示文本|否|null
+url|string|远程访问地址|是|null
+name|string|弹出列表datagrid的ID名|是|null
+isInit|boolean|是否传入初始化值|否|null
+isclear|boolean|是否带清空按钮|否|FALSE
+icon|string|选择按钮的图标|否|null
+height|string|弹出框的高度|否|null
+width|string|弹出框的宽度|否|null
+left|string|弹出框的左间距|否|null
+top|string|弹出框的上端间距|否|null
+fun|string|自定义函数|否|null
+langArg|string|多语言参数|否|null
+inputTextname|string|显示域控件的ID|否|null
 
-## Form（form标签）
+## Form
+
+（form标签）
 参数 属性名 类型 描述 是否必须 默认值
 action string 表单提交地址 否
 items string  循环集合值   是
-### 用法
 
+* 用法
+```
 <t:form action=＂userAction＂  items =null></t:form>
+```
 
-## ComboTree(下拉树形选择框)
+
+## ComboTree
+
+(下拉树形选择框)
    示例：
-   
-   <t:comboTree url="jeecgUitagController.do?getComboTreeData" value="402880e447e99cf10147e9a03b320003" name=" depid " id="depid" width="200"></t:comboTree> 
+```
+  <t:comboTree url="jeecgUitagController.do?getComboTreeData" value="402880e447e99cf10147e9a03b320003" name=" depid " id="depid" width="200"></t:comboTree> 
+```
+
    参数：
    
-   属性名	类型	描述	是否必须	默认值
-   name	string	input 控件name	是	null
-   url	string	请求数据URL	是	null
-   id	string	input 控件id	是	null
-   width	string	控件宽度	否	140PX
-   value	string	默认赋值	否	null
-   multiple	boolean	是否多选	否	FALSE
-   onlyLeafCheck	boolean	是否只选择子节点	否	FALSE
+|属性名|类型|描述|是否必须|默认值|
+|---- |---- |---- |---- |---- |
+name|string|input 控件name|是|null
+url|string|请求数据URL|是|null
+id|string|input 控件id|是|null
+width|string|控件宽度|否|140PX
+value|string|默认赋值|否|null
+multiple|boolean|是否多选|否|FALSE
+onlyLeafCheck|boolean|是否只选择子节点|否|FALSE
 
-# Colorchange (改变HTML控件颜色)G
+# Colorchange
+ 
+ (改变HTML控件颜色)G
 
-# DictSelect (数据字典下拉选择框)
+# DictSelect 
+
+(数据字典下拉选择框)
 示例：
 
 <t:dictSelect field="sex" typeGroupCode="sex" title="性别"></t:dictSelect> 
 参数：
 
-属性名	类型	描述	是否必须	默认值
-title	string	标题	否	null
-field	string	控件字段名字	是	null
-typeGroupCode	string	字典分组编码	是	null
-type	string	控件类型select、radio、checkbox	否	select
-id	string	唯一标识	否	null
-defaultVal	string	默认值	否	null
-divClass	string	DIV框默认样式	否	form
-labelClass	string	LABEL默认样式	否	Validform_label
-dictTable	string	自定义字典表	否	null
-dictField	string	自定义字典表的匹配字段-字典的编码值	否	null
-dictText	string	自定义字典表的显示文本-字典的显示值	否	null
-dictCondition	string	自定义字典表的显示文本-字典查询条件	否	null
-extendJson	string	扩展参数(json格式)	否	null
-hasLabel	boolean	是否显示Label	否	FALSE
-readonly	string	是否可编辑。当值”readonly”时不可编辑。	否	null
-datatype	string	validform校验规则，一般必须输入：*	否	null
+|属性名|类型|描述|是否必须|默认值|
+|---- |---- |---- |---- |---- |
+title|string|标题|否|null
+field|string|控件字段名字|是|null
+typeGroupCode|string|字典分组编码|是|null
+type|string|控件类型select、radio、checkbox|否|select
+id|string|唯一标识|否|null
+defaultVal|string|默认值|否|null
+divClass|string|DIV框默认样式|否|form
+labelClass|string|LABEL默认样式|否|Validform_label
+dictTable|string|自定义字典表|否|null
+dictField|string|自定义字典表的匹配字段-字典的编码值|否|null
+dictText|string|自定义字典表的显示文本-字典的显示值|否|null
+dictCondition|string|自定义字典表的显示文本-字典查询条件|否|null
+extendJson|string|扩展参数(json格式)|否|null
+hasLabel|boolean|是否显示Label|否|FALSE
+readonly|string|是否可编辑。当值”readonly”时不可编辑。|否|null
+datatype|string|validform校验规则，一般必须输入：*|否|null

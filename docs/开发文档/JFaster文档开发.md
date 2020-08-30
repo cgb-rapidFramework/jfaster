@@ -28,7 +28,7 @@ $ pip install -i https://mirrors.aliyun.com/pypi/simple/ mkdocs
 pip install  -i https://pypi.tuna.tsinghua.edu.cn/simple mkdocs-bootswatch
 ```
 
-## 说明
+## 文档说明
 
 ### 目录结构
 

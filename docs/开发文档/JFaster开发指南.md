@@ -1,175 +1,12 @@
 # 开发指南
-## 1.前言
-### 1.1.技术背景
+## 项目说明
+JFaster 是一套SH（Spring + Hibernate）快速开发框架，其核心设计目标是开发迅速、学习简单、轻量级、易扩展。帮你快速构建高质量的业务系统，是技术选型最理想的选择。
 
- 随着 WEB UI框架(EasyUI/Jquery UI/Ext/DWZ)等的逐渐成熟,系统界面逐渐实现统一化，代码生成器也可以生成统一规范的界面！
- 代码生成+手工MERGE半智能开发将是新的趋势，生成的代码可节省50%工作量，快速提高开发效率！
-
-### 1.2.平台介绍
-
- JFaster [J2EE CodeGeneration]是一款基于代码生成器的智能开发平台，采用代码生成+手工MERGE半智能开发模式，可以帮助解决Java项目60%的重复工作，让开发更多关注
-
-业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失扩展性和灵活性。JFaster宗旨：简单功能由代码生成器生成使用;复杂业务采用表单自定义，业务流程使
-
-用工作流来实现、扩展出任务接口，供开发编写业务逻辑。实现了流程任务节点和任务接口的灵活配置，既保证了公司流程的保密行，又减少了开发人员的工作量。
- JFaster采用SpringMVC+Hibernate+UI快速开发库作为基础架构，采用面向声明的开发模式，基于泛型方式编写极少代码即可实现复杂的数据展示、数据编辑、表单处理等功能，再配合代码生成器的使用将JavaEE的开发效率提高6倍以上，
-可以将代码减少60%以上。
- JFaster V3.0版本四大技术点: 1.代码生成器 2.UI快速开发库 3.在线流程设计
- 4.系统
-
-日志记录。
-
- 要求 JDK1.6+
-
-### 1.3.平台优势
-采用主流开源技术框架，容易上手;代码生成器依赖性低,很方便的扩展
-
-能力，可完全实现二次开发;
-
-开发效率很高,代码生成器支持多种数据模型：单表数据模型、单表自关
-
-联模型和一对多(父子表)数据模型，代码生成功能直接使用；
-
-
-查询 SQL过滤器，后台不需要写代码，页面追加查询字段，查询功能自
-
-动实现
-
-页面校验自动生成(必须输入、数字校验、金额校验、时间控件等);
-
-基础的用户权限：菜单，按钮权限，角色
-
-常用共通封装，各种工具类(定时任务,短信接口,邮件发送,Excel导出等),
-
-基本满足 80%项目需求
-集成简易报表工具，图像报表和数据导出非常方便，可极其方便的生成
-
-pdf、excel、word等报表；
-### 1.4.平台架构
-
-架构技术： Spring MVC+Hibernate4+UI快速开发库+Spring JDBC+Highcharts图形报表+Jquery+Ehcache。
-
-设计思想:零配置（约定大于配置）
-
-各技术点说明
-
-[1]代码生成器
-
-代码生成器用于生成规范的后台代码+统一风格的前台页面+表单校验。
-
-单表模型，单表自关联模型和一对多(父子表)数据模型，增删改查功能生成直接使用;
-
-特点：
-
-A.前台页面字段对应数据库字段生成;
-
- B.页面字段校验自动生成（数字类型\\必须项\\金额类型\\时间控件\\邮箱\\手机号\\QQ
-
-号等等);
-
-C.支持 Oracle/Mysql/Postgres数据库
-
-注意：代码生成包括 JSP页面生成，代码无需修改，增删改查功能直接配置使用
-
-[2].查询条件过滤器
-
-页面加查询条件，后台不需要写任何逻辑判断，动态拼 HQL追加查询条件
-
-[3].UI快速开发库
-
- UI快速开发库，针对 WEB UI进行标准封装，页面统一采用 UI标签实现功能：数据
-
-datagrid,表单校验,Popup,Tab等，实现 JSP页面零 JS，开发维护非常高效
-
-[4].智能工作流
-
-在线流程定义，采用开源 Activiti流程引擎，实现在线画流程,自定义表单,表单挂接,业
-
-务流转，流程监控，流程跟踪，流程委托等
-
-[5].表单 Form校验组件
-
-前台页面字段校验采用 Validform
-
-[6].常用共通封装
-
-表单检验组件
-
-数据字典/邮件发送/定时任务/短信接口/Freemarker模板工具 /Jqu ery
-
-[7].基础用户权限
-
-权限功能：用户、角色、权限（菜单权限+按钮权限）
-
-[8].Ehcache缓存机制
-
-Ehcache缓存自定义标签（永久缓存/临时缓存）
-
-[9].报表封装
-
-Excel简易导出工具类+Highcharts图形报表
-
-[10].Hibernate+Spring jdbc组合使用
-  Hibernate+Spring jdbc组合使用（单表操作使用 Hibernate；复杂 SQL采用 SQL）,
- (1) SQL设计方案:DB SQL抽离出 Java代码，采用命名规范根据类名和方法名创建 SQL文件，存储 SQL;
-
-(2)程序自动读取 SQL;
-
-(3) SQL读取模式:开发模式和发布模式[SQL加载内存]。
-
-[11].安全的事务回滚机制+安全的数据乐观锁机制
-
-[12].系统日志记录，便于问题追踪
-
-## 2. JFaster框架初探
-
-2.1.演示系统
-
-打开浏览器，输入 JFaster演示环境地址：http://localhost:8088/jfaster-admin/，可以看到如图
-
-## 3. JFaster开发环境搭建
-
-JFaster推荐的开发环境为 Myeclipse6.5/Eclipse3.7+JDK1.6+Tomcat6.0
-
-### 3.1. JAVA环境配置
-
-通过 Oracle的官方地址下载 JDK开发包：
-#### 数据库初始化
-
-在 mysql数据库中新建一编码为 UTF8的数据库 JFaster。
-
-通过命令：
-
-mysql -proot -uroot JFaster \< d:/projects/JFaster/doc/JFasterv3-init.sql
-
- 将工程目录中的 doc / JFasterv3-init.sql脚本导入到新建的 JFaster数据库中。
- 
- JFaster表结构设计		
-表名称	实体名	描述
-t_s_log	Log	系统用户操作日志表
-t_s_config	Config	全局参数配置表
-t_s_file_upload	FileUpload	项目附件父表(其他附件表需继承该表)
-t_s_user	User	[用户权限]系统用户表
-t_s_base_user	BaseUser	[用户权限]系统用户父类表
-t_s_role	Role	[用户权限]角色
-t_s_role_user	RoleUser	[用户权限]用户角色
-t_s_org	Org	[用户权限]部门机构表
-t_s_role_function	RoleFunction	[用户权限]角色权限表
-t_s_operation	Operation	[用户权限]权限操作表
-t_s_function	Function	[用户权限]菜单权限表
-t_s_icon	Icon	图标
-
+## 快速使用
 
 #### 项目数据源配置
 
-对数据库进行初始化之后，需要相应地对项目中的数据源连接进行配置。
-
-修改项目的数据源连接配置文件 resources/dbconfig.properties，如图 3-7所示。
-
-图 3-7项目数据源配置
-
-修改项目中的代码生成器数据源连接配置文件 resources/JFaster/JFaster_database.properties
-另外，根据自己的需要对代码生成器的相关参数进行配置，配置文件为 resources/JFaster/JFaster_config.properties。
+修改项目的数据源连接配置文件 resources/dbconfig.properties
 
 #### 项目启动测试
 
@@ -187,58 +24,16 @@ t_s_icon	Icon	图标
 #### 项目打包
 
  在工程上面右键-\>Run As-\>Maven Package，打包完成之后的war包位于target/JFaster.war
-
-
-## 4.代码生成器
-
- code-maker是为JFaster提供的完善的代码生成器
-
-    1.所有代码均开源，开源协议详见LICENSE
-    2.使用方法，运行：com.abocode.codemaker.Run即可
-    3.项目配置文件修改：contextConfig.properties
-    4.数据库连接修改：database.properties
-    5.模版修改：maker-config/template/*
-    
-#### 1.新加枚举类型：CodeType：
  
-         public enum CodeType {
-         controller("Controller"),
-     
-         service("Service"),
-         serviceImpl("ServiceImpl"),
-     
-         entity("Entity"),
-         repository("Repository"),
-         repositoryImpl("RepositoryImpl"),
-         newType("NewType");
-         }   
- #### 2.添加枚举类型对应的代码生成路径：JFasterCodeFactory getCodePath()
-   
-        if("Controller".equalsIgnoreCase(codeType)) {
-                        str.append(StringUtils.lowerCase("interfaces/web"));
-        } else if("ServiceImpl".equalsIgnoreCase(codeType)) {
-            str.append(StringUtils.lowerCase("application/service"));
-        } else if("Service".equalsIgnoreCase(codeType)) {
-            str.append(StringUtils.lowerCase("application"));
-        } else if("RepositoryImpl".equalsIgnoreCase(codeType)) {
-            str.append(StringUtils.lowerCase("domain/repository/persistence/hibernate"));
-        } else if("Repository".equalsIgnoreCase(codeType)) {
-            str.append(StringUtils.lowerCase("domain/repository"));
-        } 
-     
-        
-#### 3.添加代码生成器中使用模版：JFasterCodeGenerate.java  generateToFile()
-    
-      codeFactory.invoke("repositoryImplTemplate.ftl", "repositoryImpl");
-      codeFactory.invoke("repositoryTemplate.ftl", "repository");
-    
+ 
+ 
 
+###  代码生成器的使用
 
-
-### 4.1.数据表创建
+#### 数据表创建
 
 现在有一张员工表 person，其建表 SQL为：
-
+```
 CREATE TABLE \`person\` (
 
 \`ID\` varchar(32) NOT NULL default '' COMMENT '主键',
@@ -252,393 +47,128 @@ CREATE TABLE \`person\` (
 \`createDt\` datetime default NULL COMMENT '创建时间',
 
 PRIMARY KEY
-
 (\`ID\`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
 
- 注意：建表时，必须给每个字段加上注释，代码生成器会根据注释去生成页面字段对应的显示文本。
 
-将建表 SQL在数据库管理器里面执行，完成对 person表的创建。
+> 注意：建表时，建议给每个字段加上注释，代码生成器会根据注释去生成页面字段对应的显示文本。
 
-### 4.2.代码生成器配置
+#### 代码生成器配置
 
  代码生成器有两个配置文件：一个用于数据源的配置，一个用于代码生成器的参数配置。
 
-这两个配置文件分别是 resources/JFaster目录的 JFaster_database.properties和JFaster_config.properties。
+这两个配置文件分别是 resources/JFaster目录的 contextConfig.properties和database.properties
 
-参数配置文件 JFaster_config.properties的各参数说明如表 4-1所示：
+* database.properties
+```
+#mysql
+diver_name=com.mysql.jdbc.Driver
+url=jdbc:mysql://localhost:3306/jfaster?useUnicode=true&characterEncoding=UTF-8
+username=root
+password=123456
+database_name=jfaster
+```
 
-表 4-1代码生成器参数说明
+* 
+```properties
+project_path=E\:\\WorkSpace\\abocode\\jfaster\\
+#bussi_package[User defined]
+biz_package=com.abocode.jfaster.biz
 
-参数
+#maven code path
+source_root_package=src.main.java
+webroot_package=src.main.webapp
 
-参数说明
+#ftl resource url
+templatepath=maker-config/template
+system_encoding=utf-8
 
-默认值
+#Table key [User defined] 
+generate_table_id=id
+#Search Param num [User defined]
+ui_search_filed_num=1
 
-取值范围
+#convert flag[true/false]
+filed_convert=true
+#字段过滤
+ui_filter_fields=create_date,create_datetime,create_by,create_key,create_name,create_realname,create_departmentid,create_departmentname,update_date,update_datetime,update_by,update_key,update_name,update_realname,update_departmentid,update_departmentname
+```
+####  使用
 
-source_root_package
+运行：com.abocode.codemaker.Run，根据提示进行配置
 
-Source floders on build path (JAVA
 
-src
 
-文件的根目录)
 
-webroot_package
+## 高级功能
 
-bussi_package
+### 架构技术
+ Spring MVC+Hibernate4+UI快速开发库+Spring JDBC，数据库支持 Oracle/Mysql/Postgres数据库等主流数据库
+### 主要功能说明
+* 代码生成器
+代码生成包括 JSP页面生成，代码无需修改，增删改查功能直接配置使用，代码生成器用于生成规范的后台代码+统一风格的前台页面+表单校验。
+ A.前台页面字段对应数据库字段生成;
+ B.页面字段校验自动生成（数字类型\\必须项\\金额类型\\时间控件\\邮箱\\手机号\\QQ号等等);
 
-WEB应用文件的根目录（例如：
+*  查询条件过滤器
 
-jsp）
+页面加查询条件，后台不需要写任何逻辑判断，动态拼查询条件
 
-WebRoot
+*   UI快速开发库
 
-Demo
+ UI快速开发库，针对 WEB UI进行标准封装，页面统一采用 UI标签实现功能：数据datagrid,表单校验,Popup,Tab等，实现 JSP页面零JS，开发维护非常高效
 
-业务包（举例：比如 ERP中的一
+*   表单Form校验
 
-个大的模块销售模块目录）
+前台页面字段校验采用 Validform
 
-特点：支持多级目录例如[com.sys]
+*   常用共通封装
 
-templatepath
+表单检验组件,数据字典/邮件发送，封装POI导入导出，读写Excel。
+*  基础用户权限
 
-代码生成器使用的模板文件目录
+权限功能：用户、角色、权限（菜单权限+按钮权限）
 
-项目编码
+*  报表封装
 
-JFaster/template
+Excel简易导出工具类+Highcharts图形报表
 
-utf-8
 
-system_encoding
+### 查询
 
-JFaster_generate_table_id
-
-自定义主键命名
-
-id
-
-目前表主键只
-
-能命名 ID
-
-JFaster_ui_search_filed_nu配置代码生成器生成的 JSP页面， 1
-
-m
-
-默认前几个字段生成查询条件
-
-JFaster_filed_convert
-
-数据库表字段转换为实体字段是
-
-采用原生态，还是采用驼峰写法转
-
-换
-
-true
-
-true/false
-
-4.3.代码生成
-
-打开代码生成器并输入相应的参数如图 4-1所示。
-
-图 4-1员工信息维护的代码生成器
-
-执行【生成】之后，可以在源代码目录 src中看到新生成的 java代码文件
-
-### 建表规范
-
-1.
-
-表必须有唯一主键: ID（字符类型 32位）
-
-备注:主键采用 UUID方式生成
-
-主键支持自定义，修改
-JFaster_config.properties的参数[JFaster_generate_table_id]即可;
-
-表必需字段（创建人，创建时间等..）
-
-表字段必须有注释
-
-备注: JSP页面字段文本，是根据表字段注释来生成
-
-主表和子表的外键字段名字，必须相同（除主键 OBID外）
-
-子表引用主表主键 OBID作为外键，外键字段必须以 OBID结尾
-
-注：请按照建表模板表 4-2来创建新表，模板表中原有的字段，生成器会过滤不在页面
-生成。
-
-
-#### 页面生成规则
-
- 说明：JSP页面字段的文本内容，取表字段的注释前 6位字符(如果建表字段注释为空，
-
-则页面字段文本会为空)
-
- A.默认生成的
- JSP页面前五个字段为必须项，其他字段为非必须输入（需要自己手工加）
-
- B.数据库字段类型为：datetime
- --\>对应页面字段，会自动追加[年月日-时分秒]时间控件
-
- C.数据库字段类型为：date --\>对应页面会字段，自动追加[年月日]时间控件
-
- D.数据库字段类型为：Int/Number--\>对应页面字段，会自动追加数字校验（不允许输入
-
-小数）
-
- E.数据库字段类型为：float/double/decimal--\>对应页面页面字段，会自动追加数字校验
-
-（允许输入小数）
-
- F.如果表字段为字符类型，并且设置了长度，页面输入框会自动设置 maxlength对应表
-
-字段长度
-
-### 4.6.一对多的代码生成
-
-一对多代码生成器使用
-
- 单表的代码生成器入口类是 test.JFasterOneGUI；一对多的代码生成器入口类是
-
-test.JFasterOneToMainUtil。
-
-一对多的代码生成器使用示例：
-
-//第一步：设置主表
-
-CodeParamEntity codeParamEntityIn = new CodeParamEntity();
-
-codeParamEntityIn.setTableName("JFaster_order_main");// 主表[表名]
-
-codeParamEntityIn.setEntityName("Demo4ManyKey"); //主表[实体名]
-
-codeParamEntityIn.setEntityPackage("JFaster"); //主表[包名]
-
-codeParamEntityIn.setFtlDescription("订单主数据"); //主表[描述]
-
-//第二步：设置子表集合
-
-List\<SubTableEntity\> subTabParamIn = new ArrayList\<SubTableEntity\>();
-
-//[1].子表一
-
-SubTableEntity po = new SubTableEntity();
-
-po.setTableName("JFaster_order_custom"); //子表[表名]
-
-po.setEntityName("DemoMany4CustomKey"); //子表[实体名]
-
-po.setEntityPackage("JFaster");
-
-//子表[包]
-
-po.setFtlDescription("订单客户明细"); //子表[描述]
-
-po.setForeignKeys(new
-String[]{"GORDER_OBID","GO_ORDER_CODE"});//子表[外键:与主表关
-
-联外键]
-
-subTabParamIn.add(po);
-
-//[2].子表二
-
-SubTableEntity po2 = new SubTableEntity();
-
-po2.setTableName("JFaster_order_product");
-
-//子表[表名]
-
-po2.setEntityName("DemoMany4ProductKey");
-
-子表[实体名]
-
-//
-
-po2.setEntityPackage("JFaster");
-
-po2.setFtlDescription("订单产品明细");
-
- //子表[包]
-
-//子表[描述]
-
-po2.setForeignKeys(new
-String[]{"GORDER_OBID","GO_ORDER_CODE"});//子表[外键:与主表
-
-关联外键]
-
-subTabParamIn.add(po2);
-
-codeParamEntityIn.setSubTabParam(subTabParamIn);
-
-//第三步：一对多(父子表)数据模型,代码生成
-
-CodeGenerateOneToMany.oneToManyCreate(subTabParamIn, codeParamEntityIn);
-
-*www.JFaster.org*
-
-QQ群: 106259349, 106838471, 289782002
-
-29
-#### 使用规范
-
-1.
-
-目前代码生成器默认的主键生成策略为 UUID
-
-主表和子表的目录最好保持一致
-
-2.子表和主表的外键规则如下：
-
-a)主表和子表的外键字段名字，必须相同（除主键ID外）
-
-b)子表引用主表主键ID作为外键，外键字段必须以_ID结尾
-
-
-##  5.查询 HQL过滤器
-
-### 5.1.数据过滤现状分析
-
-项目开发的查询页面都会有很多查询条件，开发追加查询条件的工作繁琐又很浪费时间。
-
-这块工作量主要在：页面加查询字段和后台代码逻辑判断，追加查询条件；
-
-目前 JAVA持久层主流框架 Hibernate和 Ibatis实现方式分析:
-
-[1].Hibatente技术实现：
-
-A.页面追加查询字段;
-
-B.后台代码需加逻辑判断，判断字段是否为空，手工拼 SQL追加查询条件;
-
-[2].IBATIS技术实现：
-
-A.页面追加查询字段;
-
- B.后台不需写代码，但是需在 XML文件中追加该字段非空判断和查询条件;
-
-特点：常规功能的页面查询方式只能是"全匹配"和"模糊查询"，对于特殊的 "包含查询"
-
-和"不匹配查询",
-
-只能写特殊逻辑代码
-
-### 5.2.查询条件 SQL生成器
-
- 5.2.1.
-
-实现原理
-
-根据页面传递到后台的参数，动态判断字段是否为空，自动拼 SQL追加查询条件。
-
-实现的功能：实现了"模糊查询" , "包含查询" , "不匹配查询"等 SQL匹配功能。
-
-特点：页面仅仅追加一个查询字段，后台不需要写任何代码，查询功能自动实现。
-
-5.2.2.
-
-查询规则
-
- 要求：页面查询字段，需跟后台 Action(或 Controller)中
- Page的字段对应一致，后台不
-
-需写代码自动生成 HQL，追加查询条件;默认生成的查询条件是全匹配;
-
- 查询匹配方式分类：
-
-[1].全匹配查询：查询数据没有特殊格式，默认为全匹配查询
-
-[2].模糊查询：
-
-[3].包含查询：
-
-查询数据格式需加星号[\*]
-
-例如：{MD\*/\*MD\*/\*M\*D\*}
-
-查询数据格式采用逗号分隔[,]例如： {01,03}(含义：in('01','03'))
-
-
-[4].不匹配查询：查询数据格式需要加叹号前缀[!]例如：{!123}(含义：不等于 123)
-
-特殊说明：查询不为 Null的方法=!null(大小写没关系);查询不为空字符串的方法=!(只有
-
-一个叹号).
-
-[5].时间范围范围查询
-
-jsp页面中使用的 name：需要查询的日期类型字段名本身（什么都不加），表示查询
-
-时查询等于该字段时间的数据
-
-begin：需要查询的日期类型字段名（首字母大写），表示查询开始时间查询时查询大
-
-于等于开始时间的数据
-
-end:需要查询的日期类型字段名（首字母大写），表示查询结束时间查询时查询小于
-
-等于结束时间的数据
-
-使用举例：
-
-字段名称 private Date birthday
-
-查询开始时间 beginBirthday
-
-查询结束时间 endBirthday
-
-5.2.3.
+#### 设置查询字段
 
 具体实现
 
 第一步：页面实现
 
-说明：为 dategrid字段，追加属性 query="true"，自动加载出查询框，如图 5-1所示。
-
- 图 5-1 JSP代码实现
+说明：为 dategrid字段，追加属性 query="true"，自动加载出查询框
 
 第二步：controller层处理
 
-图 5-2 Controller代码
 
 5.3.查询过滤器高级特性
 
  dategrid中的查询过滤器默认是单条件查询，即在设置多个 dgCol的
  query=”true”之后，
 
-查询条件中同时只能有一个条件被使用，生成的页面效果如图 5-3所示。
+查询条件中同时只能有一个条件被使用，生成的页面效果
 
 图 5-3默认查询过滤器效果
 
 当然，可以通过 dategrid和 dgCol的参数设置来达到更高级的查询过滤功能，如组合查
 
 询条件和值范围查询。
-
-5.3.1.
-
-组合条件查询
+#### 组合条件查询
 
  设置\<t:dategrid\>标签的
  queryMode=”group”（该参数值默认为”single”，即单条件查询），
 
-在页面生成时，会生成一个组合查询条件输入面板。生成的页面效果如图 5-4所示。
+在页面生成时，会生成一个组合查询条件输入面板。生成的页面效果
 
-图 5-4组合查询过滤器效果
-
-5.3.2.
-
-字段范围查询
+#### 字段范围查询
 
  设置\<t:dgCol\>标签的
  queryMode=”group”，在页面生成时，会生成一个范围输入框。生
@@ -652,66 +182,34 @@ end:需要查询的日期类型字段名（首字母大写），表示查询结�
 ```
 
 @RequestMapping(params = "datagrid")
-
 public void datagrid(JFasterDemo JFasterDemo,HttpServletRequest request,
-
 HttpServletResponse response, DataGrid dataGrid) {
-
 CriteriaQuery cq = new CriteriaQuery(JFasterDemo.class, dataGrid);
-
-//查询条件组装器
-
 org.JFasterframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq,
 JFasterDemo);
-
 String ctBegin = request.getParameter("createTime_begin");
-
 String ctEnd = request.getParameter("createTime_end");
-
 if(ctBegin!=null && ctEnd!=null){
-
- try {
-
  cq.ge("createTime", new SimpleDateFormat("yyyy-MM-dd").parse(ctBegin));
-
  cq.le("createTime", new SimpleDateFormat("yyyy-MM-dd").parse(ctEnd));
-
- } catch (ParseException e) {
-
- e.printStackTrace();
-
- }
-
  cq.add();
-
 }
-
  this.JFasterDemoService.getDataGridReturn(cq, true);
-
  TagUtil.datagrid(response, dataGrid);
-
 }
 ```
 
 
- 在控制器中用 request接收传递到后台的查询条件，或者直接在方法参数列表里填上，
-
-springmvc会帮我们获得。
-
- 然后将得到的范围查询条件添加到 CriteriaQuery对象中，最后调用 CriteriaQuery的
- add()
-
-方法加载生成 hql。
-
+ 在控制器中用 request接收传递到后台的查询条件，或者直接在方法参数列表里填上，springmvc会帮我们获得。
+ 然后将得到的范围查询条件添加到 CriteriaQuery对象中，最后调用 CriteriaQuery的add()方法加载生成 hql。
 至此，范围查询就完成了。
 
-5.3.3.
-
-查询字段添加日期控件
+#### 查询字段添加日期控件
 
 例如，要给创建日期的范围查询条件框添加日期控件，首先为创建日期添加范围查询：
 
-\<t:dgCol title="创建日期" field="createTime" formatter="yyyy-MM-dd hh:mm:ss"
+```
+<t:dgCol title="创建日期" field="createTime" formatter="yyyy-MM-dd hh:mm:ss"
 
 query="true" queryMode="group"\>\</t:dgCol\>
 
@@ -724,169 +222,61 @@ query="true" queryMode="group"\>\</t:dgCol\>
 \$("input[name='createTime_end']").attr("class","easyui-datebox");
 
 );
+```
 
 
-5.3.4.
 
-日期字段的数据格式化
+#### 日期字段的数据格式化
 
 在 dategrid中，对于日期字段，可以通过设置\<d:dgCol\>的 formatter属性配置格式化方
 
 式，实现对日期数据的格式化，如：
-
-\<t:dgCol title="创建日期" field="createTime" formatter="yyyy-MM-dd hh:mm:ss"
-
+```
+<t:dgCol title="创建日期" field="createTime" formatter="yyyy-MM-dd hh:mm:ss"
 query="true" queryMode="group"\>\</t:dgCol\>
-
- 对于日期的格式化方式，可以参考 JDK参考手册中 SimpleDateFormat中对于日期和时
-
-间模式的说明，如图 5-7所示。
-
-图 5-7日期和时间模式
-
-5.3.5.
-
-数据列表合计功能
-
- 进行数据的列表展示时，为数据显示合计数是一个很有用的功能，在 JFaster的
- datagrid
-
-JFaster智能开发平台
-
-v3开发指南
-
-图 5-8列表数据合计效果图
-
-该功能的实现，主要是通过在加载 datagrid的数据时，统计出所需的合计值，并放在
-
-datagrid对象的 footer中。示例代码如下：
 ```
 
-@RequestMapping(params = "datagrid")
+ 对于日期的格式化方式，可以参考 JDK参考手册中 SimpleDateFormat中对于日期和时间模式的说明
 
+#### 数据列表合计功能
 
+ 进行数据的列表展示时，为数据显示合计数是一个很有用的功能，在 JFaster的datagrid
+
+该功能的实现，主要是通过在加载 datagrid的数据时，统计出所需的合计值，并放在datagrid对象的 footer中。示例代码如下：
+```
+@RequestMapping(params = "datagrid")、
 **public void** datagrid(JFasterDemo JFasterDemo,HttpServletRequest request,
-
 HttpServletResponse response, DataGrid dataGrid) {
-
 CriteriaQuery cq = **new** CriteriaQuery(JFasterDemo.**class**, dataGrid);
-
 //查询条件组装器
-
-org.JFasterframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq,
-
-JFasterDemo);
-
+org.JFasterframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq,JFasterDemo);
 String ctBegin = request.getParameter("createTime_begin");
-
 String ctEnd = request.getParameter("createTime_end");
-
-**if**(StringUtil.isNotEmpty(ctBegin)&&StringUtil.isNotEmpty(ctEnd)){
-
- **try** {
-
+if(StringUtil.isNotEmpty(ctBegin)&&StringUtil.isNotEmpty(ctEnd)){
 cq.ge("createTime", **new**
-
 SimpleDateFormat("yyyy-MM-dd").parse(ctBegin));
-
 cq.le("createTime", **new**
-
 SimpleDateFormat("yyyy-MM-dd").parse(ctEnd));
-} **catch** (ParseException e) {
-
-e.printStackTrace();
-
-}
-
 cq.add();
-
-}
-
 this.JFasterDemoService.getDataGridReturn(cq, **true**);
-
-//update-begin--Author:zhaojunfu Date:20130520 for：TASK \#109
-
-datagrid标签没有封装合计功能
-
-String total_salary =
-
-String.valueOf(JFasterDemoService.findOneForJdbc("select sum(salary) as ssum
-
-from JFaster_demo").get("ssum"));
-
-
-\*说明：格式为字段名:值(可选，不写该值时为分页数据的合计)多个合计以 ,分割
-
+String total_salary =String.valueOf(JFasterDemoService.findOneForJdbc("select sum(salary) as ssum from JFaster_demo").get("ssum"));
 dataGrid.setFooter("salary:"+total_salary+",age,email:合计");
-
-//update-end--Author:zhaojunfu Date:20130520 for：TASK \#109
-
-datagrid标签没有封装合计功能
-
-
 TagUtil.datagrid(response, dataGrid);
-
-
 }
 ```
-
 
 在该示例代码中，需要重点注意的是这里的第 23行：
-
 dataGrid.setFooter("salary:"+total_salary+",age,email:合计");
-
 setFooter()方法接收一个字符串，其格式为格式：字段名[:值]，其中值为选填项，填了
-
 则使用给定的值，没填则自动统计分页合计，示例：
-
 salary:35.00,age,email:合计
-
  这里将 salary的合计值通过查询数据库得出，而 age则通过当前分页数据自动合计，
-
 email给定一个值“合计”，其作用是在 datagrid对应于 email列的下方显示一个说明信息。
 
-## 6.数据字典
+### 表单校验
+详细参考 Validform官网
 
-数据字典（标签\<t:dictSelect\>）为系统中可能用到的字典类型数据提供了使用的便利性
-
-和可维护性。
-
-应用示例：
-
-\<t:dictSelect field="name" typeGroupCode="process"
-title="流程类型"\>\</t:dictSelect\>
-
-### 6.2.使用案例
-
-通过利用数据字典来做性别下拉框的安全来详细说明数据字典的使用步骤。
-
-步骤一：数据字典维护
-
-首先，为类型分组新增一个“性别类型”的分组，填写分组编码以及分组名称，如图 6-1
-
-所示。
-然后在该分组中分别添加“男性”、“女性”两个类型，并分别设置其类型编码为“1”
-
-和“0”，如图 6-2所示。
-
-图 6-2为分组添加字典类型
-
-步骤二：在页面中使用字典
-
-首先，在 JSP页面中引入 JFaster_UI标签库：
-
-\<%\@include file="/context/mytags.jsp"%\>
-
- 然后就可以使用 dictSelect标签把性别按下拉框显示出来了。代码如下：
-
-\<t:dictSelect field="sexField" typeGroupCode="sex"\>\</t:dictSelect\>
-
- 其中，typeGroupCode就是我们在步骤一中定义的类型分组编码“sex”。页面显示结果
-
-
-## 7.表单校验组件 ValidForm
-
-### 7.1. Validform使用入门
+####  Validform使用入门
 
 1、引入 css
 
@@ -915,7 +305,7 @@ Validform必须的===========\*/"之后的部分是必须的）。
 
 定义好位置关系。
 
-### 7.2.绑定附加属性
+#### 绑定附加属性
 
  凡要验证格式的元素均需绑定 datatype属性，datatype可选值内置有 10类，用来指定
 
@@ -1459,696 +849,84 @@ false，
 
 statusText:\*\*, readyState:\*\*, responseText:\*\* }
 
-## Validform对象 [方法支持链式调用 ]
-
-如示例 var demo=\$(".formsub").Validform()，那么 demo对象会有以下属性和方法可以
-
-调用：
-
-**tipmsg**【**object**】
-
- 如：demo.tipmsg.s="error! no message inputed.";
-
- 通过该对象可以修改除 tit以外的其他提示文字，这样可以实现同一个页面的不同表单
-
-使用不同的提示文字。
-
-具体可修改的提示文字
-
-\$.Tipmsg={//默认提示文字;
-
-tit:"提示信息",
-
-w:{
-
-"\*":"不能为空！",
-
-"\*6-16":"请填写 6到 16位任意字符！",
-
-"n":"请填写数字！ ",
-
-"n6-16":"请填写 6到 16位数字！",
-
-"s":"不能输入特殊字符！ ",
-
-"s6-18":"请填写 6到 18位字符！",
-
-"p":"请填写邮政编码！",
-
-"m":"请填写手机号码！",
-
-"e":"邮箱地址格式不对！",
-
-"url":"请填写网址！"
-},
-
-def:"请填写正确信息！",
-
-undef:"datatype未定义！",
-
-reck:"两次输入的内容不一致！",
-
-r:"通过信息验证！",
-
-c:"正在检测信息…",
-
-s:"请填入信息！",
-
-s_auto:"请{填写}{0}！",
-
-v:"所填信息没有经过验证，请稍后…",
-
-p:"正在提交数据…"
-
-};
-
- 要修改 tit（弹出框的标题文字）的话，可以这样：\$.Tipmsg.tit="Message
- Box"，则弹出
-
-框的标题文字会换成"Message Box"。
-
-注：5.3+
-
- \$.Tipmsg.w里，形如"\*6-16"的提示文字，里面的数字是会被替换的。如绑定
-
-datatype="\*2-18"，那它默认的出错信息就会是"请填写 2到 18位任意字符！"，可以通过
-
-\$.Tipmsg.w这个对象修改和扩展默认错误信息，如果你已经设置了"zh2-4"的提示信息是"2-4
-
-位中文",那么"zh2-8"出错的信息就自动会是："2-8位中文"。对于自定义的
-datatype，在扩展
-
-默认信息时，注意错误信息的名字要跟 datatype名字一样，如上面示例是：
-
-\$.Tipmsg.w["zh2-4"]="2-4位中文"。对于多页面或一个页面多表单有相同
-datatype来说，在
-
-\$.Tipmsg.w中扩展默认提示信息是个很好的选择。目前只能通过\$.Tipmsg.w扩展，还不能使
-
-用 Validform对象的 tipmsg属性来扩展。
-
- \$.Tipmsg.s_auto是用来指定在没有绑定 nullmsg，且指定了标签
- Validform_label时的默
-
-认提示信息。"{0}"是会被找到的
-Validform_label里的文字替换掉的，"{填写}"里的文字在绑
-
-定了"recheck"
-
-具体示例请参见页。
-
-**dataType**【**object**】
-
-获取内置的一些正则：
-
-{
-
-"match":/\^(.+?)(\\d+)-(\\d+)\$/,
-
-"\*":/[\\w\\W]+/,
-
-"\*6-16":/\^[\\w\\W]{6,16}\$/,
-
-"n":/\^\\d+\$/,
-
-"n6-16":/\^\\d{6,16}\$/,
-
-"s":/\^[\\u4E00-\\u9FA5\\uf900-\\ufa2d\\w\\.\\s]+\$/,
-
-"s6-18":/\^[\\u4E00-\\u9FA5\\uf900-\\ufa2d\\w\\.\\s]{6,18}\$/,"p":/\^[0-9]{6}\$/,
-
- "m":/\^13[0-9]{9}\$\|14[0-9]{9}\|15[0-9]{9}\$\|18[0-9]{9}\$/,
-
- "e":/\^\\w+([-+.']\\w+)\*\@\\w+([-.]\\w+)\*\\.\\w+([-.]\\w+)\*\$/,
-
- "url":/\^(\\w+:\\/\\/)?\\w+(\\.\\w+)+.\*\$/
-
-}
-
-**addRule(rule)**【返回值：**Validform**】
-
- 可以通过Validform
-
-附加属性都可以通过这个方法绑定。
-
-demo.addRule([
-
- {
-
- ele:"\#name",
-
- datatype:"s6-18",
-
-ajaxurl:"valid.php",
-
-nullmsg:"请输入昵称！",
-
-errormsg:"昵称至少 6个字符,最多 18个字符！"
-
-},
-
-{
-
-ele:"\#userpassword",
-
-datatype:"\*6-16",
-
-nullmsg:"请设置密码！",
-
-errormsg:"密码范围在 6\~16位之间！"
-
-},
-
-{
-
-ele:"\#userpassword2",
-
-datatype:"\*",
-
-recheck:"userpassword",
-
-nullmsg:"请再输入一次密码！",
-
-errormsg:"您两次输入的账号密码不一致！"
-
-}
-
-]);
-
-其中 ele是指定要绑定规则的对象，会在 Validform对象下查找这些对象。
-
-**eq(n)**【返回值：**Validform**】
-
-获取 Validform对象的第 n个元素。
-
- 如你页面上有多个 form的 class都是 formsub，执行上面的验证绑定，得到的 demo对
-
-象就可以操作所有这些表单，如果你要对其中某个表单执行某些操作，那么就可以使用这个
-
-方法。
-
-如 demo.eq(0).resetForm()，重置第一个表单。
-
-**ajaxPost(flag,sync,url)**【返回值：**Validform**】
-
- 以 ajax方式提交表单。flag为 true时，跳过验证直接提交，sync为
- true时将以同步的
-
-方式进行 ajax提交。
-
-参数 url是 5.3版新增，传入了 url地址时，表单会提交到这个地址
-
-如 demo.ajaxPost(true)，不做验证直接 ajax提交表单。
-
-**abort()**【返回值：**Validform**】
-
-终止 ajax的提交。
-
- 如执行上面的
- ajaxPost()之后，发现某些项填写不对，想取消表单提交，那么就可以执
-
-行这个操作：demo.abort()
-
-**submitForm(flag,url)**【返回值：**Validform**】
-
-以初始化时传入参数的设置方式提交表单，flag为 true时，跳过验证直接提交。
-
-参数 url是 5.3版新增，传入了 url地址时，表单会提交到这个地址
-
-如 demo.submitForm(true)，不做验证直接提交表单。
-
-**resetForm()**【返回值：**Validform**】
-
-重置表单。
-
-如 demo.resetForm()，重置表单到初始状态。
-
-**resetStatus()**【返回值：**Validform**】
-
- 重置表单的提交状态。传入了 postonce参数的话，表单成功提交后状态会设置为
-
-"posted"，重置提交状态可以让表单继续可以提交。
-
- 如 demo.resetStatus()
-
-**getStatus()**【返回值：**String**】
-
- 获取表单的提交状态，normal：未提交，posting：正在提交，posted：已成功提交
-
-过。
-
-如 demo.getStatus()
-
-**setStatus(status)**【返回值：**Validform**】
-
- 设置表单的提交状态，可以设置 normal，posting，posted三种状态，不传参则设置状
-
-态为 posting，这个状态表单可以验证，但不能提交。
-
- 如 demo.setStatus("posted")
-
-**ignore(selector)**【返回值：**Validform**】
-
-忽略对所选择对象的验证，不传入 selector则忽略所有表单元素。
-
- 如 demo.ignore("select,textarea,\#name")，忽略 Validform对象下所有
- select，textarea及
-
-一个 id为"name"元素的验证。
-
-**unignore(selector)**【返回值：**Validform**】
-
- 将 ignore方法所忽略验证的对象重新获取验证效果，不传入
- selector则恢复验证所有表
-
-单元素。
-
- 如 demo.unignore("select,textarea,\#name")，恢复 Validform对象下所有
- select，textarea
-
-及一个 id为"name"元素的验证。
-
-**check(bool,selector)**【返回值：**Boolean**】
-
-bool为 true时则只验证不显示提示信息
-
- 对指定对象进行验证(默认验证当前整个表单)，通过返回 true，否则返回
- false（绑定实
-
-时验证的对象，格式符合要求时返回 true，而不会等 ajax的返回结果）
-
- 如 demo.check()，验证当前整个表单，且只验证但不显示对错信息。
-
- **config(setup) 5.3+**【返回值：**Validform**】
-
-setup参数是一个对象。
-
-如:
-
-demo.config({
-
- url:"这里指定提交地址",
-
- ajaxpost:{
-
- //可以传入\$.ajax()能使用的，除 dataType外的所有参数;
-
-},
-
-ajaxurl:{
-
-//可以传入\$.ajax()能使用的，除 dataType外的所有参数;
-
-}
-
-})
-
-可用参数：
-
-url：指定表单的提交路径，这里指定的路径会覆盖表单 action属性所指定的路径
-
-ajaxpost：表单以 ajax提交时，可以在这里配置 ajax的参数
-
-ajaxurl：配置实时验证 ajax的参数
-
-(1)执行config可以动态设置、添加参数，如：
-
-demo.config({
-
- url:"http://validform.rjboy.cn"
-
-});
-
-\$(".save").click(function(){
-
-demo.config({
-
- ajaxpost:{
-
- timeout:1000
-
-}
-
- });
-
-});
-
-那么在点击 save按钮后，demo所对应的表单的配置为:
-
-config={
-
- url:"http://validform.rjboy.cn",
-
- ajaxpost:{
-
- timeout:1000
-
-}
-
-}
-
- (2)参数 url的优先级：form表单的 action所指定的提交地址会被 config.url覆盖，
-
-config.url会被 config.ajaxpost.url覆盖，config.ajaxpost.url会被
-Validform对象的方法
-
-submitForm(flag,url)和 ajaxPost(flag,sync,url)里的 url覆盖。
-
- 如果表单里没有指定 action提交地址，那么就会提交到 config.url设定的地址。
-
- (3)考虑到整个验证框架的逻辑，传入 dataType参数不会起作用，不会被覆盖，ajax
-
-必须返回含有 status值的 json数据。
-
-另外注意的是：传入的 success和 error方法里，能多获取到一个参数，如：
-
-demo.config={
-
- ajaxpost:{
-
- url:"",
-
- timeout:1000,
-
- ...,
-
- success:function(data,obj){
-
- //data是返回的 json数据;
-
- //obj是当前表单的 jquery对象;
-
-},
-
-error:function(data,obj){
-
-//data是{ status:\*\*, statusText:\*\*, readyState:\*\*, responseText:\*\* };
-
-//obj是当前表单的 jquery对象;
-
- }
-
-},
-
-ajaxurl:{
-
- success:function(data,obj){
-
- //data是返回的 json数据;
-
- //obj是当前正做实时验证表单元素的 jquery对象;
-
- //注意：5.3版中，实时验证的返回数据须是含有 status值的 json数据！
-
- //跟 callback里的 ajax返回数据格式统一，建议不再返回字符串"y"或"n"。
-目前这两种格式的数据都兼容。
-
- }
-
- }
-
-}
-
-## 7.5.调用外部插件
-
-**d**
-
-**h**
-
-**- datePicker**
-
-7.6. Validform的公用对象
-
-\$.Datatype
-
-可以通过\$.Datatype对象来扩展 datatype类型。
-
-如\$.Datatype.zh=/\^[\\u4E00-\\u9FA5\\uf900-\\ufa2d]{1,}\$/
-
-\$.Tipmsg
-
- 可以通过\$.Tipmsg对象来修改默认提示文字。具体可修改的提示文字请查看
-
-Validform对象的 tipmsg属性。
-
- 如果 Validform对象的 tipmsg属性没有找到相关的提示信息，那么就会到\$.Tipmsg中
-
-查找对应提示文字。
-
-如\$.Tipmsg.tit="msg box"; //设置默认弹出框的标题文字。
-
-\$.Showmsg(msg)
-
-调用 Validform自定义的弹出框。
-
-*www.JFaster.org*
-
-QQ群: 106259349, 106838471, 289782002
-
-55
-
-![](media/467d4345f25f8510e5173ebc5c8c1148.jpg)
-
-JFaster智能开发平台
-
-v3开发指南
-
- 参数 msg是要显示的提示文字。
-
- 如\$.Showmsg("这是提示文字"); //如果不传入信息则不会有弹出框出现，像
-
-\$.Showmsg()这样是不会弹出提示框的。
-
- \$.Hidemsg()
-
-关闭 Validform自定义的弹出框。
-
-如\$.Hidemsg()
-
-## 8.基础用户权限
-
-### 8.1.权限设计
-
-基本概念
-
- 权限管理模块涉及到的实体有：用户、角色和系统资源(包括系统菜单、页面按钮等
- )。
-
-用户可以拥有多个角色，角色可以被分配给多个用户。而权限的意思就是对某个资源的某个
-
-操作．一般通用的权限管理模块规定：所谓资源即应用系统中提供的要进行鉴权才能访问的
-
-资源(比如各类数据,系统菜单)；所谓操作即增加、修改、删除、查询等操作。
-
-权限模型
-
- 用户权限模型，指的是用来表达用户信息及用户权限信息的数据模型。即能证明“你是
-
-谁？”、“你能访问哪些受保护资源？”。
-
- 用户与角色之间构成多对多关系。表示同一个用户可以拥有多个角色，一个角色可以被
-
-多个用户所拥有。
-
- 角色与资源之间构成多对多关系。表示同一个资源可以被多个角色访问，一个角色可以
-
-访问多个资源。
-
-### 8.2.权限设计目标
-
-权限设计及权限管理的目标包括：
-
-对用户授予相应的角色
-
-对角色授予不同的菜单
-
-对角色授予不同的操作按钮权限
-
-进行数据级别的权限控制（行级别、列级别）
-
-目前已经实现前两项的权限设计目标，后两项的权限控制正在开发中。
-
-### 权限设计
-
-8.3.1.
-
-数据表
-
-数据表
-
-实体类
-
-说明
-
-t_s_user
-
-JFaster.system.pojo.base.TSUsr
-
-JFaster.system.pojo.base.TSBaseUser
-
-[用户权限]系统用户表
-
-t_s_base_user
-
-[用户权限]系统用户父类
-
-表
-
-t_s_role
-
-JFaster.system.pojo.base.TSRole
-
-JFaster.system.pojo.base.TSRoleUser
-
-JFaster.system.pojo.base.TSDepart
-
-[用户权限]角色
-
-t_s_role_user
-
-t_s_depart
-
-[用户权限]用户角色
-
-[用户权限]部门机构表
-
-t_s_role_function
-
-t_s_operation
-
-t_s_function
-
-JFaster.system.pojo.base.TSRoleFunction [用户权限]角色权限表
-
-JFaster.system.pojo.base.TSOperation
-
-JFaster.system.pojo.base.TSFunction
-
-[用户权限]操作权限表
-
-[用户权限]菜单权限表
-
-
-图 8-4按钮权限分配
-
-开发说明
-
-在 JFaster系统中，可以通过系统的全局变量配置来决定是否启用按钮权限。如下：
-
-/resources/sysConfig.properti es
-
-true(开启按钮权限 )
-
-false(关闭按钮权限 )
-
-DateGridTag中根据系统的配置进行按钮权限的控制：
-
-（1）系统开启按钮权限并且 DateGridTag里面相关的按钮操作有配置则根据配置做按
-
-钮权限的控制；
-
-（2）系统开启按钮权限但是 DateGridTag里面相关的按钮操作没有配置则不作按钮权
-
-限的控制；
-
-（3）系统关闭按钮权限则所有的按钮不做按钮权限的控制；
-
-（4）admin用户按钮权限不做限制。
-
-8.3.4.
-
-自定义按钮权限
-
- JFaster中，目前按钮权限设置，是通过对平台自己封装的按钮标签（\<t:dgFunOpt等）
-
-进行设置。而在开发的过程中，有一些按钮标签是普通的\<a
-href\>或\<button\>形式的。对于
-
-这种普通开发者自定义按钮的权限设置，目前 JFaster也可以支持了。具体设置方法如下：
-
-1.给页面上的自定义按钮增加 id或 class。
-
-小提示：对于具有相同权限的多个按钮，可以设定一个共同的 class，将会更加便捷。
-
-2.将自定义按钮的 id或 class设置到操作按钮中。
-
-方式一:
-
-ID设置
-
-方式二:
-
-Class设置
-
-3．在角色列表中，进行正常的权限设置就可以了
-
-
-## JFaster注意规则
-
-1.
-
-列表页面，datagrid的 name属性不允许存在重复的，否则页面显示白板：
-
-\<t:dategrid name="JFasterDemoList" title="开发 DEMO列表"
-
-actionUrl="JFasterDemoController.do?datagrid" idField="id" fit="true"\>
-
-表单验证采用 Validform
-
-时间控件采用 my97，不要使用 easyui的时间控件，因为加载效率慢
-
-上传文件使用规则
-
-流程配置表单后，业务申请必须重新创建
-
-jsp代码注释规范，采用隐式注释不能用显式注释，不然标签还是能读到：
-
-隐式注释：\<%-- --%\>
-
-显式注释：\<!-- --\>
-
-7.
-
-表单布局两种风格：1.table 2.div
-
-1.table
-
-2.div
-
-例如：JFaster/demo/JFasterDemo/JFasterDemo.jsp
-
-例如：webpage/system/role/role.jsp
-
-8.
-
-postgres数据库建表规范
-
-字段名字大小写有区别，请注意
-
-9.
-
-菜单采用 frame方式打开方法
-
-dataSourceController.do?goDruid&isIframe
-
-10.页面组件 ID命名规范
-
-[1].dategrid组件 name
-
-\<t:dategrid name="userMe"
-
-[2].组合查询 DIV
-
-\<div id="userMetb"
-
-[3].查询按钮对应的 js方法
-
-\<a href="\#" class="easyui-linkbutton" iconCls="icon-search"
-onclick="userMesearch()"\>查询\</a\>
-
-## 10.项目编码规范
-
-10.1.项目编码规范
+### 代码生成器定制化
+
+ code-maker是为JFaster提供的完善的代码生成器
+
+* 项目配置文件修改：contextConfig.properties
+* 数据库连接修改：database.properties
+* 模版修改：maker-config/template/*
+*  使用方法，运行：com.abocode.codemaker.Run即可
+    
+#### 枚举类型
+
+新加枚举类型：CodeType
+
+```
+ public enum CodeType {
+ controller("Controller"),
+
+ service("Service"),
+ serviceImpl("ServiceImpl"),
+
+ entity("Entity"),
+ repository("Repository"),
+ repositoryImpl("RepositoryImpl"),
+ newType("NewType");
+ }   
+```
+
+
+#### 枚举类型路径
+ 
+ 添加枚举类型对应的代码生成路径：JFasterCodeFactory getCodePath()
+ 
+```
+ if("Controller".equalsIgnoreCase(codeType)) {
+                    str.append(StringUtils.lowerCase("interfaces/web"));
+    } else if("ServiceImpl".equalsIgnoreCase(codeType)) {
+        str.append(StringUtils.lowerCase("application/service"));
+    } else if("Service".equalsIgnoreCase(codeType)) {
+        str.append(StringUtils.lowerCase("application"));
+    } else if("RepositoryImpl".equalsIgnoreCase(codeType)) {
+        str.append(StringUtils.lowerCase("domain/repository/persistence/hibernate"));
+    } else if("Repository".equalsIgnoreCase(codeType)) {
+        str.append(StringUtils.lowerCase("domain/repository"));
+    } 
+```  
+        
+#### 类型对应模版
+
+添加代码生成器中使用模版：JFasterCodeGenerate.java  generateToFile()
+
+``` 
+codeFactory.invoke("repositoryImplTemplate.ftl", "repositoryImpl");
+ codeFactory.invoke("repositoryTemplate.ftl", "repository");
+```
+     
+    
+
+### 使用规范
+
+#### 数据库规范
+
+* 表必须有唯一主键: ID（字符类型 32位）
+* 主键支持自定义，修改JFaster_config.properties的参数[JFaster_generate_table_id]即可;
+* 表必需字段（创建人，创建时间等..）
+*表字段必须有注释
+
+> 说明：
+
+目前代码生成器默认的主键生成策略为 UUID
+主表和子表的目录最好保持一致
+2.子表和主表的外键规则如下：
+a)主表和子表的外键字段名字，必须相同（除主键ID外）
+b)子表引用主表主键ID作为外键，外键字段必须以_ID结尾
+
+
+
+
+#### 编码规范
 
 项目编码格式为 UTF-8(包括:java,jsp,css,js)
 
@@ -2261,59 +1039,229 @@ JFaster-sys-demo-\*.jsp(新增表单页面例如：detail)
 
  int --\> Integer
 
-## 12.附录
-
-12.1.UI库常用控件参考示例
-
-序号
-
-控件
-
-解决方案
-
-参考示例
 
 
-datagrid数据列 \<t:dgCol title="状态" sortable="true"
+#### 页面规范
 
-WebRoot/webpage/system/user/
-
-表，字段采用数据 field="status" replace="正常_1,禁用_0,超级 userList.jsp
-
-字典显示文本
-
-管理员_-1"\>\</t:dgCol\>
+* 列表页面，datagrid的 name属性不允许存在重复的，否则页面显示白板：
+```
+<t:dategrid name="JFasterDemoList" title="开发 DEMO列表" actionUrl="JFasterDemoController.do?datagrid" idField="id" fit="true"\>
+```
 
 
+* 表单验证采用 Validform
 
-树列表展现
+* 时间控件采用 my97，不要使用 easyui的时间控件，因为加载效率慢
+
+* 上传文件使用规则
+
+* 流程配置表单后，业务申请必须重新创建
+
+* jsp代码注释规范，采用隐式注释不能用显式注释，不然标签还是能读到：
+```
+隐式注释：<%-- --%\>
+
+显式注释：<!-- --\>
+
+```
+
+* 表单布局两种风格：1.table 2.div
+* 菜单采用 frame方式打开方法
+dataSourceController.do?goDruid&isIframe
+
+* 页面组件 ID命名规范
+
+[1].dategrid组件 name
+```
+<t:dategrid name="userMe">
+```
+
+
+[2].组合查询 DIV
+```
+<div id="userMetb">
+```
+
+[3].查询按钮对应的 js方法
+```
+<a href="\#" class="easyui-linkbutton" iconCls="icon-search"
+onclick="userMesearch()"\>查询\</a\>
+```
+
+
+#### 页面数据规则
+
+ 说明：JSP页面字段的文本内容，取表字段的注释前 6位字符(如果建表字段注释为空，
+
+则页面字段文本会为空)
+
+ A.默认生成的
+ JSP页面前五个字段为必须项，其他字段为非必须输入（需要自己手工加）
+
+ B.数据库字段类型为：datetime
+ --\>对应页面字段，会自动追加[年月日-时分秒]时间控件
+
+ C.数据库字段类型为：date --\>对应页面会字段，自动追加[年月日]时间控件
+
+ D.数据库字段类型为：Int/Number--\>对应页面字段，会自动追加数字校验（不允许输入
+
+小数）
+
+ E.数据库字段类型为：float/double/decimal--\>对应页面页面字段，会自动追加数字校验
+
+（允许输入小数）
+
+ F.如果表字段为字符类型，并且设置了长度，页面输入框会自动设置 maxlength对应表
+
+字段长度
+
+### 权限设计
+
+基本概念
+
+ 权限管理模块涉及到的实体有：用户、角色和系统资源(包括系统菜单、页面按钮等
+ )。
+
+用户可以拥有多个角色，角色可以被分配给多个用户。而权限的意思就是对某个资源的某个
+
+操作．一般通用的权限管理模块规定：所谓资源即应用系统中提供的要进行鉴权才能访问的
+
+资源(比如各类数据,系统菜单)；所谓操作即增加、修改、删除、查询等操作。
+
+权限模型
+
+ 用户权限模型，指的是用来表达用户信息及用户权限信息的数据模型。即能证明“你是
+
+谁？”、“你能访问哪些受保护资源？”。
+
+ 用户与角色之间构成多对多关系。表示同一个用户可以拥有多个角色，一个角色可以被
+
+多个用户所拥有。
+
+ 角色与资源之间构成多对多关系。表示同一个资源可以被多个角色访问，一个角色可以
+
+访问多个资源。
+
+#### 设计目标
+
+权限设计及权限管理的目标包括：
+
+对用户授予相应的角色
+
+对角色授予不同的菜单
+
+对角色授予不同的操作按钮权限
+
+进行数据级别的权限控制（行级别、列级别）
+
+目前已经实现前两项的权限设计目标，后两项的权限控制正在开发中。
+
+#### 权限使用
+
+开发说明
+
+在 JFaster系统中，可以通过系统的全局变量配置来决定是否启用按钮权限。如下：
+
+/resources/sysConfig.properties,true(开启按钮权限 )false(关闭按钮权限 )
+
+DateGridTag中根据系统的配置进行按钮权限的控制：
+
+（1）系统开启按钮权限并且 DateGridTag里面相关的按钮操作有配置则根据配置做按
+
+钮权限的控制；
+
+（2）系统开启按钮权限但是 DateGridTag里面相关的按钮操作没有配置则不作按钮权
+
+限的控制；
+
+（3）系统关闭按钮权限则所有的按钮不做按钮权限的控制；
+
+（4）admin用户按钮权限不做限制。
+
+#### 自定义按钮权限
+
+ JFaster中，目前按钮权限设置，是通过对平台自己封装的按钮标签（\<t:dgFunOpt等）
+
+进行设置。而在开发的过程中，有一些按钮标签是普通的\<a
+href\>或\<button\>形式的。对于
+
+这种普通开发者自定义按钮的权限设置，目前 JFaster也可以支持了。具体设置方法如下：
+
+* 1.给页面上的自定义按钮增加 id或 class。
+
+小提示：对于具有相同权限的多个按钮，可以设定一个共同的 class，将会更加便捷。
+
+2* .将自定义按钮的 id或 class设置到操作按钮中。
+
+方式一:
+
+ID设置
+
+方式二:
+
+Class设置
+
+* 3．在角色列表中，进行正常的权限设置就可以了
+
+### 案例实践
+
+
+#### 数据字典
+
+数据字典（标签\<t:dictSelect\>）为系统中可能用到的字典类型数据提供了使用的便利性和可维护性。
+
+应用示例：
+```
+<t:dictSelect field="name" typeGroupCode="process" title="流程类型"\>\</t:dictSelect\>
+```
+> 使用案例
+
+通过利用数据字典来做性别下拉框的安全来详细说明数据字典的使用步骤。
+
+* 步骤一：数据字典维护
+
+首先，为类型分组新增一个“性别类型”的分组，填写分组编码以及分组名称，然后在该分组中分别添加“男性”、“女性”两个类型，并分别设置其类型编码为“1”
+和“0”
+
+* 步骤二：在页面中使用字典
+
+首先，在 JSP页面中引入 JFaster_UI标签库：
+```
+<%\@include file="/context/mytags.jsp"%\>
+```
+
+
+ 然后就可以使用 dictSelect标签把性别按下拉框显示出来了。代码如下：
+```
+<t:dictSelect field="sexField" typeGroupCode="sex"\>\</t:dictSelect\>
+```
+
+ 其中，typeGroupCode就是我们在步骤一中定义的类型分组编码“sex”。页面显示结果
+
+#### UI库常用控件
+
+* 树列表展现
 
 参考示例[菜单管理 ]：
+```
+WebRoot/webpage/system/function/functionList.jsp
+```
 
-WebRoot/webpage/system/funct
 
-ion/functionList.jsp
-
-POPUP实现
-
-\<t:choose hiddenName="roleid" hiddenid="id" /WebRoot/webpage/system/user
+* POPUP实现
+```
+<t:choose hiddenName="roleid" hiddenid="id" /WebRoot/webpage/system/user
 
 url="userController.do?roles"
 
-name="roleList" icon="icon-choose" title="
-
-角色列表" textname="roleName"
-
-isclear="true"\>\</t:choose\>
-
-/user.jsp
+name="roleList" icon="icon-choose" title="角色列表" textname="roleName" isclear="true"\>\</t:choose\>
+```
 
 
+* 下拉菜单实现
 
-下拉菜单实现
-
-radi o控件
-
+radio控件
+```
 WebRoot/webpage/system/user/
 
 user.jsp
@@ -2321,42 +1269,34 @@ user.jsp
 WebRoot/webpage/system/user/
 
 user.jsp
+```
 
-数据列表展示
-
+* 数据列表展示
+```
 WebRoot/webpage/system/user/
 
 userList.jsp
-
-常用组件 DEMO
+```
+* 常用组件 DEMO
 
 上传/表单验证 /Excel导入/Excel导出/
-
 页面不同弹出方式 /树界面展示 /自动补全 /一对多
-
 示例/tabs切换
-
+```
 /WebRoot/webpage/demo /\*
-
-地址
+```
+* 地址
 
 
 下拉菜单多级联动
-
-
 一对多明细行加
-
 下拉项
-
 datagrid数据列
-
 表，时间字段格式化
-
 数据行全选
-
 重复校验
 
-### 12.2.开发技巧：采用 IFrame打开页面
+#### IFrame打开页面
 
  目前在 JFaster开发平台中，为了提高 easyui的性能，tab的打开采用
  href方式，但是
@@ -2387,7 +1327,7 @@ href方式存在如下问题：
 
 dataSourceController.do?goDruid&isIframe
 
-### 12.3.开发技巧：组合查询实现方法
+#### 组合查询实现方法
 
 简述：代码生成器默认生成的查询方式为单字段查询，如果想实现字段组合查询，需要
 
@@ -2431,9 +1371,7 @@ onclick="userMesearch()"\>查询
 
 参考示例：/WebRoot/webpage/system/user/userList.jsp
 
-### 12.4.
-
-Formvalid新增属性 tiptype的使用
+#### 12.4. tiptype的使用
 
 Formvalid中的 tiptype用来定义提示信息的显示方式，一共有 4种取值，在其官方的说
 
@@ -2482,17 +1420,15 @@ onblur的时候就会提示，当输入正确后，1秒中
 验给定 tiptype="1"。
 
 
-### 12.5.使用 toolbar自定义 js参数规则
+#### 12.5.使用 toolbar自定义 js参数规则
 
-第一步：定义按钮
+* 第一步：定义按钮
+```properties
+<t:dgToolBar title="JS增强" icon="icon-edit" url="cgFormHeadController.do?jsPlugin" funname="jsPlugin"></t:dgToolBar>
+```
 
-\<t:dgToolBar title="JS增强" icon="icon-edit"
 
-url="cgFormHeadController.do?jsPlugin"
-
-funname="jsPlugin"\>\</t:dgToolBar\>
-
-第二步：定义 js方法
+* 第二步：定义 js方法
 
 三个参数说明：
 
@@ -2504,11 +1440,8 @@ funname="jsPlugin"\>\</t:dgToolBar\>
 
 4.id为datagrid的name属性
 ```
-
 function jsPlugin(title,url,id){
-
 var rowData = \$('\#'+id).datagrid('getSelected');
-
 if (!rowData) {
 
 tip('请选择编辑项目');
@@ -2544,7 +1477,6 @@ cache:false,
 return false;
 
  },
-
 cancelVal: '关闭',
 
 cancel: true /\*为true等价于function(){}\*/
