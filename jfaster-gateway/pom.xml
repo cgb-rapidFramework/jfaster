@@ -39,7 +39,6 @@
         <jedis.version>3.1.0</jedis.version>
         <skipTests>true</skipTests>
         <maven.deploy.skip>true</maven.deploy.skip>
-        <mysql-connector.version>8.0.16</mysql-connector.version>
     </properties>
 
     <dependencies>
