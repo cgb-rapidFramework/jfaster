@@ -1,0 +1,10 @@
+site_name: Jfaster手册
+nav:
+  - Home: README.md
+  - JFaster开发指南: 开发文档/JFaster开发指南.md
+  - JFaster标签库: 开发文档/JFaster标签库.md
+  - 文档开发: 开发文档/JFaster文档开发.md
+  - 常见问题: QA.md
+  - 版本说明: version.md
+theme:
+  name: readthedocs
