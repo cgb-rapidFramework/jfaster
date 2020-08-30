@@ -1,91 +1,108 @@
 # UI标签库帮助文档
 
-##  BaseTag(样式和JS引入标签)
+##  BaseTag(样式和JS引入)
+
 标签用途： 样式表和JS引入标签
 
 ### 示例：
 
+```
 <t:base type="jquery,easyui,tools"></t:base>
-### 参数：
+```
 
-属性名	类型	描述
-type	string	JS插件类型定义如果有多个以逗号隔开，必输字段
-cssTheme	string	easyui theme（目录 默认default），非必须输入
+### 参数
+
+| 属性名 | 类型 |描述 |
+|  ----  | ----  |----  |
+|type	|string	|JS插件类型定义如果有多个以逗号隔开，必输字段|
+|cssTheme	|string	|easyui theme（目录 默认default），非必须输入|
+
 >JS插件类型标记说明
 
 参数：
 
-插件名	描述
-jquery	引入版本jquery-1.8.3
-easyui	引入版本jquery.easyui.1.3.1及自定义扩展JS
-DatePicker	引入版本My97DatePicker4.8 Beta2
-jqueryui	引入版本jquery-ui-1.9.2
-prohibit	常用浏览器操作JS函数如禁用右键菜单，禁用回退，禁用F5
-tools	artDialog4.1.6弹出窗及常用CURD操作函数
-ckeditor	在需要加载t:ckeditor时引入ckeditor所需要的js
-autocomplete	Jquery 自动补全功能JS
-jeasyuiextensions	jQuery && jEasyUI 扩展功能集合
+|插件名|	描述|
+|  ----  | ----  |
+|jquery	|引入版本jquery-1.8.3|
+|easyui	|引入版本jquery.easyui.1.3.1及自定义扩展JS|
+|DatePicker	|引入版本My97DatePicker4.8 Beta2|
+|jqueryui	|引入版本jquery-ui-1.9.2|
+|prohibit	|常用浏览器操作JS函数如禁用右键菜单，禁用回退，禁用F5|
+|tools	|artDialog4.1.6弹出窗及常用CURD操作函数|
+|ckeditor	|在需要加载t:ckeditor时引入ckeditor所需要的js|
+|autocomplete	|Jquery 自动补全功能JS|
+|jeasyuiextensions	|jQuery && jEasyUI 扩展功能集合|
 
 
-## Datagrid(数据列表标签)
+## Datagrid(数据列表)
 
-### 一、DataGrid父标签
+标签用途： 数据列表标签
+
+### DataGrid父标签
 
 示例：
-
+```
 <t:datagrid name="${typegroup.typegroupcode}List" title="类型列表" 
 actionUrl="systemController.do?typeGrid&typegroupid=${typegroup.id}" idField="id" queryMode="group" sortOrder="desc" sortName="id">
+```
+
 参数:
 
-属性名	类型	描述	是否必须	默认值
-name	string	表格唯一标示	是	null
-treegrid	boolean	是否是树形列表	否	FALSE
-autoLoadData	boolean	数据列表是否自动加载	否	TRUE
-queryMode	string	查询模式：组合查询= group，单查=single	否	single
-actionUrl	string	从远程请求数据的地址	是	null
-pagination	boolean	是否显示分页条	否	TRUE
-title	string	表格标题	否	null
-idField	string	标识字段，或者说主键字段	否	null
-width	num	表格宽度	否	auto
-height	num	表格高度	否	auto
-checkbox	boolean	是否显示复选框	否	FALSE
-fit	boolean	是否允许表格自动缩放，以适应父容器	否	TRUE
-sortName	string	定义的列进行排序	否	null
-sortOrder	string	定义列的排序顺序，只能是"递增"或"降序（asc,desc）	否	asc
-fitColumns	boolean	当为true时，自动展开/合同列的大小，以适应的宽度，防止横向滚动	否	TRUE
-showPageList	boolean	是否显示分页条数下拉框	否	TRUE
-showRefresh	boolean	是否显示刷新按钮	否	TRUE
-showText	boolean	是否显示分页文本内容	否	TRUE
-style	string	插件类型有easyui和datatable2种	否	easyui
-pageSize	num	每页显示的记录数	否	10
-openFirstNode	boolean	是不是展开第一个节点,在树形情况下,true展开,false不展开默认false	否	TRUE
-entityName	string	对应的实体对象,如果entity和controller都是规则的可以不填,自动补全标签做关联	否	null
-rowStyler	string	行 css函数 指定名称就可以,调用为 functionName(index,row)这样调用	否	null
-extendParams	string	datagrid 的扩展字段,如果easyui上面有但是jeecg没有这个属性可以自己添加	否	null
-queryBuilder	boolean	是否使用高级查询器	否	FALSE
-isShowSearch	boolean	是否显示检索框收缩按钮	是	TRUE
-treeField	string	树形列表展示列	否	null
-singleSelect	boolean	是否单选true,false	否	FALSE
-btnCls	string	列表上方button样式class属性	否	null
-nowrap	boolean	列表内容是否可换行(false：可换行)	否	TRUE
-isShowSubGrid	boolean	是否显示子表数据	否	FALSE
-configId	string	主表表名	否	null
-* 配置说明 | 主子表补充说明
+| 属性名 | 类型|描述	| 是否必须| 	默认值| 
+|  ----  | ----  |----|----|----|
+| name|	string	|表格唯一标示|	是	|null|
+| treegrid|	boolean	|是否是树形列表|	否	|FALSE|
+| autoLoadData	|boolean|	数据列表是否自动加载|	否|	TRUE|
+| queryMode|	string	|查询模式：组合查询= group，单查=single|	否	|single|
+| actionUrl	|string	|从远程请求数据的地址|	是|	null|
+| pagination|	boolean|	是否显示分页条|	否|	TRUE|
+| title|string	|表格标题|	否|	null|
+| idField|	string|	标识字段，或者说主键字段|	否	|null|
+| width	|num|	表格宽度	|否|	auto|
+| height|	num	|表格高度|	否	|auto|
+| checkbox|	boolean	|是否显示复选框|	否|	FALSE|
+| fit|	boolean|	是否允许表格自动缩放，以适应父容器|	否|	TRUE|
+| sortName|	string|	定义的列进行排序	|否	|null|
+| sortOrder|	string|	定义列的排序顺序，只能是"递增"或"降序（asc,desc）|	否	|asc|
+| fitColumns|	boolean	|当为true时，自动展开/合同列的大小，以适应的宽度，防止横向滚动|	否	|TRUE|
+| showPageList|	boolean|	是否显示分页条数下拉框|	否|	TRUE|
+| showRefresh|	boolean	|是否显示刷新按钮|	否	|TRUE|
+| showText|	boolean|	是否显示分页文本内容|	否	|TRUE|
+| style	|string|	插件类型有easyui和datatable2种|	否	|easyui|
+| pageSize|	num|	每页显示的记录数|	否|	10|
+| openFirstNode|	boolean|	是不是展开第一个节点,在树形情况下,true展开,false不展开默认false|	否	|TRUE|
+| entityName|	string	|对应的实体对象,如果entity和controller都是规则的可以不填,自动补全标签做关联|	否	|null|
+| rowStyler|	string|	行 css函数 指定名称就可以,调用为 functionName(index,row)这样调用	|否	|null|
+| extendParams	|string	|datagrid 的扩展字段,如果easyui上面有但是jeecg没有这个属性可以自己添加	|否|	null|
+| queryBuilder|	boolean	|是否使用高级查询器|	否|	FALSE|
+| isShowSearch|	boolean|	是否显示检索框收缩按钮|	是|	TRUE|
+| treeField|	string|	树形列表展示列|	否|	null|
+| singleSelect|	boolean	是否单选true,false|	否|	FALSE|
+| btnCls|	string|	列表上方button样式class属性|	否	|null|
+| nowrap|	boolean	列表内容是否可换行(false：可换行)|	否|	TRUE|
+| isShowSubGrid|	boolean|	是否显示子表数据|	否|	FALSE|
+| configId|	string|	主表表名	否|	null|
 
-[1]、isShowSubGrid设置为true,configId设置为主表表名(对应online表单中表名字段);
-[2]、子表中外键字段在online表单-页面属性-是否查询设置为是;
-如下图中,orderid为外键字段,在页面属性-是否查询中设置为是：
-输入图片说明
+> 配置说明
 
-### 二、Column(列) 子标签
+主子表补充说明
+  *  1.isShowSubGrid设置为true,configId设置为主表表名(对应online表单中表名字段); 
+  *  2.子表中外键字段在online表单-页面属性-是否查询设置为是;
+
+
+### Column
+
+(列) 子标签
 
 示例：
-
+```
 <t:dgCol title="用户名" sortable="false" field="userName" query="true"></t:dgCol>
+```
+
 参数：
 
 | 属性名| 类型| 描述| 是否必须| 默认值|
-| -------- | ----- | ---- |
+| -------- | ----- | ---- |--- |--- |
 | title| string| 列标题文字| 是| null|
 | field| string| 列字段名称(操作列字段为opt)| 否| null|
 | width| num| 列宽度| 否| auto|
@@ -120,9 +137,12 @@ configId	string	主表表名	否	null
 | showMode| string| 列表查询字段生成模式：radio/checkbox/select| 否| select|
 | newColumn| boolean| 是否另起一行| 否| FALSE|
 
-### Operate(操作)子标签
+### Operate
 
-#### 列表工具条标签 | t:dgToolBar
+(操作)子标签
+
+#### t:dgToolBar
+ 列表工具条标签 
 
 示例：
 
@@ -140,7 +160,9 @@ langArg	多语言参数
 widht	弹出窗宽度(百分比)默认100%
 height	弹出窗高度(百分比)默认100%
 onclick	工具条选项onclick事件
-#### 自定义函数操作标签 | t:dgFunOpt
+####  t:dgFunOpt
+
+自定义函数操作标签 
 
 示例：
 
@@ -157,7 +179,9 @@ urlclass	自定义链接风格
 urlfont	自定义链接图标
 urlStyle	自定义链接样式,直接写style里的内容; e.g: (background-color:#18a689;)
 
-#### 删除操作标签 | t:dgDelOpt
+#### t:dgDelOpt
+
+删除操作标签 
 
 示例:
 
@@ -175,7 +199,10 @@ langArg	多语言参数
 urlclass	自定义链接风格
 urlfont	自定义链接图标
 urlStyle	自定义链接样式,直接写style里的内容; e.g: (background-color:#18a689;)
-#### 弹出窗操作标签 | t:dgOpenOpt
+
+#### t:dgOpenOpt
+
+弹出窗操作标签
 
 示例:
 
@@ -193,7 +220,10 @@ openModel	弹出方式[OpenWin/OpenTab]
 urlclass	自定义链接风格
 urlfont	自定义链接图标
 urlStyle	自定义链接样式,直接写style里的内容; e.g: (background-color:#18a689;)
-#### 询问操作标签 | t:dgConfOpt
+
+####  t:dgConfOpt
+
+询问操作标签 |
 
 示例:
 
