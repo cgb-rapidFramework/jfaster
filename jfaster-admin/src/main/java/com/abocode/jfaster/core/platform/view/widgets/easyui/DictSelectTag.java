@@ -106,8 +106,8 @@ public class DictSelectTag extends TagSupport {
                 sb.append("</select>");
             }
         } else {
-            TypeGroupView typeGroup = SystemContainer.TypeGroupContainer.allTypeGroups.get(this.typeGroupCode.toLowerCase());
-            List<TypeView> types = SystemContainer.TypeGroupContainer.allTypes.get(this.typeGroupCode.toLowerCase());
+            TypeGroupView typeGroup = SystemContainer.TypeGroupContainer.getTypeGroupMap().get(this.typeGroupCode.toLowerCase());
+            List<TypeView> types = SystemContainer.TypeGroupContainer.getTypeMap().get(this.typeGroupCode.toLowerCase());
             if (hasLabel) {
                 sb.append("<div class=\"" + divClass + "\">");
                 sb.append("<label class=\"" + labelClass + "\" >");

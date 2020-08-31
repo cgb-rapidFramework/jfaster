@@ -13,7 +13,7 @@ public class IdUtils {
      * @return 主键类表
      */
     public static synchronized List<String> extractIdListByComma(String ids) {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList();
         if (org.springframework.util.StringUtils.hasText(ids)) {
             for (String id : ids.split(",")) {
                 if (StringUtils.hasLength(id)) {

@@ -1,5 +1,6 @@
 package com.abocode.jfaster.core.platform.utils;
 
+import com.abocode.jfaster.core.common.util.FileUtils;
 import com.abocode.jfaster.core.platform.SystemContainer;
 import com.abocode.jfaster.core.common.exception.BusinessException;
 import com.google.gson.Gson;
@@ -7,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 
 import com.abocode.jfaster.core.platform.view.TemplateView;
+import org.springframework.util.Assert;
 
 import java.io.*;
 
@@ -19,6 +21,7 @@ import java.io.*;
 public class SysThemesUtils {
     /**
      * 获取系统风格
+     *
      * @return
      */
     public static TemplateView getSysTheme() {
@@ -103,7 +106,7 @@ public class SysThemesUtils {
      */
     public static String getLhgdialogTheme(TemplateView templateBean) {
         StringBuffer sb = new StringBuffer();
-        sb.append("<script type=\"text/javascript\" src=\"template/" + templateBean.getTheme() +"/js/lhgdialog.min.js?skin=" + templateBean.getTheme() + "\"></script>");
+        sb.append("<script type=\"text/javascript\" src=\"template/" + templateBean.getTheme() + "/js/lhgdialog.min.js?skin=" + templateBean.getTheme() + "\"></script>");
         return sb.toString();
     }
 
@@ -179,7 +182,8 @@ public class SysThemesUtils {
         try {
             File file = new File(path);
             if (!file.exists()) {
-                file.createNewFile();
+                boolean res = file.createNewFile();
+                Assert.isTrue(res, "创建文件失败");
             }
             FileWriter out = new FileWriter(file, true);
             out.write("\r\n");
@@ -196,14 +200,18 @@ public class SysThemesUtils {
      * @param path
      */
     public static void clearFile(String path) {
+        File file = new File(path);
         try {
-            FileOutputStream fos = new FileOutputStream(new File(path));
-            fos.write("".getBytes());
-            fos.close();
-        } catch (FileNotFoundException e) {
-            log.error(e.getMessage());
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write("");
+            fileWriter.flush();
+            fileWriter.close();
         } catch (IOException e) {
             log.error(e.getMessage());
+            throw new BusinessException("清空文件失败", e);
         }
     }
 }

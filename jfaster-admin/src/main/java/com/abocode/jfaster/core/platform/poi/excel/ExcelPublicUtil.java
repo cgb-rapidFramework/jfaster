@@ -19,8 +19,8 @@ import java.util.*;
 public class ExcelPublicUtil {
 	
 	
-	public static String GET = "get";
-	public static String SET = "set";
+	public static final String GET = "get";
+	public static final String SET = "set";
 	
 	/**
 	 * 获取class的 包括父类的

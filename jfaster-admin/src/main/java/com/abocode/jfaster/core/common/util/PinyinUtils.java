@@ -1,5 +1,6 @@
 package com.abocode.jfaster.core.common.util;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -409,22 +410,6 @@ public class PinyinUtils {
         return convert;
     }
 
-    /**
-     * 将字符串转换成ASCII码
-     *
-     * @param cnStr
-     * @return String
-     */
-    public static String getCnASCII(String cnStr) {
-        StringBuffer strBuf = new StringBuffer();
-        // 将字符串转换成字节序列
-        byte[] bGBK = cnStr.getBytes();
-        for (int i = 0; i < bGBK.length; i++) {
-            // 将每个字符转换成ASCII码
-            strBuf.append(Integer.toHexString(bGBK[i] & 0xff));
-        }
-        return strBuf.toString();
-    }
 
     /**
      * 汉字转换位汉语拼音首字母，英文字符不变
@@ -539,7 +524,7 @@ public class PinyinUtils {
                 }
             }
             String[] pingyinArray = exchange(temp);
-            Set<String> pinyinSet = new HashSet<String>();
+            Set<String> pinyinSet = new HashSet();
             for (int i = 0; i < pingyinArray.length; i++) {
                 pinyinSet.add(pingyinArray[i]);
             }

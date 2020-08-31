@@ -13,6 +13,7 @@ import com.abocode.jfaster.system.entity.Org;
 import com.abocode.jfaster.system.entity.Role;
 import com.abocode.jfaster.system.entity.RoleUser;
 import com.abocode.jfaster.system.entity.User;
+import jdk.nashorn.internal.objects.NativeString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
@@ -28,7 +29,7 @@ public class UserLoginServiceImpl implements UserLoginService {
     private LanguageRepository mutiLangService;
     @Override
     public Map<String, Object> getLoginMap(User u, String orgId, String ip) {
-        Map<String, Object> attrMap = new HashMap<String, Object>();
+        Map<String, Object> attrMap = new HashMap();
         if (ConvertUtils.isEmpty(orgId)) { // 没有传组织机构参数，则获取当前用户的组织机构
             //获取默认部门
             Long orgNum = systemService.queryForCount("select count(1) from t_s_user_org where user_id =?", new Object[]{u.getId()});
@@ -54,16 +55,15 @@ public class UserLoginServiceImpl implements UserLoginService {
     public List<Role> cahModelMap(ModelMap modelMap, String id) {
         List<Role> roleList = new ArrayList();
         List<RoleUser> rUsers = systemService.findAllByProperty(RoleUser.class, "user.id",id);
-        String roles="";
+        StringBuilder roleBuilder=new StringBuilder();
         for (RoleUser ru : rUsers) {
             Role role = ru.getRole();
-            roles += role.getRoleName() + ",";
+            roleBuilder.append(role.getRoleName()  ).append(",");
             roleList.add(role);
         }
-        if (roles.length() > 0) {
-            roles = roles.substring(0, roles.length() - 1);
-        }
-        modelMap.put("roleName", roles);
+
+        String roles = roleBuilder.toString();
+        modelMap.put("roleName", roles.length() > 0? roles.substring(0, roles.length() - 1):roles);
         return roleList;
     }
 
@@ -81,7 +81,7 @@ public class UserLoginServiceImpl implements UserLoginService {
                 + currentDepart.getOrgName() + "]" + mutiLangService.getLang("common.login.success");
         ClientBean client = new ClientBean();
         client.setIp(ip);
-        client.setLogindatetime(new Date());
+        client.setLoginTime(new Date());
         client.setUser(user);
         SessionShareCenter.putUserId(client.getUser().getId());
         SessionShareCenter.putClient(client);

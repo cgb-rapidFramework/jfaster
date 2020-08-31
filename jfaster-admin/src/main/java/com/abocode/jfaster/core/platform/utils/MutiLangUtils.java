@@ -3,11 +3,9 @@ package com.abocode.jfaster.core.platform.utils;
 import com.abocode.jfaster.core.common.util.BeanPropertyUtils;
 
 import com.abocode.jfaster.core.platform.view.ReflectHelper;
-import com.abocode.jfaster.core.platform.MutilangContainer;
+import com.abocode.jfaster.core.platform.LanguageContainer;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -37,7 +35,7 @@ public class MutiLangUtils {
         if ("*".equals(fieldValue)) {
             fieldValue = "**";
         }
-        List<String> paramValueList = new ArrayList<String>();
+        List<String> paramValueList = new ArrayList();
         for (Map.Entry<String, String> entry : fieldLangMap.entrySet()) {
             String fieldLangKey = entry.getKey();
             String fieldLangValue = entry.getValue();
@@ -199,7 +197,7 @@ public class MutiLangUtils {
      * @return
      */
     public static String getLang(String title, String langArg) {
-        return MutilangContainer.getLang(title, langArg);
+        return LanguageContainer.getLang(title, langArg);
     }
 
     /****
@@ -209,10 +207,10 @@ public class MutiLangUtils {
      * @return
      */
     public static String getLang(String lang_key) {
-        return MutilangContainer.getLang(lang_key);
+        return LanguageContainer.getLang(lang_key);
     }
 
     public static boolean existLangContext(String langContext) {
-        return MutilangContainer.existLangContext(langContext);
+        return LanguageContainer.existLangContext(langContext);
     }
 }

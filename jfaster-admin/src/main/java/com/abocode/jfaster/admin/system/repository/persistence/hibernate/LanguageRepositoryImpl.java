@@ -2,7 +2,7 @@ package com.abocode.jfaster.admin.system.repository.persistence.hibernate;
 
 import com.abocode.jfaster.admin.system.repository.LanguageRepository;
 import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
-import com.abocode.jfaster.core.platform.MutilangContainer;
+import com.abocode.jfaster.core.platform.LanguageContainer;
 import com.abocode.jfaster.core.common.util.BrowserUtils;
 import com.abocode.jfaster.system.entity.Language;
 import com.abocode.jfaster.core.common.util.StringUtils;
@@ -19,8 +19,8 @@ public class LanguageRepositoryImpl extends CommonRepositoryImpl implements Lang
     public void initLanguage() {
         List<Language> language = this.commonDao.findAll(Language.class);
         for (Language languageEntity : language) {
-            MutilangContainer.KeyIsLangkeyValueIsLangcodeForLangMap.put(languageEntity.getLangKey(), languageEntity.getLangCode());
-            MutilangContainer.mutiLangMap.put(languageEntity.getLangKey() + "_" + languageEntity.getLangCode(), languageEntity.getLangContext());
+            LanguageContainer.getLanguageKeyCodeMap().put(languageEntity.getLangKey(), languageEntity.getLangCode());
+            LanguageContainer.getLanguageMap().put(languageEntity.getLangKey() + "_" + languageEntity.getLangCode(), languageEntity.getLangContext());
         }
     }
 
@@ -29,9 +29,9 @@ public class LanguageRepositoryImpl extends CommonRepositoryImpl implements Lang
      **/
     public String getLang(String langKey) {
         String language = BrowserUtils.getBrowserLanguage();
-        String langContext = MutilangContainer.mutiLangMap.get(langKey + "_" + language);
+        String langContext = LanguageContainer.getLanguageMap().get(langKey + "_" + language);
         if (StringUtils.isEmpty(langContext)) {
-            langContext = MutilangContainer.mutiLangMap.get("common.notfind.langkey" + "_" + language);
+            langContext = LanguageContainer.getLanguageMap().get("common.notfind.langkey" + "_" + language);
             if ("null".equals(langContext) ||"?".equals(langContext) || langContext == null || langKey.startsWith("?")) {
                 langContext = "";
             }
@@ -61,7 +61,7 @@ public class LanguageRepositoryImpl extends CommonRepositoryImpl implements Lang
      * 刷新多语言cach
      **/
     public void refreshLanguageCache() {
-        MutilangContainer.mutiLangMap.clear();
+        LanguageContainer.getLanguageMap().clear();
         initLanguage();
     }
 

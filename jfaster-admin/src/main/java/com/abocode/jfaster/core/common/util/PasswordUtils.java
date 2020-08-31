@@ -1,6 +1,7 @@
 package com.abocode.jfaster.core.common.util;
 
 
+import com.abocode.jfaster.core.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.Cipher;
@@ -8,8 +9,9 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.security.SecureRandom;
 
 @Slf4j
 public class PasswordUtils {
@@ -23,17 +25,21 @@ public class PasswordUtils {
      * 定义使用的算法为:PBEWITHMD5andDES算法
      */
     public static final String ALGORITHM = "PBEWithMD5AndDES";//加密算法
-    public static final String Salt = "63293188";//密钥
+    public static final String SALT = "63293188";//密钥
 
     /**
      * 定义迭代次数为1000次
      */
-    private static final int ITERATIONCOUNT = 1000;
+    private static final int ITERATION_COUNT = 1000;
 
 
     public static byte[] getStaticSalt() {
         // 产出盐
-        return Salt.getBytes();
+        try {
+            return SALT.getBytes(StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+           throw  new BusinessException("获取Salt失败",e);
+        }
     }
 
     /**
@@ -72,13 +78,13 @@ public class PasswordUtils {
 
         Key key = getPBEKey(password);
         byte[] encipheredData = null;
-        PBEParameterSpec parameterSpec = new PBEParameterSpec(salt, ITERATIONCOUNT);
+        PBEParameterSpec parameterSpec = new PBEParameterSpec(salt, ITERATION_COUNT);
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
 
             cipher.init(Cipher.ENCRYPT_MODE, key, parameterSpec);
 
-            encipheredData = cipher.doFinal(plaintext.getBytes());
+            encipheredData = cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8.name()));
         } catch (Exception e) {
         }
         return bytesToHexString(encipheredData);

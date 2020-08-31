@@ -3,6 +3,7 @@ package com.abocode.jfaster.core.web.manager;
 import com.abocode.jfaster.system.entity.Function;
 import com.abocode.jfaster.system.entity.Role;
 import com.abocode.jfaster.system.entity.User;
+import lombok.Data;
 
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Map;
 /**
  * Created by Franky on 2016/3/15.
  */
+@Data
 public class ClientBean implements java.io.Serializable{
 	private User user;
 	
@@ -23,48 +25,6 @@ public class ClientBean implements java.io.Serializable{
 	/**
 	 *登录时间
 	 */
-	private java.util.Date logindatetime;
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-
-	public Map<String, Function> getFunctions() {
-		return functions;
-	}
-
-	public void setFunctions(Map<String, Function> functions) {
-		this.functions = functions;
-	}
-
-	public java.lang.String getIp() {
-		return ip;
-	}
-
-	public void setIp(java.lang.String ip) {
-		this.ip = ip;
-	}
-
-	public java.util.Date getLogindatetime() {
-		return logindatetime;
-	}
-
-	public void setLogindatetime(java.util.Date logindatetime) {
-		this.logindatetime = logindatetime;
-	}
-
-	public List<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
-
+	private java.util.Date loginTime;
 
 }

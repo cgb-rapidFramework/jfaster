@@ -10,49 +10,80 @@ import java.util.List;
 import java.util.Map;
 
 public class SystemContainer {
-	/**
-	 * 图标
-	 * @author guanxf
-	 *
-	 */
-	public  final static class IconContainer{
-		public static Map<String, IconView> allTSIcons= new HashMap<String,IconView>();
-	}
-	
-	
-   /***
-    * 字典
-    */
-	public  final static class TypeGroupContainer{
-		public static Map<String, TypeGroupView> allTypeGroups = new HashMap<String,TypeGroupView>();
-		public static Map<String, List<TypeView>> allTypes = new HashMap<String,List<TypeView>>();
-		
-	}
+    /**
+     * 图标
+     *
+     * @author guanxf
+     */
+    public final static class IconContainer {
+        private static Map<String, IconView> iconsMap = new HashMap<String, IconView>();
 
-	/**
-	 * 操作
-	 * @author guanxf
-	 *
-	 */
-	public  final static class OperationContainer{
-		public static Map<String, OperationView> operations= new HashMap<String,OperationView>();
-	}
+        public static Map<String, IconView> getIconsMap() {
+            return iconsMap;
+        }
 
-	/**
-	 *模版
-	 * @author guanxf
-	 *
-	 */
-	public  final static class TemplateContainer{
-		private static Map<String, String> template= new HashMap<String,String>();
+        public static void setIconsMap(Map<String, IconView> iconsMap) {
+            IconContainer.iconsMap = iconsMap;
+        }
+    }
 
-		public static String  getTemplate() {
-			return template.get("SYSTEM-TEMPLATE");
-		}
 
-		public static void putTemplate(String content) {
-			template.put("SYSTEM-TEMPLATE", content);
-		}
-	}
+    /***
+     * 字典
+     */
+    public final static class TypeGroupContainer {
+        private static Map<String, TypeGroupView> typeGroupMap = new HashMap<String, TypeGroupView>();
+        private static Map<String, List<TypeView>> typeMap = new HashMap<String, List<TypeView>>();
+
+        public static Map<String, TypeGroupView> getTypeGroupMap() {
+            return typeGroupMap;
+        }
+
+        public static void setTypeGroupMap(Map<String, TypeGroupView> typeGroupMap) {
+            TypeGroupContainer.typeGroupMap = typeGroupMap;
+        }
+
+        public static Map<String, List<TypeView>> getTypeMap() {
+            return typeMap;
+        }
+
+        public static void setTypeMap(Map<String, List<TypeView>> typeMap) {
+            TypeGroupContainer.typeMap= typeMap;
+        }
+    }
+
+    /**
+     * 操作
+     *
+     * @author guanxf
+     */
+    public final static class OperationContainer {
+        private static Map<String, OperationView> operationMap = new HashMap<String, OperationView>();
+
+        public static Map<String, OperationView> getOperationMap() {
+            return operationMap;
+        }
+
+        public static void setOperationMap(Map<String, OperationView> operationMap) {
+            OperationContainer.operationMap = operationMap;
+        }
+    }
+
+    /**
+     * 模版
+     *
+     * @author guanxf
+     */
+    public final static class TemplateContainer {
+        private static Map<String, String> template = new HashMap<String, String>();
+
+        public static String getTemplate() {
+            return template.get("SYSTEM-TEMPLATE");
+        }
+
+        public static void putTemplate(String content) {
+            template.put("SYSTEM-TEMPLATE", content);
+        }
+    }
 
 }

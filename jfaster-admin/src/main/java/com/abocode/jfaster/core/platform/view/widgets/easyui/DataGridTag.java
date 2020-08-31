@@ -6,25 +6,23 @@ import com.abocode.jfaster.core.platform.view.interactions.easyui.OptTypeDirecti
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.util.JspWriterUtils;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
-import com.abocode.jfaster.core.platform.utils.SysThemesUtils;
 
-import com.abocode.jfaster.core.platform.MutilangContainer;
+import com.abocode.jfaster.core.platform.LanguageContainer;
 import com.abocode.jfaster.core.platform.SystemContainer;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.DataGridColumn;
-import com.google.gson.Gson;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
-import com.abocode.jfaster.core.platform.view.TemplateView;
 import com.abocode.jfaster.core.platform.view.TypeView;
 import com.abocode.jfaster.core.common.util.StringExpandUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.text.MessageFormat;
 import java.util.*;
 @Slf4j
+@Data
 public class DataGridTag extends TagSupport {
     protected String fields = "";// 显示字段
     protected String searchFields = "";// 查询字段  Author:qiulu  Date:20130618 for：添加对区间查询的支持
@@ -68,88 +66,13 @@ public class DataGridTag extends TagSupport {
 
     private boolean queryBuilder = false;// 高级查询器
 
-    public boolean isQueryBuilder() {
-        return queryBuilder;
-    }
-
-    public void setQueryBuilder(boolean queryBulder) {
-        this.queryBuilder = queryBulder;
-    }
-
     //json转换中的系统保留字
-    protected static Map<String, String> syscode = new HashMap<String, String>();
+    protected static Map<String, String> code = new HashMap();
 
     static {
-        syscode.put("class", "clazz");
+        code.put("class", "clazz");
     }
 
-    public void setOnLoadSuccess(String onLoadSuccess) {
-        this.onLoadSuccess = onLoadSuccess;
-    }
-
-    public void setOnClick(String onClick) {
-        this.onClick = onClick;
-    }
-
-    public void setOnDblClick(String onDblClick) {
-        this.onDblClick = onDblClick;
-    }
-
-    public void setShowText(boolean showText) {
-        this.showText = showText;
-    }
-
-    public void setPagination(boolean pagination) {
-        this.pagination = pagination;
-    }
-
-    public void setCheckbox(boolean checkbox) {
-        this.checkbox = checkbox;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public void setTreegrid(boolean treegrid) {
-        this.treegrid = treegrid;
-    }
-
-    public void setWidth(String width) {
-        this.width = width;
-    }
-
-    public void setHeight(String height) {
-        this.height = height;
-    }
-
-    public void setIdField(String idField) {
-        this.idField = idField;
-    }
-
-    public void setActionUrl(String actionUrl) {
-        this.actionUrl = actionUrl;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setFit(boolean fit) {
-        this.fit = fit;
-    }
-
-    public void setShowPageList(boolean showPageList) {
-        this.showPageList = showPageList;
-    }
-
-    public void setShowRefresh(boolean showRefresh) {
-        this.showRefresh = showRefresh;
-    }
 
     /**
      * 设置询问操作URL
@@ -340,7 +263,7 @@ public class DataGridTag extends TagSupport {
             } else {
                 String text = "";
                 String value = "";
-                List<TypeView> typeList = SystemContainer.TypeGroupContainer.allTypes.get(dictionary.toLowerCase());
+                List<TypeView> typeList = SystemContainer.TypeGroupContainer.getTypeMap().get(dictionary.toLowerCase());
                 if (typeList != null && !typeList.isEmpty()) {
                     for (TypeView type : typeList) {
                         text += MutiLangUtils.doMutiLang(type.getTypeName(), "") + ",";
@@ -663,13 +586,13 @@ public class DataGridTag extends TagSupport {
                         if ("single".equals(col.getQueryMode())) {
                             if (!StringExpandUtils.isEmpty(col.getReplace())) {
                                 sb.append("<select name=\"" + col.getField().replaceAll("_", "\\.") + "\" WIDTH=\"100\" style=\"width: 104px\"> ");
-                                sb.append(StringExpandUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutilangContainer.getLang("common.please.select")));
+                                sb.append(StringExpandUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", LanguageContainer.getLang("common.please.select")));
                                 String[] test = col.getReplace().split(",");
                                 String text = "";
                                 String value = "";
                                 for (String string : test) {
                                     String lang_key = string.split("_")[0];
-                                    text = MutilangContainer.getLang(lang_key);
+                                    text = LanguageContainer.getLang(lang_key);
                                     value = string.split("_")[1];
                                     sb.append("<option value =\"" + value + "\">" + text + "</option>");
                                 }
@@ -690,7 +613,7 @@ public class DataGridTag extends TagSupport {
 //									List<Map<String, Object>> list = systemService.queryForListMap(sql);
                                     List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
                                     sb.append("<select name=\"" + col.getField().replaceAll("_", "\\.") + "\" WIDTH=\"100\" style=\"width: 104px\"> ");
-                                    sb.append(StringExpandUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutilangContainer.getLang("common.please.select")));
+                                    sb.append(StringExpandUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", LanguageContainer.getLang("common.please.select")));
                                     for (Map<String, Object> map : list) {
                                         sb.append(" <option value=\"" + map.get("field") + "\">");
                                         sb.append(map.get("text"));
@@ -698,14 +621,14 @@ public class DataGridTag extends TagSupport {
                                     }
                                     sb.append("</select>");
                                 } else {
-                                    Map<String, List<TypeView>> typedatas = SystemContainer.TypeGroupContainer.allTypes;
+                                    Map<String, List<TypeView>> typedatas = SystemContainer.TypeGroupContainer.getTypeMap();
                                     if (!typedatas.isEmpty()){
                                         List<TypeView> types = typedatas.get(col.getDictionary().toLowerCase());
                                         sb.append("<select name=\"" + col.getField().replaceAll("_", "\\.") + "\" WIDTH=\"100\" style=\"width: 104px\"> ");
-                                        sb.append(StringExpandUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutilangContainer.getLang("common.please.select")));
+                                        sb.append(StringExpandUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", LanguageContainer.getLang("common.please.select")));
                                         for (TypeView type : types) {
                                             sb.append(" <option value=\"" + type.getTypeCode() + "\">");
-                                            sb.append(MutilangContainer.getLang(type.getTypeName()));
+                                            sb.append(LanguageContainer.getLang(type.getTypeName()));
                                             sb.append(" </option>");
                                         }
                                         sb.append("</select>");
@@ -835,10 +758,10 @@ public class DataGridTag extends TagSupport {
      */
     private String dealSyscode(String field, int flag) {
         String change = field;
-        Iterator it = syscode.keySet().iterator();
+        Iterator it = code.keySet().iterator();
         while (it.hasNext()) {
             String key = String.valueOf(it.next());
-            String value = String.valueOf(syscode.get(key));
+            String value = String.valueOf(code.get(key));
             if (flag == 1) {
                 change = field.replaceAll(key, value);
             } else if (flag == 2) {
@@ -1240,7 +1163,7 @@ public class DataGridTag extends TagSupport {
         } else if (!StringExpandUtils.isEmpty(operationCode)) {
             Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
             if (null != operationCodes) {
-                List<String> operationCodesStr = new ArrayList<String>();
+                List<String> operationCodesStr = new ArrayList();
 			/*	for (String MyoperationCode : operationCodes) {
 					if (oConvertUtils.isEmpty(MyoperationCode))
 						break;
@@ -1465,7 +1388,7 @@ public class DataGridTag extends TagSupport {
         sb.append("<th data-options=\"field:'condition',width:20,align:'right',formatter:function(value,row){");
         appendLine(sb, "							var data=  ");
         appendLine(sb, "					[  ");
-        Map<String, List<TypeView>> typedatas = SystemContainer.TypeGroupContainer.allTypes;
+        Map<String, List<TypeView>> typedatas = SystemContainer.TypeGroupContainer.getTypeMap();
         List<TypeView> types = typedatas.get("rulecon");
         buildCheckType(sb, types);
         appendLine(sb, "];");
@@ -1913,7 +1836,7 @@ public class DataGridTag extends TagSupport {
 									sb.append("</select>");
 								*/
                                 } else {
-                                    Map<String, List<TypeView>> typedatas = SystemContainer.TypeGroupContainer.allTypes;
+                                    Map<String, List<TypeView>> typedatas = SystemContainer.TypeGroupContainer.getTypeMap();
                                     List<TypeView> types = typedatas.get(col.getDictionary().toLowerCase());
                                     sb.append("<select name=\"" + col.getField().replaceAll("_", "\\.") + "\" WIDTH=\"100\" style=\"width: 104px\"> ");
                                     sb.append(StringExpandUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtils.getLang("common.please.select")));

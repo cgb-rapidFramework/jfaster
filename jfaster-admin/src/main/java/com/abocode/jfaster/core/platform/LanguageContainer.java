@@ -9,9 +9,26 @@ import java.util.Map;
 /***
  * 语言容器
  */
-public class MutilangContainer {
-    public static Map<String, String> mutiLangMap = new HashMap<String, String>();
-    public static Map<String, String> KeyIsLangkeyValueIsLangcodeForLangMap = new HashMap<String, String>(); //FunctionName的keymap
+public class LanguageContainer {
+    private static Map<String, String> LanguageMap = new HashMap<String, String>();
+    //FunctionName的keymap
+    private static Map<String, String> LanguageKeyCodeMap = new HashMap<String, String>();
+
+    public static Map<String, String> getLanguageMap() {
+        return LanguageMap;
+    }
+
+    public static void setLanguageMap(Map<String, String> languageMap) {
+        LanguageMap = languageMap;
+    }
+
+    public static Map<String, String> getLanguageKeyCodeMap() {
+        return LanguageKeyCodeMap;
+    }
+
+    public static void setLanguageKeyCodeMap(Map<String, String> languageKeyCodeMap) {
+        LanguageKeyCodeMap = languageKeyCodeMap;
+    }
 
     /**
      * 获取语言
@@ -44,7 +61,7 @@ public class MutilangContainer {
      */
     public static String getLang(String langKey) {
         String language = BrowserUtils.getBrowserLanguage();
-        String langContext = MutilangContainer.mutiLangMap.get(langKey + "_" + language);
+        String langContext = LanguageContainer.getLanguageMap().get(langKey + "_" + language);
         if (StringUtils.isEmpty(langContext)) {
           return  langKey;
         }
@@ -60,7 +77,7 @@ public class MutilangContainer {
      * @return
      */
     public static boolean existLangContext(String langContext) {
-        String map = KeyIsLangkeyValueIsLangcodeForLangMap.get(langContext);
+        String map = LanguageKeyCodeMap.get(langContext);
         if (!StringUtils.isEmpty(map)) {
             return true;
         }

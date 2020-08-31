@@ -1,9 +1,12 @@
 package com.abocode.jfaster.core.platform.view.interactions.datatable;
 
+import lombok.Data;
+
 import java.text.MessageFormat;
 
 import javax.servlet.http.HttpServletRequest;
 
+@Data
 public class DataTables {
 	private HttpServletRequest request; // 内部使用的 Request 对象
 	private String sEchoParameter = "sEcho";
@@ -19,77 +22,9 @@ public class DataTables {
 
 	// 参与排序列数
 	private String iSortingColsParameter = "iSortingCols";
-	private String iSortColPrefixParameter = "iSortCol_"; // 排序列的索引
-	private String sSortDirPrefixParameter = "sSortDir_"; // 排序的方向
-															// asc, desc
-
-	// 每一列的可排序性
-	private String bSortablePrefixParameter = "bSortable_";
-
 	// 全局搜索
 	private String sSearchParameter = "sSearch";
 	private String bRegexParameter = "bRegex";
-
-	// 每一列的搜索
-	private String bSearchablePrefixParameter = "bSearchable_";
-	private String sSearchPrefixParameter = "sSearch_";
-	private String bEscapeRegexPrefixParameter = "bRegex_";
-
-	public SortInfo[] getSortColumns() {
-		return sortColumns;
-	}
-
-	public void setSortColumns(SortInfo[] sortColumns) {
-		this.sortColumns = sortColumns;
-	}
-
-	public int getColumnCount() {
-		return ColumnCount;
-	}
-
-	public void setColumnCount(int columnCount) {
-		ColumnCount = columnCount;
-	}
-
-	public ColumnInfo[] getColumns() {
-		return columns;
-	}
-
-	public void setColumns(ColumnInfo[] columns) {
-		this.columns = columns;
-	}
-
-	public String getSearch() {
-		return search;
-	}
-
-	public void setSearch(String search) {
-		this.search = search;
-	}
-
-	public Boolean getRegex() {
-		return regex;
-	}
-
-	public void setRegex(Boolean regex) {
-		this.regex = regex;
-	}
-
-	public Integer getEcho() {
-		return echo;
-	}
-
-	public int getDisplayStart() {
-		return displayStart;
-	}
-
-	public int getDisplayLength() {
-		return displayLength;
-	}
-
-	public int getSortingCols() {
-		return sortingCols;
-	}
 
 	private Integer echo;
 

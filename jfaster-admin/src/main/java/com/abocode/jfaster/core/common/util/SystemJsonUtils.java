@@ -20,7 +20,7 @@ public class SystemJsonUtils {
      * 返回类型： String
      */
     public static String listToReplaceStr(List<?> objList, String perFieldName, String sufFieldName) {
-        List<String> strList = new ArrayList<String>();
+        List<String> strList = new ArrayList();
         for (Object object : objList) {
             String perStr = null;
             String sufStr = null;

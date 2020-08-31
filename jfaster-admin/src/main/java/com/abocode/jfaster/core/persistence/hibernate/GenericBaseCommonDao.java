@@ -717,7 +717,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		int curPageNO = hqlQuery.getCurPage();
 		int offset = PagerUtil.getOffset(allCounts, curPageNO,
 				hqlQuery.getPageSize());
-		String toolBar = PagerUtil.getBar(hqlQuery.getMyaction(), allCounts,
+		String toolBar = PagerUtil.getBar(hqlQuery.getAction(), allCounts,
 				curPageNO, hqlQuery.getPageSize(), hqlQuery.getMap());
 		query.setFirstResult(offset);
 		query.setMaxResults(hqlQuery.getPageSize());

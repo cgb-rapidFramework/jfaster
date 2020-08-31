@@ -99,7 +99,7 @@ public class InitServiceImpl implements InitService {
     private void repairTerritory() {
         try {
             ClassPathResource sqlFile = new ClassPathResource("sql/repair/RepairDao_batchRepairTerritory.sql");
-            String str = StreamUtils.inputStreamTOString(sqlFile.getInputStream());
+            String str = StreamUtils.inputStreamToStr(sqlFile.getInputStream());
             commonDao.updateBySql(str);
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -109,7 +109,7 @@ public class InitServiceImpl implements InitService {
     private void repairMutilang() {
         try {
             ClassPathResource sqlFile = new ClassPathResource("sql/repair/RepairDao_batchRepairMutilang.sql");
-            String str = StreamUtils.inputStreamTOString(sqlFile.getInputStream());
+            String str = StreamUtils.inputStreamToStr(sqlFile.getInputStream());
             commonDao.updateBySql(str);
             languageRepository.refreshLanguageCache();
         } catch (Exception e) {
@@ -120,7 +120,7 @@ public class InitServiceImpl implements InitService {
     private void repairTemplate() {
         try {
             ClassPathResource sqlFile = new ClassPathResource("sql/repair/RepairDao_batchRepairTemplate.sql");
-            String str = StreamUtils.inputStreamTOString(sqlFile.getInputStream());
+            String str = StreamUtils.inputStreamToStr(sqlFile.getInputStream());
             commonDao.updateBySql(str);
         } catch (Exception e) {
             log.error(e.getMessage());

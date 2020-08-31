@@ -149,7 +149,7 @@ public class RoleServiceImpl implements RoleService {
             map.put(functionOfRole.getFunction().getId(), functionOfRole);
         }
         String[] roleFunctions = roleFunction.split(",");
-        Set<String> set = new HashSet<String>();
+        Set<String> set = new HashSet();
         for (String s : roleFunctions) {
             set.add(s);
         }

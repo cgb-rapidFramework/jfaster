@@ -11,8 +11,8 @@ import org.hibernate.type.Type;
 public class HqlQuery {
 	private int curPage =1;
 	private int pageSize = 10;
-	private String myaction;
-	private String myform;
+	private String action;
+	private String form;
 	private String queryString;
 	private Object[] param;
 	private Type[] types;

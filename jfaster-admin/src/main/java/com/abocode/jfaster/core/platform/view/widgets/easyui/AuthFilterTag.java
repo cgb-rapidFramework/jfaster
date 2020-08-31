@@ -1,6 +1,7 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
 import com.abocode.jfaster.core.common.util.ConvertUtils;
+import com.abocode.jfaster.core.common.util.StringUtils;
 import com.abocode.jfaster.core.platform.view.OperationView;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.platform.SystemContainer;
@@ -28,29 +29,31 @@ public class AuthFilterTag extends TagSupport{
 	
 	public int doEndTag() throws JspException {
 		JspWriter out = this.pageContext.getOut();
-		JspWriterUtils.write(out,end().toString());
+		JspWriterUtils.write(out,end());
 		return EVAL_PAGE;
 	}
 
 	protected String end() {
 		StringBuilder out = new StringBuilder();
-		getAuthFilter(out);
-		return out.toString();
-	}
-	/**
-	 * 获取隐藏按钮的JS代码
-	 * @param out
-	 */
-	protected void getAuthFilter(StringBuilder out) {
 		out.append("<script type=\"text/javascript\">");
 		out.append("$(document).ready(function(){");
+		if (StringUtils.isNotEmpty(getJsContent())){
+			out.append(getJsContent());
+		}
+		out.append("});");
+		out.append("</script>");
+		return out.toString();
+	}
+
+	private String  getJsContent() {
+		StringBuilder out = new StringBuilder();
 		if(filter){
 			Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
 			if (null!=operationCodes) {
-				for (String MyoperationCode : operationCodes) {
-					if (ConvertUtils.isEmpty(MyoperationCode))
+				for (String ops : operationCodes) {
+					if (ConvertUtils.isEmpty(ops))
 						break;
-					OperationView operation = SystemContainer.OperationContainer.operations.get(MyoperationCode);
+					OperationView operation = SystemContainer.OperationContainer.getOperationMap().get(ops);
 					if (operation.getOperationCode().startsWith(".") || operation.getOperationCode().startsWith("#")){
 						if (operation.getOperationType().intValue()==Globals.OPERATION_TYPE_HIDE){
 							//out.append("$(\""+name+"\").find(\"#"+operation.getOperationCode().replaceAll(" ", "")+"\").hide();");
@@ -63,14 +66,11 @@ public class AuthFilterTag extends TagSupport{
 					}
 				}
 			}
-			
 		}
-		out.append("});");
-		out.append("</script>");
+		return  out.toString();
 	}
-	
-	
-	
+
+
 	public String getName() {
 		return name;
 	}

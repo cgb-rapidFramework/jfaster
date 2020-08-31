@@ -71,7 +71,7 @@ public class CriteriaQuery{
     /****
      * 保存创建的aliasName 防止重复创建
      */
-    private List<String> alias = new ArrayList<String>();
+    private List<String> alias = new ArrayList();
 
     public List getResults() {
         return results;
