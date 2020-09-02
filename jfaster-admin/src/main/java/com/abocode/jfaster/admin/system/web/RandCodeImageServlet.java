@@ -113,12 +113,8 @@ public class RandCodeImageServlet extends HttpServlet {
     private String exctractRandCode() {
         final String randCodeType = ConfigUtils.getRandCodeType();
         int randCodeLength = Integer.parseInt(ConfigUtils.getRandCodeLength());
-        if (randCodeType == null) {
-            return RandCodeImageEnum.NUMBER_CHAR.generateStr(randCodeLength);
-        } else {
+        if (randCodeType != null) {
             switch (randCodeType.charAt(0)) {
-                case '1':
-                    return RandCodeImageEnum.NUMBER_CHAR.generateStr(randCodeLength);
                 case '2':
                     return RandCodeImageEnum.LOWER_CHAR.generateStr(randCodeLength);
                 case '3':
@@ -127,11 +123,11 @@ public class RandCodeImageServlet extends HttpServlet {
                     return RandCodeImageEnum.LETTER_CHAR.generateStr(randCodeLength);
                 case '5':
                     return RandCodeImageEnum.ALL_CHAR.generateStr(randCodeLength);
-
                 default:
                     return RandCodeImageEnum.NUMBER_CHAR.generateStr(randCodeLength);
             }
         }
+        return RandCodeImageEnum.NUMBER_CHAR.generateStr(randCodeLength);
     }
 
     /**
@@ -211,20 +207,11 @@ enum RandCodeImageEnum {
     public String generateStr(final int codeLength) {
         final StringBuffer sb = new StringBuffer();
         final Random random = new Random();
-        final String sourseStr = getCharStr();
-
         for (int i = 0; i < codeLength; i++) {
-            sb.append(sourseStr.charAt(random.nextInt(sourseStr.length())));
+            sb.append(charStr.charAt(random.nextInt(charStr.length())));
         }
 
         return sb.toString();
-    }
-
-    /**
-     * @return the {@link #charStr}
-     */
-    public String getCharStr() {
-        return charStr;
     }
 
 }

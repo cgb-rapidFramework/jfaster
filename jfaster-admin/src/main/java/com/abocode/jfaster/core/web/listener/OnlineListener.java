@@ -15,37 +15,40 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 /**
  * 监听在线用户上线下线
  */
-public class OnlineListener implements ServletContextListener,HttpSessionListener {
+public class OnlineListener implements ServletContextListener, HttpSessionListener {
 
-	private static ApplicationContext ctx = null;
+    private static ApplicationContext ctx = null;
 
-	public OnlineListener() {
-	}
+    public OnlineListener() {
+    }
 
-	
-	public void sessionCreated(HttpSessionEvent httpSessionEvent) {
-	}
 
-	
-	public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
-		ClientManager.getInstance().removeClinet(httpSessionEvent.getSession().getId());
-	}
+    public void sessionCreated(HttpSessionEvent httpSessionEvent) {
+    }
 
-	/**
-	 * 服务器初始化
-	 */
-	
-	public void contextInitialized(ServletContextEvent evt) {
-		ctx = WebApplicationContextUtils.getWebApplicationContext(evt.getServletContext());
-	}
 
-	public static ApplicationContext getCtx() {
-		return ctx;
-	}
-	
-	
-	public void contextDestroyed(ServletContextEvent paramServletContextEvent) {
-		
-	}
+    public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
+        ClientManager.getInstance().removeClinet(httpSessionEvent.getSession().getId());
+    }
 
+    /**
+     * 服务器初始化
+     */
+
+    public void contextInitialized(ServletContextEvent evt) {
+        setCtx(WebApplicationContextUtils.getWebApplicationContext(evt.getServletContext()));
+    }
+
+    public static ApplicationContext getCtx() {
+        return ctx;
+    }
+
+
+    public void contextDestroyed(ServletContextEvent paramServletContextEvent) {
+
+    }
+
+    public static void setCtx(ApplicationContext ctx) {
+        OnlineListener.ctx = ctx;
+    }
 }

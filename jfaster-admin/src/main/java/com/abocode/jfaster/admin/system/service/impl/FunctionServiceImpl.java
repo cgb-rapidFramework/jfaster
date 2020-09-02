@@ -168,19 +168,9 @@ public class FunctionServiceImpl implements FunctionService {
             updateSubFunction(subFunction, function);
             systemService.flushRoleFunciton(function.getId(), function);
         } else {
-            if (function.getFunctionLevel().equals(Globals.Function_Leave_ONE)) {
-			/*	List<TSFunction> functionList = systemService.findAllByProperty(
-						TSFunction.class, "functionLevel",
-						Globals.Function_Leave_ONE);
-				 int ordre=functionList.size()+1;
-				 function.setFunctionOrder(Globals.Function_Order_ONE+ordre);*/
+            if (function.getFunctionLevel().equals(Globals.FUNCTION_LEAVE_ONE)) {
                 function.setFunctionOrder(function.getFunctionOrder());
             } else {
-			/*	List<TSFunction> functionList = systemService.findAllByProperty(
-						TSFunction.class, "functionLevel",
-						Globals.Function_Leave_TWO);
-				 int ordre=functionList.size()+1;
-				 function.setFunctionOrder(Globals.Function_Order_TWO+ordre);*/
                 function.setFunctionOrder(function.getFunctionOrder());
             }
             message = MutiLangUtils.paramAddSuccess("common.menu");
@@ -530,17 +520,16 @@ public class FunctionServiceImpl implements FunctionService {
     public DataRuleDto installDataRule(Set<String> dataRuleCodes) {
         //Step.2  第二部分处理列表数据级权限
         //小川 -- 菜单数据规则集合(数据权限)
-        List<DataRule> MENU_DATA_AUTHOR_RULES = new ArrayList<DataRule>();
+        List<DataRule> menuDataRules = new ArrayList<DataRule>();
         //小川 -- 菜单数据规则sql(数据权限)
-        String MENU_DATA_AUTHOR_RULE_SQL = "";
+        StringBuilder dataRoleSql = new StringBuilder();
         for (String dataRuleId : dataRuleCodes) {
             DataRule dataRule = systemService.findEntity(DataRule.class, dataRuleId);
-            MENU_DATA_AUTHOR_RULES.add(dataRule);
-            MENU_DATA_AUTHOR_RULE_SQL += ObjectParseUtil.setSqlModel(dataRule);
-
+            menuDataRules.add(dataRule);
+            dataRoleSql.append(ObjectParseUtil.setSqlModel(dataRule));
         }
-        List<DataRule> dataRules = DataRuleUtils.installDataSearchConditon(MENU_DATA_AUTHOR_RULES);//菜单数据规则集合
-        String data = DataRuleUtils.installDataSearchConditon(MENU_DATA_AUTHOR_RULE_SQL);//菜单数据规则sql
+        List<DataRule> dataRules = DataRuleUtils.installDataSearchConditon(menuDataRules);//菜单数据规则集合
+        String data = DataRuleUtils.installDataSearchConditon(dataRoleSql.toString());//菜单数据规则sql
         return new DataRuleDto(dataRules, data);
     }
 

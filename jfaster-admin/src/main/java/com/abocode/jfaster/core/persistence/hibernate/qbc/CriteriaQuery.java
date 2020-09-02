@@ -9,6 +9,7 @@ import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.platform.view.interactions.datatable.DataTables;
 import com.abocode.jfaster.core.platform.view.interactions.datatable.SortDirection;
 import com.abocode.jfaster.core.platform.view.interactions.datatable.SortInfo;
+import lombok.Data;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
@@ -18,7 +19,8 @@ import org.hibernate.transform.Transformers;
 import org.hibernate.type.Type;
 import org.springframework.util.StringUtils;
 
-public class CriteriaQuery{
+@Data
+public class CriteriaQuery {
     /**
      * 当前页
      */
@@ -42,17 +44,17 @@ public class CriteriaQuery{
     /***
      * jquery datatable控件生成查询条件集合
      */
-    private CriterionList jqcriterionList = new CriterionList();
+    private CriterionList jqueryCriterionList = new CriterionList();
     /***
      *  翻页工具条样式
      */
-    private int isUseimage = 0;
+    private int useImage = 0;
     private DetachedCriteria detachedCriteria;
-    private static Map<String, Object> map= new HashMap<String, Object>();
+    private static Map<String, Object> map = new HashMap<String, Object>();
     /***
      * 排序字段
      */
-    private  Map<String, Object> orderMap= new HashMap<String, Object>();
+    private Map<String, Object> orderMap = new HashMap<String, Object>();
 
     /***
      * 对同一字段进行第二次重命名查询时值设置FASLE不保存重命名查询条件
@@ -68,61 +70,12 @@ public class CriteriaQuery{
      */
     private List results;
     private int total;
+    private  DataGrid dataGrid;
+    private  DataTables dataTables;
     /****
      * 保存创建的aliasName 防止重复创建
      */
     private List<String> alias = new ArrayList();
-
-    public List getResults() {
-        return results;
-    }
-
-    public void setResults(List results) {
-        this.results = results;
-    }
-
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
-    private DataGrid dataGrid;
-    private DataTables dataTables;
-
-    public DataTables getDataTables() {
-        return dataTables;
-    }
-
-    public void setDataTables(DataTables dataTables) {
-        this.dataTables = dataTables;
-    }
-
-    public DataGrid getDataGrid() {
-        return dataGrid;
-    }
-
-    public void setDataGrid(DataGrid dataGrid) {
-        this.dataGrid = dataGrid;
-    }
-
-    public Class getEntityClass() {
-        return entityClass;
-    }
-
-    public void setEntityClass(Class entityClass) {
-        this.entityClass = entityClass;
-    }
-
-    public CriterionList getJqcriterionList() {
-        return jqcriterionList;
-    }
-
-    public void setJqcriterionList(CriterionList jqcriterionList) {
-        this.jqcriterionList = jqcriterionList;
-    }
 
     public CriteriaQuery(Class c) {
         this.detachedCriteria = DetachedCriteria.forClass(c);
@@ -212,11 +165,11 @@ public class CriteriaQuery{
         if (!StringUtils.isEmpty(search)) {
             for (String string : sColumns) {
                 if (string.indexOf("_") == -1) {
-                    jqcriterionList.addPara(Restrictions.like(string, "%" + search
+                    jqueryCriterionList.addPara(Restrictions.like(string, "%" + search
                             + "%"));
                 }
             }
-            add(getOrCriterion(jqcriterionList));
+            add(getOrCriterion(jqueryCriterionList));
 
         }
         if (sortInfo.length > 0) {
@@ -317,9 +270,7 @@ public class CriteriaQuery{
      * @param c2
      * @return
      */
-    public Criterion and(Criterion c1, Criterion c2)
-
-    {
+    public Criterion and(Criterion c1, Criterion c2) {
         return Restrictions.and(c1, c2);
     }
 
@@ -442,10 +393,6 @@ public class CriteriaQuery{
      */
     public void like(String keyname, Object keyvalue) {
         if (!StringUtils.isEmpty(keyvalue)) {
-//			criterionList.addPara(Restrictions.like(keyname, "%" + keyvalue+ "%"));
-//			criterionList.addPara(Restrictions.like(keyname, keyvalue));
-//			Criterion criterion=Restrictions.like(keyname,keyvalue+"",MatchMode.ANYWHERE);
-//			Criterion criterion=Restrictions.ilike(keyname, "%" + keyvalue+ "%");
             Criterion criterion = Restrictions.ilike(keyname, keyvalue);
             criterionList.addPara(criterion);
             if (flag) {
@@ -592,103 +539,7 @@ public class CriteriaQuery{
     public void sql(String sql, Object objects, Type type) {
         Restrictions.sqlRestriction(sql, objects, type);
     }
-
-    public Integer getCurPage() {
-        return curPage;
-    }
-
-    public void setCurPage(Integer curPage) {
-        this.curPage = curPage;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    /**
-     * 设置分页显示数
-     *
-     * @param pageSize
-     */
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public String getMyAction() {
-        return myAction;
-    }
-
-    public void setMyAction(String myAction) {
-        this.myAction = myAction;
-    }
-
-    public String getMyForm() {
-        return myForm;
-    }
-
-    public void setMyForm(String myForm) {
-        this.myForm = myForm;
-    }
-
-    public CriterionList getCriterionList() {
-        return criterionList;
-    }
-
-    public void setCriterionList(CriterionList criterionList) {
-        this.criterionList = criterionList;
-    }
-
-    public DetachedCriteria getDetachedCriteria() {
-        return detachedCriteria;
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
-
-    public void setDetachedCriteria(DetachedCriteria detachedCriteria) {
-        this.detachedCriteria = detachedCriteria;
-    }
-
-    public int getIsUseimage() {
-        return isUseimage;
-    }
-
-    /**
-     * 设置工具条样式（0:不带图片：1带图片）
-     *
-     * @param isUseimage
-     */
-    public void setIsUseimage(int isUseimage) {
-        this.isUseimage = isUseimage;
-    }
-
     public Map<String, Object> getMap() {
         return map;
-    }
-
-    public void setMap(Map<String, Object> map) {
-        this.map = map;
-    }
-
-    public boolean isFlag() {
-        return flag;
-    }
-
-    /**
-     * 对同一字段进行第二次重命名查询时值设置FASLE不保存重命名查询条件
-     *
-     * @param flag
-     */
-    public void setFlag(boolean flag) {
-        this.flag = flag;
-    }
-
-    public Map<String, Object> getOrderMap() {
-        return orderMap;
     }
 }

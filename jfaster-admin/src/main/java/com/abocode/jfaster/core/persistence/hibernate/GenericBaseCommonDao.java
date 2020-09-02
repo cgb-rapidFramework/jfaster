@@ -577,7 +577,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		if (isOffset) {// 是否分页
 			criteria.setFirstResult(offset);
 			criteria.setMaxResults(cq.getPageSize());
-			if (cq.getIsUseimage() == 1) {
+			if (cq.getUseImage() == 1) {
 				toolBar = PagerUtil.getBar(cq.getMyAction(), cq.getMyForm(),
 						allCounts, curPageNO, pageSize, cq.getMap());
 			} else {
@@ -659,8 +659,6 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		if (isOffset) {// 是否分页
 			criteria.setFirstResult(offset);
 			criteria.setMaxResults(cq.getPageSize());
-		} else {
-			pageSize = allCounts;
 		}
 		List list = criteria.list();
 		cq.getDataGrid().setResults(list);

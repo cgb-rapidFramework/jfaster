@@ -117,7 +117,7 @@ public class ResourceController {
         if(StringUtils.isEmpty(fileType)){
             fileType="files";
         }
-        uploadFile.setCusPath(fileType);
+        uploadFile.setFolderPath(fileType);
         attachment = resourceService.uploadFile(uploadFile);
         j.setMsg("文件添加成功");
         Map<String, Object> attributes= buildAttributes(attachment);

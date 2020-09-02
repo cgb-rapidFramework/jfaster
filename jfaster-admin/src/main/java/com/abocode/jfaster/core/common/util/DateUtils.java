@@ -60,9 +60,6 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
      */
     public static String getDate(String format) {
         Date date = new Date();
-        if (null == date) {
-            return null;
-        }
         SimpleDateFormat sdf = getSimpleDateFormat(format);
         return sdf.format(date);
     }

@@ -36,16 +36,12 @@ public class SimpleJdbcTemplate {
 	 * @return bean对象集合
 	 */
 	public List find(final String sql,Class clazz,Map parameters){
-		try{
-			Assert.hasText(sql,"sql语句不正确!");
-			Assert.notNull(clazz,"集合中对象类型不能为空!");
-			if(parameters!=null){
-				return jdbcTemplate.queryForList(sql,  parameters);
-			}else{
-				return  jdbcTemplate.queryForList(sql,clazz);
-			}
-		}catch (Exception e) {
-			return null;
+		Assert.hasText(sql,"sql语句不正确!");
+		Assert.notNull(clazz,"集合中对象类型不能为空!");
+		if(parameters!=null){
+			return jdbcTemplate.queryForList(sql,  parameters);
+		}else{
+			return  jdbcTemplate.queryForList(sql,clazz);
 		}
 	}
 	

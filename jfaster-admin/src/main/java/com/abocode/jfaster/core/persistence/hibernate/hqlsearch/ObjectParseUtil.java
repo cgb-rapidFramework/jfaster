@@ -14,7 +14,7 @@ public class ObjectParseUtil {
     public static String setSqlModel(DataRule dataRule) {
         if (dataRule == null)
             return "";
-        String sqlValue = "";
+
         HqlRuleEnum ruleEnum = HqlRuleEnum.getByValue(dataRule.getRuleCondition());
         String ValueTemp = "";
 
@@ -26,6 +26,7 @@ public class ObjectParseUtil {
         }
 
         String TempValue = SessionUtils.getUserSystemData(ValueTemp) == null ? ValueTemp : SessionUtils.getUserSystemData(ValueTemp);//将系统变量
+        String sqlValue = "";
         switch (ruleEnum) {
             case GT:
                 sqlValue += " and " + dataRule.getRuleColumn() + " >'" + TempValue + "'";

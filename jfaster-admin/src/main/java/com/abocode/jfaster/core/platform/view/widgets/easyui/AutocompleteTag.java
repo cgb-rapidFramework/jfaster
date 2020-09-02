@@ -1,6 +1,7 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
 import com.abocode.jfaster.core.common.util.JspWriterUtils;
+import lombok.Data;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.jsp.JspTagException;
@@ -14,6 +15,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  * @date： 日期：2012-12-7 时间：上午10:17:45
  * @version 1.0
  */
+@Data
 public class AutocompleteTag extends TagSupport {
 	private static final long serialVersionUID = 1L;
 	private String name;//控件名称
@@ -34,25 +36,7 @@ public class AutocompleteTag extends TagSupport {
 	private String formatItem; 
 	private String result; 
 	private Integer maxRows = 10;//显示的最多的条数
-	
-	public void setClosefun(String closefun) {
-		this.closefun = closefun;
-	}
-	public void setDatatype(String datatype) {
-		this.datatype = datatype;
-	}
-	public void setNullmsg(String nullmsg) {
-		this.nullmsg = nullmsg;
-	}
-	public void setErrormsg(String errormsg) {
-		this.errormsg = errormsg;
-	}
-	public void setLabel(String label) {
-		this.label = label;
-	}
-	public void setValue(String value) {
-		this.value = value;
-	}
+
 	
 	public int doStartTag() throws JspTagException {
 		return EVAL_PAGE;
@@ -84,45 +68,12 @@ public class AutocompleteTag extends TagSupport {
 		nsb.append("}); });")
 		.append("function getTremValue(){return $(\"#"+name+"\").val();}")
         .append("</script>")
-        .append("<input type=\"text\" id=\""+name+"\" datatype=\""+datatype+"\" nullmsg=\""+nullmsg+"\" errormsg=\""+errormsg+"\"/>");
+        .append("<input type=\"text\" id=\""+name+"\" datatype=\""+datatype+"\" nullmsg=\""+ nullmsg +"\" errormsg=\""+errormsg+"\"/>");
 		if(!StringUtils.isEmpty(label)){
 			nsb.append(" value="+label+" readonly=true");
 		}
 		nsb.append("<input type=\"hidden\" id=\""+valueField+"\" name=\""+valueField+"\"/>");
 		return nsb.toString();
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public void setParse(String parse) {
-		this.parse = parse;
-	}
-	public void setFormatItem(String formatItem) {
-		this.formatItem = formatItem;
-	}
-	public void setResult(String result) {
-		this.result = result;
-	}
-	public void setDataSource(String dataSource) {
-		this.dataSource = dataSource;
-	}
-	public void setMinLength(Integer minLength) {
-		this.minLength = minLength;
-	}
-	public void setLabelField(String labelField) {
-		this.labelField = labelField;
-	}
-	public void setValueField(String valueField) {
-		this.valueField = valueField;
-	}
-	public void setEntityName(String entityName) {
-		this.entityName = entityName;
-	}
-	public void setSearchField(String searchField) {
-		this.searchField = searchField;
-	}
-	public void setSelectfun(String selectfun) {
-		this.selectfun = selectfun;
 	}
 	public void setMaxRows(Integer maxRows){
 		if(maxRows==null){

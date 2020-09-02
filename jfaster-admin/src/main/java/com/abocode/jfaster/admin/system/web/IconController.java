@@ -92,7 +92,7 @@ public class IconController{
 		icon.setIconName(iconName);
 		icon.setIconType(iconType);
 		FileUploadDto uploadFile = new FileUploadDto(request, icon);
-		uploadFile.setCusPath("plug-in/accordion/images");
+		uploadFile.setFolderPath("plug-in/accordion/images");
 		uploadFile.setExtend("extend");
 		uploadFile.setTitleField("iconclas");
 		uploadFile.setRealPath("iconPath");

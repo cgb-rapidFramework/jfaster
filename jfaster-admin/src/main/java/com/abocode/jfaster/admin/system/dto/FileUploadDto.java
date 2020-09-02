@@ -21,8 +21,8 @@ public class FileUploadDto {
 	private String extend = "extend";// 扩展名
 	private boolean view = false;// 是否是预览
 	private boolean rename  =true;// 是否重命名
-	private String swfpath;// 转换SWF
-	private String cusPath;// 文件物理路径自定义子目录
+	private String swfPath;// 转换SWF
+	private String folderPath;// 文件物理路径自定义子目录
 	private byte[] content;// 预览或下载时传入的文件二进制内容
 	private Object object;// 文件对应实体对象
 	private String fileKey;// 上传文件ID

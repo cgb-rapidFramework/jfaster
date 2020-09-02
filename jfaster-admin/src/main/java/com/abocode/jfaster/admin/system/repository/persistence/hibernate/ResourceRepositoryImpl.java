@@ -66,10 +66,10 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                     realPath = localDiskPath + "/" + ResourceUtils.RESOURCE_TEMPLATE + "/";
                     path = ResourceUtils.RESOURCE_TEMPLATE + "/";
                 } else if (entityName.equals("Icon")) {
-                    realPath = localDiskPath + "/" + uploadFile.getCusPath() + "/";
-                    path = uploadFile.getCusPath() + "/";
+                    realPath = localDiskPath + "/" + uploadFile.getFolderPath() + "/";
+                    path = uploadFile.getFolderPath() + "/";
                 } else {
-                    path = ResourceUtils.RESOURCE_FILE + "/" + uploadFile.getCusPath() + "/" + ResourceUtils.getDateDir() + "/";
+                    path = ResourceUtils.RESOURCE_FILE + "/" + uploadFile.getFolderPath() + "/" + ResourceUtils.getDateDir() + "/";
                     // 文件数据库保存路径
                     realPath = localDiskPath + "/" + path + "/";// 文件的硬盘真实路径
                 }
@@ -253,7 +253,6 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
     /**
      * 解析XML文件将数据导入数据库中
      */
-    @SuppressWarnings("unchecked")
     public void parserXml(String fileName) {
         try {
             File inputXml = new File(fileName);
@@ -272,10 +271,10 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                 // 得到实体的ID
                 String id = employee.attributeValue(fields[0].getName());
                 // 判断实体是否已存在
-                Object obj1 = this.commonDao.findEntity(entityClass, id);
+                Object entity = this.commonDao.findEntity(entityClass, id);
                 // 实体不存在new个实体
-                if (obj1 == null) {
-                    obj1 = entityClass.newInstance();
+                if (entity == null) {
+                    entity = entityClass.newInstance();
                 }
                 // 根据反射给实体属性赋值
                 for (Iterator j = employee.elementIterator(); j.hasNext(); ) {
@@ -288,24 +287,20 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                             Method setMethod = entityClass.getMethod(setName, new Class[]{fields[k].getType()});
                             String type = TagUtil.getColumnType(fieldName, fields);
                             if (type.equals("int")) {
-                                setMethod.invoke(obj1, new Integer(node.getText()));
+                                setMethod.invoke(entity, new Integer(node.getText()));
                             } else if (type.equals("string")) {
-                                setMethod.invoke(obj1, node.getText().toString());
+                                setMethod.invoke(entity, node.getText().toString());
                             } else if (type.equals("short")) {
-                                setMethod.invoke(obj1, new Short(node.getText()));
+                                setMethod.invoke(entity, new Short(node.getText()));
                             } else if (type.equals("double")) {
-                                setMethod.invoke(obj1, new Double(node.getText()));
+                                setMethod.invoke(entity, new Double(node.getText()));
                             } else if (type.equals("Timestamp")) {
-                                setMethod.invoke(obj1, new Timestamp(DateUtils.strToDate(node.getText(), "YYYY_MM_DD_HH_MM_SS").getTime()));
+                                setMethod.invoke(entity, new Timestamp(DateUtils.strToDate(node.getText(), "YYYY_MM_DD_HH_MM_SS").getTime()));
                             }
                         }
                     }
                 }
-                if (obj1 != null) {
-                    saveOrUpdate(obj1);
-                } else {
-                    save(obj1);
-                }
+                saveOrUpdate(entity);
             }
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -330,7 +325,6 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
             tree.setChecked(false);
             if (recursive) {// 递归查询子节点
                 List<Org> departList = new ArrayList<Org>(departsList);
-                //Collections.sort(departList, new SetListSort());// 排序
                 List<ComboTree> children = new ArrayList<ComboTree>();
                 for (Org d : departList) {
                     ComboTree t = tree(d, true);
@@ -419,12 +413,8 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
             }
             tg.setId(id);
             if (treeGridModel.getIcon() != null) {
-                String iconpath = TagUtil.fieldNameToValues(treeGridModel.getIcon(), obj).toString();
-                if (iconpath != null) {
-                    tg.setCode(iconpath);
-                } else {
-                    tg.setCode("");
-                }
+                String iconPath = TagUtil.fieldNameToValues(treeGridModel.getIcon(), obj).toString();
+                tg.setCode(iconPath);
             }
             tg.setSrc(src);
             tg.setText(text);

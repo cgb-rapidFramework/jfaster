@@ -32,7 +32,7 @@ public final class Globals {
     /**
      * 权限等级
      */
-    public static  final Short Function_Leave_ONE = 0;//一级权限
+    public static  final Short FUNCTION_LEAVE_ONE = 0;//一级权限
     /**
      * 没有勾选的操作code
      */

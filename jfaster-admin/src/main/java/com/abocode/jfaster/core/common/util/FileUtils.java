@@ -1,5 +1,6 @@
 package com.abocode.jfaster.core.common.util;
 
+import com.abocode.jfaster.core.common.exception.ContextRuntimeException;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.system.entity.Icon;
 import lombok.extern.slf4j.Slf4j;
@@ -7,10 +8,115 @@ import lombok.extern.slf4j.Slf4j;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.UUID;
+
 @Slf4j
 public class FileUtils {
+
+    /***
+     * 创建文件目录如果不存在
+     * @param path
+     */
+    public static boolean mkdirIfNotExists(String path) {
+        File dir = new File(path);
+        return mkdirIfNotExists(dir);
+    }
+
+    public static boolean mkdirIfNotExists(File dir) {
+        if (!dir.exists()) {
+            return dir.mkdirs();
+        }
+        return true;
+    }
+
+    /***
+     * 创建文件目录如果不存在
+     * @param path
+     */
+    public static void deleteIfExists(String path) {
+        File file = new File(path);
+        try {
+            Files.deleteIfExists(file.toPath());
+        } catch (IOException e) {
+            throw new ContextRuntimeException("删除文件失败", e);
+        }
+    }
+
+    /***
+     * 创建新文件
+     * @param file
+     * @return
+     */
+    public static boolean createFileIfNotExists(File file) {
+        try {
+            boolean res = true;
+            if (!file.exists()) {
+                res = file.createNewFile();
+            }
+            return res;
+        } catch (IOException e) {
+            throw new ContextRuntimeException("创建文件失败", e);
+        }
+    }
+
+    /***
+     * 创建新文件
+     * @param file
+     * @return
+     */
+    public static boolean createNewFile(File file) {
+        try {
+            Files.deleteIfExists(file.toPath());
+            return file.createNewFile();
+        } catch (IOException e) {
+            throw new ContextRuntimeException("创建文件失败", e);
+        }
+    }
+
+    /***
+     * 将字符串写入到文件
+     */
+    public static void writeToFile(File file, String content,boolean append) {
+        FileUtils.mkdirIfNotExists(file.getParentFile());
+        try (FileWriter fileWriter = new FileWriter(file, append);) {
+            fileWriter.write(content);
+        } catch (IOException e) {
+            throw new ContextRuntimeException("写文件失败", e);
+        }
+    }
+
+    /***
+     * 读取文件内容
+     * @param file
+     * @return
+     */
+    public static String readFile(File file) {
+        Long fileLength = file.length();
+        byte[] fileContent = new byte[fileLength.intValue()];
+        try (FileInputStream in = new FileInputStream(file);) {
+            in.read(fileContent);
+            return new String(fileContent);
+        } catch (IOException e) {
+            throw new ContextRuntimeException("读取文件失败", e);
+        }
+    }
+
+    public static File createFile(String path) {
+        File file = new File(path);
+        try {
+            if (!file.getParentFile().exists() && !file.isDirectory()) {
+                file.getParentFile().mkdirs();
+                file.createNewFile();
+            } else {
+                file.createNewFile();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("文件创建失败");
+        }
+        return file;
+    }
 
     /**
      * 获取文件扩展名
@@ -124,25 +230,26 @@ public class FileUtils {
 
     /**
      * 把数据库中图片byte，存到项目temp目录下，并且把路径返设置给TsIcon
+     *
      * @param dataGrid
      * @param request
      */
-    public static void convertDataGrid(DataGrid dataGrid, HttpServletRequest request){
-        String fileDirName=request.getSession().getServletContext().getRealPath("")+File.separator+"temp";
+    public static void convertDataGrid(DataGrid dataGrid, HttpServletRequest request) {
+        String fileDirName = request.getSession().getServletContext().getRealPath("") + File.separator + "temp";
         delFolder(fileDirName);
         File fileDir = new File(fileDirName);
         if (!fileDir.exists()) {
             fileDir.mkdirs();
         }
         try {
-            List list=dataGrid.getResults();
-            for(Object obj:list){
-                Icon icon=(Icon)obj;
-                String fileName="icon"+ UUID.randomUUID()+"."+icon.getIconExtend();
-                File tempFile=new File(fileDirName+File.separator+fileName);
-                if(icon.getIconContent()!=null){
-                    byte2image(icon.getIconContent(),tempFile);
-                    icon.setIconPath("temp/"+fileName);
+            List list = dataGrid.getResults();
+            for (Object obj : list) {
+                Icon icon = (Icon) obj;
+                String fileName = "icon" + UUID.randomUUID() + "." + icon.getIconExtend();
+                File tempFile = new File(fileDirName + File.separator + fileName);
+                if (icon.getIconContent() != null) {
+                    byte2image(icon.getIconContent(), tempFile);
+                    icon.setIconPath("temp/" + fileName);
                 }
             }
         } catch (Exception e) {
@@ -151,20 +258,21 @@ public class FileUtils {
     }
 
     //byte数组到图片
-    private static void byte2image(byte[] data,File file){
-        if( data.length < 3 ) return;
+    private static void byte2image(byte[] data, File file) {
+        if (data.length < 3) return;
         FileImageOutputStream imageOutput = null;
         try {
             imageOutput = new FileImageOutputStream(file);
             imageOutput.write(data, 0, data.length);
             imageOutput.close();
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     /**
      * 删除文件夹
+     *
      * @param folderPath 文件夹完整绝对路径
      */
     private static void delFolder(String folderPath) {
@@ -176,8 +284,10 @@ public class FileUtils {
             log.error(e.getMessage());
         }
     }
+
     /**
      * 删除指定文件夹下所有文件
+     *
      * @param path 文件夹完整绝对路径
      * @return
      */
@@ -191,7 +301,7 @@ public class FileUtils {
             return flag;
         }
         String[] tempList = file.list();
-        if (tempList!=null){
+        if (tempList != null) {
             File temp;
             for (int i = 0; i < tempList.length; i++) {
                 if (path.endsWith(File.separator)) {

@@ -179,19 +179,9 @@ public class SysThemesUtils {
      * @param css
      */
     public static void write(String path, String css) {
-        try {
-            File file = new File(path);
-            if (!file.exists()) {
-                boolean res = file.createNewFile();
-                Assert.isTrue(res, "创建文件失败");
-            }
-            FileWriter out = new FileWriter(file, true);
-            out.write("\r\n");
-            out.write(css);
-            out.close();
-        } catch (Exception e) {
-            throw new BusinessException("写主题失败", e);
-        }
+        File file = new File(path);
+        FileUtils.createFileIfNotExists(file);
+        FileUtils.writeToFile(file,"\r\n".concat(css),true);
     }
 
     /**
@@ -201,17 +191,7 @@ public class SysThemesUtils {
      */
     public static void clearFile(String path) {
         File file = new File(path);
-        try {
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write("");
-            fileWriter.flush();
-            fileWriter.close();
-        } catch (IOException e) {
-            log.error(e.getMessage());
-            throw new BusinessException("清空文件失败", e);
-        }
+        FileUtils.createFileIfNotExists(file);
+        FileUtils.writeToFile(file,"",false);
     }
 }

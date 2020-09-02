@@ -475,7 +475,7 @@ public class UserController {
         String id = uploadFile.get("id");
         User user = userRepository.findEntity(User.class, id);
         uploadFile.setRealPath("signatureFile");
-        uploadFile.setCusPath("signature");
+        uploadFile.setFolderPath("signature");
         uploadFile.setByteField("signature");
         uploadFile.setBasePath("resources");
         uploadFile.setRename(false);

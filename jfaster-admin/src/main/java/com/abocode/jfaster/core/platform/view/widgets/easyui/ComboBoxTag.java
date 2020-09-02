@@ -6,6 +6,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import com.abocode.jfaster.core.common.model.json.ComboBox;
 import com.abocode.jfaster.core.common.util.JspWriterUtils;
+import lombok.Data;
 
 /**
  * 类描述：下拉选择框标签
@@ -14,6 +15,7 @@ import com.abocode.jfaster.core.common.util.JspWriterUtils;
  * @author: 张代浩
  * @date： 日期：2012-12-7 时间：上午10:17:45
  */
+@Data
 public class ComboBoxTag extends TagSupport {
     protected String id;// ID
     protected String text;// 显示文本
@@ -35,10 +37,10 @@ public class ComboBoxTag extends TagSupport {
     }
 
     public String end() {
-        StringBuffer sb = new StringBuffer();
         ComboBox comboBox = new ComboBox();
         comboBox.setText(text);
         comboBox.setId(id);
+        StringBuffer sb = new StringBuffer();
         sb.append("<script type=\"text/javascript\">"
                 + "$(function() {"
                 + "$(\'#" + name + "\').combobox({"
@@ -61,21 +63,4 @@ public class ComboBoxTag extends TagSupport {
                 + "multiple=\"true\" panelHeight=\"auto\" name=\"" + name + "name\" id=\"" + name + "\" >");
         return sb.toString();
     }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
 }

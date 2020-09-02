@@ -276,7 +276,7 @@ public class TagUtil {
             for (int j = 0; j < list.size(); j++) {
                 jsonTemp.append("{'nodate':'yes',");
                 for (int i = 0; i < fields.length; i++) {
-                    String fieldName = fields[i].toString();
+                    String fieldName = fields[i];
                     values[i] = fieldNameToValues(fieldName, list.get(j));
                     jsonTemp.append("\"").append(fieldName).append("\"").append(":\"").append(values[i]).append("\"");
                     if (i != fields.length - 1) {
