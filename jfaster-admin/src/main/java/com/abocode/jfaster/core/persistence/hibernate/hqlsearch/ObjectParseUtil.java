@@ -16,16 +16,15 @@ public class ObjectParseUtil {
             return "";
 
         HqlRuleEnum ruleEnum = HqlRuleEnum.getByValue(dataRule.getRuleCondition());
-        String ValueTemp = "";
+        String valueTemp ;
 
         //针对特殊标示处理#{sysOrgCode}，判断替换
         if (dataRule.getRuleValue().contains("{")) {
-            ValueTemp = dataRule.getRuleValue().substring(2, dataRule.getRuleValue().length() - 1);
+            valueTemp = dataRule.getRuleValue().substring(2, dataRule.getRuleValue().length() - 1);
         } else {
-            ValueTemp = dataRule.getRuleValue();
+            valueTemp = dataRule.getRuleValue();
         }
-
-        String TempValue = SessionUtils.getUserSystemData(ValueTemp) == null ? ValueTemp : SessionUtils.getUserSystemData(ValueTemp);//将系统变量
+        String TempValue = SessionUtils.getUserSystemData(valueTemp) == null ? valueTemp : SessionUtils.getUserSystemData(valueTemp);//将系统变量
         String sqlValue = "";
         switch (ruleEnum) {
             case GT:

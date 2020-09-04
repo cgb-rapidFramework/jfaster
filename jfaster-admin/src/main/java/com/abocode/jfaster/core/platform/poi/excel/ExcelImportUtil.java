@@ -18,6 +18,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
+import org.springframework.util.Assert;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 
@@ -110,7 +111,8 @@ public final class ExcelImportUtil {
 		path = path.replace("file:/","");
 		File savefile = new File(path);
 		if(!savefile.exists()){
-			savefile.mkdirs();
+			boolean b = savefile.mkdirs();
+			Assert.isTrue(b,"mkdirs files");
 		}
 		SimpleDateFormat format = new SimpleDateFormat("yyyMMddHHmmss");
 		FileOutputStream fos = new FileOutputStream(path+"/"+format.format(new Date())+"_"
@@ -214,11 +216,12 @@ public final class ExcelImportUtil {
 	 *@return
 	 */
 	private static String getKeyValue(Cell cell) {
-		Object obj = null;
+		Object obj;
 		switch (cell.getCellType()) {
 			case Cell.CELL_TYPE_STRING:obj = cell.getStringCellValue();break;
 			case Cell.CELL_TYPE_BOOLEAN:obj = cell.getBooleanCellValue();break;
 			case Cell.CELL_TYPE_NUMERIC:obj = cell.getNumericCellValue();break;
+			default:obj = cell.getDateCellValue();break;
 		}
 		return obj==null?null:obj.toString();
 	}
@@ -248,7 +251,8 @@ public final class ExcelImportUtil {
 			path = path.replace("file:/","");
 			File savefile = new File(path);
 			if(!savefile.exists()){
-				savefile.mkdirs();
+				boolean b = savefile.mkdirs();
+				Assert.isTrue(b,"mkdirs files");
 			}
 			savefile = new File(path+"/"+fileName);
 			FileCopyUtils.copy(data, savefile);
@@ -334,12 +338,12 @@ public final class ExcelImportUtil {
 				.getSetMethods().get(entity.getSetMethods().size() - 1)
 				: entity.getSetMethod();
 		Type[] ts = setMethod.getGenericParameterTypes();
-		String xclass = ts[0].toString();
-		if (xclass.equals("class java.lang.String")) {
+		String clazz = ts[0].toString();
+		if (clazz.equals("class java.lang.String")) {
 			cell.setCellType(Cell.CELL_TYPE_STRING);
 			setValues(entity, object, cell.getStringCellValue());
-		} else if (xclass.equals("class java.util.Date")) {
-			Date cellDate = null;
+		} else if (clazz.equals("class java.util.Date")) {
+			Date cellDate;
 			if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
 				// 日期格式
 				cellDate = cell.getDateCellValue();
@@ -349,7 +353,7 @@ public final class ExcelImportUtil {
 				cellDate = getDateData(entity,cell.getStringCellValue());
 				setValues(entity, object, cellDate);
 			}
-		} else if (xclass.equals("class java.lang.Boolean")) {
+		} else if (clazz.equals("class java.lang.Boolean")) {
 			boolean valBool;
 			if (Cell.CELL_TYPE_BOOLEAN == cell.getCellType()) {
 				valBool = cell.getBooleanCellValue();
@@ -358,23 +362,23 @@ public final class ExcelImportUtil {
 						|| (!cell.getStringCellValue().equals("0"));
 			}
 			setValues(entity, object, valBool);
-		} else if (xclass.equals("class java.lang.Integer")) {
+		} else if (clazz.equals("class java.lang.Integer")) {
 			Integer valInt;
 			if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
-				valInt = (new Double(cell.getNumericCellValue())).intValue();
+				valInt = Integer.valueOf(String.valueOf(cell.getNumericCellValue()));
 			} else {
-				valInt = new Integer(cell.getStringCellValue());
+				valInt = Integer.valueOf (cell.getStringCellValue());
 			}
 			setValues(entity, object, valInt);
-		} else if (xclass.equals("class java.lang.Long")) {
+		} else if (clazz.equals("class java.lang.Long")) {
 			Long valLong;
 			if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
-				valLong = (new Double(cell.getNumericCellValue())).longValue();
+				valLong = Long.valueOf(String.valueOf(cell.getNumericCellValue()));
 			} else {
-				valLong = new Long(cell.getStringCellValue());
+				valLong = Long.valueOf(cell.getStringCellValue());
 			}
 			setValues(entity, object, valLong);
-		} else if (xclass.equals("class java.math.BigDecimal")) {
+		} else if (clazz.equals("class java.math.BigDecimal")) {
 			BigDecimal valDecimal;
 			if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
 				valDecimal = new BigDecimal(cell.getNumericCellValue());
@@ -382,7 +386,7 @@ public final class ExcelImportUtil {
 				valDecimal = new BigDecimal(cell.getStringCellValue());
 			}
 			setValues(entity, object, valDecimal);
-		} else if (xclass.equals("class java.lang.Double")) {
+		} else if (clazz.equals("class java.lang.Double")) {
 			Double valDouble;
 			if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
 				valDouble = new Double(cell.getNumericCellValue());

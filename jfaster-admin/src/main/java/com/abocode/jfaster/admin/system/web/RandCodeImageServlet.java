@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.abocode.jfaster.core.common.util.ConfigUtils;
+import com.abocode.jfaster.core.common.util.StringUtils;
+import org.springframework.util.Assert;
 
 /**
  * 随机生成验证图片
@@ -77,7 +79,7 @@ public class RandCodeImageServlet extends HttpServlet {
         }
 
         // 取随机产生的认证码(4位数字)
-        final String resultCode = exctractRandCode();
+        String resultCode = getRandomCode();
         for (int i = 0; i < resultCode.length(); i++) {
             // 将认证码显示到图象中,调用函数出来的颜色相同，可能是因为种子太接近，所以只能直接生成
             // graphics.setColor(new Color(20 + random.nextInt(130), 20 + random
@@ -110,11 +112,12 @@ public class RandCodeImageServlet extends HttpServlet {
     /**
      * @return 随机码
      */
-    private String exctractRandCode() {
-        final String randCodeType = ConfigUtils.getRandCodeType();
+    private String getRandomCode() {
+        String randomCodeType = ConfigUtils.getRandCodeType();
+        Assert.isTrue(!StringUtils.isEmpty(randomCodeType),"random code is null");
         int randCodeLength = Integer.parseInt(ConfigUtils.getRandCodeLength());
-        if (randCodeType != null) {
-            switch (randCodeType.charAt(0)) {
+        if (randomCodeType != null) {
+            switch (randomCodeType.charAt(0)) {
                 case '2':
                     return RandCodeImageEnum.LOWER_CHAR.generateStr(randCodeLength);
                 case '3':

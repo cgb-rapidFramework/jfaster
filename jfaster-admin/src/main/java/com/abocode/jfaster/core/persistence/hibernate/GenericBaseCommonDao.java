@@ -64,21 +64,6 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	}
 
 	/**
-	 * 获得该类的属性和类型
-	 * 
-	 * @param entityName
-	 *            注解的实体类
-	 */
-	private <T> void find(Class entityName) {
-		ClassMetadata cm = sessionFactory.getClassMetadata(entityName);
-		String[] str = cm.getPropertyNames(); // 获得该类所有的属性名称
-		for (int i = 0; i < str.length; i++) {
-			String property = str[i];
-			String type = cm.getPropertyType(property).getName(); // 获得该名称的类型
-		}
-	}
-
-	/**
 	 * 获取所有数据表
 	 * 
 	 * @return
@@ -584,8 +569,6 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 				toolBar = PagerUtil.getBar(cq.getMyAction(), allCounts,
 						curPageNO, pageSize, cq.getMap());
 			}
-		} else {
-			pageSize = allCounts;
 		}
 		return new PageList(criteria.list(), toolBar, offset, curPageNO,
 				allCounts);
@@ -620,8 +603,6 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		if (isOffset) {// 是否分页
 			criteria.setFirstResult(offset);
 			criteria.setMaxResults(cq.getPageSize());
-		} else {
-			pageSize = allCounts;
 		}
 		DetachedCriteriaUtil.selectColumn(cq.getDetachedCriteria(), cq
 				.getField().split(","), cq.getEntityClass(), false);

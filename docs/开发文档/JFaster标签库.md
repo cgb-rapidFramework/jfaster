@@ -379,11 +379,6 @@ formId|string|后台接受表单id, 不可与formData同时使用|否|null
 fileSizeLimit|string|上传文件大小设置|否|15MB
 outhtml|boolean|是否生成HTML（true/false）一个页面多个upload字段支持|否|TRUE
 onUploadStart|string|上传之前处理函数,只传函数名,该函数有个参数为file对象|否|null
-Disconnected from the target VM, address: '127.0.0.1:53673', transport: 'socket'
-
-Process finished with exit code 0
-
-
 
 ## Tabs
  

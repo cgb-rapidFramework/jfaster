@@ -25,11 +25,11 @@ import java.util.*;
 @Data
 public class DataGridTag extends TagSupport {
     protected String fields = "";// 显示字段
-    protected String searchFields = "";// 查询字段  Author:qiulu  Date:20130618 for：添加对区间查询的支持
+    protected String searchFields = "";// 添加对区间查询的支持
     protected String name;// 表格标示
     protected String title;// 表格标示
     protected String idField = "id";// 主键字段
-    protected boolean treegrid = false;// 是否是树形列表
+    protected boolean treeGrid = false;// 是否是树形列表
     protected List<DataGridUrl> urlList = new ArrayList<DataGridUrl>();// 列表操作显示
     protected List<DataGridUrl> toolBarList = new ArrayList<DataGridUrl>();// 工具条列表
     protected List<DataGridColumn> columnList = new ArrayList<DataGridColumn>();// 列表操作显示
@@ -61,13 +61,12 @@ public class DataGridTag extends TagSupport {
     private String rowStyler;//rowStyler函数
     private String extendParams;//扩展参数,easyui有的,但是jeecg没有的参数进行扩展
     private boolean autoLoadData = true; // 列表是否自动加载数据
-    //private boolean frozenColumn=false; // 是否是冰冻列    默认不是
     private String langArg;
 
     private boolean queryBuilder = false;// 高级查询器
 
     //json转换中的系统保留字
-    protected static Map<String, String> code = new HashMap();
+    private final static Map<String, String> code = new HashMap();
 
     static {
         code.put("class", "clazz");
@@ -410,7 +409,7 @@ public class DataGridTag extends TagSupport {
         sb.append("$(function(){  storage=$.localStorage;if(!storage)storage=$.cookieStorage;");
         sb.append(this.getNoAuthOperButton());
         String grid;
-        if (treegrid) {
+        if (treeGrid) {
             grid = "treegrid";
             sb.append("$(\'#" + name + "\').treegrid({");
             sb.append("idField:'id',");
@@ -463,7 +462,7 @@ public class DataGridTag extends TagSupport {
         this.getField(sb);
         sb.append("]],");
         sb.append("onLoadSuccess:function(data){$(\"#" + name + "\")." + grid + "(\"clearSelections\");");
-        if (openFirstNode && treegrid) {
+        if (openFirstNode && treeGrid) {
             sb.append(" if(data==null){");
             sb.append(" var firstNode = $(\'#" + name + "\').treegrid('getRoots')[0];");
             sb.append(" $(\'#" + name + "\').treegrid('expand',firstNode.id)}");
@@ -475,7 +474,7 @@ public class DataGridTag extends TagSupport {
         if (!StringExpandUtils.isEmpty(onDblClick)) {
             sb.append("onDblClickRow:function(rowIndex,rowData){" + onDblClick + "(rowIndex,rowData);},");
         }
-        if (treegrid) {
+        if (treeGrid) {
             sb.append("onClickRow:function(rowData){");
         } else {
             sb.append("onClickRow:function(rowIndex,rowData){");
@@ -484,7 +483,7 @@ public class DataGridTag extends TagSupport {
         sb.append("rowid=rowData.id;");
         sb.append("gridname=\'" + name + "\';");
         if (!StringExpandUtils.isEmpty(onClick)) {
-            if (treegrid) {
+            if (treeGrid) {
                 sb.append("" + onClick + "(rowData);");
             } else {
                 sb.append("" + onClick + "(rowIndex,rowData);");
@@ -943,7 +942,7 @@ public class DataGridTag extends TagSupport {
             i++;
             if ((column.isFrozenColumn() && frozen == 0) || (!column.isFrozenColumn() && frozen == 1)) {
                 String field;
-                if (treegrid) {
+                if (treeGrid) {
                     field = column.getTreefield();
                 } else {
                     field = column.getField();
@@ -963,7 +962,7 @@ public class DataGridTag extends TagSupport {
                 if (column.isHidden()) {
                     sb.append(",hidden:true");
                 }
-                if (!treegrid) {
+                if (!treeGrid) {
                     // 字段排序
                     if ((column.isSortable()) && (field.indexOf("_") <= 0 && field != "opt")) {
                         sb.append(",sortable:" + column.isSortable() + "");
@@ -1632,7 +1631,7 @@ public class DataGridTag extends TagSupport {
         sb.append("<link rel=\"stylesheet\" href=\"plug-in/easyui/themes/ace/main.css\" /><script type=\"text/javascript\">");
         sb.append("$(function(){  storage=$.localStorage;if(!storage)storage=$.cookieStorage;");
         sb.append(this.getNoAuthOperButton());
-        if (treegrid) {
+        if (treeGrid) {
             grid = "treegrid";
             sb.append("$(\'#" + name + "\').treegrid({");
             sb.append("idField:'id',");
@@ -1685,7 +1684,7 @@ public class DataGridTag extends TagSupport {
         this.getField(sb);
         sb.append("]],");
         sb.append("onLoadSuccess:function(data){$(\"#" + name + "\")." + grid + "(\"clearSelections\");");
-        if (openFirstNode && treegrid) {
+        if (openFirstNode && treeGrid) {
             sb.append(" if(data==null){");
             sb.append(" var firstNode = $(\'#" + name + "\').treegrid('getRoots')[0];");
             sb.append(" $(\'#" + name + "\').treegrid('expand',firstNode.id)}");
@@ -1697,7 +1696,7 @@ public class DataGridTag extends TagSupport {
         if (!StringExpandUtils.isEmpty(onDblClick)) {
             sb.append("onDblClickRow:function(rowIndex,rowData){" + onDblClick + "(rowIndex,rowData);},");
         }
-        if (treegrid) {
+        if (treeGrid) {
             sb.append("onClickRow:function(rowData){");
         } else {
             sb.append("onClickRow:function(rowIndex,rowData){");
@@ -1706,7 +1705,7 @@ public class DataGridTag extends TagSupport {
         sb.append("rowid=rowData.id;");
         sb.append("gridname=\'" + name + "\';");
         if (!StringExpandUtils.isEmpty(onClick)) {
-            if (treegrid) {
+            if (treeGrid) {
                 sb.append("" + onClick + "(rowData);");
             } else {
                 sb.append("" + onClick + "(rowIndex,rowData);");

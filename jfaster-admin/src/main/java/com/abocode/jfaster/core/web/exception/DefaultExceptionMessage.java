@@ -37,25 +37,17 @@ public enum DefaultExceptionMessage implements ExceptionMessage {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
     @Override
     public String getKey() {
         return key;
     }
 
-    public void setKey(String key) {
-        this.key = key;
-    }
+
     @Override
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
     DefaultExceptionMessage(String key, String code, String message) {
         this.key = key;

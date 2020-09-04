@@ -1,29 +1,21 @@
 package com.abocode.jfaster.core.persistence.jdbc;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
-/**
- * jdbc模板
- * @author  张代浩
- *
- */
+
+@Slf4j
 public class SimpleJdbcTemplate {
-	
-	protected final Log logger = LogFactory.getLog(getClass());
-	
 	protected JdbcTemplate jdbcTemplate;
-	protected SimpleJdbcInsert simpleJdbcInsert;
 	public SimpleJdbcTemplate(DataSource dataSource){
 		jdbcTemplate=new JdbcTemplate(dataSource);
-		simpleJdbcInsert=new SimpleJdbcInsert(dataSource);
 	}
 	
 	/**

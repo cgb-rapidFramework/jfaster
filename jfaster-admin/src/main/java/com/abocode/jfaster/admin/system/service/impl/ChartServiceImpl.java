@@ -38,14 +38,14 @@ public class ChartServiceImpl implements ChartService {
         Map<String, Object> map;
         if (userBroswerList.size() > 0) {
             for (Object object : userBroswerList) {
-                map = new HashMap<String, Object>();
+                map = new HashMap();
                 Object[] obj = (Object[]) object;
                 map.put("name", obj[0]);
                 map.put("y", obj[1]);
                 Long groupCount = (Long) obj[1];
-                Double  percentage = 0.0;
+                double  percentage = 0.0;
                 if (count != null && count.intValue() != 0) {
-                    percentage = new Double(groupCount)/count;
+                    percentage = groupCount/count;
                 }
                 map.put("percentage", percentage*100);
                 lt.add(map);

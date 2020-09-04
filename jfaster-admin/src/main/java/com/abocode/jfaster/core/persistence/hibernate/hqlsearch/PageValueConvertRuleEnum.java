@@ -63,7 +63,7 @@ public class PageValueConvertRuleEnum {
 		if (! (value instanceof String)){
 			return value;
 		}
-		String val = (value + "").toString().trim();
+		String val = (value + "").trim();
 		if (rule == HqlRuleEnum.LIKE) {
 			value = val.substring(1, val.length() - 1);
 		} else if (rule == HqlRuleEnum.LEFT_LIKE || rule == HqlRuleEnum.NE) {

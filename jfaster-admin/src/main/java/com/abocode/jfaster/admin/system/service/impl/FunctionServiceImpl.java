@@ -15,8 +15,8 @@ import com.abocode.jfaster.core.common.model.json.TreeGrid;
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
 import com.abocode.jfaster.core.common.util.DataRuleUtils;
 import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.ObjectParseUtil;
+import com.abocode.jfaster.core.platform.utils.FunctionSortUtils;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
-import com.abocode.jfaster.core.platform.utils.NumberComparator;
 import com.abocode.jfaster.core.common.util.StringUtils;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.platform.view.interactions.datatable.SortDirection;
@@ -92,23 +92,19 @@ public class FunctionServiceImpl implements FunctionService {
         if (loginActionlist.size() > 0) {
             Collection<Function> allFunctions = loginActionlist.values();
             for (Function function : allFunctions) {
-	            /*if(function.getFunctionType().intValue()==Globals.Function_TYPE_FROM.intValue()){
-					//如果为表单或者弹出 不显示在系统菜单里面
-					continue;
-				}*/
                 if (!functionMap.containsKey(function.getFunctionLevel() + 0)) {
                     functionMap.put(function.getFunctionLevel() + 0,
-                            new ArrayList<FunctionView>());
+                            new ArrayList());
                 }
-
                 FunctionView functionBean = BeanToTagConverter.convertFunction(function);
                 functionMap.get(function.getFunctionLevel() + 0).add(functionBean);
             }
             // 菜单栏排序
-            Collection<List<FunctionView>> c = functionMap.values();
-            for (List<FunctionView> list : c) {
-                Collections.sort(list, new NumberComparator());
+            Collection<List<FunctionView>> functionsList = functionMap.values();
+            for (List<FunctionView> functionViews : functionsList) {
+                FunctionSortUtils.sortView(functionViews);
             }
+
         }
         return functionMap;
     }
@@ -168,11 +164,7 @@ public class FunctionServiceImpl implements FunctionService {
             updateSubFunction(subFunction, function);
             systemService.flushRoleFunciton(function.getId(), function);
         } else {
-            if (function.getFunctionLevel().equals(Globals.FUNCTION_LEAVE_ONE)) {
-                function.setFunctionOrder(function.getFunctionOrder());
-            } else {
-                function.setFunctionOrder(function.getFunctionOrder());
-            }
+            function.setFunctionOrder(function.getFunctionOrder());
             message = MutiLangUtils.paramAddSuccess("common.menu");
             systemService.save(function);
             systemService.addLog(message, Globals.Log_Type_INSERT,
@@ -273,7 +265,7 @@ public class FunctionServiceImpl implements FunctionService {
         List<Function> functionList = systemService.findListByCq(cq, false);
 
         List<FunctionView> functionBeanList = BeanToTagConverter.convertFunctions(functionList);
-        Collections.sort(functionBeanList, new NumberComparator());
+        FunctionSortUtils.sortView(functionBeanList);
         TreeGridModel treeGridModel = new TreeGridModel();
         treeGridModel.setIcon("Icon_iconPath");
         treeGridModel.setTextField("functionName");

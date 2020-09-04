@@ -4,18 +4,12 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.imageio.ImageIO;
 
@@ -23,11 +17,8 @@ import com.abocode.jfaster.core.common.util.ContextHolderUtils;
 import com.abocode.jfaster.core.platform.poi.excel.annotation.Excel;
 import com.abocode.jfaster.core.platform.poi.excel.annotation.ExcelCollection;
 import com.abocode.jfaster.core.platform.poi.excel.annotation.ExcelTarget;
-import com.abocode.jfaster.core.platform.poi.excel.entity.ComparatorExcelField;
 import com.abocode.jfaster.core.platform.poi.excel.entity.ExcelExportEntity;
 import com.abocode.jfaster.core.platform.poi.excel.entity.ExcelTitle;
-import com.abocode.jfaster.core.platform.poi.excel.entity.TemplateExportParams;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -43,6 +34,7 @@ import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.springframework.util.Assert;
 
 /**
  * excel 导出工具类
@@ -53,6 +45,11 @@ import org.apache.poi.ss.util.CellRangeAddress;
  */
 @Slf4j
 public final class ExcelExportUtil {
+
+    public static final String ONE_WRAP = "oneWrap";
+    public static final String ONE = "one";
+    public static final String TWO = "two";
+    public static final String TWO_WRAP = "twoWrap";
 
     /**
      * @param entity    表格标题属性
@@ -98,9 +95,8 @@ public final class ExcelExportUtil {
             setCellWith(excelParams, sheet);
             Iterator<?> its = dataSet.iterator();
             while (its.hasNext()) {
-                Object t = its.next();
-                index += createCells(patriarch, index, t, excelParams, sheet, workbook
-                        , styles);
+                Object data = its.next();
+                index += createCells(patriarch, index, data, excelParams, sheet, styles);
             }
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -111,10 +107,10 @@ public final class ExcelExportUtil {
      * 对字段根据用户设置排序
      */
     private static void sortAllParams(List<ExcelExportEntity> excelParams) {
-        Collections.sort(excelParams, new ComparatorExcelField());
+        Collections.sort(excelParams, new ExcelComparator());
         for (ExcelExportEntity entity : excelParams) {
             if (entity.getList() != null) {
-                Collections.sort(entity.getList(), new ComparatorExcelField());
+                Collections.sort(entity.getList(), new ExcelComparator());
             }
         }
     }
@@ -125,9 +121,9 @@ public final class ExcelExportUtil {
      * @param styles
      * @throws Exception
      */
-    private static int createCells(Drawing patriarch, int index, Object t,
+    private static int createCells(Drawing patriarch, int index, Object data,
                                    List<ExcelExportEntity> excelParams, Sheet sheet,
-                                   HSSFWorkbook workbook, Map<String, HSSFCellStyle> styles) throws Exception {
+                                   Map<String, HSSFCellStyle> styles) throws Exception {
         ExcelExportEntity entity;
         Row row = sheet.createRow(index);
         row.setHeight((short) 350);
@@ -136,12 +132,12 @@ public final class ExcelExportUtil {
             entity = excelParams.get(k);
             if (entity.getList() != null) {
                 Collection<?> list = (Collection<?>) entity.getGetMethod()
-                        .invoke(t, new Object[]{});
+                        .invoke(data, new Object[]{});
                 int listC = 0;
                 if (list != null) {
                     for (Object obj : list) {
                         createListCells(patriarch, index + listC, cellNum, obj,
-                                entity.getList(), sheet, workbook, styles);
+                                entity.getList(), sheet, styles);
                         listC++;
                     }
                     cellNum += entity.getList().size();
@@ -151,15 +147,14 @@ public final class ExcelExportUtil {
                 }
 
             } else {
-                Object value = getCellValue(entity, t);
+                Object value = getCellValue(entity, data);
                 if (entity.getType() == 1) {
-                    createStringCell(row, cellNum++,
-                            value == null ? "" : value.toString(),
-                            index % 2 == 0 ? getStyles(styles, false, entity.isWrap())
-                                    : getStyles(styles, true, entity.isWrap()), entity);
+
+                    CellStyle cellStyle = index % 2 == 0 ? getStyles(styles, false, entity.isWrap()) : getStyles(styles, true, entity.isWrap());
+                    Assert.isTrue(cellStyle != null, "styles is null");
+                    createStringCell(row, cellNum++, value.toString(), cellStyle, entity);
                 } else {
-                    createImageCell(patriarch, entity, row, cellNum++, value == null ? ""
-                            : value.toString(), t);
+                    createImageCell(patriarch, entity, row, cellNum++, value.toString(), data);
                 }
             }
         }
@@ -215,7 +210,7 @@ public final class ExcelExportUtil {
      */
     private static void createListCells(Drawing patriarch, int index, int cellNum, Object obj,
                                         List<ExcelExportEntity> excelParams, Sheet sheet,
-                                        HSSFWorkbook workbook, Map<String, HSSFCellStyle> styles) throws Exception {
+                                        Map<String, HSSFCellStyle> styles) throws Exception {
         ExcelExportEntity entity;
         Row row;
         if (sheet.getRow(index) == null) {
@@ -228,13 +223,11 @@ public final class ExcelExportUtil {
             entity = excelParams.get(k);
             Object value = getCellValue(entity, obj);
             if (entity.getType() == 1) {
-                createStringCell(row, cellNum++,
-                        value == null ? "" : value.toString(),
+                createStringCell(row, cellNum++, value.toString(),
                         row.getRowNum() % 2 == 0 ? getStyles(styles, false, entity.isWrap())
                                 : getStyles(styles, true, entity.isWrap()), entity);
             } else {
-                createImageCell(patriarch, entity, row, cellNum++, value == null ? ""
-                        : value.toString(), obj);
+                createImageCell(patriarch, entity, row, cellNum++, value.toString(), obj);
             }
         }
     }
@@ -334,11 +327,12 @@ public final class ExcelExportUtil {
      * @param row
      * @param i
      * @param string
-     * @param obj
+     * @param data
      * @throws Exception
      */
     private static void createImageCell(Drawing patriarch, ExcelExportEntity entity, Row row,
-                                        int i, String string, Object obj) throws Exception {
+                                        int i, String string, Object data) throws Exception {
+        Assert.isTrue(patriarch != null, "patriarch is null");
         row.setHeight((short) (50 * entity.getHeight()));
         row.createCell(i);
         HSSFClientAnchor anchor = new HSSFClientAnchor(
@@ -365,8 +359,8 @@ public final class ExcelExportUtil {
             }
         } else {
             byte[] value = (byte[]) (entity.getGetMethods() != null ? getFieldBySomeMethod(
-                    entity.getGetMethods(), obj) : entity.getGetMethod()
-                    .invoke(obj, new Object[]{}));
+                    entity.getGetMethods(), data) : entity.getGetMethod()
+                    .invoke(data, new Object[]{}));
             if (value != null) {
                 patriarch.createPicture(anchor,
                         row.getSheet().getWorkbook().addPicture(value, getImageType(value)));
@@ -518,29 +512,27 @@ public final class ExcelExportUtil {
      * @return
      */
     private static int getCellOrder(String orderNum, String targetId) {
-        if (isInteger(orderNum) || targetId == null) {
-            return Integer.valueOf(orderNum);
-        }
-        String[] arr = orderNum.split(",");
-        for (String str : arr) {
-            if (str.indexOf(targetId) != -1) {
-                return Integer.valueOf(str.split("_")[0]);
+        if (StringUtils.isNotEmpty(orderNum)) {
+            try {
+                return Integer.parseInt(orderNum);
+            } catch (NumberFormatException e) {
+            }
+            if (StringUtils.isNotEmpty(targetId)) {
+                String[] arr = orderNum.split(",");
+                for (String str : arr) {
+                    if (str.indexOf(targetId) != -1) {
+                        String res = str.split("_")[0];
+                        if (StringUtils.isNotEmpty(res)) {
+                            return Integer.parseInt(res);
+                        }
+
+                    }
+                }
             }
         }
         return 0;
     }
 
-    /**
-     * 判断字符串是否是整数
-     */
-    public static boolean isInteger(String value) {
-        try {
-            Integer.parseInt(value);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
 
     /**
      * @param targetId
@@ -682,25 +674,28 @@ public final class ExcelExportUtil {
 
     private static Map<String, HSSFCellStyle> createStyles(HSSFWorkbook workbook) {
         Map<String, HSSFCellStyle> map = new HashMap<String, HSSFCellStyle>();
-        map.put("one", getOneStyle(workbook, false));
-        map.put("oneWrap", getOneStyle(workbook, true));
-        map.put("two", getTwoStyle(workbook, false));
-        map.put("twoWrap", getTwoStyle(workbook, true));
+        map.put(ONE, getOneStyle(workbook, false));
+        map.put(ONE_WRAP, getOneStyle(workbook, true));
+        map.put(TWO, getTwoStyle(workbook, false));
+        map.put(TWO_WRAP, getTwoStyle(workbook, true));
         return map;
     }
 
     private static CellStyle getStyles(Map<String, HSSFCellStyle> map, boolean needOne, boolean isWrap) {
         if (needOne && isWrap) {
-            return map.get("oneWrap");
+            return map.get(ONE_WRAP);
+        } else if (needOne) {
+            return map.get(ONE);
+        } else if (!needOne && isWrap) {
+            return map.get(TWO_WRAP);
+        } else{
+            return map.get(TWO);
         }
-        if (needOne) {
-            return map.get("one");
-        }
-        if (needOne == false && isWrap) {
-            return map.get("twoWrap");
-        }
-        return map.get("two");
     }
+}
 
-
+class ExcelComparator implements Comparator<ExcelExportEntity>, Serializable {
+    public int compare(ExcelExportEntity prev, ExcelExportEntity next) {
+        return prev.getOrderNum() - next.getOrderNum();
+    }
 }

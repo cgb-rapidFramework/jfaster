@@ -1,8 +1,8 @@
 package com.abocode.jfaster.admin.system.service.impl;
 
 import com.abocode.jfaster.admin.system.dto.RoleIdAndNameDto;
+import com.abocode.jfaster.core.platform.utils.FunctionSortUtils;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
-import com.abocode.jfaster.core.platform.utils.NumberComparator;
 import com.abocode.jfaster.core.platform.view.FunctionView;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
@@ -127,8 +127,7 @@ public class RoleServiceImpl implements RoleService {
         cq.add();
         List<Function> functionList = systemRepository.findListByCq(cq, false);
         List<FunctionView> functionBeanList = BeanToTagConverter.convertFunctions(functionList);
-        Collections.sort(functionBeanList, new NumberComparator());
-
+        FunctionSortUtils.sortView(functionBeanList);
         List<Function> loginActionList = this.systemRepository.getFucntionList(roleId);
         ComboTreeModel comboTreeModel = new ComboTreeModel("id",
                 "functionName", "Functions");
@@ -168,7 +167,7 @@ public class RoleServiceImpl implements RoleService {
         cq.add();
         List<Function> functionList = systemRepository.findListByCq(
                 cq, false);
-        Collections.sort(functionList, new FunctionComparator());
+        FunctionSortUtils.sort(functionList);
         TreeGridModel treeGridModel = new TreeGridModel();
         treeGridModel.setRoleid(roleId);
         List<TreeGrid> treeGrids = resourceRepository.treegrid(functionList, treeGridModel);

@@ -30,17 +30,10 @@ public enum HqlRuleEnum {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
-
     public String getMsg() {
         return msg;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
 
     public static HqlRuleEnum getByValue(String value){
         for(HqlRuleEnum val :values()){

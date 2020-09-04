@@ -1,9 +1,5 @@
 package com.abocode.jfaster.core.persistence.hibernate.hqlsearch.vo;
 
-/**
- * HQL 解析 常量
- * Created by jue on 14-8-23.
- */
 public enum HqlParseEnum {
 
     SUFFIX_COMMA(",","多条数据"),
@@ -28,15 +24,8 @@ public enum HqlParseEnum {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
-
     public String getMsg() {
         return msg;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
 }

@@ -12,6 +12,7 @@ import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.admin.system.service.UserService;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
+import com.abocode.jfaster.core.platform.utils.FunctionSortUtils;
 import com.abocode.jfaster.core.platform.utils.SystemMenuUtils;
 import com.abocode.jfaster.core.platform.view.FunctionView;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
@@ -39,9 +40,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     public String getMenus(User u) {
-        FunctionComparator sort = new FunctionComparator();
         // 登陆者的权限
-        Set<Function> loginActionlist = new HashSet();// 已有权限菜单
+        Set<Function> actionList = new HashSet();// 已有权限菜单
         List<RoleUser> rUsers = systemRepository.findAllByProperty(RoleUser.class, "user.id", u.getId());
         for (RoleUser ru : rUsers) {
             Role role = ru.getRole();
@@ -49,26 +49,28 @@ public class UserServiceImpl implements UserService {
             if (roleFunctionList.size() > 0) {
                 for (RoleFunction roleFunction : roleFunctionList) {
                     Function function = roleFunction.getFunction();
-                    loginActionlist.add(function);
+                    actionList.add(function);
                 }
             }
         }
-        List<FunctionView> bigActionlist = new ArrayList();// 一级权限菜单
-        List<FunctionView> smailActionlist = new ArrayList();// 二级权限菜单
-        if (loginActionlist.size() > 0) {
-            for (Function function : loginActionlist) {
+        // 一级权限菜单
+        List<FunctionView> pActionList = new ArrayList();
+        // 二级权限菜单
+        List<FunctionView> cActionList = new ArrayList();
+        if (actionList.size() > 0) {
+            for (Function function : actionList) {
                 FunctionView functionBean = BeanToTagConverter.convertFunction(function);
                 if (function.getFunctionLevel() == 0) {
-                    bigActionlist.add(functionBean);
+                    pActionList.add(functionBean);
                 } else if (function.getFunctionLevel() == 1) {
-                    smailActionlist.add(functionBean);
+                    cActionList.add(functionBean);
                 }
             }
         }
         // 菜单栏排序
-        Collections.sort(bigActionlist, sort);
-        Collections.sort(smailActionlist, sort);
-        String logString = SystemMenuUtils.getMenu(bigActionlist, smailActionlist);
+        FunctionSortUtils.sortView(pActionList);
+        FunctionSortUtils.sortView(cActionList);
+        String logString = SystemMenuUtils.getMenu(pActionList, cActionList);
         return logString;
     }
 

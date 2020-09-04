@@ -1,17 +1,9 @@
 package com.abocode.jfaster.core.web.manager;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
+import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
-
-/**
- * 对在线用户的管理
- * @author JueYue
- * @date 2013-9-28
- * @version 1.0
- */
 public class ClientManager {
 	
 	private static ClientManager instance = new ClientManager();
@@ -63,4 +55,24 @@ public class ClientManager {
 		return map.values();
 	}
 
+	public static List<ClientBean>  getClient(List<ClientBean> clients, DataGrid dataGrid) {
+		Collections.sort(clients, new ClientSort());
+		List<ClientBean> result = new ArrayList<ClientBean>();
+		for(int i = (dataGrid.getPage()-1)*dataGrid.getRows();
+			i<clients.size()&&i<dataGrid.getPage()*dataGrid.getRows();i++){
+			result.add(clients.get(i));
+		}
+		return result;
+	}
+
 }
+
+class ClientSort implements Comparator<ClientBean> {
+
+
+	public int compare(ClientBean prev, ClientBean now) {
+		return (int) (now.getLoginTime().getTime()-prev.getLoginTime().getTime());
+	}
+
+}
+
