@@ -354,14 +354,14 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleIdAndNameDto findByUserId(String id) {
         List<RoleUser> roleUsers = userRepository.findAllByProperty(RoleUser.class, "user.id",id);
-        String roleId = "";
-        String roleName = "";
+        StringBuilder roleId = new StringBuilder();
+        StringBuilder roleName = new StringBuilder();
         if (roleUsers.size() > 0) {
             for (RoleUser tRoleUser : roleUsers) {
-                roleId += tRoleUser.getRole().getId() + ",";
-                roleName += tRoleUser.getRole().getRoleName() + ",";
+                roleId.append(tRoleUser.getRole().getId()).append(",");
+                roleName.append(tRoleUser.getRole().getRoleName()).append(",");
             }
         }
-        return new RoleIdAndNameDto(roleId, roleName);
+        return new RoleIdAndNameDto(roleId.toString(), roleName.toString());
     }
 }

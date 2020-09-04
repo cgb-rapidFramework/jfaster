@@ -103,8 +103,7 @@ public class SessionUtils {
 		
 		//替换为系统登录用户的公司编码
 		if (key.equals(DataBaseConstant.SYS_COMPANY_CODE)|| key.equals(DataBaseConstant.SYS_COMPANY_CODE_TABLE)) {
-			return getCurrentUser().getCurrentDepart().getOrgCode()
-					.substring(0, Integer.valueOf(getOrgCodeLengthType()));
+			return getCurrentUser().getCurrentDepart().getOrgCode().substring(0, Integer.parseInt(getOrgCodeLengthType()));
 		}
 		//替换为系统用户登录所使用的机构编码
 		if (key.equals(DataBaseConstant.SYS_ORG_CODE)|| key.equals(DataBaseConstant.SYS_ORG_CODE_TABLE)) {

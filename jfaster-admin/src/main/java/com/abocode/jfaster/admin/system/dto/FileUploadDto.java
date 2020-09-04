@@ -50,10 +50,6 @@ public class FileUploadDto {
 		this.request = request;
 		this.response = response;
 	}
-
-	public FileUploadDto() {
-
-	}
 	public String get(String name) {
 		return getMultipartRequest().getParameter(name);
 

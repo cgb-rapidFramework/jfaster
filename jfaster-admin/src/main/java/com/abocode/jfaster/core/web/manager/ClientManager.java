@@ -1,5 +1,6 @@
 package com.abocode.jfaster.core.web.manager;
 
+import java.io.Serializable;
 import java.util.*;
 
 import com.abocode.jfaster.core.common.model.json.DataGrid;
@@ -67,7 +68,7 @@ public class ClientManager {
 
 }
 
-class ClientSort implements Comparator<ClientBean> {
+class ClientSort implements Comparator<ClientBean>, Serializable {
 
 
 	public int compare(ClientBean prev, ClientBean now) {

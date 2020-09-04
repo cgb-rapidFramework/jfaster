@@ -43,7 +43,7 @@ public class ChartServiceImpl implements ChartService {
                 map.put("name", obj[0]);
                 map.put("y", obj[1]);
                 Long groupCount = (Long) obj[1];
-                double  percentage = 0.0;
+                long percentage = 0;
                 if (count != null && count.intValue() != 0) {
                     percentage = groupCount/count;
                 }

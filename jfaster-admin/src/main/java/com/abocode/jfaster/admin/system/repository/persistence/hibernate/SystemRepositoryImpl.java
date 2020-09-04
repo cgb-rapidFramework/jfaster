@@ -211,7 +211,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
             Map<String, Object> pOrgCodeMap = commonDao.queryForMap(sql);
             if(pOrgCodeMap.get("orgCode") != null) {
                 String curOrgCode = pOrgCodeMap.get("orgCode").toString();
-                newOrgCode = String.format("%0" + orgCodeLength + "d", Integer.valueOf(curOrgCode) + 1);
+                newOrgCode = String.format("%0" + orgCodeLength + "d", Integer.parseInt(curOrgCode) + 1);
             } else {
                 newOrgCode = String.format("%0" + orgCodeLength + "d", 1);
             }
@@ -222,7 +222,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
                 String curOrgCode = orgCodeMap.get("orgCode").toString();
                 String pOrgCode = curOrgCode.substring(0, curOrgCode.length() - orgCodeLength);
                 String subOrgCode = curOrgCode.substring(curOrgCode.length() - orgCodeLength, curOrgCode.length());
-                newOrgCode = pOrgCode + String.format("%0" + orgCodeLength + "d", Integer.valueOf(subOrgCode) + 1);
+                newOrgCode = pOrgCode + String.format("%0" + orgCodeLength + "d", Integer.parseInt(subOrgCode) + 1);
             } else { // 当前级别没有编码时
                 String pOrgCodeSql = "select max(t.org_code) orgCode from t_s_depart t where t.id = ?";
                 Map<String, Object> pOrgCodeMap = commonDao.queryForMap(pOrgCodeSql, pid);

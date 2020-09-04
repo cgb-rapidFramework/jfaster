@@ -362,15 +362,15 @@ public class UserController {
             cq.eq("currentDepart.id", ConvertUtils.getInt(departid, 0));
             cq.add();
         }
-        String userid = "";
+        StringBuilder uIds =new StringBuilder();
         if (roleid.length() > 0) {
             List<RoleUser> roleUsers = userRepository.findAllByProperty(RoleUser.class, "role.roleId", ConvertUtils.getInt(roleid, 0));
             if (roleUsers.size() > 0) {
                 for (RoleUser tRoleUser : roleUsers) {
-                    userid += tRoleUser.getUser().getId() + ",";
+                    uIds.append( tRoleUser.getUser().getId()).append( ",");
                 }
             }
-            cq.in("userid", ConvertUtils.getInts(userid.split(",")));
+            cq.in("userid", ConvertUtils.getInts(uIds.toString().split(",")));
             cq.add();
         }
         this.userRepository.findDataGridReturn(cq, true);

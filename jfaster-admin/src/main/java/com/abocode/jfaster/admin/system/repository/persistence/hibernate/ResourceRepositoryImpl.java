@@ -337,7 +337,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
     }
 
     public List<ComboTree> ComboTree(List all, ComboTreeModel comboTreeModel, List in, boolean recursive) {
-        List<ComboTree> trees = new ArrayList<ComboTree>();
+        List<ComboTree> trees = new ArrayList();
         for (Object obj : all) {
             trees.add(comboTree(obj, comboTreeModel, in, recursive));
         }

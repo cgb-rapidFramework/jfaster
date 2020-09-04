@@ -4,6 +4,7 @@ import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.platform.view.FunctionView;
 import com.abocode.jfaster.system.entity.Function;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -43,7 +44,7 @@ class FunctionComparator implements Comparator {
     }
 }
 
-class NumberComparator implements Comparator<Object> {
+class NumberComparator implements Comparator<Object>, Serializable {
     private boolean ignoreCase;
     public NumberComparator(boolean ignoreCase) {
         this.ignoreCase = ignoreCase;
