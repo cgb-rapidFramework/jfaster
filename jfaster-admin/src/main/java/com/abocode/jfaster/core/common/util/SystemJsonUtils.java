@@ -40,7 +40,7 @@ public class SystemJsonUtils {
     }
 
 
-    public static String listToJson(String[] fields, int total, List list) throws Exception {
+    public static String listToJson(String[] fields, int total, List list) {
         Object[] values = new Object[fields.length];
         String jsonTemp = "{\"total\":" + total + ",\"rows\":[";
         for (int j = 0; j < list.size(); j++) {

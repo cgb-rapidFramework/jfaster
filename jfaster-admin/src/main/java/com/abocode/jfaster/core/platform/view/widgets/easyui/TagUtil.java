@@ -1,6 +1,8 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
+
 import com.abocode.jfaster.core.common.model.json.ComboBox;
 import com.abocode.jfaster.core.common.model.json.DataGrid;
+import com.abocode.jfaster.core.common.util.DateUtils;
 import com.abocode.jfaster.core.platform.view.interactions.datatable.DataTableReturn;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.Autocomplete;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
@@ -9,16 +11,19 @@ import com.abocode.jfaster.core.platform.view.RoleView;
 
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
+import org.dom4j.Element;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 @Slf4j
 public class TagUtil {
 
@@ -50,14 +55,14 @@ public class TagUtil {
                 if (list.get(j) instanceof Map)
                     values[i] = ((Map<?, ?>) list.get(j)).get(fieldName);
                 else {
-                    Object value= fieldNameToValues(fieldName, list.get(j));
+                    Object value = fieldNameToValues(fieldName, list.get(j));
                     if (!StringUtils.isEmpty(value)) {
-                        String strValue=value.toString();
-                        if(strValue.endsWith(",")){
-                            value = strValue.substring(0,strValue.length()-1);
+                        String strValue = value.toString();
+                        if (strValue.endsWith(",")) {
+                            value = strValue.substring(0, strValue.length() - 1);
                         }
                     }
-                    values[i]=value;
+                    values[i] = value;
                 }
                 row.put(fieldName, values[i]);
             }
@@ -222,7 +227,7 @@ public class TagUtil {
             childFieldName = fields.substring(fields.indexOf("_") + 1);//外键字段名
         }
         value = reflectHelper.getMethodValue(fieldName) == null ? "" : reflectHelper.getMethodValue(fieldName);
-        if (!StringUtils.isEmpty(value)&& (fields.indexOf("_") != -1 || fields.indexOf(".") != -1)) {
+        if (!StringUtils.isEmpty(value) && (fields.indexOf("_") != -1 || fields.indexOf(".") != -1)) {
             if (value instanceof List) {
                 Object tempValue = "";
                 for (Object listValue : (List) value) {
@@ -293,7 +298,7 @@ public class TagUtil {
             jsonTemp.append("{'nodate':'数据不存在'}");
         }
         jsonTemp.append("]}");
-        return  new Gson().toJson(jsonTemp);
+        return new Gson().toJson(jsonTemp);
     }
 
 
@@ -302,50 +307,37 @@ public class TagUtil {
      *
      * @param fileName
      * @param fields
+     * @param node
      * @return
      */
-    public static String getColumnType(String fileName, Field[] fields) {
-        String type = "";
-        if (fields.length > 0) {
-            for (int i = 0; i < fields.length; i++) {
-                String name = fields[i].getName(); // 获取属性的名字
-                String filedType = fields[i].getGenericType().toString(); // 获取属性的类型
-                if (fileName.equals(name)) {
-                    if (filedType.equals("class java.lang.Integer")) {
-                        filedType = "int";
-                        type = filedType;
-                    } else if (filedType.equals("class java.lang.Short")) {
-                        filedType = "short";
-                        type = filedType;
-                    } else if (filedType.equals("class java.lang.Double")) {
-                        filedType = "double";
-                        type = filedType;
-                    } else if (filedType.equals("class java.util.Date")) {
-                        filedType = "date";
-                        type = filedType;
-                    } else if (filedType.equals("class java.lang.String")) {
-                        filedType = "string";
-                        type = filedType;
-                    } else if (filedType.equals("class java.sql.Timestamp")) {
-                        filedType = "Timestamp";
-                        type = filedType;
-                    } else if (filedType.equals("class java.lang.Character")) {
-                        filedType = "character";
-                        type = filedType;
-                    } else if (filedType.equals("class java.lang.Boolean")) {
-                        filedType = "boolean";
-                        type = filedType;
-                    } else if (filedType.equals("class java.lang.Long")) {
-                        filedType = "long";
-                        type = filedType;
-                    }
-
+    public static Object getColumnType(String fileName, Field[] fields, Element node) {
+        for (Field field : fields) {
+            String name = field.getName(); // 获取属性的名字
+            String filedType =field.getGenericType().toString(); // 获取属性的类型
+            if (fileName.equals(name)) {
+                if (filedType.equals("class java.lang.Integer")) {
+                    return  Integer.valueOf(node.getText());
+                } else if (filedType.equals("class java.lang.Short")) {
+                    return Short.parseShort(node.getText());
+                } else if (filedType.equals("class java.lang.Double")) {
+                    return  Double.valueOf(node.getText());
+                } else if (filedType.equals("class java.util.Date")) {
+                    return  Timestamp.valueOf(node.getText());
+                } else if (filedType.equals("class java.lang.String")) {
+                    return node.getText();
+                } else if (filedType.equals("class java.sql.Timestamp")) {
+                    return  Timestamp.valueOf(node.getText());
+                } else if (filedType.equals("class java.lang.Boolean")) {
+                    return Boolean.valueOf(node.getText());
+                } else if (filedType.equals("class java.lang.Long")) {
+                    return Long.valueOf(node.getText());
+                } else {
+                    return node.getText();
                 }
             }
         }
-        return type;
+        return node.getText();
     }
-
 
 
     /**
@@ -364,7 +356,7 @@ public class TagUtil {
             Object object = getObject(dg);
             data = gson.toJson(object);
         } catch (Exception e) {
-          log.error(e.getMessage());
+            log.error(e.getMessage());
         }
         try {
             PrintWriter pw = response.getWriter();
@@ -386,7 +378,7 @@ public class TagUtil {
         response.setContentType("application/json");
         response.setHeader("Cache-Control", "no-store");
         try {
-            String  data= datatable(field, dataTableReturn.getiTotalDisplayRecords(), dataTableReturn.getAaData());
+            String data = datatable(field, dataTableReturn.getiTotalDisplayRecords(), dataTableReturn.getAaData());
             response.getWriter().write(new Gson().toJson(data));
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -397,12 +389,12 @@ public class TagUtil {
     /**
      * 根据模型生成JSON
      *
-     * @param all      全部对象
-     * @param in       已拥有的对象
+     * @param all    全部对象
+     * @param in     已拥有的对象
      * @param fields 模型
      * @return
      */
-    public static List<ComboBox> getComboBox(List all, List in,  String[] fields) {
+    public static List<ComboBox> getComboBox(List all, List in, String[] fields) {
         List<ComboBox> comboxBoxs = new ArrayList<ComboBox>();
         Object[] values = new Object[fields.length];
         for (Object node : all) {

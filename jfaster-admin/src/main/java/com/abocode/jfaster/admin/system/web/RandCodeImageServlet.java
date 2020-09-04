@@ -116,21 +116,8 @@ public class RandCodeImageServlet extends HttpServlet {
         String randomCodeType = ConfigUtils.getRandCodeType();
         Assert.isTrue(!StringUtils.isEmpty(randomCodeType),"random code is null");
         int randCodeLength = Integer.parseInt(ConfigUtils.getRandCodeLength());
-        if (randomCodeType != null) {
-            switch (randomCodeType.charAt(0)) {
-                case '2':
-                    return RandCodeImageEnum.LOWER_CHAR.generateStr(randCodeLength);
-                case '3':
-                    return RandCodeImageEnum.UPPER_CHAR.generateStr(randCodeLength);
-                case '4':
-                    return RandCodeImageEnum.LETTER_CHAR.generateStr(randCodeLength);
-                case '5':
-                    return RandCodeImageEnum.ALL_CHAR.generateStr(randCodeLength);
-                default:
-                    return RandCodeImageEnum.NUMBER_CHAR.generateStr(randCodeLength);
-            }
-        }
-        return RandCodeImageEnum.NUMBER_CHAR.generateStr(randCodeLength);
+        RandCodeImageEnum randCodeImageEnum=RandCodeImageEnum.valueOf(randomCodeType);
+        return randCodeImageEnum.generateStr(randCodeLength);
     }
 
     /**

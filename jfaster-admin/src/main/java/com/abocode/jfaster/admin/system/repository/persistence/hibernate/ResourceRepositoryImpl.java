@@ -285,18 +285,8 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                             String stringLetter = fieldName.substring(0, 1).toUpperCase();
                             String setName = "set" + stringLetter + fieldName.substring(1);
                             Method setMethod = entityClass.getMethod(setName, new Class[]{fields[k].getType()});
-                            String type = TagUtil.getColumnType(fieldName, fields);
-                            if (type.equals("int")) {
-                                setMethod.invoke(entity, new Integer(node.getText()));
-                            } else if (type.equals("string")) {
-                                setMethod.invoke(entity, node.getText().toString());
-                            } else if (type.equals("short")) {
-                                setMethod.invoke(entity, new Short(node.getText()));
-                            } else if (type.equals("double")) {
-                                setMethod.invoke(entity, new Double(node.getText()));
-                            } else if (type.equals("Timestamp")) {
-                                setMethod.invoke(entity, new Timestamp(DateUtils.strToDate(node.getText(), "YYYY_MM_DD_HH_MM_SS").getTime()));
-                            }
+                            Object type = TagUtil.getColumnType(fieldName, fields,node);
+                            setMethod.invoke(entity,type);
                         }
                     }
                 }
