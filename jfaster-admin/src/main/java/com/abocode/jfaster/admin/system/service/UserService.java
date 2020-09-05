@@ -2,7 +2,7 @@ package com.abocode.jfaster.admin.system.service;
 
 import com.abocode.jfaster.admin.system.dto.ExlUserDto;
 import com.abocode.jfaster.core.common.model.json.ComboBox;
-import com.abocode.jfaster.core.common.model.json.DataGrid;
+import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.system.entity.User;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +24,7 @@ public interface UserService {
 
     List<ComboBox> findComboBox(String id, String[] fields);
 
-    CriteriaQuery buildCq(User user, DataGrid dataGrid, String orgIds);
+    CriteriaQuery buildCq(User user, DataGridParam dataGridParam, String orgIds);
 
     void del(String id);
 
@@ -32,5 +32,5 @@ public interface UserService {
 
     void importFile(Map<String, MultipartFile> fileMap);
 
-    List<ExlUserDto> findExportUserList(User user, String orgIds, DataGrid dataGrid);
+    List<ExlUserDto> findExportUserList(User user, String orgIds, DataGridParam dataGridParam);
 }

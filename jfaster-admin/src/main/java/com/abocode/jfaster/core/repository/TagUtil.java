@@ -1,22 +1,10 @@
-package com.abocode.jfaster.core.platform.view.widgets.easyui;
+package com.abocode.jfaster.core.repository;
 
 import com.abocode.jfaster.core.common.model.json.ComboBox;
-import com.abocode.jfaster.core.common.model.json.DataGrid;
-import com.abocode.jfaster.core.common.util.DateUtils;
-import com.abocode.jfaster.core.platform.view.interactions.datatable.DataTableReturn;
-import com.abocode.jfaster.core.platform.view.interactions.easyui.Autocomplete;
-import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.platform.view.ReflectHelper;
-import com.abocode.jfaster.core.platform.view.RoleView;
-
-import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Element;
 import org.springframework.util.StringUtils;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -26,7 +14,8 @@ import java.util.Map;
 
 @Slf4j
 public class TagUtil {
-
+    private TagUtil() {
+    }
 
     /**
      * 封装成项目
@@ -38,20 +27,20 @@ public class TagUtil {
      * @return
      * @throws Exception
      */
-    private static DataObject getDataObject(String[] fields, int total, List<?> list, String[] footers) {
-        DataObject dataObject = new DataObject();
-        dataObject.setTotal(total);
+    private static DataGridData getDataObject(String[] fields, int total, List<?> list, String[] footers) {
+        DataGridData dataGridData = new DataGridData();
+        dataGridData.setTotal(total);
 
         //设置行数
-        List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> rows = new ArrayList<>();
         Object[] values = new Object[fields.length];
         int i;
         String fieldName;
         for (int j = 0; j < list.size(); ++j) {
-            Map<String, Object> row = new HashMap<String, Object>();
+            Map<String, Object> row = new HashMap<>();
             row.put("state", "closed");
             for (i = 0; i < fields.length; ++i) {
-                fieldName = fields[i].toString();
+                fieldName = fields[i];
                 if (list.get(j) instanceof Map)
                     values[i] = ((Map<?, ?>) list.get(j)).get(fieldName);
                 else {
@@ -68,10 +57,10 @@ public class TagUtil {
             }
             rows.add(row);
         }
-        dataObject.setRows(rows);
+        dataGridData.setRows(rows);
 
         if (footers != null) {
-            Map<String, Object> footer = new HashMap<String, Object>();
+            Map<String, Object> footer = new HashMap<>();
             footer.put("name", "合计");
             for (String f : footers) {
                 String footerFiled = f.split(":")[0];
@@ -83,10 +72,10 @@ public class TagUtil {
                 }
                 footer.put(footerFiled, value);
             }
-            dataObject.setFooter(footer);
+            dataGridData.setFooter(footer);
         }
 
-        return dataObject;
+        return dataGridData;
     }
 
 
@@ -105,8 +94,6 @@ public class TagUtil {
                 String vstr = String.valueOf(fieldNameToValues(filed, list.get(j)));
                 if (!StringUtils.isEmpty(vstr)) {
                     v = Double.valueOf(vstr);
-                } else {
-
                 }
                 sum += v;
             }
@@ -116,37 +103,6 @@ public class TagUtil {
         return sum;
     }
 
-    /**
-     * 循环LIST对象拼接DATATABLE格式的JSON数据
-     *
-     * @param field
-     * @param total
-     * @param list
-     */
-    private static String datatable(String field, int total, List list) throws Exception {
-        String[] fields = field.split(",");
-        Object[] values = new Object[fields.length];
-        StringBuffer jsonTemp = new StringBuffer();
-        jsonTemp.append("{\"iTotalDisplayRecords\":" + total + ",\"iTotalRecords\":" + total + ",\"aaData\":[");
-        for (int j = 0; j < list.size(); j++) {
-            jsonTemp.append("{");
-            for (int i = 0; i < fields.length; i++) {
-                String fieldName = fields[i].toString();
-                values[i] = fieldNameToValues(fieldName, list.get(j));
-                jsonTemp.append("\"" + fieldName + "\"" + ":\"" + values[i] + "\"");
-                if (i != fields.length - 1) {
-                    jsonTemp.append(",");
-                }
-            }
-            if (j != list.size() - 1) {
-                jsonTemp.append("},");
-            } else {
-                jsonTemp.append("}");
-            }
-        }
-        jsonTemp.append("]}");
-        return jsonTemp.toString();
-    }
 
     /**
      * 获取转换的json
@@ -154,8 +110,8 @@ public class TagUtil {
      * @param dg
      * @return
      */
-    private static DataObject getObject(DataGrid dg) {
-        DataObject jObject;
+    public static DataGridData getObject(DataGridParam dg) {
+        DataGridData jObject;
         if (!StringUtils.isEmpty(dg.getFooter())) {
             jObject = getDataObject(dg.getField().split(","), dg.getTotal(), dg.getResults(), dg.getFooter().split(","));
         } else {
@@ -265,44 +221,6 @@ public class TagUtil {
 
 
     /**
-     * 循环LIST对象拼接自动完成控件数据
-     *
-     * @param autocomplete
-     * @param list
-     * @throws Exception
-     */
-    public static String getAutoList(Autocomplete autocomplete, List list) throws Exception {
-        String field = autocomplete.getLabelField() + "," + autocomplete.getValueField();
-        String[] fields = field.split(",");
-        Object[] values = new Object[fields.length];
-        StringBuffer jsonTemp = new StringBuffer();
-        jsonTemp.append("{\"totalResultsCount\":\"1\",\"geonames\":[");
-        if (list.size() > 0) {
-            for (int j = 0; j < list.size(); j++) {
-                jsonTemp.append("{'nodate':'yes',");
-                for (int i = 0; i < fields.length; i++) {
-                    String fieldName = fields[i];
-                    values[i] = fieldNameToValues(fieldName, list.get(j));
-                    jsonTemp.append("\"").append(fieldName).append("\"").append(":\"").append(values[i]).append("\"");
-                    if (i != fields.length - 1) {
-                        jsonTemp.append(",");
-                    }
-                }
-                if (j != list.size() - 1) {
-                    jsonTemp.append("},");
-                } else {
-                    jsonTemp.append("}");
-                }
-            }
-        } else {
-            jsonTemp.append("{'nodate':'数据不存在'}");
-        }
-        jsonTemp.append("]}");
-        return new Gson().toJson(jsonTemp);
-    }
-
-
-    /**
      * 获取指定字段类型 getColumnType(请用一句话描述这个方法的作用)
      *
      * @param fileName
@@ -339,53 +257,6 @@ public class TagUtil {
         return node.getText();
     }
 
-
-    /**
-     * 控件类型：easyui
-     * 返回datagrid JSON数据
-     *
-     * @param response
-     * @param dg
-     */
-    public static void datagrid(HttpServletResponse response, DataGrid dg) {
-        response.setContentType("application/json");
-        response.setHeader("Cache-Control", "no-store");
-        String data = null;
-        Gson gson = new Gson();
-        try {
-            Object object = getObject(dg);
-            data = gson.toJson(object);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-        try {
-            PrintWriter pw = response.getWriter();
-            pw.write(data);
-            pw.flush();
-        } catch (IOException e) {
-            log.error(e.getMessage());
-        }
-    }
-
-
-    /**
-     * 控件类型：datatable
-     * 返回datatable JSON数据
-     *
-     * @param response
-     */
-    public static void datatable(HttpServletResponse response, DataTableReturn dataTableReturn, String field) {
-        response.setContentType("application/json");
-        response.setHeader("Cache-Control", "no-store");
-        try {
-            String data = datatable(field, dataTableReturn.getiTotalDisplayRecords(), dataTableReturn.getAaData());
-            response.getWriter().write(new Gson().toJson(data));
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-    }
-
-
     /**
      * 根据模型生成JSON
      *
@@ -395,13 +266,13 @@ public class TagUtil {
      * @return
      */
     public static List<ComboBox> getComboBox(List all, List in, String[] fields) {
-        List<ComboBox> comboxBoxs = new ArrayList<ComboBox>();
+        List<ComboBox> comboxBoxs = new ArrayList<>();
         Object[] values = new Object[fields.length];
         for (Object node : all) {
             ComboBox box = new ComboBox();
             ReflectHelper reflectHelper = new ReflectHelper(node);
             for (int i = 0; i < fields.length; i++) {
-                String fieldName = fields[i].toString();
+                String fieldName = fields[i];
                 values[i] = reflectHelper.getMethodValue(fieldName);
             }
             box.setId(values[0].toString());
@@ -410,7 +281,7 @@ public class TagUtil {
                 for (Object node1 : in) {
                     ReflectHelper reflectHelper2 = new ReflectHelper(node);
                     if (node1 != null) {
-                        String fieldName = fields[0].toString();
+                        String fieldName = fields[0];
                         String test = reflectHelper2.getMethodValue(fieldName).toString();
                         if (values[0].toString().equals(test)) {
                             box.setSelected(true);

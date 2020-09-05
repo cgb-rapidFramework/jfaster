@@ -5,10 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.abocode.jfaster.core.common.model.json.DataGrid;
-import com.abocode.jfaster.core.platform.view.interactions.datatable.DataTables;
-import com.abocode.jfaster.core.platform.view.interactions.datatable.SortDirection;
-import com.abocode.jfaster.core.platform.view.interactions.datatable.SortInfo;
+import com.abocode.jfaster.core.repository.DataGridParam;
+import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.HqlGenerateUtil;
+import com.abocode.jfaster.core.repository.SortDirection;
 import lombok.Data;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
@@ -70,8 +69,7 @@ public class CriteriaQuery {
      */
     private List results;
     private int total;
-    private  DataGrid dataGrid;
-    private  DataTables dataTables;
+    private DataGridParam dataGridParam;
     /****
      * 保存创建的aliasName 防止重复创建
      */
@@ -97,28 +95,6 @@ public class CriteriaQuery {
     public CriteriaQuery(Class entityClass, int curPage) {
         this.curPage = curPage;
         this.detachedCriteria = DetachedCriteria.forClass(entityClass);
-    }
-
-    public CriteriaQuery(Class entityClass, DataGrid dg) {
-        this.curPage = dg.getPage();
-        this.detachedCriteria = DetachedCriteria.forClass(entityClass);
-        this.field = dg.getField();
-        this.entityClass = entityClass;
-        this.dataGrid = dg;
-        this.pageSize = dg.getRows();
-    }
-
-    public CriteriaQuery(Class entityClass, DataTables dataTables) {
-        this.curPage = dataTables.getDisplayStart();
-        String[] fieldstring = dataTables.getsColumns().split(",");
-        this.detachedCriteria = DetachedCriteriaUtil
-                .createDetachedCriteria(entityClass, "start", "_table", fieldstring);
-        //this.detachedCriteria = DetachedCriteria.forClass(c);
-        this.field = dataTables.getsColumns();
-        this.entityClass = entityClass;
-        this.dataTables = dataTables;
-        this.pageSize = dataTables.getDisplayLength();
-        addJqCriteria(dataTables);
     }
 
     public CriteriaQuery(Class c, int pageSize, int curPage,
@@ -153,31 +129,6 @@ public class CriteriaQuery {
         getCriterionList().removeAll(getCriterionList());
     }
 
-    /**
-     * 加载dataTables 默认查询条件
-     *
-     * @param dataTables
-     */
-    public void addJqCriteria(DataTables dataTables) {
-        String search = dataTables.getSearch();//查询关键字
-        SortInfo[] sortInfo = dataTables.getSortColumns();//排序字段
-        String[] sColumns = dataTables.getsColumns().split(",");//字段
-        if (!StringUtils.isEmpty(search)) {
-            for (String string : sColumns) {
-                if (string.indexOf("_") == -1) {
-                    jqueryCriterionList.addPara(Restrictions.like(string, "%" + search
-                            + "%"));
-                }
-            }
-            add(getOrCriterion(jqueryCriterionList));
-
-        }
-        if (sortInfo.length > 0) {
-            for (SortInfo sortInfo2 : sortInfo) {
-                addOrder("" + sColumns[sortInfo2.getColumnId()] + "", sortInfo2.getSortOrder());
-            }
-        }
-    }
 
     public void createCriteria(String name) {
         detachedCriteria.createCriteria(name);
@@ -539,7 +490,34 @@ public class CriteriaQuery {
     public void sql(String sql, Object objects, Type type) {
         Restrictions.sqlRestriction(sql, objects, type);
     }
+
     public Map<String, Object> getMap() {
         return map;
+    }
+
+    public CriteriaQuery buildParameters(Object query, Map<String, String[]> parameterMap, DataGridParam dataGridParam) {
+        this.curPage = dataGridParam.getPage();
+        this.field = dataGridParam.getField();
+        this.dataGridParam = dataGridParam;
+        this.pageSize = dataGridParam.getRows();
+        HqlGenerateUtil.installHql(this, query, parameterMap);
+        return this;
+    }
+
+    public CriteriaQuery buildParameters(Object query,  DataGridParam dataGridParam) {
+        this.curPage = dataGridParam.getPage();
+        this.field = dataGridParam.getField();
+        this.dataGridParam = dataGridParam;
+        this.pageSize = dataGridParam.getRows();
+        HqlGenerateUtil.installHql(this, query);
+        return this;
+    }
+
+    public CriteriaQuery buildDataGrid(DataGridParam dg) {
+        this.curPage = dg.getPage();
+        this.field = dg.getField();
+        this.dataGridParam = dg;
+        this.pageSize = dg.getRows();
+        return this;
     }
 }

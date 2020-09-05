@@ -1,7 +1,7 @@
 package com.abocode.jfaster.admin.system.service;
 
 import com.abocode.jfaster.admin.system.dto.FunctionDto;
-import com.abocode.jfaster.core.common.util.StringUtils;
+import com.abocode.jfaster.core.common.util.StrUtils;
 import com.abocode.jfaster.system.entity.Function;
 import com.abocode.jfaster.system.entity.TypeGroup;
 import com.abocode.jfaster.core.platform.view.IconView;
@@ -24,7 +24,7 @@ public class BeanToTagConverter {
 	 */
 	public static FunctionView convertFunction(Function function) {
 		FunctionView functionBean=null;
-		if(!StringUtils.isEmpty(function)){
+		if(!StrUtils.isEmpty(function)){
 			functionBean=new FunctionView();
 			FunctionDto functionVo=new FunctionDto();
 			BeanUtils.copyProperties(function, functionVo);
@@ -44,14 +44,14 @@ public class BeanToTagConverter {
 			functionBean.setFunctions(BeanToTagConverter.convertFunctions(functionLists));
 			
 			//functionBean.setFunction(TSFunction);
-			if(!StringUtils.isEmpty(function.getIcon())){
+			if(!StrUtils.isEmpty(function.getIcon())){
 				IconView iconBean=new IconView();
 				BeanUtils.copyProperties(function.getIcon(), iconBean);
 				functionBean.setIcon(iconBean);
 			}
 
 			Icon conDeskBean=function.getIconDesk();
-			if(!StringUtils.isEmpty(conDeskBean)){
+			if(!StrUtils.isEmpty(conDeskBean)){
 				IconView TSIconDeskBean=new IconView();
 				BeanUtils.copyProperties(conDeskBean, TSIconDeskBean);
 				functionBean.setIconDesk(TSIconDeskBean);

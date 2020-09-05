@@ -1,4 +1,4 @@
-package com.abocode.jfaster.core.platform.view.interactions.datatable;
+package com.abocode.jfaster.core.repository;
 /**
 * @Description: TODO(排序定义) 
 * asc 升序

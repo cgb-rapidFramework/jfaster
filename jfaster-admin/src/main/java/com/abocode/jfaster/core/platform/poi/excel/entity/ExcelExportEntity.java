@@ -1,6 +1,5 @@
 package com.abocode.jfaster.core.platform.poi.excel.entity;
 
-import com.sun.xml.internal.ws.developer.Serialization;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -56,5 +55,5 @@ public class ExcelExportEntity  {
 	
 	private List<Method> getMethods;
 	
-	private List<ExcelExportEntity> list;
+	private List<ExcelExportEntity> rows;
 }

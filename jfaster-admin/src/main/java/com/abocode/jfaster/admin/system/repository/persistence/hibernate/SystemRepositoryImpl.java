@@ -4,7 +4,6 @@ import com.abocode.jfaster.core.platform.view.IconView;
 import com.abocode.jfaster.admin.system.service.BeanToTagConverter;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
 import com.abocode.jfaster.core.platform.view.OperationView;
 import com.abocode.jfaster.core.platform.view.TypeView;
 import com.abocode.jfaster.core.platform.view.TypeGroupView;
@@ -12,6 +11,7 @@ import com.abocode.jfaster.core.platform.SystemContainer;
 import com.abocode.jfaster.core.platform.SystemContainer.IconContainer;
 import com.abocode.jfaster.core.platform.SystemContainer.TypeGroupContainer;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
+import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
 import com.abocode.jfaster.core.web.utils.SessionUtils;
 import com.abocode.jfaster.system.entity.*;
 import org.springframework.beans.BeanUtils;
@@ -44,7 +44,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 		log.setBroswer(broswer);
 		log.setOperationTime(DateUtils.getTimestamp());
 		log.setUserId(SessionUtils.getCurrentUser().getId());
-		commonDao.saveOrUpdate(log);
+		saveOrUpdate(log);
 	}
 
 	/**
@@ -55,13 +55,13 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 	 * @return
 	 */
 	public Type getType(String typecode, String typename, TypeGroup tsTypegroup) {
-		Type actType = commonDao.findUniqueByProperty(Type.class, "typecode", typecode);
+		Type actType =findUniqueByProperty(Type.class, "typecode", typecode);
 		if (actType == null) {
 			actType = new Type();
 			actType.setTypeCode(typecode);
 			actType.setTypeName(typename);
 			actType.setTypeGroup(tsTypegroup);
-			commonDao.save(actType);
+			save(actType);
 		}
 		return actType;
 
@@ -75,29 +75,29 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 	 * @return
 	 */
 	public TypeGroup getTypeGroup(String typegroupcode, String typgroupename) {
-		TypeGroup tsTypegroup = commonDao.findUniqueByProperty(TypeGroup.class, "typegroupcode", typegroupcode);
+		TypeGroup tsTypegroup = findUniqueByProperty(TypeGroup.class, "typegroupcode", typegroupcode);
 		if (tsTypegroup == null) {
 			tsTypegroup = new TypeGroup();
 			tsTypegroup.setTypeGroupCode(typegroupcode);
 			tsTypegroup.setTypeGroupName(typgroupename);
-			commonDao.save(tsTypegroup);
+			save(tsTypegroup);
 		}
 		return tsTypegroup;
 	}
 
-	
+
 	public TypeGroup getTypeGroupByCode(String typegroupCode) {
-		TypeGroup typeGroup = commonDao.findUniqueByProperty(TypeGroup.class, "typegroupcode", typegroupCode);
+		TypeGroup typeGroup =findUniqueByProperty(TypeGroup.class, "typegroupcode", typegroupCode);
 		return typeGroup;
 	}
 
 	
 	public void initAllTypeGroups() {
-		List<TypeGroup> typeGroups = this.commonDao.findAll(TypeGroup.class);
+		List<TypeGroup> typeGroups = findAll(TypeGroup.class);
 		for (TypeGroup typeGroup : typeGroups) {
 			TypeGroupView typeGroupView= BeanToTagConverter.convertTypeGroup(typeGroup);
 			TypeGroupContainer.getTypeGroupMap().put(typeGroup.getTypeGroupCode().toLowerCase(), typeGroupView);
-			List<Type> tsTypes = this.commonDao.findAllByProperty(Type.class, "typeGroup.id", typeGroup.getId());
+			List<Type> tsTypes = findAllByProperty(Type.class, "typeGroup.id", typeGroup.getId());
 			List<TypeView> types= BeanToTagConverter.convertTypes(tsTypes);
 			TypeGroupContainer.getTypeMap().put(typeGroup.getTypeGroupCode().toLowerCase(), types);
 		}
@@ -106,8 +106,8 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 	
 	public void refleshTypesCach(Type type) {
 		TypeGroup typeGroup = type.getTypeGroup();
-		TypeGroup typeGroupEntity = this.commonDao.find(TypeGroup.class, typeGroup.getId());
-		List<Type> tsTypes = this.commonDao.findAllByProperty(Type.class, "typeGroup.id", typeGroup.getId());
+		TypeGroup typeGroupEntity = find(TypeGroup.class, typeGroup.getId());
+		List<Type> tsTypes = findAllByProperty(Type.class, "typeGroup.id", typeGroup.getId());
 		List<TypeView> types= BeanToTagConverter.convertTypes(tsTypes);
 		TypeGroupContainer.getTypeMap().put(typeGroupEntity.getTypeGroupCode().toLowerCase(), types);
 	}
@@ -115,7 +115,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 	
 	public void refleshTypeGroupCach() {
 		TypeGroupContainer.getTypeGroupMap().clear();
-		List<TypeGroup> typeGroups = this.commonDao.findAll(TypeGroup.class);
+		List<TypeGroup> typeGroups = findAll(TypeGroup.class);
 		for (TypeGroup tsTypegroup : typeGroups) {
 			TypeGroupView typegroupBean= BeanToTagConverter.convertTypeGroup(tsTypegroup);
 			TypeGroupContainer.getTypeGroupMap().put(tsTypegroup.getTypeGroupCode().toLowerCase(), typegroupBean);
@@ -131,7 +131,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 	 */
 	public Set<String> getOperationCodesByRoleIdAndFunctionId(String roleId, String functionId) {
 		Set<String> operationCodes = new HashSet();
-		Role role = commonDao.find(Role.class, roleId);
+		Role role =find(Role.class, roleId);
 		CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
 		cq1.eq(ROLE_ID, role.getId());
 		cq1.eq(FUNCTION_ID, functionId);
@@ -180,11 +180,11 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 	
 	public void flushRoleFunciton(String id, Function newFunction) {
 		Function functionEntity = this.findEntity(Function.class, id);
-		if (functionEntity.getIcon() == null || !StringUtils.isEmpty(functionEntity.getIcon().getId())) {
+		if (functionEntity.getIcon() == null || !StrUtils.isEmpty(functionEntity.getIcon().getId())) {
 			return;
 		}
 		Icon oldIcon = this.findEntity(Icon.class, functionEntity.getIcon().getId());
-		if(StringUtils.isEmpty(oldIcon.getIconClazz())){
+		if(StrUtils.isEmpty(oldIcon.getIconClazz())){
               return;
 		}
 
@@ -208,7 +208,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
         String  newOrgCode = "";
         if(!org.springframework.util.StringUtils.hasText(pid)) { // 第一级编码
             String sql = "select max(t.org_code) orgCode from t_s_depart t where t.parentdepartid is null";
-            Map<String, Object> pOrgCodeMap = commonDao.queryForMap(sql);
+            Map<String, Object> pOrgCodeMap =queryForMap(sql);
             if(pOrgCodeMap.get("orgCode") != null) {
                 String curOrgCode = pOrgCodeMap.get("orgCode").toString();
                 newOrgCode = String.format("%0" + orgCodeLength + "d", Integer.parseInt(curOrgCode) + 1);
@@ -217,7 +217,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
             }
         } else { // 下级编码
             String sql = "select max(t.org_code) orgCode from t_s_depart t where t.parentdepartid = ?";
-            Map<String, Object> orgCodeMap = commonDao.queryForMap(sql, pid);
+            Map<String, Object> orgCodeMap =queryForMap(sql, pid);
             if(orgCodeMap.get("orgCode") != null) { // 当前基本有编码时
                 String curOrgCode = orgCodeMap.get("orgCode").toString();
                 String pOrgCode = curOrgCode.substring(0, curOrgCode.length() - orgCodeLength);
@@ -225,7 +225,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
                 newOrgCode = pOrgCode + String.format("%0" + orgCodeLength + "d", Integer.parseInt(subOrgCode) + 1);
             } else { // 当前级别没有编码时
                 String pOrgCodeSql = "select max(t.org_code) orgCode from t_s_depart t where t.id = ?";
-                Map<String, Object> pOrgCodeMap = commonDao.queryForMap(pOrgCodeSql, pid);
+                Map<String, Object> pOrgCodeMap =queryForMap(pOrgCodeSql, pid);
             	String curOrgCode= pOrgCodeMap.get("orgCode")+"";
                 if(curOrgCode.equals("null")){
                 	curOrgCode="";
@@ -241,7 +241,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 	public Set<String> getOperationCodesByRoleIdAndruleDataId(String roleId,
 			String functionId) {
 		Set<String> operationCodes = new HashSet();
-		Role role = commonDao.find(Role.class, roleId);
+		Role role =find(Role.class, roleId);
 		CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
 		cq1.eq(ROLE_ID, role.getId());
 		cq1.eq(FUNCTION_ID, functionId);
@@ -312,7 +312,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 
 	@Override
 	public void initOperations() {
-		List<Operation> operationList= this.commonDao.findAll(Operation.class);
+		List<Operation> operationList= findAll(Operation.class);
 		for (Operation operation:operationList){
 			OperationView operationBean=new OperationView();
 			BeanUtils.copyProperties(operation,operationBean);

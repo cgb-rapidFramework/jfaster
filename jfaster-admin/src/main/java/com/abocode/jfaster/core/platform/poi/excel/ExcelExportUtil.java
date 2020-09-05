@@ -109,8 +109,8 @@ public final class ExcelExportUtil {
     private static void sortAllParams(List<ExcelExportEntity> excelParams) {
         Collections.sort(excelParams, new ExcelComparator());
         for (ExcelExportEntity entity : excelParams) {
-            if (entity.getList() != null) {
-                Collections.sort(entity.getList(), new ExcelComparator());
+            if (entity.getRows() != null) {
+                Collections.sort(entity.getRows(), new ExcelComparator());
             }
         }
     }
@@ -130,17 +130,17 @@ public final class ExcelExportUtil {
         int maxHeight = 1, cellNum = 0;
         for (int k = 0, paramSize = excelParams.size(); k < paramSize; k++) {
             entity = excelParams.get(k);
-            if (entity.getList() != null) {
+            if (entity.getRows() != null) {
                 Collection<?> list = (Collection<?>) entity.getGetMethod()
                         .invoke(data, new Object[]{});
                 int listC = 0;
                 if (list != null) {
                     for (Object obj : list) {
                         createListCells(patriarch, index + listC, cellNum, obj,
-                                entity.getList(), sheet, styles);
+                                entity.getRows(), sheet, styles);
                         listC++;
                     }
-                    cellNum += entity.getList().size();
+                    cellNum += entity.getRows().size();
                     if (list.size() > maxHeight) {
                         maxHeight = list.size();
                     }
@@ -162,8 +162,8 @@ public final class ExcelExportUtil {
         cellNum = 0;
         for (int k = 0, paramSize = excelParams.size(); k < paramSize; k++) {
             entity = excelParams.get(k);
-            if (entity.getList() != null) {
-                cellNum += entity.getList().size();
+            if (entity.getRows() != null) {
+                cellNum += entity.getRows().size();
             } else if (entity.isNeedMerge()) {
                 sheet.addMergedRegion(new CellRangeAddress(index, index + maxHeight - 1, cellNum,
                         cellNum));
@@ -256,8 +256,8 @@ public final class ExcelExportUtil {
                                     Sheet sheet) {
         int index = 0;
         for (int i = 0; i < excelParams.size(); i++) {
-            if (excelParams.get(i).getList() != null) {
-                List<ExcelExportEntity> list = excelParams.get(i).getList();
+            if (excelParams.get(i).getRows() != null) {
+                List<ExcelExportEntity> list = excelParams.get(i).getRows();
                 for (int j = 0; j < list.size(); j++) {
                     sheet.setColumnWidth(index, 256 * list.get(j).getWidth());
                     index++;
@@ -284,8 +284,8 @@ public final class ExcelExportUtil {
         for (int i = 0, exportFieldTitleSize = excelParams.size(); i < exportFieldTitleSize; i++) {
             ExcelExportEntity entity = excelParams.get(i);
             createStringCell(row, cellIndex, entity.getName(), titleStyle, entity);
-            if (entity.getList() != null) {
-                List<ExcelExportEntity> sTitel = entity.getList();
+            if (entity.getRows() != null) {
+                List<ExcelExportEntity> sTitel = entity.getRows();
                 sheet.addMergedRegion(new CellRangeAddress(index, index, cellIndex, cellIndex
                         + sTitel.size() - 1));
                 for (int j = 0, size = sTitel.size(); j < size; j++) {
@@ -420,7 +420,7 @@ public final class ExcelExportUtil {
     private static int getFieldWidth(List<ExcelExportEntity> excelParams) {
         int length = -1;// 从0开始计算单元格的
         for (ExcelExportEntity entity : excelParams) {
-            length += entity.getList() != null ? entity.getList().size() : 1;
+            length += entity.getRows() != null ? entity.getRows().size() : 1;
         }
         return length;
     }
@@ -457,7 +457,7 @@ public final class ExcelExportUtil {
                 excelEntity.setOrderNum(getCellOrder(excel.orderNum(), targetId));
                 excelEntity.setGetMethod(ExcelPublicUtil.getMethod(field.getName(),
                         pojoClass));
-                excelEntity.setList(list);
+                excelEntity.setRows(list);
                 excelParams.add(excelEntity);
             } else if (ExcelPublicUtil.isJavaClass(field)) {
                 Excel excel = field.getAnnotation(Excel.class);

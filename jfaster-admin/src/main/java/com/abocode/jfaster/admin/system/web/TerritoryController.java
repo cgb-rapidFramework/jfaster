@@ -53,16 +53,16 @@ public class TerritoryController {
      * 地域列表页面跳转
      * @return
      */
-    @RequestMapping(params = "addorupdate")
-    public ModelAndView addorupdate(Territory territory, HttpServletRequest req) {
-        String functionid = req.getParameter("id");
+    @RequestMapping(params = "detail")
+    public ModelAndView detail(Territory territory, HttpServletRequest request) {
+        String functionid = request.getParameter("id");
         if (functionid != null) {
             territory = systemRepository.findEntity(Territory.class, functionid);
-            req.setAttribute("territoryView", territory);
+            request.setAttribute("territoryView", territory);
         }
         if (territory.getParentTerritory() != null && territory.getParentTerritory().getId() != null) {
             territory.setParentTerritory((Territory) systemRepository.findEntity(Territory.class, territory.getParentTerritory().getId()));
-            req.setAttribute("territoryView", territory);
+            request.setAttribute("territoryView", territory);
         }
         return new ModelAndView("system/territory/territory");
     }

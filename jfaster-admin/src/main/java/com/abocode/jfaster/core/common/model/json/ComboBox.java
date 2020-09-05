@@ -4,7 +4,7 @@ package com.abocode.jfaster.core.common.model.json;
 import lombok.Data;
 
 /**
- * 后台向前台返回JSON，用于easyui的datagrid
+ * 后台向前台返回JSON，用于easyui的findDataGridData
  *
  * @author
  */

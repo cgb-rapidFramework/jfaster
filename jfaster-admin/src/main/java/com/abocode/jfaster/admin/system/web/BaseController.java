@@ -1,5 +1,6 @@
 package com.abocode.jfaster.admin.system.web;
 
+import com.abocode.jfaster.core.common.util.StrUtils;
 import com.abocode.jfaster.core.common.util.SystemJsonUtils;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.Autocomplete;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
@@ -44,13 +45,13 @@ public class BaseController {
      */
     @RequestMapping(params = "getAutoList")
     public void getAutoList(HttpServletRequest request, HttpServletResponse response, Autocomplete autocomplete) {
-        String trem = com.abocode.jfaster.core.common.util.StringUtils.getEncodePra(request.getParameter("trem"));// 重新解析参数
+        String trem = StrUtils.getEncodePra(request.getParameter("trem"));// 重新解析参数
         autocomplete.setTrem(trem);
         List autoList = systemService.findAutoList(autocomplete);
         String labelFields = autocomplete.getLabelField();
         String[] fieldArr = labelFields.split(",");
         String valueField = autocomplete.getValueField();
-        if (!com.abocode.jfaster.core.common.util.StringUtils.isEmpty(valueField)) {
+        if (!StrUtils.isEmpty(valueField)) {
             String[] allFieldArr = new String[fieldArr.length + 1];
             for (int i = 0; i < fieldArr.length; i++) {
                 allFieldArr[i] = fieldArr[i];

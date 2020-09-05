@@ -5,16 +5,16 @@
     <div region="center" style="padding: 1px;">
         <t:datagrid name="departList" title="common.department.list"
                     actionUrl="departController.do?departgrid"
-                    treegrid="true" idField="departid" pagination="false">
-            <t:dgCol title="common.id" field="id" treefield="id" hidden="true"></t:dgCol>
-            <t:dgCol title="common.department.name" field="departname" treefield="text" width="20"></t:dgCol>
-            <t:dgCol title="position.desc" field="description" treefield="src" width="20"></t:dgCol>
-            <t:dgCol title="common.org.code" field="orgCode" treefield="fieldMap.orgCode" width="10"></t:dgCol>
-            <t:dgCol title="common.org.type" field="orgType" dictionary="orgtype" treefield="fieldMap.orgType" width="10"></t:dgCol>
+                    treeGrid="true" idField="departid" pagination="false">
+            <t:dgCol title="common.id" field="id" treeField="id" hidden="true"></t:dgCol>
+            <t:dgCol title="common.department.name" field="departname" treeField="text" width="20"></t:dgCol>
+            <t:dgCol title="position.desc" field="description" treeField="src" width="20"></t:dgCol>
+            <t:dgCol title="common.org.code" field="orgCode" treeField="fieldMap.orgCode" width="10"></t:dgCol>
+            <t:dgCol title="common.org.type" field="orgType" dictionary="orgtype" treeField="fieldMap.orgType" width="10"></t:dgCol>
             <t:dgCol title="common.operation" field="opt" width="30"></t:dgCol>
             <t:dgDelOpt url="departController.do?del&id={id}" title="common.delete"></t:dgDelOpt>
-            <t:dgFunOpt funname="queryUsersByDepart(id)" title="view.member"></t:dgFunOpt>
-            <t:dgFunOpt funname="setRoleByDepart(id,text)" title="role.set"></t:dgFunOpt>
+            <t:dgFunOpt function="queryUsersByDepart(id)" title="view.member"></t:dgFunOpt>
+            <t:dgFunOpt function="setRoleByDepart(id,text)" title="role.set"></t:dgFunOpt>
         </t:datagrid>
         <div id="departListtb" style="padding: 3px; height: 25px">
             <div style="float: left;">

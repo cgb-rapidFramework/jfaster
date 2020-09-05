@@ -27,7 +27,6 @@ public class BrowserUtils {
     private final static String IE8 = "MSIE 8.0";
     private final static String IE7 = "MSIE 7.0";
     private final static String IE6 = "MSIE 6.0";
-    private final static String MAXTHON = "Maxthon";
     private final static String QQ = "QQBrowser";
     private final static String GREEN = "GreenBrowser";
     private final static String SE360 = "360SE";
@@ -53,8 +52,6 @@ public class BrowserUtils {
             return GREEN;
         if (regex(QQ, userAgent))
             return QQ;
-        if (regex(MAXTHON, userAgent))
-            return MAXTHON;
         if (regex(IE11, userAgent))
             return IE11;
         if (regex(IE10, userAgent))

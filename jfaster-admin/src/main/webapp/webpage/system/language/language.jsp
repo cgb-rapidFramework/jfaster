@@ -7,7 +7,7 @@
   <t:base type="jquery,easyui,tools,DatePicker"></t:base>
  </head>
  <body style="overflow-y: hidden" scroll="no">
-  <t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" action="mutiLangController.do?save">
+  <t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" action="languageController.do?save">
 			<input id="id" name="id" type="hidden" value="${mutiLangView.id }">
 			<table style="width: 600px;" cellpadding="0" cellspacing="1" class="formtable">
 				<tr>

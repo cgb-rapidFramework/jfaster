@@ -38,9 +38,9 @@ JFaster 是一套SH（Spring + Hibernate）快速开发框架，其核心设计�
 
 ### 使用说明
 
- -  数据库脚本初始化，需要执行脚本 doc/db/jfaster.sql
  -  开发环境 idea+jdk6+maven+mysql
  -  项目启动访问地址：http://localhost:8080/jfaster
+ -  第一次启动执行数据初始化：http://localhost:8088/jfaster-admin/repairController.do?repair
 
 #### 下载地址
 

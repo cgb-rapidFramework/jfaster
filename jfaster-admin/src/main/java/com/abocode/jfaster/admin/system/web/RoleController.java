@@ -4,11 +4,12 @@ import com.abocode.jfaster.admin.system.service.RoleService;
 import com.abocode.jfaster.core.common.model.json.*;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
+import com.abocode.jfaster.core.repository.DataGridData;
+import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.system.entity.*;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Property;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
 import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
@@ -52,23 +53,20 @@ public class RoleController {
 
     /**
      * easyuiAJAX请求数据
-     * @param request
-     * @param response
-     * @param dataGrid
+     * @param dataGridParam
+     * @return
      */
 
     @RequestMapping(params = "roleGrid")
-    public void roleGrid(Role role, HttpServletRequest request,
-                         HttpServletResponse response, DataGrid dataGrid) {
-        CriteriaQuery cq = new CriteriaQuery(Role.class, dataGrid);
-        HqlGenerateUtil.installHql(cq, role);
-        cq.add();
-        this.systemRepository.findDataGridReturn(cq, true);
-        TagUtil.datagrid(response, dataGrid);
+    @ResponseBody
+    public DataGridData roleGrid(Role role, DataGridParam dataGridParam) {
+        CriteriaQuery cq = new CriteriaQuery(Role.class).buildParameters(role, dataGridParam);
+        return this.systemRepository.findDataGridData(cq);
     }
 
     /**
      * 删除角色
+     *
      * @param role
      * @return
      */
@@ -83,6 +81,7 @@ public class RoleController {
 
     /**
      * 检查角色
+     *
      * @return
      */
     @RequestMapping(params = "checkRole")
@@ -114,6 +113,7 @@ public class RoleController {
 
     /**
      * 角色列表页面跳转
+     *
      * @return
      */
     @RequestMapping(params = "fun")
@@ -125,6 +125,7 @@ public class RoleController {
 
     /**
      * 角色所有用户信息列表页面跳转
+     *
      * @return
      */
     @RequestMapping(params = "userList")
@@ -135,24 +136,26 @@ public class RoleController {
 
     /**
      * 用户列表查询
-     * @param request
+     *  @param request
      * @param response
-     * @param dataGrid
+     * @param dataGridParam
+     * @return
      */
     @RequestMapping(params = "roleUserDatagrid")
-    public void roleUserDatagrid(User user, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-        CriteriaQuery cq = new CriteriaQuery(User.class, dataGrid);
+    @ResponseBody
+    public DataGridData roleUserDatagrid(User user, HttpServletRequest request, DataGridParam dataGridParam) {
+        CriteriaQuery cq = new CriteriaQuery(User.class).buildDataGrid(dataGridParam);
         //查询条件组装器
         String roleId = request.getParameter("roleId");
         Criterion cc = roleService.buildCriterion(roleId);
         cq.add(cc);
         HqlGenerateUtil.installHql(cq, user);
-        this.systemRepository.findDataGridReturn(cq, true);
-        TagUtil.datagrid(response, dataGrid);
+       return this.systemRepository.findDataGridData(cq);
     }
 
     /**
      * 获取用户列表
+     *
      * @param user
      * @param request
      * @return
@@ -166,6 +169,7 @@ public class RoleController {
 
     /**
      * 角色树列表页面跳转
+     *
      * @return
      */
     @RequestMapping(params = "roleTree")
@@ -176,6 +180,7 @@ public class RoleController {
 
     /**
      * 获取 组织机构的角色树
+     *
      * @param request
      * @return 组织机构的角色树
      */
@@ -188,6 +193,7 @@ public class RoleController {
 
     /**
      * 更新 组织机构的角色列表
+     *
      * @param request request
      * @return 操作结果
      */
@@ -204,6 +210,7 @@ public class RoleController {
 
     /**
      * 设置权限
+     *
      * @param request
      * @param comboTree
      * @return
@@ -217,6 +224,7 @@ public class RoleController {
 
     /**
      * 更新权限
+     *
      * @param request
      * @return
      */
@@ -232,21 +240,23 @@ public class RoleController {
 
     /**
      * 角色页面跳转
+     *
      * @param role
-     * @param req
+     * @param request
      * @return
      */
-    @RequestMapping(params = "addorupdate")
-    public ModelAndView addorupdate(Role role, HttpServletRequest req) {
+    @RequestMapping(params = "detail")
+    public ModelAndView detail(Role role, HttpServletRequest request) {
         if (role.getId() != null) {
             role = systemRepository.findEntity(Role.class, role.getId());
-            req.setAttribute("roleView", role);
+            request.setAttribute("roleView", role);
         }
         return new ModelAndView("system/role/role");
     }
 
     /**
      * 权限操作列表
+     *
      * @param treegrid
      * @param request
      * @return
@@ -261,6 +271,7 @@ public class RoleController {
 
     /**
      * 操作录入
+     *
      * @param request
      * @return
      */
@@ -275,6 +286,7 @@ public class RoleController {
 
     /**
      * 按钮权限展示
+     *
      * @param request
      * @param functionId
      * @param roleId
@@ -296,6 +308,7 @@ public class RoleController {
 
     /**
      * 更新按钮权限
+     *
      * @param request
      * @return
      */
@@ -311,13 +324,14 @@ public class RoleController {
 
     /**
      * 按钮权限展示
+     *
      * @param request
      * @param functionId
      * @param roleId
      * @return
      */
     @RequestMapping(params = "dataRuleListForFunction")
-    public ModelAndView dataRuleListForFunction(HttpServletRequest request,String functionId, String roleId) {
+    public ModelAndView dataRuleListForFunction(HttpServletRequest request, String functionId, String roleId) {
         CriteriaQuery cq = new CriteriaQuery(DataRule.class);
         cq.eq("function.id", functionId);
         cq.add();
@@ -349,11 +363,12 @@ public class RoleController {
 
     /**
      * 添加 用户到角色 的页面  跳转
-     * @param req
+     *
+     * @param request
      * @return 处理结果信息
      */
     @RequestMapping(params = "goAddUserToRole")
-    public ModelAndView goAddUserToOrg(HttpServletRequest req) {
+    public ModelAndView goAddUserToOrg(HttpServletRequest request) {
         return new ModelAndView("system/role/noCurRoleUserList");
     }
 
@@ -364,10 +379,10 @@ public class RoleController {
      * @return 处理结果信息
      */
     @RequestMapping(params = "addUserToRoleList")
-    public void addUserToOrgList(User user, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+    @ResponseBody
+    public DataGridData addUserToOrgList(User user, HttpServletRequest request, HttpServletResponse response, DataGridParam dataGridParam) {
         String roleId = request.getParameter("roleId");
-        CriteriaQuery cq = new CriteriaQuery(User.class, dataGrid);
-        HqlGenerateUtil.installHql(cq, user);
+        CriteriaQuery cq = new CriteriaQuery(User.class).buildParameters(user,dataGridParam);
         // 获取 当前组织机构的用户信息
         CriteriaQuery subCq = new CriteriaQuery(RoleUser.class);
         subCq.setProjection(Property.forName("user.id"));
@@ -375,21 +390,21 @@ public class RoleController {
         subCq.add();
         cq.add(Property.forName("id").notIn(subCq.getDetachedCriteria()));
         cq.add();
-        this.systemRepository.findDataGridReturn(cq, true);
-        TagUtil.datagrid(response, dataGrid);
+       return this.systemRepository.findDataGridData(cq);
     }
 
     /**
      * 添加 用户到角色
-     * @param req
+     *
+     * @param request
      * @return 处理结果信息
      */
     @RequestMapping(params = "doAddUserToRole")
     @ResponseBody
-    public AjaxJson doAddUserToOrg(HttpServletRequest req) {
-        String userIds = ConvertUtils.getString(req.getParameter("userIds"));
-        String roleId = req.getParameter("roleId");
-        roleService.doAddUserToOrg(roleId,userIds);
+    public AjaxJson doAddUserToOrg(HttpServletRequest request) {
+        String userIds = ConvertUtils.getString(request.getParameter("userIds"));
+        String roleId = request.getParameter("roleId");
+        roleService.doAddUserToOrg(roleId, userIds);
         return AjaxJsonBuilder.success();
     }
 }

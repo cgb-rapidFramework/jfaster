@@ -1,10 +1,7 @@
 package com.abocode.jfaster.core.common.util;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
-
 
 /**
  * 项目参数工具类
@@ -72,4 +69,5 @@ public class ConfigUtils {
     public static String getOrgCodeLengthType() {
         return bundle.getString("orgCodeLengthType");
     }
+
 }

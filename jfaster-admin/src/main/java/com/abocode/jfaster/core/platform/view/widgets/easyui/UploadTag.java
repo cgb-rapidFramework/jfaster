@@ -1,6 +1,7 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
 import com.abocode.jfaster.core.common.util.JspWriterUtils;
+import lombok.Data;
 
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
@@ -14,6 +15,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  * @version 1.0
  * @date： 日期：2012-12-7 时间：上午10:17:45
  */
+@Data
 public class UploadTag extends TagSupport {
     private static final long serialVersionUID = 1L;
     protected String id;// ID
@@ -30,59 +32,6 @@ public class UploadTag extends TagSupport {
     protected String onUploadSuccess;//上传成功处理函数
     protected boolean view = false;//生成查看删除链接
     protected String formId;//参数名称
-
-    public String getFormId() {
-        return formId;
-    }
-
-    public void setFormId(String formId) {
-        this.formId = formId;
-    }
-
-    public void setView(boolean view) {
-        this.view = view;
-    }
-
-    public void setOnUploadSuccess(String onUploadSuccess) {
-        this.onUploadSuccess = onUploadSuccess;
-    }
-
-    public void setAuto(boolean auto) {
-        this.auto = auto;
-    }
-
-    public void setCallback(String callback) {
-        this.callback = callback;
-    }
-
-    public void setDialog(boolean dialog) {
-        this.dialog = dialog;
-    }
-
-    public void setQueueID(String queueID) {
-        this.queueID = queueID;
-    }
-
-    public void setButtonText(String buttonText) {
-        this.buttonText = buttonText;
-    }
-
-    public void setMulti(boolean multi) {
-        this.multi = multi;
-    }
-
-    public void setUploader(String uploader) {
-        this.uploader = uploader;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int doStartTag() throws JspTagException {
-        return EVAL_PAGE;
-    }
-
     public int doEndTag() throws JspTagException {
         JspWriter out = this.pageContext.getOut();
         JspWriterUtils.write(out, end());
@@ -233,18 +182,4 @@ public class UploadTag extends TagSupport {
     private String getUploader() {
         return uploader + "&sessionId=" + pageContext.getSession().getId() + "',";
     }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setFormData(String formData) {
-        this.formData = formData;
-    }
-
-    public void setIconExtend(String extend) {
-        this.extend = extend;
-    }
-
-
 }

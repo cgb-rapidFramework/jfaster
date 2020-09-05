@@ -6,31 +6,25 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
-import com.abocode.jfaster.core.persistence.ICommonDao;
+import com.abocode.jfaster.core.persistence.hibernate.HibernateCommonRepository;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.HqlQuery;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.Autocomplete;
+import com.abocode.jfaster.core.repository.DataGridData;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.PageList;
 import com.abocode.jfaster.core.persistence.DBTable;
-import com.abocode.jfaster.core.common.model.json.DataGridReturn;
 import com.abocode.jfaster.core.repository.CommonRepository;
-import com.abocode.jfaster.core.platform.view.interactions.datatable.DataTableReturn;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("commonRepository")
 @Transactional
 public class CommonRepositoryImpl implements CommonRepository {
-    public ICommonDao commonDao = null;
-
-    @Override
-    public Session getSession() {
-        return commonDao.getSession();
-    }
+    @Autowired
+    public HibernateCommonRepository commonDao;
 
     /**
      * 获取所有数据库表
@@ -38,20 +32,14 @@ public class CommonRepositoryImpl implements CommonRepository {
      * @return
      */
     @Override
-    public List<DBTable> getAllDbTableName() {
+    public List<DBTable> findAllDbTableName() {
         return commonDao.findAllDbTableName();
     }
 
     @Override
-    public Integer getAllDbTableSize() {
+    public Integer findAllDbTableSize() {
         return commonDao.findAllDbTableSize();
     }
-
-    @Resource
-    public void setCommonDao(ICommonDao commonDao) {
-        this.commonDao = commonDao;
-    }
-
 
     @Override
     public <T> Serializable save(T entity) {
@@ -80,7 +68,7 @@ public class CommonRepositoryImpl implements CommonRepository {
      */
     @Override
     public <T> void deleteEntities(Collection<T> entities) {
-        commonDao.deleteAllEntitie(entities);
+        commonDao.deleteEntities(entities);
     }
 
     /**
@@ -88,20 +76,9 @@ public class CommonRepositoryImpl implements CommonRepository {
      */
     @Override
     public <T> T find(Class<T> class1, Serializable id) {
-        return commonDao.find(class1, id);
+        return (T) commonDao.find(class1, id);
     }
 
-    /**
-     * 根据实体名返回全部对象
-     *
-     * @param <T>
-     * @param clazz
-     * @return
-     */
-    @Override
-    public <T> List<T> getList(Class clazz) {
-        return commonDao.findAll(clazz);
-    }
 
     /**
      * 根据实体名获取对象
@@ -109,7 +86,7 @@ public class CommonRepositoryImpl implements CommonRepository {
     @Override
     @SuppressWarnings("rawtypes")
     public <T> T findEntity(Class entityName, Serializable id) {
-        return commonDao.findEntity(entityName, id);
+        return (T) commonDao.findEntity(entityName, id);
     }
 
     /**
@@ -124,7 +101,7 @@ public class CommonRepositoryImpl implements CommonRepository {
     @Override
     public <T> T findUniqueByProperty(Class<T> entityClass,
                                       String propertyName, Object value) {
-        return commonDao.findUniqueByProperty(entityClass, propertyName, value);
+        return (T) commonDao.findUniqueByProperty(entityClass, propertyName, value);
     }
 
     /**
@@ -148,13 +125,18 @@ public class CommonRepositoryImpl implements CommonRepository {
         return commonDao.findAll(entityClass);
     }
 
+    @Override
+    public Integer executeHql(String hql) {
+        return commonDao.executeHql(hql);
+    }
+
     /**
      * 根据hql查询一个
      */
 
     @Override
     public <T> T findUniqueByHql(String hql) {
-        return commonDao.findUniqueByHql(hql);
+        return (T) commonDao.findUniqueByHql(hql);
     }
 
     /**
@@ -165,7 +147,7 @@ public class CommonRepositoryImpl implements CommonRepository {
      */
     @Override
     public <T> void delete(Class entities, Serializable id) {
-        commonDao.deleteEntityById(entities, id);
+        commonDao.delete(entities, id);
     }
 
     /**
@@ -382,21 +364,16 @@ public class CommonRepositoryImpl implements CommonRepository {
         return commonDao.findPageListBySql(hqlQuery, isOffset);
     }
 
-
-    //***EasyUI DataGrid**//
-
-    /**
-     * 返回DataTableReturn模型
-     *
-     * @param cq
-     * @param isOffset
-     * @return
-     */
     @Override
-    public DataTableReturn findDataTableReturn(final CriteriaQuery cq,
-                                               final boolean isOffset) {
-        return commonDao.findDataTableReturn(cq, isOffset);
+    public Session getSession() {
+        return commonDao.getSession();
     }
+
+    @Override
+    public DataGridData findDataGridData(final CriteriaQuery cq) {
+        return  commonDao.findDataGridData(cq);
+    }
+
 
     /**
      * 返回easyui datagrid模型
@@ -406,9 +383,9 @@ public class CommonRepositoryImpl implements CommonRepository {
      * @return
      */
     @Override
-    public DataGridReturn findDataGridReturn(final CriteriaQuery cq,
-                                             final boolean isOffset) {
-        return commonDao.findDataGridReturn(cq, isOffset);
+    public DataGridData findDataGridData(final CriteriaQuery cq,
+                                         final boolean isOffset) {
+        return  commonDao.findDataGridData(cq, isOffset);
     }
 
     /**

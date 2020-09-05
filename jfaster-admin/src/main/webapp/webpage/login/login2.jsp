@@ -7,7 +7,7 @@
 <%
     String lang = BrowserUtils.getBrowserLanguage();
     String langurl = "plug-in/language/" + lang +".js";
-    TemplateView sysTheme = SysThemesUtils.getSysTheme(request);
+    TemplateView sysTheme = SysThemesUtils.getSysTheme();
     String lhgdialogTheme = SysThemesUtils.getLhgdialogTheme(sysTheme);
 %>
 

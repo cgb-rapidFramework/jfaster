@@ -1,9 +1,7 @@
 package com.abocode.jfaster.core.repository;
 
 import com.abocode.jfaster.core.persistence.hibernate.qbc.HqlQuery;
-import com.abocode.jfaster.core.platform.view.interactions.datatable.DataTableReturn;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.Autocomplete;
-import com.abocode.jfaster.core.common.model.json.DataGridReturn;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.PageList;
 import org.hibernate.Session;
@@ -21,9 +19,9 @@ public interface CommonRepository {
 	 * 
 	 * @return
 	 */
-	 List<DBTable> getAllDbTableName();
+	 List<DBTable> findAllDbTableName();
 
-	 Integer getAllDbTableSize();
+	 Integer findAllDbTableSize();
 
 	 <T> Serializable save(T entity);
 
@@ -33,6 +31,8 @@ public interface CommonRepository {
 
 	 <T> void batchSave(List<T> entitys);
 	 <T> List<T> findAll(Class<T> entity);
+	Integer executeHql(String hql);
+
     
 	/**
 	 * 根据实体名称和主键获取实体
@@ -126,14 +126,6 @@ public interface CommonRepository {
 	 <T> List<T> findByPropertyIsOrder(Class<T> entityClass,
 			String propertyName, Object value, boolean isAsc);
 
-	/***
-	 * 查询所有
-	 * 
-	 * @param clas
-	 * @return
-	 */
-	@SuppressWarnings("rawtypes")
-	 <T> List<T> getList(Class clas);
 
 	/**
 	 * 查询实体
@@ -229,25 +221,16 @@ public interface CommonRepository {
 	 */
 	 <T> List<T> findByDetached(DetachedCriteria dc);
 	
-	/**
-	 * 返回DataTableReturn模型
-	 * 
-	 * @param cq
-	 * @param isOffset
-	 * @return
-	 */
-	 DataTableReturn findDataTableReturn(final CriteriaQuery cq,
-                                               final boolean isOffset);
 
+	 DataGridData findDataGridData(final CriteriaQuery cq);
 	/**
 	 * 返回easyui datagrid模型
-	 * 
 	 * @param cq
 	 * @param isOffset
 	 * @return
 	 */
-	 DataGridReturn findDataGridReturn(final CriteriaQuery cq,
-                                       final boolean isOffset);
+	DataGridData findDataGridData(final CriteriaQuery cq,
+								  final boolean isOffset);
 	
 	
 	/**

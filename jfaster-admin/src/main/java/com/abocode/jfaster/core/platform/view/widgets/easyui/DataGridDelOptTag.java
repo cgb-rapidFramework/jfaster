@@ -18,7 +18,7 @@ public class DataGridDelOptTag extends TagSupport {
     protected String title;
     private String message;//询问链接的提示语
     private String exp;//判断链接是否显示的表达式
-    private String funname;//自定义函数名称
+    private String function;//自定义函数名称
 
     private String operationCode;//按钮的操作Code
     private String langArg;
@@ -32,12 +32,12 @@ public class DataGridDelOptTag extends TagSupport {
 
         Tag t = findAncestorWithClass(this, DataGridTag.class);
         DataGridTag parent = (DataGridTag) t;
-        parent.setDelUrl(url, title, message, exp, funname, operationCode);
+        parent.setDelUrl(url, title, message, exp, function, operationCode);
         return EVAL_PAGE;
     }
 
-    public void setFunname(String funname) {
-        this.funname = funname;
+    public void setFunname(String function) {
+        this.function = function;
     }
 
     public void setExp(String exp) {

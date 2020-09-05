@@ -47,7 +47,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void saveRole(Role role) {
         String message;
-        if (StringUtils.isNotEmpty(role.getId())) {
+        if (StrUtils.isNotEmpty(role.getId())) {
             message = "角色: " + role.getRoleName() + "被更新成功";
             userRepository.saveOrUpdate(role);
             systemRepository.addLog(message, Globals.Log_Type_UPDATE,

@@ -2,11 +2,11 @@ package com.abocode.jfaster.admin.system.repository.persistence.hibernate;
 
 import com.abocode.jfaster.admin.system.repository.TemplateRepository;
 import com.abocode.jfaster.api.core.AvailableEnum;
+import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
 import com.abocode.jfaster.system.entity.Template;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
 @Service
 @Transactional
 public class TemplateRepositoryImpl extends CommonRepositoryImpl implements TemplateRepository {
@@ -20,7 +20,7 @@ public class TemplateRepositoryImpl extends CommonRepositoryImpl implements Temp
     }
 
     public void clearDefault() {
-        Template templateEntity=this.findUniqueByProperty(Template.class,"status", AvailableEnum.AVAILABLE.getValue());
+        Template templateEntity=  this.findUniqueByProperty(Template.class,"status", AvailableEnum.AVAILABLE.getValue());
         templateEntity.setStatus(AvailableEnum.UNAVAILABLE.getValue());
         this.save(templateEntity);
     }

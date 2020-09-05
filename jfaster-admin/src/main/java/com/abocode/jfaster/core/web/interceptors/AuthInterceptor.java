@@ -83,7 +83,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             }
             String functionId = "";
             //onlinecoding的访问地址有规律可循，数据权限链接篡改
-            if (requestPath.equals("cgAutoListController.do?datagrid")) {
+            if (requestPath.equals("cgAutoListController.do?findDataGridData")) {
                 requestPath += "&configId=" + request.getParameter("configId");
             }
             if (requestPath.equals("cgAutoListController.do?list")) {

@@ -183,8 +183,8 @@ Excel简易导出工具类+Highcharts图形报表
 
 @RequestMapping(params = "datagrid")
 public void datagrid(JFasterDemo JFasterDemo,HttpServletRequest request,
-HttpServletResponse response, DataGrid dataGrid) {
-CriteriaQuery cq = new CriteriaQuery(JFasterDemo.class, dataGrid);
+HttpServletResponse response, DataGrid dataGridParam) {
+CriteriaQuery cq = new CriteriaQuery(JFasterDemo.class, dataGridParam);
 org.JFasterframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq,
 JFasterDemo);
 String ctBegin = request.getParameter("createTime_begin");
@@ -195,7 +195,7 @@ if(ctBegin!=null && ctEnd!=null){
  cq.add();
 }
  this.JFasterDemoService.getDataGridReturn(cq, true);
- TagUtil.datagrid(response, dataGrid);
+ TagUtil.datagrid(response, dataGridParam);
 }
 ```
 
@@ -246,8 +246,8 @@ query="true" queryMode="group"\>\</t:dgCol\>
 ```
 @RequestMapping(params = "datagrid")、
 **public void** datagrid(JFasterDemo JFasterDemo,HttpServletRequest request,
-HttpServletResponse response, DataGrid dataGrid) {
-CriteriaQuery cq = **new** CriteriaQuery(JFasterDemo.**class**, dataGrid);
+HttpServletResponse response, DataGrid dataGridParam) {
+CriteriaQuery cq = **new** CriteriaQuery(JFasterDemo.**class**, dataGridParam);
 //查询条件组装器
 org.JFasterframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq,JFasterDemo);
 String ctBegin = request.getParameter("createTime_begin");
@@ -260,13 +260,13 @@ SimpleDateFormat("yyyy-MM-dd").parse(ctEnd));
 cq.add();
 this.JFasterDemoService.getDataGridReturn(cq, **true**);
 String total_salary =String.valueOf(JFasterDemoService.findOneForJdbc("select sum(salary) as ssum from JFaster_demo").get("ssum"));
-dataGrid.setFooter("salary:"+total_salary+",age,email:合计");
-TagUtil.datagrid(response, dataGrid);
+dataGridParam.setFooter("salary:"+total_salary+",age,email:合计");
+TagUtil.datagrid(response, dataGridParam);
 }
 ```
 
 在该示例代码中，需要重点注意的是这里的第 23行：
-dataGrid.setFooter("salary:"+total_salary+",age,email:合计");
+dataGridParam.setFooter("salary:"+total_salary+",age,email:合计");
 setFooter()方法接收一个字符串，其格式为格式：字段名[:值]，其中值为选填项，填了
 则使用给定的值，没填则自动统计分页合计，示例：
 salary:35.00,age,email:合计
@@ -1424,7 +1424,7 @@ onblur的时候就会提示，当输入正确后，1秒中
 
 * 第一步：定义按钮
 ```properties
-<t:dgToolBar title="JS增强" icon="icon-edit" url="cgFormHeadController.do?jsPlugin" funname="jsPlugin"></t:dgToolBar>
+<t:dgToolBar title="JS增强" icon="icon-edit" url="cgFormHeadController.do?jsPlugin" function="jsPlugin"></t:dgToolBar>
 ```
 
 

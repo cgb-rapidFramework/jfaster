@@ -3,8 +3,9 @@ package com.abocode.jfaster.core.web.manager;
 import java.io.Serializable;
 import java.util.*;
 
-import com.abocode.jfaster.core.common.model.json.DataGrid;
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
+import com.abocode.jfaster.core.repository.DataGridParam;
+
 public class ClientManager {
 	
 	private static ClientManager instance = new ClientManager();
@@ -17,7 +18,7 @@ public class ClientManager {
 		return instance;
 	}
 	
-	private Map<String,ClientBean> map = new HashMap<String, ClientBean>();
+	private Map<String,ClientBean> map = new HashMap<>();
 	
 	/**
 	 * 
@@ -56,9 +57,9 @@ public class ClientManager {
 		return map.values();
 	}
 
-	public static List<ClientBean>  getClient(List<ClientBean> clients, DataGrid dataGrid) {
+	public static List<ClientBean>  getClient(List<ClientBean> clients, DataGridParam dataGrid) {
 		Collections.sort(clients, new ClientSort());
-		List<ClientBean> result = new ArrayList<ClientBean>();
+		List<ClientBean> result = new ArrayList<>();
 		for(int i = (dataGrid.getPage()-1)*dataGrid.getRows();
 			i<clients.size()&&i<dataGrid.getPage()*dataGrid.getRows();i++){
 			result.add(clients.get(i));
@@ -69,7 +70,6 @@ public class ClientManager {
 }
 
 class ClientSort implements Comparator<ClientBean>, Serializable {
-
 
 	public int compare(ClientBean prev, ClientBean now) {
 		return (int) (now.getLoginTime().getTime()-prev.getLoginTime().getTime());

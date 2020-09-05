@@ -3,14 +3,14 @@ package com.abocode.jfaster.admin.system.web;
 import com.abocode.jfaster.admin.system.dto.FileUploadDto;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.AjaxJsonBuilder;
-import com.abocode.jfaster.core.common.model.json.DataGrid;
+import com.abocode.jfaster.core.repository.DataGridData;
+import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.admin.system.dto.FileImportDto;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.platform.view.ReflectHelper;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
 import com.abocode.jfaster.system.entity.FileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -69,11 +69,11 @@ public class ResourceController {
 
     /**
      * 文件上传通用跳转
-     * @param req
+     * @param request
      * @return
      */
     @RequestMapping(params = "commonUpload")
-    public ModelAndView commonUpload(HttpServletRequest req) {
+    public ModelAndView commonUpload(HttpServletRequest request) {
         return new ModelAndView("common/upload/uploadView");
     }
 
@@ -105,7 +105,7 @@ public class ResourceController {
             }
         }
 
-        if (StringUtils.isNotEmpty(fileKey)) {
+        if (StrUtils.isNotEmpty(fileKey)) {
             attachment.setId(fileKey);
             attachment = systemService.findEntity(FileUpload.class, fileKey);
             attachment.setName(documentTitle);
@@ -114,7 +114,7 @@ public class ResourceController {
         attachment.setCreateDate(DateUtils.getTimestamp());
         FileUploadDto uploadFile = new FileUploadDto(request, attachment);
         String fileType=request.getParameter("fileType");
-        if(StringUtils.isEmpty(fileType)){
+        if(StrUtils.isEmpty(fileType)){
             fileType="files";
         }
         uploadFile.setFolderPath(fileType);
@@ -152,7 +152,7 @@ public class ResourceController {
     @ResponseBody
     public AjaxJson deleteFile(HttpServletRequest request) {
         String fileKey = ConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
-        Assert.isTrue(StringUtils.isNotEmpty(fileKey),"文件已经不存在了");
+        Assert.isTrue(StrUtils.isNotEmpty(fileKey),"文件已经不存在了");
         FileUpload attachment = systemService.findEntity(FileUpload.class,fileKey);
         ResourceUtils.delete(ResourceUtils.getResourceLocalPath()+"/"+attachment.getPath());
         systemService.delete(attachment);
@@ -219,35 +219,4 @@ public class ResourceController {
         //uploadFile.setView(true);
         resourceService.viewOrDownloadFile(uploadFile);
     }
-
-
-
-    /**
-     * 继承于TSUploadFile附件公共列表数据
-     */
-    @RequestMapping(params = "objfileGrid")
-    public void objfileGrid(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-        String businessKey = ConvertUtils.getString(request.getParameter("businessKey"));
-        String subclassname = ConvertUtils.getString(request.getParameter("subclassname"));// 子类类名
-        String type = ConvertUtils.getString(request.getParameter("typename"));
-        String code = ConvertUtils.getString(request.getParameter("typecode"));
-        String filekey = ConvertUtils.getString(request.getParameter("filekey"));
-        CriteriaQuery cq = new CriteriaQuery(ClassLoaderUtils.getClassByScn(subclassname), dataGrid);
-        cq.eq("businessKey", businessKey);
-        if (StringUtils.isNotEmpty(type)) {
-            cq.createAlias("TBInfotype", "TBInfotype");
-            cq.eq("TBInfotype.typeName", type);
-        }
-        if (StringUtils.isNotEmpty(filekey)) {
-            cq.eq("id", filekey);
-        }
-        if (StringUtils.isNotEmpty(code)) {
-            cq.createAlias("TBInfotype", "TBInfotype");
-            cq.eq("TBInfotype.typeCode", code);
-        }
-        cq.add();
-        this.systemService.findDataGridReturn(cq, true);
-        TagUtil.datagrid(response, dataGrid);
-    }
-
 }

@@ -8,73 +8,67 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.abocode.jfaster.core.common.util.ConfigUtils;
-import com.abocode.jfaster.core.common.util.StringUtils;
-import org.springframework.util.Assert;
+import com.abocode.jfaster.core.common.util.IdUtils;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 随机生成验证图片
  */
+@Slf4j
 public class RandCodeImageServlet extends HttpServlet {
-    private static final long serialVersionUID = -1257947018545327308L;
     private static final String SESSION_KEY_OF_RAND_CODE = "randCode";
     /**
      *
      */
-    private static final int count = 200;
+    private static final int COUNT = 200;
 
     /**
      * 定义图形大小
      */
-    private static final int width = 105;
+    private static final int WIDTH = 105;
     /**
      * 定义图形大小
      */
-    private static final int height = 35;
+    private static final int HEIGHT = 35;
     /**
      * 干扰线的长度=1.414*lineWidth
      */
-    private static final int lineWidth = 2;
+    private static final int LINE_WIDTH = 2;
 
     @Override
     public void doGet(final HttpServletRequest request,
-                      final HttpServletResponse response) throws ServletException,
-            IOException {
+                      final HttpServletResponse response) {
         // 设置页面不缓存
         response.setHeader("Pragma", "No-cache");
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0);
-        // response.setContentType("image/png");
-
         // 在内存中创建图象
-        final BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        final BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         // 获取图形上下文
         final Graphics2D graphics = (Graphics2D) image.getGraphics();
 
         // 设定背景颜色
         graphics.setColor(Color.WHITE); // ---1
-        graphics.fillRect(0, 0, width, height);
+        graphics.fillRect(0, 0, WIDTH, HEIGHT);
         // 设定边框颜色
 //		graphics.setColor(getRandColor(100, 200)); // ---2
-        graphics.drawRect(0, 0, width - 1, height - 1);
+        graphics.drawRect(0, 0, WIDTH - 1, HEIGHT - 1);
 
-        final Random random = new Random();
         // 随机产生干扰线，使图象中的认证码不易被其它程序探测到
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < COUNT; i++) {
             graphics.setColor(getRandColor(150, 200)); // ---3
 
-            final int x = random.nextInt(width - lineWidth - 1) + 1; // 保证画在边框之内
-            final int y = random.nextInt(height - lineWidth - 1) + 1;
-            final int xl = random.nextInt(lineWidth);
-            final int yl = random.nextInt(lineWidth);
+            final int x = IdUtils.nextInt(WIDTH - LINE_WIDTH - 1) + 1; // 保证画在边框之内
+            final int y = IdUtils.nextInt(HEIGHT - LINE_WIDTH - 1) + 1;
+            final int xl = IdUtils.nextInt(LINE_WIDTH);
+            final int yl = IdUtils.nextInt(LINE_WIDTH);
             graphics.drawLine(x, y, x + xl, y + yl);
         }
 
@@ -82,12 +76,9 @@ public class RandCodeImageServlet extends HttpServlet {
         String resultCode = getRandomCode();
         for (int i = 0; i < resultCode.length(); i++) {
             // 将认证码显示到图象中,调用函数出来的颜色相同，可能是因为种子太接近，所以只能直接生成
-            // graphics.setColor(new Color(20 + random.nextInt(130), 20 + random
-            // .nextInt(130), 20 + random.nextInt(130)));
             // 设置字体颜色
             graphics.setColor(Color.BLACK);
             // 设置字体样式
-//			graphics.setFont(new Font("Arial Black", Font.ITALIC, 18));
             graphics.setFont(new Font("Times New Roman", Font.BOLD, 24));
             // 设置字符，字符间距，上边距
             graphics.drawString(String.valueOf(resultCode.charAt(i)), (23 * i) + 8, 26);
@@ -99,13 +90,16 @@ public class RandCodeImageServlet extends HttpServlet {
         graphics.dispose();
 
         // 输出图象到页面
-        ImageIO.write(image, "JPEG", response.getOutputStream());
+        try {
+            ImageIO.write(image, "JPEG", response.getOutputStream());
+        } catch (IOException e) {
+            log.error("JPEG write not successful",e);
+        }
     }
 
     @Override
     public void doPost(final HttpServletRequest request,
-                       final HttpServletResponse response) throws ServletException,
-            IOException {
+                       final HttpServletResponse response) throws IOException {
         doGet(request, response);
     }
 
@@ -114,9 +108,8 @@ public class RandCodeImageServlet extends HttpServlet {
      */
     private String getRandomCode() {
         String randomCodeType = ConfigUtils.getRandCodeType();
-        Assert.isTrue(!StringUtils.isEmpty(randomCodeType),"random code is null");
+        RandCodeImageEnum randCodeImageEnum = RandCodeImageEnum.getRandCodeImage(randomCodeType);
         int randCodeLength = Integer.parseInt(ConfigUtils.getRandCodeLength());
-        RandCodeImageEnum randCodeImageEnum=RandCodeImageEnum.valueOf(randomCodeType);
         return randCodeImageEnum.generateStr(randCodeLength);
     }
 
@@ -131,7 +124,6 @@ public class RandCodeImageServlet extends HttpServlet {
      * @return 描述：
      */
     private Color getRandColor(int fc, int bc) { // 取得给定范围随机颜色
-        final Random random = new Random();
         if (fc > 255) {
             fc = 255;
         }
@@ -139,9 +131,9 @@ public class RandCodeImageServlet extends HttpServlet {
             bc = 255;
         }
 
-        final int r = fc + random.nextInt(bc - fc);
-        final int g = fc + random.nextInt(bc - fc);
-        final int b = fc + random.nextInt(bc - fc);
+        final int r = fc + IdUtils.nextInt(bc - fc);
+        final int g = fc + IdUtils.nextInt(bc - fc);
+        final int b = fc + IdUtils.nextInt(bc - fc);
 
         return new Color(r, g, b);
     }
@@ -187,6 +179,24 @@ enum RandCodeImageEnum {
         this.charStr = charStr;
     }
 
+    public static RandCodeImageEnum getRandCodeImage(String randomCodeType) {
+        if (randomCodeType != null) {
+            switch (randomCodeType.charAt(0)) {
+                case '2':
+                    return RandCodeImageEnum.LOWER_CHAR;
+                case '3':
+                    return RandCodeImageEnum.UPPER_CHAR;
+                case '4':
+                    return RandCodeImageEnum.LETTER_CHAR;
+                case '5':
+                    return RandCodeImageEnum.ALL_CHAR;
+                default:
+                    return RandCodeImageEnum.NUMBER_CHAR;
+            }
+        }
+        return RandCodeImageEnum.NUMBER_CHAR;
+    }
+
     /**
      * 生产随机验证码
      *
@@ -195,12 +205,10 @@ enum RandCodeImageEnum {
      * @return 验证码
      */
     public String generateStr(final int codeLength) {
-        final StringBuffer sb = new StringBuffer();
-        final Random random = new Random();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < codeLength; i++) {
-            sb.append(charStr.charAt(random.nextInt(charStr.length())));
+            sb.append(charStr.charAt(IdUtils.nextInt(charStr.length())));
         }
-
         return sb.toString();
     }
 

@@ -7,18 +7,19 @@ import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
 import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.HqlGenerateUtil;
+import com.abocode.jfaster.core.repository.DataGridData;
+import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.system.entity.Org;
 import com.abocode.jfaster.system.entity.User;
 import com.abocode.jfaster.system.entity.UserOrg;
 import com.abocode.jfaster.admin.system.repository.DepartRepository;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
-import com.abocode.jfaster.core.common.util.StringUtils;
+import com.abocode.jfaster.core.common.util.StrUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -59,16 +60,15 @@ public class DepartController {
 
     /**
      * easyuiAJAX请求数据
-     *
-     * @param response
-     * @param dataGrid
+     * @param dataGridParam
+     * @return
      */
 
-    @RequestMapping(params = "datagrid")
-    public void datagrid(HttpServletResponse response, DataGrid dataGrid) {
-        CriteriaQuery cq = new CriteriaQuery(Org.class, dataGrid);
-        this.systemRepository.findDataGridReturn(cq, true);
-        TagUtil.datagrid(response, dataGrid);
+    @RequestMapping(params = "findDataGridData")
+    @ResponseBody
+    public DataGridData findDataGridData(DataGridParam dataGridParam) {
+        CriteriaQuery cq = new CriteriaQuery(Org.class).buildDataGrid(dataGridParam);
+        return  this.systemRepository.findDataGridData(cq);
     }
 
     /**
@@ -120,10 +120,10 @@ public class DepartController {
     }
 
     @RequestMapping(params = "add")
-    public ModelAndView add(Org depart, HttpServletRequest req) {
-        List<Org> departList = systemRepository.getList(Org.class);
-        req.setAttribute("departList", departList);
-        req.setAttribute("pid", depart.getId());
+    public ModelAndView add(Org depart, HttpServletRequest request) {
+        List<Org> departList = systemRepository.findAll(Org.class);
+        request.setAttribute("departList", departList);
+        request.setAttribute("pid", depart.getId());
         return new ModelAndView("system/depart/depart");
     }
 
@@ -133,12 +133,12 @@ public class DepartController {
      * @return
      */
     @RequestMapping(params = "update")
-    public ModelAndView update(Org depart, HttpServletRequest req) {
-        List<Org> departList = systemRepository.getList(Org.class);
-        req.setAttribute("departList", departList);
-        if (!StringUtils.isEmpty(depart.getId())) {
+    public ModelAndView update(Org depart, HttpServletRequest request) {
+        List<Org> departList = systemRepository.findAll(Org.class);
+        request.setAttribute("departList", departList);
+        if (!StrUtils.isEmpty(depart.getId())) {
             depart = systemRepository.findEntity(Org.class, depart.getId());
-            req.setAttribute("departView", depart);
+            request.setAttribute("departView", depart);
         }
         return new ModelAndView("system/depart/depart");
     }
@@ -189,19 +189,18 @@ public class DepartController {
 
     /**
      * 方法描述:  成员列表dataGrid
-     *
-     * @param user
+     *  @param user
      * @param request
      * @param response
-     * @param dataGrid 返回类型： void
+     * @param dataGridParam 返回类型： void
+     * @return
      */
     @RequestMapping(params = "userDatagrid")
-    public void userDatagrid(User user, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-        CriteriaQuery cq = new CriteriaQuery(User.class, dataGrid);
-        //查询条件组装器
-        HqlGenerateUtil.installHql(cq, user);
+    @ResponseBody
+    public DataGridData userDatagrid(User user, HttpServletRequest request, HttpServletResponse response, DataGridParam dataGridParam) {
+        CriteriaQuery cq = new CriteriaQuery(User.class).buildParameters(user,dataGridParam);
         String departid = ConvertUtils.getString(request.getParameter("departid"));
-        if (!StringUtils.isEmpty(departid)) {
+        if (!StrUtils.isEmpty(departid)) {
             DetachedCriteria dc = cq.getDetachedCriteria();
             DetachedCriteria dcDepart = dc.createCriteria("userOrgList");
             dcDepart.add(Restrictions.eq("parentOrg.id", departid));
@@ -209,8 +208,7 @@ public class DepartController {
         Short[] userstate = new Short[]{Globals.User_Normal, Globals.User_ADMIN};
         cq.in("status", userstate);
         cq.add();
-        this.systemRepository.findDataGridReturn(cq, true);
-        TagUtil.datagrid(response, dataGrid);
+       return this.systemRepository.findDataGridData(cq);
     }
 
     /**
@@ -227,12 +225,12 @@ public class DepartController {
     /**
      * 添加 用户到组织机构 的页面  跳转
      *
-     * @param req request
+     * @param request request
      * @return 处理结果信息
      */
     @RequestMapping(params = "goAddUserToOrg")
-    public ModelAndView goAddUserToOrg(HttpServletRequest req) {
-        req.setAttribute("orgId", req.getParameter("orgId"));
+    public ModelAndView goAddUserToOrg(HttpServletRequest request) {
+        request.setAttribute("orgId", request.getParameter("orgId"));
         return new ModelAndView("system/depart/noCurDepartUserList");
     }
 
@@ -243,11 +241,10 @@ public class DepartController {
      * @return 处理结果信息
      */
     @RequestMapping(params = "addUserToOrgList")
-    public void addUserToOrgList(User user, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+    @ResponseBody
+    public DataGridData addUserToOrgList(User user, HttpServletRequest request, DataGridParam dataGridParam) {
         String orgId = request.getParameter("orgId");
-        CriteriaQuery cq = new CriteriaQuery(User.class, dataGrid);
-        HqlGenerateUtil.installHql(cq, user);
-
+        CriteriaQuery cq = new CriteriaQuery(User.class).buildParameters(user,dataGridParam);
         // 获取 当前组织机构的用户信息
         CriteriaQuery subCq = new CriteriaQuery(UserOrg.class);
         subCq.setProjection(Property.forName("user.id"));
@@ -255,8 +252,7 @@ public class DepartController {
         subCq.add();
         cq.add(Property.forName("id").notIn(subCq.getDetachedCriteria()));
         cq.add();
-        this.systemRepository.findDataGridReturn(cq, true);
-        TagUtil.datagrid(response, dataGrid);
+        return this.systemRepository.findDataGridData(cq);
     }
 
     /**
@@ -287,13 +283,13 @@ public class DepartController {
     /**
      * 角色显示列表
      *
-     * @param response response
-     * @param dataGrid dataGrid
+     * @param dataGridParam dataGrid
+     * @return
      */
     @RequestMapping(params = "departSelectDataGrid")
-    public void datagridRole(HttpServletResponse response, DataGrid dataGrid) {
-        CriteriaQuery cq = new CriteriaQuery(Org.class, dataGrid);
-        this.systemRepository.findDataGridReturn(cq, true);
-        TagUtil.datagrid(response, dataGrid);
+    @ResponseBody
+    public DataGridData findDataGridDataRole(DataGridParam dataGridParam) {
+        CriteriaQuery cq = new CriteriaQuery(Org.class).buildDataGrid(dataGridParam);
+        return this.systemRepository.findDataGridData(cq);
     }
 }

@@ -23,9 +23,9 @@ public class ResourceUtils extends FileUtils{
      **/
     public static String getFileName(String fileName) {
         SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        String realFilename=sdf.format(new Date())+StringUtils.random(8);
+        String realFilename=sdf.format(new Date())+ StrUtils.random(8);
         String extend = getExtend(fileName, "");// 获取文件扩展名
-        if(StringUtils.isEmpty(extend)){
+        if(StrUtils.isEmpty(extend)){
             return  realFilename;
         }
         return realFilename+"."+extend;//自定义文件名称

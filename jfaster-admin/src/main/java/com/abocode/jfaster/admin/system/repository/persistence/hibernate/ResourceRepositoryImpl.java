@@ -6,6 +6,7 @@ import com.abocode.jfaster.admin.system.dto.FileImportDto;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.platform.view.ReflectHelper;
+import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
 import com.abocode.jfaster.system.entity.Operation;
 import com.abocode.jfaster.system.entity.Role;
 import com.abocode.jfaster.system.entity.RoleFunction;
@@ -18,9 +19,8 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import com.abocode.jfaster.core.common.model.json.ComboTree;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
-import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.TreeGridModel;
-import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
+import com.abocode.jfaster.core.repository.TagUtil;
 import com.abocode.jfaster.system.entity.Org;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +33,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.sql.Timestamp;
 import java.util.*;
 
 @Service
@@ -49,7 +48,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
     public Object uploadFile(FileUploadDto uploadFile) {
         Object object = uploadFile.getObject();
         if (uploadFile.getFileKey() != null) {
-            commonDao.update(object);
+            update(object);
         } else {
             try {
                 uploadFile.getMultipartRequest().setCharacterEncoding("UTF-8");
@@ -271,7 +270,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                 // 得到实体的ID
                 String id = employee.attributeValue(fields[0].getName());
                 // 判断实体是否已存在
-                Object entity = this.commonDao.findEntity(entityClass, id);
+                Object entity = findEntity(entityClass, id);
                 // 实体不存在new个实体
                 if (entity == null) {
                     entity = entityClass.newInstance();
@@ -309,7 +308,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
         ComboTree tree = new ComboTree();
         tree.setId(ConvertUtils.getString(depart.getId()));
         tree.setText(depart.getOrgName());
-        List<Org> departsList = this.commonDao.findAllByProperty(Org.class, "parentOrg.id", depart.getId());
+        List<Org> departsList = findAllByProperty(Org.class, "parentOrg.id", depart.getId());
         if (departsList != null && departsList.size() > 0) {
             tree.setState("closed");
             tree.setChecked(false);
@@ -397,7 +396,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
             String id = ConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getIdField()));
             String src = ConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getSrc()));
             String text = ConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getTextField()));
-            if (!StringUtils.isEmpty(treeGridModel.getOrder())) {
+            if (!StrUtils.isEmpty(treeGridModel.getOrder())) {
                 String order = ConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getOrder()));
                 tg.setOrder(order);
             }
@@ -432,7 +431,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
             }
             if (treeGridModel.getRoleid() != null) {
                 String[] opStrings = {};
-                List<RoleFunction> roleFunctions = this.commonDao.findAllByProperty(RoleFunction.class, "function.id", id);
+                List<RoleFunction> roleFunctions = findAllByProperty(RoleFunction.class, "function.id", id);
 
                 if (roleFunctions.size() > 0) {
                     for (RoleFunction tRoleFunction : roleFunctions) {
@@ -446,7 +445,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                         }
                     }
                 }
-                List<Operation> operateions = this.commonDao.findAllByProperty(Operation.class, "function.id", id);
+                List<Operation> operateions = findAllByProperty(Operation.class, "function.id", id);
                 StringBuffer attributes = new StringBuffer();
                 if (operateions.size() > 0) {
                     for (Operation tOperation : operateions) {
@@ -559,7 +558,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
             orgRoleList.add((Role) roleArr[0]);
         }
 
-        List<Object> allRoleList = getList(Role.class);
+        List<Role> allRoleList =findAll(Role.class);
         ComboTreeModel comboTreeModel = new ComboTreeModel("id", "roleName", "");
         List<ComboTree> comboTrees = ComboTree(allRoleList,
                 comboTreeModel, orgRoleList, false);

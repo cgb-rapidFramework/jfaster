@@ -16,7 +16,7 @@ public class DataGridUrl {
 	private String isbtn;//是否是操作选项以外的链接
 	private String message;//询问链接的提示语
 	private String exp;//判断链接是否显示的表达式
-	private String funname;//自定义函数名称
+	private String function;//自定义函数名称
 	private boolean isRadio;//是否是单选框
 	private String onclick;//选项单击事件
 	public String getOnclick() {
@@ -32,10 +32,10 @@ public class DataGridUrl {
 	}
 
 	public String getFunname() {
-		return funname;
+		return function;
 	}
-	public void setFunname(String funname) {
-		this.funname = funname;
+	public void setFunname(String function) {
+		this.function = function;
 	}
 
 	public String getMessage() {

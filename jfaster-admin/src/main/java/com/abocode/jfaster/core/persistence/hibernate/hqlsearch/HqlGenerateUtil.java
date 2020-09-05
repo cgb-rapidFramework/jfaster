@@ -1,7 +1,7 @@
 package com.abocode.jfaster.core.persistence.hibernate.hqlsearch;
 
 import com.abocode.jfaster.core.common.util.DataRuleUtils;
-import com.abocode.jfaster.core.common.util.StringUtils;
+import com.abocode.jfaster.core.common.util.StrUtils;
 import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.vo.HqlRuleEnum;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.web.utils.SessionUtils;
@@ -125,7 +125,7 @@ public class HqlGenerateUtil {
                     if (format != null) {
                         userDefined = new SimpleDateFormat(format.format());
                     }
-                    if (!StringUtils.isEmpty(beginValue)) {
+                    if (!StrUtils.isEmpty(beginValue)) {
                         if (userDefined != null) {
                             cq.ge(aliasName, userDefined.parse(beginValue));
                         } else if (beginValue.length() == 19) {
@@ -135,7 +135,7 @@ public class HqlGenerateUtil {
                                     time.parse(beginValue + " 00:00:00"));
                         }
                     }
-                    if (!StringUtils.isEmpty(endValue)) {
+                    if (!StrUtils.isEmpty(endValue)) {
                         if (userDefined != null) {
                             cq.ge(aliasName, userDefined.parse(beginValue));
                         } else if (endValue.length() == 19) {
@@ -148,7 +148,7 @@ public class HqlGenerateUtil {
                     if (isNotEmpty(value)) {
                         cq.eq(aliasName, value);
                     }
-                } else if (!StringUtils.isJDKClass(origDescriptors[i]
+                } else if (!StrUtils.isJDKClass(origDescriptors[i]
                         .getPropertyType())) {
                     Object param = PropertyUtils.getSimpleProperty(searchObj,
                             name);
@@ -270,7 +270,7 @@ public class HqlGenerateUtil {
                         isNotEmpty = true;
                         break;
                     }
-                } else if (!StringUtils.isEmpty(PropertyUtils
+                } else if (!StrUtils.isEmpty(PropertyUtils
                         .getSimpleProperty(param, name))) {
                     isNotEmpty = true;
                     break;
@@ -284,8 +284,7 @@ public class HqlGenerateUtil {
 
     private static Map<String, DataRule> getRuleMap() {
         Map<String, DataRule> ruleMap = new HashMap<String, DataRule>();
-        List<DataRule> list = DataRuleUtils.loadDataSearchConditonSQL(); //(List<TSDataRule>) ContextHolderUtils
-        //	.getRequest().getAttribute(Globals.MENU_DATA_AUTHOR_RULES);
+        List<DataRule> list = DataRuleUtils.loadDataSearchConditonSQL();
         if (list != null) {
             for (DataRule rule : list) {
                 ruleMap.put(rule.getRuleColumn(), rule);

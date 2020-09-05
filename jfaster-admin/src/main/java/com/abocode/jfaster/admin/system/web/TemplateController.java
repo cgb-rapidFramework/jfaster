@@ -1,28 +1,28 @@
 package com.abocode.jfaster.admin.system.web;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.abocode.jfaster.admin.system.service.TemplateService;
+import com.abocode.jfaster.api.system.TemplateDto;
+import com.abocode.jfaster.api.system.TemplateQuery;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.AjaxJsonBuilder;
-import com.abocode.jfaster.core.common.model.json.DataGrid;
-import com.abocode.jfaster.core.common.model.json.DataGridReturn;
-import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.HqlGenerateUtil;
+import com.abocode.jfaster.core.repository.DataGridParam;
+import com.abocode.jfaster.core.repository.DataGridData;
 import com.abocode.jfaster.system.entity.Template;
 import com.abocode.jfaster.admin.system.repository.TemplateRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
 
 /**
  * @Title: Controller
@@ -42,7 +42,7 @@ public class TemplateController {
      * @return
      */
     @RequestMapping(params = "template")
-    public ModelAndView template(HttpServletRequest request) {
+    public ModelAndView template() {
         return new ModelAndView("system/template/templateList");
     }
 
@@ -50,42 +50,28 @@ public class TemplateController {
      * easyui AJAX请求数据
      *
      * @param request
-     * @param response
-     * @param dataGrid
-     * @param template
+     * @param dataGridParam
+     * @param templateQuery
      */
 
-    @RequestMapping(params = "datagrid")
-    public void datagrid(Template template, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-        CriteriaQuery cq = new CriteriaQuery(Template.class, dataGrid);
-        //查询条件组装器
-        HqlGenerateUtil.installHql(cq, template, request.getParameterMap());
-         this.templateRepository.findDataGridReturn(cq, true);
-        TagUtil.datagrid(response, dataGrid);
-    }
-
-    /**
-     * 删除模版管理
-     *
-     * @return
-     */
-    @RequestMapping(params = "del")
+    @RequestMapping(params = "findDataGridData")
     @ResponseBody
-    public AjaxJson del(Template template) {
-        templateService.delById(template.getId());
-        return AjaxJsonBuilder.success();
+    public DataGridData findDataGridData(TemplateQuery templateQuery, HttpServletRequest request, DataGridParam dataGridParam) {
+        CriteriaQuery cq = new CriteriaQuery(Template.class).buildParameters(templateQuery, request.getParameterMap(), dataGridParam);
+        return  this.templateRepository.findDataGridData(cq);
     }
 
 
     /**
      * 添加模版管理
-     *
-     * @param template
+     * @param templateDto
      * @return
      */
     @RequestMapping(params = "save")
     @ResponseBody
-    public AjaxJson save(Template template) {
+    public AjaxJson save(TemplateDto templateDto) {
+        Template template=new Template();
+        BeanUtils.copyProperties(templateDto,template);
         templateService.save(template);
         return AjaxJsonBuilder.success();
     }
@@ -95,11 +81,11 @@ public class TemplateController {
      *
      * @return
      */
-    @RequestMapping(params = "addorupdate")
-    public ModelAndView addorupdate(Template template, HttpServletRequest req) {
-        if (!StringUtils.isEmpty(template.getId())) {
-            template = templateRepository.findEntity(Template.class, template.getId());
-            req.setAttribute("templateView", template);
+    @RequestMapping(params = "detail")
+    public ModelAndView detail(@RequestParam String id,HttpServletRequest request) {
+        if (!StringUtils.isEmpty(id)) {
+            Template template = templateRepository.findEntity(Template.class, id);
+            request.setAttribute("templateView", template);
         }
         return new ModelAndView("system/template/template");
     }
@@ -111,10 +97,8 @@ public class TemplateController {
      */
     @RequestMapping(params = "setting")
     @ResponseBody
-    public AjaxJson setting(Template template, HttpServletRequest request) {
-        Assert.isTrue(!StringUtils.isEmpty(template.getId()), "未找到该模版");
-        templateRepository.setDefault(template.getId());
-        request.setAttribute("templatePage", template);
+    public AjaxJson setting(@RequestParam String id) {
+        templateRepository.setDefault(id);
         return AjaxJsonBuilder.success();
     }
 }

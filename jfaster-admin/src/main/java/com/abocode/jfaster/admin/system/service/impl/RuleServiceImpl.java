@@ -6,7 +6,7 @@ import com.abocode.jfaster.admin.system.service.RuleService;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.exception.BusinessException;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
-import com.abocode.jfaster.core.common.util.StringUtils;
+import com.abocode.jfaster.core.common.util.StrUtils;
 import com.abocode.jfaster.system.entity.DataRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ public class RuleServiceImpl implements RuleService {
     @Override
     public void save(DataRule operation) {
         String message;
-        if (StringUtils.isNotEmpty(operation.getId())) {
+        if (StrUtils.isNotEmpty(operation.getId())) {
             message = MutiLangUtils.paramUpdSuccess("common.operation");
             userService.saveOrUpdate(operation);
             systemService.addLog(message, Globals.Log_Type_UPDATE,

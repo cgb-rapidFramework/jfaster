@@ -7,7 +7,7 @@ import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.model.json.ComboTree;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.platform.view.interactions.datatable.SortDirection;
+import com.abocode.jfaster.core.repository.SortDirection;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.TreeGridModel;
 import com.abocode.jfaster.system.entity.Territory;

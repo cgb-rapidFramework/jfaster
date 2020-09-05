@@ -1,7 +1,7 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
 import com.abocode.jfaster.core.common.util.ConvertUtils;
-import com.abocode.jfaster.core.common.util.StringUtils;
+import com.abocode.jfaster.core.common.util.StrUtils;
 import com.abocode.jfaster.core.platform.view.OperationView;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.platform.SystemContainer;
@@ -37,7 +37,7 @@ public class AuthFilterTag extends TagSupport{
 		StringBuilder out = new StringBuilder();
 		out.append("<script type=\"text/javascript\">");
 		out.append("$(document).ready(function(){");
-		if (StringUtils.isNotEmpty(getJsContent())){
+		if (StrUtils.isNotEmpty(getJsContent())){
 			out.append(getJsContent());
 		}
 		out.append("});");

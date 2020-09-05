@@ -1,16 +1,16 @@
 package com.abocode.jfaster.admin.system.web;
-
-import com.abocode.jfaster.core.common.model.json.*;
+import com.abocode.jfaster.core.repository.DataGridData;
+import com.abocode.jfaster.core.repository.DataGridParam;
+import com.abocode.jfaster.core.repository.TagUtil;
 import com.abocode.jfaster.core.web.manager.ClientBean;
-import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
 import com.abocode.jfaster.core.web.manager.ClientManager;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,16 +27,17 @@ public class SystemController{
 	}
 	/**
 	 * 在线用户列表
-	 * @param response
 	 * @param dataGrid
+	 * @return
 	 */
 
 	@RequestMapping(params = "datagridOnline")
-	public void datagridOnline(HttpServletResponse response, DataGrid dataGrid) {
+	@ResponseBody
+	public DataGridData datagridOnline(DataGridParam dataGrid) {
 		List<ClientBean> onlines = new ArrayList<ClientBean>();
 		onlines.addAll(ClientManager.getInstance().getAllClient());
 		dataGrid.setTotal(onlines.size());
 		dataGrid.setResults(ClientManager.getClient(onlines,dataGrid));
-		TagUtil.datagrid(response, dataGrid);
+		return TagUtil.getObject(dataGrid);
 	}
 }

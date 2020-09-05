@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.abocode.jfaster.admin.system.repository.UserRepository;
-import com.abocode.jfaster.core.common.model.json.DataGrid;
-import com.abocode.jfaster.core.common.util.StringUtils;
+import com.abocode.jfaster.core.repository.DataGridParam;
+import com.abocode.jfaster.core.common.util.StrUtils;
 import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
 import com.abocode.jfaster.system.entity.Role;
 import com.abocode.jfaster.system.entity.RoleUser;
@@ -64,7 +64,7 @@ public class UserRepositoryImpl extends CommonRepositoryImpl implements UserRepo
 
     public String getUserRole(User user) {
         StringBuffer userRole = new StringBuffer();
-        List<RoleUser> sRoleUser = this.commonDao.findAllByProperty(RoleUser.class, "user.id", user.getId());
+        List<RoleUser> sRoleUser = findAllByProperty(RoleUser.class, "user.id", user.getId());
         for (RoleUser tsRoleUser : sRoleUser) {
             userRole.append(tsRoleUser.getRole().getRoleCode()).append(",") ;
         }
@@ -81,7 +81,7 @@ public class UserRepositoryImpl extends CommonRepositoryImpl implements UserRepo
     }
 
     @Override
-    public List<ExlUserDto> getExlUserList(DataGrid dataGrid, User user, CriteriaQuery cq) {
+    public List<ExlUserDto> getExlUserList(DataGridParam dataGridParam, User user, CriteriaQuery cq) {
         List<User> users = this.findListByCq(cq, true);
         List<ExlUserDto> exlUserList = new ArrayList<ExlUserDto>();
         // 参数组装
@@ -110,7 +110,7 @@ public class UserRepositoryImpl extends CommonRepositoryImpl implements UserRepo
     @Override
     public List<Role> findRoleById(String id) {
         List<Role> roles = new ArrayList<Role>();
-        if (StringUtils.isNotEmpty(id)) {
+        if (StrUtils.isNotEmpty(id)) {
             List<RoleUser> roleUser = findAllByProperty(RoleUser.class, "user.id", id);
             if (roleUser.size() > 0) {
                 for (RoleUser ru : roleUser) {

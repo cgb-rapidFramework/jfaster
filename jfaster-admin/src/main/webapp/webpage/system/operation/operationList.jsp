@@ -9,13 +9,13 @@
 <!--	<t:dgCol title="permission.name" field="Function_functionName"></t:dgCol>-->
 	<t:dgCol title="common.operation" field="opt" width="100"></t:dgCol>
 	<t:dgDelOpt url="functionController.do?delop&id={id}" title="common.delete"></t:dgDelOpt>
-	<t:dgFunOpt funname="editoperation(id,operationname)" title="common.edit"></t:dgFunOpt>
-	<t:dgToolBar title="common.add.param" langArg="common.operation" icon="icon-add" url="functionController.do?addorupdateop&functionId=${functionId}" funname="add"></t:dgToolBar>
-	<%-- <t:dgToolBar title="操作编辑" icon="icon-edit" url="functionController.do?addorupdateop&functionId=${functionId}" funname="update"></t:dgToolBar>--%>
+	<t:dgFunOpt function="editoperation(id,operationname)" title="common.edit"></t:dgFunOpt>
+	<t:dgToolBar title="common.add.param" langArg="common.operation" icon="icon-add" url="functionController.do?detailop&functionId=${functionId}" function="add"></t:dgToolBar>
+	<%-- <t:dgToolBar title="操作编辑" icon="icon-edit" url="functionController.do?detailop&functionId=${functionId}" function="update"></t:dgToolBar>--%>
 </t:datagrid>
 <script type="text/javascript">
 function editoperation(operationId,operationname)
 {
-	createwindow("<t:language langKey="common.edit.param" langArg="common.operation"/>","functionController.do?addorupdateop&functionId=${functionId}&id="+operationId);
+	createwindow("<t:language langKey="common.edit.param" langArg="common.operation"/>","functionController.do?detailop&functionId=${functionId}&id="+operationId);
 }
 </script>

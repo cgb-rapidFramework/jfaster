@@ -8,7 +8,6 @@ import com.abocode.jfaster.core.common.util.ConfigUtils;
 import com.abocode.jfaster.core.common.util.DateUtils;
 
 import com.abocode.jfaster.core.common.util.StreamUtils;
-import com.abocode.jfaster.core.persistence.ICommonDao;
 import com.abocode.jfaster.system.entity.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,32 +21,31 @@ import java.util.List;
 public class InitServiceImpl implements InitService {
     @Autowired
     private LanguageRepository languageRepository;
+
     @Autowired
-    private ICommonDao commonDao;
-    @Autowired
-    private SystemRepository systemService;
+    private SystemRepository systemRepository;
     @Autowired
     private FunctionService functionService;
 
     public void deleteAndRepair() {
         // 由于表中有主外键关系，清空数据库需注意
-        commonDao.executeHql("delete Log");
-        commonDao.executeHql("delete Operation");
-        commonDao.executeHql("delete RoleFunction");
-        commonDao.executeHql("delete RoleUser");
-        commonDao.executeHql("delete User");
-        commonDao.executeHql("update Function  set parentFunction = null");
-        commonDao.executeHql("delete Function");
-        commonDao.executeHql("update Org t set t.parentOrg = null");
-        commonDao.executeHql("delete Org");
-        commonDao.executeHql("delete Icon");
-        commonDao.executeHql("delete Role");
-        commonDao.executeHql("delete Type");
-        commonDao.executeHql("delete TypeGroup");
-        commonDao.executeHql("update Territory t set t.parentTerritory = null");
-        commonDao.executeHql("delete Territory");
-        commonDao.executeHql("delete Template");
-        commonDao.executeHql("delete MutiLang");
+        systemRepository.executeHql("delete Log");
+        systemRepository.executeHql("delete Operation");
+        systemRepository.executeHql("delete RoleFunction");
+        systemRepository.executeHql("delete RoleUser");
+        systemRepository.executeHql("delete User");
+        systemRepository.executeHql("update Function  set parentFunction = null");
+        systemRepository.executeHql("delete Function");
+        systemRepository.executeHql("update Org t set t.parentOrg = null");
+        systemRepository.executeHql("delete Org");
+        systemRepository.executeHql("delete Icon");
+        systemRepository.executeHql("delete Role");
+        systemRepository.executeHql("delete Type");
+        systemRepository.executeHql("delete TypeGroup");
+        systemRepository.executeHql("update Territory t set t.parentTerritory = null");
+        systemRepository.executeHql("delete Territory");
+        systemRepository.executeHql("delete Template");
+        systemRepository.executeHql("delete Language");
         repair();
     }
 
@@ -56,10 +54,10 @@ public class InitServiceImpl implements InitService {
         /**
          * 第一部分：对数据字典进行缓存
          */
-        systemService.initAllTypeGroups();
+        systemRepository.initAllTypeGroups();
         //初始化图标
-        systemService.initAllTSIcons();
-        systemService.initOperations();
+        systemRepository.initAllTSIcons();
+        systemRepository.initOperations();
         /**
          * 第二部分：自动加载新增菜单和菜单操作权限
          * 说明：只会添加，不会删除（添加在代码层配置，但是在数据库层未配置的）
@@ -92,7 +90,7 @@ public class InitServiceImpl implements InitService {
         repairOperation(); // 修复操作表
         repairRoleFunction();// 修复角色和权限的关系
         repairTemplate();// 修复模版
-        repairMutilang();// 修复多国语言
+        repairLanguage();// 修复多国语言
 //        repairTerritory();// 修复地域
     }
 
@@ -100,17 +98,17 @@ public class InitServiceImpl implements InitService {
         try {
             ClassPathResource sqlFile = new ClassPathResource("sql/repair/RepairDao_batchRepairTerritory.sql");
             String str = StreamUtils.inputStreamToStr(sqlFile.getInputStream());
-            commonDao.updateBySql(str);
+            systemRepository.updateBySql(str);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
     }
 
-    private void repairMutilang() {
+    private void repairLanguage() {
         try {
-            ClassPathResource sqlFile = new ClassPathResource("sql/repair/RepairDao_batchRepairMutilang.sql");
+            ClassPathResource sqlFile = new ClassPathResource("sql/repair/RepairDao_batchRepairLanguage.sql");
             String str = StreamUtils.inputStreamToStr(sqlFile.getInputStream());
-            commonDao.updateBySql(str);
+            systemRepository.updateBySql(str);
             languageRepository.refreshLanguageCache();
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -121,7 +119,7 @@ public class InitServiceImpl implements InitService {
         try {
             ClassPathResource sqlFile = new ClassPathResource("sql/repair/RepairDao_batchRepairTemplate.sql");
             String str = StreamUtils.inputStreamToStr(sqlFile.getInputStream());
-            commonDao.updateBySql(str);
+            systemRepository.updateBySql(str);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -133,7 +131,7 @@ public class InitServiceImpl implements InitService {
      * @author tanghan 2013-7-28
      */
     private void repairLog() {
-        User admin = commonDao.findAllByProperty(User.class, "signatureFile", "images/renfang/qm/licf.gif").get(0);
+        User admin = systemRepository.findAllByProperty(User.class, "signatureFile", "images/renfang/qm/licf.gif").get(0);
         Log log1 = new Log();
         log1.setLogContent("用户: admin登录成功");
         log1.setBroswer("Chrome");
@@ -142,7 +140,7 @@ public class InitServiceImpl implements InitService {
         log1.setOperationTime(DateUtils.getTimestamp());
         log1.setOperationType((short) 1);
         log1.setLoglevel((short) 1);
-        commonDao.saveOrUpdate(log1);
+        systemRepository.saveOrUpdate(log1);
     }
 
     /**
@@ -153,7 +151,7 @@ public class InitServiceImpl implements InitService {
         Org eiu = new Org();
         eiu.setOrgName("系统管理");
         eiu.setDescription("12");
-        commonDao.saveOrUpdate(eiu);
+        systemRepository.saveOrUpdate(eiu);
     }
 
     /**
@@ -161,8 +159,7 @@ public class InitServiceImpl implements InitService {
      * @author tanghan 2013-7-23
      */
     private void repairUser() {
-        this.commonDao.getSession().clear();
-        Org eiu = this.commonDao.findAllByProperty(Org.class, "orgName", "系统管理").get(0);
+        Org eiu =systemRepository.findAllByProperty(Org.class, "orgName", "系统管理").get(0);
 
         User admin = new User();
         admin.setSignatureFile("images/renfang/qm/licf.gif");
@@ -170,12 +167,12 @@ public class InitServiceImpl implements InitService {
         admin.setRealName("管理员");
         admin.setUsername("admin");
         admin.setPassword("c44b01947c9e6e3f");
-        commonDao.save(admin);
+        systemRepository.save(admin);
 
         UserOrg adminUserOrg = new UserOrg();
         adminUserOrg.setUser(admin);
         adminUserOrg.setOrg(eiu);
-        commonDao.save(adminUserOrg);
+        systemRepository.save(adminUserOrg);
 
         User scott = new User();
         scott.setEmail("guanxf_m@126.com");
@@ -184,11 +181,11 @@ public class InitServiceImpl implements InitService {
         scott.setUsername("scott");
         scott.setPassword("97c07a884bf272b5");
         // scott.setOrg(RAndD);
-        commonDao.saveOrUpdate(scott);
+        systemRepository.saveOrUpdate(scott);
         UserOrg scottUserOrg = new UserOrg();
         scottUserOrg.setUser(scott);
         scottUserOrg.setOrg(eiu);
-        commonDao.save(scottUserOrg);
+        systemRepository.save(scottUserOrg);
 
     }
 
@@ -197,26 +194,26 @@ public class InitServiceImpl implements InitService {
      * @author tanghan 2013-7-23
      */
     private void repairUserRole() {
-        Role admin = commonDao.findAllByProperty(Role.class, "roleCode", "admin").get(0);
-        Role manager = commonDao.findAllByProperty(Role.class, "roleCode", "manager").get(0);
-        List<User> user = commonDao.findAll(User.class);
+        Role admin = systemRepository.findAllByProperty(Role.class, "roleCode", "admin").get(0);
+        Role manager = systemRepository.findAllByProperty(Role.class, "roleCode", "manager").get(0);
+        List<User> user = systemRepository.findAll(User.class);
         for (int i = 0; i < user.size(); i++) {
             if (user.get(i).getEmail() != null) {
                 RoleUser roleuser = new RoleUser();
                 roleuser.setUser(user.get(i));
                 roleuser.setRole(manager);
-                commonDao.saveOrUpdate(roleuser);
+                systemRepository.saveOrUpdate(roleuser);
             } else {
                 RoleUser roleuser = new RoleUser();
                 roleuser.setUser(user.get(i));
                 roleuser.setRole(admin);
-                commonDao.saveOrUpdate(roleuser);
+                systemRepository.saveOrUpdate(roleuser);
             }
             if (user.get(i).getSignatureFile() != null) {
                 RoleUser roleuser = new RoleUser();
                 roleuser.setUser(user.get(i));
                 roleuser.setRole(admin);
-                commonDao.saveOrUpdate(roleuser);
+                systemRepository.saveOrUpdate(roleuser);
             }
         }
 
@@ -227,9 +224,9 @@ public class InitServiceImpl implements InitService {
      * @author tanghan 2013-7-23
      */
     private void repairRoleFunction() {
-        Role admin = commonDao.findAllByProperty(Role.class, "roleCode", "admin").get(0);
-        Role manager = commonDao.findAllByProperty(Role.class, "roleCode", "manager").get(0);
-        List<Function> list = commonDao.findAll(Function.class);
+        Role admin = systemRepository.findAllByProperty(Role.class, "roleCode", "admin").get(0);
+        Role manager = systemRepository.findAllByProperty(Role.class, "roleCode", "manager").get(0);
+        List<Function> list = systemRepository.findAll(Function.class);
         for (int i = 0; i < list.size(); i++) {
             RoleFunction adminroleFunction = new RoleFunction();
             RoleFunction managerFunction = new RoleFunction();
@@ -237,8 +234,8 @@ public class InitServiceImpl implements InitService {
             managerFunction.setFunction(list.get(i));
             adminroleFunction.setRole(admin);
             managerFunction.setRole(manager);
-            commonDao.saveOrUpdate(adminroleFunction);
-            commonDao.saveOrUpdate(managerFunction);
+            systemRepository.saveOrUpdate(adminroleFunction);
+            systemRepository.saveOrUpdate(managerFunction);
         }
     }
 
@@ -247,36 +244,36 @@ public class InitServiceImpl implements InitService {
      * @author tanghan 2013-7-23
      */
     private void repairOperation() {
-        Icon back = commonDao.findAllByProperty(Icon.class, "iconName", "返回").get(0);
-        Function function = commonDao.findAllByProperty(Function.class, "functionName", "系统管理").get(0);
+        Icon back = systemRepository.findAllByProperty(Icon.class, "iconName", "返回").get(0);
+        Function function = systemRepository.findAllByProperty(Function.class, "functionName", "系统管理").get(0);
 
         Operation add = new Operation();
         add.setOperationName("录入");
         add.setOperationCode("add");
         add.setIcon(back);
         add.setFunction(function);
-        commonDao.saveOrUpdate(add);
+        systemRepository.saveOrUpdate(add);
 
         Operation edit = new Operation();
         edit.setOperationName("编辑");
         edit.setOperationCode("edit");
         edit.setIcon(back);
         edit.setFunction(function);
-        commonDao.saveOrUpdate(edit);
+        systemRepository.saveOrUpdate(edit);
 
         Operation del = new Operation();
         del.setOperationName("删除");
         del.setOperationCode("del");
         del.setIcon(back);
         del.setFunction(function);
-        commonDao.saveOrUpdate(del);
+        systemRepository.saveOrUpdate(del);
 
         Operation szqm = new Operation();
         szqm.setOperationName("审核");
         szqm.setOperationCode("szqm");
         szqm.setIcon(back);
         szqm.setFunction(function);
-        commonDao.saveOrUpdate(szqm);
+        systemRepository.saveOrUpdate(szqm);
     }
 
     /**
@@ -287,52 +284,52 @@ public class InitServiceImpl implements InitService {
         TypeGroup icontype = new TypeGroup();
         icontype.setTypeGroupName("图标类型");
         icontype.setTypeGroupCode("icontype");
-        commonDao.saveOrUpdate(icontype);
+        systemRepository.saveOrUpdate(icontype);
 
         TypeGroup ordertype = new TypeGroup();
         ordertype.setTypeGroupName("订单类型");
         ordertype.setTypeGroupCode("order");
-        commonDao.saveOrUpdate(ordertype);
+        systemRepository.saveOrUpdate(ordertype);
 
         TypeGroup custom = new TypeGroup();
         custom.setTypeGroupName("客户类型");
         custom.setTypeGroupCode("custom");
-        commonDao.saveOrUpdate(custom);
+        systemRepository.saveOrUpdate(custom);
 
         TypeGroup servicetype = new TypeGroup();
         servicetype.setTypeGroupName("服务项目类型");
         servicetype.setTypeGroupCode("service");
-        commonDao.saveOrUpdate(servicetype);
+        systemRepository.saveOrUpdate(servicetype);
 
         TypeGroup searchMode = new TypeGroup();
         searchMode.setTypeGroupName("查询模式");
         searchMode.setTypeGroupCode("searchmode");
-        commonDao.saveOrUpdate(searchMode);
+        systemRepository.saveOrUpdate(searchMode);
 
         TypeGroup yesOrno = new TypeGroup();
         yesOrno.setTypeGroupName("逻辑条件");
         yesOrno.setTypeGroupCode("yesorno");
-        commonDao.saveOrUpdate(yesOrno);
+        systemRepository.saveOrUpdate(yesOrno);
 
         TypeGroup fieldtype = new TypeGroup();
         fieldtype.setTypeGroupName("字段类型");
         fieldtype.setTypeGroupCode("fieldtype");
-        commonDao.saveOrUpdate(fieldtype);
+        systemRepository.saveOrUpdate(fieldtype);
 
         TypeGroup datatable = new TypeGroup();
         datatable.setTypeGroupName("数据表");
         datatable.setTypeGroupCode("database");
-        commonDao.saveOrUpdate(datatable);
+        systemRepository.saveOrUpdate(datatable);
 
         TypeGroup filetype = new TypeGroup();
         filetype.setTypeGroupName("文档分类");
         filetype.setTypeGroupCode("fieltype");
-        commonDao.saveOrUpdate(filetype);
+        systemRepository.saveOrUpdate(filetype);
 
         TypeGroup sex = new TypeGroup();
         sex.setTypeGroupName("性别类");
         sex.setTypeGroupCode("sex");
-        commonDao.saveOrUpdate(sex);
+        systemRepository.saveOrUpdate(sex);
     }
 
     /**
@@ -340,148 +337,148 @@ public class InitServiceImpl implements InitService {
      * @author tanghan 2013-7-22
      */
     private void repairType() {
-        TypeGroup icontype = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "图标类型").get(0);
-        TypeGroup ordertype = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "订单类型").get(0);
-        TypeGroup custom = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "客户类型").get(0);
-        TypeGroup servicetype = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "服务项目类型").get(0);
-        TypeGroup datatable = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "数据表").get(0);
-        TypeGroup filetype = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "文档分类").get(0);
-        TypeGroup sex = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "性别类").get(0);
-        TypeGroup searchmode = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "查询模式").get(0);
-        TypeGroup yesorno = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "逻辑条件").get(0);
-        TypeGroup fieldtype = commonDao.findAllByProperty(TypeGroup.class, "typeGroupName", "字段类型").get(0);
+        TypeGroup icontype = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "图标类型").get(0);
+        TypeGroup ordertype = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "订单类型").get(0);
+        TypeGroup custom = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "客户类型").get(0);
+        TypeGroup servicetype = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "服务项目类型").get(0);
+        TypeGroup datatable = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "数据表").get(0);
+        TypeGroup filetype = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "文档分类").get(0);
+        TypeGroup sex = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "性别类").get(0);
+        TypeGroup searchmode = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "查询模式").get(0);
+        TypeGroup yesorno = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "逻辑条件").get(0);
+        TypeGroup fieldtype = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "字段类型").get(0);
 
         Type menu = new Type();
         menu.setTypeName("菜单图标");
         menu.setTypeCode("2");
         menu.setTypeGroup(icontype);
-        commonDao.saveOrUpdate(menu);
+        systemRepository.saveOrUpdate(menu);
 
         Type systemicon = new Type();
         systemicon.setTypeName("系统图标");
         systemicon.setTypeCode("1");
         systemicon.setTypeGroup(icontype);
-        commonDao.saveOrUpdate(systemicon);
+        systemRepository.saveOrUpdate(systemicon);
 
         Type file = new Type();
         file.setTypeName("附件");
         file.setTypeCode("files");
         file.setTypeGroup(filetype);
-        commonDao.saveOrUpdate(file);
+        systemRepository.saveOrUpdate(file);
 
         Type goodorder = new Type();
         goodorder.setTypeName("优质订单");
         goodorder.setTypeCode("1");
         goodorder.setTypeGroup(ordertype);
-        commonDao.saveOrUpdate(goodorder);
+        systemRepository.saveOrUpdate(goodorder);
 
         Type general = new Type();
         general.setTypeName("普通订单");
         general.setTypeCode("2");
         general.setTypeGroup(ordertype);
-        commonDao.saveOrUpdate(general);
+        systemRepository.saveOrUpdate(general);
 
         Type sign = new Type();
         sign.setTypeName("签约客户");
         sign.setTypeCode("1");
         sign.setTypeGroup(custom);
-        commonDao.saveOrUpdate(sign);
+        systemRepository.saveOrUpdate(sign);
 
         Type commoncustom = new Type();
         commoncustom.setTypeName("普通客户");
         commoncustom.setTypeCode("2");
         commoncustom.setTypeGroup(custom);
-        commonDao.saveOrUpdate(commoncustom);
+        systemRepository.saveOrUpdate(commoncustom);
 
         Type vipservice = new Type();
         vipservice.setTypeName("特殊服务");
         vipservice.setTypeCode("1");
         vipservice.setTypeGroup(servicetype);
-        commonDao.saveOrUpdate(vipservice);
+        systemRepository.saveOrUpdate(vipservice);
 
         Type commonservice = new Type();
         commonservice.setTypeName("普通服务");
         commonservice.setTypeCode("2");
         commonservice.setTypeGroup(servicetype);
-        commonDao.saveOrUpdate(commonservice);
+        systemRepository.saveOrUpdate(commonservice);
 
         Type single = new Type();
         single.setTypeName("单条件查询");
         single.setTypeCode("single");
         single.setTypeGroup(searchmode);
-        commonDao.saveOrUpdate(single);
+        systemRepository.saveOrUpdate(single);
 
         Type group = new Type();
         group.setTypeName("范围查询");
         group.setTypeCode("group");
         group.setTypeGroup(searchmode);
-        commonDao.saveOrUpdate(group);
+        systemRepository.saveOrUpdate(group);
 
         Type yes = new Type();
         yes.setTypeName("是");
         yes.setTypeCode("Y");
         yes.setTypeGroup(yesorno);
-        commonDao.saveOrUpdate(yes);
+        systemRepository.saveOrUpdate(yes);
 
         Type no = new Type();
         no.setTypeName("否");
         no.setTypeCode("N");
         no.setTypeGroup(yesorno);
-        commonDao.saveOrUpdate(no);
+        systemRepository.saveOrUpdate(no);
 
         Type type_integer = new Type();
         type_integer.setTypeName("Integer");
         type_integer.setTypeCode("Integer");
         type_integer.setTypeGroup(fieldtype);
-        commonDao.saveOrUpdate(type_integer);
+        systemRepository.saveOrUpdate(type_integer);
 
         Type type_date = new Type();
         type_date.setTypeName("Date");
         type_date.setTypeCode("Date");
         type_date.setTypeGroup(fieldtype);
-        commonDao.saveOrUpdate(type_date);
+        systemRepository.saveOrUpdate(type_date);
 
         Type type_string = new Type();
         type_string.setTypeName("String");
         type_string.setTypeCode("String");
         type_string.setTypeGroup(fieldtype);
-        commonDao.saveOrUpdate(type_string);
+        systemRepository.saveOrUpdate(type_string);
 
         Type type_long = new Type();
         type_long.setTypeName("Long");
         type_long.setTypeCode("Long");
         type_long.setTypeGroup(fieldtype);
-        commonDao.saveOrUpdate(type_long);
+        systemRepository.saveOrUpdate(type_long);
 
         Type systable = new Type();
         systable.setTypeName("系统基础表");
         systable.setTypeCode("t_s");
         systable.setTypeGroup(datatable);
-        commonDao.saveOrUpdate(systable);
+        systemRepository.saveOrUpdate(systable);
 
         Type business = new Type();
         business.setTypeName("业务表");
         business.setTypeCode("t_b");
         business.setTypeGroup(datatable);
-        commonDao.saveOrUpdate(business);
+        systemRepository.saveOrUpdate(business);
 
         Type news = new Type();
         news.setTypeName("新闻");
         news.setTypeCode("news");
         news.setTypeGroup(filetype);
-        commonDao.saveOrUpdate(news);
+        systemRepository.saveOrUpdate(news);
 
         Type man = new Type();
         man.setTypeName("男性");
         man.setTypeCode("0");
         man.setTypeGroup(sex);
-        commonDao.saveOrUpdate(man);
+        systemRepository.saveOrUpdate(man);
 
         Type woman = new Type();
         woman.setTypeName("女性");
         woman.setTypeCode("1");
         woman.setTypeGroup(sex);
-        commonDao.saveOrUpdate(woman);
+        systemRepository.saveOrUpdate(woman);
     }
 
     /**
@@ -492,12 +489,12 @@ public class InitServiceImpl implements InitService {
         Role admin = new Role();
         admin.setRoleName("管理员");
         admin.setRoleCode("admin");
-        commonDao.saveOrUpdate(admin);
+        systemRepository.saveOrUpdate(admin);
 
         Role manager = new Role();
         manager.setRoleName("普通用户");
         manager.setRoleCode("manager");
-        commonDao.saveOrUpdate(manager);
+        systemRepository.saveOrUpdate(manager);
 
     }
 
@@ -514,7 +511,7 @@ public class InitServiceImpl implements InitService {
         defaultIcon.setIconPath("plug-in/accordion/images/default.png");
         defaultIcon.setIconClazz("default");
         defaultIcon.setIconExtend("png");
-        commonDao.saveOrUpdate(defaultIcon);
+        systemRepository.saveOrUpdate(defaultIcon);
 
         Icon back = new Icon();
         back.setIconName("返回");
@@ -522,7 +519,7 @@ public class InitServiceImpl implements InitService {
         back.setIconPath("plug-in/accordion/images/back.png");
         back.setIconClazz("back");
         back.setIconExtend("png");
-        commonDao.saveOrUpdate(back);
+        systemRepository.saveOrUpdate(back);
 
         Icon pie = new Icon();
 
@@ -531,7 +528,7 @@ public class InitServiceImpl implements InitService {
         pie.setIconPath("plug-in/accordion/images/pie.png");
         pie.setIconClazz("pie");
         pie.setIconExtend("png");
-        commonDao.saveOrUpdate(pie);
+        systemRepository.saveOrUpdate(pie);
 
         Icon pictures = new Icon();
         pictures.setIconName("图片");
@@ -539,7 +536,7 @@ public class InitServiceImpl implements InitService {
         pictures.setIconPath("plug-in/accordion/images/pictures.png");
         pictures.setIconClazz("pictures");
         pictures.setIconExtend("png");
-        commonDao.saveOrUpdate(pictures);
+        systemRepository.saveOrUpdate(pictures);
 
         Icon pencil = new Icon();
         pencil.setIconName("笔");
@@ -547,7 +544,7 @@ public class InitServiceImpl implements InitService {
         pencil.setIconPath("plug-in/accordion/images/pencil.png");
         pencil.setIconClazz("pencil");
         pencil.setIconExtend("png");
-        commonDao.saveOrUpdate(pencil);
+        systemRepository.saveOrUpdate(pencil);
 
         Icon map = new Icon();
         map.setIconName("地图");
@@ -555,7 +552,7 @@ public class InitServiceImpl implements InitService {
         map.setIconPath("plug-in/accordion/images/map.png");
         map.setIconClazz("map");
         map.setIconExtend("png");
-        commonDao.saveOrUpdate(map);
+        systemRepository.saveOrUpdate(map);
 
         Icon group_add = new Icon();
         group_add.setIconName("组");
@@ -563,7 +560,7 @@ public class InitServiceImpl implements InitService {
         group_add.setIconPath("plug-in/accordion/images/group_add.png");
         group_add.setIconClazz("group_add");
         group_add.setIconExtend("png");
-        commonDao.saveOrUpdate(group_add);
+        systemRepository.saveOrUpdate(group_add);
 
         Icon calculator = new Icon();
         calculator.setIconName("计算器");
@@ -571,7 +568,7 @@ public class InitServiceImpl implements InitService {
         calculator.setIconPath("plug-in/accordion/images/calculator.png");
         calculator.setIconClazz("calculator");
         calculator.setIconExtend("png");
-        commonDao.saveOrUpdate(calculator);
+        systemRepository.saveOrUpdate(calculator);
 
         Icon folder = new Icon();
         folder.setIconName("文件夹");
@@ -579,7 +576,7 @@ public class InitServiceImpl implements InitService {
         folder.setIconPath("plug-in/accordion/images/folder.png");
         folder.setIconClazz("folder");
         folder.setIconExtend("png");
-        commonDao.saveOrUpdate(folder);
+        systemRepository.saveOrUpdate(folder);
     }
 
     /**
@@ -597,7 +594,7 @@ public class InitServiceImpl implements InitService {
         deskIncon.setIconPath(iconPath);
         deskIncon.setIconClazz("deskIcon");
         deskIncon.setIconExtend("png");
-        commonDao.saveOrUpdate(deskIncon);
+        systemRepository.saveOrUpdate(deskIncon);
 
         return deskIncon;
     }
@@ -615,7 +612,7 @@ public class InitServiceImpl implements InitService {
         deskIncon.setIconPath(iconPath);
         deskIncon.setIconClazz("deskIcon");
         deskIncon.setIconExtend("png");
-        commonDao.saveOrUpdate(deskIncon);
+        systemRepository.saveOrUpdate(deskIncon);
 
         return deskIncon;
     }
@@ -625,10 +622,10 @@ public class InitServiceImpl implements InitService {
      * @author tanghan 2013-7-19
      */
     private void repairMenu() {
-        Icon defaultIcon = commonDao.findAllByProperty(Icon.class, "iconName", "默认图").get(0);
-        Icon group_add = commonDao.findAllByProperty(Icon.class, "iconName", "组").get(0);
-        Icon pie = commonDao.findAllByProperty(Icon.class, "iconName", "饼图").get(0);
-        Icon folder = commonDao.findAllByProperty(Icon.class, "iconName", "文件夹").get(0);
+        Icon defaultIcon = systemRepository.findAllByProperty(Icon.class, "iconName", "默认图").get(0);
+        Icon group_add = systemRepository.findAllByProperty(Icon.class, "iconName", "组").get(0);
+        Icon pie = systemRepository.findAllByProperty(Icon.class, "iconName", "饼图").get(0);
+        Icon folder = systemRepository.findAllByProperty(Icon.class, "iconName", "文件夹").get(0);
 
         Function sys = new Function();
         sys.setFunctionName("系统管理");
@@ -637,7 +634,7 @@ public class InitServiceImpl implements InitService {
         sys.setFunctionOrder("5");
         sys.setIconDesk(getDefaultInconForDesk());
         sys.setIcon(group_add);
-        commonDao.saveOrUpdate(sys);
+        systemRepository.saveOrUpdate(sys);
 
         Function state = new Function();
         state.setFunctionName("统计查询");
@@ -646,7 +643,7 @@ public class InitServiceImpl implements InitService {
         state.setFunctionOrder("3");
         state.setIcon(folder);
         state.setIconDesk(getDefaultInconForDesk());
-        commonDao.saveOrUpdate(state);
+        systemRepository.saveOrUpdate(state);
 
         Function syscontrol = new Function();
         syscontrol.setFunctionName("系统监控");
@@ -655,7 +652,7 @@ public class InitServiceImpl implements InitService {
         syscontrol.setFunctionOrder("11");
         syscontrol.setIcon(defaultIcon);
         syscontrol.setIconDesk(getDefaultInconForDesk());
-        commonDao.saveOrUpdate(syscontrol);
+        systemRepository.saveOrUpdate(syscontrol);
 
         Function user = new Function();
         user.setFunctionName("用户管理");
@@ -665,7 +662,7 @@ public class InitServiceImpl implements InitService {
         user.setParentFunction(sys);
         user.setIcon(defaultIcon);
         user.setIconDesk(repairInconForDesk("Finder", "用户管理"));
-        commonDao.saveOrUpdate(user);
+        systemRepository.saveOrUpdate(user);
 
         Function role = new Function();
         role.setFunctionName("角色管理");
@@ -675,7 +672,7 @@ public class InitServiceImpl implements InitService {
         role.setParentFunction(sys);
         role.setIcon(defaultIcon);
         role.setIconDesk(repairInconForDesk("friendgroup", "角色管理"));
-        commonDao.saveOrUpdate(role);
+        systemRepository.saveOrUpdate(role);
 
         Function menu = new Function();
         menu.setFunctionName("菜单管理");
@@ -685,7 +682,7 @@ public class InitServiceImpl implements InitService {
         menu.setParentFunction(sys);
         menu.setIcon(defaultIcon);
         menu.setIconDesk(repairInconForDesk("kaikai", "菜单管理"));
-        commonDao.saveOrUpdate(menu);
+        systemRepository.saveOrUpdate(menu);
 
         Function typegroup = new Function();
         typegroup.setFunctionName("数据字典");
@@ -695,7 +692,7 @@ public class InitServiceImpl implements InitService {
         typegroup.setParentFunction(sys);
         typegroup.setIcon(defaultIcon);
         typegroup.setIconDesk(repairInconForDesk("friendnear", "数据字典"));
-        commonDao.saveOrUpdate(typegroup);
+        systemRepository.saveOrUpdate(typegroup);
 
         Function icon = new Function();
         icon.setFunctionName("图标管理");
@@ -705,7 +702,7 @@ public class InitServiceImpl implements InitService {
         icon.setParentFunction(sys);
         icon.setIcon(defaultIcon);
         icon.setIconDesk(repairInconForDesk("kxjy", "图标管理"));
-        commonDao.saveOrUpdate(icon);
+        systemRepository.saveOrUpdate(icon);
 
         Function depart = new Function();
         depart.setFunctionName("部门管理");
@@ -715,7 +712,7 @@ public class InitServiceImpl implements InitService {
         depart.setParentFunction(sys);
         depart.setIcon(defaultIcon);
         depart.setIconDesk(getDefaultInconForDesk());
-        commonDao.saveOrUpdate(depart);
+        systemRepository.saveOrUpdate(depart);
 
         Function territory = new Function();
         territory.setFunctionName("地域管理");
@@ -725,17 +722,17 @@ public class InitServiceImpl implements InitService {
         territory.setParentFunction(sys);
         territory.setIcon(pie);
         territory.setIconDesk(getDefaultInconForDesk());
-        commonDao.saveOrUpdate(territory);
+        systemRepository.saveOrUpdate(territory);
 
         Function language = new Function();
         language.setFunctionName("语言管理");
-        language.setFunctionUrl("LangController.do?language");
+        language.setFunctionUrl("languageController.do?language");
         language.setFunctionLevel((short) 1);
         language.setFunctionOrder("30");
         language.setParentFunction(sys);
         language.setIcon(pie);
         language.setIconDesk(getDefaultInconForDesk());
-        commonDao.saveOrUpdate(language);
+        systemRepository.saveOrUpdate(language);
 
         Function template = new Function();
         template.setFunctionName("模版管理");
@@ -745,7 +742,7 @@ public class InitServiceImpl implements InitService {
         template.setParentFunction(sys);
         template.setIcon(pie);
         template.setIconDesk(getDefaultInconForDesk());
-        commonDao.saveOrUpdate(template);
+        systemRepository.saveOrUpdate(template);
 
         Function useranalyse = new Function();
         useranalyse.setFunctionName("用户分析");
@@ -755,7 +752,7 @@ public class InitServiceImpl implements InitService {
         useranalyse.setParentFunction(state);
         useranalyse.setIcon(pie);
         useranalyse.setIconDesk(repairInconForDesk("user", "用户分析"));
-        commonDao.saveOrUpdate(useranalyse);
+        systemRepository.saveOrUpdate(useranalyse);
 
         Function druid = new Function();
         druid.setFunctionName("数据监控");
@@ -765,7 +762,7 @@ public class InitServiceImpl implements InitService {
         druid.setParentFunction(syscontrol);
         druid.setIcon(defaultIcon);
         druid.setIconDesk(repairInconForDesk("Super Disk", "数据监控"));
-        commonDao.saveOrUpdate(druid);
+        systemRepository.saveOrUpdate(druid);
 
         Function log = new Function();
         log.setFunctionName("系统日志");
@@ -775,7 +772,7 @@ public class InitServiceImpl implements InitService {
         log.setParentFunction(syscontrol);
         log.setIcon(defaultIcon);
         log.setIconDesk(repairInconForDesk("fasearch", "系统日志"));
-        commonDao.saveOrUpdate(log);
+        systemRepository.saveOrUpdate(log);
 
         Function timeTask = new Function();
         timeTask.setFunctionName("定时任务");
@@ -785,7 +782,7 @@ public class InitServiceImpl implements InitService {
         timeTask.setParentFunction(syscontrol);
         timeTask.setIcon(defaultIcon);
         timeTask.setIconDesk(repairInconForDesk("Utilities", "定时任务"));
-        commonDao.saveOrUpdate(timeTask);
+        systemRepository.saveOrUpdate(timeTask);
 
         Function reportdemo = new Function();
         reportdemo.setFunctionName("报表示例");
@@ -795,7 +792,7 @@ public class InitServiceImpl implements InitService {
         reportdemo.setParentFunction(state);
         reportdemo.setIcon(pie);
         reportdemo.setIconDesk(getDefaultInconForDesk());
-        commonDao.saveOrUpdate(reportdemo);
+        systemRepository.saveOrUpdate(reportdemo);
 
     }
 }

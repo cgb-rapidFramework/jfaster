@@ -2,7 +2,7 @@ package com.abocode.jfaster.core.common.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
-import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
+import com.abocode.jfaster.core.repository.TagUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class SystemJsonUtils {
             }
             strList.add(perStr + "_" + sufStr);
         }
-        return StringUtils.join(strList, ',');
+        return StrUtils.join(strList, ',');
     }
 
 

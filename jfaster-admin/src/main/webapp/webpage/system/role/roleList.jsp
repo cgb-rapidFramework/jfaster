@@ -7,11 +7,11 @@
 	<t:dgCol title="common.role.code" field="roleCode" width="10"></t:dgCol>
 	<t:dgCol title="common.role.name" field="roleName" width="16" query="true"></t:dgCol>
 	<t:dgCol title="common.operation" field="opt" width="30"></t:dgCol>
-	<t:dgFunOpt funname="delRole(id)" title="common.delete"></t:dgFunOpt>
-	<t:dgFunOpt funname="userListbyrole(id,roleName)" title="common.user"></t:dgFunOpt>
-	<t:dgFunOpt funname="setfunbyrole(id,roleName)" title="permission.set"></t:dgFunOpt>
-	<t:dgToolBar title="common.add.param" langArg="common.role" icon="icon-add" url="roleController.do?addorupdate" funname="add"></t:dgToolBar>
-	<t:dgToolBar title="common.edit.param" langArg="common.role" icon="icon-edit" url="roleController.do?addorupdate" funname="update"></t:dgToolBar>
+	<t:dgFunOpt function="delRole(id)" title="common.delete"></t:dgFunOpt>
+	<t:dgFunOpt function="userListbyrole(id,roleName)" title="common.user"></t:dgFunOpt>
+	<t:dgFunOpt function="setfunbyrole(id,roleName)" title="permission.set"></t:dgFunOpt>
+	<t:dgToolBar title="common.add.param" langArg="common.role" icon="icon-add" url="roleController.do?detail" function="add"></t:dgToolBar>
+	<t:dgToolBar title="common.edit.param" langArg="common.role" icon="icon-edit" url="roleController.do?detail" function="update"></t:dgToolBar>
 </t:datagrid></div>
 </div>
 <div region="east" style="width: 600px;" split="true">

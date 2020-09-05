@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
-<t:datagrid title="log.manage" name="logList" actionUrl="logController.do?datagrid" idField="id" sortName="operationTime" sortOrder="desc" pageSize="1000">
+<t:datagrid title="log.manage" name="logList" actionUrl="logController.do?findDataGridData" idField="id" sortName="operationTime" sortOrder="desc" pageSize="1000">
 	<t:dgCol title="log.level" field="loglevel" hidden="true"></t:dgCol>
 	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="log.content" field="logContent" width="200"></t:dgCol>

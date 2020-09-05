@@ -1,18 +1,19 @@
 package com.abocode.jfaster.core.persistence.hibernate;
 
-import com.abocode.jfaster.core.persistence.IGenericBaseCommonDao;
+import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.core.persistence.jdbc.JdbcDao;
 import com.abocode.jfaster.core.common.exception.BusinessException;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.platform.view.interactions.datatable.DataTableReturn;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.Autocomplete;
 import com.abocode.jfaster.core.common.util.BeanPropertyUtils;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
-import com.abocode.jfaster.core.common.model.json.DataGridReturn;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.DetachedCriteriaUtil;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.HqlQuery;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.PageList;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.PagerUtil;
+import com.abocode.jfaster.core.repository.DataGridData;
+import com.abocode.jfaster.core.repository.TagUtil;
+import com.abocode.jfaster.core.repository.CommonRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Criteria;
 import org.hibernate.query.Query;
@@ -35,6 +36,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -45,12 +47,12 @@ import java.util.*;
  * 
  * 类描述： DAO层泛型基类
  * @param <T>
- * @param <PK>
  * @version 1.0
  */
 @Slf4j
-public abstract class GenericBaseCommonDao<T, PK extends Serializable>
-		implements IGenericBaseCommonDao {
+@Repository
+public    class HibernateCommonRepository<T extends Serializable>
+		implements CommonRepository {
 	/**
 	 * 注入一个sessionFactory属性,并注入到父类(HibernateDaoSupport)
 	 * **/
@@ -58,9 +60,16 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	@Qualifier("sessionFactory")
 	private SessionFactory sessionFactory;
 
+	@Override
 	public Session getSession() {
 		// 事务必须是开启的(Required)，否则获取不到
 		return sessionFactory.getCurrentSession();
+	}
+
+	@Override
+	public Integer executeHql(String hql) {
+		Query q = getSession().createQuery(hql);
+		return q.executeUpdate();
 	}
 
 	/**
@@ -183,8 +192,8 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 * @param <T>
 	 * @param entityName
 	 */
-	@SuppressWarnings("unchecked")
-	public <T> void deleteEntityById(Class entityName, Serializable id) {
+	@Override
+	public <T> void delete(Class entityName, Serializable id) {
 		delete(find(entityName, id));
 		getSession().flush();
 	}
@@ -196,7 +205,8 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 * 
 	 * @param entitys
 	 */
-	public <T> void deleteAllEntitie(Collection<T> entitys) {
+	@Override
+	public <T> void deleteEntities(Collection<T> entitys) {
 		for (Object entity : entitys) {
 			getSession().delete(entity);
 			getSession().flush();
@@ -206,6 +216,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	/**
 	 * 根据Id获取对象。
 	 */
+	@Override
 	public <T> T find(Class<T> entityClass, final Serializable id) {
 
 		return (T) getSession().get(entityClass, id);
@@ -284,7 +295,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 */
 	public <T> T findUniqueByHql(String hql) {
 		T t = null;
-		org.hibernate.query.Query queryObject = getSession().createQuery(hql);
+		Query queryObject = getSession().createQuery(hql);
 		List<T> list = queryObject.list();
 		if (list.size() == 1) {
 			getSession().flush();
@@ -303,7 +314,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 */
 	public Map<Object, Object> findHashMapbyHql(String hql) {
 
-		org.hibernate.query.Query query = getSession().createQuery(hql);
+		Query query = getSession().createQuery(hql);
 		List list = query.list();
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
@@ -332,7 +343,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 * @param sql
 	 * @return
 	 */
-	public List<T> findListBySql(final String sql) {
+	public List<String> findListBySql(final String sql) {
 		Query querys = getSession().createSQLQuery(sql);
 		return querys.list();
 	}
@@ -417,9 +428,11 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	public <T> T findUniqueByProperty(Class<T> entityClass, String propertyName,
 			Object value) {
 		Assert.hasText(propertyName,"属性不能为空");
-		return (T) createCriteria(entityClass,
+		Object res = createCriteria(entityClass,
 				Restrictions.eq(propertyName, value)).uniqueResult();
+		return (T) res;
 	}
+
 
 	/**
 	 * 根据查询条件与参数列表创建Query对象
@@ -536,7 +549,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 * @param isOffset
 	 * @return
 	 */
-	public PageList findPageListByCq(final com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery cq, final boolean isOffset) {
+	public PageList findPageListByCq(final CriteriaQuery cq, final boolean isOffset) {
 
 		Criteria criteria = cq.getDetachedCriteria().getExecutableCriteria(
 				getSession());
@@ -574,47 +587,16 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 				allCounts);
 	}
 
-	/**
-	 * 返回JQUERY datatables DataTableReturn模型对象
-	 */
-	public DataTableReturn findDataTableReturn(final com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery cq,
-                                               final boolean isOffset) {
-
-		Criteria criteria = cq.getDetachedCriteria().getExecutableCriteria(
-				getSession());
-		CriteriaImpl impl = (CriteriaImpl) criteria;
-		// 先把Projection和OrderBy条件取出来,清空两者来执行Count操作
-		Projection projection = impl.getProjection();
-		final int allCounts = ((Long) criteria.setProjection(
-				Projections.rowCount()).uniqueResult()).intValue();
-		criteria.setProjection(projection);
-		if (projection == null) {
-			criteria.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
-		}
-
-		// 判断是否有排序字段
-		if (!cq.getOrderMap().isEmpty()) {
-			cq.setOrder(cq.getOrderMap());
-		}
-		int pageSize = cq.getPageSize();// 每页显示数
-		int curPageNO = PagerUtil.getcurPageNo(allCounts, cq.getCurPage(),
-				pageSize);// 当前页
-		int offset = PagerUtil.getOffset(allCounts, curPageNO, pageSize);
-		if (isOffset) {// 是否分页
-			criteria.setFirstResult(offset);
-			criteria.setMaxResults(cq.getPageSize());
-		}
-		DetachedCriteriaUtil.selectColumn(cq.getDetachedCriteria(), cq
-				.getField().split(","), cq.getEntityClass(), false);
-		return new DataTableReturn(allCounts, allCounts, cq.getDataTables()
-				.getEcho(), criteria.list());
+	public DataGridData findDataGridData(final CriteriaQuery cq) {
+		return  findDataGridData(cq,true);
 	}
 
 	/**
 	 * 返回easyui datagrid DataGridReturn模型对象
+	 * @return
 	 */
-	public DataGridReturn findDataGridReturn(final com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery cq,
-                                             final boolean isOffset) {
+	public DataGridData findDataGridData(final CriteriaQuery cq,
+										 final boolean isOffset) {
 		CriteriaImpl criteria = (CriteriaImpl) cq.getDetachedCriteria().getExecutableCriteria(
 				getSession());
 		// 先把Projection和OrderBy条件取出来,清空两者来执行Count操作
@@ -625,8 +607,8 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		if (projection == null) {
 			criteria.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
 		}
-		if (!StringUtils.isEmpty(cq.getDataGrid().getSort())) {
-			cq.addOrder(cq.getDataGrid().getSort(), cq.getDataGrid().getOrder());
+		if (!StringUtils.isEmpty(cq.getDataGridParam().getSort())) {
+			cq.addOrder(cq.getDataGridParam().getSort(), cq.getDataGridParam().getOrder());
 		}
 
 		// 判断是否有排序字段
@@ -642,9 +624,10 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 			criteria.setMaxResults(cq.getPageSize());
 		}
 		List list = criteria.list();
-		cq.getDataGrid().setResults(list);
-		cq.getDataGrid().setTotal(allCounts);
-		return new DataGridReturn(allCounts, list);
+		cq.getDataGridParam().setResults(list);
+		cq.getDataGridParam().setTotal(allCounts);
+		DataGridParam dataGridParam = cq.getDataGridParam();
+		return TagUtil.getObject(dataGridParam);
 	}
 
 	/**
@@ -668,7 +651,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		List list = null;
 		if (isOffset) {
 			list = BeanPropertyUtils.toEntityList(query.list(),
-					hqlQuery.getClass1(), hqlQuery.getDataGrid().getField()
+					hqlQuery.getClass1(), hqlQuery.getDataGridParam().getField()
 							.split(","));
 		} else {
 			list = query.list();
@@ -826,6 +809,11 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		}
 	}
 
+	@Override
+	public List<Map<String, Object>> queryForListMap(String sql, int page, int rows) {
+		return null;
+	}
+
 	/**
 	 * 通过hql 查询语句查找对象
 	 * 
@@ -841,17 +829,6 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 			}
 		}
 		return q.list();
-	}
-
-	/**
-	 * 执行HQL语句操作更新
-	 * 
-	 * @param hql
-	 * @return
-	 */
-	public Integer executeHql(String hql) {
-		Query q = getSession().createQuery(hql);
-		return q.executeUpdate();
 	}
 
 	public <T> List<T> findByDetached(DetachedCriteria dc, int firstResult,

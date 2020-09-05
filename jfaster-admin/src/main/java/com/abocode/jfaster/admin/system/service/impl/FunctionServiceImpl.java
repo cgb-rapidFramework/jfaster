@@ -17,9 +17,9 @@ import com.abocode.jfaster.core.common.util.DataRuleUtils;
 import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.ObjectParseUtil;
 import com.abocode.jfaster.core.platform.utils.FunctionSortUtils;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
-import com.abocode.jfaster.core.common.util.StringUtils;
+import com.abocode.jfaster.core.common.util.StrUtils;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.platform.view.interactions.datatable.SortDirection;
+import com.abocode.jfaster.core.repository.SortDirection;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.TreeGridModel;
 import com.abocode.jfaster.core.web.manager.ClientManager;
@@ -155,7 +155,7 @@ public class FunctionServiceImpl implements FunctionService {
     @Override
     public void saveFunction(Function function) {
         String message;
-        if (StringUtils.isNotEmpty(function.getId())) {
+        if (StrUtils.isNotEmpty(function.getId())) {
             message = MutiLangUtils.paramUpdSuccess("common.menu");
             userService.saveOrUpdate(function);
             systemService.addLog(message, Globals.Log_Type_UPDATE,
@@ -190,7 +190,7 @@ public class FunctionServiceImpl implements FunctionService {
         if (functionList != null && functionList.size() > 0) {
             for (int i = 0; i < functionList.size(); i++) {
                 String icon;
-                if (!StringUtils.isEmpty(functionList.get(i).getIconDesk())) {
+                if (!StrUtils.isEmpty(functionList.get(i).getIconDesk())) {
                     icon = functionList.get(i).getIconDesk().getIconPath();
                 } else {
                     icon = "plug-in/sliding/icon/default.png";
@@ -396,7 +396,7 @@ public class FunctionServiceImpl implements FunctionService {
             if (clazz.isAnnotationPresent(AutoMenu.class)) {
                 AutoMenu autoMenu = clazz.getAnnotation(AutoMenu.class);
                 //菜单名称必须填写，否则不进行菜单和菜单操作按钮的匹配
-                if (!StringUtils.isEmpty(autoMenu.name())) {
+                if (!StrUtils.isEmpty(autoMenu.name())) {
                     StringBuffer menuKey = new StringBuffer();
                     menuKey.append(autoMenu.name());
                     menuKey.append(KEY_SPLIT);
@@ -415,7 +415,7 @@ public class FunctionServiceImpl implements FunctionService {
                         function.setFunctionUrl(autoMenu.url());
 
                         String iconId = autoMenu.icon();
-                        if (!StringUtils.isEmpty(iconId)) {
+                        if (!StrUtils.isEmpty(iconId)) {
                             Object obj = systemService.find(Icon.class, iconId);
                             if (obj != null) {
                                 function.setIcon((Icon) obj);
@@ -439,7 +439,7 @@ public class FunctionServiceImpl implements FunctionService {
                         if (method.isAnnotationPresent(AutoMenuOperation.class)) {
                             AutoMenuOperation autoMenuOperation = method.getAnnotation(AutoMenuOperation.class);
                             //操作码必须填写，否则不进行菜单操作按钮的匹配
-                            if (!StringUtils.isEmpty(autoMenuOperation.code())) {
+                            if (!StrUtils.isEmpty(autoMenuOperation.code())) {
                                 StringBuffer menuOperationKey = new StringBuffer();
                                 menuOperationKey.append(function == null ? "" : function.getId());
                                 menuOperationKey.append(KEY_SPLIT);
@@ -465,7 +465,7 @@ public class FunctionServiceImpl implements FunctionService {
                                     operation.setFunction(function);
 
                                     String iconId = autoMenuOperation.icon();
-                                    if (!StringUtils.isEmpty(iconId)) {
+                                    if (!StrUtils.isEmpty(iconId)) {
                                         Icon icon = new Icon();
                                         icon.setId(iconId);
                                         operation.setIcon(icon);

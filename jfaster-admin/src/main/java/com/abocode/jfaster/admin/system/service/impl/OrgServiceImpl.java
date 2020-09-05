@@ -9,7 +9,7 @@ import com.abocode.jfaster.core.common.model.json.ComboTree;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
 import com.abocode.jfaster.core.common.util.IdUtils;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
-import com.abocode.jfaster.core.common.util.StringUtils;
+import com.abocode.jfaster.core.common.util.StrUtils;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.TreeGridModel;
@@ -37,7 +37,7 @@ public class OrgServiceImpl implements OrgService {
     @Override
     public void save(Org depart) {
         String message;
-        if (!StringUtils.isEmpty(depart.getId())) {
+        if (!StrUtils.isEmpty(depart.getId())) {
             message = MutiLangUtils.paramUpdSuccess("common.department");
             userRepository.saveOrUpdate(depart);
             systemRepository.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
@@ -55,7 +55,7 @@ public class OrgServiceImpl implements OrgService {
         if (null != selfId) {
             cq.notEq("id", selfId);
         }
-        if (StringUtils.isEmpty(id)) {
+        if (StrUtils.isEmpty(id)) {
             cq.eq("parentOrg.id", id);
         } else {
             cq.isNull("parentOrg");
@@ -141,10 +141,10 @@ public class OrgServiceImpl implements OrgService {
     public List<Org> find(String orgId) {
         List<Org> departList = new ArrayList<Org>();
 
-        if (!StringUtils.isEmpty(orgId)) {
-            departList.add((Org) userRepository.findEntity(Org.class, orgId));
+        if (!StrUtils.isEmpty(orgId)) {
+            departList.add((userRepository.findEntity(Org.class, orgId)));
         } else {
-            departList.addAll((List) userRepository.getList(Org.class));
+            departList.addAll(userRepository.findAll(Org.class));
         }
         return  departList;
     }

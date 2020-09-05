@@ -1,7 +1,7 @@
 package com.abocode.jfaster.admin.system.web;
 
-import com.abocode.jfaster.admin.system.repository.RepairRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
+import com.abocode.jfaster.admin.system.service.InitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -19,10 +19,11 @@ public class RepairController{
 	@Autowired
 	private SystemRepository systemService;
 	@Autowired
-	private RepairRepository repairService;
+	private InitService initService;
+
 	@RequestMapping(params = "repair")
 	public ModelAndView repair() {
-		repairService.deleteAndRepair();
+		initService.deleteAndRepair();
 		systemService.initAllTypeGroups();   //初始化缓存
 		return new ModelAndView("login/login");
 	}

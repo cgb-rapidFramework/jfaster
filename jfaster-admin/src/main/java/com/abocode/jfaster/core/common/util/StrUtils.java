@@ -6,13 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by admin on 2015/11/21.
  */
 @Slf4j
-public class StringUtils extends StringExpandUtils {
+public class StrUtils {
     /**
      * 获取登录用户IP地址
      *
@@ -37,8 +36,8 @@ public class StringUtils extends StringExpandUtils {
     }
 
 
-    public static boolean isEmpty(List list) {
-        return list == null || list.isEmpty();
+    public static boolean isEmpty(Object obj) {
+        return obj == null || obj=="";
     }
 
 
@@ -46,10 +45,9 @@ public class StringUtils extends StringExpandUtils {
     public static String random(int  size) {
 
         StringBuilder str=new StringBuilder();//定义变长字符串
-        Random random=new Random();
          //随机生成数字，并添加到字符串
         for(int i=0;i<size;i++){
-            str.append(random.nextInt(10));
+            str.append(IdUtils.nextInt(10));
         }
         //将字符串转换为数字并输出
         int num=Integer.parseInt(str.toString());
@@ -77,7 +75,7 @@ public class StringUtils extends StringExpandUtils {
     }
 
     public static boolean isNotEmpty(Object obj) {
-        return  !isEmpty(obj);
+        return obj!=null;
     }
 
     /**
@@ -117,5 +115,40 @@ public class StringUtils extends StringExpandUtils {
         return trem;
     }
 
+    /***
+     * 替换所有字符
+     * @param s
+     * @param sf
+     * @param sb
+     * @return
+     */
+    public static String replaceAll(String s, String sf, String sb) {
+        int i = 0;
+        boolean j = false;
+        int l = sf.length();
+        boolean b = true;
+        boolean o = true;
+        String str = "";
+
+        do {
+            int j1 = i;
+            i = s.indexOf(sf, i);
+            if(i > j1) {
+                str = str + s.substring(j1, i);
+                str = str + sb;
+                i += l;
+                o = false;
+            } else {
+                str = str + s.substring(j1);
+                b = false;
+            }
+        } while(b);
+
+        if(o) {
+            str = s;
+        }
+
+        return str;
+    }
 
 }

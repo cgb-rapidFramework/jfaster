@@ -1,7 +1,8 @@
 package com.abocode.jfaster.core.common.util;
 
 import com.abocode.jfaster.core.common.exception.ContextRuntimeException;
-import com.abocode.jfaster.core.common.model.json.DataGrid;
+import com.abocode.jfaster.core.repository.DataGridData;
+import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.system.entity.Icon;
 import lombok.extern.slf4j.Slf4j;
 
@@ -230,11 +231,10 @@ public class FileUtils {
 
     /**
      * 把数据库中图片byte，存到项目temp目录下，并且把路径返设置给TsIcon
-     *
-     * @param dataGrid
+     * @param dataGridData
      * @param request
      */
-    public static void convertDataGrid(DataGrid dataGrid, HttpServletRequest request) {
+    public static void convertDataGrid(DataGridData dataGridData, HttpServletRequest request) {
         String fileDirName = request.getSession().getServletContext().getRealPath("") + File.separator + "temp";
         delFolder(fileDirName);
         File fileDir = new File(fileDirName);
@@ -242,7 +242,7 @@ public class FileUtils {
             fileDir.mkdirs();
         }
         try {
-            List list = dataGrid.getResults();
+            List list = dataGridData.getRows();
             for (Object obj : list) {
                 Icon icon = (Icon) obj;
                 String fileName = "icon" + UUID.randomUUID() + "." + icon.getIconExtend();

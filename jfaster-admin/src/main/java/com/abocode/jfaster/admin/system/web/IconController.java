@@ -4,16 +4,15 @@ import com.abocode.jfaster.admin.system.service.IconService;
 import com.abocode.jfaster.admin.system.dto.FileUploadDto;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.AjaxJsonBuilder;
-import com.abocode.jfaster.core.common.model.json.DataGrid;
+import com.abocode.jfaster.core.repository.DataGridData;
+import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
 import com.abocode.jfaster.core.platform.utils.SysThemesUtils;
-import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.system.entity.Icon;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -59,19 +58,18 @@ public class IconController{
 
 	/**
 	 * easyuiAJAX请求数据
-	 * 
-	 * @param request
+	 *  @param request
 	 * @param response
-	 * @param dataGrid
+	 * @param dataGridParam
+	 * @return
 	 */
-	@RequestMapping(params = "datagrid")
-	public void datagrid(Icon icon, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-		CriteriaQuery cq = new CriteriaQuery(Icon.class, dataGrid);
-		HqlGenerateUtil.installHql(cq, icon);
-		cq.add();
-		this.systemService.findDataGridReturn(cq, true);
-        FileUtils.convertDataGrid(dataGrid, request);//先把数据库的byte存成图片到临时目录，再给每个TsIcon设置目录路径
-		TagUtil.datagrid(response, dataGrid);
+	@RequestMapping(params = "findDataGridData")
+	@ResponseBody
+	public DataGridData findDataGridData(Icon icon, HttpServletRequest request, HttpServletResponse response, DataGridParam dataGridParam) {
+		CriteriaQuery cq = new CriteriaQuery(Icon.class).buildParameters(icon,dataGridParam);
+		DataGridData data = this.systemService.findDataGridData(cq, true);
+        FileUtils.convertDataGrid(data, request);//先把数据库的byte存成图片到临时目录，再给每个TsIcon设置目录路径
+		return data;
 	}
 
 	/**
@@ -121,7 +119,7 @@ public class IconController{
 		String iconName = java.net.URLDecoder.decode(ConvertUtils.getString(request.getParameter("iconName")));
 		String id = request.getParameter("id");
 		Icon icon = new Icon();
-		if (StringUtils.isNotEmpty(id)) {
+		if (StrUtils.isNotEmpty(id)) {
 			icon = systemService.find(Icon.class, id);
 			icon.setId(id);
 		}
@@ -188,14 +186,14 @@ public class IconController{
 	 * 图标页面跳转
 	 * 
 	 * @param icon
-	 * @param req
+	 * @param request
 	 * @return
 	 */
-	@RequestMapping(params = "addorupdate")
-	public ModelAndView addorupdate(Icon icon, HttpServletRequest req) {
-		if (StringUtils.isNotEmpty(icon.getId())) {
+	@RequestMapping(params = "detail")
+	public ModelAndView detail(Icon icon, HttpServletRequest request) {
+		if (StrUtils.isNotEmpty(icon.getId())) {
 			icon = systemService.findEntity(Icon.class, icon.getId());
-			req.setAttribute("icon", icon);
+			request.setAttribute("icon", icon);
 		}
 		return new ModelAndView("system/icon/icons");
 	}

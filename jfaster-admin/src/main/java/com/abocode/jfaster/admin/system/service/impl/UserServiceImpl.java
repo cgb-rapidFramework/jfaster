@@ -8,7 +8,7 @@ import com.abocode.jfaster.admin.system.service.BeanToTagConverter;
 import com.abocode.jfaster.core.common.exception.BusinessException;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.ComboBox;
-import com.abocode.jfaster.core.common.model.json.DataGrid;
+import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.admin.system.service.UserService;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
@@ -18,8 +18,7 @@ import com.abocode.jfaster.core.platform.view.FunctionView;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.platform.poi.excel.ExcelImportUtil;
 import com.abocode.jfaster.core.platform.poi.excel.entity.ImportParams;
-import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
-import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.HqlGenerateUtil;
+import com.abocode.jfaster.core.repository.TagUtil;
 import com.abocode.jfaster.system.entity.*;
 import org.hibernate.criterion.Property;
 import org.springframework.beans.BeanUtils;
@@ -107,24 +106,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<ComboBox> findComboBox(String id, String[] fields) {
         List<Org> departs = new ArrayList();
-        if (StringUtils.isNotEmpty(id)) {
+        if (StrUtils.isNotEmpty(id)) {
             Object[] object = new Object[]{id};
             List<Org[]> resultList = userRepository.findByHql("from Org d,UserOrg uo where d.id=uo.orgId and uo.id=?0", object);
             for (Org[] departArr : resultList) {
                 departs.add(departArr[0]);
             }
         }
-        List<Org> departList = userRepository.getList(Org.class);
+        List<Org> departList = userRepository.findAll(Org.class);
         List<ComboBox> comboBoxes = TagUtil.getComboBox(departList, departs, fields);
         return comboBoxes;
     }
 
     @Override
-    public CriteriaQuery buildCq(User user, DataGrid dataGrid, String orgIds) {
-        CriteriaQuery cq = new CriteriaQuery(User.class, dataGrid);
-        //查询条件组装器
-        HqlGenerateUtil.installHql(cq, user);
-
+    public CriteriaQuery buildCq(User user, DataGridParam dataGridParam, String orgIds) {
+        CriteriaQuery cq = new CriteriaQuery(User.class).buildParameters( user,null, dataGridParam);
         Short[] userstate = new Short[]{Globals.User_Normal, Globals.User_ADMIN, Globals.User_Forbidden};
         cq.in("status", userstate);
 
@@ -159,7 +155,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user, String roleId, String password, String orgIds) {
-        if (StringUtils.isNotEmpty(user.getId())) {
+        if (StrUtils.isNotEmpty(user.getId())) {
             User users = userRepository.findEntity(User.class, user.getId());
             users.setEmail(user.getEmail());
             users.setOfficePhone(user.getOfficePhone());
@@ -172,7 +168,7 @@ public class UserServiceImpl implements UserService {
             userRepository.update(users);
             List<RoleUser> ru = userRepository.findAllByProperty(RoleUser.class, "user.id", user.getId());
             userRepository.deleteEntities(ru);
-            if (StringUtils.isNotEmpty(roleId)) {
+            if (StrUtils.isNotEmpty(roleId)) {
                 saveRoleUser(users, roleId);
             }
         } else {
@@ -182,7 +178,7 @@ public class UserServiceImpl implements UserService {
                 user.setStatus(Globals.User_Normal);
                 userRepository.save(user);
                 saveUserOrgList(orgIds, user);
-                if (StringUtils.isNotEmpty(roleId)) {
+                if (StrUtils.isNotEmpty(roleId)) {
                     saveRoleUser(user, roleId);
                 }
             }
@@ -254,7 +250,7 @@ public class UserServiceImpl implements UserService {
 
                     //判断帐号是否存在
                     User u = this.userRepository.findUniqueByProperty(User.class, "username", exlUserVo.getUsername());
-                    Assert.isTrue(!StringUtils.isNotEmpty(u), "<font color='red'>失败!</font>" + exlUserVo.getUsername() + " 帐号已经存在");
+                    Assert.isTrue(!StrUtils.isNotEmpty(u), "<font color='red'>失败!</font>" + exlUserVo.getUsername() + " 帐号已经存在");
                     //判断组织机构是否存在
                     List<Org> exlDeparts = new ArrayList<Org>();
                     String[] departNames = exlUserVo.getOrgName().split(",");
@@ -315,11 +311,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<ExlUserDto> findExportUserList(User user, String orgIds, DataGrid dataGrid) {
-        dataGrid.setPage(0);
-        dataGrid.setRows(1000000);
-        CriteriaQuery cq = buildCq(user, dataGrid, orgIds);
-        List<ExlUserDto> exlUserList = this.userRepository.getExlUserList(dataGrid, user, cq);
+    public List<ExlUserDto> findExportUserList(User user, String orgIds, DataGridParam dataGridParam) {
+        dataGridParam.setPage(0);
+        dataGridParam.setRows(1000000);
+        CriteriaQuery cq = buildCq(user, dataGridParam, orgIds);
+        List<ExlUserDto> exlUserList = this.userRepository.getExlUserList(dataGridParam, user, cq);
         return  exlUserList;
     }
 }

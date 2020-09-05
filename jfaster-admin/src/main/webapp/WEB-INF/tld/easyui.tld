@@ -57,7 +57,7 @@
 			<description>列表TABLE标示</description>
 		</attribute>
 		<attribute>
-			<name>treegrid</name>
+			<name>treeGrid</name>
 			<rtexprvalue>true</rtexprvalue>
 			<description>是否是树形列表 值为true 或者false</description>
 		</attribute>
@@ -155,7 +155,7 @@
 		<attribute>
 			<name>onClick</name>
 			<rtexprvalue>true</rtexprvalue>
-			<description>单击调用方法 tree 下function(rowData),dataGrid
+			<description>单击调用方法 tree 下function(rowData),dataGridParam
 				下function(rowIndex,rowData)</description>
 		</attribute>
 		<attribute>
@@ -266,7 +266,7 @@
 			<description>字段值替换(格式 ：old_new,old2_new2)</description>
 		</attribute>
 		<attribute>
-			<name>treefield</name>
+			<name>treeField</name>
 			<rtexprvalue>true</rtexprvalue>
 			<description>树形菜单对应字段</description>
 		</attribute>
@@ -296,7 +296,7 @@
 			<description>是否是冰冻列。默认false</description>
 		</attribute>
 		<attribute>
-			<name>funname</name>
+			<name>function</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>自定义函数</description>
@@ -384,7 +384,7 @@
 				表达式类型支持eq,ne,empty</description>
 		</attribute>
 		<attribute>
-			<name>funname</name>
+			<name>function</name>
 			<rtexprvalue>true</rtexprvalue>
 			<description>自定义函数名称</description>
 		</attribute>
@@ -493,7 +493,7 @@
 				表达式类型支持eq,ne,empty</description>
 		</attribute>
 		<attribute>
-			<name>funname</name>
+			<name>function</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>自定义函数名称(可传出任意字段)</description>
@@ -535,7 +535,7 @@
 		</attribute>
 		
 		<attribute>
-			<name>funname</name>
+			<name>function</name>
 			<rtexprvalue>true</rtexprvalue>
 			<description>工具条选项自定义函数</description>
 		</attribute>

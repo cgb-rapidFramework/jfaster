@@ -3,7 +3,7 @@ package com.abocode.jfaster.core.persistence.hibernate.qbc;
 import java.util.List;
 import java.util.Map;
 
-import com.abocode.jfaster.core.common.model.json.DataGrid;
+import com.abocode.jfaster.core.repository.DataGridParam;
 import lombok.Data;
 import org.hibernate.type.Type;
 
@@ -17,7 +17,7 @@ public class HqlQuery {
 	private Object[] param;
 	private Type[] types;
 	private Map<String, Object> map;
-	private DataGrid dataGrid;
+	private DataGridParam dataGridParam;
 	private String field="";//查询需要显示的字段
 	private Class class1;
 	private List results;// 结果集

@@ -74,13 +74,13 @@
 	<div id="p2" title="系统提醒">
 		<div class="easyui-layout" fit="true">
 			  <div region="center" style="padding:0px;border:0px;">
-			  <t:datagrid name="noticeList" title="common.notice" actionUrl="noticeController.do?datagrid" idField="id" fit="true" sortName="createTime" sortOrder="desc">
+			  <t:datagrid name="noticeList" title="common.notice" actionUrl="noticeController.do?findDataGridData" idField="id" fit="true" sortName="createTime" sortOrder="desc">
 			   <t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
 			   <t:dgCol title="状态" field="isRead" width="40" replace="已读_1,未读_0"></t:dgCol>
 			   <t:dgCol title="标题" field="noticeTitle" width="120"></t:dgCol>
 			   <t:dgCol title="时间" field="createTime" formatter="YYYY-MM-dd" width="80"></t:dgCol>
 			   <t:dgCol title="common.operation" field="opt" width="40"></t:dgCol>
-			   <t:dgFunOpt funname="doRead(id,isRead)" title="common.read"></t:dgFunOpt>
+			   <t:dgFunOpt function="doRead(id,isRead)" title="common.read"></t:dgFunOpt>
 			  </t:datagrid>
 			  </div>
 		</div>

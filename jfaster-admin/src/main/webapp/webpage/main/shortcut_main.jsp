@@ -24,7 +24,7 @@ a:hover {
 
 	$(function() {
 		$('#layout_jeecg_onlineDatagrid').datagrid({
-			url : 'systemController.do?datagridOnline&field=ip,logindatetime,user.username,',
+			url : 'systemController.do?findDataGridDataOnline&field=ip,logindatetime,user.username,',
 			title : '',
 			iconCls : '',
 			fit : true,

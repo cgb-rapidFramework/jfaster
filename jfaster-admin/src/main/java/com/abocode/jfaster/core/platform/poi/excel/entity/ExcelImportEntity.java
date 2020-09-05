@@ -61,7 +61,7 @@ public class ExcelImportEntity {
 		this.type = type;
 	}
 
-	public List<ExcelImportEntity> getList() {
+	public List<ExcelImportEntity> findAll() {
 		return list;
 	}
 

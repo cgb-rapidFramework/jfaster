@@ -4,13 +4,13 @@ import com.abocode.jfaster.admin.system.service.LanguageService;
 import com.abocode.jfaster.core.common.model.json.AjaxJsonBuilder;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
-import com.abocode.jfaster.core.common.model.json.DataGrid;
-import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
+import com.abocode.jfaster.core.repository.DataGridData;
+import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.system.entity.Language;
 import com.abocode.jfaster.admin.system.repository.LanguageRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
-import com.abocode.jfaster.core.common.util.StringUtils;
+import com.abocode.jfaster.core.common.util.StrUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -27,12 +27,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Scope("prototype")
 @Controller
-@RequestMapping("/mutiLangController")
-public class MutiLangController {
+@RequestMapping("/languageController")
+public class LanguageController {
     @Autowired
     private LanguageRepository languageRepository;
-    @Autowired
-    private SystemRepository systemService;
     @Autowired
     private LanguageService languageService;
 
@@ -43,34 +41,31 @@ public class MutiLangController {
      */
     @RequestMapping(params = "language")
     public ModelAndView language() {
-        return new ModelAndView("system/mutilang/mutiLangList");
+        return new ModelAndView("system/language/languageList");
     }
 
     /**
      * easyui AJAX请求数据
-     *
-     * @param request
-     * @param response
-     * @param dataGrid
+     *  @param request
+     * @param dataGridParam
+     * @return
      */
 
-    @RequestMapping(params = "datagrid")
-    public void datagrid(Language language, HttpServletRequest request,
-                         HttpServletResponse response, DataGrid dataGrid) {
-        CriteriaQuery cq = new CriteriaQuery(Language.class, dataGrid);
-        if (StringUtils.isNotEmpty(language.getLangKey())) {
+    @RequestMapping(params = "findDataGridData")
+    @ResponseBody
+    public DataGridData findDataGridData(Language language, HttpServletRequest request, DataGridParam dataGridParam) {
+        CriteriaQuery cq = new CriteriaQuery(Language.class);
+        if (StrUtils.isNotEmpty(language.getLangKey())) {
             cq.like("langKey", "%" + language.getLangKey() + "%");
             language.setLangKey("");
         }
-
-        if (StringUtils.isNotEmpty(language.getLangContext())) {
+        if (StrUtils.isNotEmpty(language.getLangContext())) {
             cq.like("langContext", "%" + language.getLangContext() + "%");
             language.setLangContext("");
         }
         // 查询条件组装器
-        HqlGenerateUtil.installHql(cq, language, request.getParameterMap());
-        this.languageRepository.findDataGridReturn(cq, true);
-        TagUtil.datagrid(response, dataGrid);
+        cq.buildParameters(language, request.getParameterMap(),dataGridParam);
+       return  this.languageRepository.findDataGridData(cq);
     }
 
     /**
@@ -103,14 +98,14 @@ public class MutiLangController {
      *
      * @return
      */
-    @RequestMapping(params = "addorupdate")
-    public ModelAndView addorupdate(Language language,
-                                    HttpServletRequest req) {
-        if (StringUtils.isNotEmpty(language.getId())) {
+    @RequestMapping(params = "detail")
+    public ModelAndView detail(Language language,
+                                    HttpServletRequest request) {
+        if (StrUtils.isNotEmpty(language.getId())) {
             language = languageRepository.findEntity(Language.class, language.getId());
-            req.setAttribute("mutiLangView", language);
+            request.setAttribute("mutiLangView", language);
         }
-        return new ModelAndView("system/mutilang/language");
+        return new ModelAndView("system/language/language");
     }
 
 

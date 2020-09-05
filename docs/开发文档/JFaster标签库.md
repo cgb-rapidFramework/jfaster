@@ -118,7 +118,7 @@ actionUrl="systemController.do?typeGrid&typegroupid=${typegroup.id}" idField="id
 | image| boolean| 该列是否是图片| 否| FALSE|
 | frozenColumn| boolean| 是否冰冻列| 否| FALSE|
 | query| boolean| 是否把该列作为查询字段| 否| FALSE|
-| funname| string| 链接的自定义函数例：fun(title,url)| 否| openwindow|
+| function| string| 链接的自定义函数例：fun(title,url)| 否| openwindow|
 | url| string| 给该列加链接| 否| null|
 | extend| string| 自定义查询字段的html属性（在extend中填写的内容使用json格式。在extend中自定义的属性会作为html属性添加到查询框input内）举例：extend="{style:'width:200px'}"| 否| Null|
 | imageSize| string| Image参数的增强，可以设置显示图片的大小：imageSize(width,height)| 否| null|
@@ -155,7 +155,7 @@ id|控件ID
 operationCode|权限操作码，对应按钮权限配置（不设置该字段表示不进行按钮权限控制）
 icon|图标
 title|标题
-funname|自定义函数
+function|自定义函数
 langArg|多语言参数
 widht|弹出窗宽度(百分比)默认100%
 height|弹出窗高度(百分比)默认100%
@@ -167,12 +167,12 @@ onclick|工具条选项onclick事件
 
 示例：
 
-<t:dgFunOpt funname="delCgForm(id,tableName)" title="删除" urlclass="ace_button" urlfont="fa-trash-o"></t:dgFunOpt>
+<t:dgFunOpt function="delCgForm(id,tableName)" title="删除" urlclass="ace_button" urlfont="fa-trash-o"></t:dgFunOpt>
 参数：
 
 |参数名|描述|
 |--- |--- |
-funname|自定义函数可传出任意字段
+function|自定义函数可传出任意字段
 title|操作标题
 operationCode|权限操作码，对应按钮权限配置（不设置该字段表示不进行按钮权限控制）
 exp|是否显示表操作的表达式 例: 字段名#表达式符号#字段值(name#eq#admin),表达式类型支持eq,ne,empty
@@ -197,7 +197,7 @@ operationCode|权限操作码，对应按钮权限配置（不设置该字段表
 title|操作标题
 message|询问内容
 exp|是否显示表操作的表达式 例: 字段名#表达式符号#字段值(name#eq#admin),表达式类型支持eq,ne,empty
-funname|自定义函数名称
+function|自定义函数名称
 langArg|多语言参数
 urlclass|自定义链接风格
 urlfont|自定义链接图标

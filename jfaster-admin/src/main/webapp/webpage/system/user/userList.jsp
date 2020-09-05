@@ -24,7 +24,7 @@
     </div>
 </div>
 
-<t:datagrid name="userList" title="common.operation" actionUrl="userController.do?datagrid" fit="true" fitColumns="true" idField="id" queryMode="group">
+<t:datagrid name="userList" title="common.operation" actionUrl="userController.do?findDataGridData" fit="true" fitColumns="true" idField="id" queryMode="group">
 	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="common.username" sortable="false" field="username" query="true" width="10"></t:dgCol>
 	<t:dgCol title="common.department" field="userOrgList.tsDepart.departname" query="false" width="12"></t:dgCol>
@@ -33,13 +33,13 @@
 	<t:dgCol title="common.status" sortable="true" field="status" replace="common.active_1,common.inactive_0,super.admin_-1" width="8"></t:dgCol>
 
     <%--<t:dgCol title="common.username" field="opt"></t:dgCol>--%>
-    <%--<t:dgFunOpt funname="setSignature(id)" title="设置签名" />--%>
+    <%--<t:dgFunOpt function="setSignature(id)" title="设置签名" />--%>
     <%--<t:dgDelOpt title="common.delete" url="userController.do?del&id={id}&username={username}" />--%>
-	<t:dgToolBar title="common.add.param" langArg="common.user" icon="icon-add" url="userController.do?addorupdate" funname="add"></t:dgToolBar>
-	<t:dgToolBar title="common.edit.param" langArg="common.user" icon="icon-edit" url="userController.do?addorupdate" funname="update"></t:dgToolBar>
-	<t:dgToolBar title="common.password.reset" icon="icon-edit" url="userController.do?changepasswordforuser" funname="update"></t:dgToolBar>
-	<t:dgToolBar title="common.lock.user" icon="icon-edit" url="userController.do?lock" funname="lockObj"></t:dgToolBar>
-    <t:dgToolBar title="导入用户" icon="icon-add" url="userController.do?importUser" funname="add"></t:dgToolBar>
+	<t:dgToolBar title="common.add.param" langArg="common.user" icon="icon-add" url="userController.do?detail" function="add"></t:dgToolBar>
+	<t:dgToolBar title="common.edit.param" langArg="common.user" icon="icon-edit" url="userController.do?detail" function="update"></t:dgToolBar>
+	<t:dgToolBar title="common.password.reset" icon="icon-edit" url="userController.do?changepasswordforuser" function="update"></t:dgToolBar>
+	<t:dgToolBar title="common.lock.user" icon="icon-edit" url="userController.do?lock" function="lockObj"></t:dgToolBar>
+    <t:dgToolBar title="导入用户" icon="icon-add" url="userController.do?importUser" function="add"></t:dgToolBar>
     <t:dgToolBar title="导出Excel" icon="icon-print" onclick="exportXls();" ></t:dgToolBar>
 
 </t:datagrid>

@@ -5,11 +5,11 @@ import com.abocode.jfaster.admin.system.service.OperationService;
 import com.abocode.jfaster.admin.system.service.RuleService;
 import com.abocode.jfaster.core.common.model.json.*;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
-import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
-import com.abocode.jfaster.core.common.util.StringUtils;
+import com.abocode.jfaster.core.repository.DataGridData;
+import com.abocode.jfaster.core.repository.DataGridParam;
+import com.abocode.jfaster.core.common.util.StrUtils;
 import com.abocode.jfaster.system.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -32,8 +32,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/functionController")
 public class FunctionController {
-    @Autowired
-    private ResourceRepository resourceService;
     @Autowired
     private SystemRepository systemService;
     @Autowired
@@ -79,15 +77,16 @@ public class FunctionController {
 
     /**
      * easyuiAJAX请求数据
-     * @param response
-     * @param dataGrid
+     *
+     * @param dataGridParam
+     * @return
      */
 
-    @RequestMapping(params = "datagrid")
-    public void datagrid(HttpServletResponse response, DataGrid dataGrid) {
-        CriteriaQuery cq = new CriteriaQuery(Function.class, dataGrid);
-        this.systemService.findDataGridReturn(cq, true);
-        TagUtil.datagrid(response, dataGrid);
+    @RequestMapping(params = "findDataGridData")
+    @ResponseBody
+    public DataGridData findDataGridData(DataGridParam dataGridParam) {
+        CriteriaQuery cq = new CriteriaQuery(Function.class).buildDataGrid(dataGridParam);
+        return this.systemService.findDataGridData(cq, true);
     }
 
     /**
@@ -95,19 +94,20 @@ public class FunctionController {
      *
      * @param request
      * @param response
-     * @param dataGrid
+     * @param dataGridParam
+     * @return
      */
 
     @RequestMapping(params = "opdategrid")
-    public void opdategrid(HttpServletRequest request,
-                           HttpServletResponse response, DataGrid dataGrid) {
-        CriteriaQuery cq = new CriteriaQuery(Operation.class, dataGrid);
+    @ResponseBody
+    public DataGridData opdategrid(HttpServletRequest request,
+                                   HttpServletResponse response, DataGridParam dataGridParam) {
+        CriteriaQuery cq = new CriteriaQuery(Operation.class).buildDataGrid(dataGridParam);
         String functionId = ConvertUtils.getString(request
                 .getParameter("functionId"));
         cq.eq("parentFunction.id", functionId);
         cq.add();
-        this.systemService.findDataGridReturn(cq, true);
-        TagUtil.datagrid(response, dataGrid);
+        return this.systemService.findDataGridData(cq, true);
     }
 
     /**
@@ -149,7 +149,7 @@ public class FunctionController {
     @ResponseBody
     public AjaxJson saveFunction(Function function, HttpServletRequest request) {
         String functionOrder = function.getFunctionOrder();
-        if (StringUtils.isEmpty(functionOrder)) {
+        if (StrUtils.isEmpty(functionOrder)) {
             function.setFunctionOrder("0");
         }
 
@@ -187,18 +187,18 @@ public class FunctionController {
      *
      * @return
      */
-    @RequestMapping(params = "addorupdate")
-    public ModelAndView addorupdate(Function function, HttpServletRequest req) {
-        String functionId = req.getParameter("id");
+    @RequestMapping(params = "detail")
+    public ModelAndView detail(Function function, HttpServletRequest request) {
+        String functionId = request.getParameter("id");
         List<Function> functionList = systemService
-                .getList(Function.class);
-        req.setAttribute("flist", functionList);
+                .findAll(Function.class);
+        request.setAttribute("flist", functionList);
         List<Icon> iconList = systemService
                 .findByHql("from Icon where iconType != 3");
-        req.setAttribute("iconlist", iconList);
+        request.setAttribute("iconlist", iconList);
         List<Icon> iconDeskList = systemService
                 .findByHql("from Icon where iconType = 3");
-        req.setAttribute("iconDeskList", iconDeskList);
+        request.setAttribute("iconDeskList", iconDeskList);
         if (functionId != null) {
             function = systemService.findEntity(Function.class, functionId);
         }
@@ -208,7 +208,7 @@ public class FunctionController {
             function.setParentFunction((Function) systemService.findEntity(
                     Function.class, function.getParentFunction().getId()));
         }
-        req.setAttribute("functionView", function);
+        request.setAttribute("functionView", function);
         return new ModelAndView("system/function/function");
     }
 
@@ -217,17 +217,17 @@ public class FunctionController {
      *
      * @return
      */
-    @RequestMapping(params = "addorupdateop")
-    public ModelAndView addorupdateop(Operation operation,
-                                      HttpServletRequest req) {
-        List<Icon> iconlist = systemService.getList(Icon.class);
-        req.setAttribute("iconlist", iconlist);
+    @RequestMapping(params = "detailop")
+    public ModelAndView detailop(Operation operation,
+                                 HttpServletRequest request) {
+        List<Icon> iconlist = systemService.findAll(Icon.class);
+        request.setAttribute("iconlist", iconlist);
         if (operation.getId() != null) {
             operation = systemService.findEntity(Operation.class, operation.getId());
-            req.setAttribute("operation", operation);
+            request.setAttribute("operation", operation);
         }
-        String functionId = ConvertUtils.getString(req.getParameter("functionId"));
-        req.setAttribute("functionId", functionId);
+        String functionId = ConvertUtils.getString(request.getParameter("functionId"));
+        request.setAttribute("functionId", functionId);
         return new ModelAndView("system/operation/operation");
     }
 
@@ -244,20 +244,21 @@ public class FunctionController {
 
     /**
      * 权限列表
+     *
+     * @return
      */
     @RequestMapping(params = "functionList")
     @ResponseBody
-    public void functionList(HttpServletRequest request,
-                             HttpServletResponse response, DataGrid dataGrid) {
-        CriteriaQuery cq = new CriteriaQuery(Function.class, dataGrid);
+    public DataGridData functionList(HttpServletRequest request,
+                                     HttpServletResponse response, DataGridParam dataGridParam) {
+        CriteriaQuery cq = new CriteriaQuery(Function.class).buildDataGrid(dataGridParam);
         String id = ConvertUtils.getString(request.getParameter("id"));
         cq.isNull("function");
         if (id != null) {
             cq.eq("parentFunction.id", id);
         }
         cq.add();
-        this.systemService.findDataGridReturn(cq, true);
-        TagUtil.datagrid(response, dataGrid);
+        return this.systemService.findDataGridData(cq, true);
     }
 
     /**
@@ -278,10 +279,10 @@ public class FunctionController {
      * @return
      */
     @RequestMapping(params = "searchApp")
-    public ModelAndView searchApp(HttpServletRequest req) {
-        String name = req.getParameter("name");
+    public ModelAndView searchApp(HttpServletRequest request) {
+        String name = request.getParameter("name");
         String menuListMap = functionService.search(name);
-        req.setAttribute("menuListMap", menuListMap);
+        request.setAttribute("menuListMap", menuListMap);
         return new ModelAndView("system/function/menuAppList");
     }
 
@@ -289,33 +290,35 @@ public class FunctionController {
     /**
      * 数据规则权限的编辑和新增
      */
-    @RequestMapping(params = "addorupdaterule")
-    public ModelAndView addorupdaterule(DataRule operation,
-                                        HttpServletRequest req) {
-        List<Icon> iconlist = systemService.getList(Icon.class);
-        req.setAttribute("iconlist", iconlist);
+    @RequestMapping(params = "detailrule")
+    public ModelAndView detailrule(DataRule operation,
+                                   HttpServletRequest request) {
+        List<Icon> iconlist = systemService.findAll(Icon.class);
+        request.setAttribute("iconlist", iconlist);
         if (operation.getId() != null) {
             operation = systemService.findEntity(DataRule.class, operation.getId());
-            req.setAttribute("operationView", operation);
+            request.setAttribute("operationView", operation);
         }
-        String functionId = ConvertUtils.getString(req.getParameter("functionId"));
-        req.setAttribute("functionId", functionId);
+        String functionId = ConvertUtils.getString(request.getParameter("functionId"));
+        request.setAttribute("functionId", functionId);
         return new ModelAndView("system/dataRule/ruleData");
     }
 
     /**
      * opdategrid 数据规则的列表界面
+     *
+     * @return
      */
     @RequestMapping(params = "ruledategrid")
-    public void ruledategrid(HttpServletRequest request,
-                             HttpServletResponse response, DataGrid dataGrid) {
-        CriteriaQuery cq = new CriteriaQuery(DataRule.class, dataGrid);
+    @ResponseBody
+    public DataGridData ruledategrid(HttpServletRequest request,
+                                     HttpServletResponse response, DataGridParam dataGridParam) {
+        CriteriaQuery cq = new CriteriaQuery(DataRule.class).buildDataGrid(dataGridParam);
         String functionId = ConvertUtils.getString(request
                 .getParameter("functionId"));
         cq.eq("function.id", functionId);
         cq.add();
-        this.systemService.findDataGridReturn(cq, true);
-        TagUtil.datagrid(response, dataGrid);
+        return this.systemService.findDataGridData(cq, true);
     }
 
     /**

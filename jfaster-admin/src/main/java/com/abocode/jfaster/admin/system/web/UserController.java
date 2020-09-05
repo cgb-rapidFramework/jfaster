@@ -6,13 +6,14 @@ import com.abocode.jfaster.admin.system.service.RoleService;
 import com.abocode.jfaster.admin.system.dto.FileUploadDto;
 import com.abocode.jfaster.core.common.model.json.*;
 import com.abocode.jfaster.core.common.util.*;
-import com.abocode.jfaster.admin.system.service.SystemService;
 import com.abocode.jfaster.admin.system.service.UserService;
 import com.abocode.jfaster.core.platform.poi.excel.ExcelExportUtil;
 import com.abocode.jfaster.core.platform.poi.excel.entity.ExcelTitle;
 import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
 import com.abocode.jfaster.admin.system.dto.ExlUserDto;
+import com.abocode.jfaster.core.repository.DataGridData;
+import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.core.web.utils.SessionUtils;
 import com.abocode.jfaster.system.entity.*;
 import com.google.gson.Gson;
@@ -20,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
+import com.abocode.jfaster.core.repository.TagUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -53,21 +54,17 @@ public class UserController {
     @Resource
     private UserService userService;
     @Resource
-    private SystemService systemService;
-    @Resource
     private OrgService orgService;
     @Resource
     private RoleService roleService;
 
     /**
      * 菜单列表
-     *
      * @return
      */
     @RequestMapping(params = "menu")
     @ResponseBody
-    public String menu(HttpServletResponse response) {
-        //TODO getWriter
+    public String menu() {
         User u = SessionUtils.getCurrentUser();
         return userService.getMenus(u);
     }
@@ -79,7 +76,7 @@ public class UserController {
      */
     @RequestMapping(params = "user")
     public String user(HttpServletRequest request) {
-        List<Org> departList = userRepository.getList(Org.class);
+        List<Org> departList = userRepository.findAll(Org.class);
         request.setAttribute("departsReplace", SystemJsonUtils.listToReplaceStr(departList, "orgName", "id"));
         return "system/user/userList";
     }
@@ -132,13 +129,13 @@ public class UserController {
      */
 
     @RequestMapping(params = "changepasswordforuser")
-    public ModelAndView changepasswordforuser(User user, HttpServletRequest req) {
-        if (StringUtils.isNotEmpty(user.getId())) {
+    public ModelAndView changepasswordforuser(User user, HttpServletRequest request) {
+        if (StrUtils.isNotEmpty(user.getId())) {
             user = userRepository.findEntity(User.class, user.getId());
-            req.setAttribute("userView", user);
+            request.setAttribute("userView", user);
             RoleIdAndNameDto roleIdAndNameDto = roleService.findByUserId(user.getId());
-            req.setAttribute("id", roleIdAndNameDto.getRoleId());
-            req.setAttribute("roleName", roleIdAndNameDto.getRoleName());
+            request.setAttribute("id", roleIdAndNameDto.getRoleId());
+            request.setAttribute("roleName", roleIdAndNameDto.getRoleName());
         }
         return new ModelAndView("system/user/adminchangepwd");
     }
@@ -146,9 +143,9 @@ public class UserController {
 
     @RequestMapping(params = "savenewpwdforuser")
     @ResponseBody
-    public AjaxJson savenewpwdforuser(HttpServletRequest req) {
-        String id = ConvertUtils.getString(req.getParameter("id"));
-        String password = ConvertUtils.getString(req.getParameter("password"));
+    public AjaxJson savenewpwdforuser(HttpServletRequest request) {
+        String id = ConvertUtils.getString(request.getParameter("id"));
+        String password = ConvertUtils.getString(request.getParameter("password"));
         userService.restPassword(id, password);
         return AjaxJsonBuilder.success();
     }
@@ -175,7 +172,7 @@ public class UserController {
     public List<ComboBox> role(HttpServletRequest request, ComboBox comboBox) {
         String id = request.getParameter("id");
         List<Role> roles = userRepository.findRoleById(id);
-        List<Role> roleList = userRepository.getList(Role.class);
+        List<Role> roleList = userRepository.findAll(Role.class);
         String[] fields = new String[]{comboBox.getId(), comboBox.getText()};
         return TagUtil.getComboBox(roleList, roles, fields);
     }
@@ -194,17 +191,17 @@ public class UserController {
 
     /**
      * easyuiAJAX用户列表请求数据
-     *
-     * @param request
+     *  @param request
      * @param response
-     * @param dataGrid
+     * @param dataGridParam
+     * @return
      */
-    @RequestMapping(params = "datagrid")
-    public void datagrid(User user, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+    @RequestMapping(params = "findDataGridData")
+    @ResponseBody
+    public DataGridData findDataGridData(User user, HttpServletRequest request, HttpServletResponse response, DataGridParam dataGridParam) {
         String orgIds = request.getParameter("orgIds");
-        CriteriaQuery cq = userService.buildCq(user, dataGrid, orgIds);
-        this.userRepository.findDataGridReturn(cq, true);
-        TagUtil.datagrid(response, dataGrid);
+        CriteriaQuery cq = userService.buildCq(user, dataGridParam, orgIds);
+     return   this.userRepository.findDataGridData(cq, true);
     }
 
     /**
@@ -244,16 +241,16 @@ public class UserController {
      * 用户录入
      *
      * @param user
-     * @param req
+     * @param request
      * @return
      */
 
     @RequestMapping(params = "saveUser")
     @ResponseBody
-    public AjaxJson saveUser(HttpServletRequest req, User user) {
-        String roleId = ConvertUtils.getString(req.getParameter("roleid"));
-        String password = ConvertUtils.getString(req.getParameter("password"));
-        String orgIds = ConvertUtils.getString(req.getParameter("orgIds"));
+    public AjaxJson saveUser(HttpServletRequest request, User user) {
+        String roleId = ConvertUtils.getString(request.getParameter("roleid"));
+        String password = ConvertUtils.getString(request.getParameter("password"));
+        String orgIds = ConvertUtils.getString(request.getParameter("orgIds"));
         userService.saveUser(user, roleId, password, orgIds);
         return AjaxJsonBuilder.success();
     }
@@ -270,16 +267,14 @@ public class UserController {
 
     /**
      * 角色显示列表
-     *
-     * @param request
-     * @param response
-     * @param dataGrid
+     * @param dataGridParam
+     * @return
      */
-    @RequestMapping(params = "datagridRole")
-    public void datagridRole(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-        CriteriaQuery cq = new CriteriaQuery(Role.class, dataGrid);
-        this.userRepository.findDataGridReturn(cq, true);
-        TagUtil.datagrid(response, dataGrid);
+    @RequestMapping(params = "findDataGridDataRole")
+    @ResponseBody
+    public DataGridData findDataGridDataRole(DataGridParam dataGridParam) {
+        CriteriaQuery cq = new CriteriaQuery(Role.class).buildDataGrid(dataGridParam);
+       return this.userRepository.findDataGridData(cq, true);
     }
 
     /**
@@ -287,19 +282,19 @@ public class UserController {
      *
      * @param user
      */
-    @RequestMapping(params = "addorupdate")
-    public ModelAndView addorupdate(User user, HttpServletRequest req) {
-        String orgId = ConvertUtils.getString(req.getParameter("departid"));
+    @RequestMapping(params = "detail")
+    public ModelAndView detail(User user, HttpServletRequest request) {
+        String orgId = ConvertUtils.getString(request.getParameter("departid"));
         List<Org> departList = orgService.find(orgId);
-        req.setAttribute("departList", departList);
-        if (StringUtils.isNotEmpty(user.getId())) {
+        request.setAttribute("departList", departList);
+        if (StrUtils.isNotEmpty(user.getId())) {
             user = userRepository.findEntity(User.class, user.getId());
-            req.setAttribute("userView", user);
+            request.setAttribute("userView", user);
             RoleIdAndNameDto roleIdAndNameDto = roleService.findByUserId(user.getId());
-            req.setAttribute("id", roleIdAndNameDto.getRoleId());
-            req.setAttribute("roleName", roleIdAndNameDto.getRoleName());
+            request.setAttribute("id", roleIdAndNameDto.getRoleId());
+            request.setAttribute("roleName", roleIdAndNameDto.getRoleName());
             List<String> orgIds = orgService.findIdByUserId(user.getId());
-            req.setAttribute("orgIdList", new Gson().toJson(orgIds));
+            request.setAttribute("orgIdList", new Gson().toJson(orgIds));
         }
         return new ModelAndView("system/user/user");
     }
@@ -348,16 +343,17 @@ public class UserController {
 
     /**
      * 部门和角色选择用户的用户显示列表
-     *
-     * @param request
+     *  @param request
      * @param response
-     * @param dataGrid
+     * @param dataGridParam
+     * @return
      */
-    @RequestMapping(params = "datagridUser")
-    public void datagridUser(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+    @RequestMapping(params = "findDataGridDataUser")
+    @ResponseBody
+    public DataGridData findDataGridDataUser(HttpServletRequest request, HttpServletResponse response, DataGridParam dataGridParam) {
         String departid = request.getParameter("departid");
         String roleid = request.getParameter("roleid");
-        CriteriaQuery cq = new CriteriaQuery(User.class, dataGrid);
+        CriteriaQuery cq = new CriteriaQuery(User.class).buildDataGrid(dataGridParam);
         if (departid.length() > 0) {
             cq.eq("currentDepart.id", ConvertUtils.getInt(departid, 0));
             cq.add();
@@ -373,8 +369,7 @@ public class UserController {
             cq.in("userid", ConvertUtils.getInts(uIds.toString().split(",")));
             cq.add();
         }
-        this.userRepository.findDataGridReturn(cq, true);
-        TagUtil.datagrid(response, dataGrid);
+       return this.userRepository.findDataGridData(cq, true);
     }
 
     /**
@@ -405,16 +400,14 @@ public class UserController {
 
     /**
      * 部门和角色选择用户的用户显示列表
-     *
-     * @param request
-     * @param response
-     * @param dataGrid
+     * @param dataGridParam
+     * @return
      */
-    @RequestMapping(params = "datagridDepart")
-    public void datagridDepart(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-        CriteriaQuery cq = new CriteriaQuery(Org.class, dataGrid);
-        userRepository.findDataGridReturn(cq, true);
-        TagUtil.datagrid(response, dataGrid);
+    @RequestMapping(params = "findDataGridDataDepart")
+    @ResponseBody
+    public DataGridData findDataGridDataDepart(DataGridParam dataGridParam) {
+        CriteriaQuery cq = new CriteriaQuery(Org.class).buildDataGrid(dataGridParam);
+       return  userRepository.findDataGridData(cq, true);
     }
 
     /**
@@ -463,15 +456,15 @@ public class UserController {
     /**
      * 用户录入
      *
-     * @param req
-     * @param req
+     * @param request
+     * @param request
      * @return
      */
 
     @RequestMapping(params = "savesign", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxJson savesign(HttpServletRequest req) {
-        FileUploadDto uploadFile = new FileUploadDto(req);
+    public AjaxJson savesign(HttpServletRequest request) {
+        FileUploadDto uploadFile = new FileUploadDto(request);
         String id = uploadFile.get("id");
         User user = userRepository.findEntity(User.class, id);
         uploadFile.setRealPath("signatureFile");
@@ -487,15 +480,16 @@ public class UserController {
 
     /**
      * 测试组合查询功能
-     *
-     * @param user
+     *  @param user
      * @param request
      * @param response
-     * @param dataGrid
+     * @param dataGridParam
+     * @return
      */
     @RequestMapping(params = "testSearch")
-    public void testSearch(User user, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-        CriteriaQuery cq = new CriteriaQuery(User.class, dataGrid);
+    @ResponseBody
+    public DataGridData testSearch(User user, HttpServletRequest request, HttpServletResponse response, DataGridParam dataGridParam) {
+        CriteriaQuery cq = new CriteriaQuery(User.class).buildDataGrid(dataGridParam);
         if (user.getUsername() != null) {
             cq.like("username", user.getUsername());
         }
@@ -503,8 +497,7 @@ public class UserController {
             cq.like("realName", user.getRealName());
         }
         cq.add();
-        this.userRepository.findDataGridReturn(cq, true);
-        TagUtil.datagrid(response, dataGrid);
+      return  this.userRepository.findDataGridData(cq, true);
     }
 
     /***
@@ -586,9 +579,9 @@ public class UserController {
      * @return
      */
     @RequestMapping(params = "exportUser")
-    public void exportUser(User user, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+    public void exportUser(User user, HttpServletRequest request, HttpServletResponse response, DataGridParam dataGridParam) {
         String orgIds = request.getParameter("orgIds");
-        List<ExlUserDto> exlUserList = userService.findExportUserList(user, orgIds, dataGrid);
+        List<ExlUserDto> exlUserList = userService.findExportUserList(user, orgIds, dataGridParam);
         download(request, response, exlUserList);
     }
 

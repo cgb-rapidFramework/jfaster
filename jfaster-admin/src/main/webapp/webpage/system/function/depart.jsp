@@ -7,9 +7,9 @@
 <t:base type="jquery,easyui,tools"></t:base>
 <script type="text/javascript" charset="UTF-8">
 	 var editRow;
-	 var treegrid;
+	 var treeGrid;
 	$(function() {
-		treegrid=$('#treegrid').treegrid({
+		treeGrid=$('#treeGrid').treeGrid({
 			url : 'functionController.do?setFunction',				
 			title : '',			 
 			fit : true,
@@ -56,7 +56,7 @@
 				if (data) {
 					$(data).each(function(index, d) {
 						if (this.state == 'closed') {
-							//t.treegrid('expandAll');
+							//t.treeGrid('expandAll');
 						}
 					});
 				}
@@ -71,7 +71,7 @@
 </script>
 </head>
 <body>
-<table id="treegrid"></table>
+<table id="treeGrid"></table>
 
 
 </body>

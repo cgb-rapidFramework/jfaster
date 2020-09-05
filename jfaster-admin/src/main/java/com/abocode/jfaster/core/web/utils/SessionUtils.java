@@ -2,21 +2,15 @@ package com.abocode.jfaster.core.web.utils;
 
 import com.abocode.jfaster.core.web.aop.DataBaseConstant;
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
-import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.util.DateUtils;
-import com.abocode.jfaster.core.common.util.StringUtils;
-import com.abocode.jfaster.system.entity.RoleFunction;
+import com.abocode.jfaster.core.common.util.StrUtils;
 import com.abocode.jfaster.core.web.manager.ClientBean;
-import com.abocode.jfaster.system.entity.Role;
 import com.abocode.jfaster.system.entity.User;
 import com.abocode.jfaster.core.web.manager.ClientManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 
 /**
@@ -31,9 +25,9 @@ public class SessionUtils {
 	  */
 	private static void initSession(HttpSession session) {
 		ClientBean client =SessionShareCenter.getClient();
-		if(!StringUtils.isEmpty(client)){
+		if(!StrUtils.isEmpty(client)){
 			String userId= SessionShareCenter.getUserId();
-			if(!StringUtils.isEmpty(userId) &&!StringUtils.isEmpty(client.getUser())){
+			if(!StrUtils.isEmpty(userId) &&!StrUtils.isEmpty(client.getUser())){
 				client.getUser().setId(userId);
 			}
 			if(ClientManager.getInstance().getClient(session.getId())==null){

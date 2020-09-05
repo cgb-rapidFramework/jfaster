@@ -7,7 +7,7 @@ N<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="U
 <t:base type="jquery,easyui,tools"></t:base>
 </head>
 <body style="overflow-y: hidden" scroll="no">
-<t:datagrid name="roleList" title="common.role.select" actionUrl="userController.do?datagridRole" idField="id" checkbox="true" showRefresh="false">
+<t:datagrid name="roleList" title="common.role.select" actionUrl="userController.do?findDataGridDataRole" idField="id" checkbox="true" showRefresh="false">
 	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="common.role.name" field="roleName" width="50"></t:dgCol>
 </t:datagrid>

@@ -101,7 +101,7 @@ public class LoginController {
         Assert.isTrue(u.getStatus() != 0, languageRepository.getLang("common.username.not.activation"));
         request.getSession().setAttribute("user", u); //用于切换部门时使用
         String orgId = request.getParameter("orgId");
-        String ip = com.abocode.jfaster.core.common.util.StringUtils.getIpAddr(request);
+        String ip = StrUtils.getIpAddr(request);
         Map<String, Object> attrMap = userLoginService.getLoginMap(u, orgId, ip);
         return AjaxJsonBuilder.success().setAttributes(attrMap);
     }

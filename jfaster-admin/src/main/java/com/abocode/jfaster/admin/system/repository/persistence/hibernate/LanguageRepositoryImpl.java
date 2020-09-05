@@ -1,11 +1,11 @@
 package com.abocode.jfaster.admin.system.repository.persistence.hibernate;
 
 import com.abocode.jfaster.admin.system.repository.LanguageRepository;
-import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
 import com.abocode.jfaster.core.platform.LanguageContainer;
 import com.abocode.jfaster.core.common.util.BrowserUtils;
+import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
 import com.abocode.jfaster.system.entity.Language;
-import com.abocode.jfaster.core.common.util.StringUtils;
+import com.abocode.jfaster.core.common.util.StrUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +17,7 @@ public class LanguageRepositoryImpl extends CommonRepositoryImpl implements Lang
      * 初始化语言信息，TOMCAT启动时直接加入到内存中
      **/
     public void initLanguage() {
-        List<Language> language = this.commonDao.findAll(Language.class);
+        List<Language> language = findAll(Language.class);
         for (Language languageEntity : language) {
             LanguageContainer.getLanguageKeyCodeMap().put(languageEntity.getLangKey(), languageEntity.getLangCode());
             LanguageContainer.getLanguageMap().put(languageEntity.getLangKey() + "_" + languageEntity.getLangCode(), languageEntity.getLangContext());
@@ -30,7 +30,7 @@ public class LanguageRepositoryImpl extends CommonRepositoryImpl implements Lang
     public String getLang(String langKey) {
         String language = BrowserUtils.getBrowserLanguage();
         String langContext = LanguageContainer.getLanguageMap().get(langKey + "_" + language);
-        if (StringUtils.isEmpty(langContext)) {
+        if (StrUtils.isEmpty(langContext)) {
             langContext = LanguageContainer.getLanguageMap().get("common.notfind.langkey" + "_" + language);
             if ("null".equals(langContext) ||"?".equals(langContext) || langContext == null || langKey.startsWith("?")) {
                 langContext = "";
@@ -42,7 +42,7 @@ public class LanguageRepositoryImpl extends CommonRepositoryImpl implements Lang
 
     public String getLang(String lanKey, String langArg) {
         String langContext;
-        if (StringUtils.isEmpty(langArg)) {
+        if (StrUtils.isEmpty(langArg)) {
             langContext = getLang(lanKey);
         } else {
             String[] argArray = langArg.split(",");
@@ -51,7 +51,7 @@ public class LanguageRepositoryImpl extends CommonRepositoryImpl implements Lang
             for (int i = 0; i < argArray.length; i++) {
                 String langKeyArg = argArray[i].trim();
                 String langKeyContext = getLang(langKeyArg);
-                langContext = StringUtils.replace(langContext, "{" + i + "}", langKeyContext);
+                langContext = StrUtils.replaceAll(langContext, "{" + i + "}", langKeyContext);
             }
         }
         return langContext;
@@ -77,7 +77,7 @@ public class LanguageRepositoryImpl extends CommonRepositoryImpl implements Lang
      * @return 如果存在则返回true，否则false
      */
     public boolean existLangKey(String lang_key) {
-        List<Language> langKeyList = this.commonDao.findAllByProperty(Language.class, "langKey", lang_key);
+        List<Language> langKeyList = findAllByProperty(Language.class, "langKey", lang_key);
         if (!langKeyList.isEmpty()) {
             return true;
         }
@@ -93,7 +93,7 @@ public class LanguageRepositoryImpl extends CommonRepositoryImpl implements Lang
      * @return 如果存在则返回true，否则false
      */
     public boolean existLangContext(String lang_context) {
-        List<Language> langContextList = this.commonDao.findAllByProperty(Language.class, "langContext", lang_context);
+        List<Language> langContextList = findAllByProperty(Language.class, "langContext", lang_context);
         if (!langContextList.isEmpty()) {
             return true;
         }

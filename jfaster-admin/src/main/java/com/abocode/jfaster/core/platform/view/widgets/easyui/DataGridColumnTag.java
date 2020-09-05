@@ -36,7 +36,7 @@ public class DataGridColumnTag extends TagSupport {
     private boolean frozenColumn = false; // 是否是冰冻列    默认不是
     protected boolean bSearchable = true;
     protected String url;//自定义链接
-    protected String functionName = "openwindow";//自定义函数名称
+    protected String function = "openwindow";//自定义函数名称
     protected String arg;//自定义链接传入参数字段
     protected String dictionary;    //数据字典组编码
     protected boolean popup = false;    //是否启用popup模式选择 默认不启用
@@ -52,7 +52,7 @@ public class DataGridColumnTag extends TagSupport {
         title = MutiLangUtils.doMutiLang(title, langArg);
         Tag t = findAncestorWithClass(this, DataGridTag.class);
         DataGridTag parent = (DataGridTag) t;
-        parent.setColumn(title, field, width, rowspan, colspan, align, sortable, checkbox, formatter, hidden, replace, treeField, image, imageSize, query, url, functionName, arg, queryMode, dictionary, popup, frozenColumn, extend, style, downloadName, autocomplete, extendParams);
+        parent.setColumn(title, field, width, rowspan, colspan, align, sortable, checkbox, formatter, hidden, replace, treeField, image, imageSize, query, url, function, arg, queryMode, dictionary, popup, frozenColumn, extend, style, downloadName, autocomplete, extendParams);
         return EVAL_PAGE;
     }
 

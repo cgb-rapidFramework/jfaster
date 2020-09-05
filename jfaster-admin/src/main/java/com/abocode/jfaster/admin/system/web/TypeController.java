@@ -5,17 +5,17 @@ import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
-import com.abocode.jfaster.core.common.model.json.DataGrid;
+import com.abocode.jfaster.core.repository.DataGridData;
+import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
 import com.abocode.jfaster.core.common.model.json.ValidForm;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
-import com.abocode.jfaster.core.common.util.StringUtils;
+import com.abocode.jfaster.core.common.util.StrUtils;
 import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.ObjectParseUtil;
 import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.PageValueConvertRuleEnum;
 import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.vo.HqlRuleEnum;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.platform.view.widgets.easyui.TagUtil;
 import com.abocode.jfaster.system.entity.Type;
 import com.abocode.jfaster.system.entity.TypeGroup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +39,7 @@ public class TypeController {
     private SystemRepository systemRepository;
     @Autowired
     private LanguageRepository languageRepository;
+
     /**
      * 类型字典列表页面跳转
      *
@@ -77,44 +77,48 @@ public class TypeController {
 
     /**
      * easyuiAJAX请求数据
+     *
+     * @return
      */
     @RequestMapping(params = "typeGroupGrid")
-    public void typeGroupGrid(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid, TypeGroup typegroup) {
-        CriteriaQuery cq = new CriteriaQuery(TypeGroup.class, dataGrid);
+    @ResponseBody
+    public DataGridData typeGroupGrid(HttpServletRequest request, DataGridParam dataGridParam, TypeGroup typegroup) {
+        CriteriaQuery cq = new CriteriaQuery(TypeGroup.class).buildDataGrid(dataGridParam);
         String typeGroupName = request.getParameter("typegroupname");
-        if(typeGroupName != null && typeGroupName.trim().length() > 0) {
+        if (typeGroupName != null && typeGroupName.trim().length() > 0) {
             typeGroupName = typeGroupName.trim();
             List<String> typegroupnameKeyList = systemRepository.findByHql("select typeGroupName from TypeGroup");
             MutiLangUtils.assembleCondition(typegroupnameKeyList, cq, "typeGroupName", typeGroupName);
         }
-        this.systemRepository.findDataGridReturn(cq, true);
-        MutiLangUtils.setMutiLangValueForList(dataGrid.getResults(), "typeGroupName");
-        TagUtil.datagrid(response, dataGrid);
+//        MutiLangUtils.setMutiLangValueForList(dataGridParam.getResults(), "typeGroupName");
+        return this.systemRepository.findDataGridData(cq, true);
     }
 
 
     /**
      * easyuiAJAX请求数据
+     *
      * @param request
-     * @param response
-     * @param dataGrid
+     * @param dataGridParam
+     * @return
      */
 
     @RequestMapping(params = "typeGrid")
-    public void typeGrid(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+    @ResponseBody
+    public DataGridData typeGrid(HttpServletRequest request, DataGridParam dataGridParam) {
         String typegroupid = request.getParameter("typegroupid");
         String typename = request.getParameter("typename");
-        CriteriaQuery cq = new CriteriaQuery(Type.class, dataGrid);
+        CriteriaQuery cq = new CriteriaQuery(Type.class).buildDataGrid(dataGridParam);
         cq.eq("typeGroup.id", typegroupid);
         cq.like("typeName", typename);
         cq.add();
-        this.systemRepository.findDataGridReturn(cq, true);
-        MutiLangUtils.setMutiLangValueForList(dataGrid.getResults(), "typeName");
-        TagUtil.datagrid(response, dataGrid);
+//        MutiLangUtils.setMutiLangValueForList(dataGridParam.getResults(), "typeName");
+        return this.systemRepository.findDataGridData(cq, true);
     }
 
     /**
      * 跳转到类型页面
+     *
      * @param request request
      * @return
      */
@@ -138,7 +142,7 @@ public class TypeController {
             List<Type> typeList = systemRepository.findListByCq(cq, false);
             for (Type obj : typeList) {
                 TreeGrid treeNode = new TreeGrid();
-                treeNode.setId("T"+obj.getId());
+                treeNode.setId("T" + obj.getId());
                 treeNode.setText(obj.getTypeName());
                 treeNode.setCode(obj.getTypeCode());
                 treeGrids.add(treeNode);
@@ -146,7 +150,7 @@ public class TypeController {
         } else {
             cq = new CriteriaQuery(TypeGroup.class);
             String typegroupcode = request.getParameter("typegroupcode");
-            if(typegroupcode != null ) {
+            if (typegroupcode != null) {
                 HqlRuleEnum rule = PageValueConvertRuleEnum
                         .convert(typegroupcode);
                 Object value = PageValueConvertRuleEnum.replaceValue(rule,
@@ -155,7 +159,7 @@ public class TypeController {
                 cq.add();
             }
             String typegroupname = request.getParameter("typegroupname");
-            if(typegroupname != null && typegroupname.trim().length() > 0) {
+            if (typegroupname != null && typegroupname.trim().length() > 0) {
                 typegroupname = typegroupname.trim();
                 List<String> typegroupnameKeyList = systemRepository.findByHql("select typegroupname from TypeGroup");
                 MutiLangUtils.assembleCondition(typegroupnameKeyList, cq, "typegroupname", typegroupname);
@@ -163,7 +167,7 @@ public class TypeController {
             List<TypeGroup> typeGroupList = systemRepository.findListByCq(cq, false);
             for (TypeGroup obj : typeGroupList) {
                 TreeGrid treeNode = new TreeGrid();
-                treeNode.setId("G"+obj.getId());
+                treeNode.setId("G" + obj.getId());
                 treeNode.setText(obj.getTypeGroupName());
                 treeNode.setCode(obj.getTypeGroupCode());
                 treeNode.setState("closed");
@@ -211,7 +215,7 @@ public class TypeController {
         AjaxJson j = new AjaxJson();
         typegroup = systemRepository.findEntity(TypeGroup.class, typegroup.getId());
         String message = "类型分组: " + languageRepository.getLang(typegroup.getTypeGroupName()) + " 被删除 成功";
-        if (StringUtils.isEmpty(typegroup.getTypes())) {
+        if (StrUtils.isEmpty(typegroup.getTypes())) {
             systemRepository.delete(typegroup);
             systemRepository.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
             //刷新缓存
@@ -234,11 +238,11 @@ public class TypeController {
         AjaxJson j = new AjaxJson();
         type = systemRepository.findEntity(Type.class, type.getId());
         String message;
-        if(!StringUtils.isNotEmpty(type)){
-            message="已经被删除了";
+        if (!StrUtils.isNotEmpty(type)) {
+            message = "已经被删除了";
             j.setMsg(message);
             j.setSuccess(false);
-            return  j;
+            return j;
         }
         message = "类型: " + languageRepository.getLang(type.getTypeName()) + "被删除 成功";
         systemRepository.delete(type);
@@ -259,16 +263,16 @@ public class TypeController {
     @ResponseBody
     public ValidForm checkTypeGroup(HttpServletRequest request) {
         ValidForm v = new ValidForm();
-        String typegroupcode= ConvertUtils.getString(request.getParameter("param"));
-        String code=ConvertUtils.getString(request.getParameter("code"));
-        List<TypeGroup> typegroups= systemRepository.findAllByProperty(TypeGroup.class,"typegroupcode",typegroupcode);
-        if(typegroups.size()>0&&!code.equals(typegroupcode))
-        {
+        String typegroupcode = ConvertUtils.getString(request.getParameter("param"));
+        String code = ConvertUtils.getString(request.getParameter("code"));
+        List<TypeGroup> typegroups = systemRepository.findAllByProperty(TypeGroup.class, "typegroupcode", typegroupcode);
+        if (typegroups.size() > 0 && !code.equals(typegroupcode)) {
             v.setInfo("分组已存在");
             v.setStatus("n");
         }
         return v;
     }
+
     /**
      * 添加类型分组
      *
@@ -280,7 +284,7 @@ public class TypeController {
     public AjaxJson saveTypeGroup(TypeGroup typegroup, HttpServletRequest request) {
         AjaxJson j = new AjaxJson();
         String message;
-        if (StringUtils.isNotEmpty(typegroup.getId())) {
+        if (StrUtils.isNotEmpty(typegroup.getId())) {
             message = "类型分组: " + languageRepository.getLang(typegroup.getTypeGroupName()) + "被更新成功";
             userRepository.saveOrUpdate(typegroup);
             systemRepository.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
@@ -294,6 +298,7 @@ public class TypeController {
         j.setMsg(message);
         return j;
     }
+
     /**
      * 检查类型代码
      *
@@ -304,20 +309,20 @@ public class TypeController {
     @ResponseBody
     public ValidForm checkType(HttpServletRequest request) {
         ValidForm v = new ValidForm();
-        String typecode=ConvertUtils.getString(request.getParameter("param"));
-        String code=ConvertUtils.getString(request.getParameter("code"));
-        String typeGroupCode=ConvertUtils.getString(request.getParameter("typeGroupCode"));
+        String typecode = ConvertUtils.getString(request.getParameter("param"));
+        String code = ConvertUtils.getString(request.getParameter("code"));
+        String typeGroupCode = ConvertUtils.getString(request.getParameter("typeGroupCode"));
         StringBuilder hql = new StringBuilder("FROM ").append(Type.class.getName()).append(" AS entity WHERE 1=1 ");
         hql.append(" AND entity.TSTypegroup.typegroupcode =  '").append(typeGroupCode).append("'");
         hql.append(" AND entity.typecode =  '").append(typecode).append("'");
         List<Object> types = this.systemRepository.findByHql(hql.toString());
-        if(types.size()>0&&!code.equals(typecode))
-        {
+        if (types.size() > 0 && !code.equals(typecode)) {
             v.setInfo("类型已存在");
             v.setStatus("n");
         }
         return v;
     }
+
     /**
      * 添加类型
      *
@@ -329,7 +334,7 @@ public class TypeController {
     public AjaxJson saveType(Type type, HttpServletRequest request) {
         AjaxJson j = new AjaxJson();
         String message;
-        if (StringUtils.isNotEmpty(type.getId())) {
+        if (StrUtils.isNotEmpty(type.getId())) {
             message = "类型: " + languageRepository.getLang(type.getTypeName()) + "被更新成功";
             userRepository.saveOrUpdate(type);
             systemRepository.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
@@ -345,17 +350,16 @@ public class TypeController {
     }
 
 
-
     /**
      * 类型分组列表页面跳转
      *
      * @return
      */
     @RequestMapping(params = "aouTypeGroup")
-    public ModelAndView aouTypeGroup(TypeGroup typegroup, HttpServletRequest req) {
+    public ModelAndView aouTypeGroup(TypeGroup typegroup, HttpServletRequest request) {
         if (typegroup.getId() != null) {
             typegroup = systemRepository.findEntity(TypeGroup.class, typegroup.getId());
-            req.setAttribute("typeGroupView", typegroup);
+            request.setAttribute("typeGroupView", typegroup);
         }
         return new ModelAndView("system/type/typegroup");
     }
@@ -365,16 +369,16 @@ public class TypeController {
      *
      * @return
      */
-    @RequestMapping(params = "addorupdateType")
-    public ModelAndView addorupdateType(Type type, HttpServletRequest req) {
-        String typegroupid = req.getParameter("typegroupid");
-        req.setAttribute("typegroupid", typegroupid);
+    @RequestMapping(params = "detailType")
+    public ModelAndView detailType(Type type, HttpServletRequest request) {
+        String typegroupid = request.getParameter("typegroupid");
+        request.setAttribute("typegroupid", typegroupid);
         TypeGroup typegroup = systemRepository.findUniqueByProperty(TypeGroup.class, "id", typegroupid);
         String typegroupname = typegroup.getTypeGroupName();
-        req.setAttribute("typegroupname", languageRepository.getLang(typegroupname));
-        if (StringUtils.isNotEmpty(type.getId())) {
+        request.setAttribute("typegroupname", languageRepository.getLang(typegroupname));
+        if (StrUtils.isNotEmpty(type.getId())) {
             type = systemRepository.findEntity(Type.class, type.getId());
-            req.setAttribute("typeView", type);
+            request.setAttribute("typeView", type);
         }
         return new ModelAndView("system/type/type");
     }
