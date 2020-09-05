@@ -26,7 +26,7 @@ public class IconServiceImpl implements IconService {
     public void save(Icon icon) {
         systemService.delete(icon);
         String message = MutiLangUtils.paramDelSuccess("common.icon");
-        systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+        systemService.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);
     }
 
 

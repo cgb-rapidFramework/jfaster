@@ -15,11 +15,8 @@ import java.security.Key;
 
 @Slf4j
 public class PasswordUtils {
-
-    /**
-     * JAVA6支持以下任意一种算法 PBEWITHMD5ANDDES PBEWITHMD5ANDTRIPLEDES
-     * PBEWITHSHAANDDESEDE PBEWITHSHA1ANDRC2_40 PBKDF2WITHHMACSHA1
-     * */
+    private PasswordUtils() {
+    }
 
     /**
      * 定义使用的算法为:PBEWITHMD5andDES算法

@@ -9,9 +9,9 @@ import java.util.Properties;
 
 @Slf4j
 public class PropertiesUtils {
-    private String properiesName = "";
+    private String propertyName;
     public PropertiesUtils(String fileName) {
-        this.properiesName = fileName;
+        this.propertyName = fileName;
     }
 
     public String readProperty(String key) {
@@ -19,7 +19,7 @@ public class PropertiesUtils {
         InputStream is = null;
         try {
             is = PropertiesUtils.class.getClassLoader().getResourceAsStream(
-                    properiesName);
+                    propertyName);
             Properties p = new Properties();
             p.load(is);
             value = p.getProperty(key);
@@ -36,7 +36,7 @@ public class PropertiesUtils {
         InputStream is = null;
         try {
             is = PropertiesUtils.class.getClassLoader().getResourceAsStream(
-                    properiesName);
+                    propertyName);
             p.load(is);
         } catch (IOException e) {
             log.error(e.getMessage());

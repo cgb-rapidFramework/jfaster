@@ -1,16 +1,16 @@
 package com.abocode.jfaster.core.common.util;
 
+import com.abocode.jfaster.core.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
 import com.abocode.jfaster.core.repository.TagUtil;
-
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 public class SystemJsonUtils {
-
+    private SystemJsonUtils() {
+    }
 
     /**
      * @param objList
@@ -20,46 +20,41 @@ public class SystemJsonUtils {
      * 返回类型： String
      */
     public static String listToReplaceStr(List<?> objList, String perFieldName, String sufFieldName) {
-        List<String> strList = new ArrayList();
+        List<String> strList = new ArrayList<>();
         for (Object object : objList) {
-            String perStr = null;
-            String sufStr = null;
             try {
-                perStr = (String) PropertyUtils.getProperty(object, perFieldName);
-                sufStr = (String) PropertyUtils.getProperty(object, sufFieldName);
-            } catch (InvocationTargetException e) {
-                log.error(e.getMessage());
-            } catch (NoSuchMethodException e) {
-                log.error(e.getMessage());
-            } catch (IllegalAccessException e) {
-                log.error(e.getMessage());
+                String perStr = (String) PropertyUtils.getProperty(object, perFieldName);
+                String sufStr = (String) PropertyUtils.getProperty(object, sufFieldName);
+                strList.add(perStr + "_" + sufStr);
+                return StrUtils.join(strList, ',');
+            } catch (Exception e) {
+                throw new BusinessException("转换异常", e);
             }
-            strList.add(perStr + "_" + sufStr);
         }
-        return StrUtils.join(strList, ',');
+        return "";
     }
 
 
-    public static String listToJson(String[] fields, int total, List list) {
+    public static String listToJson(String[] fields, int total, List<String> list) {
         Object[] values = new Object[fields.length];
-        String jsonTemp = "{\"total\":" + total + ",\"rows\":[";
+        StringBuilder jsonTemp = new StringBuilder().append("{\"total\":" + total + ",\"rows\":[");
         for (int j = 0; j < list.size(); j++) {
-            jsonTemp = jsonTemp + "{\"state\":\"closed\",";
+            jsonTemp.append("{\"state\":\"closed\",");
             for (int i = 0; i < fields.length; i++) {
-                String fieldName = fields[i].toString();
+                String fieldName = fields[i];
                 values[i] = TagUtil.fieldNameToValues(fieldName, list.get(j));
-                jsonTemp = jsonTemp + "\"" + fieldName + "\"" + ":\"" + values[i] + "\"";
+                jsonTemp.append("\"" + fieldName + "\"" + ":\"" + values[i] + "\"");
                 if (i != fields.length - 1) {
-                    jsonTemp = jsonTemp + ",";
+                    jsonTemp.append(",");
                 }
             }
             if (j != list.size() - 1) {
-                jsonTemp = jsonTemp + "},";
+                jsonTemp.append("},");
             } else {
-                jsonTemp = jsonTemp + "}";
+                jsonTemp.append("}");
             }
         }
-        jsonTemp = jsonTemp + "]}";
-        return jsonTemp;
+        jsonTemp.append("]}");
+        return jsonTemp.toString();
     }
 }

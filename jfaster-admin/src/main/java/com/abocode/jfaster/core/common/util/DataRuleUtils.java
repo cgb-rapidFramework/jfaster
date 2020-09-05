@@ -4,7 +4,6 @@ import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.system.entity.DataRule;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,18 +11,20 @@ import java.util.List;
  * Created by Franky on 2016/3/15.
  */
 public class DataRuleUtils {
+    private DataRuleUtils() {
+    }
 
     /**
      * 往链接请求里面，传入数据查询条件
      *
-     * @param MENU_DATA_AUTHOR_RULES
+     * @param dataRules
      */
-    public static synchronized List<DataRule> installDataSearchConditon(List<DataRule> MENU_DATA_AUTHOR_RULES) {
+    public static synchronized List<DataRule> installDataSearchCondition(List<DataRule> dataRules) {
         List<DataRule> list = loadDataSearchConditonSQL();// 1.先从request获取MENU_DATA_AUTHOR_RULES，如果存则获取到LIST
         if (list == null) { // 2.如果不存在，则new一个list
-            list = new ArrayList<DataRule>();
+            list = new ArrayList<>();
         }
-        for (DataRule tsDataRule : MENU_DATA_AUTHOR_RULES) {
+        for (DataRule tsDataRule : dataRules) {
             list.add(tsDataRule);
         }
         return list;
@@ -52,14 +53,13 @@ public class DataRuleUtils {
 
     /**
      * 往链接请求里面，传入数据查询条件
-     * @param MENU_DATA_AUTHOR_RULE_SQL
+     * @param s
      */
-    public static synchronized String  installDataSearchConditon(String MENU_DATA_AUTHOR_RULE_SQL) {
-        // 1.先从request获取MENU_DATA_AUTHOR_RULE_SQL，如果存则获取到sql串
+    public static synchronized String installDataSearchCondition(String s) {
         String ruleSql = loadDataSearchConditonSQLString();
         if (!StringUtils.hasText(ruleSql)) {
             // 2.如果不存在，则new一个sql串
-            ruleSql += MENU_DATA_AUTHOR_RULE_SQL;
+            ruleSql += s;
         }
          return ruleSql;
 

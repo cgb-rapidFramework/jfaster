@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.Set;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -37,16 +39,10 @@ public class AjaxJson {
     }
 
     public AjaxJson volatileBean(Object obj) {
-        AjaxJson j = new AjaxJson();
-        j.setMsg("校验成功");
         ValidatorFactory vf = Validation.buildDefaultValidatorFactory();
         Validator validator = vf.getValidator();
         Set<ConstraintViolation<Object>> set = validator.validate(obj);
-        for (ConstraintViolation<Object> constraintViolation : set) {
-            j.setMsg("数据不合法:值" + constraintViolation.getInvalidValue() + " " + constraintViolation.getMessage());
-            j.setSuccess(false);
-            return j;
-        }
-        return j;
+        Assert.isTrue(CollectionUtils.isEmpty(set),"数据不合法，验证失败");
+        return AjaxJsonBuilder.success("校验成功");
     }
 }

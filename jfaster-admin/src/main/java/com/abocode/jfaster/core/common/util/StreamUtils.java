@@ -4,11 +4,15 @@ package com.abocode.jfaster.core.common.util;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 public class StreamUtils {
+    private static final int BUFFER_SIZE = 4096;
 
-    final static int BUFFER_SIZE = 4096;
+    private StreamUtils() {
+    }
+
 
     /**
      * 将InputStream转换成String
@@ -18,35 +22,17 @@ public class StreamUtils {
      * @throws Exception
      */
     public static String inputStreamToStr(InputStream in) {
-
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         byte[] data = new byte[BUFFER_SIZE];
-        String string = null;
-        int count = 0;
-        try {
-            while ((count = in.read(data, 0, BUFFER_SIZE)) != -1)
+        try (ByteArrayOutputStream outStream = new ByteArrayOutputStream()) {
+            int count = 0;
+            while ((count = in.read(data, 0, BUFFER_SIZE)) != -1) {
                 outStream.write(data, 0, count);
+            }
+            return new String(outStream.toByteArray(), StandardCharsets.UTF_8);
         } catch (IOException e) {
             log.error(e.getMessage());
         }
-        try {
-            string = new String(outStream.toByteArray(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            log.error(e.getMessage());
-        }
-        return string;
-    }
-
-    /**
-     * 将String转换成InputStream
-     *
-     * @param in
-     * @return
-     * @throws Exception
-     */
-    public static InputStream strToInputStream(String in) throws Exception {
-        ByteArrayInputStream is = new ByteArrayInputStream(in.getBytes("UTF-8"));
-        return is;
+        return "" ;
     }
 
 

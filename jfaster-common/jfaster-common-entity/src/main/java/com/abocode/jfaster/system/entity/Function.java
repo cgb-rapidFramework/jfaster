@@ -46,7 +46,7 @@ public class Function extends AbstractIdEntity implements java.io.Serializable {
     private Icon iconDesk = new Icon();
     //子菜单
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentFunction")
-    private List<Function> functions = new ArrayList<Function>();
+    private List<Function> functions = new ArrayList<>();
 
     @Override
     public String toString() {

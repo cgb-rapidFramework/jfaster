@@ -25,7 +25,7 @@ public class LanguageServiceImpl implements LanguageService {
         String message = MutiLangUtils.paramDelSuccess("common.language");
         languageRepository.delete(language);
         languageRepository.initLanguage();
-        systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+        systemService.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);
     }
 
     @Override
@@ -34,17 +34,17 @@ public class LanguageServiceImpl implements LanguageService {
         if (StrUtils.isNotEmpty(language.getId())) {
             message = MutiLangUtils.paramUpdSuccess("common.language");
             Language t = languageRepository.find(Language.class, language.getId());
-            BeanPropertyUtils.copyBeanNotNull2Bean(language, t);
+            BeanPropertyUtils.copyObjectToObject(language, t);
             languageRepository.saveOrUpdate(t);
             languageRepository.initLanguage();
-            systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+            systemService.addLog(message, Globals.LOG_TYPE_UPDATE, Globals.LOG_LEVEL);
         } else {
             message=MutiLangUtils.existLangContext(language.getLangContext())? languageRepository.getLang("common.langcontext.exist"):"";
             if(StrUtils.isEmpty(message))
             {
                 languageRepository.save(language);
                 message = MutiLangUtils.paramAddSuccess("common.language");
-                systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+                systemService.addLog(message, Globals.LOG_TYPE_INSERT, Globals.LOG_LEVEL);
             }
         }
     }

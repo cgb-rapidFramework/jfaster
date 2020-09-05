@@ -197,7 +197,7 @@ public class TypeController {
             message = "数据字典类型: " + languageRepository.getLang(type.getTypeName()) + "被删除 成功";
             systemRepository.delete(type);
         }
-        systemRepository.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+        systemRepository.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);
         //刷新缓存
         systemRepository.refleshTypeGroupCach();
         j.setMsg(message);
@@ -217,7 +217,7 @@ public class TypeController {
         String message = "类型分组: " + languageRepository.getLang(typegroup.getTypeGroupName()) + " 被删除 成功";
         if (StrUtils.isEmpty(typegroup.getTypes())) {
             systemRepository.delete(typegroup);
-            systemRepository.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+            systemRepository.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);
             //刷新缓存
             systemRepository.refleshTypeGroupCach();
         } else {
@@ -248,7 +248,7 @@ public class TypeController {
         systemRepository.delete(type);
         //刷新缓存
         systemRepository.refleshTypesCach(type);
-        systemRepository.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+        systemRepository.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);
         j.setMsg(message);
         return j;
     }
@@ -287,11 +287,11 @@ public class TypeController {
         if (StrUtils.isNotEmpty(typegroup.getId())) {
             message = "类型分组: " + languageRepository.getLang(typegroup.getTypeGroupName()) + "被更新成功";
             userRepository.saveOrUpdate(typegroup);
-            systemRepository.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+            systemRepository.addLog(message, Globals.LOG_TYPE_UPDATE, Globals.LOG_LEVEL);
         } else {
             message = "类型分组: " + languageRepository.getLang(typegroup.getTypeGroupName()) + "被添加成功";
             userRepository.save(typegroup);
-            systemRepository.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+            systemRepository.addLog(message, Globals.LOG_TYPE_INSERT, Globals.LOG_LEVEL);
         }
         //刷新缓存
         systemRepository.refleshTypeGroupCach();
@@ -337,11 +337,11 @@ public class TypeController {
         if (StrUtils.isNotEmpty(type.getId())) {
             message = "类型: " + languageRepository.getLang(type.getTypeName()) + "被更新成功";
             userRepository.saveOrUpdate(type);
-            systemRepository.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+            systemRepository.addLog(message, Globals.LOG_TYPE_UPDATE, Globals.LOG_LEVEL);
         } else {
             message = "类型: " + languageRepository.getLang(type.getTypeName()) + "被添加成功";
             userRepository.save(type);
-            systemRepository.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+            systemRepository.addLog(message, Globals.LOG_TYPE_INSERT, Globals.LOG_LEVEL);
         }
         //刷新缓存
         systemRepository.refleshTypesCach(type);

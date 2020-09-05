@@ -12,6 +12,9 @@ import java.util.List;
  */
 @Slf4j
 public class StrUtils {
+    private StrUtils() {
+    }
+
     /**
      * 获取登录用户IP地址
      *
@@ -20,13 +23,14 @@ public class StrUtils {
      */
     public static String getIpAddr(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        String unknown = "unknown";
+        if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");
         }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
             ip = request.getHeader("WL-Proxy-Client-IP");
         }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
         }
         if (ip.equals("0:0:0:0:0:0:0:1")) {
@@ -55,12 +59,12 @@ public class StrUtils {
     }
 
 
-    public static String join(List array, char symbol) {
+    public static String join( List<String> array, char symbol) {
         String result="";
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         if(array != null) {
             for(int i = 0; i < array.size(); ++i) {
-                String temp = array.get(i).toString();
+                String temp = array.get(i);
                 if(temp != null && temp.trim().length() > 0) {
                     buffer.append(temp + symbol);
                 }
@@ -84,16 +88,15 @@ public class StrUtils {
      * @return
      */
     public static boolean isJDKClass(Class<?> clazz) {
-        boolean isBaseClass = false;
         if(clazz.isArray()){
-            isBaseClass = false;
+           return false;
         }else if (clazz.isPrimitive()||clazz.getPackage()==null
                 || clazz.getPackage().getName().equals("java.lang")
                 || clazz.getPackage().getName().equals("java.math")
                 || clazz.getPackage().getName().equals("java.util")) {
-            isBaseClass =  true;
+           return true;
         }
-        return isBaseClass;
+        return false;
     }
 
     /**
@@ -124,31 +127,28 @@ public class StrUtils {
      */
     public static String replaceAll(String s, String sf, String sb) {
         int i = 0;
-        boolean j = false;
         int l = sf.length();
         boolean b = true;
         boolean o = true;
-        String str = "";
+        StringBuilder str = new StringBuilder();
 
         do {
             int j1 = i;
             i = s.indexOf(sf, i);
             if(i > j1) {
-                str = str + s.substring(j1, i);
-                str = str + sb;
+                str.append(s.substring(j1, i)).append(sb);
                 i += l;
                 o = false;
             } else {
-                str = str + s.substring(j1);
+                str.append( s.substring(j1));
                 b = false;
             }
         } while(b);
 
         if(o) {
-            str = s;
+           return  s;
         }
-
-        return str;
+        return str.toString();
     }
 
 }

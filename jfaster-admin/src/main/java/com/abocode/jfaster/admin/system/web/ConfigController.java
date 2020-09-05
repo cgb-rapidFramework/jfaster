@@ -81,8 +81,8 @@ public class ConfigController{
 		Config entity = systemService.findEntity(Config.class, config.getId());
 		message = NAME + entity.getName() + "被删除 成功";
 		systemService.delete(config);
-		systemService.addLog(message, Globals.Log_Type_DEL,
-				Globals.Log_Leavel_INFO);
+		systemService.addLog(message, Globals.LOG_TYPE_DEL,
+				Globals.LOG_LEVEL);
 		return j;
 	}
 
@@ -102,16 +102,16 @@ public class ConfigController{
 				tsConfig.setUser(SessionUtils.getCurrentUser());
 				systemService.save(tsConfig);
 				message = NAME + tsConfig.getName() + "被添加成功";
-				systemService.addLog(message, Globals.Log_Type_INSERT,
-						Globals.Log_Leavel_INFO);
+				systemService.addLog(message, Globals.LOG_TYPE_INSERT,
+						Globals.LOG_LEVEL);
 			}
 			
 		}else{
 			Config tsConfig=systemService.findEntity(Config.class,configDto.getId());
 			message = NAME + tsConfig.getName() + "被修改成功";
 			systemService.update(tsConfig);
-			systemService.addLog(message, Globals.Log_Type_INSERT,
-					Globals.Log_Leavel_INFO);
+			systemService.addLog(message, Globals.LOG_TYPE_INSERT,
+					Globals.LOG_LEVEL);
 		}
 		AjaxJson j = new AjaxJson();
 		j.setMsg(message);

@@ -1,16 +1,15 @@
 package com.abocode.jfaster.core.common.util;
 
+import com.abocode.jfaster.core.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ClassLoaderUtils extends ClassLoader {
-	public static Class getClassByScn(String className) {
-		Class myclass = null;
+	public static Class<?> getClassByScn(String className)  {
 		try {
-			myclass = Class.forName(className);
+			return Class.forName(className);
 		} catch (ClassNotFoundException e) {
-			log.error(e.getMessage());
+			throw  new BusinessException("class gets exception",e);
 		}
-		return myclass;
 	}
 }

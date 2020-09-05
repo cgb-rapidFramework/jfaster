@@ -81,12 +81,12 @@ public class TerritoryServiceImpl implements TerritoryService {
         if (!StringUtils.isEmpty(territory.getId())) {
             message = "地域: " + territory.getTerritoryName() + "被更新成功";
             systemRepository.saveOrUpdate(territory);
-            systemRepository.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+            systemRepository.addLog(message, Globals.LOG_TYPE_UPDATE, Globals.LOG_LEVEL);
         } else {
             territory.setTerritorySort(territory.getTerritorySort());
             message = "地域: " + territory.getTerritoryName() + "被添加成功";
             systemRepository.save(territory);
-            systemRepository.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+            systemRepository.addLog(message, Globals.LOG_TYPE_INSERT, Globals.LOG_LEVEL);
         }
     }
 
@@ -95,6 +95,6 @@ public class TerritoryServiceImpl implements TerritoryService {
         Territory territory = systemRepository.findEntity(Territory.class, id);
         String message = "地域: " + territory.getTerritoryName() + "被删除成功";
         systemRepository.delete(territory);
-        systemRepository.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+        systemRepository.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);
     }
 }

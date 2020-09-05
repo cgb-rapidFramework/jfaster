@@ -92,7 +92,7 @@ public class LoginController {
             request.getSession().setAttribute("lang", request.getParameter("langCode"));
         }
         HttpSession session = ContextHolderUtils.getSession();
-        DataSourceContextHolder.setDataSourceType(DataSourceType.Default);
+        DataSourceContextHolder.setDataSourceType(DataSourceType.DEFAULT);
         String randCode = request.getParameter("randCode");
         Assert.hasText(randCode, languageRepository.getLang("common.enter.verifycode"));
         Assert.isTrue(randCode.equalsIgnoreCase(String.valueOf(session.getAttribute("randCode"))), languageRepository.getLang("common.verifycode.error"));
@@ -115,7 +115,7 @@ public class LoginController {
      */
     @RequestMapping(params = "login")
     public String login(ModelMap modelMap, HttpServletRequest request) {
-        DataSourceContextHolder.setDataSourceType(DataSourceType.Default);
+        DataSourceContextHolder.setDataSourceType(DataSourceType.DEFAULT);
         Template templateEntity = this.templateService.findUniqueByProperty(Template.class, "status", AvailableEnum.AVAILABLE.getValue());
         Assert.isTrue(templateEntity != null, "未找到相关的模版");
 
@@ -155,7 +155,7 @@ public class LoginController {
     public ModelAndView logout() {
         User user = SessionUtils.getCurrentUser();
         systemService.addLog("用户" + user.getUsername() + "已退出",
-                Globals.Log_Type_EXIT, Globals.Log_Leavel_INFO);
+                Globals.LOG_TYPE_EXIT, Globals.LOG_LEVEL);
         HttpSession session = ContextHolderUtils.getSession();
         //删除session
         SessionShareCenter.removeSession(session.getId());

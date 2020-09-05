@@ -27,12 +27,12 @@ public class TemplateServiceImpl implements TemplateService {
             message = "模版管理更新成功";
             Template t = templateRepository.find(Template.class, template.getId());
             try {
-                BeanPropertyUtils.copyBeanNotNull2Bean(template, t);
+                BeanPropertyUtils.copyObjectToObject(template, t);
                 if(t.getStatus()== AvailableEnum.AVAILABLE.getValue()){
                     templateRepository.setDefault(template.getId());
                 }
                 templateRepository.saveOrUpdate(t);
-                systemRepository.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+                systemRepository.addLog(message, Globals.LOG_TYPE_UPDATE, Globals.LOG_LEVEL);
             } catch (Exception e) {
                 log.error(e.getMessage());
                 message = "模版管理更新失败";
@@ -41,7 +41,7 @@ public class TemplateServiceImpl implements TemplateService {
             message = "模版管理添加成功";
             template.setStatus(AvailableEnum.UNAVAILABLE.getValue());
             templateRepository.save(template);
-            systemRepository.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+            systemRepository.addLog(message, Globals.LOG_TYPE_INSERT, Globals.LOG_LEVEL);
         }
 
     }
@@ -51,6 +51,6 @@ public class TemplateServiceImpl implements TemplateService {
         Object template = systemRepository.findEntity(Template.class, id);
         String message = "模版管理删除成功";
         templateRepository.delete(template);
-        systemRepository.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+        systemRepository.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);
     }
 }

@@ -154,42 +154,6 @@ public class MutiLangUtils {
     }
 
     /**
-     * 处理列表中对象的多语言属性值，即为列表中实体对象的属性值替换为多语言所对应的值
-     *
-     * @param list       对象列表
-     * @param attributes 多语言属性名列表
-     */
-    public static void setMutiLangValueForList(List<Object> list, String... attributes) {
-        if (StringUtils.isEmpty(list)) {
-            return;
-        }
-        if (StringUtils.isEmpty(attributes)) {
-            return;
-        }
-        List<Object> newList = new ArrayList<Object>();
-        for (Object obj : list) {
-            // 如果直接操作列表中的原始对象，则会触发Hibernate的update操作，所以使用类似克隆的方式进行处理；
-            Object cloneObj = null;
-            try {
-                cloneObj = Class.forName(obj.getClass().getName()).newInstance();
-                BeanPropertyUtils.copyBean2Bean(cloneObj, obj);
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                continue;
-            }
-            ReflectHelper reflectHelper = new ReflectHelper(cloneObj);
-            for (String attribute : attributes) {
-                String lang_key = (String) reflectHelper.getMethodValue(attribute);
-                String lang_context = getLang(lang_key);
-                reflectHelper.setMethodValue(attribute, lang_context);
-            }
-            newList.add(cloneObj);
-        }
-        list.clear();
-        list.addAll(newList);
-    }
-
-    /**
      * 获取语言
      *
      * @param title

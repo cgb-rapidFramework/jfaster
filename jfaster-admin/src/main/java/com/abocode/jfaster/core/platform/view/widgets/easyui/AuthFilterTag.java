@@ -48,7 +48,7 @@ public class AuthFilterTag extends TagSupport{
 	private String  getJsContent() {
 		StringBuilder out = new StringBuilder();
 		if(filter){
-			Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
+			Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATION_CODES);
 			if (null!=operationCodes) {
 				for (String ops : operationCodes) {
 					if (ConvertUtils.isEmpty(ops))

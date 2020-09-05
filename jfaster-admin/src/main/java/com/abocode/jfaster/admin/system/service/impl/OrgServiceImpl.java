@@ -40,11 +40,11 @@ public class OrgServiceImpl implements OrgService {
         if (!StrUtils.isEmpty(depart.getId())) {
             message = MutiLangUtils.paramUpdSuccess("common.department");
             userRepository.saveOrUpdate(depart);
-            systemRepository.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+            systemRepository.addLog(message, Globals.LOG_TYPE_UPDATE, Globals.LOG_LEVEL);
         } else {
             message = MutiLangUtils.paramAddSuccess("common.department");
             userRepository.save(depart);
-            systemRepository.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+            systemRepository.addLog(message, Globals.LOG_TYPE_INSERT, Globals.LOG_LEVEL);
         }
 
     }

@@ -19,7 +19,7 @@ public class TreeGrid implements java.io.Serializable {
  	private String  operations;// 其他参数
  	private String state = "open";// 是否展开(open,closed)
  	private String order;//排序
-    private Map<String, Object> fieldMap; // 存储实体字段信息容器： key-字段名称，value-字段值
+    private Map<String, String> fieldMap; // 存储实体字段信息容器： key-字段名称，value-字段值
     private String  functionType;// 其他参数
     public String toJson() {
         return "{" +
@@ -41,11 +41,11 @@ public class TreeGrid implements java.io.Serializable {
     private String assembleFieldsJson() {
         String fieldsJson = ", 'fieldMap':" + fieldMap;
         if (fieldMap != null && fieldMap.size() > 0) {
-            Map<String, Object> resultMap = new HashMap<String, Object>();
-            for (Map.Entry<String, Object> entry : fieldMap.entrySet()) {
+            Map<String, String> resultMap = new HashMap<>();
+            for (Map.Entry<String, String> entry : fieldMap.entrySet()) {
                 resultMap.put("fieldMap." + entry.getKey(), entry.getValue());
             }
-            fieldsJson = ", " + new Gson().toJson(resultMap).toString().replace("{", "").replace("}", "");
+            fieldsJson = ", " + new Gson().toJson(resultMap).replace("{", "").replace("}", "");
         }
         return fieldsJson;
     }

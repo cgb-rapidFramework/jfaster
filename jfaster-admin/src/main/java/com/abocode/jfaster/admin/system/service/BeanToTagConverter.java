@@ -18,6 +18,9 @@ import java.util.List;
  * Created by Franky on 2016/3/15.
  */
 public class BeanToTagConverter {
+	private BeanToTagConverter() {
+	}
+
 	/**
 	 * 转换菜单
 	 * @param function
@@ -42,8 +45,6 @@ public class BeanToTagConverter {
 
 			List<Function> functionLists=function.getFunctions();
 			functionBean.setFunctions(BeanToTagConverter.convertFunctions(functionLists));
-			
-			//functionBean.setFunction(TSFunction);
 			if(!StrUtils.isEmpty(function.getIcon())){
 				IconView iconBean=new IconView();
 				BeanUtils.copyProperties(function.getIcon(), iconBean);
@@ -52,9 +53,9 @@ public class BeanToTagConverter {
 
 			Icon conDeskBean=function.getIconDesk();
 			if(!StrUtils.isEmpty(conDeskBean)){
-				IconView TSIconDeskBean=new IconView();
-				BeanUtils.copyProperties(conDeskBean, TSIconDeskBean);
-				functionBean.setIconDesk(TSIconDeskBean);
+				IconView iconView=new IconView();
+				BeanUtils.copyProperties(conDeskBean, iconView);
+				functionBean.setIconDesk(iconView);
 			}
 		}
 		  return functionBean;
@@ -65,7 +66,7 @@ public class BeanToTagConverter {
 	 * @param functionList
 	 */
 	public static List<FunctionView> convertFunctions(List<Function> functionList) {
-		List<FunctionView> functionBeanList=new ArrayList<FunctionView>();
+		List<FunctionView> functionBeanList=new ArrayList<>();
 		for(Function function:functionList){
 			FunctionView functionBean=convertFunction(function);
 			functionBeanList.add(functionBean);
@@ -92,7 +93,7 @@ public class BeanToTagConverter {
   * @return
   */
 public static List<TypeView> convertTypes(List<Type> tsTypes) {
-	List<TypeView> types=new ArrayList<TypeView>();
+	List<TypeView> types=new ArrayList<>();
 	for(Type tsType:tsTypes){
 		TypeView typeBean= BeanToTagConverter.convertType(tsType);
 		types.add(typeBean);
@@ -109,7 +110,7 @@ public static TypeView convertType(Type tsType) {
 	if(tsType!=null){
 		 type=new TypeView();
 		type.setId(tsType.getId());
-		type.setType(BeanToTagConverter.convertType(tsType.getType()));
+		type.setType(BeanToTagConverter.convertType(tsType.getPType()));
 		type.setTypeGroup(BeanToTagConverter.convertTypeGroup(tsType.getTypeGroup()));
 		type.setTypes(BeanToTagConverter.convertTypes(tsType.getTypes()));
 		type.setTypeCode(tsType.getTypeCode());

@@ -11,6 +11,9 @@ import java.io.IOException;
  */
 @Slf4j
 public class JspWriterUtils {
+    private JspWriterUtils() {
+    }
+
     public static void write(JspWriter out, String text) {
         try {
             out.print(text);

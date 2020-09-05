@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
     public void restPassword(String id, String password) {
         User users = systemRepository.findEntity(User.class, id);
         users.setPassword(PasswordUtils.encrypt(users.getUsername(), password, PasswordUtils.getStaticSalt()));
-        users.setStatus(Globals.User_Normal);
+        users.setStatus(Globals.USER_NORMAL);
         systemRepository.update(users);
     }
 
@@ -98,8 +98,8 @@ public class UserServiceImpl implements UserService {
     public void lockById(String id) {
         User user = userRepository.findEntity(User.class, id);
         Assert.isTrue("admin".equals(user.getUsername()), "超级管理员[admin]不可锁定");
-        Assert.isTrue(Globals.User_Forbidden.equals(user.getStatus()), "锁定账户已经锁定");
-        user.setStatus(Globals.User_Forbidden);
+        Assert.isTrue(Globals.USER_FORBIDDEN.equals(user.getStatus()), "锁定账户已经锁定");
+        user.setStatus(Globals.USER_FORBIDDEN);
         userRepository.update(user);
     }
 
@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public CriteriaQuery buildCq(User user, DataGridParam dataGridParam, String orgIds) {
         CriteriaQuery cq = new CriteriaQuery(User.class).buildParameters( user,null, dataGridParam);
-        Short[] userstate = new Short[]{Globals.User_Normal, Globals.User_ADMIN, Globals.User_Forbidden};
+        Short[] userstate = new Short[]{Globals.USER_NORMAL, Globals.USER_ADMIN, Globals.USER_FORBIDDEN};
         cq.in("status", userstate);
 
         List<String> orgIdList = IdUtils.extractIdListByComma(orgIds);
@@ -142,7 +142,7 @@ public class UserServiceImpl implements UserService {
     public void del(String id) {
         User user = userRepository.findEntity(User.class, id);
         List<RoleUser> roleUser = userRepository.findAllByProperty(RoleUser.class, "user.id", id);
-        Assert.isTrue(!user.getStatus().equals(Globals.User_ADMIN), "超级管理员不可删除");
+        Assert.isTrue(!user.getStatus().equals(Globals.USER_ADMIN), "超级管理员不可删除");
         if (roleUser.size() > 0) {
             // 删除用户时先删除用户和角色关系表
             delRoleUser(user);
@@ -164,7 +164,7 @@ public class UserServiceImpl implements UserService {
             saveUserOrgList(orgIds, user);
 //            users.setOrg(user.getDepart());
             users.setRealName(user.getRealName());
-            users.setStatus(Globals.User_Normal);
+            users.setStatus(Globals.USER_NORMAL);
             userRepository.update(users);
             List<RoleUser> ru = userRepository.findAllByProperty(RoleUser.class, "user.id", user.getId());
             userRepository.deleteEntities(ru);
@@ -175,7 +175,7 @@ public class UserServiceImpl implements UserService {
             User users = userRepository.findUniqueByProperty(User.class, "username", user.getUsername());
             if (users == null) {
                 user.setPassword(PasswordUtils.encrypt(user.getUsername(), password, PasswordUtils.getStaticSalt()));
-                user.setStatus(Globals.User_Normal);
+                user.setStatus(Globals.USER_NORMAL);
                 userRepository.save(user);
                 saveUserOrgList(orgIds, user);
                 if (StrUtils.isNotEmpty(roleId)) {

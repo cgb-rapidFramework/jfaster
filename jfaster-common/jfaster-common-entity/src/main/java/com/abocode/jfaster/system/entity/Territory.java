@@ -47,5 +47,5 @@ public class Territory extends AbstractIdEntity implements java.io.Serializable 
 	@Column(nullable = false,length = 40)
 	private double latitude;
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "parentTerritory")
-	private List<Territory> territories = new ArrayList<Territory>();
+	private List<Territory> territories = new ArrayList<>();
 }

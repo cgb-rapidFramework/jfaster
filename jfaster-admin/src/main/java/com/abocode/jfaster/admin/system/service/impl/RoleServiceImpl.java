@@ -41,7 +41,7 @@ public class RoleServiceImpl implements RoleService {
         role = systemRepository.findEntity(Role.class, role.getId());
         userRepository.delete(role);
         String message = "角色: " + role.getRoleName() + "被删除成功";
-        systemRepository.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+        systemRepository.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);
     }
 
     @Override
@@ -50,13 +50,13 @@ public class RoleServiceImpl implements RoleService {
         if (StrUtils.isNotEmpty(role.getId())) {
             message = "角色: " + role.getRoleName() + "被更新成功";
             userRepository.saveOrUpdate(role);
-            systemRepository.addLog(message, Globals.Log_Type_UPDATE,
-                    Globals.Log_Leavel_INFO);
+            systemRepository.addLog(message, Globals.LOG_TYPE_UPDATE,
+                    Globals.LOG_LEVEL);
         } else {
             message = "角色: " + role.getRoleName() + "被添加成功";
             userRepository.save(role);
-            systemRepository.addLog(message, Globals.Log_Type_INSERT,
-                    Globals.Log_Leavel_INFO);
+            systemRepository.addLog(message, Globals.LOG_TYPE_INSERT,
+                    Globals.LOG_LEVEL);
         }
     }
 
@@ -261,7 +261,7 @@ public class RoleServiceImpl implements RoleService {
             systemRepository.batchSave(roleUserList);
         }
         String message = MutiLangUtils.paramAddSuccess("common.user");
-        systemRepository.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+        systemRepository.addLog(message, Globals.LOG_TYPE_UPDATE, Globals.LOG_LEVEL);
     }
 
     /**

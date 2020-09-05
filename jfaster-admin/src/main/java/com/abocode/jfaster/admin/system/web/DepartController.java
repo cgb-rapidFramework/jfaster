@@ -6,7 +6,6 @@ import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
-import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.core.repository.DataGridData;
 import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.system.entity.Org;
@@ -97,7 +96,7 @@ public class DepartController {
         Assert.isTrue(depart.getOrgs().size() == 0, MutiLangUtils.paramDelFail("common.department"));
         departRepository.deleteDepart(depart);
         String message = MutiLangUtils.paramDelSuccess("common.department");
-        systemRepository.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+        systemRepository.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);
         return AjaxJsonBuilder.success(message);
     }
 
@@ -205,7 +204,7 @@ public class DepartController {
             DetachedCriteria dcDepart = dc.createCriteria("userOrgList");
             dcDepart.add(Restrictions.eq("parentOrg.id", departid));
         }
-        Short[] userstate = new Short[]{Globals.User_Normal, Globals.User_ADMIN};
+        Short[] userstate = new Short[]{Globals.USER_NORMAL, Globals.USER_ADMIN};
         cq.in("status", userstate);
         cq.add();
        return this.systemRepository.findDataGridData(cq);

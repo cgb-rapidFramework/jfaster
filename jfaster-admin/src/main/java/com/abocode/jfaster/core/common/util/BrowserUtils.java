@@ -12,31 +12,23 @@ import java.util.regex.Pattern;
  * @author 张代浩
  */
 public class BrowserUtils {
-
-    // 判断是否是IE
-    public static boolean isIE(HttpServletRequest request) {
-        return (request.getHeader("USER-AGENT").toLowerCase().indexOf("msie") > 0 || request
-                .getHeader("USER-AGENT").toLowerCase().indexOf("rv:11.0") > 0) ? true
-                : false;
+    private BrowserUtils() {
     }
-
-
-    private final static String IE11 = "rv:11.0";
-    private final static String IE10 = "MSIE 10.0";
-    private final static String IE9 = "MSIE 9.0";
-    private final static String IE8 = "MSIE 8.0";
-    private final static String IE7 = "MSIE 7.0";
-    private final static String IE6 = "MSIE 6.0";
-    private final static String QQ = "QQBrowser";
-    private final static String GREEN = "GreenBrowser";
-    private final static String SE360 = "360SE";
-    private final static String FIREFOX = "Firefox";
-    private final static String OPERA = "Opera";
-    private final static String CHROME = "Chrome";
-    private final static String SAFARI = "Safari";
-    private final static String OTHER = "其它";
-
     public static String checkBrowse(HttpServletRequest request) {
+        final String IE11 = "rv:11.0";
+        final String IE10 = "MSIE 10.0";
+        final String IE9 = "MSIE 9.0";
+        final String IE8 = "MSIE 8.0";
+        final String IE7 = "MSIE 7.0";
+        final String IE6 = "MSIE 6.0";
+        final String QQ = "QQBrowser";
+        final String GREEN = "GreenBrowser";
+        final String SE360 = "360SE";
+        final String FIREFOX = "Firefox";
+        final String OPERA = "Opera";
+        final String CHROME = "Chrome";
+        final String SAFARI = "Safari";
+        final String OTHER = "其它";
         String userAgent = request.getHeader("USER-AGENT");
         if (regex(OPERA, userAgent))
             return OPERA;
@@ -74,17 +66,11 @@ public class BrowserUtils {
     }
 
 
-    private static Map<String, String> langMap = new HashMap<String, String>();
-    private final static String ZH = "zh";
-    private final static String ZH_CN = "zh-cn";
-
-    private final static String EN = "en";
-    private final static String EN_US = "en";
-
+    private static Map<String, String> langMap = new HashMap<>();
 
     static {
-        langMap.put(ZH, ZH_CN);
-        langMap.put(EN, EN_US);
+        langMap.put("zh", "zh-cn");
+        langMap.put("en", "en");
     }
 
     /***
@@ -96,7 +82,7 @@ public class BrowserUtils {
         String browserLangCode;
         browserLangCode = (String) ContextHolderUtils.getSession().getAttribute("lang");
         if (StringUtils.isEmpty(browserLangCode)) {
-            browserLangCode = ZH_CN;
+            browserLangCode = "zh-cn";
         }
         return browserLangCode;
     }

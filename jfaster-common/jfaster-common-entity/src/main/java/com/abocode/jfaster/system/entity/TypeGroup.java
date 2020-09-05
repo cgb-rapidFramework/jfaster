@@ -22,5 +22,5 @@ public class TypeGroup extends AbstractIdEntity implements java.io.Serializable 
     @Column(name = "type_group_code", length = 50)
     private String typeGroupCode;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "typeGroup")
-    private List<Type> types = new ArrayList<Type>();
+    private List<Type> types = new ArrayList<>();
 }

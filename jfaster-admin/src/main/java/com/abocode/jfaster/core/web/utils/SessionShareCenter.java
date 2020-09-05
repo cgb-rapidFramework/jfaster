@@ -12,24 +12,24 @@ import java.util.List;
  * @author guanxf
  *
  */
-public class SessionShareCenter extends ContextHolderUtils {
+public class SessionShareCenter   {
 	 /**
      * 共享用户信息
      * @param client
      */
 	public static void putClient(ClientBean client) {
-		HttpSession session= getSession();
-		session.setAttribute("client"+getSession().getId(), client);
+		HttpSession session= ContextHolderUtils.getSession();
+		session.setAttribute("client"+ContextHolderUtils.getSession().getId(), client);
 	      
 	}
 	public static void putUserId(String  userId) {
-		HttpSession session= getSession();
+		HttpSession session= ContextHolderUtils.getSession();
 		session.setAttribute("userId"+session.getId(),userId);
 	}
 	
 	
 	public static void putRoles(List<Role> roleList) {
-		HttpSession session= getSession();
+		HttpSession session= ContextHolderUtils.getSession();
 		session.setAttribute("roleList"+session.getId(), roleList);
 	}
 	
@@ -38,29 +38,24 @@ public class SessionShareCenter extends ContextHolderUtils {
 	 * 获取用户信息
 	 */
 	public static String getUserId() {
-		HttpSession session= getSession();
+		HttpSession session= ContextHolderUtils.getSession();
 		return  (String) session.getAttribute("userId"+session.getId());
 	}
 	public static ClientBean getClient() {
-		HttpSession session= getSession();
-		return  (ClientBean)session.getAttribute("client"+getSession().getId());
+		HttpSession session= ContextHolderUtils.getSession();
+		return  (ClientBean)session.getAttribute("client"+ContextHolderUtils.getSession().getId());
 	}
 	
-	@SuppressWarnings("unchecked")
-	public static List<Role>  getRoles() {
-		HttpSession session= getSession();
-		return (List<Role>) session.getAttribute("roleList"+session.getId());
-	}
-	
+
 	 /***
      * 删除session
      * @param sessionId
      */
 	public static void removeSession(String sessionId) {
 	   ClientManager.getInstance().removeClinet(sessionId);
-	   getSession().removeAttribute("client"+sessionId);
-	   getSession().removeAttribute("roleList"+sessionId);
-	   getSession().removeAttribute("user"+sessionId);
+	    ContextHolderUtils.getSession().removeAttribute("client"+sessionId);
+	   ContextHolderUtils.getSession().removeAttribute("roleList"+sessionId);
+	   ContextHolderUtils.getSession().removeAttribute("user"+sessionId);
 	}
 	
 	

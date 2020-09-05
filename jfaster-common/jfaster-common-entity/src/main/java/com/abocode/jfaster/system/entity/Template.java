@@ -2,10 +2,6 @@ package com.abocode.jfaster.system.entity;
 
 import com.abocode.jfaster.core.AbstractIdEntity;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.Date;
 

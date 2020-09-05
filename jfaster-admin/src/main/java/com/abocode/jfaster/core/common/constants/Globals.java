@@ -1,6 +1,9 @@
 package com.abocode.jfaster.core.common.constants;
 
 public final class Globals {
+    private Globals() {
+    }
+
     /**
      * 保存用户到SESSION
      */
@@ -8,39 +11,35 @@ public final class Globals {
     /**
      * 正常
      */
-    public static  final Short User_Normal = 1;
+    public static  final Short USER_NORMAL = 1;
     /***
      * 禁用
      */
-    public static  final Short User_Forbidden = 0;
+    public static  final Short USER_FORBIDDEN = 0;
     /***
      * 超级管理员
      */
-    public static  final Short User_ADMIN = -1;
+    public static  final Short USER_ADMIN = -1;
     /**
      * 日志级别定义
      */
-    public static  final Short Log_Leavel_INFO = 1;
+    public static  final Short LOG_LEVEL = 1;
     /**
      * 日志类型
      */
-    public static  final Short Log_Type_LOGIN = 1; //登陆
-    public static  final Short Log_Type_EXIT = 2;  //退出
-    public static  final Short Log_Type_INSERT = 3; //插入
-    public static  final Short Log_Type_DEL = 4; //删除
-    public static  final Short Log_Type_UPDATE = 5; //更新
-    /**
-     * 权限等级
-     */
-    public static  final Short FUNCTION_LEAVE_ONE = 0;//一级权限
+    public static  final Short LOG_TYPE_LOGIN = 1; //登陆
+    public static  final Short LOG_TYPE_EXIT = 2;  //退出
+    public static  final Short LOG_TYPE_INSERT = 3; //插入
+    public static  final Short LOG_TYPE_DEL = 4; //删除
+    public static  final Short LOG_TYPE_UPDATE = 5; //更新
     /**
      * 没有勾选的操作code
      */
-    public static  final String NOAUTO_OPERATIONCODES = "noauto_operationCodes";
+    public static  final String NO_AUTO_OPERATION_CODES = "noauto_operationCodes";
     /**
      * 勾选了的操作code
      */
-    public static  final String OPERATIONCODES = "operationCodes";
+    public static  final String OPERATION_CODES = "operationCodes";
     /**
      * 权限类型
      */

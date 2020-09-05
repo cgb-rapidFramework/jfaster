@@ -13,6 +13,7 @@ import com.abocode.jfaster.core.platform.SystemContainer;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.DataGridColumn;
 import com.abocode.jfaster.core.repository.TagUtil;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import com.abocode.jfaster.core.platform.view.TypeView;
@@ -24,6 +25,7 @@ import java.text.MessageFormat;
 import java.util.*;
 @Slf4j
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class DataGridTag extends TagSupport {
     protected String fields = "";// 显示字段
     protected String searchFields = "";// 添加对区间查询的支持
@@ -207,7 +209,7 @@ public class DataGridTag extends TagSupport {
         dataGridColumn.setAutocomplete(isAuto);
         dataGridColumn.setExtendParams(extendParams);
         columnList.add(dataGridColumn);
-        Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
+        Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATION_CODES);
         if (null != operationCodes) {
             for (String MyoperationCode : operationCodes) {
                 System.out.println("【DatagridTag】，operationCodes该部分功能未完善");
@@ -1121,7 +1123,7 @@ public class DataGridTag extends TagSupport {
         StringBuffer sb = new StringBuffer();
         if (!Globals.AUTHORITY_BUTTON_CHECK) {
         } else {
-            Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
+            Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATION_CODES);
             if (null != operationCodes) {
                 for (String MyoperationCode : operationCodes) {
                     System.out.println("Operation code未完善");
@@ -1161,7 +1163,7 @@ public class DataGridTag extends TagSupport {
         if (Globals.AUTHORITY_IS_OPEN) {
             optList.add(dataGridUrl);
         } else if (!StrUtils.isEmpty(operationCode)) {
-            Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
+            Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATION_CODES);
             if (null != operationCodes) {
                 List<String> operationCodesStr = new ArrayList();
 			/*	for (String MyoperationCode : operationCodes) {

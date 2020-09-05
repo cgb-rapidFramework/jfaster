@@ -2,14 +2,14 @@ package com.abocode.jfaster.core.common.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
-
-import java.io.UnsupportedEncodingException;
 import java.net.*;
-import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 @Slf4j
 public class ConvertUtils {
+    private ConvertUtils() {
+    }
+
     public static boolean isEmpty(Object object) {
         if (object == null) {
             return (true);
@@ -30,27 +30,8 @@ public class ConvertUtils {
         return (false);
     }
 
-    public static String decode(String strIn, String sourceCode, String targetCode) {
-        String temp = code2code(strIn, sourceCode, targetCode);
-        return temp;
-    }
 
-    private static String code2code(String strIn, String sourceCode, String targetCode) {
-        String strOut = null;
-        if (strIn == null || (strIn.trim()).equals(""))
-            return strIn;
-        try {
-            byte[] b = strIn.getBytes(sourceCode);
-            for (int i = 0; i < b.length; i++) {
-                System.out.print(b[i] + "  ");
-            }
-            strOut = new String(b, targetCode);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return null;
-        }
-        return strOut;
-    }
+
 
     public static int getInt(String s, int defval) {
         if (StringUtils.isEmpty(s)) {
@@ -86,10 +67,7 @@ public class ConvertUtils {
     }
 
     public static Integer[] getInts(String[] s) {
-        if (s == null) {
-            return null;
-        }
-        Integer[] integer = new Integer[s.length];
+        Integer[] integer = new Integer[]{};
         for (int i = 0; i < s.length; i++) {
             integer[i] = Integer.parseInt(s[i]);
         }
@@ -189,10 +167,7 @@ public class ConvertUtils {
      * @return
      */
     public static String replaceUnderLine(String str) {
-        if (str.contains("_")) {
-            return str.replaceAll("_", "\\.");
-        }
-        return str;
+      return str.replace("_", "\\.");
     }
 
     /**
@@ -213,36 +188,5 @@ public class ConvertUtils {
             }
         }
         return false;
-    }
-
-    /**
-     * 获取Map对象
-     */
-    public static Map<Object, Object> getHashMap() {
-        return new HashMap<Object, Object>();
-    }
-
-    /**
-     * SET转换MAP
-     *
-     * @param setobj
-     * @return
-     */
-    public static Map<Object, Object> SetToMap(Set<Object> setobj) {
-        Map<Object, Object> map = getHashMap();
-        for (Iterator iterator = setobj.iterator(); iterator.hasNext(); ) {
-            Map.Entry<Object, Object> entry = (Map.Entry<Object, Object>) iterator.next();
-            map.put(entry.getKey().toString(), entry.getValue() == null ? "" : entry.getValue().toString().trim());
-        }
-        return map;
-
-    }
-
-    public static String decode(String str) {
-        try {
-            return URLDecoder.decode(str, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e.getMessage());
-        }
     }
 }

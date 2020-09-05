@@ -60,7 +60,7 @@
 		class="com.abocode.jfaster.core.persistence.datasource.DynamicDataSource">
 		<property name="targetDataSources">
 			<map key-type="com.abocode.jfaster.core.persistence.datasource.DataSourceType">
-				<entry key="Default" value-ref="master" />
+				<entry key="DEFAULT" value-ref="master" />
 			</map>
 		</property>
 		<property name="defaultTargetDataSource" ref="master" />

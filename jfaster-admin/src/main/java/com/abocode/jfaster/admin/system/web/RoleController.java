@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -309,15 +310,11 @@ public class RoleController {
     /**
      * 更新按钮权限
      *
-     * @param request
      * @return
      */
     @RequestMapping(params = "updateOperation")
     @ResponseBody
-    public AjaxJson updateOperation(HttpServletRequest request) {
-        String roleId = request.getParameter("roleId");
-        String functionId = request.getParameter("functionId");
-        String operationcodes = ConvertUtils.decode(request.getParameter("operationcodes"));
+    public AjaxJson updateOperation( String roleId, String functionId,String operationcodes) {
         roleService.updateOperation(roleId, functionId, operationcodes);
         return AjaxJsonBuilder.success();
     }
@@ -346,17 +343,12 @@ public class RoleController {
 
     /**
      * 更新按钮权限
-     *
-     * @param request
      * @return
      */
     @RequestMapping(params = "updateDataRule")
     @ResponseBody
-    public AjaxJson updateDataRule(HttpServletRequest request) {
-        String roleId = request.getParameter("roleId");
-        String functionId = request.getParameter("functionId");
-        String dataRuleCodes = ConvertUtils.decode(request.getParameter("dataRulecodes"));
-        roleService.updateDataRule(roleId, functionId, dataRuleCodes);
+    public AjaxJson updateDataRule( String roleId,  String functionId, String dataRulecodes) {
+        roleService.updateDataRule(roleId, functionId, dataRulecodes);
         return AjaxJsonBuilder.success();
     }
 

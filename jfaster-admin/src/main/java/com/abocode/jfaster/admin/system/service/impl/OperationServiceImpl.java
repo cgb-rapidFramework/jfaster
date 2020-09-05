@@ -28,13 +28,13 @@ public class OperationServiceImpl implements OperationService {
         if (StrUtils.isNotEmpty(operation.getId())) {
             message = MutiLangUtils.paramUpdSuccess("common.operation");
             userService.saveOrUpdate(operation);
-            systemService.addLog(message, Globals.Log_Type_UPDATE,
-                    Globals.Log_Leavel_INFO);
+            systemService.addLog(message, Globals.LOG_TYPE_UPDATE,
+                    Globals.LOG_LEVEL);
         } else {
             message = MutiLangUtils.paramAddSuccess("common.operation");
             userService.save(operation);
-            systemService.addLog(message, Globals.Log_Type_INSERT,
-                    Globals.Log_Leavel_INFO);
+            systemService.addLog(message, Globals.LOG_TYPE_INSERT,
+                    Globals.LOG_LEVEL);
         }
 
     }

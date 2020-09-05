@@ -5,29 +5,21 @@ import com.abocode.jfaster.admin.system.service.FunctionService;
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.constants.Globals;
-import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.vo.HqlRuleEnum;
 import com.abocode.jfaster.core.web.manager.ClientBean;
-import com.abocode.jfaster.core.common.util.DataRuleUtils;
 import com.abocode.jfaster.core.web.manager.ClientManager;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.core.common.util.ConfigUtils;
-import com.abocode.jfaster.core.web.utils.SessionUtils;
-import com.abocode.jfaster.system.entity.DataRule;
 import com.abocode.jfaster.system.entity.Function;
 import com.abocode.jfaster.system.entity.Operation;
-import com.abocode.jfaster.system.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -103,10 +95,10 @@ public class AuthInterceptor implements HandlerInterceptor {
             if (!ConvertUtils.isEmpty(functionId)) {
                 //获取菜单对应的页面控制权限（包括表单字段和操作按钮）
                 Set<String> operationCodes = systemService.getOperationCodesByUserIdAndFunctionId(client.getUser().getId(), functionId);
-                request.setAttribute(Globals.OPERATIONCODES, operationCodes);
+                request.setAttribute(Globals.OPERATION_CODES, operationCodes);
             }
             List<Operation> operations = functionService.findById(functionId, client.getUser().getId());
-            request.setAttribute(Globals.NOAUTO_OPERATIONCODES, operations);
+            request.setAttribute(Globals.NO_AUTO_OPERATION_CODES, operations);
 
             //数据权限规则的查询
             //查询所有的当前这个用户所对应的角色和菜单的datarule的数据规则id

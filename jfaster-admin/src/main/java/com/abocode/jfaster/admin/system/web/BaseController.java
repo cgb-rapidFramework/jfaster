@@ -26,18 +26,6 @@ public class BaseController {
     private SystemRepository systemService;
 
     /**
-     * 将前台传递过来的日期格式的字符串，自动转化为Date类型
-     *
-     * @param binder
-     */
-    @InitBinder
-    public void initBinder(ServletRequestDataBinder binder) {
-        System.out.printf("ssssssssssssssbindersssssssssssssssssss");
-//        binder.registerCustomEditor(Date.class, new DateConvertEditor());
-    }
-
-
-    /**
      * 自动完成请求返回数据
      *
      * @param request

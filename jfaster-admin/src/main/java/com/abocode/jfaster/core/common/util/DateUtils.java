@@ -9,10 +9,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.StringUtils;
 @Slf4j
 public class DateUtils extends PropertyEditorSupport {// 各种时间格式
 
+
+    private DateUtils() {
+    }
 
     // 指定模式的时间格式
     private static SimpleDateFormat getSimpleDateFormat(String pattern) {
@@ -211,38 +213,6 @@ public class DateUtils extends PropertyEditorSupport {// 各种时间格式
         }
 
     }
-
-    /**
-     * String类型 转换为Date,
-     * 如果参数长度为10 转换格式”yyyy-MM-dd“
-     * 如果参数长度为19 转换格式”yyyy-MM-dd HH:mm:ss“
-     * * @param text
-     * String类型的时间值
-     */
-    public void setAsText(String text) throws IllegalArgumentException {
-        String YYYY_MM_DD = "yyyy-MM-dd";
-        String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
-        if (StringUtils.hasText(text)) {
-            try {
-                if (text.indexOf(":") == -1 && text.length() == 10) {
-                    setValue(getSimpleDateFormat(YYYY_MM_DD).parse(text));
-                } else if (text.indexOf(":") > 0 && text.length() == 19) {
-                    setValue(getSimpleDateFormat(YYYY_MM_DD_HH_MM_SS).parse(text));
-                } else {
-                    throw new IllegalArgumentException(
-                            "Could not parse date, date format is error ");
-                }
-            } catch (ParseException ex) {
-                IllegalArgumentException iae = new IllegalArgumentException(
-                        "Could not parse date: " + ex.getMessage());
-                iae.initCause(ex);
-                throw iae;
-            }
-        } else {
-            setValue(null);
-        }
-    }
-
     /**
      * 获取年
      *

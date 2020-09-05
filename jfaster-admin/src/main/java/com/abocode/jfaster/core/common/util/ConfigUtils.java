@@ -8,6 +8,9 @@ import java.util.ResourceBundle;
  * 
  */
 public class ConfigUtils {
+	private ConfigUtils() {
+	}
+
 	private static final ResourceBundle bundle = java.util.ResourceBundle.getBundle("sysConfig");
 	
 	/**

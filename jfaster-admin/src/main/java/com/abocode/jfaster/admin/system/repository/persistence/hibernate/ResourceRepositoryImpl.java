@@ -54,7 +54,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                 uploadFile.getMultipartRequest().setCharacterEncoding("UTF-8");
                 MultipartHttpServletRequest multipartRequest = uploadFile.getMultipartRequest();
                 ReflectHelper reflectHelper = new ReflectHelper(uploadFile.getObject());
-                String localDiskPath = ResourceUtils.getResourceLocalPath();
+                String localDiskPath = FileUtils.getResourceLocalPath();
 
 
                 String path = "";
@@ -62,13 +62,13 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                 String entityName = uploadFile.getObject().getClass().getSimpleName();
                 // 设置文件上传路径
                 if (entityName.equals("Template")) {
-                    realPath = localDiskPath + "/" + ResourceUtils.RESOURCE_TEMPLATE + "/";
-                    path = ResourceUtils.RESOURCE_TEMPLATE + "/";
+                    realPath = localDiskPath + "/" + FileUtils.getResourceTemplate() + "/";
+                    path = FileUtils.getResourceTemplate()  + "/";
                 } else if (entityName.equals("Icon")) {
                     realPath = localDiskPath + "/" + uploadFile.getFolderPath() + "/";
                     path = uploadFile.getFolderPath() + "/";
                 } else {
-                    path = ResourceUtils.RESOURCE_FILE + "/" + uploadFile.getFolderPath() + "/" + ResourceUtils.getDateDir() + "/";
+                    path = FileUtils.getResourceFile() + "/" + uploadFile.getFolderPath() + "/" + FileUtils.getDateDir() + "/";
                     // 文件数据库保存路径
                     realPath = localDiskPath + "/" + path + "/";// 文件的硬盘真实路径
                 }
@@ -92,11 +92,10 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                 for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
                     MultipartFile mf = entity.getValue();// 获取上传文件对象
                     String originalFilename = mf.getOriginalFilename();// 获取文件名
-                    String swfName = PinyinUtils.getPinYinHeadChar(ConvertUtils.replaceBlank(FileUtils.getFilePrefix(originalFilename)));// 取文件名首字母作为SWF文件名
                     String extend = FileUtils.getExtend(originalFilename);// 获取文件扩展名
                     String fileName = originalFilename;
                     if (uploadFile.isRename()) {
-                        fileName = ResourceUtils.getFileName(originalFilename);
+                        fileName = FileUtils.getFileName(originalFilename);
                     }
                     String savePath = realPath + fileName;// 文件保存全路径
                     String fileprefixName = FileUtils.getFilePrefix(originalFilename);
@@ -345,7 +344,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
      */
     private ComboTree comboTree(Object obj, ComboTreeModel comboTreeModel, List in, boolean recursive) {
         ComboTree tree = new ComboTree();
-        Map<String, Object> attributes = new HashMap<String, Object>();
+        Map<String, String> attributes = new HashMap<>();
         ReflectHelper reflectHelper = new ReflectHelper(obj);
         String id = ConvertUtils.getString(reflectHelper.getMethodValue(comboTreeModel.getIdField()));
         tree.setId(id);
@@ -467,10 +466,10 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                 tg.setOperations(attributes.toString());
             }
             if (treeGridModel.getFieldMap() != null) {
-                tg.setFieldMap(new HashMap<String, Object>());
+                tg.setFieldMap(new HashMap<>());
                 for (Map.Entry<String, Object> entry : treeGridModel.getFieldMap().entrySet()) {
                     Object fieldValue = reflectHelper.getMethodValue(entry.getValue().toString());
-                    tg.getFieldMap().put(entry.getKey(), fieldValue);
+                    tg.getFieldMap().put(entry.getKey(), fieldValue.toString());
                 }
             }
             if (treeGridModel.getFunctionType() != null) {

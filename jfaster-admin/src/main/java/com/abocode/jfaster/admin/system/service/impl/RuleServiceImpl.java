@@ -32,8 +32,8 @@ public class RuleServiceImpl implements RuleService {
                 .findEntity(DataRule.class, operation.getId());
         String message = MutiLangUtils.paramDelSuccess("common.operation");
         userService.delete(operation);
-        systemService.addLog(message, Globals.Log_Type_DEL,
-                Globals.Log_Leavel_INFO);
+        systemService.addLog(message, Globals.LOG_TYPE_DEL,
+                Globals.LOG_LEVEL);
     }
 
     @Override
@@ -42,14 +42,14 @@ public class RuleServiceImpl implements RuleService {
         if (StrUtils.isNotEmpty(operation.getId())) {
             message = MutiLangUtils.paramUpdSuccess("common.operation");
             userService.saveOrUpdate(operation);
-            systemService.addLog(message, Globals.Log_Type_UPDATE,
-                    Globals.Log_Leavel_INFO);
+            systemService.addLog(message, Globals.LOG_TYPE_UPDATE,
+                    Globals.LOG_LEVEL);
         } else {
             if (justHaveDataRule(operation) == 0) {
                 message = MutiLangUtils.paramAddSuccess("common.operation");
                 userService.save(operation);
-                systemService.addLog(message, Globals.Log_Type_INSERT,
-                        Globals.Log_Leavel_INFO);
+                systemService.addLog(message, Globals.LOG_TYPE_INSERT,
+                        Globals.LOG_LEVEL);
             } else {
                 throw new BusinessException("操作 字段规则已存在");
             }

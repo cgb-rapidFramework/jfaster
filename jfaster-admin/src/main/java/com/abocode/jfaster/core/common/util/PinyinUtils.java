@@ -6,6 +6,9 @@ import net.sourceforge.pinyin4j.PinyinHelper;
  */
 @Slf4j
 public class PinyinUtils {
+    private PinyinUtils() {
+    }
+
     /**
      * 提取每个汉字的首字母
      *

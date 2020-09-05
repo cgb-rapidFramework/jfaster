@@ -7,7 +7,6 @@ import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.Autocomplete;
 import com.abocode.jfaster.core.common.util.BeanPropertyUtils;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
-import com.abocode.jfaster.core.persistence.hibernate.qbc.DetachedCriteriaUtil;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.HqlQuery;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.PageList;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.PagerUtil;
@@ -648,7 +647,7 @@ public    class HibernateCommonRepository<T extends Serializable>
 				hqlQuery.getPageSize());
 		query.setFirstResult(offset);
 		query.setMaxResults(hqlQuery.getPageSize());
-		List list = null;
+		List list;
 		if (isOffset) {
 			list = BeanPropertyUtils.toEntityList(query.list(),
 					hqlQuery.getClass1(), hqlQuery.getDataGridParam().getField()
@@ -738,11 +737,10 @@ public    class HibernateCommonRepository<T extends Serializable>
 		sql = JdbcDao.jeecgCreatePageSql(dbType,sql, page, rows);
 		List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql);
 
-		T po = null;
 		for (Map<String, Object> m : mapList) {
 			try {
-				po = clazz.newInstance();
-				BeanPropertyUtils.copyMap2Bean_Nobig(po, m);
+				T po = clazz.newInstance();
+				BeanPropertyUtils.copyObjectToMap(po, m);
 				rsList.add(po);
 			} catch (Exception e) {
 				log.error(e.getMessage());

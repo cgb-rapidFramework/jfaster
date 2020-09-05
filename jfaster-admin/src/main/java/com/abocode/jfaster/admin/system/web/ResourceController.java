@@ -154,7 +154,7 @@ public class ResourceController {
         String fileKey = ConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
         Assert.isTrue(StrUtils.isNotEmpty(fileKey),"文件已经不存在了");
         FileUpload attachment = systemService.findEntity(FileUpload.class,fileKey);
-        ResourceUtils.delete(ResourceUtils.getResourceLocalPath()+"/"+attachment.getPath());
+        FileUtils.deleteIfExists(FileUtils.getResourceLocalPath()+"/"+attachment.getPath());
         systemService.delete(attachment);
         String message = attachment.getName() + "删除成功";
         return AjaxJsonBuilder.success(message);

@@ -117,10 +117,10 @@ public class FunctionServiceImpl implements FunctionService {
                 + function.getId() + "'");
         systemService.delete(function);
 //        userService.delete(function);
-        systemService.addLog(message, Globals.Log_Type_DEL,
-                Globals.Log_Leavel_INFO);
-        systemService.addLog(message, Globals.Log_Type_DEL,
-                Globals.Log_Leavel_INFO);
+        systemService.addLog(message, Globals.LOG_TYPE_DEL,
+                Globals.LOG_LEVEL);
+        systemService.addLog(message, Globals.LOG_TYPE_DEL,
+                Globals.LOG_LEVEL);
     }
 
     @Override
@@ -128,8 +128,8 @@ public class FunctionServiceImpl implements FunctionService {
         Operation operation = systemService.findEntity(Operation.class, id);
         userService.delete(operation);
         String message = MutiLangUtils.paramDelSuccess("common.operation");
-        systemService.addLog(message, Globals.Log_Type_DEL,
-                Globals.Log_Leavel_INFO);
+        systemService.addLog(message, Globals.LOG_TYPE_DEL,
+                Globals.LOG_LEVEL);
     }
 
     /**
@@ -158,8 +158,8 @@ public class FunctionServiceImpl implements FunctionService {
         if (StrUtils.isNotEmpty(function.getId())) {
             message = MutiLangUtils.paramUpdSuccess("common.menu");
             userService.saveOrUpdate(function);
-            systemService.addLog(message, Globals.Log_Type_UPDATE,
-                    Globals.Log_Leavel_INFO);
+            systemService.addLog(message, Globals.LOG_TYPE_UPDATE,
+                    Globals.LOG_LEVEL);
             List<Function> subFunction = systemService.findAllByProperty(Function.class, "parentFunction.id", function.getId());
             updateSubFunction(subFunction, function);
             systemService.flushRoleFunciton(function.getId(), function);
@@ -167,8 +167,8 @@ public class FunctionServiceImpl implements FunctionService {
             function.setFunctionOrder(function.getFunctionOrder());
             message = MutiLangUtils.paramAddSuccess("common.menu");
             systemService.save(function);
-            systemService.addLog(message, Globals.Log_Type_INSERT,
-                    Globals.Log_Leavel_INFO);
+            systemService.addLog(message, Globals.LOG_TYPE_INSERT,
+                    Globals.LOG_LEVEL);
         }
 
     }
@@ -520,8 +520,8 @@ public class FunctionServiceImpl implements FunctionService {
             menuDataRules.add(dataRule);
             dataRoleSql.append(ObjectParseUtil.setSqlModel(dataRule));
         }
-        List<DataRule> dataRules = DataRuleUtils.installDataSearchConditon(menuDataRules);//菜单数据规则集合
-        String data = DataRuleUtils.installDataSearchConditon(dataRoleSql.toString());//菜单数据规则sql
+        List<DataRule> dataRules = DataRuleUtils.installDataSearchCondition(menuDataRules);//菜单数据规则集合
+        String data = DataRuleUtils.installDataSearchCondition(dataRoleSql.toString());//菜单数据规则sql
         return new DataRuleDto(dataRules, data);
     }
 

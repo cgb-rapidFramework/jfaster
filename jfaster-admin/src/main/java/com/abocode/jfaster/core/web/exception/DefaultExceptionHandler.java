@@ -28,16 +28,16 @@ import java.util.Set;
 /**
  * @author guanxf
  */
-/*@ControllerAdvice
-@ResponseBody*/
+@ControllerAdvice
+@ResponseBody
 @Slf4j
 public class DefaultExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public Object handleBusinessException(BusinessException exception) {
-        log.info("错误码：{},错误信息：{}", exception.getCode(), exception.getMessage(), exception);
-        return build(exception.getCode(), exception.getMessage());
+        log.info("错误码：{},错误信息：{}",  exception.getMessage(), exception);
+        return build(DefaultExceptionMessage.UNKNOWN.getCode(),  exception.getMessage());
     }
 
     @ExceptionHandler(DataAccessException.class)

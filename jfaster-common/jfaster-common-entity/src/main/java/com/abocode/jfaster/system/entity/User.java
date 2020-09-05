@@ -46,16 +46,16 @@ public class User extends AbstractIdEntity implements java.io.Serializable {
     private Org currentDepart = new Org();// 当前部门
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<UserOrg> userOrgList = new ArrayList<UserOrg>();
+    private List<UserOrg> userOrgList = new ArrayList<>();
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<RoleUser> roleUserList = new ArrayList<RoleUser>();
+    private List<RoleUser> roleUserList = new ArrayList<>();
     @JsonIgnore
     @Transient
-    private List<Org> orgs = new ArrayList<Org>();
+    private List<Org> orgs = new ArrayList<>();
     @JsonIgnore
     @Transient
-    private List<Role> roles = new ArrayList<Role>();
+    private List<Role> roles = new ArrayList<>();
 
     @Override
     public String toString() {

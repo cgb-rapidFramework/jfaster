@@ -13,7 +13,6 @@ import com.abocode.jfaster.system.entity.Org;
 import com.abocode.jfaster.system.entity.Role;
 import com.abocode.jfaster.system.entity.RoleUser;
 import com.abocode.jfaster.system.entity.User;
-import jdk.nashorn.internal.objects.NativeString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
@@ -87,7 +86,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         SessionShareCenter.putClient(client);
         ClientManager.getInstance().addClinet(session.getId(), client);
         // 添加登陆日志
-        systemService.addLog(message, Globals.Log_Type_LOGIN, Globals.Log_Leavel_INFO);
+        systemService.addLog(message, Globals.LOG_TYPE_LOGIN, Globals.LOG_LEVEL);
     }
 
 }

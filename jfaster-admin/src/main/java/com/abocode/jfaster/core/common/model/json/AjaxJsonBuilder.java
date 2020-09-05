@@ -1,6 +1,8 @@
 package com.abocode.jfaster.core.common.model.json;
 
 public class AjaxJsonBuilder {
+    private AjaxJsonBuilder() {
+    }
 
     public static AjaxJson success() {
         return new AjaxJson();
