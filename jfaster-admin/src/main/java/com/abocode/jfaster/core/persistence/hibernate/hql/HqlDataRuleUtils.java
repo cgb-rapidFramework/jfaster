@@ -1,7 +1,9 @@
-package com.abocode.jfaster.core.common.util;
+package com.abocode.jfaster.core.persistence.hibernate.hql;
 
 import com.abocode.jfaster.core.common.constants.Globals;
-import com.abocode.jfaster.system.entity.DataRule;
+import com.abocode.jfaster.core.common.util.ContextHolderUtils;
+import com.abocode.jfaster.core.persistence.hibernate.hql.vo.HqlDataRule;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -10,22 +12,18 @@ import java.util.List;
 /**
  * Created by Franky on 2016/3/15.
  */
-public class DataRuleUtils {
-    private DataRuleUtils() {
+public class HqlDataRuleUtils {
+    private HqlDataRuleUtils() {
     }
 
-    /**
-     * 往链接请求里面，传入数据查询条件
-     *
-     * @param dataRules
-     */
-    public static synchronized List<DataRule> installDataSearchCondition(List<DataRule> dataRules) {
-        List<DataRule> list = loadDataSearchConditonSQL();// 1.先从request获取MENU_DATA_AUTHOR_RULES，如果存则获取到LIST
+    public static synchronized List<HqlDataRule> installDataSearchCondition(List<HqlDataRule> hqlDataRules) {
+        // 1.先从request获取MENU_DATA_AUTHOR_RULES，如果存则获取到LIST
+        List<HqlDataRule> list = loadDataSearchConditonSQL();
         if (list == null) { // 2.如果不存在，则new一个list
             list = new ArrayList<>();
         }
-        for (DataRule tsDataRule : dataRules) {
-            list.add(tsDataRule);
+        if (!CollectionUtils.isEmpty(hqlDataRules)){
+            list.addAll(hqlDataRules);
         }
         return list;
     }
@@ -36,8 +34,8 @@ public class DataRuleUtils {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public static synchronized List<DataRule> loadDataSearchConditonSQL() {
-        return (List<DataRule>) ContextHolderUtils.getRequest().getAttribute(
+    public static synchronized List<HqlDataRule> loadDataSearchConditonSQL() {
+        return (List<HqlDataRule>) ContextHolderUtils.getRequest().getAttribute(
                 Globals.MENU_DATA_AUTHOR_RULES);
     }
 

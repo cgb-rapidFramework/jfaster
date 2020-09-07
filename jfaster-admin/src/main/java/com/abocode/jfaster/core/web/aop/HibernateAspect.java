@@ -2,7 +2,7 @@ package com.abocode.jfaster.core.web.aop;
 
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 
-import com.abocode.jfaster.core.web.utils.SessionUtils;
+import com.abocode.jfaster.admin.system.service.manager.SessionHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
@@ -26,7 +26,7 @@ public class HibernateAspect extends EmptyInterceptor {
 
 public boolean onSave(Object entity, Serializable id, Object[] state,
 		String[] propertyNames, Type[] types) {
-	User currentUser = SessionUtils.getCurrentUser();
+	User currentUser = SessionHolder.getCurrentUser();
 	if(currentUser==null){
 		return true;
 	}
@@ -49,7 +49,7 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 		     {
 		         /*使用拦截器将对象的"创建人"属性赋上值*/
 		    	 if(ConvertUtils.isEmpty(state[index])){
-		    		  state[index] = SessionUtils.getUserSystemData(DataBaseConstant.SYS_USER_CODE);
+		    		  state[index] = SessionHolder.getUserSystemData(DataBaseConstant.SYS_USER_CODE);
 		    	 }
 		         continue;
 		     }
@@ -58,7 +58,7 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 		     {
 		         /*使用拦截器将对象的"创建人名称"属性赋上值*/
 		    	 if(ConvertUtils.isEmpty(state[index])){
-		    		 state[index] = SessionUtils.getUserSystemData(DataBaseConstant.SYS_USER_NAME);
+		    		 state[index] = SessionHolder.getUserSystemData(DataBaseConstant.SYS_USER_NAME);
 		    	 }
 		         continue;
 		     }
@@ -67,7 +67,7 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 		     {
 		    	 /*使用拦截器将对象的"创建人名称"属性赋上值*/
 		    	 if(ConvertUtils.isEmpty(state[index])){
-		    		 state[index] = SessionUtils.getUserSystemData(DataBaseConstant.SYS_USER_CODE);
+		    		 state[index] = SessionHolder.getUserSystemData(DataBaseConstant.SYS_USER_CODE);
 		    	 }
 		    	 continue;
 		     }
@@ -76,7 +76,7 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 		     {
 		         /*使用拦截器将对象的"创建人部门"属性赋上值*/
 		    	 if(ConvertUtils.isEmpty(state[index])){
-		    		 state[index] = SessionUtils.getUserSystemData(DataBaseConstant.SYS_ORG_CODE);
+		    		 state[index] = SessionHolder.getUserSystemData(DataBaseConstant.SYS_ORG_CODE);
 		    	 }
 		         continue;
 		     }
@@ -85,7 +85,7 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 		     {
 		         /*使用拦截器将对象的"创建人部门"属性赋上值*/
 		    	 if(ConvertUtils.isEmpty(state[index])){
-		    		 state[index] = SessionUtils.getUserSystemData(DataBaseConstant.SYS_COMPANY_CODE);
+		    		 state[index] = SessionHolder.getUserSystemData(DataBaseConstant.SYS_COMPANY_CODE);
 		    	 }
 		         continue;
 		     }
@@ -100,7 +100,7 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 public boolean onFlushDirty(Object entity, Serializable id,
 		Object[] currentState, Object[] previousState,
 		String[] propertyNames, Type[] types) {
-	User currentUser = SessionUtils.getCurrentUser();
+	User currentUser = SessionHolder.getCurrentUser();
 	if(currentUser==null){
 		return true;
 	}
@@ -119,14 +119,14 @@ public boolean onFlushDirty(Object entity, Serializable id,
          else if (DataBaseConstant.UPDATE_BY.equals(propertyNames[index]))
          {
              /*使用拦截器将对象的"修改人"属性赋上值*/
-        	 currentState[index] = SessionUtils.getUserSystemData(DataBaseConstant.SYS_USER_CODE);
+        	 currentState[index] = SessionHolder.getUserSystemData(DataBaseConstant.SYS_USER_CODE);
         	 continue;
          }
          /*找到名为"修改人名称"的属性*/
          else if (DataBaseConstant.UPDATE_NAME.equals(propertyNames[index]))
          {
              /*使用拦截器将对象的"修改人名称"属性赋上值*/
-        	 currentState[index] = SessionUtils.getUserSystemData(DataBaseConstant.SYS_USER_NAME);
+        	 currentState[index] = SessionHolder.getUserSystemData(DataBaseConstant.SYS_USER_NAME);
         	 continue;
          }
      }

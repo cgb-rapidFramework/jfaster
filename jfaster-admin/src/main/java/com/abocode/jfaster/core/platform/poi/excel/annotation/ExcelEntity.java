@@ -21,6 +21,6 @@ public @interface ExcelEntity {
 	 *导出时的列名 导出排序跟定义了annotation的字段的顺序有关
 	 *可以使用a_id,b_id来确实是否使用
 	 */
-	public String exportName()  default "";
+	 String exportName()  default "";
 
 }

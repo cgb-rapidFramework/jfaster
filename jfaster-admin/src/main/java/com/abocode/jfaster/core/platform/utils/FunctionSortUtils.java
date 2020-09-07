@@ -71,11 +71,7 @@ class NumberComparator implements Comparator<Object>, Serializable {
                 if (ch1 >= '0' && ch2 <= '9') {
                     int i1 = getNumber(o1.substring(i));
                     int i2 = getNumber(o2.substring(i));
-                    if (i1 == i2) {
-                        continue;
-                    } else {
-                        return i1 - i2;
-                    }
+                    return i1 - i2;
                 } else if (ch1 != ch2) {
                     return ch1 - ch2;
                 }

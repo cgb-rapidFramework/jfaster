@@ -1,11 +1,14 @@
 package com.abocode.jfaster.core.persistence.hibernate.qbc;
 
+import lombok.Data;
+
 import java.util.Map;
 /**
  * 标签生成类(不使用分页标签)
  * @author jeecg
  * @version1.0
  */
+@Data
 public class Pager {
 	private int curPageNO = 1; // 当前页
 	private int pageSize; // 每页显示的记录数

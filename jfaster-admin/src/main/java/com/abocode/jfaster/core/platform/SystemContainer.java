@@ -10,13 +10,19 @@ import java.util.List;
 import java.util.Map;
 
 public class SystemContainer {
+    private SystemContainer() {
+    }
+
     /**
      * 图标
      *
      * @author guanxf
      */
     public final static class IconContainer {
-        private static Map<String, IconView> iconsMap = new HashMap<String, IconView>();
+        private IconContainer() {
+        }
+
+        private static Map<String, IconView> iconsMap = new HashMap<>();
 
         public static Map<String, IconView> getIconsMap() {
             return iconsMap;
@@ -32,8 +38,11 @@ public class SystemContainer {
      * 字典
      */
     public final static class TypeGroupContainer {
-        private static Map<String, TypeGroupView> typeGroupMap = new HashMap<String, TypeGroupView>();
-        private static Map<String, List<TypeView>> typeMap = new HashMap<String, List<TypeView>>();
+        private TypeGroupContainer() {
+        }
+
+        private static Map<String, TypeGroupView> typeGroupMap = new HashMap<>();
+        private static Map<String, List<TypeView>> typeMap = new HashMap<>();
 
         public static Map<String, TypeGroupView> getTypeGroupMap() {
             return typeGroupMap;
@@ -58,7 +67,10 @@ public class SystemContainer {
      * @author guanxf
      */
     public final static class OperationContainer {
-        private static Map<String, OperationView> operationMap = new HashMap<String, OperationView>();
+        private OperationContainer() {
+        }
+
+        private static Map<String, OperationView> operationMap = new HashMap<>();
 
         public static Map<String, OperationView> getOperationMap() {
             return operationMap;
@@ -75,7 +87,10 @@ public class SystemContainer {
      * @author guanxf
      */
     public final static class TemplateContainer {
-        private static Map<String, String> template = new HashMap<String, String>();
+        private TemplateContainer() {
+        }
+
+        private static Map<String, String> template = new HashMap<>();
 
         public static String getTemplate() {
             return template.get("SYSTEM-TEMPLATE");

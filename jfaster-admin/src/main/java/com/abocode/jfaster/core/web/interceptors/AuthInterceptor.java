@@ -5,15 +5,14 @@ import com.abocode.jfaster.admin.system.service.FunctionService;
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.constants.Globals;
-import com.abocode.jfaster.core.web.manager.ClientBean;
-import com.abocode.jfaster.core.web.manager.ClientManager;
+import com.abocode.jfaster.admin.system.service.manager.ClientBean;
+import com.abocode.jfaster.admin.system.service.manager.ClientManager;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.core.common.util.ConfigUtils;
 import com.abocode.jfaster.system.entity.Function;
 import com.abocode.jfaster.system.entity.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -42,15 +41,6 @@ public class AuthInterceptor implements HandlerInterceptor {
         this.excludeUrls = excludeUrls;
     }
 
-    /**
-     * 在controller后拦截
-     */
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object object, Exception exception) throws Exception {
-    }
-
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object object, ModelAndView modelAndView) throws Exception {
-
-    }
 
     /**
      * 在controller前拦截
@@ -105,7 +95,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             Set<String> dataRuleCodes = systemService.getOperationCodesByUserIdAndDataId(client.getUser().getId(), functionId);
             request.setAttribute("dataRulecodes", dataRuleCodes);
             DataRuleDto dataRuleDto = functionService.installDataRule(dataRuleCodes);
-            request.setAttribute(Globals.MENU_DATA_AUTHOR_RULES, dataRuleDto.getDataRules()); // 3.往list里面增量存指
+            request.setAttribute(Globals.MENU_DATA_AUTHOR_RULES, dataRuleDto.getHqlDataRules()); // 3.往list里面增量存指
             request.setAttribute(Globals.MENU_DATA_AUTHOR_RULE_SQL, dataRuleDto.getRuleSql());// 3.往sql串里面增量拼新的条件
             return true;
         } else {

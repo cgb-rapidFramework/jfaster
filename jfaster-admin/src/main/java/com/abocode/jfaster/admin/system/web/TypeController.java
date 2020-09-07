@@ -5,6 +5,7 @@ import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
+import com.abocode.jfaster.core.persistence.hibernate.hql.HqlGenerateUtil;
 import com.abocode.jfaster.core.repository.DataGridData;
 import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
@@ -12,8 +13,6 @@ import com.abocode.jfaster.core.common.model.json.ValidForm;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
 import com.abocode.jfaster.core.common.util.StrUtils;
-import com.abocode.jfaster.core.persistence.jdbc.SqlUtil;
-import com.abocode.jfaster.core.persistence.hibernate.hql.PageValueConvertRuleEnum;
 import com.abocode.jfaster.core.persistence.hibernate.hql.vo.HqlRuleEnum;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.system.entity.Type;
@@ -151,11 +150,9 @@ public class TypeController {
             cq = new CriteriaQuery(TypeGroup.class);
             String typegroupcode = request.getParameter("typegroupcode");
             if (typegroupcode != null) {
-                HqlRuleEnum rule = PageValueConvertRuleEnum
-                        .convert(typegroupcode);
-                Object value = PageValueConvertRuleEnum.replaceValue(rule,
-                        typegroupcode);
-                SqlUtil.addCriteria(cq, "typegroupcode", rule, value);
+                HqlRuleEnum rule = HqlRuleEnum.convert(typegroupcode);
+                Object value = HqlRuleEnum.replaceValue(rule, typegroupcode);
+                HqlGenerateUtil.addCriteria(cq, "typegroupcode", rule, value);
                 cq.add();
             }
             String typegroupname = request.getParameter("typegroupname");

@@ -6,7 +6,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import com.abocode.jfaster.core.web.manager.ClientManager;
+import com.abocode.jfaster.admin.system.service.manager.ClientManager;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;

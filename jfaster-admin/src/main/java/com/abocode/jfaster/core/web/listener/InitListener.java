@@ -12,10 +12,6 @@ import javax.servlet.ServletContextListener;
  * 系统初始化监听器,在系统启动时运行,进行一些初始化工作
  */
 public class InitListener implements ServletContextListener {
-    @Override
-    public void contextDestroyed(ServletContextEvent arg0) {
-
-    }
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
@@ -23,6 +19,10 @@ public class InitListener implements ServletContextListener {
         WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(event.getServletContext());
         InitService initService = webApplicationContext.getBean(InitService.class);
         initService.contextInitialized();
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent servletContextEvent) {
     }
 
 }

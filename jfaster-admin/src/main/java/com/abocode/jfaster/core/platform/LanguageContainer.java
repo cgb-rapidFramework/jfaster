@@ -10,6 +10,9 @@ import java.util.Map;
  * 语言容器
  */
 public class LanguageContainer {
+    private LanguageContainer() {
+    }
+
     private static Map<String, String> LanguageMap = new HashMap<String, String>();
     //FunctionName的keymap
     private static Map<String, String> LanguageKeyCodeMap = new HashMap<String, String>();

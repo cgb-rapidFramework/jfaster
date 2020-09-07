@@ -14,12 +14,11 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.transform.Transformers;
 import org.hibernate.type.Type;
 import org.springframework.util.StringUtils;
 
 @Data
-public class CriteriaQuery {
+public class CriteriaQuery<T> {
     /**
      * 当前页
      */
@@ -63,41 +62,41 @@ public class CriteriaQuery {
      * 查询需要显示的字段
      */
     private String field = "";
-    private Class entityClass;
+    private Class<T> entityClass;
     /***
      * 结果集
      */
-    private List results;
+    private List<T> results;
     private int total;
     private DataGridParam dataGridParam;
     /****
      * 保存创建的aliasName 防止重复创建
      */
-    private List<String> alias = new ArrayList();
+    private List<String> alias = new ArrayList<>();
 
-    public CriteriaQuery(Class c) {
+    public CriteriaQuery(Class<T> c) {
         this.detachedCriteria = DetachedCriteria.forClass(c);
     }
 
-    public CriteriaQuery(Class c, int page, String myAction, String myForm) {
+    public CriteriaQuery(Class<T> c, int page, String myAction, String myForm) {
         this.page = page;
         this.myAction = myAction;
         this.myForm = myForm;
         this.detachedCriteria = DetachedCriteria.forClass(c);
     }
 
-    public CriteriaQuery(Class c, int page, String myAction) {
+    public CriteriaQuery(Class<T> c, int page, String myAction) {
         this.myAction = myAction;
         this.page = page;
         this.detachedCriteria = DetachedCriteria.forClass(c);
     }
 
-    public CriteriaQuery(Class entityClass, int page) {
+    public CriteriaQuery(Class<T> entityClass, int page) {
         this.page = page;
         this.detachedCriteria = DetachedCriteria.forClass(entityClass);
     }
 
-    public CriteriaQuery(Class c, int size, int page,
+    public CriteriaQuery(Class<T> c, int size, int page,
                          String myAction, String myForm) {
         this.size = size;
         this.page = page;
@@ -129,15 +128,6 @@ public class CriteriaQuery {
         getCriterionList().removeAll(getCriterionList());
     }
 
-
-    public void createCriteria(String name) {
-        detachedCriteria.createCriteria(name);
-    }
-
-    public void createCriteria(String name, String value) {
-        detachedCriteria.createCriteria(name, value);
-    }
-
     /**
      * 创建外键表关联对象
      *
@@ -151,9 +141,6 @@ public class CriteriaQuery {
         }
     }
 
-    public void setResultTransformer(Class class1) {
-        detachedCriteria.setResultTransformer(Transformers.aliasToBean(class1));
-    }
 
     public void setProjection(Property property) {
         detachedCriteria.setProjection(property);
@@ -168,7 +155,7 @@ public class CriteriaQuery {
      *               表示法cq.add(cq.or(cq.and(cq, 0, 1), cq, 2))
      * @return
      */
-    public Criterion and(CriteriaQuery query, int source, int dest) {
+    public Criterion and(CriteriaQuery<T> query, int source, int dest) {
         return Restrictions.and(query.getCriterionList().getParas(source),
                 query.getCriterionList().getParas(dest));
     }
@@ -182,7 +169,7 @@ public class CriteriaQuery {
      *              1));
      * @return
      */
-    public Criterion and(Criterion c, CriteriaQuery query, int souce) {
+    public Criterion and(Criterion c, CriteriaQuery<T> query, int souce) {
         return Restrictions.and(c, query.getCriterionList().getParas(souce));
     }
 
@@ -196,7 +183,7 @@ public class CriteriaQuery {
         c1 = list.getParas(0);
         for (int i = 1; i < list.size(); i++) {
             c2 = list.getParas(i);
-            c3 = getor(c1, c2);
+            c3 = or(c1, c2);
             c1 = c3;
         }
         return c3;
@@ -209,7 +196,7 @@ public class CriteriaQuery {
      * @param c2
      * @return
      */
-    public Criterion getor(Criterion c1, Criterion c2) {
+    public Criterion or(Criterion c1, Criterion c2) {
         return Restrictions.or(c1, c2);
     }
 
@@ -233,7 +220,7 @@ public class CriteriaQuery {
      * @param dest   条件2
      * @return
      */
-    public Criterion or(CriteriaQuery query, int source, int dest) {
+    public Criterion or(CriteriaQuery<T> query, int source, int dest) {
         return Restrictions.or(query.getCriterionList().getParas(source), query
                 .getCriterionList().getParas(dest));
     }
@@ -245,22 +232,8 @@ public class CriteriaQuery {
      * @param query  1
      * @param source
      */
-    public Criterion or(Criterion c, CriteriaQuery query, int source) {
+    public Criterion or(Criterion c, CriteriaQuery<T> query, int source) {
         return Restrictions.or(c, query.getCriterionList().getParas(source));
-    }
-
-    /**
-     * 设置or(Criterion c1, Criterion c2)（或）查询条件
-     *
-     * @param c1
-     * @param c2 两个条件或查询： Restrictions.or(Restrictions.in("username",list1),
-     *           Restrictions.idEq(1)); 三个或多个条件查询:（使用嵌套方式）
-     *           criteria.add(Restrictions
-     *           .or(Restrictions.in("username",list1),
-     *           Restrictions.or(Restrictions.idEq(3), Restrictions.idEq(4))));
-     */
-    public void or(Criterion c1, Criterion c2) {
-        this.detachedCriteria.add(Restrictions.or(c1, c2));
     }
 
     /**
@@ -283,7 +256,7 @@ public class CriteriaQuery {
     public void setOrder(Map<String, Object> map) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             judgecreateAlias(entry.getKey());
-            if (SortDirection.asc.equals(entry.getValue())) {
+            if (SortDirection.ASC.equals(entry.getValue())) {
                 detachedCriteria.addOrder(Order.asc(entry.getKey()));
             } else {
                 detachedCriteria.addOrder(Order.desc(entry.getKey()));
@@ -307,14 +280,14 @@ public class CriteriaQuery {
     /**
      * 设置eq(相等)查询条件
      *
-     * @param keyname  :字段名
-     * @param keyvalue ：字段值
+     * @param keyName  :字段名
+     * @param keyValue ：字段值
      */
-    public void eq(String keyname, Object keyvalue) {
-        if (!StringUtils.isEmpty(keyvalue)) {
-            criterionList.addPara(Restrictions.eq(keyname, keyvalue));
+    public void eq(String keyName, Object keyValue) {
+        if (!StringUtils.isEmpty(keyValue)) {
+            criterionList.addPara(Restrictions.eq(keyName, keyValue));
             if (flag) {
-                this.put(keyname, keyvalue);
+                this.put(keyName, keyValue);
             }
             flag = true;
         }
@@ -323,14 +296,14 @@ public class CriteriaQuery {
     /**
      * 设置notEq(不等)查询条件
      *
-     * @param keyname
-     * @param keyvalue
+     * @param keyName
+     * @param keyValue
      */
-    public void notEq(String keyname, Object keyvalue) {
-        if (!StringUtils.isEmpty(keyvalue)) {
-            criterionList.addPara(Restrictions.ne(keyname, keyvalue));
+    public void notEq(String keyName, Object keyValue) {
+        if (!StringUtils.isEmpty(keyValue)) {
+            criterionList.addPara(Restrictions.ne(keyName, keyValue));
             if (flag) {
-                this.put(keyname, keyvalue);
+                this.put(keyName, keyValue);
             }
             flag = true;
         }
@@ -339,15 +312,15 @@ public class CriteriaQuery {
     /**
      * 设置like(模糊)查询条件
      *
-     * @param keyname
-     * @param keyvalue
+     * @param keyName
+     * @param keyValue
      */
-    public void like(String keyname, Object keyvalue) {
-        if (!StringUtils.isEmpty(keyvalue)) {
-            Criterion criterion = Restrictions.ilike(keyname, keyvalue);
+    public void like(String keyName, Object keyValue) {
+        if (!StringUtils.isEmpty(keyValue)) {
+            Criterion criterion = Restrictions.ilike(keyName, keyValue);
             criterionList.addPara(criterion);
             if (flag) {
-                this.put(keyname, keyvalue);
+                this.put(keyName, keyValue);
             }
             flag = true;
         }
@@ -356,14 +329,14 @@ public class CriteriaQuery {
     /**
      * 设置gt(>)查询条件
      *
-     * @param keyname
-     * @param keyvalue
+     * @param keyName
+     * @param keyValue
      */
-    public void gt(String keyname, Object keyvalue) {
-        if (!StringUtils.isEmpty(keyvalue)) {
-            criterionList.addPara(Restrictions.gt(keyname, keyvalue));
+    public void gt(String keyName, Object keyValue) {
+        if (!StringUtils.isEmpty(keyValue)) {
+            criterionList.addPara(Restrictions.gt(keyName, keyValue));
             if (flag) {
-                this.put(keyname, keyvalue);
+                this.put(keyName, keyValue);
             }
             flag = true;
         }
@@ -372,14 +345,14 @@ public class CriteriaQuery {
     /**
      * 设置lt(<)查询条件
      *
-     * @param keyname
-     * @param keyvalue
+     * @param keyName
+     * @param keyValue
      */
-    public void lt(String keyname, Object keyvalue) {
-        if (!StringUtils.isEmpty(keyvalue)) {
-            criterionList.addPara(Restrictions.lt(keyname, keyvalue));
+    public void lt(String keyName, Object keyValue) {
+        if (!StringUtils.isEmpty(keyValue)) {
+            criterionList.addPara(Restrictions.lt(keyName, keyValue));
             if (flag) {
-                this.put(keyname, keyvalue);
+                this.put(keyName, keyValue);
             }
             flag = true;
         }
@@ -388,14 +361,14 @@ public class CriteriaQuery {
     /**
      * 设置le(<=)查询条件
      *
-     * @param keyname
-     * @param keyvalue
+     * @param keyName
+     * @param keyValue
      */
-    public void le(String keyname, Object keyvalue) {
-        if (!StringUtils.isEmpty(keyvalue)) {
-            criterionList.addPara(Restrictions.le(keyname, keyvalue));
+    public void le(String keyName, Object keyValue) {
+        if (!StringUtils.isEmpty(keyValue)) {
+            criterionList.addPara(Restrictions.le(keyName, keyValue));
             if (flag) {
-                this.put(keyname, keyvalue);
+                this.put(keyName, keyValue);
             }
             flag = true;
         }
@@ -404,14 +377,14 @@ public class CriteriaQuery {
     /**
      * 设置ge(>=)查询条件
      *
-     * @param keyname
-     * @param keyvalue
+     * @param keyName
+     * @param keyValue
      */
-    public void ge(String keyname, Object keyvalue) {
-        if (!StringUtils.isEmpty(keyvalue)) {
-            criterionList.addPara(Restrictions.ge(keyname, keyvalue));
+    public void ge(String keyName, Object keyValue) {
+        if (!StringUtils.isEmpty(keyValue)) {
+            criterionList.addPara(Restrictions.ge(keyName, keyValue));
             if (flag) {
-                this.put(keyname, keyvalue);
+                this.put(keyName, keyValue);
             }
             flag = true;
         }
@@ -420,61 +393,61 @@ public class CriteriaQuery {
     /**
      * 设置in(包含)查询条件
      *
-     * @param keyname
-     * @param keyname
-     * @param keyvalue
+     * @param keyName
+     * @param keyName
+     * @param keyValue
      */
-    public void in(String keyname, Object[] keyvalue) {
-        if (!StringUtils.isEmpty(keyvalue)) {
-            criterionList.addPara(Restrictions.in(keyname, keyvalue));
+    public void in(String keyName, Object[] keyValue) {
+        if (!StringUtils.isEmpty(keyValue)) {
+            criterionList.addPara(Restrictions.in(keyName, keyValue));
         }
     }
 
     /**
      * 设置isNull查询条件
      *
-     * @param keyname
+     * @param keyName
      */
-    public void isNull(String keyname) {
-        criterionList.addPara(Restrictions.isNull(keyname));
+    public void isNull(String keyName) {
+        criterionList.addPara(Restrictions.isNull(keyName));
     }
 
     /**
      * 设置isNull查询条件
      *
-     * @param keyname
+     * @param keyName
      */
-    public void isNotNull(String keyname) {
-        criterionList.addPara(Restrictions.isNotNull(keyname));
+    public void isNotNull(String keyName) {
+        criterionList.addPara(Restrictions.isNotNull(keyName));
     }
 
     /**
      * 保存查询条件
      *
-     * @param keyname
-     * @param keyvalue
+     * @param keyName
+     * @param keyValue
      */
-    public void put(String keyname, Object keyvalue) {
-        if (!StringUtils.isEmpty(keyvalue)) {
-            map.put(keyname, keyvalue);
+    public void put(String keyName, Object keyValue) {
+        if (!StringUtils.isEmpty(keyValue)) {
+            map.put(keyName, keyValue);
         }
     }
 
     /**
      * 设置between(之间)查询条件
      *
-     * @param keyname
+     * @param keyName
      * @param keyValue1
      * @param keyValue2
      */
-    public void between(String keyname, Object keyValue1, Object keyValue2) {
+    public void between(String keyName, Object keyValue1, Object keyValue2) {
         Criterion c = null;
         if (keyValue1 != null && keyValue2 != null) {
-            c = Restrictions.between(keyname, keyValue1, keyValue2);
+            c = Restrictions.between(keyName, keyValue1, keyValue2);
         } else if (keyValue1 != null) {
-            c = Restrictions.ge(keyname, keyValue1);
+            c = Restrictions.ge(keyName, keyValue1);
         } else if (keyValue2 != null) {
-            c = Restrictions.le(keyname, keyValue2);
+            c = Restrictions.le(keyName, keyValue2);
         }
         criterionList.add(c);
     }
@@ -495,7 +468,7 @@ public class CriteriaQuery {
         return map;
     }
 
-    public CriteriaQuery buildParameters(Object query, Map<String, String[]> parameterMap, DataGridParam dataGridParam) {
+    public CriteriaQuery<T> buildParameters(Object query, Map<String, String[]> parameterMap, DataGridParam dataGridParam) {
         this.page = dataGridParam.getPage();
         this.field = dataGridParam.getField();
         this.dataGridParam = dataGridParam;
@@ -504,7 +477,7 @@ public class CriteriaQuery {
         return this;
     }
 
-    public CriteriaQuery buildParameters(Object query,  DataGridParam dataGridParam) {
+    public CriteriaQuery<T> buildParameters(Object query, DataGridParam dataGridParam) {
         this.page = dataGridParam.getPage();
         this.field = dataGridParam.getField();
         this.dataGridParam = dataGridParam;
@@ -513,7 +486,7 @@ public class CriteriaQuery {
         return this;
     }
 
-    public CriteriaQuery buildDataGrid(DataGridParam dg) {
+    public CriteriaQuery<T> buildDataGrid(DataGridParam dg) {
         this.page = dg.getPage();
         this.field = dg.getField();
         this.dataGridParam = dg;

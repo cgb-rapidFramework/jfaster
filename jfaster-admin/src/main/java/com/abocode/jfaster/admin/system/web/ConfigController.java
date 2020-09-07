@@ -8,7 +8,7 @@ import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.system.entity.Config;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
-import com.abocode.jfaster.core.web.utils.SessionUtils;
+import com.abocode.jfaster.admin.system.service.manager.SessionHolder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -99,7 +99,7 @@ public class ConfigController{
 				message = "编码为: " + tsConfig.getCode() + "的配置信息已存在";
 			}else{
 				tsConfig=systemService.findEntity(Config.class,configDto.getId());
-				tsConfig.setUser(SessionUtils.getCurrentUser());
+				tsConfig.setUser(SessionHolder.getCurrentUser());
 				systemService.save(tsConfig);
 				message = NAME + tsConfig.getName() + "被添加成功";
 				systemService.addLog(message, Globals.LOG_TYPE_INSERT,

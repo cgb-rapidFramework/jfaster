@@ -47,7 +47,8 @@ public class JdbcDao extends SimpleJdbcTemplate{
 	 * @param parameters 参数集合(key为参数名，value为参数值)
 	 * @return bean对象集合
 	 */
-	public List find(String sql,Class clazz,Map parameters){
+	@Override
+	public List find(String sql, Class clazz, Map parameters){
 		return super.find(sql,clazz,parameters);
 	}
 	
@@ -58,6 +59,7 @@ public class JdbcDao extends SimpleJdbcTemplate{
 	 * @param parameters 参数集合(key为参数名，value为参数值)
 	 * @return bean对象
 	 */
+	@Override
 	public Object findForObject(String sql,Class clazz,Map parameters){
 		return super.findForObject(sql, clazz, parameters);
 	}
@@ -68,6 +70,7 @@ public class JdbcDao extends SimpleJdbcTemplate{
 	 * @param parameters 参数集合(key为参数名，value为参数值)
 	 * @return bean对象
 	 */
+	@Override
 	public long findForLong(String sql,Map parameters){
 		return super.findForLong(sql, parameters);
 	}
@@ -78,6 +81,7 @@ public class JdbcDao extends SimpleJdbcTemplate{
 	 * @param parameters 参数集合(key为参数名，value为参数值)
 	 * @return bean对象
 	 */
+	@Override
 	public Map findForMap(String sql,Map parameters){
 		return super.findForMap(sql, parameters);
 	}
@@ -88,6 +92,7 @@ public class JdbcDao extends SimpleJdbcTemplate{
 	 * @param parameters 参数集合(key为参数名，value为参数值)
 	 * @return bean对象
 	 */
+	@Override
 	public List<Map<String,Object>> findForListMap(String sql,Map parameters){
 		return super.findForListMap(sql, parameters);
 	}
@@ -99,6 +104,7 @@ public class JdbcDao extends SimpleJdbcTemplate{
 	 * @param sql
 	 * @param bean
 	 */
+	@Override
 	public int executeForObject(String sql,Object bean){
 		return super.executeForObject(sql, bean);
 	}
@@ -110,6 +116,7 @@ public class JdbcDao extends SimpleJdbcTemplate{
 	 * @param sql
 	 * @param parameters
 	 */
+	@Override
 	public int executeForMap(String sql,Map parameters){
 		return super.executeForMap(sql, parameters);
 	}
@@ -118,6 +125,7 @@ public class JdbcDao extends SimpleJdbcTemplate{
 	 * 例如：update t_actor set first_name = :firstName, last_name = :lastName where id = :id
 	 * 参数用冒号
 	 */
+	@Override
 	public int[] batchUpdate(final String sql,List<Object[]> batch ){
         return super.batchUpdate(sql,batch);
 	}

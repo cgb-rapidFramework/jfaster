@@ -12,7 +12,7 @@ import com.abocode.jfaster.core.platform.SystemContainer.IconContainer;
 import com.abocode.jfaster.core.platform.SystemContainer.TypeGroupContainer;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
-import com.abocode.jfaster.core.web.utils.SessionUtils;
+import com.abocode.jfaster.admin.system.service.manager.SessionHolder;
 import com.abocode.jfaster.system.entity.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -43,7 +43,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 		log.setNote(ConvertUtils.getIp());
 		log.setBroswer(broswer);
 		log.setOperationTime(DateUtils.getTimestamp());
-		log.setUserId(SessionUtils.getCurrentUser().getId());
+		log.setUserId(SessionHolder.getCurrentUser().getId());
 		saveOrUpdate(log);
 	}
 
@@ -191,7 +191,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 		if (!oldIcon.getIconClazz().equals(newFunction.getIcon().getIconClazz())) {
 			// 刷新缓存
 			HttpSession session = ContextHolderUtils.getSession();
-			User user = SessionUtils.getCurrentUser();
+			User user = SessionHolder.getCurrentUser();
 			List<RoleUser> rUsers = this.findAllByProperty(RoleUser.class, USER_ID, user.getId());
 			for (RoleUser ru : rUsers) {
 				Role role = ru.getRole();

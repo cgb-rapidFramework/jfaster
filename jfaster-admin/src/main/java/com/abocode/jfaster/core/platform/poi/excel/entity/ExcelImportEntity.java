@@ -1,12 +1,10 @@
 package com.abocode.jfaster.core.platform.poi.excel.entity;
 
+import lombok.Data;
+
 import java.lang.reflect.Method;
 import java.util.List;
-/**
- * excel 导入工具类,对cell类型做映射
- * @author jueyue
- * @version 1.0 2013年8月24日
- */
+@Data
 public class ExcelImportEntity {
 	/**
 	 * 对应exportName

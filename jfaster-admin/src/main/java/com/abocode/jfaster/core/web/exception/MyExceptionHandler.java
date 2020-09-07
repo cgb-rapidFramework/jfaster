@@ -1,7 +1,5 @@
 package com.abocode.jfaster.core.web.exception;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +23,7 @@ public class MyExceptionHandler implements HandlerExceptionResolver {
 	public ModelAndView resolveException(HttpServletRequest request,
 										 HttpServletResponse response, Object handler, Exception ex) {
 		log.error("服务器异常，异常信息为：",ex);
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model = new HashMap<>();
 		model.put("exceptionMessage", "服务器异常");
 		model.put("ex", ex);
 		return new ModelAndView("common/error", model);

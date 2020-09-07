@@ -1,12 +1,11 @@
 package com.abocode.jfaster.core.platform.poi.excel.entity;
 
+import lombok.Data;
+
 /**
  * 导入参数设置
- * 
- * @author JueYue
- * @date 2013-9-24
- * @version 1.0
  */
+@Data
 public class ImportParams {
 	/**
 	 * 表格标题行数,默认0
@@ -40,61 +39,4 @@ public class ImportParams {
 	 * 保存名称上传时间_五位随机数
 	 */
 	private String saveUrl = "upload/excelUpload";
-
-	public int getTitleRows() {
-		return titleRows;
-	}
-
-	public void setTitleRows(int titleRows) {
-		this.titleRows = titleRows;
-	}
-
-	public int getSecondTitleRows() {
-		return secondTitleRows;
-	}
-
-	public void setSecondTitleRows(int secondTitleRows) {
-		this.secondTitleRows = secondTitleRows;
-	}
-
-	public int getStartRows() {
-		return startRows;
-	}
-
-	public void setStartRows(int startRows) {
-		this.startRows = startRows;
-	}
-
-	public int getSheetNum() {
-		return sheetNum;
-	}
-
-	public void setSheetNum(int sheetNum) {
-		this.sheetNum = sheetNum;
-	}
-
-	public int getKeyIndex() {
-		return keyIndex;
-	}
-
-	public void setKeyIndex(int keyIndex) {
-		this.keyIndex = keyIndex;
-	}
-
-	public boolean isNeedSave() {
-		return needSave;
-	}
-
-	public void setNeedSave(boolean needSave) {
-		this.needSave = needSave;
-	}
-
-	public String getSaveUrl() {
-		return saveUrl;
-	}
-
-	public void setSaveUrl(String saveUrl) {
-		this.saveUrl = saveUrl;
-	}
-
 }

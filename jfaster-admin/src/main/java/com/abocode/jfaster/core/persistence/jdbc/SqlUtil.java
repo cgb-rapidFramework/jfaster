@@ -1,6 +1,6 @@
 package com.abocode.jfaster.core.persistence.jdbc;
 import com.abocode.jfaster.core.persistence.hibernate.hql.vo.HqlRuleEnum;
-import com.abocode.jfaster.core.web.utils.SessionUtils;
+import com.abocode.jfaster.admin.system.service.manager.SessionHolder;
 import org.springframework.util.StringUtils;
 
 /**
@@ -18,7 +18,7 @@ public class SqlUtil {
         } else {
             valueTemp = value;
         }
-        String param = SessionUtils.getUserSystemData(valueTemp) == null ? valueTemp : SessionUtils.getUserSystemData(valueTemp);//将系统变量
+        String param = SessionHolder.getUserSystemData(valueTemp) == null ? valueTemp : SessionHolder.getUserSystemData(valueTemp);//将系统变量
         return buildSqlValue(column,condition, param);
     }
 

@@ -644,7 +644,7 @@ public    class HibernateCommonRepository<T extends Serializable>
 		List list;
 		if (isOffset) {
 			list = BeanPropertyUtils.toEntityList(query.list(),
-					hqlQuery.getClass1(), hqlQuery.getDataGridParam().getField()
+					hqlQuery.getClazz(), hqlQuery.getDataGridParam().getField()
 							.split(","));
 		} else {
 			list = query.list();

@@ -1,8 +1,6 @@
 package com.abocode.jfaster.core.persistence.jdbc;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.util.Assert;
@@ -13,6 +11,7 @@ import java.util.Map;
 
 @Slf4j
 public class SimpleJdbcTemplate {
+	public static final String SQL_ERROR = "SQL_ERROR";
 	protected JdbcTemplate jdbcTemplate;
 	public SimpleJdbcTemplate(DataSource dataSource){
 		jdbcTemplate=new JdbcTemplate(dataSource);
@@ -28,7 +27,7 @@ public class SimpleJdbcTemplate {
 	 * @return bean对象集合
 	 */
 	public List find(final String sql,Class clazz,Map parameters){
-		Assert.hasText(sql,"sql语句不正确!");
+		Assert.hasText(sql, SQL_ERROR);
 		Assert.notNull(clazz,"集合中对象类型不能为空!");
 		if(parameters!=null){
 			return jdbcTemplate.queryForList(sql,  parameters);
@@ -49,7 +48,7 @@ public class SimpleJdbcTemplate {
 	 */
 	public Object findForObject(final String sql,Class clazz,Map parameters){
 		try{
-			Assert.hasText(sql,"sql语句不正确!");
+			Assert.hasText(sql,SQL_ERROR);
 			Assert.notNull(clazz,"集合中对象类型不能为空!");
 			if(parameters!=null){
 
@@ -72,7 +71,7 @@ public class SimpleJdbcTemplate {
 	 */
 	public long findForLong(final String sql,Map parameters){
 		try{
-			Assert.hasText(sql,"sql语句不正确!");
+			Assert.hasText(sql,SQL_ERROR);
 			if(parameters!=null){
 				return jdbcTemplate.queryForObject(sql,Long.class, parameters);
 			}else{
@@ -93,7 +92,7 @@ public class SimpleJdbcTemplate {
 	 */
 	public Map findForMap(final String sql,Map parameters){
 		try{
-			Assert.hasText(sql,"sql语句不正确!");
+			Assert.hasText(sql,SQL_ERROR);
 			if(parameters!=null){
 				return jdbcTemplate.queryForMap(sql, parameters);
 			}else{
@@ -113,15 +112,11 @@ public class SimpleJdbcTemplate {
 	 * @return bean对象
 	 */
 	public List<Map<String,Object>> findForListMap(final String sql,Map parameters){
-		try{
-			Assert.hasText(sql,"sql语句不正确!");
-			if(parameters!=null){
-				return jdbcTemplate.queryForList(sql, parameters);
-			}else{
-				return jdbcTemplate.queryForList(sql);
-			}
-		}catch (Exception e) {
-			return null;
+		Assert.hasText(sql,SQL_ERROR);
+		if(parameters!=null){
+			return jdbcTemplate.queryForList(sql, parameters);
+		}else{
+			return jdbcTemplate.queryForList(sql);
 		}
 	}
 	
@@ -133,7 +128,7 @@ public class SimpleJdbcTemplate {
 	 * @param bean
 	 */
 	public int executeForObject(final String sql,Object bean){
-		Assert.hasText(sql,"sql语句不正确!");
+		Assert.hasText(sql,SQL_ERROR);
 		if(bean!=null){
 			return jdbcTemplate.update(sql, paramBeanMapper(bean));
 		}else{
@@ -149,7 +144,7 @@ public class SimpleJdbcTemplate {
 	 * @param parameters
 	 */
 	public int executeForMap(final String sql,Map parameters){
-		Assert.hasText(sql,"sql语句不正确!");
+		Assert.hasText(sql,SQL_ERROR);
 		if(parameters!=null){
 			return jdbcTemplate.update(sql, parameters);
 		}else{
@@ -158,7 +153,7 @@ public class SimpleJdbcTemplate {
 	}
 	
 	public long executeForObjectReturnPk(final String sql,Object bean){
-		Assert.hasText(sql,"sql语句不正确!");
+		Assert.hasText(sql,SQL_ERROR);
 		if(bean!=null){
 			return jdbcTemplate.update(sql, paramBeanMapper(bean));
 		}else{

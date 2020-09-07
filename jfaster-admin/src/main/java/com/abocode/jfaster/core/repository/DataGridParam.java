@@ -19,14 +19,14 @@ public class DataGridParam {
     private int page = 1;// 当前页
     private int rows = 10;// 每页显示记录数
     private String sort = null;// 排序字段名
-    private SortDirection order = SortDirection.asc;// 按什么排序(asc,desc)
+    private SortDirection order = SortDirection.ASC;// 按什么排序(asc,desc)
     private String field;//字段
     private String treeField;//树形数据表文本字段
-    private List results;// 结果集
+    private List<?> results;// 结果集
     private int total;//总记录数
     private String footer;//合计列
 
-    public DataGridParam(Integer total, List results) {
+    public DataGridParam(Integer total, List<?> results) {
         this.total = total;
         this.results = results;
     }

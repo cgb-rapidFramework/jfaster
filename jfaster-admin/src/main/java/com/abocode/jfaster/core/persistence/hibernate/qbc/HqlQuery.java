@@ -8,7 +8,7 @@ import lombok.Data;
 import org.hibernate.type.Type;
 
 @Data
-public class HqlQuery {
+public class HqlQuery<T> {
 	private int curPage =1;
 	private int pageSize = 10;
 	private String action;
@@ -19,7 +19,7 @@ public class HqlQuery {
 	private Map<String, Object> map;
 	private DataGridParam dataGridParam;
 	private String field="";//查询需要显示的字段
-	private Class class1;
-	private List results;// 结果集
+	private Class<T> clazz;
+	private List<T> results;// 结果集
 	private int total;
 }

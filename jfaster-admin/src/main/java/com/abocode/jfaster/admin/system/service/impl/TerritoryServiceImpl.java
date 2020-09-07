@@ -33,7 +33,7 @@ public class TerritoryServiceImpl implements TerritoryService {
             cq.eq("parentTerritory.id", "0");//这个是全国最高级
         }
 
-        cq.addOrder("territorySort", SortDirection.asc);
+        cq.addOrder("territorySort", SortDirection.ASC);
         cq.add();
         List<Territory> territoryList = systemRepository.findListByCq(cq, false);
         TreeGridModel treeGridModel = new TreeGridModel();

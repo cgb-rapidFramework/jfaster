@@ -172,6 +172,7 @@ public class DefaultExceptionHandler {
 
 
     private AjaxJson build(String errorCode, String errorMessage) {
+        log.error(errorCode);
         return AjaxJsonBuilder.failure(errorMessage);
     }
 }

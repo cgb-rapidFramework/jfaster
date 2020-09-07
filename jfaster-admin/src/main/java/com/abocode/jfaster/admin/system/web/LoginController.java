@@ -10,7 +10,7 @@ import com.abocode.jfaster.core.common.model.json.AjaxJsonBuilder;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.persistence.datasource.DataSourceContextHolder;
 import com.abocode.jfaster.core.platform.utils.SystemMenuUtils;
-import com.abocode.jfaster.core.web.manager.ClientManager;
+import com.abocode.jfaster.admin.system.service.manager.ClientManager;
 import com.abocode.jfaster.admin.system.repository.LanguageRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.repository.TemplateRepository;
@@ -18,8 +18,8 @@ import com.abocode.jfaster.admin.system.repository.UserRepository;
 import com.abocode.jfaster.admin.system.service.FunctionService;
 import com.abocode.jfaster.core.platform.view.FunctionView;
 import com.abocode.jfaster.core.platform.view.TemplateView;
-import com.abocode.jfaster.core.web.utils.SessionShareCenter;
-import com.abocode.jfaster.core.web.utils.SessionUtils;
+import com.abocode.jfaster.admin.system.service.manager.SessionShareCenter;
+import com.abocode.jfaster.admin.system.service.manager.SessionHolder;
 import com.abocode.jfaster.system.entity.*;
 import com.google.gson.Gson;
 import org.springframework.beans.BeanUtils;
@@ -119,7 +119,7 @@ public class LoginController {
         Template templateEntity = this.templateService.findUniqueByProperty(Template.class, "status", AvailableEnum.AVAILABLE.getValue());
         Assert.isTrue(templateEntity != null, "未找到相关的模版");
 
-        User user = SessionUtils.getCurrentUser();
+        User user = SessionHolder.getCurrentUser();
         if (user != null) {
             List<Role> roleList = userLoginService.cahModelMap(modelMap, user.getId());
             modelMap.put("username", user.getUsername());
@@ -153,7 +153,7 @@ public class LoginController {
      */
     @RequestMapping(params = "logout")
     public ModelAndView logout() {
-        User user = SessionUtils.getCurrentUser();
+        User user = SessionHolder.getCurrentUser();
         systemService.addLog("用户" + user.getUsername() + "已退出",
                 Globals.LOG_TYPE_EXIT, Globals.LOG_LEVEL);
         HttpSession session = ContextHolderUtils.getSession();
@@ -172,7 +172,7 @@ public class LoginController {
      */
     @RequestMapping(params = "left")
     public ModelAndView left(HttpServletRequest request) {
-        User user = SessionUtils.getCurrentUser();
+        User user = SessionHolder.getCurrentUser();
         HttpSession session = ContextHolderUtils.getSession();
         ModelAndView modelAndView = new ModelAndView();
         // 登陆者的权限
@@ -219,7 +219,7 @@ public class LoginController {
      */
     @RequestMapping(params = "top")
     public ModelAndView top(HttpServletRequest request) {
-        User user = SessionUtils.getCurrentUser();
+        User user = SessionHolder.getCurrentUser();
         HttpSession session = ContextHolderUtils.getSession();
         // 登陆者的权限
         if (user.getId() == null) {
@@ -241,7 +241,7 @@ public class LoginController {
      */
     @RequestMapping(params = "shortcut_top")
     public ModelAndView shortcut_top(HttpServletRequest request) {
-        User user = SessionUtils.getCurrentUser();
+        User user = SessionHolder.getCurrentUser();
         HttpSession session = ContextHolderUtils.getSession();
         // 登陆者的权限
         if (user.getId() == null) {
@@ -265,7 +265,7 @@ public class LoginController {
     @RequestMapping(params = "primaryMenu")
     @ResponseBody
     public String getPrimaryMenu() throws Exception {
-        User user = SessionUtils.getCurrentUser();
+        User user = SessionHolder.getCurrentUser();
         HttpSession session = ContextHolderUtils.getSession();
         // 登陆者的权限
         if (user.getId() == null) {
@@ -287,14 +287,14 @@ public class LoginController {
         Object getPrimaryMenuForWebos = ContextHolderUtils.getSession().getAttribute("getPrimaryMenuForWebos");
         String message;
         if (ConvertUtils.isEmpty(getPrimaryMenuForWebos)) {
-            User user = SessionUtils.getCurrentUser();
+            User user = SessionHolder.getCurrentUser();
             HttpSession session = ContextHolderUtils.getSession();
             // 登陆者的权限
             if (user.getId() == null) {
                 session.removeAttribute(Globals.USER_SESSION);
                 throw new Exception("用户不存在");
             }
-            message = SystemMenuUtils.getWebosMenu(functionService.getFunctionMap(SessionUtils.getCurrentUser()));
+            message = SystemMenuUtils.getWebosMenu(functionService.getFunctionMap(SessionHolder.getCurrentUser()));
             ContextHolderUtils.getSession().setAttribute("getPrimaryMenuForWebos", message);
         }else {
             message=getPrimaryMenuForWebos.toString();

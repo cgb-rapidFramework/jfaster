@@ -1,4 +1,4 @@
-package com.abocode.jfaster.core.web.manager;
+package com.abocode.jfaster.admin.system.service.manager;
 
 import java.io.Serializable;
 import java.util.*;

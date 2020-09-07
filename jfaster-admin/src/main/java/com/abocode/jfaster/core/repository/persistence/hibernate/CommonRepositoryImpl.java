@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import com.abocode.jfaster.core.persistence.hibernate.HibernateCommonRepository;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.HqlQuery;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.Autocomplete;
 import com.abocode.jfaster.core.repository.DataGridData;
@@ -24,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CommonRepositoryImpl implements CommonRepository {
     @Autowired
-    public HibernateCommonRepository commonDao;
+    public CommonRepository commonRepository;
 
     /**
      * 获取所有数据库表
@@ -33,30 +32,30 @@ public class CommonRepositoryImpl implements CommonRepository {
      */
     @Override
     public List<DBTable> findAllDbTableName() {
-        return commonDao.findAllDbTableName();
+        return commonRepository.findAllDbTableName();
     }
 
     @Override
     public Integer findAllDbTableSize() {
-        return commonDao.findAllDbTableSize();
+        return commonRepository.findAllDbTableSize();
     }
 
     @Override
     public <T> Serializable save(T entity) {
-        return commonDao.save(entity);
+        return commonRepository.save(entity);
     }
 
 
     @Override
     public <T> void saveOrUpdate(T entity) {
-        commonDao.saveOrUpdate(entity);
+        commonRepository.saveOrUpdate(entity);
 
     }
 
 
     @Override
     public <T> void delete(T entity) {
-        commonDao.delete(entity);
+        commonRepository.delete(entity);
 
     }
 
@@ -68,7 +67,7 @@ public class CommonRepositoryImpl implements CommonRepository {
      */
     @Override
     public <T> void deleteEntities(Collection<T> entities) {
-        commonDao.deleteEntities(entities);
+        commonRepository.deleteEntities(entities);
     }
 
     /**
@@ -76,7 +75,7 @@ public class CommonRepositoryImpl implements CommonRepository {
      */
     @Override
     public <T> T find(Class<T> class1, Serializable id) {
-        return (T) commonDao.find(class1, id);
+        return  commonRepository.find(class1, id);
     }
 
 
@@ -86,7 +85,7 @@ public class CommonRepositoryImpl implements CommonRepository {
     @Override
     @SuppressWarnings("rawtypes")
     public <T> T findEntity(Class entityName, Serializable id) {
-        return (T) commonDao.findEntity(entityName, id);
+        return  commonRepository.findEntity(entityName, id);
     }
 
     /**
@@ -101,7 +100,7 @@ public class CommonRepositoryImpl implements CommonRepository {
     @Override
     public <T> T findUniqueByProperty(Class<T> entityClass,
                                       String propertyName, Object value) {
-        return (T) commonDao.findUniqueByProperty(entityClass, propertyName, value);
+        return commonRepository.findUniqueByProperty(entityClass, propertyName, value);
     }
 
     /**
@@ -110,7 +109,7 @@ public class CommonRepositoryImpl implements CommonRepository {
     @Override
     public <T> List<T> findAllByProperty(Class<T> entityClass,
                                          String propertyName, Object value) {
-        return commonDao.findAllByProperty(entityClass, propertyName, value);
+        return commonRepository.findAllByProperty(entityClass, propertyName, value);
     }
 
     /**
@@ -122,12 +121,12 @@ public class CommonRepositoryImpl implements CommonRepository {
      */
     @Override
     public <T> List<T> findAll(final Class<T> entityClass) {
-        return commonDao.findAll(entityClass);
+        return commonRepository.findAll(entityClass);
     }
 
     @Override
     public Integer executeHql(String hql) {
-        return commonDao.executeHql(hql);
+        return commonRepository.executeHql(hql);
     }
 
     /**
@@ -136,7 +135,7 @@ public class CommonRepositoryImpl implements CommonRepository {
 
     @Override
     public <T> T findUniqueByHql(String hql) {
-        return (T) commonDao.findUniqueByHql(hql);
+        return (T) commonRepository.findUniqueByHql(hql);
     }
 
     /**
@@ -146,8 +145,8 @@ public class CommonRepositoryImpl implements CommonRepository {
      * @param entities
      */
     @Override
-    public <T> void delete(Class entities, Serializable id) {
-        commonDao.delete(entities, id);
+    public  void delete(Class entities, Serializable id) {
+        commonRepository.delete(entities, id);
     }
 
     /**
@@ -158,7 +157,7 @@ public class CommonRepositoryImpl implements CommonRepository {
      */
     @Override
     public <T> void update(T pojo) {
-        commonDao.update(pojo);
+        commonRepository.update(pojo);
 
     }
 
@@ -171,7 +170,7 @@ public class CommonRepositoryImpl implements CommonRepository {
      */
     @Override
     public <T> List<T> findByHql(String hql) {
-        return commonDao.findByHql(hql);
+        return commonRepository.findByHql(hql);
     }
 
     /**
@@ -184,7 +183,7 @@ public class CommonRepositoryImpl implements CommonRepository {
     @Override
     public <T> List<T> findByPropertyIsOrder(Class<T> clazz,
                                              String propertyName, Object value, boolean isAsc) {
-        return commonDao.findByPropertyIsOrder(clazz, propertyName,
+        return commonRepository.findByPropertyIsOrder(clazz, propertyName,
                 value, isAsc);
     }
 
@@ -197,7 +196,7 @@ public class CommonRepositoryImpl implements CommonRepository {
      */
     @Override
     public PageHelper findPageListByCq(final CriteriaQuery cq, final boolean isOffset) {
-        return commonDao.findPageListByCq(cq, isOffset);
+        return commonRepository.findPageListByCq(cq, isOffset);
     }
 
 
@@ -211,7 +210,7 @@ public class CommonRepositoryImpl implements CommonRepository {
     @Override
     public PageHelper findPageListByHql(final HqlQuery hql,
                                         final boolean isOffset) {
-        return commonDao.findPageListByHql(hql, isOffset);
+        return commonRepository.findPageListByHql(hql, isOffset);
     }
 
     /**
@@ -224,7 +223,7 @@ public class CommonRepositoryImpl implements CommonRepository {
     @Override
     public <T> List<T> findListByCq(final CriteriaQuery cq,
                                     Boolean ispage) {
-        return commonDao.findListByCq(cq, ispage);
+        return commonRepository.findListByCq(cq, ispage);
     }
 
 
@@ -236,7 +235,7 @@ public class CommonRepositoryImpl implements CommonRepository {
     @SuppressWarnings("rawtypes")
     public List findByExample(final String entityName,
                               final Object exampleEntity) {
-        return commonDao.findByExample(entityName, exampleEntity);
+        return commonRepository.findByExample(entityName, exampleEntity);
     }
 
     /**
@@ -247,7 +246,7 @@ public class CommonRepositoryImpl implements CommonRepository {
      */
     @Override
     public <T> List<T> findAutoList(Autocomplete autocomplete) {
-        return commonDao.findAutoList(autocomplete);
+        return commonRepository.findAutoList(autocomplete);
     }
 
     /**
@@ -259,82 +258,82 @@ public class CommonRepositoryImpl implements CommonRepository {
      */
     @Override
     public <T> List<T> findByHql(String hql, Object[] params) {
-        return this.commonDao.findByHql(hql, params);
+        return this.commonRepository.findByHql(hql, params);
     }
 
     @Override
     public Integer executeSql(String sql, List<Object> param) {
-        return commonDao.executeSql(sql, param);
+        return commonRepository.executeSql(sql, param);
     }
 
 
     @Override
     public Integer executeSql(String sql, Object... param) {
-        return commonDao.executeSql(sql, param);
+        return commonRepository.executeSql(sql, param);
     }
 
 
     @Override
     public Integer executeSql(String sql, Map<String, Object> param) {
-        return commonDao.executeSql(sql, param);
+        return commonRepository.executeSql(sql, param);
     }
 
     @Override
     public Object executeSqlReturnKey(String sql, Map<String, Object> param) {
-        return commonDao.executeSqlReturnKey(sql, param);
+        return commonRepository.executeSqlReturnKey(sql, param);
     }
 
     @Override
     public List<Map<String, Object>> queryForListMap(String sql, int page, int rows) {
-        return commonDao.queryForListMap(sql, page, rows);
+        return commonRepository.queryForListMap(sql, page, rows);
     }
 
 
     @Override
     public List<Map<String, Object>> queryForListMap(String sql, Object... args) {
-        return commonDao.queryForListMap(sql, args);
+        return commonRepository.queryForListMap(sql, args);
     }
 
 
     @Override
     public List<Map<String, Object>> queryForListMapByParameter(String dbType, String sql, int page,
                                                                 int rows, Object... args) {
-        return commonDao.queryForListMapByParameter(dbType, sql, page, rows, args);
+        return commonRepository.queryForListMapByParameter(dbType, sql, page, rows, args);
     }
 
 
     @Override
     public <T> List<T> queryForListObject(String dbType, String sql, int page, int rows,
                                           Class<T> clazz) {
-        return commonDao.queryForListObject(dbType, sql, page, rows, clazz);
+        return commonRepository.queryForListObject(dbType, sql, page, rows, clazz);
     }
 
 
     @Override
     public Map<String, Object> queryForMap(String sql, Object... args) {
-        return commonDao.queryForMap(sql, args);
+        return commonRepository.queryForMap(sql, args);
     }
 
     @Override
     public Long queryForCount(String sql, Object... args) {
-        return commonDao.queryForCount(sql, args);
+        return commonRepository.queryForCount(sql, args);
     }
 
     @Override
     public <T> void batchSave(List<T> entities) {
-        this.commonDao.batchSave(entities);
+        this.commonRepository.batchSave(entities);
     }
 
 
     @Override
     public <T> List<T> findByDetached(DetachedCriteria dc, int firstResult,
                                       int maxResult) {
-        return this.commonDao.findByDetached(dc, firstResult, maxResult);
+        return this.commonRepository.findByDetached(dc, firstResult, maxResult);
     }
 
     @Override
     public <T> List<T> findByDetached(DetachedCriteria dc) {
-        return this.commonDao.findByDetached(dc);
+        return this.commonRepository.findByDetached(dc);
     }
 
 
@@ -348,7 +347,7 @@ public class CommonRepositoryImpl implements CommonRepository {
      */
     @Override
     public int updateBySql(String sql) {
-        return commonDao.updateBySql(sql);
+        return commonRepository.updateBySql(sql);
     }
 
     /**
@@ -361,17 +360,17 @@ public class CommonRepositoryImpl implements CommonRepository {
     @Override
     public PageHelper findPageListBySql(final HqlQuery hqlQuery,
                                         final boolean isOffset) {
-        return commonDao.findPageListBySql(hqlQuery, isOffset);
+        return commonRepository.findPageListBySql(hqlQuery, isOffset);
     }
 
     @Override
     public Session getSession() {
-        return commonDao.getSession();
+        return commonRepository.getSession();
     }
 
     @Override
     public DataGridData findDataGridData(final CriteriaQuery cq) {
-        return  commonDao.findDataGridData(cq);
+        return  commonRepository.findDataGridData(cq);
     }
 
 
@@ -385,7 +384,7 @@ public class CommonRepositoryImpl implements CommonRepository {
     @Override
     public DataGridData findDataGridData(final CriteriaQuery cq,
                                          final boolean isOffset) {
-        return  commonDao.findDataGridData(cq, isOffset);
+        return  commonRepository.findDataGridData(cq, isOffset);
     }
 
     /**
@@ -393,7 +392,7 @@ public class CommonRepositoryImpl implements CommonRepository {
      */
     @Override
     public List<String> findListBySql(String sql) {
-        return commonDao.findListBySql(sql);
+        return commonRepository.findListBySql(sql);
     }
 
 }

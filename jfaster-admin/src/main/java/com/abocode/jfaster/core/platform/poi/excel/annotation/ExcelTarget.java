@@ -14,6 +14,6 @@ public @interface ExcelTarget {
 	/**
 	 *定义excel导出ID 来限定导出字段 
 	 */
-	public String id();
+	String id();
 }
 

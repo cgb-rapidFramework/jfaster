@@ -4,10 +4,7 @@ import java.util.Map;
 
 /**
  * 类描述：分页工具类
- * 张代浩
- *
  * @version 1.0
- * @date： 日期：2012-12-7 时间：上午10:19:14
  */
 public class PagerUtil {
     private PagerUtil() {

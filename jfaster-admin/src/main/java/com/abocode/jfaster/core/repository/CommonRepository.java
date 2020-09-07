@@ -76,11 +76,10 @@ public interface CommonRepository {
 	/**
 	 * 删除实体主键删除
 	 * 
-	 * @param <T>
 	 * @param entities
 	 */
 	@SuppressWarnings("rawtypes")
-	 <T> void delete(Class entities, Serializable id);
+	 void delete(Class entities, Serializable id);
 
 	/**
 	 * 删除实体集合

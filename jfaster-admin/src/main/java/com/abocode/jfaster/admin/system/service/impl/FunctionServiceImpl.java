@@ -13,7 +13,8 @@ import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.model.json.ComboTree;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
-import com.abocode.jfaster.core.common.util.DataRuleUtils;
+import com.abocode.jfaster.core.persistence.hibernate.hql.HqlDataRuleUtils;
+import com.abocode.jfaster.core.persistence.hibernate.hql.vo.HqlDataRule;
 import com.abocode.jfaster.core.persistence.jdbc.SqlUtil;
 import com.abocode.jfaster.core.platform.utils.FunctionSortUtils;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
@@ -22,10 +23,10 @@ import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.repository.SortDirection;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.TreeGridModel;
-import com.abocode.jfaster.core.web.manager.ClientManager;
+import com.abocode.jfaster.admin.system.service.manager.ClientManager;
 import com.abocode.jfaster.system.entity.*;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
-import com.abocode.jfaster.core.web.manager.ClientBean;
+import com.abocode.jfaster.admin.system.service.manager.ClientBean;
 import com.abocode.jfaster.core.platform.view.FunctionView;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -260,7 +261,7 @@ public class FunctionServiceImpl implements FunctionService {
         if (treeGridId == null) {
             cq.isNull("parentFunction");
         }
-        cq.addOrder("functionOrder", SortDirection.asc);
+        cq.addOrder("functionOrder", SortDirection.ASC);
         cq.add();
         List<Function> functionList = systemService.findListByCq(cq, false);
 
@@ -512,17 +513,19 @@ public class FunctionServiceImpl implements FunctionService {
     public DataRuleDto installDataRule(Set<String> dataRuleCodes) {
         //Step.2  第二部分处理列表数据级权限
         //小川 -- 菜单数据规则集合(数据权限)
-        List<DataRule> menuDataRules = new ArrayList<DataRule>();
+        List<HqlDataRule> menuHqlDataRules = new ArrayList<>();
         //小川 -- 菜单数据规则sql(数据权限)
         StringBuilder dataRoleSql = new StringBuilder();
         for (String dataRuleId : dataRuleCodes) {
-            DataRule dataRule = systemService.findEntity(DataRule.class, dataRuleId);
-            menuDataRules.add(dataRule);
+            com.abocode.jfaster.system.entity.DataRule dataRule = systemService.findEntity(com.abocode.jfaster.system.entity.DataRule.class, dataRuleId);
+            HqlDataRule queryRule=new HqlDataRule();
+            BeanUtils.copyProperties(dataRule,queryRule);
+            menuHqlDataRules.add(queryRule);
             dataRoleSql.append(SqlUtil.setSqlModel(dataRule.getRuleColumn(),dataRule.getRuleValue(),dataRule.getRuleCondition()));
         }
-        List<DataRule> dataRules = DataRuleUtils.installDataSearchCondition(menuDataRules);//菜单数据规则集合
-        String data = DataRuleUtils.installDataSearchCondition(dataRoleSql.toString());//菜单数据规则sql
-        return new DataRuleDto(dataRules, data);
+        List<HqlDataRule> hqlDataRules = HqlDataRuleUtils.installDataSearchCondition(menuHqlDataRules);//菜单数据规则集合
+        String data = HqlDataRuleUtils.installDataSearchCondition(dataRoleSql.toString());//菜单数据规则sql
+        return new DataRuleDto(hqlDataRules, data);
     }
 
     @Override
