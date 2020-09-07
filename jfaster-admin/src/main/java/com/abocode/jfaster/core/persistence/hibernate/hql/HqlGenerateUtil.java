@@ -5,7 +5,6 @@ import com.abocode.jfaster.core.persistence.hibernate.hql.vo.HqlDataRule;
 import com.abocode.jfaster.core.persistence.hibernate.hql.vo.HqlParseEnum;
 import com.abocode.jfaster.core.persistence.hibernate.hql.vo.HqlRuleEnum;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.web.manager.SessionHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.util.CollectionUtils;
@@ -267,23 +266,13 @@ public class HqlGenerateUtil {
             addCriteria(cq, aliasName, rule, objs);
         } else {
             if (propertyType.equals(String.class)) {
-                addCriteria(cq, aliasName, rule, convertRuleValue(value));
+                addCriteria(cq, aliasName, rule, value);
             } else {
                 addCriteria(cq, aliasName, rule, NumberUtils.parseNumber(value, propertyType));
             }
         }
     }
 
-    /***
-     * SessionUtils 不应该使用SessionUtils
-     * @param ruleValue
-     * @return
-     *    @Deprecated
-     */
-    private static String convertRuleValue(String ruleValue) {
-        String value = SessionHolder.getUserSystemData(ruleValue);
-        return value != null ? value : ruleValue;
-    }
 
     private static boolean judgedIsUselessField(String name) {
         return "class".equals(name) || "ids".equals(name)

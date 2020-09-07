@@ -24,6 +24,7 @@ import com.abocode.jfaster.core.repository.SortDirection;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.TreeGridModel;
 import com.abocode.jfaster.core.web.manager.ClientManager;
+import com.abocode.jfaster.core.web.manager.SessionHolder;
 import com.abocode.jfaster.system.entity.*;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.core.web.manager.ClientBean;
@@ -521,7 +522,7 @@ public class FunctionServiceImpl implements FunctionService {
             HqlDataRule queryRule=new HqlDataRule();
             BeanUtils.copyProperties(dataRule,queryRule);
             menuHqlDataRules.add(queryRule);
-            dataRoleSql.append(SqlUtil.setSqlModel(dataRule.getRuleColumn(),dataRule.getRuleValue(),dataRule.getRuleCondition()));
+            dataRoleSql.append(setSqlModel(dataRule.getRuleColumn(),dataRule.getRuleValue(),dataRule.getRuleCondition()));
         }
         List<HqlDataRule> hqlDataRules = HqlDataRuleUtils.installDataSearchCondition(menuHqlDataRules);//菜单数据规则集合
         String data = HqlDataRuleUtils.installDataSearchCondition(dataRoleSql.toString());//菜单数据规则sql
@@ -564,5 +565,18 @@ public class FunctionServiceImpl implements FunctionService {
         } else {
             return true;
         }
+    }
+
+
+    private String setSqlModel(String column, String value, String condition) {
+        String valueTemp;
+        //针对特殊标示处理#{sysOrgCode}，判断替换
+        if (value.contains("{")) {
+            valueTemp = value.substring(2, value.length() - 1);
+        } else {
+            valueTemp = value;
+        }
+        String param = SessionHolder.getUserSystemData(valueTemp) == null ? valueTemp : SessionHolder.getUserSystemData(valueTemp);//将系统变量
+        return SqlUtil.buildSqlValue(column,condition, param);
     }
 }
