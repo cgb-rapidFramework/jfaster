@@ -8,7 +8,7 @@ import com.abocode.jfaster.core.platform.view.interactions.easyui.Autocomplete;
 import com.abocode.jfaster.core.common.util.BeanPropertyUtils;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.HqlQuery;
-import com.abocode.jfaster.core.persistence.hibernate.qbc.PageList;
+import com.abocode.jfaster.core.persistence.hibernate.qbc.PageHelper;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.PagerUtil;
 import com.abocode.jfaster.core.repository.DataGridData;
 import com.abocode.jfaster.core.repository.TagUtil;
@@ -521,12 +521,6 @@ public    class HibernateCommonRepository<T extends Serializable>
 	}
 
 	/**
-	 * 调用存储过程
-	 */
-	public void callableStatementByName(String proc) {
-	}
-
-	/**
 	 * 查询指定实体的总记录数
 	 * 
 	 * @param clazz
@@ -548,7 +542,7 @@ public    class HibernateCommonRepository<T extends Serializable>
 	 * @param isOffset
 	 * @return
 	 */
-	public PageList findPageListByCq(final CriteriaQuery cq, final boolean isOffset) {
+	public PageHelper findPageListByCq(final CriteriaQuery cq, final boolean isOffset) {
 
 		Criteria criteria = cq.getDetachedCriteria().getExecutableCriteria(
 				getSession());
@@ -566,23 +560,23 @@ public    class HibernateCommonRepository<T extends Serializable>
 		if (!cq.getOrderMap().isEmpty()) {
 			cq.setOrder(cq.getOrderMap());
 		}
-		int pageSize = cq.getPageSize();// 每页显示数
-		int curPageNO = PagerUtil.getcurPageNo(allCounts, cq.getCurPage(),
+		int pageSize = cq.getSize();// 每页显示数
+		int page = PagerUtil.getcurPageNo(allCounts, cq.getPage(),
 				pageSize);// 当前页
-		int offset = PagerUtil.getOffset(allCounts, curPageNO, pageSize);
+		int offset = PagerUtil.getOffset(allCounts, page, pageSize);
 		String toolBar = "";
 		if (isOffset) {// 是否分页
 			criteria.setFirstResult(offset);
-			criteria.setMaxResults(cq.getPageSize());
+			criteria.setMaxResults(cq.getSize());
 			if (cq.getUseImage() == 1) {
 				toolBar = PagerUtil.getBar(cq.getMyAction(), cq.getMyForm(),
-						allCounts, curPageNO, pageSize, cq.getMap());
+						allCounts, page, pageSize, cq.getMap());
 			} else {
 				toolBar = PagerUtil.getBar(cq.getMyAction(), allCounts,
-						curPageNO, pageSize, cq.getMap());
+						page, pageSize, cq.getMap());
 			}
 		}
-		return new PageList(criteria.list(), toolBar, offset, curPageNO,
+		return new PageHelper(criteria.list(), toolBar, offset, page,
 				allCounts);
 	}
 
@@ -614,13 +608,13 @@ public    class HibernateCommonRepository<T extends Serializable>
 		if (!cq.getOrderMap().isEmpty()) {
 			cq.setOrder(cq.getOrderMap());
 		}
-		int pageSize = cq.getPageSize();// 每页显示数
-		int curPageNO = PagerUtil.getcurPageNo(allCounts, cq.getCurPage(),
+		int pageSize = cq.getSize();// 每页显示数
+		int curPageNO = PagerUtil.getcurPageNo(allCounts, cq.getPage(),
 				pageSize);// 当前页
 		int offset = PagerUtil.getOffset(allCounts, curPageNO, pageSize);
 		if (isOffset) {// 是否分页
 			criteria.setFirstResult(offset);
-			criteria.setMaxResults(cq.getPageSize());
+			criteria.setMaxResults(cq.getSize());
 		}
 		List list = criteria.list();
 		cq.getDataGridParam().setResults(list);
@@ -637,8 +631,8 @@ public    class HibernateCommonRepository<T extends Serializable>
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public PageList findPageListBySql(final HqlQuery hqlQuery,
-                                      final boolean isOffset) {
+	public PageHelper findPageListBySql(final HqlQuery hqlQuery,
+                                        final boolean isOffset) {
 
 		Query query = getSession().createSQLQuery(hqlQuery.getQueryString());
 		int allCounts = query.list().size();
@@ -655,7 +649,7 @@ public    class HibernateCommonRepository<T extends Serializable>
 		} else {
 			list = query.list();
 		}
-		return new PageList(hqlQuery, list, offset, curPageNO, allCounts);
+		return new PageHelper(list, offset, curPageNO, allCounts);
 	}
 
 	/**
@@ -666,8 +660,8 @@ public    class HibernateCommonRepository<T extends Serializable>
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public PageList findPageListByHql(final HqlQuery hqlQuery,
-                                      final boolean isOffset) {
+	public PageHelper findPageListByHql(final HqlQuery hqlQuery,
+                                        final boolean isOffset) {
 
 		Query query = getSession().createQuery(hqlQuery.getQueryString());
 		if (isOffset) {
@@ -682,7 +676,7 @@ public    class HibernateCommonRepository<T extends Serializable>
 				curPageNO, hqlQuery.getPageSize(), hqlQuery.getMap());
 		query.setFirstResult(offset);
 		query.setMaxResults(hqlQuery.getPageSize());
-		return new PageList(query.list(), toolBar, offset, curPageNO, allCounts);
+		return new PageHelper(query.list(), toolBar, offset, curPageNO, allCounts);
 	}
 
 	/**
@@ -700,8 +694,8 @@ public    class HibernateCommonRepository<T extends Serializable>
 			cq.setOrder(cq.getOrderMap());
 		}
 		if (isOffset){
-			criteria.setFirstResult((cq.getCurPage()-1)*cq.getPageSize());
-			criteria.setMaxResults(cq.getPageSize());
+			criteria.setFirstResult((cq.getPage()-1)*cq.getSize());
+			criteria.setMaxResults(cq.getSize());
 		}
 		return criteria.list();
 

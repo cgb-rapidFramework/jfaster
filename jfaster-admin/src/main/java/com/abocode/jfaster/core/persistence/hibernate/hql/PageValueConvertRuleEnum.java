@@ -1,7 +1,7 @@
-package com.abocode.jfaster.core.persistence.hibernate.hqlsearch;
+package com.abocode.jfaster.core.persistence.hibernate.hql;
 
-import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.vo.HqlParseEnum;
-import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.vo.HqlRuleEnum;
+import com.abocode.jfaster.core.persistence.hibernate.hql.vo.HqlParseEnum;
+import com.abocode.jfaster.core.persistence.hibernate.hql.vo.HqlRuleEnum;
 
 /**
  * 界面可视化数组转化为枚举

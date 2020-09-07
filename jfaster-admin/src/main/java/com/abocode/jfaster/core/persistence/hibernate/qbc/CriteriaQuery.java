@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.abocode.jfaster.core.repository.DataGridParam;
-import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.HqlGenerateUtil;
+import com.abocode.jfaster.core.persistence.hibernate.hql.HqlGenerateUtil;
 import com.abocode.jfaster.core.repository.SortDirection;
 import lombok.Data;
 import org.hibernate.criterion.Criterion;
@@ -23,11 +23,11 @@ public class CriteriaQuery {
     /**
      * 当前页
      */
-    private int curPage = 1;
+    private int page = 1;
     /***
      * 默认一页条数
      */
-    private int pageSize = 10;
+    private int size = 10;
     /***
      *请求的action 地址
      */
@@ -49,11 +49,11 @@ public class CriteriaQuery {
      */
     private int useImage = 0;
     private DetachedCriteria detachedCriteria;
-    private static Map<String, Object> map = new HashMap<String, Object>();
+    private static Map<String, Object> map = new HashMap<>();
     /***
      * 排序字段
      */
-    private Map<String, Object> orderMap = new HashMap<String, Object>();
+    private Map<String, Object> orderMap = new HashMap<>();
 
     /***
      * 对同一字段进行第二次重命名查询时值设置FASLE不保存重命名查询条件
@@ -79,28 +79,28 @@ public class CriteriaQuery {
         this.detachedCriteria = DetachedCriteria.forClass(c);
     }
 
-    public CriteriaQuery(Class c, int curPage, String myAction, String myForm) {
-        this.curPage = curPage;
+    public CriteriaQuery(Class c, int page, String myAction, String myForm) {
+        this.page = page;
         this.myAction = myAction;
         this.myForm = myForm;
         this.detachedCriteria = DetachedCriteria.forClass(c);
     }
 
-    public CriteriaQuery(Class c, int curPage, String myAction) {
+    public CriteriaQuery(Class c, int page, String myAction) {
         this.myAction = myAction;
-        this.curPage = curPage;
+        this.page = page;
         this.detachedCriteria = DetachedCriteria.forClass(c);
     }
 
-    public CriteriaQuery(Class entityClass, int curPage) {
-        this.curPage = curPage;
+    public CriteriaQuery(Class entityClass, int page) {
+        this.page = page;
         this.detachedCriteria = DetachedCriteria.forClass(entityClass);
     }
 
-    public CriteriaQuery(Class c, int pageSize, int curPage,
+    public CriteriaQuery(Class c, int size, int page,
                          String myAction, String myForm) {
-        this.pageSize = pageSize;
-        this.curPage = curPage;
+        this.size = size;
+        this.page = page;
         this.myAction = myAction;
         this.myForm = myForm;
         this.detachedCriteria = DetachedCriteria.forClass(c);
@@ -496,28 +496,28 @@ public class CriteriaQuery {
     }
 
     public CriteriaQuery buildParameters(Object query, Map<String, String[]> parameterMap, DataGridParam dataGridParam) {
-        this.curPage = dataGridParam.getPage();
+        this.page = dataGridParam.getPage();
         this.field = dataGridParam.getField();
         this.dataGridParam = dataGridParam;
-        this.pageSize = dataGridParam.getRows();
+        this.size = dataGridParam.getRows();
         HqlGenerateUtil.installHql(this, query, parameterMap);
         return this;
     }
 
     public CriteriaQuery buildParameters(Object query,  DataGridParam dataGridParam) {
-        this.curPage = dataGridParam.getPage();
+        this.page = dataGridParam.getPage();
         this.field = dataGridParam.getField();
         this.dataGridParam = dataGridParam;
-        this.pageSize = dataGridParam.getRows();
+        this.size = dataGridParam.getRows();
         HqlGenerateUtil.installHql(this, query);
         return this;
     }
 
     public CriteriaQuery buildDataGrid(DataGridParam dg) {
-        this.curPage = dg.getPage();
+        this.page = dg.getPage();
         this.field = dg.getField();
         this.dataGridParam = dg;
-        this.pageSize = dg.getRows();
+        this.size = dg.getRows();
         return this;
     }
 }

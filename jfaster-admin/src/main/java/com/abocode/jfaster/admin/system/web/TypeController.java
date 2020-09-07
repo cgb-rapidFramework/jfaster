@@ -12,9 +12,9 @@ import com.abocode.jfaster.core.common.model.json.ValidForm;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
 import com.abocode.jfaster.core.common.util.StrUtils;
-import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.ObjectParseUtil;
-import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.PageValueConvertRuleEnum;
-import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.vo.HqlRuleEnum;
+import com.abocode.jfaster.core.persistence.jdbc.SqlUtil;
+import com.abocode.jfaster.core.persistence.hibernate.hql.PageValueConvertRuleEnum;
+import com.abocode.jfaster.core.persistence.hibernate.hql.vo.HqlRuleEnum;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.system.entity.Type;
 import com.abocode.jfaster.system.entity.TypeGroup;
@@ -155,7 +155,7 @@ public class TypeController {
                         .convert(typegroupcode);
                 Object value = PageValueConvertRuleEnum.replaceValue(rule,
                         typegroupcode);
-                ObjectParseUtil.addCriteria(cq, "typegroupcode", rule, value);
+                SqlUtil.addCriteria(cq, "typegroupcode", rule, value);
                 cq.add();
             }
             String typegroupname = request.getParameter("typegroupname");

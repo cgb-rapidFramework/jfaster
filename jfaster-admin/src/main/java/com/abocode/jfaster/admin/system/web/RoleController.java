@@ -10,7 +10,7 @@ import com.abocode.jfaster.system.entity.*;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Property;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.HqlGenerateUtil;
+import com.abocode.jfaster.core.persistence.hibernate.hql.HqlGenerateUtil;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 

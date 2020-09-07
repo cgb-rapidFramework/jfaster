@@ -14,7 +14,7 @@ import com.abocode.jfaster.core.common.model.json.ComboTree;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
 import com.abocode.jfaster.core.common.util.DataRuleUtils;
-import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.ObjectParseUtil;
+import com.abocode.jfaster.core.persistence.jdbc.SqlUtil;
 import com.abocode.jfaster.core.platform.utils.FunctionSortUtils;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
 import com.abocode.jfaster.core.common.util.StrUtils;
@@ -518,7 +518,7 @@ public class FunctionServiceImpl implements FunctionService {
         for (String dataRuleId : dataRuleCodes) {
             DataRule dataRule = systemService.findEntity(DataRule.class, dataRuleId);
             menuDataRules.add(dataRule);
-            dataRoleSql.append(ObjectParseUtil.setSqlModel(dataRule));
+            dataRoleSql.append(SqlUtil.setSqlModel(dataRule.getRuleColumn(),dataRule.getRuleValue(),dataRule.getRuleCondition()));
         }
         List<DataRule> dataRules = DataRuleUtils.installDataSearchCondition(menuDataRules);//菜单数据规则集合
         String data = DataRuleUtils.installDataSearchCondition(dataRoleSql.toString());//菜单数据规则sql

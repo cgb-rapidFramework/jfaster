@@ -1,4 +1,4 @@
-package com.abocode.jfaster.core.persistence.hibernate.hqlsearch.vo;
+package com.abocode.jfaster.core.persistence.hibernate.hql.vo;
 
 public enum HqlParseEnum {
 

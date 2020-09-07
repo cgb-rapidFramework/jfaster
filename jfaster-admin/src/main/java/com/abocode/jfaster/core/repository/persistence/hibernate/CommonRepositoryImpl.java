@@ -13,7 +13,7 @@ import com.abocode.jfaster.core.repository.DataGridData;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.persistence.hibernate.qbc.PageList;
+import com.abocode.jfaster.core.persistence.hibernate.qbc.PageHelper;
 import com.abocode.jfaster.core.persistence.DBTable;
 import com.abocode.jfaster.core.repository.CommonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -196,7 +196,7 @@ public class CommonRepositoryImpl implements CommonRepository {
      * @return
      */
     @Override
-    public PageList findPageListByCq(final CriteriaQuery cq, final boolean isOffset) {
+    public PageHelper findPageListByCq(final CriteriaQuery cq, final boolean isOffset) {
         return commonDao.findPageListByCq(cq, isOffset);
     }
 
@@ -209,8 +209,8 @@ public class CommonRepositoryImpl implements CommonRepository {
      * @return
      */
     @Override
-    public PageList findPageListByHql(final HqlQuery hql,
-                                      final boolean isOffset) {
+    public PageHelper findPageListByHql(final HqlQuery hql,
+                                        final boolean isOffset) {
         return commonDao.findPageListByHql(hql, isOffset);
     }
 
@@ -359,8 +359,8 @@ public class CommonRepositoryImpl implements CommonRepository {
      * @return
      */
     @Override
-    public PageList findPageListBySql(final HqlQuery hqlQuery,
-                                      final boolean isOffset) {
+    public PageHelper findPageListBySql(final HqlQuery hqlQuery,
+                                        final boolean isOffset) {
         return commonDao.findPageListBySql(hqlQuery, isOffset);
     }
 

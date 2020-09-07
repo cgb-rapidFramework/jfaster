@@ -1,4 +1,4 @@
-package com.abocode.jfaster.core.persistence.hibernate.hqlsearch;
+package com.abocode.jfaster.core.persistence.hibernate.hql;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

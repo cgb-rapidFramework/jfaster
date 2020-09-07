@@ -3,7 +3,7 @@ package com.abocode.jfaster.core.repository;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.HqlQuery;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.Autocomplete;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.persistence.hibernate.qbc.PageList;
+import com.abocode.jfaster.core.persistence.hibernate.qbc.PageHelper;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import com.abocode.jfaster.core.persistence.DBTable;
@@ -142,8 +142,8 @@ public interface CommonRepository {
 	 * @param isOffset
 	 * @return
 	 */
-	 PageList findPageListByCq(final CriteriaQuery cq,
-                               final boolean isOffset);
+	 PageHelper findPageListByCq(final CriteriaQuery cq,
+                                 final boolean isOffset);
 
 	/**
 	 * 
@@ -153,8 +153,8 @@ public interface CommonRepository {
 	 * @param isOffset
 	 * @return
 	 */
-	 PageList findPageListByHql(final HqlQuery hqlQuery,
-			final boolean isOffset);
+	 PageHelper findPageListByHql(final HqlQuery hqlQuery,
+                                  final boolean isOffset);
 
 	/**
 	 * 
@@ -164,8 +164,8 @@ public interface CommonRepository {
 	 * @param isOffset
 	 * @return
 	 */
-	 PageList findPageListBySql(final HqlQuery hqlQuery,
-			final boolean isOffset);
+	 PageHelper findPageListBySql(final HqlQuery hqlQuery,
+                                  final boolean isOffset);
 
 	 Session getSession();
 

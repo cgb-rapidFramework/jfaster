@@ -6,10 +6,8 @@ import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.repository.DataGridData;
 import com.abocode.jfaster.core.repository.DataGridParam;
-import com.abocode.jfaster.core.persistence.hibernate.hqlsearch.HqlGenerateUtil;
 import com.abocode.jfaster.system.entity.Language;
 import com.abocode.jfaster.admin.system.repository.LanguageRepository;
-import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.core.common.util.StrUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Title: Controller
