@@ -5,7 +5,7 @@ import com.abocode.jfaster.core.persistence.hibernate.hql.vo.HqlDataRule;
 import com.abocode.jfaster.core.persistence.hibernate.hql.vo.HqlParseEnum;
 import com.abocode.jfaster.core.persistence.hibernate.hql.vo.HqlRuleEnum;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.admin.system.service.manager.SessionHolder;
+import com.abocode.jfaster.core.web.manager.SessionHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.util.CollectionUtils;

@@ -1,6 +1,6 @@
 package com.abocode.jfaster.core.persistence.jdbc;
 import com.abocode.jfaster.core.persistence.hibernate.hql.vo.HqlRuleEnum;
-import com.abocode.jfaster.admin.system.service.manager.SessionHolder;
+import com.abocode.jfaster.core.web.manager.SessionHolder;
 import org.springframework.util.StringUtils;
 
 /**

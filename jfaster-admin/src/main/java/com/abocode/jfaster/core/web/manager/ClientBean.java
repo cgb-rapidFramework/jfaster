@@ -1,4 +1,4 @@
-package com.abocode.jfaster.admin.system.service.manager;
+package com.abocode.jfaster.core.web.manager;
 
 import com.abocode.jfaster.system.entity.Function;
 import com.abocode.jfaster.system.entity.Role;

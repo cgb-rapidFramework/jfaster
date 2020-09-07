@@ -1,8 +1,6 @@
-package com.abocode.jfaster.admin.system.service.manager;
+package com.abocode.jfaster.core.web.manager;
 
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
-import com.abocode.jfaster.admin.system.service.manager.ClientManager;
-import com.abocode.jfaster.admin.system.service.manager.ClientBean;
 import com.abocode.jfaster.system.entity.Role;
 
 import javax.servlet.http.HttpSession;

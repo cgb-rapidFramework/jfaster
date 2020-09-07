@@ -14,7 +14,7 @@ import com.abocode.jfaster.admin.system.repository.UserRepository;
 import com.abocode.jfaster.admin.system.dto.ExlUserDto;
 import com.abocode.jfaster.core.repository.DataGridData;
 import com.abocode.jfaster.core.repository.DataGridParam;
-import com.abocode.jfaster.admin.system.service.manager.SessionHolder;
+import com.abocode.jfaster.core.web.manager.SessionHolder;
 import com.abocode.jfaster.system.entity.*;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;

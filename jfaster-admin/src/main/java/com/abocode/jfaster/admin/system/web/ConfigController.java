@@ -8,7 +8,7 @@ import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.system.entity.Config;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
-import com.abocode.jfaster.admin.system.service.manager.SessionHolder;
+import com.abocode.jfaster.core.web.manager.SessionHolder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

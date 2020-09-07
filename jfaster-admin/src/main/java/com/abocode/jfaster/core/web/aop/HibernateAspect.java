@@ -2,7 +2,7 @@ package com.abocode.jfaster.core.web.aop;
 
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 
-import com.abocode.jfaster.admin.system.service.manager.SessionHolder;
+import com.abocode.jfaster.core.web.manager.SessionHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;

@@ -12,7 +12,7 @@ import com.abocode.jfaster.core.platform.SystemContainer.IconContainer;
 import com.abocode.jfaster.core.platform.SystemContainer.TypeGroupContainer;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
-import com.abocode.jfaster.admin.system.service.manager.SessionHolder;
+import com.abocode.jfaster.core.web.manager.SessionHolder;
 import com.abocode.jfaster.system.entity.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;

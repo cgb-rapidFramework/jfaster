@@ -1,4 +1,4 @@
-package com.abocode.jfaster.admin.system.service.manager;
+package com.abocode.jfaster.core.web.manager;
 
 import com.abocode.jfaster.core.web.aop.DataBaseConstant;
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
