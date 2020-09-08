@@ -1,8 +1,8 @@
 package com.abocode.jfaster.admin.system.service.impl;
 
+import com.abocode.jfaster.admin.system.dto.HighChartDto;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.service.ChartService;
-import com.abocode.jfaster.admin.system.dto.HighChartDto;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
 import org.springframework.stereotype.Service;
 

@@ -1,11 +1,11 @@
 package com.abocode.jfaster.core.persistence.hibernate.qbc;
 
-import java.util.List;
-import java.util.Map;
-
 import com.abocode.jfaster.core.repository.DataGridParam;
 import lombok.Data;
 import org.hibernate.type.Type;
+
+import java.util.List;
+import java.util.Map;
 
 @Data
 public class HqlQuery<T> {

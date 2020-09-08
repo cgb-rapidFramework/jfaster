@@ -1,14 +1,14 @@
 package com.abocode.jfaster.core.web.interceptors;
 
 import com.abocode.jfaster.admin.system.dto.DataRuleDto;
+import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.service.FunctionService;
+import com.abocode.jfaster.core.common.constants.Globals;
+import com.abocode.jfaster.core.common.util.ConfigUtils;
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
-import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.web.manager.ClientBean;
 import com.abocode.jfaster.core.web.manager.ClientManager;
-import com.abocode.jfaster.admin.system.repository.SystemRepository;
-import com.abocode.jfaster.core.common.util.ConfigUtils;
 import com.abocode.jfaster.system.entity.Function;
 import com.abocode.jfaster.system.entity.Operation;
 import org.springframework.beans.factory.annotation.Autowired;

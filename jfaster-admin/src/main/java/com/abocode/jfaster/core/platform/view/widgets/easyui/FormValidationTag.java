@@ -1,9 +1,9 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
 
-import com.abocode.jfaster.core.platform.view.TemplateView;
 import com.abocode.jfaster.core.common.util.JspWriterUtils;
 import com.abocode.jfaster.core.platform.utils.SysThemesUtils;
+import com.abocode.jfaster.core.platform.view.TemplateView;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;

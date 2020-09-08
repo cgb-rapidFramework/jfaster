@@ -1,8 +1,8 @@
 package com.abocode.jfaster.system.web;
+
 import com.abocode.jfaster.system.entity.Function;
 import com.abocode.jfaster.system.repository.FunctionRepository;
 import io.swagger.annotations.Api;
-
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

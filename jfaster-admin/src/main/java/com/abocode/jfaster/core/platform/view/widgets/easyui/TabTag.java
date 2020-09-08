@@ -1,10 +1,10 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
+import lombok.Data;
+
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.jsp.tagext.TagSupport;
-
-import lombok.Data;
 
 /**
  * 类描述：选项卡选项标签

@@ -1,26 +1,32 @@
 package com.abocode.jfaster.admin.system.service.impl;
 
 import com.abocode.jfaster.admin.system.dto.ExlUserDto;
+import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
-import com.abocode.jfaster.api.core.AvailableEnum;
-import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.admin.system.service.BeanToTagConverter;
+import com.abocode.jfaster.admin.system.service.UserService;
+import com.abocode.jfaster.api.core.AvailableEnum;
+import com.abocode.jfaster.api.system.UserDto;
+import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.exception.BusinessException;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.ComboBox;
-import com.abocode.jfaster.core.repository.DataGridParam;
-import com.abocode.jfaster.core.common.util.*;
-import com.abocode.jfaster.admin.system.service.UserService;
-import com.abocode.jfaster.admin.system.repository.SystemRepository;
-import com.abocode.jfaster.core.platform.utils.FunctionSortUtils;
-import com.abocode.jfaster.core.platform.utils.SystemMenuUtils;
-import com.abocode.jfaster.core.platform.view.FunctionView;
+import com.abocode.jfaster.core.common.util.IdUtils;
+import com.abocode.jfaster.core.common.util.PasswordUtils;
+import com.abocode.jfaster.core.common.util.StrUtils;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.platform.poi.excel.ExcelImportUtil;
 import com.abocode.jfaster.core.platform.poi.excel.entity.ImportParams;
+import com.abocode.jfaster.core.platform.utils.FunctionSortUtils;
+import com.abocode.jfaster.core.platform.utils.SystemMenuUtils;
+import com.abocode.jfaster.core.platform.view.FunctionView;
+import com.abocode.jfaster.core.repository.DataGridData;
+import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.core.repository.TagUtil;
 import com.abocode.jfaster.system.entity.*;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Property;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -317,5 +323,19 @@ public class UserServiceImpl implements UserService {
         CriteriaQuery cq = buildCq(user, dataGridParam, orgIds);
         List<ExlUserDto> exlUserList = this.userRepository.getExlUserList(dataGridParam, user, cq);
         return  exlUserList;
+    }
+
+    @Override
+    public DataGridData findDataGridData(UserDto userDto, String departid, DataGridParam dataGridParam) {
+        CriteriaQuery cq = new CriteriaQuery(User.class).buildParameters(userDto, dataGridParam);
+        if (!StrUtils.isEmpty(departid)) {
+            DetachedCriteria dc = cq.getDetachedCriteria();
+            DetachedCriteria dcDepart = dc.createCriteria("userOrgList");
+            dcDepart.add(Restrictions.eq("parentOrg.id", departid));
+        }
+        Short[] userstate = new Short[]{Globals.USER_NORMAL, Globals.USER_ADMIN};
+        cq.in("status", userstate);
+        cq.add();
+        return  userRepository.findDataGridData(cq);
     }
 }

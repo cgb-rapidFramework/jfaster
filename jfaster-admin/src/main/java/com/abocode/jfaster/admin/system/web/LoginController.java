@@ -1,26 +1,31 @@
 package com.abocode.jfaster.admin.system.web;
 
-import com.abocode.jfaster.admin.system.service.UserLoginService;
-import com.abocode.jfaster.api.core.AvailableEnum;
-import com.abocode.jfaster.core.common.constants.Globals;
-import com.abocode.jfaster.core.persistence.datasource.DataSourceType;
-import com.abocode.jfaster.core.platform.SystemContainer;
-import com.abocode.jfaster.core.common.model.json.AjaxJson;
-import com.abocode.jfaster.core.common.model.json.AjaxJsonBuilder;
-import com.abocode.jfaster.core.common.util.*;
-import com.abocode.jfaster.core.persistence.datasource.DataSourceContextHolder;
-import com.abocode.jfaster.core.platform.utils.SystemMenuUtils;
-import com.abocode.jfaster.core.web.manager.ClientManager;
 import com.abocode.jfaster.admin.system.repository.LanguageRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.repository.TemplateRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
 import com.abocode.jfaster.admin.system.service.FunctionService;
+import com.abocode.jfaster.admin.system.service.UserLoginService;
+import com.abocode.jfaster.api.core.AvailableEnum;
+import com.abocode.jfaster.core.common.constants.Globals;
+import com.abocode.jfaster.core.common.model.json.AjaxJson;
+import com.abocode.jfaster.core.common.model.json.AjaxJsonBuilder;
+import com.abocode.jfaster.core.common.util.ContextHolderUtils;
+import com.abocode.jfaster.core.common.util.ConvertUtils;
+import com.abocode.jfaster.core.common.util.StrUtils;
+import com.abocode.jfaster.core.persistence.datasource.DataSourceContextHolder;
+import com.abocode.jfaster.core.persistence.datasource.DataSourceType;
+import com.abocode.jfaster.core.platform.SystemContainer;
+import com.abocode.jfaster.core.platform.utils.SystemMenuUtils;
 import com.abocode.jfaster.core.platform.view.FunctionView;
 import com.abocode.jfaster.core.platform.view.TemplateView;
-import com.abocode.jfaster.core.web.manager.SessionShareCenter;
+import com.abocode.jfaster.core.web.manager.ClientManager;
 import com.abocode.jfaster.core.web.manager.SessionHolder;
-import com.abocode.jfaster.system.entity.*;
+import com.abocode.jfaster.core.web.manager.SessionShareCenter;
+import com.abocode.jfaster.system.entity.Config;
+import com.abocode.jfaster.system.entity.Role;
+import com.abocode.jfaster.system.entity.Template;
+import com.abocode.jfaster.system.entity.User;
 import com.google.gson.Gson;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +40,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 登陆初始化控制器

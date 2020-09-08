@@ -1,22 +1,21 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
-import com.abocode.jfaster.core.common.util.StrUtils;
-import com.abocode.jfaster.core.platform.view.interactions.easyui.ColumnValue;
-import com.abocode.jfaster.core.platform.view.interactions.easyui.DataGridUrl;
-import com.abocode.jfaster.core.platform.view.interactions.easyui.OptTypeDirection;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.util.JspWriterUtils;
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
-
+import com.abocode.jfaster.core.common.util.StrUtils;
 import com.abocode.jfaster.core.platform.LanguageContainer;
 import com.abocode.jfaster.core.platform.SystemContainer;
+import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.view.TypeView;
+import com.abocode.jfaster.core.platform.view.interactions.easyui.ColumnValue;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.DataGridColumn;
+import com.abocode.jfaster.core.platform.view.interactions.easyui.DataGridUrl;
+import com.abocode.jfaster.core.platform.view.interactions.easyui.OptTypeDirection;
 import com.abocode.jfaster.core.repository.TagUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
-import com.abocode.jfaster.core.platform.view.TypeView;
 
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
@@ -1196,7 +1195,7 @@ public class DataGridTag extends TagSupport {
         StringBuffer nsb = new StringBuffer();
         nsb.append("<script type=\"text/javascript\">");
         nsb.append("$(document).ready(function() {")
-                .append("$(\"#" + getEntityName() + "_" + id + "\").autocomplete(\"commonController.do?getAutoList\",{")
+                .append("$(\"#" + getEntityName() + "_" + id + "\").autocomplete(\"systemController.do?getAutoList\",{")
                 .append("max: 5,minChars: 2,width: 200,scrollHeight: 100,matchContains: true,autoFill: false,extraParams:{")
                 .append("featureClass : \"P\",style : \"full\",	maxRows : 10,labelField : \"" + filed + "\",valueField : \"" + filed + "\",")
                 .append("searchField : \"" + filed + "\",entityName : \"" + getEntityName() + "\",trem: function(){return $(\"#" + getEntityName() + "_" + id + "\").val();}}");

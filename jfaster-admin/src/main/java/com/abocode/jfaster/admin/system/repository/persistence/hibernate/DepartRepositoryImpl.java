@@ -1,8 +1,8 @@
 package com.abocode.jfaster.admin.system.repository.persistence.hibernate;
 
+import com.abocode.jfaster.admin.system.repository.DepartRepository;
 import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
 import com.abocode.jfaster.system.entity.Org;
-import com.abocode.jfaster.admin.system.repository.DepartRepository;
 import org.springframework.stereotype.Service;
 
 /**

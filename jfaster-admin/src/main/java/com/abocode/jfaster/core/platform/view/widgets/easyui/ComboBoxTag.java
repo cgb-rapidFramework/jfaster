@@ -1,12 +1,12 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
-import javax.servlet.jsp.JspTagException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.tagext.TagSupport;
-
 import com.abocode.jfaster.core.common.model.json.ComboBox;
 import com.abocode.jfaster.core.common.util.JspWriterUtils;
 import lombok.Data;
+
+import javax.servlet.jsp.JspTagException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.TagSupport;
 
 /**
  * 类描述：下拉选择框标签

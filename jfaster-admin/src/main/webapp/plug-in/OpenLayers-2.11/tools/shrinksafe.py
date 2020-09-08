@@ -16,7 +16,6 @@
 
 import sys
 
-import urllib
 import urllib2
 
 URL_SHRINK_SAFE = "http://shrinksafe.dojotoolkit.org/shrinksafe.php"

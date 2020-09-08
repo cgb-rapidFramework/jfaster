@@ -1,9 +1,6 @@
 package com.abocode.jfaster.core.platform.view;
 
-import com.abocode.jfaster.core.AbstractIdEntity;
 import lombok.Data;
-
-import javax.persistence.Column;
 
 /**
  * 角色表

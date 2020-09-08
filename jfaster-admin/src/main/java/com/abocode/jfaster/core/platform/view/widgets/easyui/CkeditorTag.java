@@ -1,7 +1,7 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
-import com.abocode.jfaster.core.common.util.PropertiesUtils;
 import com.abocode.jfaster.core.common.util.JspWriterUtils;
+import com.abocode.jfaster.core.common.util.PropertiesUtils;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.jsp.JspTagException;

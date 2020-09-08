@@ -1,10 +1,9 @@
 package com.abocode.jfaster.core.platform.utils;
 
-import com.abocode.jfaster.core.platform.view.IconView;
 import com.abocode.jfaster.core.platform.SystemContainer;
-import org.apache.commons.lang.StringUtils;
 import com.abocode.jfaster.core.platform.view.FunctionView;
-import org.springframework.util.Assert;
+import com.abocode.jfaster.core.platform.view.IconView;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
 import java.util.Map;

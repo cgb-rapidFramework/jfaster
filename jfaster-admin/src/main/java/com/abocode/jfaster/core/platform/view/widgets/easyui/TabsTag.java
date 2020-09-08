@@ -1,8 +1,8 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
-import com.abocode.jfaster.core.platform.view.interactions.easyui.Tab;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.util.JspWriterUtils;
+import com.abocode.jfaster.core.platform.view.interactions.easyui.Tab;
 
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;

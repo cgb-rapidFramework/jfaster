@@ -1,16 +1,16 @@
 package com.abocode.jfaster.admin.system.repository.persistence.hibernate;
 
-import com.abocode.jfaster.core.platform.view.IconView;
+import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.service.BeanToTagConverter;
 import com.abocode.jfaster.core.common.util.*;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.platform.view.OperationView;
-import com.abocode.jfaster.core.platform.view.TypeView;
-import com.abocode.jfaster.core.platform.view.TypeGroupView;
 import com.abocode.jfaster.core.platform.SystemContainer;
 import com.abocode.jfaster.core.platform.SystemContainer.IconContainer;
 import com.abocode.jfaster.core.platform.SystemContainer.TypeGroupContainer;
-import com.abocode.jfaster.admin.system.repository.SystemRepository;
+import com.abocode.jfaster.core.platform.view.IconView;
+import com.abocode.jfaster.core.platform.view.OperationView;
+import com.abocode.jfaster.core.platform.view.TypeGroupView;
+import com.abocode.jfaster.core.platform.view.TypeView;
 import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
 import com.abocode.jfaster.core.web.manager.SessionHolder;
 import com.abocode.jfaster.system.entity.*;
@@ -67,31 +67,6 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 
 	}
 
-	/**
-	 * 根据类型分组编码和名称获取TypeGroup,如果为空则创建一个
-	 * 
-	 * @param typegroupcode
-	 * @param typgroupename
-	 * @return
-	 */
-	public TypeGroup getTypeGroup(String typegroupcode, String typgroupename) {
-		TypeGroup tsTypegroup = findUniqueByProperty(TypeGroup.class, "typegroupcode", typegroupcode);
-		if (tsTypegroup == null) {
-			tsTypegroup = new TypeGroup();
-			tsTypegroup.setTypeGroupCode(typegroupcode);
-			tsTypegroup.setTypeGroupName(typgroupename);
-			save(tsTypegroup);
-		}
-		return tsTypegroup;
-	}
-
-
-	public TypeGroup getTypeGroupByCode(String typegroupCode) {
-		TypeGroup typeGroup =findUniqueByProperty(TypeGroup.class, "typegroupcode", typegroupCode);
-		return typeGroup;
-	}
-
-	
 	public void initAllTypeGroups() {
 		List<TypeGroup> typeGroups = findAll(TypeGroup.class);
 		for (TypeGroup typeGroup : typeGroups) {
@@ -104,7 +79,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 	}
 
 	
-	public void refleshTypesCach(Type type) {
+	public void refreshTypesCache(Type type) {
 		TypeGroup typeGroup = type.getTypeGroup();
 		TypeGroup typeGroupEntity = find(TypeGroup.class, typeGroup.getId());
 		List<Type> tsTypes = findAllByProperty(Type.class, "typeGroup.id", typeGroup.getId());
@@ -113,7 +88,7 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 	}
 
 	
-	public void refleshTypeGroupCach() {
+	public void refreshTypeGroupCache() {
 		TypeGroupContainer.getTypeGroupMap().clear();
 		List<TypeGroup> typeGroups = findAll(TypeGroup.class);
 		for (TypeGroup tsTypegroup : typeGroups) {
@@ -200,43 +175,6 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 		}
 	}
 
-    public String generateOrgCode(String id, String pid) {
-        int orgCodeLength = 2; // 默认编码长度
-        if ("3".equals(ConfigUtils.getOrgCodeLengthType())) { // 类型2-编码长度为3，如001
-            orgCodeLength = 3;
-        }
-        String  newOrgCode = "";
-        if(!org.springframework.util.StringUtils.hasText(pid)) { // 第一级编码
-            String sql = "select max(t.org_code) orgCode from t_s_depart t where t.parentdepartid is null";
-            Map<String, Object> pOrgCodeMap =queryForMap(sql);
-            if(pOrgCodeMap.get("orgCode") != null) {
-                String curOrgCode = pOrgCodeMap.get("orgCode").toString();
-                newOrgCode = String.format("%0" + orgCodeLength + "d", Integer.parseInt(curOrgCode) + 1);
-            } else {
-                newOrgCode = String.format("%0" + orgCodeLength + "d", 1);
-            }
-        } else { // 下级编码
-            String sql = "select max(t.org_code) orgCode from t_s_depart t where t.parentdepartid = ?";
-            Map<String, Object> orgCodeMap =queryForMap(sql, pid);
-            if(orgCodeMap.get("orgCode") != null) { // 当前基本有编码时
-                String curOrgCode = orgCodeMap.get("orgCode").toString();
-                String pOrgCode = curOrgCode.substring(0, curOrgCode.length() - orgCodeLength);
-                String subOrgCode = curOrgCode.substring(curOrgCode.length() - orgCodeLength, curOrgCode.length());
-                newOrgCode = pOrgCode + String.format("%0" + orgCodeLength + "d", Integer.parseInt(subOrgCode) + 1);
-            } else { // 当前级别没有编码时
-                String pOrgCodeSql = "select max(t.org_code) orgCode from t_s_depart t where t.id = ?";
-                Map<String, Object> pOrgCodeMap =queryForMap(pOrgCodeSql, pid);
-            	String curOrgCode= pOrgCodeMap.get("orgCode")+"";
-                if(curOrgCode.equals("null")){
-                	curOrgCode="";
-                }
-                newOrgCode = curOrgCode + String.format("%0" + orgCodeLength + "d", 1);
-              
-            }
-        }
-
-        return newOrgCode;
-    }
 
 	public Set<String> getOperationCodesByRoleIdAndruleDataId(String roleId,
 			String functionId) {
@@ -261,7 +199,6 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 
 	public Set<String> getOperationCodesByUserIdAndDataId(String userId,
 			String functionId) {
-		// TODO Auto-generated method stub
 		Set<String> dataRuleCodes = new HashSet();
 		List<RoleUser> rUsers = findAllByProperty(RoleUser.class, USER_ID, userId);
 		for (RoleUser ru : rUsers) {
@@ -293,21 +230,6 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 			IconView icon= BeanToTagConverter.convertIcon(tsIcon);
 			IconContainer.getIconsMap().put(tsIcon.getId(), icon);
 		}
-	}
-	/**
-	 * 更新图标
-	 * @param tsIcon
-	 */
-	public  void updateTSIcons(Icon tsIcon) {
-		IconView icon= BeanToTagConverter.convertIcon(tsIcon);
-		IconContainer.getIconsMap().put(tsIcon.getId(), icon);
-	}
-	/**
-	 * 更新图标
-	 * @param icon
-	 */
-	public  void delTSIcons(Icon icon) {
-		IconContainer.getIconsMap().remove(icon.getId());
 	}
 
 	@Override

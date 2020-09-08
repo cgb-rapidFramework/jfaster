@@ -1,9 +1,9 @@
 package com.abocode.jfaster.core.web.manager;
 
-import com.abocode.jfaster.core.web.aop.DataBaseConstant;
 import com.abocode.jfaster.core.common.util.ContextHolderUtils;
 import com.abocode.jfaster.core.common.util.DateUtils;
 import com.abocode.jfaster.core.common.util.StrUtils;
+import com.abocode.jfaster.core.web.aop.DataBaseConstant;
 import com.abocode.jfaster.system.entity.User;
 
 import javax.servlet.http.HttpServletRequest;

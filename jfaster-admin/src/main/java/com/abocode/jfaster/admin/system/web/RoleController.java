@@ -1,18 +1,19 @@
 package com.abocode.jfaster.admin.system.web;
 
+import com.abocode.jfaster.admin.system.repository.ResourceRepository;
+import com.abocode.jfaster.admin.system.repository.SystemRepository;
+import com.abocode.jfaster.admin.system.repository.UserRepository;
 import com.abocode.jfaster.admin.system.service.RoleService;
 import com.abocode.jfaster.core.common.model.json.*;
-import com.abocode.jfaster.core.common.util.*;
-import com.abocode.jfaster.admin.system.repository.ResourceRepository;
+import com.abocode.jfaster.core.common.util.ConvertUtils;
+import com.abocode.jfaster.core.common.util.IdUtils;
+import com.abocode.jfaster.core.persistence.hibernate.hql.HqlGenerateUtil;
+import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.repository.DataGridData;
 import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.system.entity.*;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Property;
-import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.persistence.hibernate.hql.HqlGenerateUtil;
-import com.abocode.jfaster.admin.system.repository.SystemRepository;
-import com.abocode.jfaster.admin.system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 角色

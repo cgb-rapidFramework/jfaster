@@ -1,13 +1,12 @@
 package com.abocode.jfaster.core.web.aop;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
 
 public class Wrapper extends HttpServletResponseWrapper {
     public static final int OT_NONE = 0, OT_WRITER = 1, OT_STREAM = 2;

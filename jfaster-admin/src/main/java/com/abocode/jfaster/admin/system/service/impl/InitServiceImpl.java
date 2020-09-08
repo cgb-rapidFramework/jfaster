@@ -6,7 +6,6 @@ import com.abocode.jfaster.admin.system.service.FunctionService;
 import com.abocode.jfaster.admin.system.service.InitService;
 import com.abocode.jfaster.core.common.util.ConfigUtils;
 import com.abocode.jfaster.core.common.util.DateUtils;
-
 import com.abocode.jfaster.core.common.util.StreamUtils;
 import com.abocode.jfaster.system.entity.*;
 import lombok.extern.slf4j.Slf4j;
@@ -756,7 +755,7 @@ public class InitServiceImpl implements InitService {
 
         Function druid = new Function();
         druid.setFunctionName("数据监控");
-        druid.setFunctionUrl("dataSourceController.do?goDruid&isIframe");
+        druid.setFunctionUrl("dataSourceController.do?druid&isIframe");
         druid.setFunctionLevel((short) 1);
         druid.setFunctionOrder("11");
         druid.setParentFunction(syscontrol);

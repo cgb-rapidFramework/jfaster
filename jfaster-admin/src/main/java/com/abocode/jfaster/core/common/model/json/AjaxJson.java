@@ -1,7 +1,5 @@
 package com.abocode.jfaster.core.common.model.json;
 
-import java.util.Map;
-import java.util.Set;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.util.Assert;
@@ -11,6 +9,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * $.ajax后需要接受的JSON

@@ -3,20 +3,17 @@
  */
 package com.abocode.jfaster.admin.system.web;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import com.abocode.jfaster.core.common.util.ConfigUtils;
+import com.abocode.jfaster.core.common.util.IdUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.abocode.jfaster.core.common.util.ConfigUtils;
-import com.abocode.jfaster.core.common.util.IdUtils;
-import lombok.extern.slf4j.Slf4j;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * 随机生成验证图片

@@ -1,9 +1,9 @@
 package com.abocode.jfaster.core.web.interceptors;
 
+import org.springframework.web.servlet.HandlerInterceptor;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.web.servlet.HandlerInterceptor;
 /**
  * 字符集拦截器
  * 

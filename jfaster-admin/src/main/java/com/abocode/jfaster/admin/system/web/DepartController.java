@@ -1,34 +1,40 @@
 package com.abocode.jfaster.admin.system.web;
 
+import com.abocode.jfaster.admin.system.repository.DepartRepository;
+import com.abocode.jfaster.admin.system.repository.ResourceRepository;
+import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.service.OrgService;
-import com.abocode.jfaster.core.common.model.json.*;
-import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
-import com.abocode.jfaster.core.common.util.ConvertUtils;
+import com.abocode.jfaster.admin.system.service.UserService;
+import com.abocode.jfaster.api.system.OrgDto;
+import com.abocode.jfaster.api.system.UserDto;
 import com.abocode.jfaster.core.common.constants.Globals;
+import com.abocode.jfaster.core.common.model.json.AjaxJson;
+import com.abocode.jfaster.core.common.model.json.AjaxJsonBuilder;
+import com.abocode.jfaster.core.common.model.json.ComboTree;
+import com.abocode.jfaster.core.common.model.json.TreeGrid;
+import com.abocode.jfaster.core.common.util.ConvertUtils;
+import com.abocode.jfaster.core.common.util.StrUtils;
+import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.repository.DataGridData;
 import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.system.entity.Org;
 import com.abocode.jfaster.system.entity.User;
 import com.abocode.jfaster.system.entity.UserOrg;
-import com.abocode.jfaster.admin.system.repository.DepartRepository;
-import com.abocode.jfaster.admin.system.repository.ResourceRepository;
-import com.abocode.jfaster.admin.system.repository.SystemRepository;
-import com.abocode.jfaster.core.common.util.StrUtils;
-import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Property;
-import org.hibernate.criterion.Restrictions;
-import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 
@@ -47,6 +53,9 @@ public class DepartController {
     private ResourceRepository resourceService;
     @Autowired
     private OrgService orgService;
+    @Autowired
+    private UserService userService;
+
     /**
      * 部门列表页面跳转
      *
@@ -59,6 +68,7 @@ public class DepartController {
 
     /**
      * easyuiAJAX请求数据
+     *
      * @param dataGridParam
      * @return
      */
@@ -67,35 +77,21 @@ public class DepartController {
     @ResponseBody
     public DataGridData findDataGridData(DataGridParam dataGridParam) {
         CriteriaQuery cq = new CriteriaQuery(Org.class).buildDataGrid(dataGridParam);
-        return  this.systemRepository.findDataGridData(cq);
+        return this.departRepository.findDataGridData(cq);
     }
 
     /**
-     * 删除部门：
-     * <ul>
-     *     组织机构下存在子机构时
-     *     <li>不允许删除 组织机构</li>
-     * </ul>
-     * <ul>
-     *     组织机构下存在用户时
-     *     <li>不允许删除 组织机构</li>
-     * </ul>
-     * <ul>
-     *     组织机构下 不存在子机构 且 不存在用户时
-     *     <li>删除 组织机构-角色 信息</li>
-     *     <li>删除 组织机构 信息</li>
-     * </ul>
-     *
      * @return 删除的结果信息
      */
     @RequestMapping(params = "del")
     @ResponseBody
-    public AjaxJson del(Org depart, HttpServletRequest request) {
-        depart = systemRepository.findEntity(Org.class, depart.getId());
-        Assert.isTrue(depart != null, MutiLangUtils.paramDelFail("common.department"));
-        Assert.isTrue(depart.getOrgs().size() == 0, MutiLangUtils.paramDelFail("common.department"));
+    public AjaxJson del(@RequestParam String id) {
+        Org depart = departRepository.findEntity(Org.class, id);
+        String paramLangKey = "common.department";
+        Assert.isTrue(depart != null, MutiLangUtils.paramDelFail(paramLangKey));
+        Assert.isTrue(!CollectionUtils.isEmpty(depart.getOrgs()), MutiLangUtils.paramDelFail(paramLangKey));
         departRepository.deleteDepart(depart);
-        String message = MutiLangUtils.paramDelSuccess("common.department");
+        String message = MutiLangUtils.paramDelSuccess(paramLangKey);
         systemRepository.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);
         return AjaxJsonBuilder.success(message);
     }
@@ -103,26 +99,28 @@ public class DepartController {
     /**
      * 添加部门
      *
-     * @param depart
+     * @param orgDto
      * @return
      */
     @RequestMapping(params = "save")
     @ResponseBody
-    public AjaxJson save(Org depart, HttpServletRequest request) {
+    public AjaxJson save(OrgDto orgDto, HttpServletRequest request) {
         String pid = request.getParameter("parentOrg.id");
         // 设置上级部门
         if (pid.equals("")) {
-            depart.setParentOrg(null);
+            orgDto.setParentOrg(null);
         }
-        orgService.save(depart);
+        Org org = new Org();
+        BeanUtils.copyProperties(orgDto, org);
+        orgService.save(org);
         return AjaxJsonBuilder.success();
     }
 
     @RequestMapping(params = "add")
-    public ModelAndView add(Org depart, HttpServletRequest request) {
-        List<Org> departList = systemRepository.findAll(Org.class);
+    public ModelAndView add(@RequestParam String  id, HttpServletRequest request) {
+        List<Org> departList = departRepository.findAll(Org.class);
         request.setAttribute("departList", departList);
-        request.setAttribute("pid", depart.getId());
+        request.setAttribute("pid",id);
         return new ModelAndView("system/depart/depart");
     }
 
@@ -132,11 +130,11 @@ public class DepartController {
      * @return
      */
     @RequestMapping(params = "update")
-    public ModelAndView update(Org depart, HttpServletRequest request) {
-        List<Org> departList = systemRepository.findAll(Org.class);
+    public ModelAndView update(@RequestParam String  id, HttpServletRequest request) {
+        List<Org> departList = departRepository.findAll(Org.class);
         request.setAttribute("departList", departList);
-        if (!StrUtils.isEmpty(depart.getId())) {
-            depart = systemRepository.findEntity(Org.class, depart.getId());
+        if (!StrUtils.isEmpty(id)) {
+            Org depart = departRepository.findEntity(Org.class, id);
             request.setAttribute("departView", depart);
         }
         return new ModelAndView("system/depart/depart");
@@ -151,8 +149,7 @@ public class DepartController {
      */
     @RequestMapping(params = "setPFunction")
     @ResponseBody
-    public List<ComboTree> setPFunction(HttpServletRequest request, ComboTree comboTree) {
-        String selfId = request.getParameter("selfId");
+    public List<ComboTree> setPFunction(@RequestParam String  selfId, ComboTree comboTree,HttpServletRequest request) {
         List<Org> departsList = orgService.findAll(selfId, comboTree.getId());
         ComboTreeModel comboTreeModel = new ComboTreeModel("id", "departname", "Departs");
         return resourceService.ComboTree(departsList, comboTreeModel, null, true);
@@ -162,15 +159,13 @@ public class DepartController {
     /**
      * 部门列表，树形展示
      *
-     * @param request
      * @param treegrid
      * @return
      */
     @RequestMapping(params = "departgrid")
     @ResponseBody
-    public Object departgrid(Org tSDepart, HttpServletRequest request, TreeGrid treegrid) {
-        String isSearch = request.getParameter("isSearch");
-        return orgService.findTreeGrid(isSearch, tSDepart, treegrid);
+    public Object departgrid(@RequestParam String  isSearch,  OrgDto orgDto, TreeGrid treegrid) {
+        return orgService.findTreeGrid(isSearch, orgDto,  treegrid);
     }
 
     /**
@@ -181,33 +176,22 @@ public class DepartController {
      * @return 返回类型： ModelAndView
      */
     @RequestMapping(params = "userList")
-    public ModelAndView userList(HttpServletRequest request, String departid) {
+    public ModelAndView userList(@RequestParam String  departid,HttpServletRequest request) {
         request.setAttribute("departid", departid);
         return new ModelAndView("system/depart/departUserList");
     }
 
     /**
      * 方法描述:  成员列表dataGrid
-     *  @param user
-     * @param request
-     * @param response
+     *
+     * @param departid
      * @param dataGridParam 返回类型： void
      * @return
      */
     @RequestMapping(params = "userDatagrid")
     @ResponseBody
-    public DataGridData userDatagrid(User user, HttpServletRequest request, HttpServletResponse response, DataGridParam dataGridParam) {
-        CriteriaQuery cq = new CriteriaQuery(User.class).buildParameters(user,dataGridParam);
-        String departid = ConvertUtils.getString(request.getParameter("departid"));
-        if (!StrUtils.isEmpty(departid)) {
-            DetachedCriteria dc = cq.getDetachedCriteria();
-            DetachedCriteria dcDepart = dc.createCriteria("userOrgList");
-            dcDepart.add(Restrictions.eq("parentOrg.id", departid));
-        }
-        Short[] userstate = new Short[]{Globals.USER_NORMAL, Globals.USER_ADMIN};
-        cq.in("status", userstate);
-        cq.add();
-       return this.systemRepository.findDataGridData(cq);
+    public DataGridData userDatagrid(UserDto userDto, @RequestParam String departid, DataGridParam dataGridParam) {
+        return  userService.findDataGridData(userDto,departid,dataGridParam);
     }
 
     /**
@@ -228,22 +212,21 @@ public class DepartController {
      * @return 处理结果信息
      */
     @RequestMapping(params = "goAddUserToOrg")
-    public ModelAndView goAddUserToOrg(HttpServletRequest request) {
-        request.setAttribute("orgId", request.getParameter("orgId"));
+    public ModelAndView goAddUserToOrg(@RequestParam String orgId, HttpServletRequest request) {
+        request.setAttribute("orgId",orgId);
         return new ModelAndView("system/depart/noCurDepartUserList");
     }
 
     /**
      * 获取 除当前 组织之外的用户信息列表
      *
-     * @param request request
+     * @param orgId
      * @return 处理结果信息
      */
     @RequestMapping(params = "addUserToOrgList")
     @ResponseBody
-    public DataGridData addUserToOrgList(User user, HttpServletRequest request, DataGridParam dataGridParam) {
-        String orgId = request.getParameter("orgId");
-        CriteriaQuery cq = new CriteriaQuery(User.class).buildParameters(user,dataGridParam);
+    public DataGridData addUserToOrgList(UserDto userDto,@RequestParam String  orgId, DataGridParam dataGridParam) {
+        CriteriaQuery cq = new CriteriaQuery(User.class).buildParameters(userDto, dataGridParam);
         // 获取 当前组织机构的用户信息
         CriteriaQuery subCq = new CriteriaQuery(UserOrg.class);
         subCq.setProjection(Property.forName("user.id"));
@@ -251,20 +234,19 @@ public class DepartController {
         subCq.add();
         cq.add(Property.forName("id").notIn(subCq.getDetachedCriteria()));
         cq.add();
-        return this.systemRepository.findDataGridData(cq);
+        return this.departRepository.findDataGridData(cq);
     }
 
     /**
      * 添加 用户到组织机构
      *
-     * @param request
      * @return 处理结果信息
      */
     @RequestMapping(params = "doAddUserToOrg")
     @ResponseBody
-    public AjaxJson doAddUserToOrg(HttpServletRequest request) {
-        Org depart = systemRepository.findEntity(Org.class, request.getParameter("orgId"));
-        String orgIds = ConvertUtils.getString(request.getParameter("userIds"));
+    public AjaxJson doAddUserToOrg(@RequestParam String  orgId,@RequestParam String userIds) {
+        Org depart = departRepository.findEntity(Org.class, orgId);
+        String orgIds = ConvertUtils.getString(userIds);
         orgService.saveOrgUserList(depart, orgIds);
         return AjaxJsonBuilder.success(MutiLangUtils.paramAddSuccess("common.user"));
     }
@@ -289,6 +271,6 @@ public class DepartController {
     @ResponseBody
     public DataGridData findDataGridDataRole(DataGridParam dataGridParam) {
         CriteriaQuery cq = new CriteriaQuery(Org.class).buildDataGrid(dataGridParam);
-        return this.systemRepository.findDataGridData(cq);
+        return this.departRepository.findDataGridData(cq);
     }
 }

@@ -2,7 +2,9 @@ package com.abocode.jfaster.core.common.util;
 
 import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class IdUtils {
     private IdUtils() {

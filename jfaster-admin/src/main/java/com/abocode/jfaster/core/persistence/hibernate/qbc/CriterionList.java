@@ -1,8 +1,8 @@
 package com.abocode.jfaster.core.persistence.hibernate.qbc;
 
-import java.util.ArrayList;
-
 import org.hibernate.criterion.Criterion;
+
+import java.util.ArrayList;
 
 /**
  *

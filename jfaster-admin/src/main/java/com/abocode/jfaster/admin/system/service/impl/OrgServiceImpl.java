@@ -4,16 +4,17 @@ import com.abocode.jfaster.admin.system.repository.ResourceRepository;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
 import com.abocode.jfaster.admin.system.service.OrgService;
+import com.abocode.jfaster.api.system.OrgDto;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.model.json.ComboTree;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
 import com.abocode.jfaster.core.common.util.IdUtils;
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
 import com.abocode.jfaster.core.common.util.StrUtils;
+import com.abocode.jfaster.core.persistence.hibernate.hql.HqlGenerateUtil;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
+import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.TreeGridModel;
-import com.abocode.jfaster.core.persistence.hibernate.hql.HqlGenerateUtil;
 import com.abocode.jfaster.system.entity.Org;
 import com.abocode.jfaster.system.entity.User;
 import com.abocode.jfaster.system.entity.UserOrg;
@@ -66,14 +67,15 @@ public class OrgServiceImpl implements OrgService {
     }
 
     @Override
-    public List<TreeGrid> findTreeGrid(String isSearch, Org tSDepart, TreeGrid treegrid) {
+    public List<TreeGrid> findTreeGrid(String isSearch,  OrgDto orgDto, TreeGrid treegrid) {
+
         CriteriaQuery cq = new CriteriaQuery(Org.class);
         if ("yes".equals(isSearch)) {
             treegrid.setId(null);
-            tSDepart.setId(null);
+            orgDto.setId(null);
         }
-        if (null != tSDepart.getOrgName()) {
-            HqlGenerateUtil.installHql(cq, tSDepart);
+        if (null != orgDto.getOrgName()) {
+            HqlGenerateUtil.installHql(cq, orgDto);
         }
         if (treegrid.getId() != null) {
             cq.eq("parentOrg.id", treegrid.getId());
@@ -85,11 +87,9 @@ public class OrgServiceImpl implements OrgService {
 
 
         List<TreeGrid> departList = systemRepository.findListByCq(cq, false);
-        if (departList.size() == 0 && tSDepart.getOrgName() != null) {
+        if (departList.size() == 0 && orgDto.getOrgName() != null) {
             cq = new CriteriaQuery(Org.class);
-            Org parDepart = new Org();
-            tSDepart.setParentOrg(parDepart);
-            HqlGenerateUtil.installHql(cq, tSDepart);
+            HqlGenerateUtil.installHql(cq, orgDto);
             departList = systemRepository.findListByCq(cq, false);
         }
 

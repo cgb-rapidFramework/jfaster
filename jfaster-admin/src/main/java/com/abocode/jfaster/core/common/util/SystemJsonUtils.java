@@ -1,9 +1,10 @@
 package com.abocode.jfaster.core.common.util;
 
 import com.abocode.jfaster.core.common.exception.BusinessException;
+import com.abocode.jfaster.core.repository.TagUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
-import com.abocode.jfaster.core.repository.TagUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 

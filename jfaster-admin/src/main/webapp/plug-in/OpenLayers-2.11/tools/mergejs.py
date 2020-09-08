@@ -37,8 +37,8 @@
 # TODO: Allow files to be excluded. e.g. `Crossbrowser/DebugMode.js`?
 # TODO: Report error when dependency can not be found rather than KeyError.
 
-import re
 import os
+import re
 import sys
 
 SUFFIX_JAVASCRIPT = ".js"

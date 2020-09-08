@@ -3,11 +3,7 @@ package com.abocode.jfaster.system.entity;
 import com.abocode.jfaster.core.AbstractIdEntity;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "t_s_role_user")

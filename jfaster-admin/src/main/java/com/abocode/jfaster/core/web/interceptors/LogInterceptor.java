@@ -1,14 +1,14 @@
 package com.abocode.jfaster.core.web.interceptors;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Method;
-
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
+
+import java.lang.reflect.Array;
+import java.lang.reflect.Method;
 @Component
 @Aspect
 @Slf4j

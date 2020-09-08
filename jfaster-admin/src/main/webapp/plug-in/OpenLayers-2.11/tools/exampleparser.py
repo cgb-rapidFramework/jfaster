@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-import sys
 import os
 import re
-import urllib2
+import sys
 import time
+import urllib2
 from xml.dom.minidom import Document
 
 try:

@@ -1,20 +1,18 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
-import java.util.List;
-import java.util.Map;
+import com.abocode.jfaster.core.common.util.JspWriterUtils;
+import com.abocode.jfaster.core.platform.SystemContainer;
+import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.view.TypeGroupView;
+import com.abocode.jfaster.core.platform.view.TypeView;
+import com.google.gson.Gson;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
-
-import com.abocode.jfaster.core.platform.view.TypeGroupView;
-import com.abocode.jfaster.core.common.util.JspWriterUtils;
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
-import com.abocode.jfaster.core.platform.view.TypeView;
-import com.abocode.jfaster.core.platform.SystemContainer;
-
-import com.google.gson.Gson;
-import org.springframework.util.StringUtils;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 选择下拉框

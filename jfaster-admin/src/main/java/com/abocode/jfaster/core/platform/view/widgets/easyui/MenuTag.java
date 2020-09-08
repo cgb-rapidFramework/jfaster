@@ -1,15 +1,14 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
-import java.util.List;
-import java.util.Map;
+import com.abocode.jfaster.core.common.util.JspWriterUtils;
+import com.abocode.jfaster.core.platform.utils.SystemMenuUtils;
+import com.abocode.jfaster.core.platform.view.FunctionView;
 
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
-
-import com.abocode.jfaster.core.platform.view.FunctionView;
-import com.abocode.jfaster.core.common.util.JspWriterUtils;
-import com.abocode.jfaster.core.platform.utils.SystemMenuUtils;
+import java.util.List;
+import java.util.Map;
 
 
 /**

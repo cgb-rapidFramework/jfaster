@@ -1,5 +1,7 @@
+import os
 import re
-import os    
+
+
 def run():
     sourceDirectory = "../lib/OpenLayers"    
     allFiles = []

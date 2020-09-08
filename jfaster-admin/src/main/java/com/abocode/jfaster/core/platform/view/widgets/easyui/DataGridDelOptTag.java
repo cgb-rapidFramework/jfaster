@@ -1,10 +1,10 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
+import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.jsp.tagext.TagSupport;
-
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
 
 /**
  * 类描述：列表删除操作项标签

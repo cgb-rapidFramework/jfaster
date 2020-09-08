@@ -1,5 +1,6 @@
 package com.abocode.jfaster.admin.system.service;
 
+import com.abocode.jfaster.api.system.OrgDto;
 import com.abocode.jfaster.core.common.model.json.ComboTree;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
 import com.abocode.jfaster.system.entity.Org;
@@ -11,7 +12,7 @@ public interface OrgService {
 
     List<Org> findAll(String selfId, String id);
 
-    List<TreeGrid>  findTreeGrid(String isSearch, Org tSDepart, TreeGrid treegrid);
+    List<TreeGrid>  findTreeGrid(String isSearch, OrgDto orgDto, TreeGrid treegrid);
 
     List<ComboTree> buildComboTree();
 

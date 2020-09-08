@@ -2,7 +2,6 @@ package com.abocode.jfaster.core.common.util;
 
 import com.abocode.jfaster.core.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.beanutils.PropertyUtilsBean;
 

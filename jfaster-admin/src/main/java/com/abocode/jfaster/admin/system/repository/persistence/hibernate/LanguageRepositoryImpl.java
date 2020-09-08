@@ -1,11 +1,11 @@
 package com.abocode.jfaster.admin.system.repository.persistence.hibernate;
 
 import com.abocode.jfaster.admin.system.repository.LanguageRepository;
-import com.abocode.jfaster.core.platform.LanguageContainer;
 import com.abocode.jfaster.core.common.util.BrowserUtils;
+import com.abocode.jfaster.core.common.util.StrUtils;
+import com.abocode.jfaster.core.platform.LanguageContainer;
 import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
 import com.abocode.jfaster.system.entity.Language;
-import com.abocode.jfaster.core.common.util.StrUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

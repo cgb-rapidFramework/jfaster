@@ -144,7 +144,7 @@ actionUrl="systemController.do?typeGrid&typegroupid=${typegroup.id}" idField="id
 
 示例：
 
-<t:dgDefOpt url="commonController.do?viewFile&fileid={id}&subclassname={subclassname}" title="下载"></t:dgDefOpt>
+<t:dgDefOpt url="systemController.do?viewFile&fileid={id}&subclassname={subclassname}" title="下载"></t:dgDefOpt>
 
 参数：
 
@@ -251,7 +251,7 @@ urlStyle|自定义链接样式,直接写style里的内容; e.g: (background-colo
 
 示例：
 
-<t:dgDefOpt url="commonController.do?viewFile&fileid={id}&subclassname={subclassname}" title="下载"></t:dgDefOpt>
+<t:dgDefOpt url="systemController.do?viewFile&fileid={id}&subclassname={subclassname}" title="下载"></t:dgDefOpt>
 
 参数：
 
@@ -449,7 +449,7 @@ parse|string|转换数据|否|null
 formatItem|string|格式化要显示的数据|否|null
 result|string|选择后回调方法|否|null
 maxRows|string|最多显示条数|否|10
-dataSource|string|数据源请求通用URL|否|commonController.do?getAutoList
+dataSource|string|数据源请求通用URL|否|systemController.do?getAutoList
 
 ## ComboTree
 

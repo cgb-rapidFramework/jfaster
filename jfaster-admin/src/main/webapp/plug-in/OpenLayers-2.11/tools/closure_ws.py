@@ -1,7 +1,10 @@
 #!/usr/bin/python
 
-import httplib, urllib, sys
+import httplib
 import time
+import urllib
+
+
 # Define the parameters for the POST request and encode them in
 # a URL-safe format.
 

@@ -1,25 +1,25 @@
 package com.abocode.jfaster.admin.system.repository.persistence.hibernate;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.abocode.jfaster.admin.system.dto.ExlUserDto;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
-import com.abocode.jfaster.core.repository.DataGridParam;
+import com.abocode.jfaster.core.common.util.PasswordUtils;
 import com.abocode.jfaster.core.common.util.StrUtils;
+import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
+import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.core.repository.persistence.hibernate.CommonRepositoryImpl;
 import com.abocode.jfaster.system.entity.Role;
 import com.abocode.jfaster.system.entity.RoleUser;
+import com.abocode.jfaster.system.entity.User;
 import com.abocode.jfaster.system.entity.UserOrg;
-import com.abocode.jfaster.admin.system.dto.ExlUserDto;
-import com.abocode.jfaster.core.common.util.PasswordUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.system.entity.User;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author guanxf

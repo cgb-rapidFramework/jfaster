@@ -1,9 +1,11 @@
 package com.abocode.jfaster.admin.system.service;
 
 import com.abocode.jfaster.admin.system.dto.ExlUserDto;
+import com.abocode.jfaster.api.system.UserDto;
 import com.abocode.jfaster.core.common.model.json.ComboBox;
-import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
+import com.abocode.jfaster.core.repository.DataGridData;
+import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.system.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,4 +35,6 @@ public interface UserService {
     void importFile(Map<String, MultipartFile> fileMap);
 
     List<ExlUserDto> findExportUserList(User user, String orgIds, DataGridParam dataGridParam);
+
+    DataGridData findDataGridData(UserDto userDto, String departid, DataGridParam dataGridParam);
 }

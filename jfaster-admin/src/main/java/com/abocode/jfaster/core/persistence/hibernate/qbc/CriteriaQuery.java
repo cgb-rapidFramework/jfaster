@@ -1,21 +1,17 @@
 package com.abocode.jfaster.core.persistence.hibernate.qbc;
 
+import com.abocode.jfaster.core.persistence.hibernate.hql.HqlGenerateUtil;
+import com.abocode.jfaster.core.repository.DataGridParam;
+import com.abocode.jfaster.core.repository.SortDirection;
+import lombok.Data;
+import org.hibernate.criterion.*;
+import org.hibernate.type.Type;
+import org.springframework.util.StringUtils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.abocode.jfaster.core.repository.DataGridParam;
-import com.abocode.jfaster.core.persistence.hibernate.hql.HqlGenerateUtil;
-import com.abocode.jfaster.core.repository.SortDirection;
-import lombok.Data;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Property;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.type.Type;
-import org.springframework.util.StringUtils;
 
 @Data
 public class CriteriaQuery<T> {

@@ -1,11 +1,11 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
+import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import lombok.Data;
+
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.jsp.tagext.TagSupport;
-
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
-import lombok.Data;
 
 /**
  * 类描述：列表字段处理项目

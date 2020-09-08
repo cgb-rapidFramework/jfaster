@@ -1,7 +1,9 @@
 package com.abocode.jfaster.admin.system.repository;
 
 import com.abocode.jfaster.core.repository.CommonRepository;
-import com.abocode.jfaster.system.entity.*;
+import com.abocode.jfaster.system.entity.Function;
+import com.abocode.jfaster.system.entity.Type;
+import com.abocode.jfaster.system.entity.TypeGroup;
 
 import java.util.List;
 import java.util.Set;
@@ -22,13 +24,6 @@ import java.util.Set;
 	 */
 	 Type getType(String typecode, String typename, TypeGroup tsTypegroup);
 	/**
-	 * 根据类型分组编码和名称获取TypeGroup,如果为空则创建一个
-	 * @param typegroupcode
-	 * @param typgroupename
-	 * @return
-	 */
-	 TypeGroup getTypeGroup(String typegroupcode, String typgroupename);
-	/**
 	 * 根据用户ID 和 菜单Id 获取 具有操作权限的按钮Codes
 	 * @param userId
 	 * @param functionId
@@ -42,13 +37,7 @@ import java.util.Set;
 	 * @return
 	 */
 	  Set<String> getOperationCodesByRoleIdAndFunctionId(String roleId,String functionId);
-	/**
-	 * 根据编码获取字典组
-	 * 
-	 * @param typegroupCode
-	 * @return
-	 */
-	 TypeGroup getTypeGroupByCode(String typegroupCode);
+
 	/**
 	 * 对数据字典进行缓存
 	 */
@@ -58,11 +47,11 @@ import java.util.Set;
 	 * 刷新字典缓存
 	 * @param type
 	 */
-	 void refleshTypesCach(Type type);
+	 void refreshTypesCache(Type type);
 	/**
 	 * 刷新字典分组缓存
 	 */
-	 void refleshTypeGroupCach();
+	 void refreshTypeGroupCache();
 	/**
 	 * 刷新菜单
 	 * 
@@ -70,14 +59,6 @@ import java.util.Set;
 	 */
 	 void flushRoleFunciton(String id, Function newFunciton);
 
-    /**
-     * 生成组织机构编码
-     * @param id 组织机构主键
-     * @param pid 组织机构的父级主键
-     * @return 组织机构编码
-     */
-	String generateOrgCode(String id, String pid);
-	
 	/**
 	 * 
 	  * getOperationCodesByRoleIdAndruleDataId
@@ -101,17 +82,7 @@ import java.util.Set;
 	 * @return
 	 */
 	  void initAllTSIcons();
-	
-	/**
-	 * 更新图标
-	 * @param icon
-	 */
-	  void updateTSIcons(Icon icon);
-	/**
-	 * 删除图标
-	 * @param icon
-	 */
-	  void delTSIcons(Icon icon);
+
 
 	 void initOperations();
 

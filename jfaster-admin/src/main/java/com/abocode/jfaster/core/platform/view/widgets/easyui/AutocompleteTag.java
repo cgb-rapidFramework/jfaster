@@ -19,7 +19,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 public class AutocompleteTag extends TagSupport {
 	private static final long serialVersionUID = 1L;
 	private String name;//控件名称
-	private String dataSource = "commonController.do?getAutoList";//数据源
+	private String dataSource = "systemController.do?getAutoList";//数据源
 	private Integer minLength=2;//触发提示文字长度
 	private String labelField;//提示显示的字段
 	private String searchField;//查询关键字字段

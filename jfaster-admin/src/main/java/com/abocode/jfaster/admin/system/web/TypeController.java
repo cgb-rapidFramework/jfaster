@@ -5,16 +5,16 @@ import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.repository.UserRepository;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
-import com.abocode.jfaster.core.persistence.hibernate.hql.HqlGenerateUtil;
-import com.abocode.jfaster.core.repository.DataGridData;
-import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.core.common.model.json.TreeGrid;
 import com.abocode.jfaster.core.common.model.json.ValidForm;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
 import com.abocode.jfaster.core.common.util.StrUtils;
+import com.abocode.jfaster.core.persistence.hibernate.hql.HqlGenerateUtil;
 import com.abocode.jfaster.core.persistence.hibernate.hql.vo.HqlRuleEnum;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
+import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.repository.DataGridData;
+import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.system.entity.Type;
 import com.abocode.jfaster.system.entity.TypeGroup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -196,7 +196,7 @@ public class TypeController {
         }
         systemRepository.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);
         //刷新缓存
-        systemRepository.refleshTypeGroupCach();
+        systemRepository.refreshTypeGroupCache();
         j.setMsg(message);
         return j;
     }
@@ -216,7 +216,7 @@ public class TypeController {
             systemRepository.delete(typegroup);
             systemRepository.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);
             //刷新缓存
-            systemRepository.refleshTypeGroupCach();
+            systemRepository.refreshTypeGroupCache();
         } else {
             message = "类型分组: " + languageRepository.getLang(typegroup.getTypeGroupName()) + " 下有类型信息，不能删除！";
         }
@@ -244,7 +244,7 @@ public class TypeController {
         message = "类型: " + languageRepository.getLang(type.getTypeName()) + "被删除 成功";
         systemRepository.delete(type);
         //刷新缓存
-        systemRepository.refleshTypesCach(type);
+        systemRepository.refreshTypesCache(type);
         systemRepository.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);
         j.setMsg(message);
         return j;
@@ -291,7 +291,7 @@ public class TypeController {
             systemRepository.addLog(message, Globals.LOG_TYPE_INSERT, Globals.LOG_LEVEL);
         }
         //刷新缓存
-        systemRepository.refleshTypeGroupCach();
+        systemRepository.refreshTypeGroupCache();
         j.setMsg(message);
         return j;
     }
@@ -341,7 +341,7 @@ public class TypeController {
             systemRepository.addLog(message, Globals.LOG_TYPE_INSERT, Globals.LOG_LEVEL);
         }
         //刷新缓存
-        systemRepository.refleshTypesCach(type);
+        systemRepository.refreshTypesCache(type);
         j.setMsg(message);
         return j;
     }

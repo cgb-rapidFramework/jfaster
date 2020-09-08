@@ -1,10 +1,8 @@
 package com.abocode.jfaster.core.platform.utils;
 
-import com.abocode.jfaster.core.common.util.BeanPropertyUtils;
-
-import com.abocode.jfaster.core.platform.view.ReflectHelper;
-import com.abocode.jfaster.core.platform.LanguageContainer;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
+import com.abocode.jfaster.core.platform.LanguageContainer;
+import com.abocode.jfaster.core.platform.view.ReflectHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
