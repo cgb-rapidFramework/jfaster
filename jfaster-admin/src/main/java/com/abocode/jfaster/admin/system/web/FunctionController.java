@@ -4,6 +4,9 @@ import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.service.FunctionService;
 import com.abocode.jfaster.admin.system.service.OperationService;
 import com.abocode.jfaster.admin.system.service.RuleService;
+import com.abocode.jfaster.api.system.DataRuleDTO;
+import com.abocode.jfaster.api.system.FunctionDTO;
+import com.abocode.jfaster.api.system.OperationDTO;
 import com.abocode.jfaster.core.common.model.json.AjaxJson;
 import com.abocode.jfaster.core.common.model.json.AjaxJsonBuilder;
 import com.abocode.jfaster.core.common.model.json.ComboTree;
@@ -14,11 +17,14 @@ import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.repository.DataGridData;
 import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.system.entity.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,6 +41,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/functionController")
 public class FunctionController {
+    public static final String FUNCTION_ID = "functionId";
+    public static final String PARENT_FUNCTION_ID = "parentFunction.id";
+    public static final String ICON_LIST = "iconlist";
     @Autowired
     private SystemRepository systemService;
     @Autowired
@@ -62,7 +71,7 @@ public class FunctionController {
      */
     @RequestMapping(params = "operation")
     public ModelAndView operation(HttpServletRequest request, String functionId) {
-        request.setAttribute("functionId", functionId);
+        request.setAttribute(FUNCTION_ID, functionId);
         return new ModelAndView("system/operation/operationList");
     }
 
@@ -74,7 +83,7 @@ public class FunctionController {
     @RequestMapping(params = "dataRule")
     public ModelAndView operationData(HttpServletRequest request,
                                       String functionId) {
-        request.setAttribute("functionId", functionId);
+        request.setAttribute(FUNCTION_ID, functionId);
         return new ModelAndView("system/dataRule/ruleDataList");
     }
 
@@ -107,8 +116,8 @@ public class FunctionController {
                                    HttpServletResponse response, DataGridParam dataGridParam) {
         CriteriaQuery cq = new CriteriaQuery(Operation.class).buildDataGrid(dataGridParam);
         String functionId = ConvertUtils.getString(request
-                .getParameter("functionId"));
-        cq.eq("parentFunction.id", functionId);
+                .getParameter(FUNCTION_ID));
+        cq.eq(PARENT_FUNCTION_ID, functionId);
         cq.add();
         return this.systemService.findDataGridData(cq, true);
     }
@@ -116,41 +125,42 @@ public class FunctionController {
     /**
      * 删除权限
      *
-     * @param function
+     * @param id
      * @return
      */
     @RequestMapping(params = "del")
     @ResponseBody
-    public AjaxJson del(Function function) {
+    public AjaxJson del(@RequestParam String id) {
         // // 删除权限时先删除权限与角色之间关联表信息
-        List<RoleFunction> roleFunctions = systemService.findAllByProperty(RoleFunction.class, "parentFunction.id", function.getId());
-        Assert.isTrue(roleFunctions.size() > 0, "菜单已分配无法删除");
-        functionService.delById(function.getId());
+        List<RoleFunction> roleFunctions = systemService.findAllByProperty(RoleFunction.class, PARENT_FUNCTION_ID, id);
+        Assert.isTrue(!CollectionUtils.isEmpty(roleFunctions), "菜单已分配无法删除");
+        functionService.delById(id);
         return AjaxJsonBuilder.success();
     }
 
     /**
      * 删除操作
      *
-     * @param operation
+     * @param id
      * @return
      */
     @RequestMapping(params = "delop")
     @ResponseBody
-    public AjaxJson delop(Operation operation) {
-        functionService.delByLopId(operation.getId());
+    public AjaxJson delop(String id) {
+        functionService.delByLopId(id);
         return AjaxJsonBuilder.success();
     }
 
     /**
      * 权限录入
-     *
-     * @param function
+     * @param functionDto
      * @return
      */
     @RequestMapping(params = "saveFunction")
     @ResponseBody
-    public AjaxJson saveFunction(Function function, HttpServletRequest request) {
+    public AjaxJson saveFunction(FunctionDTO functionDto) {
+        Function function=new Function();
+        BeanUtils.copyProperties(functionDto,function);
         String functionOrder = function.getFunctionOrder();
         if (StrUtils.isEmpty(functionOrder)) {
             function.setFunctionOrder("0");
@@ -170,14 +180,15 @@ public class FunctionController {
 
     /**
      * 操作录入
-     *
-     * @param operation
+     * @param operationDTO
      * @return
      */
     @RequestMapping(params = "saveop")
     @ResponseBody
-    public AjaxJson saveop(Operation operation, HttpServletRequest request) {
-        String pid = request.getParameter("parentFunction.id");
+    public AjaxJson saveop(OperationDTO operationDTO, HttpServletRequest request) {
+        String pid = request.getParameter(PARENT_FUNCTION_ID);
+        Operation operation=new Operation();
+        BeanUtils.copyProperties(operationDTO,operation);
         if (pid.equals("")) {
             operation.setFunction(null);
         }
@@ -191,24 +202,25 @@ public class FunctionController {
      * @return
      */
     @RequestMapping(params = "detail")
-    public ModelAndView detail(Function function, HttpServletRequest request) {
-        String functionId = request.getParameter("id");
+    public ModelAndView detail(FunctionDTO functionDTO, HttpServletRequest request) {
         List<Function> functionList = systemService
                 .findAll(Function.class);
         request.setAttribute("flist", functionList);
         List<Icon> iconList = systemService
                 .findByHql("from Icon where iconType != 3");
-        request.setAttribute("iconlist", iconList);
+        request.setAttribute(ICON_LIST, iconList);
         List<Icon> iconDeskList = systemService
                 .findByHql("from Icon where iconType = 3");
         request.setAttribute("iconDeskList", iconDeskList);
-        if (functionId != null) {
-            function = systemService.findEntity(Function.class, functionId);
+        Function function=new Function();
+        BeanUtils.copyProperties(functionDTO,function);
+        if ( functionDTO.getId() != null) {
+            function = systemService.findEntity(Function.class, functionDTO.getId());
         }
         if (function.getParentFunction() != null
                 && function.getParentFunction().getId() != null) {
             function.setFunctionLevel((short) 1);
-            function.setParentFunction((Function) systemService.findEntity(
+            function.setParentFunction(systemService.findEntity(
                     Function.class, function.getParentFunction().getId()));
         }
         request.setAttribute("functionView", function);
@@ -221,16 +233,16 @@ public class FunctionController {
      * @return
      */
     @RequestMapping(params = "detailop")
-    public ModelAndView detailop(Operation operation,
+    public ModelAndView detailop(OperationDTO operationDTO,
                                  HttpServletRequest request) {
         List<Icon> iconlist = systemService.findAll(Icon.class);
-        request.setAttribute("iconlist", iconlist);
-        if (operation.getId() != null) {
-            operation = systemService.findEntity(Operation.class, operation.getId());
+        request.setAttribute(ICON_LIST, iconlist);
+        if (operationDTO.getId() != null) {
+            Operation operation = systemService.findEntity(Operation.class, operationDTO.getId());
             request.setAttribute("operation", operation);
         }
-        String functionId = ConvertUtils.getString(request.getParameter("functionId"));
-        request.setAttribute("functionId", functionId);
+        String functionId = ConvertUtils.getString(request.getParameter(FUNCTION_ID));
+        request.setAttribute(FUNCTION_ID, functionId);
         return new ModelAndView("system/operation/operation");
     }
 
@@ -258,7 +270,7 @@ public class FunctionController {
         String id = ConvertUtils.getString(request.getParameter("id"));
         cq.isNull("function");
         if (id != null) {
-            cq.eq("parentFunction.id", id);
+            cq.eq(PARENT_FUNCTION_ID, id);
         }
         cq.add();
         return this.systemService.findDataGridData(cq, true);
@@ -272,8 +284,7 @@ public class FunctionController {
     public List<ComboTree> setPFunction(HttpServletRequest request,
                                         ComboTree comboTree) {
         String selfId = request.getParameter("selfId");
-        List<ComboTree> comboTrees = functionService.setParentFunction(selfId, comboTree.getId());
-        return comboTrees;
+        return functionService.setParentFunction(selfId, comboTree.getId());
     }
 
     /**
@@ -294,16 +305,16 @@ public class FunctionController {
      * 数据规则权限的编辑和新增
      */
     @RequestMapping(params = "detailrule")
-    public ModelAndView detailrule(DataRule operation,
+    public ModelAndView detailrule(DataRuleDTO operation,
                                    HttpServletRequest request) {
         List<Icon> iconlist = systemService.findAll(Icon.class);
-        request.setAttribute("iconlist", iconlist);
+        request.setAttribute(ICON_LIST, iconlist);
         if (operation.getId() != null) {
             operation = systemService.findEntity(DataRule.class, operation.getId());
             request.setAttribute("operationView", operation);
         }
-        String functionId = ConvertUtils.getString(request.getParameter("functionId"));
-        request.setAttribute("functionId", functionId);
+        String functionId = ConvertUtils.getString(request.getParameter(FUNCTION_ID));
+        request.setAttribute(FUNCTION_ID, functionId);
         return new ModelAndView("system/dataRule/ruleData");
     }
 
@@ -314,11 +325,8 @@ public class FunctionController {
      */
     @RequestMapping(params = "ruledategrid")
     @ResponseBody
-    public DataGridData ruledategrid(HttpServletRequest request,
-                                     HttpServletResponse response, DataGridParam dataGridParam) {
+    public DataGridData ruledategrid(String functionId, DataGridParam dataGridParam) {
         CriteriaQuery cq = new CriteriaQuery(DataRule.class).buildDataGrid(dataGridParam);
-        String functionId = ConvertUtils.getString(request
-                .getParameter("functionId"));
         cq.eq("function.id", functionId);
         cq.add();
         return this.systemService.findDataGridData(cq, true);
@@ -329,7 +337,9 @@ public class FunctionController {
      */
     @RequestMapping(params = "delrule")
     @ResponseBody
-    public AjaxJson delrule(DataRule operation) {
+    public AjaxJson delrule(DataRuleDTO dataRuleDTO) {
+        DataRule operation=new DataRule();
+        BeanUtils.copyProperties(dataRuleDTO,operation);
         ruleService.del(operation);
         return AjaxJsonBuilder.success();
     }
@@ -339,7 +349,9 @@ public class FunctionController {
      */
     @RequestMapping(params = "saverule")
     @ResponseBody
-    public AjaxJson saverule(DataRule operation) {
+    public AjaxJson saverule(DataRuleDTO dataRuleDTO) {
+        DataRule operation=new DataRule();
+        BeanUtils.copyProperties(dataRuleDTO,operation);
         ruleService.save(operation);
         return AjaxJsonBuilder.success();
     }

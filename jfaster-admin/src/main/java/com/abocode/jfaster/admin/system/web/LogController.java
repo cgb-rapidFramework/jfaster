@@ -64,17 +64,17 @@ public class LogController{
 			cq.eq("loglevel", ConvertUtils.getShort(loglevel));
 			cq.add();
 		}
-        String operatetime_begin = request.getParameter("operatetime_begin");
-        if(operatetime_begin != null) {
-            Timestamp beginValue =  DateUtils.parseTimestamp(operatetime_begin, "yyyy-MM-dd");;
+        String operateBeginTime = request.getParameter("operatetime_begin");
+        if(operateBeginTime != null) {
+            Timestamp beginValue =  DateUtils.parseTimestamp(operateBeginTime, "yyyy-MM-dd");
             cq.ge("operatetime", beginValue);
         }
-        String operatetime_end = request.getParameter("operatetime_end");
-        if(operatetime_end != null) {
-            if (operatetime_end.length() == 10) {
-                operatetime_end =operatetime_end + " 23:59:59";
+        String operateEndTime = request.getParameter("operatetime_end");
+        if(operateEndTime != null) {
+            if (operateEndTime.length() == 10) {
+                operateEndTime =operateEndTime + " 23:59:59";
             }
-            Timestamp endValue = DateUtils.parseTimestamp(operatetime_end, "yyyy-MM-dd hh:mm:ss");
+            Timestamp endValue = DateUtils.parseTimestamp(operateEndTime, "yyyy-MM-dd hh:mm:ss");
             cq.le("operatetime", endValue);
         }
         cq.add();
