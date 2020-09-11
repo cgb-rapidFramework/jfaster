@@ -99,7 +99,7 @@ public class LanguageController {
     public ModelAndView detail(Language language,
                                     HttpServletRequest request) {
         if (StrUtils.isNotEmpty(language.getId())) {
-            language = languageRepository.findEntity(Language.class, language.getId());
+            language = languageRepository.find(Language.class, language.getId());
             request.setAttribute("mutiLangView", language);
         }
         return new ModelAndView("system/language/language");

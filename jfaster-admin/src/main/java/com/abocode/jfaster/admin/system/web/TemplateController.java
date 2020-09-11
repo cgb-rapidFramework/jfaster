@@ -82,7 +82,7 @@ public class TemplateController {
     @RequestMapping(params = "detail")
     public ModelAndView detail(@RequestParam String id,HttpServletRequest request) {
         if (!StringUtils.isEmpty(id)) {
-            Template template = templateRepository.findEntity(Template.class, id);
+            Template template = templateRepository.find(Template.class, id);
             request.setAttribute("templateView", template);
         }
         return new ModelAndView("system/template/template");

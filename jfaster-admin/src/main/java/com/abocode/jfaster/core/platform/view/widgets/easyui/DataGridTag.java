@@ -1170,7 +1170,7 @@ public class DataGridTag extends TagSupport {
 						break;
 					systemService = ApplicationContextUtil.getContext().getBean(
 								SystemService.class);
-					TSOperation operation = systemService.findEntity(TSOperation.class, MyoperationCode);
+					TSOperation operation = systemService.find(TSOperation.class, MyoperationCode);
 					operationCodesStr.add(operation.getOperationCode());
 
 				}*/

@@ -45,7 +45,7 @@ public class FunctionController {
     public static final String PARENT_FUNCTION_ID = "parentFunction.id";
     public static final String ICON_LIST = "iconlist";
     @Autowired
-    private SystemRepository systemService;
+    private SystemRepository systemRepository;
     @Autowired
     private FunctionService functionService;
 
@@ -98,7 +98,7 @@ public class FunctionController {
     @ResponseBody
     public DataGridData findDataGridData(DataGridParam dataGridParam) {
         CriteriaQuery cq = new CriteriaQuery(Function.class).buildDataGrid(dataGridParam);
-        return this.systemService.findDataGridData(cq, true);
+        return this.systemRepository.findDataGridData(cq, true);
     }
 
     /**
@@ -119,7 +119,7 @@ public class FunctionController {
                 .getParameter(FUNCTION_ID));
         cq.eq(PARENT_FUNCTION_ID, functionId);
         cq.add();
-        return this.systemService.findDataGridData(cq, true);
+        return this.systemRepository.findDataGridData(cq, true);
     }
 
     /**
@@ -132,7 +132,7 @@ public class FunctionController {
     @ResponseBody
     public AjaxJson del(@RequestParam String id) {
         // // 删除权限时先删除权限与角色之间关联表信息
-        List<RoleFunction> roleFunctions = systemService.findAllByProperty(RoleFunction.class, PARENT_FUNCTION_ID, id);
+        List<RoleFunction> roleFunctions = systemRepository.findAllByProperty(RoleFunction.class, PARENT_FUNCTION_ID, id);
         Assert.isTrue(!CollectionUtils.isEmpty(roleFunctions), "菜单已分配无法删除");
         functionService.delById(id);
         return AjaxJsonBuilder.success();
@@ -169,7 +169,7 @@ public class FunctionController {
         if (function.getParentFunction().getId().equals("")) {
             function.setParentFunction(null);
         } else {
-            Function parent = systemService.findEntity(Function.class,
+            Function parent = systemRepository.find(Function.class,
                     function.getParentFunction().getId());
             function.setFunctionLevel(Short.valueOf(parent.getFunctionLevel()
                     + 1 + ""));
@@ -203,24 +203,24 @@ public class FunctionController {
      */
     @RequestMapping(params = "detail")
     public ModelAndView detail(FunctionDTO functionDTO, HttpServletRequest request) {
-        List<Function> functionList = systemService
+        List<Function> functionList = systemRepository
                 .findAll(Function.class);
         request.setAttribute("flist", functionList);
-        List<Icon> iconList = systemService
+        List<Icon> iconList = systemRepository
                 .findByHql("from Icon where iconType != 3");
         request.setAttribute(ICON_LIST, iconList);
-        List<Icon> iconDeskList = systemService
+        List<Icon> iconDeskList = systemRepository
                 .findByHql("from Icon where iconType = 3");
         request.setAttribute("iconDeskList", iconDeskList);
         Function function=new Function();
         BeanUtils.copyProperties(functionDTO,function);
         if ( functionDTO.getId() != null) {
-            function = systemService.findEntity(Function.class, functionDTO.getId());
+            function = systemRepository.find(Function.class, functionDTO.getId());
         }
         if (function.getParentFunction() != null
                 && function.getParentFunction().getId() != null) {
             function.setFunctionLevel((short) 1);
-            function.setParentFunction(systemService.findEntity(
+            function.setParentFunction(systemRepository.find(
                     Function.class, function.getParentFunction().getId()));
         }
         request.setAttribute("functionView", function);
@@ -235,10 +235,10 @@ public class FunctionController {
     @RequestMapping(params = "detailop")
     public ModelAndView detailop(OperationDTO operationDTO,
                                  HttpServletRequest request) {
-        List<Icon> iconlist = systemService.findAll(Icon.class);
+        List<Icon> iconlist = systemRepository.findAll(Icon.class);
         request.setAttribute(ICON_LIST, iconlist);
         if (operationDTO.getId() != null) {
-            Operation operation = systemService.findEntity(Operation.class, operationDTO.getId());
+            Operation operation = systemRepository.find(Operation.class, operationDTO.getId());
             request.setAttribute("operation", operation);
         }
         String functionId = ConvertUtils.getString(request.getParameter(FUNCTION_ID));
@@ -273,7 +273,7 @@ public class FunctionController {
             cq.eq(PARENT_FUNCTION_ID, id);
         }
         cq.add();
-        return this.systemService.findDataGridData(cq, true);
+        return this.systemRepository.findDataGridData(cq, true);
     }
 
     /**
@@ -305,12 +305,12 @@ public class FunctionController {
      * 数据规则权限的编辑和新增
      */
     @RequestMapping(params = "detailrule")
-    public ModelAndView detailrule(DataRuleDTO operation,
+    public ModelAndView detailrule(DataRuleDTO operationDto,
                                    HttpServletRequest request) {
-        List<Icon> iconlist = systemService.findAll(Icon.class);
+        List<Icon> iconlist = systemRepository.findAll(Icon.class);
         request.setAttribute(ICON_LIST, iconlist);
-        if (operation.getId() != null) {
-            operation = systemService.findEntity(DataRule.class, operation.getId());
+        if (operationDto.getId() != null) {
+            DataRule  operation = systemRepository.find(DataRule.class, operationDto.getId());
             request.setAttribute("operationView", operation);
         }
         String functionId = ConvertUtils.getString(request.getParameter(FUNCTION_ID));
@@ -329,7 +329,7 @@ public class FunctionController {
         CriteriaQuery cq = new CriteriaQuery(DataRule.class).buildDataGrid(dataGridParam);
         cq.eq("function.id", functionId);
         cq.add();
-        return this.systemService.findDataGridData(cq, true);
+        return this.systemRepository.findDataGridData(cq, true);
     }
 
     /**

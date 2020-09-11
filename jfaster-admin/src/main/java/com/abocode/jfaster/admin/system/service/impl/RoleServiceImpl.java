@@ -39,7 +39,7 @@ public class RoleServiceImpl implements RoleService {
         // 删除角色之前先删除角色权限关系
         delRoleFunction(role);
         systemRepository.executeSql("delete from t_s_role_org where role_id=?", role.getId()); // 删除 角色-机构 关系信息
-        role = systemRepository.findEntity(Role.class, role.getId());
+        role = systemRepository.find(Role.class, role.getId());
         userRepository.delete(role);
         String message = "角色: " + role.getRoleName() + "被删除成功";
         systemRepository.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);
@@ -245,7 +245,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void doAddUserToOrg(String roleId, String userIds) {
-        Role role = systemRepository.findEntity(Role.class, roleId);
+        Role role = systemRepository.find(Role.class, roleId);
         List<RoleUser> roleUserList = new ArrayList<RoleUser>();
         List<String> userIdList = IdUtils.extractIdListByComma(userIds);
         for (String userId : userIdList) {

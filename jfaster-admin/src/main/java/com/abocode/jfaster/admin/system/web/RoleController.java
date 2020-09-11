@@ -139,7 +139,6 @@ public class RoleController {
     /**
      * 用户列表查询
      *  @param request
-     * @param response
      * @param dataGridParam
      * @return
      */
@@ -250,7 +249,7 @@ public class RoleController {
     @RequestMapping(params = "detail")
     public ModelAndView detail(Role role, HttpServletRequest request) {
         if (role.getId() != null) {
-            role = systemRepository.findEntity(Role.class, role.getId());
+            role = systemRepository.find(Role.class, role.getId());
             request.setAttribute("roleView", role);
         }
         return new ModelAndView("system/role/role");

@@ -154,11 +154,11 @@ public class SystemRepositoryImpl extends CommonRepositoryImpl implements System
 
 	
 	public void flushRoleFunciton(String id, Function newFunction) {
-		Function functionEntity = this.findEntity(Function.class, id);
+		Function functionEntity = this.find(Function.class, id);
 		if (functionEntity.getIcon() == null || !StrUtils.isEmpty(functionEntity.getIcon().getId())) {
 			return;
 		}
-		Icon oldIcon = this.findEntity(Icon.class, functionEntity.getIcon().getId());
+		Icon oldIcon = this.find(Icon.class, functionEntity.getIcon().getId());
 		if(StrUtils.isEmpty(oldIcon.getIconClazz())){
               return;
 		}

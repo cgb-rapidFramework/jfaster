@@ -74,7 +74,7 @@ public class TerritoryServiceImpl implements TerritoryService {
         if (territory.getParentTerritory().getId().equals("")) {
             territory.setParentTerritory(null);
         } else {
-            Territory parent = systemRepository.findEntity(Territory.class, territory.getParentTerritory().getId());
+            Territory parent = systemRepository.find(Territory.class, territory.getParentTerritory().getId());
             territory.setTerritoryLevel(Short.valueOf(parent.getTerritoryLevel() + 1 + ""));
         }
         String message;
@@ -92,7 +92,7 @@ public class TerritoryServiceImpl implements TerritoryService {
 
     @Override
     public void del(String id) {
-        Territory territory = systemRepository.findEntity(Territory.class, id);
+        Territory territory = systemRepository.find(Territory.class, id);
         String message = "地域: " + territory.getTerritoryName() + "被删除成功";
         systemRepository.delete(territory);
         systemRepository.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);

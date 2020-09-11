@@ -1,4 +1,5 @@
 # 开发指南
+
 ## 项目说明
 JFaster 是一套SH（Spring + Hibernate）快速开发框架，其核心设计目标是开发迅速、学习简单、轻量级、易扩展。帮你快速构建高质量的业务系统，是技术选型最理想的选择。
 
@@ -10,24 +11,19 @@ JFaster 是一套SH（Spring + Hibernate）快速开发框架，其核心设计�
 
 #### 项目启动测试
 
- 配置完成之后，启动Tomcat，在浏览器地址栏中输入*http://localhost:8080/JFaster/*，打开
-登陆:输入用户名密码 admin/123456，登陆进入主界面，
+ 配置完成之后，启动Tomcat，在浏览器地址栏中输入*http://localhost:8080/JFaster/*，打开，登陆:输入用户名密码 admin/123456，登陆进入主界面，
 
 
 #### 运行项目
 
- 在工程目录上面右键-\>Run As-\>7 Maven Build，在弹出的运行设置的Goals中填
-
-写”tomcat:run”，如果在运行时，不需要跑单元测试程序，可以把Skip Test给勾选上，
+ 在 Maven Build，在弹出的运行设置的Goals中填写”tomcat:run”，如果在运行时，不需要跑单元测试程序，可以把Skip Test给勾选上，
 
 
 #### 项目打包
 
- 在工程上面右键-\>Run As-\>Maven Package，打包完成之后的war包位于target/JFaster.war
+ 在 Maven Build， >Run As-\>Maven Package，打包完成之后的war包位于target/JFaster.war
  
  
- 
-
 ###  代码生成器的使用
 
 #### 数据表创建
@@ -74,32 +70,23 @@ database_name=jfaster
 * 
 ```properties
 project_path=E\:\\WorkSpace\\abocode\\jfaster\\
-#bussi_package[User defined]
-biz_package=com.abocode.jfaster.biz
-
-#maven code path
+biz_package=com.abocode.jfaster.admin
 source_root_package=src.main.java
 webroot_package=src.main.webapp
-
-#ftl resource url
 templatepath=maker-config/template
 system_encoding=utf-8
-
 #Table key [User defined] 
 generate_table_id=id
 #Search Param num [User defined]
 ui_search_filed_num=1
-
 #convert flag[true/false]
 filed_convert=true
 #字段过滤
-ui_filter_fields=create_date,create_datetime,create_by,create_key,create_name,create_realname,create_departmentid,create_departmentname,update_date,update_datetime,update_by,update_key,update_name,update_realname,update_departmentid,update_departmentname
+ui_filter_fields=create_date,create_datetime,create_by,create_key,create_name,update_date,update_datetime,update_by,update_key,update_name
 ```
 ####  使用
 
 运行：com.abocode.codemaker.Run，根据提示进行配置
-
-
 
 
 ## 高级功能
@@ -142,66 +129,45 @@ Excel简易导出工具类+Highcharts图形报表
 
 具体实现
 
-第一步：页面实现
+* 第一步：页面实现
 
 说明：为 dategrid字段，追加属性 query="true"，自动加载出查询框
 
-第二步：controller层处理
+* 第二步：controller层处理
 
 
-5.3.查询过滤器高级特性
+### 查询过滤器高级特性
 
- dategrid中的查询过滤器默认是单条件查询，即在设置多个 dgCol的
- query=”true”之后，
+ dategrid中的查询过滤器默认是单条件查询，即在设置多个 dgCol的 query=”true”之后，
 
-查询条件中同时只能有一个条件被使用，生成的页面效果
-
-图 5-3默认查询过滤器效果
-
-当然，可以通过 dategrid和 dgCol的参数设置来达到更高级的查询过滤功能，如组合查
-
-询条件和值范围查询。
+查询条件中同时只能有一个条件被使用，生成的页面效果。当然，可以通过 dategrid和 dgCol的参数设置来达到更高级的查询过滤功能，如组合查询条件和值范围查询。
 #### 组合条件查询
 
- 设置\<t:dategrid\>标签的
- queryMode=”group”（该参数值默认为”single”，即单条件查询），
-
-在页面生成时，会生成一个组合查询条件输入面板。生成的页面效果
+ 设置<t:dategrid\>标签的 queryMode=”group”（该参数值默认为”single”，即单条件查询），在页面生成时，会生成一个组合查询条件输入面板。生成的页面效果
 
 #### 字段范围查询
 
- 设置\<t:dgCol\>标签的
- queryMode=”group”，在页面生成时，会生成一个范围输入框。生
+ 设置<t:dgCol\>标签的 queryMode=”group”，在页面生成时，会生成一个范围输入框。生 字段范围查询会为该字段生成两个输入框，name分别为“字段名_begin”和“字段名
+_end”，具体的查询功能需要在后台接收这两个输入框的内容，并把查询条件加入到 HQL中。示例如下：
 
-
- 字段范围查询会为该字段生成两个输入框，name分别为“字段名_begin”和“字段名
-
-\_end”，具体的查询功能需要在后台接收这两个输入框的内容，并把查询条件加入到 HQL
-
-中。示例如下：
 ```
-
-@RequestMapping(params = "datagrid")
-public void datagrid(JFasterDemo JFasterDemo,HttpServletRequest request,
-HttpServletResponse response, DataGrid dataGridParam) {
-CriteriaQuery cq = new CriteriaQuery(JFasterDemo.class, dataGridParam);
-org.JFasterframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq,
-JFasterDemo);
-String ctBegin = request.getParameter("createTime_begin");
-String ctEnd = request.getParameter("createTime_end");
-if(ctBegin!=null && ctEnd!=null){
- cq.ge("createTime", new SimpleDateFormat("yyyy-MM-dd").parse(ctBegin));
- cq.le("createTime", new SimpleDateFormat("yyyy-MM-dd").parse(ctEnd));
- cq.add();
-}
- this.JFasterDemoService.getDataGridReturn(cq, true);
- TagUtil.datagrid(response, dataGridParam);
-}
+    @RequestMapping(params = "datagrid")
+	@ResponseBody
+    public DataGridData datagrid(HttpServletRequest request) {
+        CriteriaQuery cq = new CriteriaQuery(Log.class);
+        String operateBeginTime = request.getParameter("operatetime_begin");
+        Timestamp beginValue = DateUtils.parseTimestamp(operateBeginTime, "yyyy-MM-dd");
+        cq.ge("operatetime", beginValue);
+        String operateEndTime = request.getParameter("operatetime_end");
+        Timestamp endValue = DateUtils.parseTimestamp(operateEndTime, "yyyy-MM-dd hh:mm:ss");
+        cq.le("operatetime", endValue);
+        cq.add();
+        return this.systemService.findDataGridData(cq, true);
+    }
 ```
 
 
- 在控制器中用 request接收传递到后台的查询条件，或者直接在方法参数列表里填上，springmvc会帮我们获得。
- 然后将得到的范围查询条件添加到 CriteriaQuery对象中，最后调用 CriteriaQuery的add()方法加载生成 hql。
+ 在控制器中用 request接收传递到后台的查询条件， 然后将得到的范围查询条件添加到 CriteriaQuery对象中，最后调用 CriteriaQuery的add()方法加载生成 hql。
 至此，范围查询就完成了。
 
 #### 查询字段添加日期控件
@@ -209,18 +175,11 @@ if(ctBegin!=null && ctEnd!=null){
 例如，要给创建日期的范围查询条件框添加日期控件，首先为创建日期添加范围查询：
 
 ```
-<t:dgCol title="创建日期" field="createTime" formatter="yyyy-MM-dd hh:mm:ss"
+<t:dgCol title="创建日期" field="createTime" formatter="yyyy-MM-dd hh:mm:ss" query="true" queryMode="group"\>\</t:dgCol\>
 
-query="true" queryMode="group"\>\</t:dgCol\>
-
-用 jquery为生成的 createTime_start和 createTime_end两个输入框添加日期控件。
-
-\$(document).ready(function(){
-
-\$("input[name='createTime_begin']").attr("class","easyui-datebox");
-
-\$("input[name='createTime_end']").attr("class","easyui-datebox");
-
+$(document).ready(function(){
+$("input[name='createTime_begin']").attr("class","easyui-datebox");
+$("input[name='createTime_end']").attr("class","easyui-datebox");
 );
 ```
 
@@ -232,8 +191,7 @@ query="true" queryMode="group"\>\</t:dgCol\>
 
 式，实现对日期数据的格式化，如：
 ```
-<t:dgCol title="创建日期" field="createTime" formatter="yyyy-MM-dd hh:mm:ss"
-query="true" queryMode="group"\>\</t:dgCol\>
+<t:dgCol title="创建日期" field="createTime" formatter="yyyy-MM-dd hh:mm:ss" query="true" queryMode="group"\>\</t:dgCol\>
 ```
 
  对于日期的格式化方式，可以参考 JDK参考手册中 SimpleDateFormat中对于日期和时间模式的说明
@@ -243,34 +201,31 @@ query="true" queryMode="group"\>\</t:dgCol\>
  进行数据的列表展示时，为数据显示合计数是一个很有用的功能，在 JFaster的datagrid
 
 该功能的实现，主要是通过在加载 datagrid的数据时，统计出所需的合计值，并放在datagrid对象的 footer中。示例代码如下：
+
 ```
-@RequestMapping(params = "datagrid")、
-**public void** datagrid(JFasterDemo JFasterDemo,HttpServletRequest request,
-HttpServletResponse response, DataGrid dataGridParam) {
-CriteriaQuery cq = **new** CriteriaQuery(JFasterDemo.**class**, dataGridParam);
-//查询条件组装器
-org.JFasterframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq,JFasterDemo);
-String ctBegin = request.getParameter("createTime_begin");
-String ctEnd = request.getParameter("createTime_end");
-if(StringUtil.isNotEmpty(ctBegin)&&StringUtil.isNotEmpty(ctEnd)){
-cq.ge("createTime", **new**
-SimpleDateFormat("yyyy-MM-dd").parse(ctBegin));
-cq.le("createTime", **new**
-SimpleDateFormat("yyyy-MM-dd").parse(ctEnd));
-cq.add();
-this.JFasterDemoService.getDataGridReturn(cq, **true**);
-String total_salary =String.valueOf(JFasterDemoService.findOneForJdbc("select sum(salary) as ssum from JFaster_demo").get("ssum"));
-dataGridParam.setFooter("salary:"+total_salary+",age,email:合计");
-TagUtil.datagrid(response, dataGridParam);
+@RequestMapping(params = "datagrid")
+@ResponseBody
+public DataGridData datagrid(HttpServletRequest request, DataGridParam dataGridParam) {
+    String total_salary = "100";
+    dataGridParam.setFooter("salary:" + total_salary + ",age,email:合计");
+    CriteriaQuery cq = new CriteriaQuery(Log.class);
+    String operateBeginTime = request.getParameter("operatetime_begin");
+    Timestamp beginValue = DateUtils.parseTimestamp(operateBeginTime, "yyyy-MM-dd");
+    cq.ge("operatetime", beginValue);
+    String operateEndTime = request.getParameter("operatetime_end");
+    Timestamp endValue = DateUtils.parseTimestamp(operateEndTime, "yyyy-MM-dd hh:mm:ss");
+    cq.le("operatetime", endValue);
+    cq.add();
+    return this.systemService.findDataGridData(cq, true);
 }
 ```
 
-在该示例代码中，需要重点注意的是这里的第 23行：
-dataGridParam.setFooter("salary:"+total_salary+",age,email:合计");
+在该示例代码中，需要重点注意的是：
+```
+   dataGridParam.setFooter("salary:" + total_salary + ",age,email:合计");
+```
 setFooter()方法接收一个字符串，其格式为格式：字段名[:值]，其中值为选填项，填了
-则使用给定的值，没填则自动统计分页合计，示例：
-salary:35.00,age,email:合计
- 这里将 salary的合计值通过查询数据库得出，而 age则通过当前分页数据自动合计，
+则使用给定的值，没填则自动统计分页合计， 这里将 salary的合计值通过查询数据库得出，而 age则通过当前分页数据自动合计，
 email给定一个值“合计”，其作用是在 datagrid对应于 email列的下方显示一个说明信息。
 
 ### 表单校验
@@ -278,53 +233,32 @@ email给定一个值“合计”，其作用是在 datagrid对应于 email列的
 
 ####  Validform使用入门
 
-1、引入 css
+* 1、引入 css
 
- 请查看下载文件中的 style.css，把里面 Validform必须部分复制到你的
- css中（文件里这
+ 请查看下载文件中的 style.css，把里面 Validform必须部分复制到你的 css中
 
-个注释 "/\*==========以下部分是
-Validform必须的===========\*/"之后的部分是必须的）。
+* 2、引入 js（jquery 1.4.2以上版本都可以）
 
-(之前发现有部分网友把整个 style.css都引用在了页面里，然后发现样式冲突了)
-
- 2、引入 js（jquery 1.4.2以上版本都可以）
-
-3、给需要验证的表单元素绑定附加属性
+* 3、给需要验证的表单元素绑定附加属性
 
 4、初始化，就这么简单
 
-注：
+> 注：
 
- 1、Validform有非压缩、压缩和 NCR三个版本提供下载，NCR是通用版，当你页面因编
+* 1、Validform有非压缩、压缩和 NCR三个版本提供下载，NCR是通用版，当你页面因编码问题，提示文字出现乱码时可以使用这个版本；
 
-码问题，提示文字出现乱码时可以使用这个版本；
-
- 2、Validform没有限定必须使用 table结构，它可以适用于任何结构，需要在
- tiptype中
-
-定义好位置关系。
+*  2、Validform没有限定必须使用 table结构，它可以适用于任何结构，需要在 tiptype中定义好位置关系。
 
 #### 绑定附加属性
 
- 凡要验证格式的元素均需绑定 datatype属性，datatype可选值内置有 10类，用来指定
-
-不同的验证格式。
-
- 如果还不能满足您的验证需求，可以传入自定义 datatype，自定义
- datatype是一个非常
-
-强大的功能，通过它可以满足你的任何需求。
-
- 可以绑定的附加属性有：datatype、nullmsg、sucmsg、errormsg、ignore、recheck、tip、
-
-altercss、ajaxurl和 plugin等。
+ 凡要验证格式的元素均需绑定 datatype属性，datatype可选值内置有 10类，用来指定不同的验证格式。
+ 如果还不能满足您的验证需求，可以传入自定义 datatype，自定义 datatype是一个非常强大的功能，通过它可以满足你的任何需求。
+ 可以绑定的附加属性有：datatype、nullmsg、sucmsg、errormsg、ignore、recheck、tip、altercss、ajaxurl和 plugin等。
 
 绑定方法如下所示：
 说明：
 
-内置基本的 datatype类型有： \* \| \*6-16 \| n \| n6-16 \| s \| s6-18 \| p \| m
-\| e \| url
+内置基本的 datatype类型有： \* \| \*6-16 \| n \| n6-16 \| s \| s6-18 \| p \| m\| e \| url
 
 \*：检测是否有输入，可以输入任何字符，不留空即可通过验证；
 
@@ -346,49 +280,22 @@ e：email格式；
 
 url：验证字符串是否为网址。
 
- 自定义 datatype的名称，可以由字母、数字、下划线、中划线和\*号组成。
-
- 形如"\*6-16"的
- datatype，Validform会自动扩展，可以指定任意的数值范围。如内置基
-
-本类型有"\*6-16"，那么你绑定 datatype="\*4-12"就表示 4到
-12位任意字符。如果你自定义
-
-了一个 datatype="zh2-4"，表示 2到 4位中文字符，那么 datatype="zh2-6"就表示 2到 6
-
-位中文字符。
+自定义 datatype的名称，可以由字母、数字、下划线、中划线和\*号组成 形如"\*6-16"的 datatype，Validform会自动扩展，可以指定任意的数值范围。如内置基
+本类型有"\*6-16"，那么你绑定 datatype="\*4-12"就表示 4到12位任意字符。如果你自定义
+了一个 datatype="zh2-4"，表示 2到 4位中文字符，那么 datatype="zh2-6"就表示 2到 6位中文字符。
  5.2版本之后，datatype支持规则累加或单选。用","分隔表示规则累加；用"\|"分隔表示
-
 规则多选一，即只要符合其中一个规则就可以通过验证，绑定的规则会依次验证，只要验证
-
-通过，后面的规则就会忽略不再比较。如绑定
-datatype="m\|e"，表示既可以填写手机号码，
-
+通过，后面的规则就会忽略不再比较。如绑定datatype="m\|e"，表示既可以填写手机号码，
 也能填写邮箱地址，如果知道填入的是手机号码，那么就不会再检测他是不是邮箱地址；
-
 datatype="zh,s2-4"，表示要符合自定义类型"zh"，也要符合规则"s2-4"。
-
  注：
 
-5.2.1版本之后，datatype支持：
-
- 直接绑定正则：如可用这样写 datatype="/\\w{3,6}/i"，要求是 3到
- 6位的字母，不区分
-
-大小写；
-
+5.2.1版本之后，datatype支持： 直接绑定正则：如可用这样写 datatype="/\\w{3,6}/i"，要求是 3到 6位的字母，不区分大小写；
 支持简单的逻辑运算：如
-
 datatype="m \| e, \*4-18 \| /\\w{3,6}/i \| /\^validform\\.rjboy\\.cn\$/"，
-
- 这个表达式的意思是：可以是手机号码；或者是邮箱地址，但字符长度必须在 4到 18
-
-位；或者是 3到 6位的字母，不区分大小写；或者输入
-validform.rjboy.cn，区分大小写。
-
-这里","分隔相当于逻辑运算里的"&&"；
-"\|"分隔相当于逻辑运算里的"\|\|"；不支持括号运算。
-
+ 这个表达式的意思是：可以是手机号码；或者是邮箱地址，但字符长度必须在 4到 18位；或者是 3到 6位的字母，不区分大小写；或者输入validform.rjboy.cn，区分大小写。
+这里","分隔相当于逻辑运算里的"&&"；"\|"分隔相当于逻辑运算里的"\|\|"；不支持括号运算。
+ 
  **nullmsg**
 
 当表单元素值为空时的提示信息，不绑定，默认提示"请填入信息！"。
@@ -509,152 +416,85 @@ ajax返回数据格式统一，建议不再返回字符串"y"或"n"。目前这�
 
 指定需要使用的插件。
 
- 5.3版开始，对于日期、swfupload和密码强度检测这三个插件，绑定了 plugin属性即
-
-可以初始化对应的插件，可以不用在 validform初始化时传入空的 usePlugin了。
-
+ 5.3版开始，对于日期、swfupload和密码强度检测这三个插件，绑定了 plugin属性即可以初始化对应的插件，可以不用在 validform初始化时传入空的 usePlugin了。
  如，你要使用日期插件，5.3之前版本需要这样初始化：
-
-\$(".demoform").Validform({
+```
+$(".demoform").Validform({
 
  usePlugin:{
-
  datepicker:{}
-
 }
-
 });
+```
 
-5.3版开始，不需要传入这些空对象了，只需在表单元素上绑定 plugin="datepicker"就
+5.3版开始，不需要传入这些空对象了，只需在表单元素上绑定 plugin="datepicker"就可以，初始化直接这样：
+```
+$(".demoform").Validform();
+```
 
-可以，初始化直接这样：
-
-\$(".demoform").Validform();
-
-7.3.初始化参数说明
+> 初始化参数说明
 
 所有可用的参数如下：
 ```
-\$(".demoform").Validform({
-
+$(".demoform").Validform({
  btnSubmit:"\#btn_sub",
-
  btnReset:".btn_reset",
-
  tiptype:1,
-
 ignoreHidden:false,
-
  dragonfly:false,
-
 tipSweep:true,
-
 showAllError:false,
-
 postonce:true,
-
 ajaxPost:true,
-
 datatype:{
-
 "\*6-20": /\^[\^\\s]{6,20}\$/,
-
  "z2-4" : /\^[\\u4E00-\\u9FA5\\uf900-\\ufa2d]{2,4}\$/,
-
- "username":function(ge ts,obj,curform,regxp){
-
- //参数
- gets是获取到的表单元素值，obj为当前表单元素，curform为当前验证的表单，regxp
-
-为内置的一些正则表达式的引用;
-
+ "username":function(ge ts,obj,curform,regxp){ //参数 gets是获取到的表单元素值，obj为当前表单元素，curform为当前验证的表单，regxp为内置的一些正则表达式的引用;
 var reg1=/\^[\\w\\.]{4,16}\$/,
-
 reg2=/\^[\\u4E00-\\u9FA5\\uf900-\\ufa2d]{2,8}\$/;
-
 if(reg1.test(gets)){return true;}
-
 if(reg2.test(gets)){return true;}
-
-return false;
-
-//注意 return可以返回 true或
-false或字符串文字，true表示验证通过，返回字符串表示验
-
-证失败，字符串作为错误提示显示，返回 false则用 errmsg或默认的错误提示;
-
+//注意 return可以返回 true或false或字符串文字，true表示验证通过，返回字符串表示验证失败，字符串作为错误提示显示，返回 false则用 errmsg或默认的错误提示;
+return false; 
 },
-
 "phone":function(){
-
 // 5.0版本之后，要实现二选一的验证效果，datatype的名称不需要以 "option_"开头;
-
 }
-
 },
-
 usePlugin:{
-
 swfupload:{},
-
 datepicker:{},
-
 passwordstrength:{},
-
 jqtransform:{
-
 selector:"select,input"
-
 }
-
 },
-
 beforeCheck:function(curform){
-
  //在表单提交执行验证之前执行的函数，curform参数是当前表单对象。
-
  //这里明确 return false的话将不会继续执行验证操作;
-
 },
-
 beforeSubmit:function(curform){
-
 //在验证成功后，表单提交前执行的函数，curform参数是当前表单对象。
-
 //这里明确 return false的话表单将不会提交;
-
 },
 
 callback:function(data){
-
 //返回数据 data是 json格式，{"info":"demo info","status":"y"}
-
 //info:输出提示信息;
-
  //status:返回提交数据的状态,是否提交成功。如可以用"y"表示提交成功，"n"表示提交失败，在
-
 ajax_post.php文件返回数据里自定字符，主要用在
 callback函数里根据该值执行相应的回调操作;
  //ajax遇到服务端错误时也会执行回调，这时的 data是{ status:\*\*,
  statusText:\*\*, readyState:\*\*,
-
 responseText:\*\* }；
-
 //这里执行回调操作;
-
-//注意：如果不是 ajax方式提交表单，传入 callback，这时
-data参数是当前表单对象，回调函数会
-
-在表单验证全部通过后执行，然后判断是否提交表单，如果 callback里明确 return
-false，则表单不会提交，
-
+//注意：如果不是 ajax方式提交表单，传入 callback，这时data参数是当前表单对象，回调函数会在表单验证全部通过后执行，然后判断是否提交表单，如果 callback里明确 return false，则表单不会提交，
 如果 return true或没有 return，则会提交表单。
-
 }
-
 });
 
 ```
+
 参数说明：【所有参数均为可选项】
 
  必须是表单对象执行 Validform方法，示例中".demoform"就是绑定在 form元素上的
@@ -780,26 +620,6 @@ action属性里设定的地址；
 **datatype**
 
 传入自定义 datatype类型，可以是正则，也可以是函数。
-
-datatyp:{
-
-"zh2-4":/\^[\\u4E00-\\u9FA5\\uf900-\\ufa2d]{2,4}\$/,
-
-"phone":function(gets,obj,curform,regxp){
-
- //参数 gets是获取到的表单元素值，
-
-//obj为当前表单元素，
-
-//curform为当前验证的表单，
-
- //regxp为内置的一些正则表达式的引用。
-
- //return false表示验证出错，没有 return或者 return true表示验证通过。
-
-}
-
-}
 
 *demo*
 

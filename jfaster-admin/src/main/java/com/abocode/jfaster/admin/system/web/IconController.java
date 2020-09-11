@@ -184,7 +184,7 @@ public class IconController {
     @RequestMapping(params = "del")
     @ResponseBody
     public AjaxJson del(String id) {
-        Icon icon = systemService.findEntity(Icon.class, id);
+        Icon icon = systemService.find(Icon.class, id);
         boolean isPermit = iconService.isPermitDel(icon);
         Assert.isTrue(isPermit, MutiLangUtils.paramDelFail("common.icon,common.icon.isusing"));
         iconService.save(icon);
@@ -201,7 +201,7 @@ public class IconController {
     @RequestMapping(params = "detail")
     public ModelAndView detail(String id, HttpServletRequest request) {
         if (StrUtils.isNotEmpty(id)) {
-            Icon icon = systemService.findEntity(Icon.class, id);
+            Icon icon = systemService.find(Icon.class, id);
             request.setAttribute("icon", icon);
         }
         return new ModelAndView("system/icon/icons");

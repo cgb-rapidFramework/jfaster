@@ -74,17 +74,8 @@ public class CommonRepositoryImpl implements CommonRepository {
      * 根据实体名获取对象
      */
     @Override
-    public <T> T find(Class<T> class1, Serializable id) {
-        return  commonRepository.find(class1, id);
-    }
-
-
-    /**
-     * 根据实体名获取对象
-     */
-    @Override
-    public <T> T findEntity(Class<T> entityName, Serializable id) {
-        return  commonRepository.findEntity(entityName, id);
+    public <T> T find(Class<T> entityName, Serializable id) {
+        return  commonRepository.find(entityName, id);
     }
 
     /**

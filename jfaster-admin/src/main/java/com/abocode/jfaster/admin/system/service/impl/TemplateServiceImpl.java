@@ -47,7 +47,7 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public void delById(String id) {
-        Object template = systemRepository.findEntity(Template.class, id);
+        Object template = systemRepository.find(Template.class, id);
         String message = "模版管理删除成功";
         templateRepository.delete(template);
         systemRepository.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);

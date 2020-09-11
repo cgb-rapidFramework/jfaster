@@ -142,7 +142,7 @@ public class OrgServiceImpl implements OrgService {
         List<Org> departList = new ArrayList<Org>();
 
         if (!StrUtils.isEmpty(orgId)) {
-            departList.add((userRepository.findEntity(Org.class, orgId)));
+            departList.add((userRepository.find(Org.class, orgId)));
         } else {
             departList.addAll(userRepository.findAll(Org.class));
         }

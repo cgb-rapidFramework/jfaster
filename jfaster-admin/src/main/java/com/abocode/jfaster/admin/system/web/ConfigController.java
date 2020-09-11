@@ -67,7 +67,7 @@ public class ConfigController {
     @RequestMapping(params = "del")
     @ResponseBody
     public AjaxJson del(@RequestParam String id) {
-        Config entity = systemRepository.findEntity(Config.class, id);
+        Config entity = systemRepository.find(Config.class, id);
         String message = NAME + entity.getName() + "被删除 成功";
         systemRepository.delete(id);
         systemRepository.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);
@@ -86,7 +86,7 @@ public class ConfigController {
             Config tsConfig = systemRepository.findUniqueByProperty(Config.class, "code", configDto.getCode());
             Assert.notNull(tsConfig, "编码为: " + tsConfig.getCode() + "的配置信息已存在");
 
-            tsConfig = systemRepository.findEntity(Config.class, configDto.getId());
+            tsConfig = systemRepository.find(Config.class, configDto.getId());
             tsConfig.setUser(SessionHolder.getCurrentUser());
             systemRepository.save(tsConfig);
             message = NAME + tsConfig.getName() + "被添加成功";
@@ -94,7 +94,7 @@ public class ConfigController {
                     Globals.LOG_LEVEL);
 
         } else {
-            Config tsConfig = systemRepository.findEntity(Config.class, configDto.getId());
+            Config tsConfig = systemRepository.find(Config.class, configDto.getId());
             message = NAME + tsConfig.getName() + "被修改成功";
             systemRepository.update(tsConfig);
             systemRepository.addLog(message, Globals.LOG_TYPE_INSERT, Globals.LOG_LEVEL);
@@ -110,7 +110,7 @@ public class ConfigController {
     @RequestMapping(params = "detail")
     public ModelAndView detail(@RequestParam String id, HttpServletRequest request) {
         if (!StringUtils.isEmpty(id)) {
-            Config config = systemRepository.findEntity(Config.class, id);
+            Config config = systemRepository.find(Config.class, id);
             ConfigDto configDto = new ConfigDto();
             BeanUtils.copyProperties(config, configDto);
             request.setAttribute("configView", configDto);

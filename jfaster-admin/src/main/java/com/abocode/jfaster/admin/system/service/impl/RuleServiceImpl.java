@@ -29,7 +29,7 @@ public class RuleServiceImpl implements RuleService {
     @Override
     public void del(DataRule operation) {
         operation = systemService
-                .findEntity(DataRule.class, operation.getId());
+                .find(DataRule.class, operation.getId());
         String message = MutiLangUtils.paramDelSuccess("common.operation");
         userService.delete(operation);
         systemService.addLog(message, Globals.LOG_TYPE_DEL,

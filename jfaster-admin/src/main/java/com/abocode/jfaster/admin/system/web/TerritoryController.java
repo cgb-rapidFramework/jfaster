@@ -58,11 +58,11 @@ public class TerritoryController {
     public ModelAndView detail(Territory territory, HttpServletRequest request) {
         String functionid = request.getParameter("id");
         if (functionid != null) {
-            territory = systemRepository.findEntity(Territory.class, functionid);
+            territory = systemRepository.find(Territory.class, functionid);
             request.setAttribute("territoryView", territory);
         }
         if (territory.getParentTerritory() != null && territory.getParentTerritory().getId() != null) {
-            territory.setParentTerritory((Territory) systemRepository.findEntity(Territory.class, territory.getParentTerritory().getId()));
+            territory.setParentTerritory((Territory) systemRepository.find(Territory.class, territory.getParentTerritory().getId()));
             request.setAttribute("territoryView", territory);
         }
         return new ModelAndView("system/territory/territory");

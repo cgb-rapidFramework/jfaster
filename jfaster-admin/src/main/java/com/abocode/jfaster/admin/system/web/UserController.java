@@ -139,7 +139,7 @@ public class UserController {
     @RequestMapping(params = "changepasswordforuser")
     public ModelAndView changepasswordforuser(User user, HttpServletRequest request) {
         if (StrUtils.isNotEmpty(user.getId())) {
-            user = userRepository.findEntity(User.class, user.getId());
+            user = userRepository.find(User.class, user.getId());
             request.setAttribute("userView", user);
             RoleIdAndNameDto roleIdAndNameDto = roleService.findByUserId(user.getId());
             request.setAttribute("id", roleIdAndNameDto.getRoleId());
@@ -296,7 +296,7 @@ public class UserController {
         List<Org> departList = orgService.find(orgId);
         request.setAttribute("departList", departList);
         if (StrUtils.isNotEmpty(user.getId())) {
-            user = userRepository.findEntity(User.class, user.getId());
+            user = userRepository.find(User.class, user.getId());
             request.setAttribute("userView", user);
             RoleIdAndNameDto roleIdAndNameDto = roleService.findByUserId(user.getId());
             request.setAttribute("id", roleIdAndNameDto.getRoleId());
@@ -319,7 +319,7 @@ public class UserController {
         String userId = u != null ? u.getId() : ConvertUtils.getString(request.getParameter("userId"));
         List<Org> orgList = orgService.findOrgByUserId(userId);
         request.setAttribute("orgList", orgList);
-        User user = userRepository.findEntity(User.class, userId);
+        User user = userRepository.find(User.class, userId);
         request.setAttribute("user", user);
         return new ModelAndView("system/user/userOrgSelect");
     }
@@ -474,7 +474,7 @@ public class UserController {
     public AjaxJson savesign(HttpServletRequest request) {
         FileUploadDto uploadFile = new FileUploadDto(request);
         String id = uploadFile.get("id");
-        User user = userRepository.findEntity(User.class, id);
+        User user = userRepository.find(User.class, id);
         uploadFile.setRealPath("signatureFile");
         uploadFile.setFolderPath("signature");
         uploadFile.setByteField("signature");

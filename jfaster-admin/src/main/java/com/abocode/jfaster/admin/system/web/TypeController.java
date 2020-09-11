@@ -69,7 +69,7 @@ public class TypeController {
     @RequestMapping(params = "typeList")
     public ModelAndView typeList(HttpServletRequest request) {
         String typeGroupId = request.getParameter("typegroupid");
-        TypeGroup typegroup = systemRepository.findEntity(TypeGroup.class, typeGroupId);
+        TypeGroup typegroup = systemRepository.find(TypeGroup.class, typeGroupId);
         request.setAttribute("typegroup", typegroup);
         return new ModelAndView("system/type/typeList");
     }
@@ -186,11 +186,11 @@ public class TypeController {
         AjaxJson j = new AjaxJson();
         String message;
         if (id.startsWith("G")) {//分组
-            TypeGroup typegroup = systemRepository.findEntity(TypeGroup.class, id.substring(1));
+            TypeGroup typegroup = systemRepository.find(TypeGroup.class, id.substring(1));
             message = "数据字典分组: " + languageRepository.getLang(typegroup.getTypeGroupName()) + "被删除 成功";
             systemRepository.delete(typegroup);
         } else {
-            Type type = systemRepository.findEntity(Type.class, id.substring(1));
+            Type type = systemRepository.find(Type.class, id.substring(1));
             message = "数据字典类型: " + languageRepository.getLang(type.getTypeName()) + "被删除 成功";
             systemRepository.delete(type);
         }
@@ -210,7 +210,7 @@ public class TypeController {
     @ResponseBody
     public AjaxJson delTypeGroup(TypeGroup typegroup, HttpServletRequest request) {
         AjaxJson j = new AjaxJson();
-        typegroup = systemRepository.findEntity(TypeGroup.class, typegroup.getId());
+        typegroup = systemRepository.find(TypeGroup.class, typegroup.getId());
         String message = "类型分组: " + languageRepository.getLang(typegroup.getTypeGroupName()) + " 被删除 成功";
         if (StrUtils.isEmpty(typegroup.getTypes())) {
             systemRepository.delete(typegroup);
@@ -233,7 +233,7 @@ public class TypeController {
     @ResponseBody
     public AjaxJson delType(Type type, HttpServletRequest request) {
         AjaxJson j = new AjaxJson();
-        type = systemRepository.findEntity(Type.class, type.getId());
+        type = systemRepository.find(Type.class, type.getId());
         String message;
         if (!StrUtils.isNotEmpty(type)) {
             message = "已经被删除了";
@@ -355,7 +355,7 @@ public class TypeController {
     @RequestMapping(params = "aouTypeGroup")
     public ModelAndView aouTypeGroup(TypeGroup typegroup, HttpServletRequest request) {
         if (typegroup.getId() != null) {
-            typegroup = systemRepository.findEntity(TypeGroup.class, typegroup.getId());
+            typegroup = systemRepository.find(TypeGroup.class, typegroup.getId());
             request.setAttribute("typeGroupView", typegroup);
         }
         return new ModelAndView("system/type/typegroup");
@@ -374,7 +374,7 @@ public class TypeController {
         String typegroupname = typegroup.getTypeGroupName();
         request.setAttribute("typegroupname", languageRepository.getLang(typegroupname));
         if (StrUtils.isNotEmpty(type.getId())) {
-            type = systemRepository.findEntity(Type.class, type.getId());
+            type = systemRepository.find(Type.class, type.getId());
             request.setAttribute("typeView", type);
         }
         return new ModelAndView("system/type/type");

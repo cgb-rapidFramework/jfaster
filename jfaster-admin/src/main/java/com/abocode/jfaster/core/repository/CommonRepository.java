@@ -46,16 +46,6 @@ public interface CommonRepository {
 	 <T> T find(Class<T> clazz, Serializable id);
 
 	/**
-	 * 根据实体名称和主键获取实体
-	 * 
-	 * @param <T>
-	 * @param entityName
-	 * @param id
-	 * @return
-	 */
-	 <T> T findEntity(Class<T> entityName, Serializable id);
-
-	/**
 	 * 根据实体名称和字段名称和字段值获取唯一记录
 	 * 
 	 * @param <T>

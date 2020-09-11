@@ -21,7 +21,7 @@ public class LanguageServiceImpl implements LanguageService {
     private LanguageRepository languageRepository;
     @Override
     public void delById(String id) {
-        Object language = systemService.findEntity(Language.class, id);
+        Object language = systemService.find(Language.class, id);
         String message = MutiLangUtils.paramDelSuccess("common.language");
         languageRepository.delete(language);
         languageRepository.initLanguage();

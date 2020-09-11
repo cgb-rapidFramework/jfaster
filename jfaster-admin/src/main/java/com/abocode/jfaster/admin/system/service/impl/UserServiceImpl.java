@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void restPassword(String id, String password) {
-        User users = systemRepository.findEntity(User.class, id);
+        User users = systemRepository.find(User.class, id);
         users.setPassword(PasswordUtils.encrypt(users.getUsername(), password, PasswordUtils.getStaticSalt()));
         users.setStatus(Globals.USER_NORMAL);
         systemRepository.update(users);
@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void lockById(String id) {
-        User user = userRepository.findEntity(User.class, id);
+        User user = userRepository.find(User.class, id);
         Assert.isTrue("admin".equals(user.getUsername()), "超级管理员[admin]不可锁定");
         Assert.isTrue(Globals.USER_FORBIDDEN.equals(user.getStatus()), "锁定账户已经锁定");
         user.setStatus(Globals.USER_FORBIDDEN);
@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void del(String id) {
-        User user = userRepository.findEntity(User.class, id);
+        User user = userRepository.find(User.class, id);
         List<RoleUser> roleUser = userRepository.findAllByProperty(RoleUser.class, "user.id", id);
         Assert.isTrue(!user.getStatus().equals(Globals.USER_ADMIN), "超级管理员不可删除");
         if (roleUser.size() > 0) {
@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(User user, String roleId, String password, String orgIds) {
         if (StrUtils.isNotEmpty(user.getId())) {
-            User users = userRepository.findEntity(User.class, user.getId());
+            User users = userRepository.find(User.class, user.getId());
             users.setEmail(user.getEmail());
             users.setOfficePhone(user.getOfficePhone());
             users.setMobilePhone(user.getMobilePhone());
@@ -218,7 +218,7 @@ public class UserServiceImpl implements UserService {
         String[] roleids = roleidstr.split(",");
         for (int i = 0; i < roleids.length; i++) {
             RoleUser rUser = new RoleUser();
-            Role role = userRepository.findEntity(Role.class, roleids[i]);
+            Role role = userRepository.find(Role.class, roleids[i]);
             rUser.setRole(role);
             rUser.setUser(user);
             userRepository.save(rUser);

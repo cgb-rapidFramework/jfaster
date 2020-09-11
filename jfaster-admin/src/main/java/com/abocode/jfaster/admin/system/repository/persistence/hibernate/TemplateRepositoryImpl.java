@@ -14,7 +14,7 @@ public class TemplateRepositoryImpl extends CommonRepositoryImpl implements Temp
     @Override
     public void setDefault(String id) {
         this.clearDefault();
-        Template template = this.findEntity(Template.class, id);
+        Template template = this.find(Template.class, id);
         template.setStatus(AvailableEnum.AVAILABLE.getValue());
         this.save(template);
     }

@@ -104,7 +104,7 @@ public class ResourceController {
 
         if (StrUtils.isNotEmpty(fileKey)) {
             attachment.setId(fileKey);
-            attachment = systemService.findEntity(FileUpload.class, fileKey);
+            attachment = systemService.find(FileUpload.class, fileKey);
             attachment.setName(documentTitle);
         }
         attachment.setSessionKey(sessionKey);
@@ -150,7 +150,7 @@ public class ResourceController {
     public AjaxJson deleteFile(HttpServletRequest request) {
         String fileKey = ConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
         Assert.isTrue(StrUtils.isNotEmpty(fileKey),"文件已经不存在了");
-        FileUpload attachment = systemService.findEntity(FileUpload.class,fileKey);
+        FileUpload attachment = systemService.find(FileUpload.class,fileKey);
         FileUtils.deleteIfExists(FileUtils.getResourceLocalPath()+"/"+attachment.getPath());
         systemService.delete(attachment);
         String message = attachment.getName() + "删除成功";
@@ -169,7 +169,7 @@ public class ResourceController {
         String subclassname = ConvertUtils.getString(request.getParameter("subclassname"), "UploadFile");
         String contentfield = ConvertUtils.getString(request.getParameter("contentfield"));
         Class fileClass = ClassLoaderUtils.getClassByScn(subclassname);// 附件的实际类
-        Object fileobj = systemService.findEntity(fileClass, fileKey);
+        Object fileobj = systemService.find(fileClass, fileKey);
         ReflectHelper reflectHelper = new ReflectHelper(fileobj);
         String extend = ConvertUtils.getString(reflectHelper.getMethodValue("extend"));
         if ("dwg".equals(extend)) {
@@ -201,7 +201,7 @@ public class ResourceController {
         String fileid = ConvertUtils.getString(request.getParameter("fileKey"));
         String subclassname = ConvertUtils.getString(request.getParameter("subclassname"), "UploadFile");
         Class fileClass = ClassLoaderUtils.getClassByScn(subclassname);// 附件的实际类
-        Object fileobj = systemService.findEntity(fileClass, fileid);
+        Object fileobj = systemService.find(fileClass, fileid);
         ReflectHelper reflectHelper = new ReflectHelper(fileobj);
         FileUploadDto uploadFile = new FileUploadDto(request, response);
         String contentfield = ConvertUtils.getString(request.getParameter("contentfield"), uploadFile.getByteField());

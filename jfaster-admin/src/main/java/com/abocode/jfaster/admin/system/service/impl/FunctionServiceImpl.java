@@ -116,7 +116,7 @@ public class FunctionServiceImpl implements FunctionService {
 
     @Override
     public void delById(String id) {
-        Function function = systemService.findEntity(Function.class, id);
+        Function function = systemService.find(Function.class, id);
         String message = MutiLangUtils.paramDelSuccess("common.menu");
         systemService.updateBySql("delete from t_s_role_function where functionid='"
                 + function.getId() + "'");
@@ -130,7 +130,7 @@ public class FunctionServiceImpl implements FunctionService {
 
     @Override
     public void delByLopId(String id) {
-        Operation operation = systemService.findEntity(Operation.class, id);
+        Operation operation = systemService.find(Operation.class, id);
         userService.delete(operation);
         String message = MutiLangUtils.paramDelSuccess("common.operation");
         systemService.addLog(message, Globals.LOG_TYPE_DEL,
@@ -521,7 +521,7 @@ public class FunctionServiceImpl implements FunctionService {
         //小川 -- 菜单数据规则sql(数据权限)
         StringBuilder dataRoleSql = new StringBuilder();
         for (String dataRuleId : dataRuleCodes) {
-            com.abocode.jfaster.system.entity.DataRule dataRule = systemService.findEntity(com.abocode.jfaster.system.entity.DataRule.class, dataRuleId);
+            com.abocode.jfaster.system.entity.DataRule dataRule = systemService.find(com.abocode.jfaster.system.entity.DataRule.class, dataRuleId);
             HqlDataRule queryRule=new HqlDataRule();
             BeanUtils.copyProperties(dataRule,queryRule);
             menuHqlDataRules.add(queryRule);

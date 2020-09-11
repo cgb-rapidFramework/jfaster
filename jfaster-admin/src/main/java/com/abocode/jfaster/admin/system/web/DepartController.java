@@ -86,7 +86,7 @@ public class DepartController {
     @RequestMapping(params = "del")
     @ResponseBody
     public AjaxJson del(@RequestParam String id) {
-        Org depart = departRepository.findEntity(Org.class, id);
+        Org depart = departRepository.find(Org.class, id);
         String paramLangKey = "common.department";
         Assert.isTrue(depart != null, MutiLangUtils.paramDelFail(paramLangKey));
         Assert.isTrue(!CollectionUtils.isEmpty(depart.getOrgs()), MutiLangUtils.paramDelFail(paramLangKey));
@@ -134,7 +134,7 @@ public class DepartController {
         List<Org> departList = departRepository.findAll(Org.class);
         request.setAttribute("departList", departList);
         if (!StrUtils.isEmpty(id)) {
-            Org depart = departRepository.findEntity(Org.class, id);
+            Org depart = departRepository.find(Org.class, id);
             request.setAttribute("departView", depart);
         }
         return new ModelAndView("system/depart/depart");
@@ -245,7 +245,7 @@ public class DepartController {
     @RequestMapping(params = "doAddUserToOrg")
     @ResponseBody
     public AjaxJson doAddUserToOrg(@RequestParam String  orgId,@RequestParam String userIds) {
-        Org depart = departRepository.findEntity(Org.class, orgId);
+        Org depart = departRepository.find(Org.class, orgId);
         String orgIds = ConvertUtils.getString(userIds);
         orgService.saveOrgUserList(depart, orgIds);
         return AjaxJsonBuilder.success(MutiLangUtils.paramAddSuccess("common.user"));
