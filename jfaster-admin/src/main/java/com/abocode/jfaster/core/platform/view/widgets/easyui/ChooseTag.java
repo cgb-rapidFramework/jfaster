@@ -1,7 +1,7 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
 import com.abocode.jfaster.core.common.util.JspWriterUtils;
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.LanguageUtils;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.jsp.JspTagException;
@@ -47,14 +47,14 @@ public class ChooseTag extends TagSupport {
 	}
 
 	public String end() {
-		title = MutiLangUtils.doMutiLang(title, langArg);
-		String confirm = MutiLangUtils.getLang("common.confirm");
-		String cancel = MutiLangUtils.getLang("common.cancel");
+		title = LanguageUtils.doLang(title, langArg);
+		String confirm = LanguageUtils.getLang("common.confirm");
+		String cancel = LanguageUtils.getLang("common.cancel");
 		String methodName =this.getMethodName();
 		StringBuffer sb = new StringBuffer();
-		sb.append("<a href=\"#\" class=\"easyui-linkbutton\" plain=\"true\" icon=\"" + icon + "\" onClick=\"choose_"+methodName+ StringUtils.replace("()\">{0}</a>", "{0}", MutiLangUtils.getLang("common.select", langArg)));
+		sb.append("<a href=\"#\" class=\"easyui-linkbutton\" plain=\"true\" icon=\"" + icon + "\" onClick=\"choose_"+methodName+ StringUtils.replace("()\">{0}</a>", "{0}", LanguageUtils.getLang("common.select", langArg)));
 		if (isclear&&!StringUtils.isEmpty(textname)) {
-			sb.append("<a href=\"#\" class=\"easyui-linkbutton\" plain=\"true\" icon=\"icon-redo\" onClick=\"clearAll_"+methodName+ StringUtils.replace("();\">{0}</a>", "{0}", MutiLangUtils.getLang("common.clear", langArg)));
+			sb.append("<a href=\"#\" class=\"easyui-linkbutton\" plain=\"true\" icon=\"icon-redo\" onClick=\"clearAll_"+methodName+ StringUtils.replace("();\">{0}</a>", "{0}", LanguageUtils.getLang("common.clear", langArg)));
 		}
 		sb.append("<script type=\"text/javascript\">");
 		sb.append("var windowapi = frameElement.api, W = windowapi.opener;");

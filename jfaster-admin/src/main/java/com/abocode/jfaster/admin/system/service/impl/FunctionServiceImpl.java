@@ -20,7 +20,7 @@ import com.abocode.jfaster.core.persistence.hibernate.hql.vo.HqlDataRule;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.persistence.jdbc.SqlUtil;
 import com.abocode.jfaster.core.platform.utils.FunctionSortUtils;
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.LanguageUtils;
 import com.abocode.jfaster.core.platform.view.FunctionView;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.TreeGridModel;
@@ -117,7 +117,7 @@ public class FunctionServiceImpl implements FunctionService {
     @Override
     public void delById(String id) {
         Function function = systemService.find(Function.class, id);
-        String message = MutiLangUtils.paramDelSuccess("common.menu");
+        String message = LanguageUtils.paramDelSuccess("common.menu");
         systemService.updateBySql("delete from t_s_role_function where functionid='"
                 + function.getId() + "'");
         systemService.delete(function);
@@ -132,7 +132,7 @@ public class FunctionServiceImpl implements FunctionService {
     public void delByLopId(String id) {
         Operation operation = systemService.find(Operation.class, id);
         userService.delete(operation);
-        String message = MutiLangUtils.paramDelSuccess("common.operation");
+        String message = LanguageUtils.paramDelSuccess("common.operation");
         systemService.addLog(message, Globals.LOG_TYPE_DEL,
                 Globals.LOG_LEVEL);
     }
@@ -161,7 +161,7 @@ public class FunctionServiceImpl implements FunctionService {
     public void saveFunction(Function function) {
         String message;
         if (StrUtils.isNotEmpty(function.getId())) {
-            message = MutiLangUtils.paramUpdSuccess("common.menu");
+            message = LanguageUtils.paramUpdSuccess("common.menu");
             userService.saveOrUpdate(function);
             systemService.addLog(message, Globals.LOG_TYPE_UPDATE,
                     Globals.LOG_LEVEL);
@@ -170,7 +170,7 @@ public class FunctionServiceImpl implements FunctionService {
             systemService.flushRoleFunciton(function.getId(), function);
         } else {
             function.setFunctionOrder(function.getFunctionOrder());
-            message = MutiLangUtils.paramAddSuccess("common.menu");
+            message = LanguageUtils.paramAddSuccess("common.menu");
             systemService.save(function);
             systemService.addLog(message, Globals.LOG_TYPE_INSERT,
                     Globals.LOG_LEVEL);
@@ -249,7 +249,7 @@ public class FunctionServiceImpl implements FunctionService {
                 "functionName", "Functions");
         List<ComboTree> comboTrees = resourceService.ComboTree(functionList, comboTreeModel,
                 null, false);
-        MutiLangUtils.setMutiTree(comboTrees);
+        LanguageUtils.setLanguageTree(comboTrees);
         return comboTrees;
     }
 
@@ -284,7 +284,7 @@ public class FunctionServiceImpl implements FunctionService {
         treeGridModel.setFunctionType("functionType");
 
         List<TreeGrid> treeGrids = resourceService.treegrid(functionList, treeGridModel);
-        MutiLangUtils.setMutiTree(treeGrids);
+        LanguageUtils.setLanguageTree(treeGrids);
         return treeGrids;
     }
 

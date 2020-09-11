@@ -2,7 +2,7 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
 import com.abocode.jfaster.core.common.util.JspWriterUtils;
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.LanguageUtils;
 
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
@@ -23,7 +23,7 @@ public class LanguageTag extends TagSupport {
 
 
     public String end() {
-        String lang_context = MutiLangUtils.getLang(langKey, langArg);
+        String lang_context = LanguageUtils.getLang(langKey, langArg);
         return new StringBuffer(lang_context).toString();
     }
 

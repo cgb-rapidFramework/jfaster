@@ -5,5 +5,4 @@ package com.abocode.jfaster.core.platform.view.interactions.easyui;
 */
 public enum OptTypeDirection {
 	Deff,Del,Fun,OpenWin,Confirm,ToolBar,OpenTab
-	
 }

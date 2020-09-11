@@ -1,13 +1,13 @@
 package com.abocode.jfaster.core.repository.persistence.hibernate;
 
 
-import com.abocode.jfaster.core.persistence.DBTable;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.HqlQuery;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.PageHelper;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.Autocomplete;
 import com.abocode.jfaster.core.repository.CommonRepository;
 import com.abocode.jfaster.core.repository.DataGridData;
+import org.apache.poi.ss.formula.functions.T;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class CommonRepositoryImpl implements CommonRepository {
      * @return
      */
     @Override
-    public List<DBTable> findAllDbTableName() {
+    public List<T> findAllDbTableName() {
         return commonRepository.findAllDbTableName();
     }
 
@@ -134,7 +134,7 @@ public class CommonRepositoryImpl implements CommonRepository {
      * @param entities
      */
     @Override
-    public  void delete(Class entities, Serializable id) {
+    public  void delete(Class<T> entities, Serializable id) {
         commonRepository.delete(entities, id);
     }
 
@@ -221,8 +221,7 @@ public class CommonRepositoryImpl implements CommonRepository {
      * 根据实体查询
      */
     @Override
-    @SuppressWarnings("rawtypes")
-    public List findByExample(final String entityName,
+    public List<T> findByExample(final String entityName,
                               final Object exampleEntity) {
         return commonRepository.findByExample(entityName, exampleEntity);
     }

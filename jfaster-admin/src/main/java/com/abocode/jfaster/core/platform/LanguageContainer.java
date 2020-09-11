@@ -13,24 +13,16 @@ public class LanguageContainer {
     private LanguageContainer() {
     }
 
-    private static Map<String, String> LanguageMap = new HashMap<String, String>();
+    private static Map<String, String> languageMap = new HashMap<>();
     //FunctionName的keymap
-    private static Map<String, String> LanguageKeyCodeMap = new HashMap<String, String>();
+    private static Map<String, String> languageKeyCodeMap = new HashMap<>();
 
     public static Map<String, String> getLanguageMap() {
-        return LanguageMap;
-    }
-
-    public static void setLanguageMap(Map<String, String> languageMap) {
-        LanguageMap = languageMap;
+        return languageMap;
     }
 
     public static Map<String, String> getLanguageKeyCodeMap() {
-        return LanguageKeyCodeMap;
-    }
-
-    public static void setLanguageKeyCodeMap(Map<String, String> languageKeyCodeMap) {
-        LanguageKeyCodeMap = languageKeyCodeMap;
+        return languageKeyCodeMap;
     }
 
     /**
@@ -80,11 +72,8 @@ public class LanguageContainer {
      * @return
      */
     public static boolean existLangContext(String langContext) {
-        String map = LanguageKeyCodeMap.get(langContext);
-        if (!StringUtils.isEmpty(map)) {
-            return true;
-        }
-        return false;
+        String map = languageKeyCodeMap.get(langContext);
+        return  !StringUtils.isEmpty(map);
     }
 
 

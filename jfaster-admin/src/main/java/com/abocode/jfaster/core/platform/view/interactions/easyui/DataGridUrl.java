@@ -1,10 +1,8 @@
 package com.abocode.jfaster.core.platform.view.interactions.easyui;
 
-/**
- * 
- * @author  张代浩
- *
- */
+import lombok.Data;
+
+@Data
 public class DataGridUrl {
 	private String url;//操作链接地址
 	private String title;//按钮名称
@@ -19,102 +17,4 @@ public class DataGridUrl {
 	private String function;//自定义函数名称
 	private boolean isRadio;//是否是单选框
 	private String onclick;//选项单击事件
-	public String getOnclick() {
-		return onclick;
-	}
-
-	public void setOnclick(String onclick) {
-		this.onclick = onclick;
-	}
-
-	public void setRadio(boolean isRadio) {
-		this.isRadio = isRadio;
-	}
-
-	public String getFunname() {
-		return function;
-	}
-	public void setFunname(String function) {
-		this.function = function;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-	public String getExp() {
-		return exp;
-	}
-
-	public void setExp(String exp) {
-		this.exp = exp;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public String getIsbtn() {
-		return isbtn;
-	}
-
-	public void setIsbtn(String isbtn) {
-		this.isbtn = isbtn;
-	}
-
-	public void setType(OptTypeDirection type) {
-		this.type = type;
-	}
-
-	public OptTypeDirection getType() {
-		return type;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
-	}
-	public boolean isRadio() {
-		return isRadio;
-	}
-	public String getWidth() {
-		return width;
-	}
-
-	public void setWidth(String width) {
-		this.width = width;
-	}
-
-	public String getHeight() {
-		return height;
-	}
-	public String getIcon() {
-		return icon;
-	}
-	public void setHeight(String height) {
-		this.height = height;
-	}
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
-	
-
 }

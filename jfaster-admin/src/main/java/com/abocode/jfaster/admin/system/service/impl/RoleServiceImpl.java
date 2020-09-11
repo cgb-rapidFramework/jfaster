@@ -13,7 +13,7 @@ import com.abocode.jfaster.core.common.util.IdUtils;
 import com.abocode.jfaster.core.common.util.StrUtils;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.platform.utils.FunctionSortUtils;
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.LanguageUtils;
 import com.abocode.jfaster.core.platform.view.FunctionView;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.TreeGridModel;
@@ -134,7 +134,7 @@ public class RoleServiceImpl implements RoleService {
                 "functionName", "Functions");
         List<ComboTree> comboTrees = resourceRepository.ComboTree(functionBeanList, comboTreeModel,
                 BeanToTagConverter.convertFunctions(loginActionList), false);
-        MutiLangUtils.setMutiTree(comboTrees);
+        LanguageUtils.setLanguageTree(comboTrees);
         return comboTrees;
     }
 
@@ -170,7 +170,7 @@ public class RoleServiceImpl implements RoleService {
                 cq, false);
         FunctionSortUtils.sort(functionList);
         TreeGridModel treeGridModel = new TreeGridModel();
-        treeGridModel.setRoleid(roleId);
+        treeGridModel.setRoleId(roleId);
         List<TreeGrid> treeGrids = resourceRepository.treegrid(functionList, treeGridModel);
         return treeGrids;
     }
@@ -261,7 +261,7 @@ public class RoleServiceImpl implements RoleService {
         if (!roleUserList.isEmpty()) {
             systemRepository.batchSave(roleUserList);
         }
-        String message = MutiLangUtils.paramAddSuccess("common.user");
+        String message = LanguageUtils.paramAddSuccess("common.user");
         systemRepository.addLog(message, Globals.LOG_TYPE_UPDATE, Globals.LOG_LEVEL);
     }
 

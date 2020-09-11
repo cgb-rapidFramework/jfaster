@@ -3,7 +3,7 @@ package com.abocode.jfaster.admin.system.service.impl;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.service.IconService;
 import com.abocode.jfaster.core.common.constants.Globals;
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.LanguageUtils;
 import com.abocode.jfaster.system.entity.Function;
 import com.abocode.jfaster.system.entity.Icon;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class IconServiceImpl implements IconService {
     @Override
     public void save(Icon icon) {
         systemService.delete(icon);
-        String message = MutiLangUtils.paramDelSuccess("common.icon");
+        String message = LanguageUtils.paramDelSuccess("common.icon");
         systemService.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);
     }
 

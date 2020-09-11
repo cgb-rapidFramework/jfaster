@@ -3,7 +3,7 @@ package com.abocode.jfaster.admin.system.service.impl;
 import com.abocode.jfaster.admin.system.dto.HighChartDto;
 import com.abocode.jfaster.admin.system.repository.SystemRepository;
 import com.abocode.jfaster.admin.system.service.ChartService;
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.LanguageUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -33,7 +33,7 @@ public class ChartServiceImpl implements ChartService {
         Long count = systemService.queryForCount("SELECT COUNT(1) FROM T_S_Log WHERE 1=1");
         List lt = new ArrayList();
         HighChartDto hc = new HighChartDto();
-        hc.setName(MutiLangUtils.getLang(USER_BROWSER_ANALYSIS));
+        hc.setName(LanguageUtils.getLang(USER_BROWSER_ANALYSIS));
         hc.setType(reportType);
         Map<String, Object> map;
         if (userBroswerList.size() > 0) {

@@ -3,25 +3,28 @@ package com.abocode.jfaster.core.platform.utils;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.platform.view.FunctionView;
 import com.abocode.jfaster.system.entity.Function;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class FunctionSortUtils
-{
-    public  static void sortView(List<FunctionView> functionViews){
+public class FunctionSortUtils {
+    private FunctionSortUtils() {
+    }
+
+    public static void sortView(List<FunctionView> functionViews) {
         Collections.sort(functionViews, new NumberComparator(true));
     }
-    public  static void sort(List<Function> functions){
+
+    public static void sort(List<Function> functions) {
         Collections.sort(functions, new FunctionComparator());
     }
 }
 
-class FunctionComparator implements Comparator {
-
-    private String fun= "fun";
+class FunctionComparator implements Comparator, Serializable {
+    private String fun = "fun";
 
     /**
      * 菜单排序比较器
@@ -46,6 +49,7 @@ class FunctionComparator implements Comparator {
 
 class NumberComparator implements Comparator<Object>, Serializable {
     private boolean ignoreCase;
+
     public NumberComparator(boolean ignoreCase) {
         this.ignoreCase = ignoreCase;
     }
@@ -59,7 +63,13 @@ class NumberComparator implements Comparator<Object>, Serializable {
             o1 = c1.getFunctionOrder();
             o2 = c2.getFunctionOrder();
         }
-        if (o1 != null && o2 != null) {
+
+        return doCompare(o1, o2);
+
+    }
+
+    private int doCompare(String o1, String o2) {
+        if (!StringUtils.isEmpty(o1) && !StringUtils.isEmpty(o2)) {
             for (int i = 0; i < o1.length(); i++) {
                 if (i == o1.length() && i < o2.length()) {
                     return -1;
@@ -77,6 +87,7 @@ class NumberComparator implements Comparator<Object>, Serializable {
                 }
             }
         }
+
         return 0;
     }
 

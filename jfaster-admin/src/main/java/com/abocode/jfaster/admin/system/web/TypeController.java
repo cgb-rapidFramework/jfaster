@@ -12,7 +12,7 @@ import com.abocode.jfaster.core.common.util.StrUtils;
 import com.abocode.jfaster.core.persistence.hibernate.hql.HqlGenerateUtil;
 import com.abocode.jfaster.core.persistence.hibernate.hql.vo.HqlRuleEnum;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.LanguageUtils;
 import com.abocode.jfaster.core.repository.DataGridData;
 import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.system.entity.Type;
@@ -86,8 +86,8 @@ public class TypeController {
         String typeGroupName = request.getParameter("typegroupname");
         if (typeGroupName != null && typeGroupName.trim().length() > 0) {
             typeGroupName = typeGroupName.trim();
-            List<String> typegroupnameKeyList = systemRepository.findByHql("select typeGroupName from TypeGroup");
-            MutiLangUtils.assembleCondition(typegroupnameKeyList, cq, "typeGroupName", typeGroupName);
+            List<String> typeGroupNameKeys = systemRepository.findByHql("select typeGroupName from TypeGroup");
+            LanguageUtils.assembleCondition(typeGroupNameKeys, cq, "typeGroupName", typeGroupName);
         }
 //        MutiLangUtils.setMutiLangValueForList(dataGridParam.getResults(), "typeGroupName");
         return this.systemRepository.findDataGridData(cq, true);
@@ -158,8 +158,8 @@ public class TypeController {
             String typegroupname = request.getParameter("typegroupname");
             if (typegroupname != null && typegroupname.trim().length() > 0) {
                 typegroupname = typegroupname.trim();
-                List<String> typegroupnameKeyList = systemRepository.findByHql("select typegroupname from TypeGroup");
-                MutiLangUtils.assembleCondition(typegroupnameKeyList, cq, "typegroupname", typegroupname);
+                List<String> typeGroupNameKeys = systemRepository.findByHql("select typegroupname from TypeGroup");
+                LanguageUtils.assembleCondition(typeGroupNameKeys, cq, "typegroupname", typegroupname);
             }
             List<TypeGroup> typeGroupList = systemRepository.findListByCq(cq, false);
             for (TypeGroup obj : typeGroupList) {
@@ -171,7 +171,7 @@ public class TypeController {
                 treeGrids.add(treeNode);
             }
         }
-        MutiLangUtils.setMutiTree(treeGrids);
+        LanguageUtils.setLanguageTree(treeGrids);
         return treeGrids;
     }
 
@@ -182,7 +182,7 @@ public class TypeController {
      */
     @RequestMapping(params = "delTypeGridTree")
     @ResponseBody
-    public AjaxJson delTypeGridTree(String id, HttpServletRequest request) {
+    public AjaxJson delTypeGridTree(String id) {
         AjaxJson j = new AjaxJson();
         String message;
         if (id.startsWith("G")) {//分组
@@ -208,7 +208,7 @@ public class TypeController {
      */
     @RequestMapping(params = "delTypeGroup")
     @ResponseBody
-    public AjaxJson delTypeGroup(TypeGroup typegroup, HttpServletRequest request) {
+    public AjaxJson delTypeGroup(TypeGroup typegroup) {
         AjaxJson j = new AjaxJson();
         typegroup = systemRepository.find(TypeGroup.class, typegroup.getId());
         String message = "类型分组: " + languageRepository.getLang(typegroup.getTypeGroupName()) + " 被删除 成功";

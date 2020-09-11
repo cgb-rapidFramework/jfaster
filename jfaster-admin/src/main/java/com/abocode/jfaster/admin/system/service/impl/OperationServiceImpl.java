@@ -5,7 +5,7 @@ import com.abocode.jfaster.admin.system.repository.UserRepository;
 import com.abocode.jfaster.admin.system.service.OperationService;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.util.StrUtils;
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.LanguageUtils;
 import com.abocode.jfaster.system.entity.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,12 +26,12 @@ public class OperationServiceImpl implements OperationService {
     public void save(Operation operation) {
         String message;
         if (StrUtils.isNotEmpty(operation.getId())) {
-            message = MutiLangUtils.paramUpdSuccess("common.operation");
+            message = LanguageUtils.paramUpdSuccess("common.operation");
             userService.saveOrUpdate(operation);
             systemService.addLog(message, Globals.LOG_TYPE_UPDATE,
                     Globals.LOG_LEVEL);
         } else {
-            message = MutiLangUtils.paramAddSuccess("common.operation");
+            message = LanguageUtils.paramAddSuccess("common.operation");
             userService.save(operation);
             systemService.addLog(message, Globals.LOG_TYPE_INSERT,
                     Globals.LOG_LEVEL);

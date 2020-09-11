@@ -5,7 +5,7 @@ import com.abocode.jfaster.core.common.util.JspWriterUtils;
 import com.abocode.jfaster.core.common.util.StrUtils;
 import com.abocode.jfaster.core.platform.LanguageContainer;
 import com.abocode.jfaster.core.platform.SystemContainer;
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.LanguageUtils;
 import com.abocode.jfaster.core.platform.view.TypeView;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ColumnValue;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.DataGridColumn;
@@ -239,7 +239,7 @@ public class DataGridTag extends TagSupport {
             String value = "";
             for (String string : test) {
                 lang_key = string.substring(0, string.indexOf("_"));
-                text += MutiLangUtils.getLang(lang_key) + ",";
+                text += LanguageUtils.getLang(lang_key) + ",";
 
                 value += string.substring(string.indexOf("_") + 1) + ",";
             }
@@ -267,7 +267,7 @@ public class DataGridTag extends TagSupport {
                 List<TypeView> typeList = SystemContainer.TypeGroupContainer.getTypeMap().get(dictionary.toLowerCase());
                 if (typeList != null && !typeList.isEmpty()) {
                     for (TypeView type : typeList) {
-                        text += MutiLangUtils.doMutiLang(type.getTypeName(), "") + ",";
+                        text += LanguageUtils.doLang(type.getTypeName(), "") + ",";
                         value += type.getTypeCode() + ",";
                     }
                     setColumn(field, text, value);
@@ -318,7 +318,7 @@ public class DataGridTag extends TagSupport {
     }
 
     public int doEndTag() throws JspTagException {
-        title = MutiLangUtils.doMutiLang(title, langArg);
+        title = LanguageUtils.doLang(title, langArg);
         JspWriter out = this.pageContext.getOut();
         String text = "";
         if (style.equals("easyui")) {
@@ -440,7 +440,7 @@ public class DataGridTag extends TagSupport {
         } else {
             sb.append("fit:false,");
         }
-        sb.append(StrUtils.replaceAll("loadMsg: \'{0}\',", "{0}", MutiLangUtils.getLang("common.data.loading")));
+        sb.append(StrUtils.replaceAll("loadMsg: \'{0}\',", "{0}", LanguageUtils.getLang("common.data.loading")));
         sb.append("pageSize: " + pageSize + ",");
         sb.append("pagination:" + pagination + ",");
         sb.append("pageList:[" + pageSize * 1 + "," + pageSize * 2 + "," + pageSize * 3 + "],");
@@ -680,15 +680,15 @@ public class DataGridTag extends TagSupport {
         sb.append("</span>");
         if ("group".equals(getQueryMode()) && hasQueryColum(columnList)) {//如果表单是组合查询
             sb.append("<span style=\"float:right\">");
-            sb.append("<a href=\"#\" class=\"easyui-linkbutton\" iconCls=\"icon-search\" onclick=\"" + name + StrUtils.replaceAll("search()\">{0}</a>", "{0}", MutiLangUtils.getLang("common.query")));
-            sb.append("<a href=\"#\" class=\"easyui-linkbutton\" iconCls=\"icon-reload\" onclick=\"searchReset('" + name + StrUtils.replaceAll("')\">{0}</a>", "{0}", MutiLangUtils.getLang("common.reset")));
+            sb.append("<a href=\"#\" class=\"easyui-linkbutton\" iconCls=\"icon-search\" onclick=\"" + name + StrUtils.replaceAll("search()\">{0}</a>", "{0}", LanguageUtils.getLang("common.query")));
+            sb.append("<a href=\"#\" class=\"easyui-linkbutton\" iconCls=\"icon-reload\" onclick=\"searchReset('" + name + StrUtils.replaceAll("')\">{0}</a>", "{0}", LanguageUtils.getLang("common.reset")));
             if (queryBuilder) {
-                sb.append("<a href=\"#\" class=\"easyui-linkbutton\" iconCls=\"icon-search\" onclick=\"queryBuilder('" + StrUtils.replaceAll("')\">{0}</a>", "{0}", MutiLangUtils.getLang("common.querybuilder")));
+                sb.append("<a href=\"#\" class=\"easyui-linkbutton\" iconCls=\"icon-search\" onclick=\"queryBuilder('" + StrUtils.replaceAll("')\">{0}</a>", "{0}", LanguageUtils.getLang("common.querybuilder")));
             }
             sb.append("</span>");
         } else if ("single".equals(getQueryMode()) && hasQueryColum(columnList)) {//如果表单是单查询
             sb.append("<span style=\"float:right\">");
-            sb.append("<input id=\"" + name + "searchbox\" class=\"easyui-searchbox\"  data-options=\"searcher:" + name + StrUtils.replaceAll("searchbox,prompt:\'{0}\',menu:\'#", "{0}", MutiLangUtils.getLang("common.please.input.keyword")) + name + "mm\'\"></input>");
+            sb.append("<input id=\"" + name + "searchbox\" class=\"easyui-searchbox\"  data-options=\"searcher:" + name + StrUtils.replaceAll("searchbox,prompt:\'{0}\',menu:\'#", "{0}", LanguageUtils.getLang("common.please.input.keyword")) + name + "mm\'\"></input>");
             sb.append("<div id=\"" + name + "mm\" style=\"width:120px\">");
             for (DataGridColumn col : columnList) {
                 if (col.isQuery()) {
@@ -1088,7 +1088,7 @@ public class DataGridTag extends TagSupport {
         sb.append("$(\'#" + name + "\')." + grid + "(\'getPager\').pagination({");
         sb.append("beforePageText:\'\'," + "afterPageText:\'/{pages}\',");
         if (showText) {
-            sb.append("displayMsg:\'{from}-{to}" + MutiLangUtils.getLang("common.total") + " {total}" + MutiLangUtils.getLang("common.item") + "\',");
+            sb.append("displayMsg:\'{from}-{to}" + LanguageUtils.getLang("common.total") + " {total}" + LanguageUtils.getLang("common.item") + "\',");
         } else {
             sb.append("displayMsg:\'\',");
         }
@@ -1114,7 +1114,7 @@ public class DataGridTag extends TagSupport {
         sb.append("" + name + "searchbox(value,name);");
         sb.append("},");
         sb.append("menu:\'#" + name + "mm\',");
-        sb.append(StrUtils.replaceAll("prompt:\'{0}\'", "{0}", MutiLangUtils.getLang("common.please.input.query.keyword")));
+        sb.append(StrUtils.replaceAll("prompt:\'{0}\'", "{0}", LanguageUtils.getLang("common.please.input.query.keyword")));
         sb.append("});");
     }
 
@@ -1204,7 +1204,7 @@ public class DataGridTag extends TagSupport {
         nsb.append("}).result(function (event, row, formatted) {");
         nsb.append("$(\"#" + getEntityName() + "_" + id + "\").val(row['" + filed + "']);}); });")
                 .append("</script>")
-                .append("<input class=\"inuptxt\"  type=\"text\" id=\"" + getEntityName() + "_" + id + "\" name=\"" + filed + "\" datatype=\"*\" " + extend + StrUtils.replaceAll(" nullmsg=\"\" errormsg=\"{0}\"/>", "{0}", MutiLangUtils.getLang("input.error")));
+                .append("<input class=\"inuptxt\"  type=\"text\" id=\"" + getEntityName() + "_" + id + "\" name=\"" + filed + "\" datatype=\"*\" " + extend + StrUtils.replaceAll(" nullmsg=\"\" errormsg=\"{0}\"/>", "{0}", LanguageUtils.getLang("input.error")));
         return nsb.toString();
     }
 
@@ -1596,7 +1596,7 @@ public class DataGridTag extends TagSupport {
             for (int i = 0; i < types.size(); i++) {
                 TypeView type = types.get(i);
                 appendLine(sb, " {'conditionId':'" + type.getTypeCode() + "','conditionName':'"
-                        + MutiLangUtils.getLang(type.getTypeName()) + "'}");
+                        + LanguageUtils.getLang(type.getTypeName()) + "'}");
                 if (i < types.size() - 1) {
                     appendLine(sb, ",");
                 }
@@ -1662,7 +1662,7 @@ public class DataGridTag extends TagSupport {
         } else {
             sb.append("fit:false,");
         }
-        sb.append(StrUtils.replaceAll("loadMsg: \'{0}\',", "{0}", MutiLangUtils.getLang("common.data.loading")));
+        sb.append(StrUtils.replaceAll("loadMsg: \'{0}\',", "{0}", LanguageUtils.getLang("common.data.loading")));
         sb.append("striped:true,pageSize: " + pageSize + ",");
         sb.append("pagination:" + pagination + ",");
         sb.append("pageList:[" + pageSize * 1 + "," + pageSize * 2 + "," + pageSize * 3 + "],");
@@ -1804,7 +1804,7 @@ public class DataGridTag extends TagSupport {
                         if ("single".equals(col.getQueryMode())) {
                             if (!StrUtils.isEmpty(col.getReplace())) {
                                 sb.append("<select name=\"" + col.getField().replaceAll("_", "\\.") + "\" WIDTH=\"100\" style=\"width: 104px\"> ");
-                                sb.append(StrUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtils.getLang("common.please.select")));
+                                sb.append(StrUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", LanguageUtils.getLang("common.please.select")));
                                 String[] test = col.getReplace().split(",");
                                 String text = "";
                                 String value = "";
@@ -1812,7 +1812,7 @@ public class DataGridTag extends TagSupport {
 
                                 for (String string : test) {
                                     String lang_key = string.split("_")[0];
-                                    text = MutiLangUtils.getLang(lang_key);
+                                    text = LanguageUtils.getLang(lang_key);
                                     value = string.split("_")[1];
                                     sb.append("<option value =\"" + value + "\">" + text + "</option>");
                                 }
@@ -1840,11 +1840,11 @@ public class DataGridTag extends TagSupport {
                                     Map<String, List<TypeView>> typedatas = SystemContainer.TypeGroupContainer.getTypeMap();
                                     List<TypeView> types = typedatas.get(col.getDictionary().toLowerCase());
                                     sb.append("<select name=\"" + col.getField().replaceAll("_", "\\.") + "\" WIDTH=\"100\" style=\"width: 104px\"> ");
-                                    sb.append(StrUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtils.getLang("common.please.select")));
+                                    sb.append(StrUtils.replaceAll("<option value =\"\" >{0}</option>", "{0}", LanguageUtils.getLang("common.please.select")));
                                     if (!StrUtils.isEmpty(types)) {
                                         for (TypeView type : types) {
                                             sb.append(" <option value=\"" + type.getTypeCode() + "\">");
-                                            sb.append(MutiLangUtils.getLang(type.getTypeName()));
+                                            sb.append(LanguageUtils.getLang(type.getTypeName()));
                                             sb.append(" </option>");
                                         }
                                     }
@@ -1894,15 +1894,15 @@ public class DataGridTag extends TagSupport {
         sb.append("</span>");
         if ("group".equals(getQueryMode()) && hasQueryColum(columnList)) {//如果表单是组合查询
             sb.append("<span style=\"float:right\">");
-            sb.append("<a href=\"#\" class=\"button\" iconCls=\"icon-search\" onclick=\"" + name + StrUtils.replaceAll("search()\">{0}</a>", "{0}", MutiLangUtils.getLang("common.query")));
-            sb.append("<a href=\"#\" class=\"button\" iconCls=\"icon-reload\" onclick=\"searchReset('" + name + StrUtils.replaceAll("')\">{0}</a>", "{0}", MutiLangUtils.getLang("common.reset")));
+            sb.append("<a href=\"#\" class=\"button\" iconCls=\"icon-search\" onclick=\"" + name + StrUtils.replaceAll("search()\">{0}</a>", "{0}", LanguageUtils.getLang("common.query")));
+            sb.append("<a href=\"#\" class=\"button\" iconCls=\"icon-reload\" onclick=\"searchReset('" + name + StrUtils.replaceAll("')\">{0}</a>", "{0}", LanguageUtils.getLang("common.reset")));
             if (queryBuilder) {
-                sb.append("<a href=\"#\" class=\"button\" iconCls=\"icon-search\" onclick=\"queryBuilder('" + StrUtils.replaceAll("')\">{0}</a>", "{0}", MutiLangUtils.getLang("common.querybuilder")));
+                sb.append("<a href=\"#\" class=\"button\" iconCls=\"icon-search\" onclick=\"queryBuilder('" + StrUtils.replaceAll("')\">{0}</a>", "{0}", LanguageUtils.getLang("common.querybuilder")));
             }
             sb.append("</span>");
         } else if ("single".equals(getQueryMode()) && hasQueryColum(columnList)) {//如果表单是单查询
             sb.append("<span style=\"float:right\">");
-            sb.append("<input id=\"" + name + "searchbox\" class=\"easyui-searchbox\"  data-options=\"searcher:" + name + StrUtils.replaceAll("searchbox,prompt:\'{0}\',menu:\'#", "{0}", MutiLangUtils.getLang("common.please.input.keyword")) + name + "mm\'\"></input>");
+            sb.append("<input id=\"" + name + "searchbox\" class=\"easyui-searchbox\"  data-options=\"searcher:" + name + StrUtils.replaceAll("searchbox,prompt:\'{0}\',menu:\'#", "{0}", LanguageUtils.getLang("common.please.input.keyword")) + name + "mm\'\"></input>");
             sb.append("<div id=\"" + name + "mm\" style=\"width:120px\">");
             for (DataGridColumn col : columnList) {
                 if (col.isQuery()) {

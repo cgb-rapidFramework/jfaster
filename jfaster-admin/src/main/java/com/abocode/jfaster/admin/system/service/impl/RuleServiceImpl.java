@@ -6,7 +6,7 @@ import com.abocode.jfaster.admin.system.service.RuleService;
 import com.abocode.jfaster.core.common.constants.Globals;
 import com.abocode.jfaster.core.common.exception.BusinessException;
 import com.abocode.jfaster.core.common.util.StrUtils;
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.LanguageUtils;
 import com.abocode.jfaster.system.entity.DataRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class RuleServiceImpl implements RuleService {
     public void del(DataRule operation) {
         operation = systemService
                 .find(DataRule.class, operation.getId());
-        String message = MutiLangUtils.paramDelSuccess("common.operation");
+        String message = LanguageUtils.paramDelSuccess("common.operation");
         userService.delete(operation);
         systemService.addLog(message, Globals.LOG_TYPE_DEL,
                 Globals.LOG_LEVEL);
@@ -40,13 +40,13 @@ public class RuleServiceImpl implements RuleService {
     public void save(DataRule operation) {
         String message;
         if (StrUtils.isNotEmpty(operation.getId())) {
-            message = MutiLangUtils.paramUpdSuccess("common.operation");
+            message = LanguageUtils.paramUpdSuccess("common.operation");
             userService.saveOrUpdate(operation);
             systemService.addLog(message, Globals.LOG_TYPE_UPDATE,
                     Globals.LOG_LEVEL);
         } else {
             if (justHaveDataRule(operation) == 0) {
-                message = MutiLangUtils.paramAddSuccess("common.operation");
+                message = LanguageUtils.paramAddSuccess("common.operation");
                 userService.save(operation);
                 systemService.addLog(message, Globals.LOG_TYPE_INSERT,
                         Globals.LOG_LEVEL);

@@ -1,6 +1,6 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.LanguageUtils;
 
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.Tag;
@@ -28,7 +28,7 @@ public class DataGridDelOptTag extends TagSupport {
     }
 
     public int doEndTag() throws JspTagException {
-        title = MutiLangUtils.doMutiLang(title, langArg);
+        title = LanguageUtils.doLang(title, langArg);
 
         Tag t = findAncestorWithClass(this, DataGridTag.class);
         DataGridTag parent = (DataGridTag) t;

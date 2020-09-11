@@ -2,7 +2,7 @@ package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
 import com.abocode.jfaster.core.common.util.JspWriterUtils;
 import com.abocode.jfaster.core.platform.SystemContainer;
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.LanguageUtils;
 import com.abocode.jfaster.core.platform.view.TypeGroupView;
 import com.abocode.jfaster.core.platform.view.TypeView;
 import com.google.gson.Gson;
@@ -113,7 +113,7 @@ public class DictSelectTag extends TagSupport {
             if (typeGroup != null) {
                 if (hasLabel) {
                     if (StringUtils.isEmpty(this.title)) {
-                        this.title = MutiLangUtils.getLang(typeGroup.getTypeGroupName());
+                        this.title = LanguageUtils.getLang(typeGroup.getTypeGroupName());
                     }
                     sb.append(this.title + ":");
                     sb.append("</label>");
@@ -168,7 +168,7 @@ public class DictSelectTag extends TagSupport {
      */
     private void text(String name, String code, StringBuffer sb) {
         if (code.equals(this.defaultVal)) {
-            sb.append("<input name='" + field + "'" + " id='" + id + "' value='" + MutiLangUtils.getLang(name) + "' readOnly = 'readOnly' />");
+            sb.append("<input name='" + field + "'" + " id='" + id + "' value='" + LanguageUtils.getLang(name) + "' readOnly = 'readOnly' />");
         } else {
         }
     }
@@ -198,7 +198,7 @@ public class DictSelectTag extends TagSupport {
             }
             sb.append(" />");
         }
-        sb.append(MutiLangUtils.getLang(name));
+        sb.append(LanguageUtils.getLang(name));
     }
 
     /**
@@ -235,7 +235,7 @@ public class DictSelectTag extends TagSupport {
             }
             sb.append(" />");
         }
-        sb.append(MutiLangUtils.getLang(name));
+        sb.append(LanguageUtils.getLang(name));
     }
 
     /**
@@ -252,7 +252,7 @@ public class DictSelectTag extends TagSupport {
         } else {
             sb.append(" <option value=\"" + code + "\">");
         }
-        sb.append(MutiLangUtils.getLang(name));
+        sb.append(LanguageUtils.getLang(name));
         sb.append(" </option>");
     }
 

@@ -153,7 +153,7 @@ public class TabsTag extends TagSupport {
                         sb.append("<div title=\"" + tab.getTitle() + "\" href=\"" + tab.getHref() + "\" style=\"margin:0px;padding:0px;overflow:hidden;\"></div>");
                     } else {
                         sb.append("<div title=\"" + tab.getTitle() + "\"  style=\"margin:0px;padding:0px;overflow:hidden;\">");
-                        sb.append("<iframe id=\"\'" + tab.getId() + "\'\" scrolling=\"no\" frameborder=\"0\"  src=\"" + tab.getIframe() + "\" width=\"" + ConvertUtils.getString(tab.getWidth(), "100%") + "\" height=\"" + ConvertUtils.getString(tab.getHeigth(), "99.5%") + "\"></iframe>\';");
+                        sb.append("<iframe id=\"\'" + tab.getId() + "\'\" scrolling=\"no\" frameborder=\"0\"  src=\"" + tab.getIframe() + "\" width=\"" + ConvertUtils.getString(tab.getWidth(), "100%") + "\" height=\"" + ConvertUtils.getString(tab.getHeight(), "99.5%") + "\"></iframe>\';");
                         sb.append("</div>");
                     }
 
@@ -173,7 +173,7 @@ public class TabsTag extends TagSupport {
         tab.setCache(cache);
         tab.setIframe(iframe);
         tab.setContent(content);
-        tab.setHeigth(heigth);
+        tab.setHeight(heigth);
         tab.setIcon(iconCls);
         tab.setWidth(width);
         tab.setClosable(closable);

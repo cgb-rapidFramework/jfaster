@@ -12,7 +12,7 @@ import com.abocode.jfaster.core.common.util.IdUtils;
 import com.abocode.jfaster.core.common.util.StrUtils;
 import com.abocode.jfaster.core.persistence.hibernate.hql.HqlGenerateUtil;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.LanguageUtils;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.TreeGridModel;
 import com.abocode.jfaster.system.entity.Org;
@@ -39,11 +39,11 @@ public class OrgServiceImpl implements OrgService {
     public void save(Org depart) {
         String message;
         if (!StrUtils.isEmpty(depart.getId())) {
-            message = MutiLangUtils.paramUpdSuccess("common.department");
+            message = LanguageUtils.paramUpdSuccess("common.department");
             userRepository.saveOrUpdate(depart);
             systemRepository.addLog(message, Globals.LOG_TYPE_UPDATE, Globals.LOG_LEVEL);
         } else {
-            message = MutiLangUtils.paramAddSuccess("common.department");
+            message = LanguageUtils.paramAddSuccess("common.department");
             userRepository.save(depart);
             systemRepository.addLog(message, Globals.LOG_TYPE_INSERT, Globals.LOG_LEVEL);
         }

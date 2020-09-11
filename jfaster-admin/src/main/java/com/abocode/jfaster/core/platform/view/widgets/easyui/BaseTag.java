@@ -2,7 +2,7 @@ package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.util.JspWriterUtils;
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.LanguageUtils;
 import com.abocode.jfaster.core.platform.utils.SysThemesUtils;
 import com.abocode.jfaster.core.platform.view.TemplateView;
 import org.springframework.util.StringUtils;
@@ -57,7 +57,7 @@ public class BaseTag extends TagSupport {
 		//插入多语言脚本
 		String lang = (String)((HttpServletRequest) this.pageContext.getRequest()).getSession().getAttribute("lang");
 		if(StringUtils.isEmpty(lang)){
-			lang= MutiLangUtils.DEFUALT_LANG;
+			lang= LanguageUtils.DEFUALT_LANG;
 		}
 
 		String langjs ="<script type=\"text/javascript\" src=\"plug-in/language/"+lang+".js\"></script>";

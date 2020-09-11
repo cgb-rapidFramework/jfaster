@@ -13,7 +13,7 @@ import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.util.FileUtils;
 import com.abocode.jfaster.core.common.util.StrUtils;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.LanguageUtils;
 import com.abocode.jfaster.core.platform.utils.SysThemesUtils;
 import com.abocode.jfaster.core.repository.DataGridData;
 import com.abocode.jfaster.core.repository.DataGridParam;
@@ -109,7 +109,7 @@ public class IconController {
         String cssBody = build(icon);
         String path = request.getSession().getServletContext().getRealPath(PLUG_IN_ACCORDION_CSS_ICONS_CSS);
         SysThemesUtils.write(path, cssBody);
-        String message = MutiLangUtils.paramAddSuccess("common.icon");
+        String message = LanguageUtils.paramAddSuccess("common.icon");
         return AjaxJsonBuilder.success(message);
     }
 
@@ -171,7 +171,7 @@ public class IconController {
 			String cssBody = build(icon);
 			SysThemesUtils.write(path, cssBody);
         }
-        return AjaxJsonBuilder.success(MutiLangUtils.paramAddSuccess("common.icon.style"));
+        return AjaxJsonBuilder.success(LanguageUtils.paramAddSuccess("common.icon.style"));
     }
 
 
@@ -186,7 +186,7 @@ public class IconController {
     public AjaxJson del(String id) {
         Icon icon = systemService.find(Icon.class, id);
         boolean isPermit = iconService.isPermitDel(icon);
-        Assert.isTrue(isPermit, MutiLangUtils.paramDelFail("common.icon,common.icon.isusing"));
+        Assert.isTrue(isPermit, LanguageUtils.paramDelFail("common.icon,common.icon.isusing"));
         iconService.save(icon);
         return AjaxJsonBuilder.success();
     }

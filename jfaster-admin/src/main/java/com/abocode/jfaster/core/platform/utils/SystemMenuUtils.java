@@ -31,7 +31,7 @@ public class SystemMenuUtils {
             }
             buffer.append("{\"menuid\":\"" + node.getId() + "\",\"icon\":\""
                     + iconClas + "\"," + "\"menuname\":\""
-                    + MutiLangUtils.getLang(node.getFunctionName()) + "\",\"menus\":[");
+                    + LanguageUtils.getLang(node.getFunctionName()) + "\",\"menus\":[");
             iterGet(set1, node.getId(), buffer);
             buffer.append("]},");
         }
@@ -62,7 +62,7 @@ public class SystemMenuUtils {
             if (node.getParentFunction().getId().equals(pid)) {
                 buffer.append("{\"menuid\":\"" + node.getId()
                         + " \",\"icon\":\"" + node.getIcon().getIconClazz()
-                        + "\"," + "\"menuname\":\"" + MutiLangUtils.getLang(node.getFunctionName())
+                        + "\"," + "\"menuname\":\"" + LanguageUtils.getLang(node.getFunctionName())
                         + "\",\"url\":\"" + node.getFunctionUrl() + "\"");
                 if (count == set1.size()) {
                     buffer.append("}\n");
@@ -88,7 +88,7 @@ public class SystemMenuUtils {
         for (FunctionView pFunction : pFunctions) {
             menuString
                     .append("<li><a href=\"#\"><span class=\"icon16 icomoon-icon-stats-up\"></span><b>"
-                            + MutiLangUtils.getLang(pFunction.getFunctionName()) + "</b></a>");
+                            + LanguageUtils.getLang(pFunction.getFunctionName()) + "</b></a>");
             int submenusize = pFunction.getFunctions().size();
             if (submenusize == 0) {
                 menuString.append("</li>");
@@ -103,7 +103,7 @@ public class SystemMenuUtils {
                             .append("<li><a href=\""
                                     + function.getFunctionUrl()
                                     + "\" target=\"contentiframe\"><span class=\"icon16 icomoon-icon-file\"></span>"
-                                    + MutiLangUtils.getLang(function.getFunctionName()) + "</a></li>");
+                                    + LanguageUtils.getLang(function.getFunctionName()) + "</a></li>");
                 }
             }
             if (submenusize > 0) {
@@ -126,7 +126,7 @@ public class SystemMenuUtils {
                                        List<FunctionView> functions) {
         StringBuffer menuString = new StringBuffer();
         for (FunctionView pFunction : pFunctions) {
-            menuString.append("<div  title=\"" + MutiLangUtils.getLang(pFunction.getFunctionName())
+            menuString.append("<div  title=\"" + LanguageUtils.getLang(pFunction.getFunctionName())
                     + "\" iconCls=\"" + pFunction.getIcon().getIconClazz()
                     + "\">");
             int submenusize = pFunction.getFunctions().size();
@@ -145,16 +145,16 @@ public class SystemMenuUtils {
                     }
                     // menuString.append("<li><div> <a class=\""+function.getFunctionName()+"\" iconCls=\""+icon+"\" target=\"tabiframe\"  href=\""+function.getFunctionUrl()+"\"> <span class=\"icon "+icon+"\" >&nbsp;</span> <span class=\"nav\">"+function.getFunctionName()+"</span></a></div></li>");
                     menuString.append("<li><div onclick=\"addTab(\'"
-                            + MutiLangUtils.getLang(function.getFunctionName()) + "\',\'"
+                            + LanguageUtils.getLang(function.getFunctionName()) + "\',\'"
                             + function.getFunctionUrl() + "&clickFunctionId="
                             + function.getId() + "\',\'" + icon
-                            + "\')\"  title=\"" + MutiLangUtils.getLang(function.getFunctionName())
+                            + "\')\"  title=\"" + LanguageUtils.getLang(function.getFunctionName())
                             + "\" url=\"" + function.getFunctionUrl()
                             + "\" iconCls=\"" + icon + "\"> <a class=\""
-                            + MutiLangUtils.getLang(function.getFunctionName())
+                            + LanguageUtils.getLang(function.getFunctionName())
                             + "\" href=\"#\" > <span class=\"icon " + icon
                             + "\" >&nbsp;</span> <span class=\"nav\" >"
-                            + MutiLangUtils.getLang(function.getFunctionName())
+                            + LanguageUtils.getLang(function.getFunctionName())
                             + "</span></a></div></li>");
                 }
             }
@@ -177,7 +177,7 @@ public class SystemMenuUtils {
         StringBuffer menuString = new StringBuffer();
         List<FunctionView> list = map.get(0);
         for (FunctionView function : list) {
-            menuString.append("<div   title=\"" + MutiLangUtils.getLang(function.getFunctionName())
+            menuString.append("<div   title=\"" + LanguageUtils.getLang(function.getFunctionName())
                     + "\" iconCls=\"" + function.getIcon().getIconClazz()
                     + "\">");
             int submenusize = function.getFunctions().size();
@@ -216,7 +216,7 @@ public class SystemMenuUtils {
                 } else {
                     menuString.append("<li state='closed'>");
                 }
-                menuString.append("<span>").append(MutiLangUtils.getLang(function.getFunctionName())).append("</span>");
+                menuString.append("<span>").append(LanguageUtils.getLang(function.getFunctionName())).append("</span>");
                 int submenusize = function.getFunctions().size();
                 if (submenusize == 0) {
                     menuString.append("</li>");
@@ -232,7 +232,7 @@ public class SystemMenuUtils {
             }
         } else if ("shortcut".equals(style)) {
             for (FunctionView function : list) {
-                menuString.append("<div   title=\"" + MutiLangUtils.getLang(function.getFunctionName())
+                menuString.append("<div   title=\"" + LanguageUtils.getLang(function.getFunctionName())
                         + "\" iconCls=\"" + function.getIcon().getIconClazz()
                         + "\">");
                 int submenusize = function.getFunctions().size();
@@ -270,7 +270,7 @@ public class SystemMenuUtils {
                 } else if (map.containsKey(level + 1)) {
                     menuString.append("<div  class=\"easyui-accordion\"  fit=\"false\" border=\"false\">");
                     menuString.append("<div></div>");//easy ui 默认展开第一级,所以这里设置一个控制,就不展开了
-                    menuString.append("<div title=\"" + MutiLangUtils.getLang(function.getFunctionName())
+                    menuString.append("<div title=\"" + LanguageUtils.getLang(function.getFunctionName())
                             + "\" iconCls=\"" + function.getIcon().getIconClazz()
                             + "\"><ul>");
                     menuString.append(getChild(function, level + 1, map));
@@ -298,7 +298,7 @@ public class SystemMenuUtils {
                 if (function.getFunctions().size() == 0 || !map.containsKey(level + 1)) {
                     menuString.append(getLeafOfTree(function));
                 } else if (map.containsKey(level + 1)) {
-                    menuString.append("<li state=\"closed\" iconCls=\"" + function.getIcon().getIconClazz() + "\" ><span>" + MutiLangUtils.getLang(function.getFunctionName()) + "</span>");
+                    menuString.append("<li state=\"closed\" iconCls=\"" + function.getIcon().getIconClazz() + "\" ><span>" + LanguageUtils.getLang(function.getFunctionName()) + "</span>");
                     menuString.append("<ul >");
                     menuString.append(getChildOfTree(function, level + 1, map));
                     menuString.append("</ul></li>");
@@ -321,7 +321,7 @@ public class SystemMenuUtils {
             icon = function.getIcon().getIconClazz();
         }
         menuString.append("<li><div onclick=\"addTab(\'");
-        menuString.append(MutiLangUtils.getLang(function.getFunctionName()));
+        menuString.append(LanguageUtils.getLang(function.getFunctionName()));
         menuString.append("\',\'");
         menuString.append(function.getFunctionUrl());
         menuString.append("&clickFunctionId=");
@@ -329,17 +329,17 @@ public class SystemMenuUtils {
         menuString.append("\',\'");
         menuString.append(icon);
         menuString.append("\')\"  title=\"");
-        menuString.append(MutiLangUtils.getLang(function.getFunctionName()));
+        menuString.append(LanguageUtils.getLang(function.getFunctionName()));
         menuString.append("\" url=\"");
         menuString.append(function.getFunctionUrl());
         menuString.append("\" iconCls=\"");
         menuString.append(icon);
         menuString.append("\"> <a class=\"");
-        menuString.append(MutiLangUtils.getLang(function.getFunctionName()));
+        menuString.append(LanguageUtils.getLang(function.getFunctionName()));
         menuString.append("\" href=\"#\" > <span class=\"icon ");
         menuString.append(icon);
         menuString.append("\" >&nbsp;</span> <span class=\"nav\" >");
-        menuString.append(MutiLangUtils.getLang(function.getFunctionName()));
+        menuString.append(LanguageUtils.getLang(function.getFunctionName()));
         menuString.append("</span></a></div></li>");
         return menuString.toString();
     }
@@ -359,7 +359,7 @@ public class SystemMenuUtils {
         menuString.append("<li iconCls=\"");
         menuString.append(icon);
         menuString.append("\"> <a onclick=\"addTab(\'");
-        menuString.append(MutiLangUtils.getLang(function.getFunctionName()));
+        menuString.append(LanguageUtils.getLang(function.getFunctionName()));
         menuString.append("\',\'");
         menuString.append(function.getFunctionUrl());
         menuString.append("&clickFunctionId=");
@@ -367,11 +367,11 @@ public class SystemMenuUtils {
         menuString.append("\',\'");
         menuString.append(icon);
         menuString.append("\')\"  title=\"");
-        menuString.append(MutiLangUtils.getLang(function.getFunctionName()));
+        menuString.append(LanguageUtils.getLang(function.getFunctionName()));
         menuString.append("\" url=\"");
         menuString.append(function.getFunctionUrl());
         menuString.append("\" href=\"#\" ><span class=\"nav\" >");
-        menuString.append(MutiLangUtils.getLang(function.getFunctionName()));
+        menuString.append(LanguageUtils.getLang(function.getFunctionName()));
         menuString.append("</span></a></li>");
         return menuString.toString();
     }
@@ -434,14 +434,14 @@ public class SystemMenuUtils {
                 if (StringUtils.isNotEmpty(menu_url)) {
                     menu_url += "&clickFunctionId=" + function.getId();
                 }
-                menuString.append("		<li onclick=\"showContent(\'" + MutiLangUtils.getLang(function.getFunctionName()) + "\',\'" + menu_url + "\')\"  title=\"" + MutiLangUtils.getLang(function.getFunctionName()) + "\" url=\"" + function.getFunctionUrl() + "\" ");
+                menuString.append("		<li onclick=\"showContent(\'" + LanguageUtils.getLang(function.getFunctionName()) + "\',\'" + menu_url + "\')\"  title=\"" + LanguageUtils.getLang(function.getFunctionName()) + "\" url=\"" + function.getFunctionUrl() + "\" ");
                 if (hasSub) {
                     menuString.append(" class=\"dropdown-submenu\"");
                 }
                 menuString.append(" > ");
                 menuString.append("			<a href=\"javascript:;\"> ");
                 menuString.append("				<span class=\"bootstrap-icon\" style=\"background-image: url('" + function.getIcon().getIconPath() + "')\"></span>		 ");
-                menuString.append(MutiLangUtils.getLang(function.getFunctionName()));
+                menuString.append(LanguageUtils.getLang(function.getFunctionName()));
                 menuString.append("			</a> ");
                 if (hasSub) {
                     menuString.append(getBootStrapChild(function, level + 1, map));
@@ -538,7 +538,7 @@ public class SystemMenuUtils {
             if (function.getParentFunction().getId().equals(parent.getId())) {
                 boolean hasSub = function.getFunctions().size() != 0 && map.containsKey(level + 1);
                 menuString.append("\"" + function.getId() + "\":");
-                menuString.append("{\"id\":\"" + function.getId() + "\",\"name\":\"" + MutiLangUtils.getLang(function.getFunctionName()) + "\",\"path\":\"" + function.getIcon().getIconPath() + "\",\"url\":\"" + function.getFunctionUrl() + "\",\"level\":\"" + function.getFunctionLevel() + "\"}");
+                menuString.append("{\"id\":\"" + function.getId() + "\",\"name\":\"" + LanguageUtils.getLang(function.getFunctionName()) + "\",\"path\":\"" + function.getIcon().getIconPath() + "\",\"url\":\"" + function.getFunctionUrl() + "\",\"level\":\"" + function.getFunctionLevel() + "\"}");
 
                 if (hasSub) {
                     menuString.append("\"child\":{");
@@ -595,7 +595,7 @@ public class SystemMenuUtils {
 
         String colName = function.getIconDesk() == null ? null : function.getIconDesk().getIconPath();
         colName = (colName == null || colName.equals("")) ? "plug-in/sliding/icon/default.png" : colName;
-        String functionName = MutiLangUtils.getLang(function.getFunctionName());
+        String functionName = LanguageUtils.getLang(function.getFunctionName());
 
         dataString.append("icon:'" + colName + "',");
         dataString.append("name:'" + functionName + "',");
@@ -667,7 +667,7 @@ public class SystemMenuUtils {
         for (FunctionView function : list) {
             menuString.append("<li>");
             menuString.append("<a href=\"#\" class=\"dropdown-toggle\" ><i class=\"menu-icon fa fa-desktop\"></i>")
-                    .append(MutiLangUtils.getLang(function.getFunctionName()));
+                    .append(LanguageUtils.getLang(function.getFunctionName()));
             if (!function.hasSubFunction(map)) {
                 menuString.append("</a></li>");
                 menuString.append(getSubMenu(function, 1, map));
@@ -691,7 +691,7 @@ public class SystemMenuUtils {
                 } else if (map.containsKey(level + 1)) {
                     String icon = getDefaultIcon(function.getIcon());
                     menuString.append("<li><a href=\"#\" ><i class=\"menu-icon fa fa-eye pink\" iconCls=\""
-                            + icon + "\" ></i>" + MutiLangUtils.getLang(function.getFunctionName()) + "<b class=\"arrow\"></b>");
+                            + icon + "\" ></i>" + LanguageUtils.getLang(function.getFunctionName()) + "<b class=\"arrow\"></b>");
                     menuString.append("<ul class=\"submenu\">");
                     menuString.append(getChildOfTree(function, level + 1, map));
                     menuString.append("</ul></li>");
@@ -704,7 +704,7 @@ public class SystemMenuUtils {
     private static String getLeafOfACETree(FunctionView function) {
         StringBuffer menuString = new StringBuffer();
         String icon = getDefaultIcon(function.getIcon());
-        String name = MutiLangUtils.getLang(function.getFunctionName());
+        String name = LanguageUtils.getLang(function.getFunctionName());
         menuString.append("<li iconCls=\"");
         menuString.append(icon);
         menuString.append("\"> <a href=\"javascript:loadModule(\'");
@@ -736,7 +736,7 @@ public class SystemMenuUtils {
         for (FunctionView function : list) {
             menuString.append("<li>");
             menuString.append("<a href=\"#\" class=\"dropdown-toggle\" ><i class=\"menu-icon fa fa-desktop\"></i>")
-                    .append(MutiLangUtils.getLang(function.getFunctionName()));
+                    .append(LanguageUtils.getLang(function.getFunctionName()));
             if (!function.hasSubFunction(map)) {
                 menuString.append("</a></li>");
                 menuString.append(getDIYSubMenu(function, 1, map));
@@ -760,7 +760,7 @@ public class SystemMenuUtils {
                 } else if (map.containsKey(level + 1)) {
                     String icon = getDefaultFunctionIcon(function);
                     menuString.append("<li><a href=\"#\" ><i class=\"menu-icon fa fa-eye pink\" iconCls=\""
-                            + icon + "\" ></i>" + MutiLangUtils.getLang(function.getFunctionName()) + "<b class=\"arrow\"></b>");
+                            + icon + "\" ></i>" + LanguageUtils.getLang(function.getFunctionName()) + "<b class=\"arrow\"></b>");
                     menuString.append("<ul class=\"submenu\">");
                     menuString.append(getChildOfTree(function, level + 1, map));
                     menuString.append("</ul></li>");
@@ -792,7 +792,7 @@ public class SystemMenuUtils {
         if (function.getIcon() != null) {
             icon = SystemContainer.IconContainer.getIconsMap().get(function.getIcon().getId()).getIconClazz();
         }
-        String name = MutiLangUtils.getLang(function.getFunctionName());
+        String name = LanguageUtils.getLang(function.getFunctionName());
         menuString.append("<li iconCls=\"");
         menuString.append(icon);
         menuString.append("\"> <a href=\"javascript:loadModule(\'");

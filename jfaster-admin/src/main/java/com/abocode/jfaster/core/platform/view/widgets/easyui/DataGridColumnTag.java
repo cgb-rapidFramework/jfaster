@@ -1,6 +1,6 @@
 package com.abocode.jfaster.core.platform.view.widgets.easyui;
 
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.LanguageUtils;
 import lombok.Data;
 
 import javax.servlet.jsp.JspTagException;
@@ -49,7 +49,7 @@ public class DataGridColumnTag extends TagSupport {
     private String langArg;
 
     public int doEndTag() throws JspTagException {
-        title = MutiLangUtils.doMutiLang(title, langArg);
+        title = LanguageUtils.doLang(title, langArg);
         Tag t = findAncestorWithClass(this, DataGridTag.class);
         DataGridTag parent = (DataGridTag) t;
         parent.setColumn(title, field, width, rowspan, colspan, align, sortable, checkbox, formatter, hidden, replace, treeField, image, imageSize, query, url, function, arg, queryMode, dictionary, popup, frozenColumn, extend, style, downloadName, autocomplete, extendParams);

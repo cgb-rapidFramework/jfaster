@@ -1,6 +1,5 @@
 package com.abocode.jfaster.core.repository;
 
-import com.abocode.jfaster.core.persistence.DBTable;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.HqlQuery;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.PageHelper;
@@ -20,7 +19,7 @@ public interface CommonRepository {
 	 * 
 	 * @return
 	 */
-	 List<DBTable> findAllDbTableName();
+	 List<T> findAllDbTableName();
 
 	 Integer findAllDbTableSize();
 

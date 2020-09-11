@@ -11,11 +11,16 @@ import java.io.File;
 
 /**
  * 系统样式获取工具类
- *
  * @author Franky
  */
 @Slf4j
 public class SysThemesUtils {
+
+    public static final String STYLESHEET_BASE_HREF = "<link rel=\"stylesheet\" href=\"template/";
+
+    private SysThemesUtils() {
+    }
+
     /**
      * 获取系统风格
      *
@@ -54,8 +59,8 @@ public class SysThemesUtils {
      * @return
      */
     public static String getEasyUiTheme(TemplateView templateBean) {
-        StringBuffer sb = new StringBuffer();
-        sb.append("<link rel=\"stylesheet\" href=\"template/" + templateBean.getTheme() + "/css/easyui.css\" type=\"text/css\"></link>");
+        StringBuilder sb = new StringBuilder();
+        sb.append(STYLESHEET_BASE_HREF).append( templateBean.getTheme()).append("/css/easyui.css\" type=\"text/css\"></link>");
         return sb.toString();
     }
 
@@ -66,7 +71,7 @@ public class SysThemesUtils {
      * @return
      */
     public static String getEasyUiMainTheme(TemplateView templateBean) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("<link  rel=\"stylesheet\" href=\"template/" + templateBean.getTheme() + "/css/main.css\" type=\"text/css\"></link>");
         return sb.toString();
     }
@@ -78,7 +83,7 @@ public class SysThemesUtils {
      * @return
      */
     public static String getEasyUiIconTheme(TemplateView templateBean) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("<link  rel=\"stylesheet\" href=\"template/" + templateBean.getTheme() + "/css/icon.css\" type=\"text/css\"></link>");
         return sb.toString();
     }
@@ -90,8 +95,8 @@ public class SysThemesUtils {
      * @return
      */
     public static String getCommonTheme(TemplateView templateBean) {
-        StringBuffer sb = new StringBuffer();
-        sb.append("<link rel=\"stylesheet\" href=\"template/" + templateBean.getTheme() + "/css/common.css\" type=\"text/css\"></link>");
+        StringBuilder sb = new StringBuilder();
+        sb.append( templateBean.getTheme()).append("/css/common.css\" type=\"text/css\"></link>");
         return sb.toString();
     }
 
@@ -102,7 +107,7 @@ public class SysThemesUtils {
      * @return
      */
     public static String getLhgdialogTheme(TemplateView templateBean) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("<script type=\"text/javascript\" src=\"template/" + templateBean.getTheme() + "/js/lhgdialog.min.js?skin=" + templateBean.getTheme() + "\"></script>");
         return sb.toString();
     }
@@ -114,22 +119,8 @@ public class SysThemesUtils {
      * @return
      */
     public static String getTabTheme(TemplateView templateBean) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("<script type=\"text/javascript\" src=\"template/" + templateBean.getTheme() + "/js/bootstrap-tab.js\"></script>");
-        return sb.toString();
-    }
-
-
-    /**
-     * graphreport report.css 样式
-     *
-     * @param templateBean
-     * @return
-     */
-    @Deprecated
-    public static String getReportTheme(TemplateView templateBean) {
-        StringBuffer sb = new StringBuffer();
-        sb.append("<link rel=\"stylesheet\" href=\"template/" + templateBean.getTheme() + "/css/report.css\" type=\"text/css\"></link>");
         return sb.toString();
     }
 
@@ -140,8 +131,8 @@ public class SysThemesUtils {
      * @return
      */
     public static String getValidformDivfromTheme(TemplateView templateBean) {
-        StringBuffer sb = new StringBuffer();
-        sb.append("<link rel=\"stylesheet\" href=\"template/" + templateBean.getTheme() + "/css/divfrom.css\" type=\"text/css\"/>");
+        StringBuilder sb = new StringBuilder();
+        sb.append(templateBean.getTheme()).append("/css/divfrom.css\" type=\"text/css\"/>");
         return sb.toString();
     }
 
@@ -152,8 +143,8 @@ public class SysThemesUtils {
      * @return
      */
     public static String getValidformStyleTheme(TemplateView templateBean) {
-        StringBuffer sb = new StringBuffer();
-        sb.append("<link rel=\"stylesheet\" href=\"template/" + templateBean.getTheme() + "/css/style.css\" type=\"text/css\"/>");
+        StringBuilder sb = new StringBuilder();
+        sb.append(templateBean.getTheme()).append("/css/style.css\" type=\"text/css\"/>");
         return sb.toString();
     }
 
@@ -164,8 +155,8 @@ public class SysThemesUtils {
      * @return
      */
     public static String getValidformTablefrom(TemplateView templateBean) {
-        StringBuffer sb = new StringBuffer();
-        sb.append("<link rel=\"stylesheet\" href=\"template/" + templateBean.getTheme() + "/css/tablefrom.css\" type=\"text/css\"/>");
+        StringBuilder sb = new StringBuilder();
+        sb.append(templateBean.getTheme()).append("/css/tablefrom.css\" type=\"text/css\"/>");
         return sb.toString();
     }
 

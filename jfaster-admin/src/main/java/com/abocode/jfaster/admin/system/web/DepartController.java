@@ -15,7 +15,7 @@ import com.abocode.jfaster.core.common.model.json.TreeGrid;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.common.util.StrUtils;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
-import com.abocode.jfaster.core.platform.utils.MutiLangUtils;
+import com.abocode.jfaster.core.platform.utils.LanguageUtils;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.repository.DataGridData;
 import com.abocode.jfaster.core.repository.DataGridParam;
@@ -88,10 +88,10 @@ public class DepartController {
     public AjaxJson del(@RequestParam String id) {
         Org depart = departRepository.find(Org.class, id);
         String paramLangKey = "common.department";
-        Assert.isTrue(depart != null, MutiLangUtils.paramDelFail(paramLangKey));
-        Assert.isTrue(!CollectionUtils.isEmpty(depart.getOrgs()), MutiLangUtils.paramDelFail(paramLangKey));
+        Assert.isTrue(depart != null, LanguageUtils.paramDelFail(paramLangKey));
+        Assert.isTrue(!CollectionUtils.isEmpty(depart.getOrgs()), LanguageUtils.paramDelFail(paramLangKey));
         departRepository.deleteDepart(depart);
-        String message = MutiLangUtils.paramDelSuccess(paramLangKey);
+        String message = LanguageUtils.paramDelSuccess(paramLangKey);
         systemRepository.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);
         return AjaxJsonBuilder.success(message);
     }
@@ -248,7 +248,7 @@ public class DepartController {
         Org depart = departRepository.find(Org.class, orgId);
         String orgIds = ConvertUtils.getString(userIds);
         orgService.saveOrgUserList(depart, orgIds);
-        return AjaxJsonBuilder.success(MutiLangUtils.paramAddSuccess("common.user"));
+        return AjaxJsonBuilder.success(LanguageUtils.paramAddSuccess("common.user"));
     }
 
     /**

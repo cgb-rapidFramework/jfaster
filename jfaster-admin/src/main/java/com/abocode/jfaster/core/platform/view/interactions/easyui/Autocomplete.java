@@ -1,9 +1,8 @@
 package com.abocode.jfaster.core.platform.view.interactions.easyui;
-/**
- * 
- * @author  张代浩
- *
- */
+
+import lombok.Data;
+
+@Data
 public class Autocomplete {
 	private String entityName;//实体名称
 	private String labelField;//提示显示的字段
@@ -12,50 +11,11 @@ public class Autocomplete {
 	private String trem;//查询传递的值
 	private Integer maxRows;
 	private Integer curPage;
-	public String getSearchField() {
-		return searchField;
-	}
-	public void setSearchField(String searchField) {
-		this.searchField = searchField;
-	}
-	public String getEntityName() {
-		return entityName;
-	}
-	public void setEntityName(String entityName) {
-		this.entityName = entityName;
-	}
-	public String getTrem() {
-		return trem;
-	}
-	public void setTrem(String trem) {
-		this.trem = trem;
-	}
-	public String getLabelField() {
-		return labelField;
-	}
-	public void setLabelField(String labelField) {
-		this.labelField = labelField;
-	}
-	public String getValueField() {
-		return valueField;
-	}
-	public void setValueField(String valueField) {
-		this.valueField = valueField;
-	}
-	public Integer getMaxRows() {
-		return maxRows;
-	}
-	public void setMaxRows(Integer maxRows) {
-		this.maxRows = maxRows;
-	}
 	public Integer getCurPage() {
 		if(curPage==null||curPage<1){
 			curPage = 1;
 		}
 		return curPage;
-	}
-	public void setCurPage(Integer curPage) {
-		this.curPage = curPage;
 	}
 
 }

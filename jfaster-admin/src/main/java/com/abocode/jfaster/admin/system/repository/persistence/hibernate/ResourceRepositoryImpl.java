@@ -269,7 +269,7 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
                 // 得到实体的ID
                 String id = employee.attributeValue(fields[0].getName());
                 // 判断实体是否已存在
-                Object entity = findEntity(entityClass, id);
+                Object entity = find(entityClass, id);
                 // 实体不存在new个实体
                 if (entity == null) {
                     entity = entityClass.newInstance();
@@ -428,14 +428,14 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
             if (childList != null && childList.size() > 0) {
                 tg.setState("closed");
             }
-            if (treeGridModel.getRoleid() != null) {
+            if (treeGridModel.getRoleId() != null) {
                 String[] opStrings = {};
                 List<RoleFunction> roleFunctions = findAllByProperty(RoleFunction.class, "function.id", id);
 
                 if (roleFunctions.size() > 0) {
                     for (RoleFunction tRoleFunction : roleFunctions) {
                         RoleFunction roleFunction = tRoleFunction;
-                        if (roleFunction.getRole().getId().toString().equals(treeGridModel.getRoleid())) {
+                        if (roleFunction.getRole().getId().toString().equals(treeGridModel.getRoleId())) {
                             String bbString = roleFunction.getOperation();
                             if (bbString != null) {
                                 opStrings = bbString.split(",");

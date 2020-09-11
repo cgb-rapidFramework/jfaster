@@ -31,16 +31,14 @@ public class TagUtil {
     private static DataGridData getDataObject(String[] fields, int total, List<?> list, String[] footers) {
         DataGridData dataGridData = new DataGridData();
         dataGridData.setTotal(total);
-
         //设置行数
         List<Map<String, Object>> rows = new ArrayList<>();
         Object[] values = new Object[fields.length];
-        int i;
         String fieldName;
         for (int j = 0; j < list.size(); ++j) {
             Map<String, Object> row = new HashMap<>();
             row.put("state", "closed");
-            for (i = 0; i < fields.length; ++i) {
+            for (int i = 0; i < fields.length; ++i) {
                 fieldName = fields[i];
                 if (list.get(j) instanceof Map)
                     values[i] = ((Map<?, ?>) list.get(j)).get(fieldName);
@@ -87,7 +85,7 @@ public class TagUtil {
      * @param list  列表数据
      * @return
      */
-    private static Object getTotalValue(String filed, List list) {
+    private static Object getTotalValue(String filed, List<?> list) {
         Double sum = 0D;
         try {
             for (int j = 0; j < list.size(); j++) {
@@ -145,21 +143,21 @@ public class TagUtil {
      */
     public static String getFunParams(String functionname) {
         int index = functionname.indexOf("(");
-        String param = "";
+        StringBuilder param = new StringBuilder();
         if (index != -1) {
-            String testparam = functionname.substring(
-                    functionname.indexOf("(") + 1, functionname.length() - 1);
-            if (!StringUtils.isEmpty(testparam)) {
-                String[] params = testparam.split(",");
+            String tempParam = functionname.substring(functionname.indexOf("(") + 1, functionname.length() - 1);
+            if (!StringUtils.isEmpty(tempParam)) {
+                String[] params = tempParam.split(",");
                 for (String string : params) {
-                    param += (string.indexOf("{") != -1) ? ("'\"+"
+                    String s=(string.indexOf("{") != -1) ? ("'\"+"
                             + string.substring(1, string.length() - 1) + "+\"',")
                             : ("'\"+rec." + string + "+\"',");
+                    param.append(s);
                 }
             }
         }
-        param += "'\"+index+\"'";// 传出行索引号参数
-        return param;
+        param.append( "'\"+index+\"'");// 传出行索引号参数
+        return param.toString();
     }
 
     /**
@@ -266,8 +264,8 @@ public class TagUtil {
      * @param fields 模型
      * @return
      */
-    public static List<ComboBox> getComboBox(List all, List in, String[] fields) {
-        List<ComboBox> comboxBoxs = new ArrayList<>();
+    public static List<ComboBox> getComboBox(List<Object> all, List<Object> in, String[] fields) {
+        List<ComboBox> comboBoxes = new ArrayList<>();
         Object[] values = new Object[fields.length];
         for (Object node : all) {
             ComboBox box = new ComboBox();
@@ -290,9 +288,9 @@ public class TagUtil {
                     }
                 }
             }
-            comboxBoxs.add(box);
+            comboBoxes.add(box);
         }
-        return comboxBoxs;
+        return comboBoxes;
 
     }
 

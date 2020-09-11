@@ -18,7 +18,7 @@ public class SystemContainer {
      *
      * @author guanxf
      */
-    public final static class IconContainer {
+    public  static class IconContainer {
         private IconContainer() {
         }
 
@@ -37,7 +37,7 @@ public class SystemContainer {
     /***
      * 字典
      */
-    public final static class TypeGroupContainer {
+    public  static class TypeGroupContainer {
         private TypeGroupContainer() {
         }
 
@@ -66,7 +66,7 @@ public class SystemContainer {
      *
      * @author guanxf
      */
-    public final static class OperationContainer {
+    public  static class OperationContainer {
         private OperationContainer() {
         }
 
@@ -86,7 +86,7 @@ public class SystemContainer {
      *
      * @author guanxf
      */
-    public final static class TemplateContainer {
+    public  static class TemplateContainer {
         private TemplateContainer() {
         }
 
