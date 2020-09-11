@@ -5,6 +5,7 @@ import com.abocode.jfaster.core.persistence.hibernate.qbc.CriteriaQuery;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.HqlQuery;
 import com.abocode.jfaster.core.persistence.hibernate.qbc.PageHelper;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.Autocomplete;
+import org.apache.poi.ss.formula.functions.T;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 
@@ -52,8 +53,7 @@ public interface CommonRepository {
 	 * @param id
 	 * @return
 	 */
-	@SuppressWarnings("rawtypes")
-	 <T> T findEntity(Class entityName, Serializable id);
+	 <T> T findEntity(Class<T> entityName, Serializable id);
 
 	/**
 	 * 根据实体名称和字段名称和字段值获取唯一记录
@@ -78,8 +78,7 @@ public interface CommonRepository {
 	 * 
 	 * @param entities
 	 */
-	@SuppressWarnings("rawtypes")
-	 void delete(Class entities, Serializable id);
+	 void delete(Class<T> entities, Serializable id);
 
 	/**
 	 * 删除实体集合
@@ -175,8 +174,7 @@ public interface CommonRepository {
 	 * @param exampleEntity
 	 * @return
 	 */
-	@SuppressWarnings("rawtypes")
-	 List findByExample(final String entityName,
+	 List<T> findByExample(String entityName,
 			final Object exampleEntity);
 
 	/**
@@ -186,7 +184,7 @@ public interface CommonRepository {
 	 * @param cq
 	 * @return
 	 */
-	 <T> List<T> findListByCq(final CriteriaQuery cq, Boolean ispage);
+	 <T> List<T> findListByCq(final CriteriaQuery cq, boolean ispage);
 	
 	/**
 	 * 获取自动完成列表

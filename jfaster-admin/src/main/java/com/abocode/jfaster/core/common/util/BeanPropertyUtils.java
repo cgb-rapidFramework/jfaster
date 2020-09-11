@@ -26,7 +26,7 @@ public class BeanPropertyUtils extends PropertyUtilsBean {
      *
      * @param source
      * @param target
-     * @throws NoSuchMethodException copy
+     * @throws NoSuchMethodException
      */
     public static void copyObjectToObject(Object source, Object target) {
         PropertyDescriptor[] origDescriptors = PropertyUtils.getPropertyDescriptors(source);

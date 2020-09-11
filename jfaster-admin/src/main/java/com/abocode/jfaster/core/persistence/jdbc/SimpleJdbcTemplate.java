@@ -167,8 +167,7 @@ public class SimpleJdbcTemplate {
 	 * 参数用冒号
 	 */
 	public int[] batchUpdate(final String sql,List<Object[]> batch ){
-        int[] updateCounts = jdbcTemplate.batchUpdate(sql,batch);
-        return updateCounts;
+		return jdbcTemplate.batchUpdate(sql,batch);
 	}
 
 	

@@ -1,6 +1,4 @@
 package com.abocode.jfaster.core.persistence.hibernate;
-
-import com.abocode.jfaster.core.common.exception.BusinessException;
 import com.abocode.jfaster.core.common.util.BeanPropertyUtils;
 import com.abocode.jfaster.core.common.util.ConvertUtils;
 import com.abocode.jfaster.core.persistence.DBTable;
@@ -23,12 +21,10 @@ import org.hibernate.internal.CriteriaImpl;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.persister.entity.AbstractEntityPersister;
 import org.hibernate.query.Query;
-import org.hibernate.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -37,6 +33,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
@@ -151,7 +148,6 @@ public    class HibernateCommonRepository<T extends Serializable>
 				getSession().clear();
 			}
 		}
-		// 最后清理一下----防止大于20小于40的不保存
 		getSession().flush();
 		getSession().clear();
 	}
@@ -177,23 +173,18 @@ public    class HibernateCommonRepository<T extends Serializable>
 	 * 根据传入的实体删除对象
 	 */
 	public <T> void delete(T entity) {
-		try {
-			getSession().delete(entity);
-			getSession().flush();
-		} catch (RuntimeException e) {
-			throw e;
-		}
+		getSession().delete(entity);
+		getSession().flush();
 	}
 
 	/**
 	 * 根据主键删除指定的实体
-	 * 
-	 * @param <T>
-	 * @param entityName
+	 *
+	 * @param entity
 	 */
 	@Override
-	public <T> void delete(Class entityName, Serializable id) {
-		delete(find(entityName, id));
+	public void delete(Class entity, Serializable id) {
+		delete(find(entity, id));
 		getSession().flush();
 	}
 
@@ -218,7 +209,7 @@ public    class HibernateCommonRepository<T extends Serializable>
 	@Override
 	public <T> T find(Class<T> entityClass, final Serializable id) {
 
-		return (T) getSession().get(entityClass, id);
+		return getSession().get(entityClass, id);
 
 	}
 
@@ -230,9 +221,8 @@ public    class HibernateCommonRepository<T extends Serializable>
 	 * @param id
 	 * @return
 	 */
-	public <T> T findEntity(Class entityName, Serializable id) {
-
-		T t = (T) getSession().get(entityName, id);
+	public <T> T findEntity(Class<T> entityName, Serializable id) {
+		T t = getSession().get(entityName, id);
 		if (t != null) {
 			getSession().flush();
 		}
@@ -249,25 +239,6 @@ public    class HibernateCommonRepository<T extends Serializable>
 		getSession().update(pojo);
 		getSession().flush();
 	}
-
-	/**
-	 * 更新指定的实体
-	 * 
-	 * @param <T>
-	 * @param className
-	 */
-	public <T> void updateEntitie(String className, Object id) {
-		getSession().update(className, id);
-		getSession().flush();
-	}
-
-	/**
-	 * 根据主键更新实体
-	 */
-	public <T> void updateEntityById(Class entityName, Serializable id) {
-		update(find(entityName, id));
-	}
-
 	/**
 	 * 通过hql 查询语句查找对象
 	 * 
@@ -275,10 +246,9 @@ public    class HibernateCommonRepository<T extends Serializable>
 	 * @return
 	 */
 	public List<T> findByHql(final String query) {
-
 		Query queryObject = getSession().createQuery(query);
 		List<T> list = queryObject.list();
-		if (list.size() > 0) {
+		if (!CollectionUtils.isEmpty(list)) {
 			getSession().flush();
 		}
 		return list;
@@ -293,36 +263,13 @@ public    class HibernateCommonRepository<T extends Serializable>
 	 * @return
 	 */
 	public <T> T findUniqueByHql(String hql) {
-		T t = null;
 		Query queryObject = getSession().createQuery(hql);
 		List<T> list = queryObject.list();
-		if (list.size() == 1) {
-			getSession().flush();
-			t = list.get(0);
-		} else if (list.size() > 0) {
-			throw new BusinessException("查询结果数:" + list.size() + "大于1");
-		}
-		return t;
+		Assert.isTrue(list.size() == 1,("查询结果数:" + list.size() + "大于1"));
+		getSession().flush();
+		return list.get(0);
 	}
 
-	/**
-	 * 通过hql 查询语句查找HashMap对象
-	 * 
-	 * @param hql
-	 * @return
-	 */
-	public Map<Object, Object> findHashMapbyHql(String hql) {
-
-		Query query = getSession().createQuery(hql);
-		List list = query.list();
-		Map<Object, Object> map = new HashMap<Object, Object>();
-		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-			Object[] tm = (Object[]) iterator.next();
-			map.put(tm[0].toString(), tm[1].toString());
-		}
-		return map;
-
-	}
 
 	/**
 	 * 通过sql更新记录
@@ -332,8 +279,8 @@ public    class HibernateCommonRepository<T extends Serializable>
 	 */
 	public int updateBySql(final String query) {
 
-		Query querys = getSession().createSQLQuery(query);
-		return querys.executeUpdate();
+		Query queryResult = getSession().createSQLQuery(query);
+		return queryResult.executeUpdate();
 	}
 
 	/**
@@ -384,23 +331,11 @@ public    class HibernateCommonRepository<T extends Serializable>
 		return criteria;
 	}
 
-	@SuppressWarnings("unchecked")
 	public <T> List<T> findAll(final Class<T> entityClass) {
 		Criteria criteria = createCriteria(entityClass);
 		return criteria.list();
 	}
 
-	/**
-	 * 创建单一Criteria对象
-	 * 
-	 * @param <T>
-	 * @param entityClass
-	 * @return
-	 */
-	private <T> Criteria createCriteria(Class<T> entityClass) {
-		Criteria criteria = getSession().createCriteria(entityClass);
-		return criteria;
-	}
 
 	/**
 	 * 根据属性名和属性值查询. 有排序
@@ -414,9 +349,8 @@ public    class HibernateCommonRepository<T extends Serializable>
 	 */
 	public <T> List<T> findByPropertyIsOrder(Class<T> entityClass,
 			String propertyName, Object value, boolean isAsc) {
-		Assert.hasText(propertyName);
-		return createCriteria(entityClass, isAsc,
-				Restrictions.eq(propertyName, value)).list();
+		Assert.hasText(propertyName,String.format("%s不存在",propertyName));
+		return createCriteria(entityClass, isAsc,Restrictions.eq(propertyName, value)).list();
 	}
 
 	/**
@@ -431,71 +365,6 @@ public    class HibernateCommonRepository<T extends Serializable>
 				Restrictions.eq(propertyName, value)).uniqueResult();
 		return (T) res;
 	}
-
-
-	/**
-	 * 根据查询条件与参数列表创建Query对象
-	 * 
-	 * @param session
-	 *            Hibernate会话
-	 * @param hql
-	 *            HQL语句
-	 * @param objects
-	 *            参数列表
-	 * @return Query对象
-	 */
-	public Query createQuery(Session session, String hql, Object... objects) {
-		Query query = session.createQuery(hql);
-		if (objects != null) {
-			for (int i = 0; i < objects.length; i++) {
-				query.setParameter(i, objects[i]);
-			}
-		}
-		return query;
-	}
-
-	/**
-	 * 批量插入实体
-	 * 
-	 * @param entityList
-	 * @return
-	 */
-	public <T> int batchInsertsEntitie(List<T> entityList) {
-		int num = 0;
-		for (int i = 0; i < entityList.size(); i++) {
-			save(entityList.get(i));
-			num++;
-		}
-		return num;
-	}
-
-	/**
-	 * 根据实体名返回全部对象
-	 * 
-	 * @param <T>
-	 * @param hql
-	 * @param size
-	 * @return
-	 */
-	/**
-	 * 使用占位符的方式填充值 请注意：like对应的值格式："%"+username+"%" Hibernate Query
-	 * 
-	 * @param hql
-	 * @param values
-	 *            占位符号?对应的值，顺序必须一一对应 可以为空对象数组，但是不能为null
-	 * @return 2008-07-19 add by liuyang
-	 */
-	public List<T> executeQuery(final String hql, final Object[] values) {
-		Query query = getSession().createQuery(hql);
-		// query.setCacheable(true);
-		for (int i = 0; values != null && i < values.length; i++) {
-			query.setParameter(i, values[i]);
-		}
-
-		return query.list();
-
-	}
-
 	/**
 	 * 根据实体模版查找
 	 * 
@@ -512,25 +381,6 @@ public    class HibernateCommonRepository<T extends Serializable>
 				exampleEntity.getClass()));
 		executableCriteria.add(Example.create(exampleEntity));
 		return executableCriteria.list();
-	}
-
-	// 使用指定的检索标准获取满足标准的记录数
-	public Integer getRowCount(DetachedCriteria criteria) {
-		return ConvertUtils.getInt(((Criteria) criteria
-				.setProjection(Projections.rowCount())).uniqueResult(), 0);
-	}
-
-	/**
-	 * 查询指定实体的总记录数
-	 * 
-	 * @param clazz
-	 * @return
-	 */
-	public int getCount(Class<T> clazz) {
-
-		int count = DataAccessUtils.intResult(getSession().createQuery(
-				"select count(*) from " + clazz.getName()).list());
-		return count;
 	}
 
 	/**
@@ -659,14 +509,12 @@ public    class HibernateCommonRepository<T extends Serializable>
 	 * @param isOffset
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public PageHelper findPageListByHql(final HqlQuery hqlQuery,
                                         final boolean isOffset) {
 
 		Query query = getSession().createQuery(hqlQuery.getQueryString());
 		if (isOffset) {
-			query.setParameters(hqlQuery.getParam(),
-					(Type[]) hqlQuery.getTypes());
+			query.setParameters(hqlQuery.getParam(),hqlQuery.getTypes());
 		}
 		int allCounts = query.list().size();
 		int curPageNO = hqlQuery.getCurPage();
@@ -686,7 +534,7 @@ public    class HibernateCommonRepository<T extends Serializable>
 	 * @param isOffset
 	 * @return
 	 */
-	public List<T> findListByCq(final CriteriaQuery cq, Boolean isOffset) {
+	public List<T> findListByCq(final CriteriaQuery cq, boolean isOffset) {
 		Criteria criteria = cq.getDetachedCriteria().getExecutableCriteria(
 				getSession());
 		// 判断是否有排序字段
@@ -701,6 +549,19 @@ public    class HibernateCommonRepository<T extends Serializable>
 
 	}
 
+
+	/**
+	 * 创建单一Criteria对象
+	 *
+	 * @param <T>
+	 * @param entityClass
+	 * @return
+	 */
+	private <T> Criteria createCriteria(Class<T> entityClass) {
+		Criteria criteria = getSession().createCriteria(entityClass);
+		return criteria;
+	}
+
 	@Autowired
 	@Qualifier("jdbcTemplate")
 	private JdbcTemplate jdbcTemplate;
@@ -708,15 +569,6 @@ public    class HibernateCommonRepository<T extends Serializable>
 	@Autowired
 	@Qualifier("namedParameterJdbcTemplate")
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
-	/**
-	 * 使用指定的检索标准检索数据并分页返回数据
-	 */
-	public List<Map<String, Object>> findForJdbc(String dbType, String sql, int page, int rows) {
-		// 封装分页SQL
-		sql = JdbcDao.jeecgCreatePageSql(dbType,sql, page, rows);
-		return this.jdbcTemplate.queryForList(sql);
-	}
 
 	/**
 	 * 使用指定的检索标准检索数据并分页返回数据
@@ -845,18 +697,13 @@ public    class HibernateCommonRepository<T extends Serializable>
 	 * @return
 	 */
 	public <T> List<T> findAutoList(Autocomplete autocomplete) {
-		StringBuffer sb = new StringBuffer("");
+		StringBuilder sb = new StringBuilder();
 		for (String searchField : autocomplete.getSearchField().split(",")) {
-			sb.append("  or " + searchField + " like '%"
-					+ autocomplete.getTrem() + "%' ");
+			sb.append("  or ").append( searchField ).append( " like '%").append( autocomplete.getTrem() + "%' ");
 		}
-		String hql = "from " + autocomplete.getEntityName() + " where 1!=1 "
-				+ sb.toString();
-		return this.getSession().createQuery(hql)
+		sb.append("from ").append( autocomplete.getEntityName());
+		return this.getSession().createQuery(sb.toString())
 				.setFirstResult(autocomplete.getCurPage() - 1)
 				.setMaxResults(autocomplete.getMaxRows()).list();
 	}
-
-	
-	
 }

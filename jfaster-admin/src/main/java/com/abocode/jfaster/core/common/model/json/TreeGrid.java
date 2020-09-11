@@ -1,9 +1,7 @@
 package com.abocode.jfaster.core.common.model.json;
 
-import com.google.gson.Gson;
 import lombok.Data;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Data
@@ -21,33 +19,4 @@ public class TreeGrid implements java.io.Serializable {
  	private String order;//排序
     private Map<String, String> fieldMap; // 存储实体字段信息容器： key-字段名称，value-字段值
     private String  functionType;// 其他参数
-    public String toJson() {
-        return "{" +
-                "'id':'" + id + '\'' +
-                ", 'text':'" + text + '\'' +
-                ", 'parentId':'" + parentId + '\'' +
-                ", 'parentText':'" + parentText + '\'' +
-                ", 'code':'" + code + '\'' +
-                ", 'src':'" + src + '\'' +
-                ", 'note':'" + note + '\'' +
-                ", 'attributes':" + attributes +
-                ", 'operations':'" + operations + '\'' +
-                ", 'state':'" + state + '\'' +
-                ", 'order':'" + order + '\'' +
-                assembleFieldsJson() +
-                '}';
-    }
-
-    private String assembleFieldsJson() {
-        String fieldsJson = ", 'fieldMap':" + fieldMap;
-        if (fieldMap != null && fieldMap.size() > 0) {
-            Map<String, String> resultMap = new HashMap<>();
-            for (Map.Entry<String, String> entry : fieldMap.entrySet()) {
-                resultMap.put("fieldMap." + entry.getKey(), entry.getValue());
-            }
-            fieldsJson = ", " + new Gson().toJson(resultMap).replace("{", "").replace("}", "");
-        }
-        return fieldsJson;
-    }
- 
 }

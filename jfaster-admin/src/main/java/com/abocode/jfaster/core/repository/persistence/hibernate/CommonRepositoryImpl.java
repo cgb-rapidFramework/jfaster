@@ -83,8 +83,7 @@ public class CommonRepositoryImpl implements CommonRepository {
      * 根据实体名获取对象
      */
     @Override
-    @SuppressWarnings("rawtypes")
-    public <T> T findEntity(Class entityName, Serializable id) {
+    public <T> T findEntity(Class<T> entityName, Serializable id) {
         return  commonRepository.findEntity(entityName, id);
     }
 
@@ -141,7 +140,6 @@ public class CommonRepositoryImpl implements CommonRepository {
     /**
      * 删除实体主键ID删除对象
      *
-     * @param <T>
      * @param entities
      */
     @Override
@@ -221,9 +219,9 @@ public class CommonRepositoryImpl implements CommonRepository {
      * @return
      */
     @Override
-    public <T> List<T> findListByCq(final CriteriaQuery cq,
-                                    Boolean ispage) {
-        return commonRepository.findListByCq(cq, ispage);
+    public <T> List<T> findListByCq( CriteriaQuery cq,
+                                    boolean pageable) {
+        return commonRepository.findListByCq(cq, pageable);
     }
 
 
