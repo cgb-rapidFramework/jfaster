@@ -24,32 +24,31 @@ public class ChartServiceImpl implements ChartService {
     private SystemRepository systemService;
     //用户浏览器统计分析的国际化KEY
     private static final String USER_BROWSER_ANALYSIS = "user.browser.analysis";
+
     @Override
     public List<HighChartDto> buildChart(String reportType) {
-        List<HighChartDto> list = new ArrayList<HighChartDto>();
-        StringBuffer sb = new StringBuffer();
+        List<HighChartDto> list = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
         sb.append("SELECT broswer ,count(broswer) FROM Log group by broswer");
-        List userBroswerList = systemService.findByHql(sb.toString());
+        List<Object> userBroswerList = systemService.findByHql(sb.toString());
         Long count = systemService.queryForCount("SELECT COUNT(1) FROM T_S_Log WHERE 1=1");
-        List lt = new ArrayList();
+        List<Map<String, Object>> lt = new ArrayList<>();
         HighChartDto hc = new HighChartDto();
         hc.setName(LanguageUtils.getLang(USER_BROWSER_ANALYSIS));
         hc.setType(reportType);
         Map<String, Object> map;
-        if (userBroswerList.size() > 0) {
-            for (Object object : userBroswerList) {
-                map = new HashMap();
-                Object[] obj = (Object[]) object;
-                map.put("name", obj[0]);
-                map.put("y", obj[1]);
-                Long groupCount = (Long) obj[1];
-                long percentage = 0;
-                if (count != null && count.intValue() != 0) {
-                    percentage = groupCount/count;
-                }
-                map.put("percentage", percentage*100);
-                lt.add(map);
+        for (Object object : userBroswerList) {
+            map = new HashMap<>();
+            Object[] obj = (Object[]) object;
+            map.put("name", obj[0]);
+            map.put("y", obj[1]);
+            Long groupCount = (Long) obj[1];
+            long percentage = 0;
+            if (count != null && count.intValue() != 0) {
+                percentage = groupCount / count;
             }
+            map.put("percentage", percentage * 100);
+            lt.add(map);
         }
         hc.setData(lt);
         list.add(hc);

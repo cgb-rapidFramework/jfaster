@@ -58,7 +58,7 @@ public class CriteriaQuery<T> {
      * 查询需要显示的字段
      */
     private String field = "";
-    private Class<T> entityClass;
+    private Class<?> entityClass;
     /***
      * 结果集
      */
@@ -70,29 +70,29 @@ public class CriteriaQuery<T> {
      */
     private List<String> alias = new ArrayList<>();
 
-    public CriteriaQuery(Class<T> c) {
+    public CriteriaQuery(Class<?> c) {
         this.detachedCriteria = DetachedCriteria.forClass(c);
     }
 
-    public CriteriaQuery(Class<T> c, int page, String myAction, String myForm) {
+    public CriteriaQuery(Class<?> c, int page, String myAction, String myForm) {
         this.page = page;
         this.myAction = myAction;
         this.myForm = myForm;
         this.detachedCriteria = DetachedCriteria.forClass(c);
     }
 
-    public CriteriaQuery(Class<T> c, int page, String myAction) {
+    public CriteriaQuery(Class<?> c, int page, String myAction) {
         this.myAction = myAction;
         this.page = page;
         this.detachedCriteria = DetachedCriteria.forClass(c);
     }
 
-    public CriteriaQuery(Class<T> entityClass, int page) {
+    public CriteriaQuery(Class<?> entityClass, int page) {
         this.page = page;
         this.detachedCriteria = DetachedCriteria.forClass(entityClass);
     }
 
-    public CriteriaQuery(Class<T> c, int size, int page,
+    public CriteriaQuery(Class<?> c, int size, int page,
                          String myAction, String myForm) {
         this.size = size;
         this.page = page;

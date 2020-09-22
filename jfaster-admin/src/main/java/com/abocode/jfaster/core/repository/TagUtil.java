@@ -264,7 +264,7 @@ public class TagUtil {
      * @param fields 模型
      * @return
      */
-    public static List<ComboBox> getComboBox(List<Object> all, List<Object> in, String[] fields) {
+    public static List<ComboBox> getComboBox(List<?> all, List<?> in, String[] fields) {
         List<ComboBox> comboBoxes = new ArrayList<>();
         Object[] values = new Object[fields.length];
         for (Object node : all) {
