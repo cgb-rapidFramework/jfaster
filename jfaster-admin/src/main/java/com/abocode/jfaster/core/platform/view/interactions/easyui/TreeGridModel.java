@@ -1,6 +1,9 @@
 package com.abocode.jfaster.core.platform.view.interactions.easyui;
 
 import lombok.Data;
+
+import java.util.Map;
+
 @Data
 public class TreeGridModel implements java.io.Serializable {
 	private String idField;
@@ -14,4 +17,5 @@ public class TreeGridModel implements java.io.Serializable {
  	private String icon;
  	private String order;
  	private String functionType;
+ 	private Map<String, String> fieldMap;
 }

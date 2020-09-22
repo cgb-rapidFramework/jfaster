@@ -74,7 +74,7 @@ public    class HibernateCommonRepository<T extends Serializable>
 	 * @return
 	 */
 	public List<DBTable> findAllDbTableName() {
-		List<DBTable> resultList = new ArrayList<DBTable>();
+		List<DBTable> resultList = new ArrayList<>();
 		SessionFactory factory = getSession().getSessionFactory();
 		Map<String, ClassMetadata> metaMap = factory.getAllClassMetadata();
 		for (String key : metaMap.keySet()) {

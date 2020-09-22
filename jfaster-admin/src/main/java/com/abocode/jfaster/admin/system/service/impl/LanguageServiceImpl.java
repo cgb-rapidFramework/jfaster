@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 
 @Service
 public class LanguageServiceImpl implements LanguageService {
+    public static final String COMMON_LANGUAGE = "common.language";
     @Resource
     private SystemRepository systemService;
     @Autowired
@@ -22,7 +23,7 @@ public class LanguageServiceImpl implements LanguageService {
     @Override
     public void delById(String id) {
         Object language = systemService.find(Language.class, id);
-        String message = LanguageUtils.paramDelSuccess("common.language");
+        String message = LanguageUtils.paramDelSuccess(COMMON_LANGUAGE);
         languageRepository.delete(language);
         languageRepository.initLanguage();
         systemService.addLog(message, Globals.LOG_TYPE_DEL, Globals.LOG_LEVEL);
@@ -32,7 +33,7 @@ public class LanguageServiceImpl implements LanguageService {
     public void save(Language language) {
         String message;
         if (StrUtils.isNotEmpty(language.getId())) {
-            message = LanguageUtils.paramUpdSuccess("common.language");
+            message = LanguageUtils.paramUpdSuccess(COMMON_LANGUAGE);
             Language t = languageRepository.find(Language.class, language.getId());
             BeanPropertyUtils.copyObjectToObject(language, t);
             languageRepository.saveOrUpdate(t);
@@ -43,7 +44,7 @@ public class LanguageServiceImpl implements LanguageService {
             if(StrUtils.isEmpty(message))
             {
                 languageRepository.save(language);
-                message = LanguageUtils.paramAddSuccess("common.language");
+                message = LanguageUtils.paramAddSuccess(COMMON_LANGUAGE);
                 systemService.addLog(message, Globals.LOG_TYPE_INSERT, Globals.LOG_LEVEL);
             }
         }

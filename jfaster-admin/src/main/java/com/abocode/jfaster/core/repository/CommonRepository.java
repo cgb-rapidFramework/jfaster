@@ -19,7 +19,7 @@ public interface CommonRepository {
 	 * 
 	 * @return
 	 */
-	 List<T> findAllDbTableName();
+	<T> List<T> findAllDbTableName();
 
 	 Integer findAllDbTableSize();
 

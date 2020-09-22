@@ -57,7 +57,7 @@ public class BaseTag extends TagSupport {
 		//插入多语言脚本
 		String lang = (String)((HttpServletRequest) this.pageContext.getRequest()).getSession().getAttribute("lang");
 		if(StringUtils.isEmpty(lang)){
-			lang= LanguageUtils.DEFUALT_LANG;
+			lang= LanguageUtils.ZH_CN;
 		}
 
 		String langjs ="<script type=\"text/javascript\" src=\"plug-in/language/"+lang+".js\"></script>";

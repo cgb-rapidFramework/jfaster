@@ -19,18 +19,20 @@ import java.util.List;
 
 @Service
 public class TerritoryServiceImpl implements TerritoryService {
+    public static final String PARENT_TERRITORY_ID = "parentTerritory.id";
     @Autowired
     private ResourceRepository resourceRepository;
     @Autowired
     private SystemRepository systemRepository;
+
     @Override
     public List<TreeGrid> findById(String id) {
         CriteriaQuery cq = new CriteriaQuery(Territory.class);
         if (id != null) {
-            cq.eq("parentTerritory.id", id);
+            cq.eq(PARENT_TERRITORY_ID, id);
         }
         if (id == null) {
-            cq.eq("parentTerritory.id", "0");//这个是全国最高级
+            cq.eq(PARENT_TERRITORY_ID, "0");//这个是全国最高级
         }
 
         cq.addOrder("territorySort", SortDirection.ASC);
@@ -45,15 +47,14 @@ public class TerritoryServiceImpl implements TerritoryService {
         treeGridModel.setIdField("id");
         treeGridModel.setChildList("Territorys");
         treeGridModel.setOrder("territorySort");
-        List<TreeGrid> treeGrids = resourceRepository.treegrid(territoryList, treeGridModel);
-        return  treeGrids;
+        return resourceRepository.treegrid(territoryList, treeGridModel);
     }
 
     @Override
     public List<ComboTree> findComboTree(String id) {
         CriteriaQuery cq = new CriteriaQuery(Territory.class);
         if (id != null) {
-            cq.eq("parentTerritory.id", id);
+            cq.eq(PARENT_TERRITORY_ID, id);
         }
         if (id == null) {
             cq.isNull("parentTerritory");
@@ -61,8 +62,7 @@ public class TerritoryServiceImpl implements TerritoryService {
         cq.add();
         List<Territory> territoryList = systemRepository.findListByCq(cq, false);
         ComboTreeModel comboTreeModel = new ComboTreeModel("id", "territoryName", "territories");
-        List<ComboTree> comboTrees = resourceRepository.ComboTree(territoryList, comboTreeModel, null, false);
-        return  comboTrees;
+        return resourceRepository.ComboTree(territoryList, comboTreeModel, null, false);
     }
 
     @Override

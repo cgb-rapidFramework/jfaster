@@ -34,11 +34,12 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
+    public static final String USER_ID = "user.id";
+    public static final String FONT_COLOR_RED_FONT = "<font color='red'>失败!</font>";
     @Resource
     private SystemRepository systemRepository;
     @Resource
@@ -46,37 +47,32 @@ public class UserServiceImpl implements UserService {
 
     public String getMenus(User u) {
         // 登陆者的权限
-        Set<Function> actionList = new HashSet();// 已有权限菜单
-        List<RoleUser> rUsers = systemRepository.findAllByProperty(RoleUser.class, "user.id", u.getId());
+        Set<Function> actionList = new HashSet<>();// 已有权限菜单
+        List<RoleUser> rUsers = systemRepository.findAllByProperty(RoleUser.class, USER_ID, u.getId());
         for (RoleUser ru : rUsers) {
             Role role = ru.getRole();
             List<RoleFunction> roleFunctionList = systemRepository.findAllByProperty(RoleFunction.class, "role.id", role.getId());
-            if (roleFunctionList.size() > 0) {
-                for (RoleFunction roleFunction : roleFunctionList) {
-                    Function function = roleFunction.getFunction();
-                    actionList.add(function);
-                }
+            for (RoleFunction roleFunction : roleFunctionList) {
+                Function function = roleFunction.getFunction();
+                actionList.add(function);
             }
         }
         // 一级权限菜单
-        List<FunctionView> pActionList = new ArrayList();
+        List<FunctionView> pActionList = new ArrayList<>();
         // 二级权限菜单
-        List<FunctionView> cActionList = new ArrayList();
-        if (actionList.size() > 0) {
-            for (Function function : actionList) {
-                FunctionView functionBean = BeanToTagConverter.convertFunction(function);
-                if (function.getFunctionLevel() == 0) {
-                    pActionList.add(functionBean);
-                } else if (function.getFunctionLevel() == 1) {
-                    cActionList.add(functionBean);
-                }
+        List<FunctionView> cActionList = new ArrayList<>();
+        for (Function function : actionList) {
+            FunctionView functionBean = BeanToTagConverter.convertFunction(function);
+            if (function.getFunctionLevel() == 0) {
+                pActionList.add(functionBean);
+            } else if (function.getFunctionLevel() == 1) {
+                cActionList.add(functionBean);
             }
         }
         // 菜单栏排序
         FunctionSortUtils.sortView(pActionList);
         FunctionSortUtils.sortView(cActionList);
-        String logString = SystemMenuUtils.getMenu(pActionList, cActionList);
-        return logString;
+        return SystemMenuUtils.getMenu(pActionList, cActionList);
     }
 
     @Override
@@ -111,7 +107,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<ComboBox> findComboBox(String id, String[] fields) {
-        List<Org> departs = new ArrayList();
+        List<Org> departs = new ArrayList<>();
         if (StrUtils.isNotEmpty(id)) {
             Object[] object = new Object[]{id};
             List<Org[]> resultList = userRepository.findByHql("from Org d,UserOrg uo where d.id=uo.orgId and uo.id=?0", object);
@@ -120,13 +116,12 @@ public class UserServiceImpl implements UserService {
             }
         }
         List<Org> departList = userRepository.findAll(Org.class);
-        List<ComboBox> comboBoxes = TagUtil.getComboBox(departList, departs, fields);
-        return comboBoxes;
+        return TagUtil.getComboBox(departList, departs, fields);
     }
 
     @Override
     public CriteriaQuery buildCq(User user, DataGridParam dataGridParam, String orgIds) {
-        CriteriaQuery cq = new CriteriaQuery(User.class).buildParameters( user,null, dataGridParam);
+        CriteriaQuery cq = new CriteriaQuery(User.class).buildParameters(user, null, dataGridParam);
         Short[] userstate = new Short[]{Globals.USER_NORMAL, Globals.USER_ADMIN, Globals.USER_FORBIDDEN};
         cq.in("status", userstate);
 
@@ -147,9 +142,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void del(String id) {
         User user = userRepository.find(User.class, id);
-        List<RoleUser> roleUser = userRepository.findAllByProperty(RoleUser.class, "user.id", id);
+        List<RoleUser> roleUser = userRepository.findAllByProperty(RoleUser.class, USER_ID, id);
         Assert.isTrue(!user.getStatus().equals(Globals.USER_ADMIN), "超级管理员不可删除");
-        if (roleUser.size() > 0) {
+        if (!CollectionUtils.isEmpty(roleUser)) {
             // 删除用户时先删除用户和角色关系表
             delRoleUser(user);
             userRepository.executeSql("delete from t_s_user_org where user_id=?", user.getId()); // 删除 用户-机构 数据
@@ -168,11 +163,10 @@ public class UserServiceImpl implements UserService {
             users.setMobilePhone(user.getMobilePhone());
             userRepository.executeSql("delete from t_s_user_org where user_id=?", user.getId());
             saveUserOrgList(orgIds, user);
-//            users.setOrg(user.getDepart());
             users.setRealName(user.getRealName());
             users.setStatus(Globals.USER_NORMAL);
             userRepository.update(users);
-            List<RoleUser> ru = userRepository.findAllByProperty(RoleUser.class, "user.id", user.getId());
+            List<RoleUser> ru = userRepository.findAllByProperty(RoleUser.class, USER_ID, user.getId());
             userRepository.deleteEntities(ru);
             if (StrUtils.isNotEmpty(roleId)) {
                 saveRoleUser(users, roleId);
@@ -198,7 +192,7 @@ public class UserServiceImpl implements UserService {
      * @param user   user
      */
     private void saveUserOrgList(String orgIds, User user) {
-        List<UserOrg> userOrgList = new ArrayList<UserOrg>();
+        List<UserOrg> userOrgList = new ArrayList<>();
         List<String> orgIdList = IdUtils.extractIdListByComma(orgIds);
         for (String orgId : orgIdList) {
             Org depart = new Org();
@@ -228,11 +222,9 @@ public class UserServiceImpl implements UserService {
 
     private void delRoleUser(User user) {
         // 同步删除用户角色关联表
-        List<RoleUser> roleUserList = userRepository.findAllByProperty(RoleUser.class, "user.id", user.getId());
-        if (roleUserList.size() >= 1) {
-            for (RoleUser tRoleUser : roleUserList) {
-                userRepository.delete(tRoleUser);
-            }
+        List<RoleUser> roleUserList = userRepository.findAllByProperty(RoleUser.class, USER_ID, user.getId());
+        for (RoleUser tRoleUser : roleUserList) {
+            userRepository.delete(tRoleUser);
         }
     }
 
@@ -240,7 +232,7 @@ public class UserServiceImpl implements UserService {
     public void importFile(Map<String, MultipartFile> fileMap) {
         MultipartFile file;
         List<ExlUserDto> userList;
-        List<User> userEntities = new ArrayList<User>();
+        List<User> userEntities = new ArrayList<>();
         for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
             try {
                 //解析文件
@@ -249,30 +241,30 @@ public class UserServiceImpl implements UserService {
                         .importExcelByIs(file.getInputStream(),
                                 ExlUserDto.class, new ImportParams());
                 //验证文件
-                Assert.isTrue(!(null == userList || userList.size() == 0), "<font color='red'>失败!</font> Excel中没有可以导入的数据");
+                Assert.isTrue(!CollectionUtils.isEmpty(userList), "<font color='red'>失败!</font> Excel中没有可以导入的数据");
                 for (ExlUserDto exlUserVo : userList) {
                     AjaxJson j = new AjaxJson().volatileBean(exlUserVo);
                     Assert.isTrue(j.isSuccess(), "数据验证失败");
 
                     //判断帐号是否存在
                     User u = this.userRepository.findUniqueByProperty(User.class, "username", exlUserVo.getUsername());
-                    Assert.isTrue(!StrUtils.isNotEmpty(u), "<font color='red'>失败!</font>" + exlUserVo.getUsername() + " 帐号已经存在");
+                    Assert.isTrue(!StrUtils.isNotEmpty(u), FONT_COLOR_RED_FONT + exlUserVo.getUsername() + " 帐号已经存在");
                     //判断组织机构是否存在
-                    List<Org> exlDeparts = new ArrayList<Org>();
+                    List<Org> exlDeparts = new ArrayList<>();
                     String[] departNames = exlUserVo.getOrgName().split(",");
                     for (int i = 0; i < departNames.length; i++) {
                         List<Org> departs = userRepository.findAllByProperty(Org.class, "departname", departNames[i]);
-                        Assert.isTrue(departs.size() > 0, "<font color='red'>失败!</font>" + exlUserVo.getOrgName() + " 组织机构不存在");
+                        Assert.isTrue(!CollectionUtils.isEmpty(departs), FONT_COLOR_RED_FONT + exlUserVo.getOrgName() + " 组织机构不存在");
                         exlDeparts.add(departs.get(0));
                     }
 
 
-                    List<Role> exlRoles = new ArrayList<Role>();
+                    List<Role> exlRoles = new ArrayList<>();
                     String[] roleNames = exlUserVo.getRoleName().split(",");
                     for (int i = 0; i < roleNames.length; i++) {
                         //判断角色是否存在
                         List<Role> roles = userRepository.findAllByProperty(Role.class, "roleName", roleNames[i]);
-                        Assert.isTrue(roles.size() > 0, "<font color='red'>失败!</font>" + exlUserVo.getRoleName() + " 角色不存在");
+                        Assert.isTrue(!CollectionUtils.isEmpty(roles), FONT_COLOR_RED_FONT + exlUserVo.getRoleName() + " 角色不存在");
                         exlRoles.add(roles.get(0));
                     }
 
@@ -308,10 +300,8 @@ public class UserServiceImpl implements UserService {
                         this.userRepository.save(roleUser);
                     }
                 }
-            } catch (IOException e) {
-                throw  new BusinessException("<font color='red'>失败!</font> 检查文件数据、格式等是否正确！详细信息：",e);
             } catch (Exception e) {
-                throw  new BusinessException("<font color='red'>失败!</font> 检查文件数据、格式等是否正确！详细信息：",e);
+                throw new BusinessException("<font color='red'>失败!</font> 检查文件数据、格式等是否正确！详细信息：", e);
             }
         }
     }
@@ -321,8 +311,7 @@ public class UserServiceImpl implements UserService {
         dataGridParam.setPage(0);
         dataGridParam.setRows(1000000);
         CriteriaQuery cq = buildCq(user, dataGridParam, orgIds);
-        List<ExlUserDto> exlUserList = this.userRepository.getExlUserList(dataGridParam, user, cq);
-        return  exlUserList;
+        return this.userRepository.getExlUserList(dataGridParam, user, cq);
     }
 
     @Override
@@ -336,6 +325,6 @@ public class UserServiceImpl implements UserService {
         Short[] userstate = new Short[]{Globals.USER_NORMAL, Globals.USER_ADMIN};
         cq.in("status", userstate);
         cq.add();
-        return  userRepository.findDataGridData(cq);
+        return userRepository.findDataGridData(cq);
     }
 }

@@ -11,6 +11,8 @@ import java.util.*;
 
 @Slf4j
 public class LanguageUtils {
+    public final static String ZH_CN = "zh-cn";
+
     private LanguageUtils() {
     }
 

@@ -32,11 +32,11 @@ public class DataGridTag extends TagSupport {
     protected String title;// 表格标示
     protected String idField = "id";// 主键字段
     protected boolean treeGrid = false;// 是否是树形列表
-    protected List<DataGridUrl> urlList = new ArrayList<DataGridUrl>();// 列表操作显示
-    protected List<DataGridUrl> toolBarList = new ArrayList<DataGridUrl>();// 工具条列表
-    protected List<DataGridColumn> columnList = new ArrayList<DataGridColumn>();// 列表操作显示
-    protected List<ColumnValue> columnValueList = new ArrayList<ColumnValue>();// 值替换集合
-    protected List<ColumnValue> columnStyleList = new ArrayList<ColumnValue>();// 颜色替换集合
+    protected List<DataGridUrl> urlList = new ArrayList<>();// 列表操作显示
+    protected List<DataGridUrl> toolBarList = new ArrayList<>();// 工具条列表
+    protected List<DataGridColumn> columnList = new ArrayList<>();// 列表操作显示
+    protected List<ColumnValue> columnValueList = new ArrayList<>();// 值替换集合
+    protected List<ColumnValue> columnStyleList = new ArrayList<>();// 颜色替换集合
     public Map<String, Object> map;// 封装查询条件
     private String actionUrl;// 分页提交路径
     public int allCount;
@@ -98,7 +98,7 @@ public class DataGridTag extends TagSupport {
         dataGridUrl.setType(OptTypeDirection.Del);
         dataGridUrl.setMessage(message);
         dataGridUrl.setExp(exp);
-        dataGridUrl.setFunname(function);
+        dataGridUrl.setFunction(function);
         installOperationCode(dataGridUrl, operationCode, urlList);
     }
 
@@ -129,7 +129,7 @@ public class DataGridTag extends TagSupport {
         dataGridUrl.setIcon(icon);
         dataGridUrl.setOnclick(onclick);
         dataGridUrl.setExp(exp);
-        dataGridUrl.setFunname(function);
+        dataGridUrl.setFunction(function);
         dataGridUrl.setWidth(String.valueOf(width2));
         dataGridUrl.setHeight(String.valueOf(height2));
         installOperationCode(dataGridUrl, operationCode, toolBarList);
@@ -144,7 +144,7 @@ public class DataGridTag extends TagSupport {
         dataGridUrl.setTitle(title);
         dataGridUrl.setType(OptTypeDirection.Fun);
         dataGridUrl.setExp(exp);
-        dataGridUrl.setFunname(function);
+        dataGridUrl.setFunction(function);
         installOperationCode(dataGridUrl, operationCode, urlList);
 
     }
@@ -666,8 +666,8 @@ public class DataGridTag extends TagSupport {
                 if (!StrUtils.isEmpty(toolBar.getOnclick())) {
                     sb.append("onclick=" + toolBar.getOnclick() + "");
                 } else {
-                    sb.append("onclick=\"" + toolBar.getFunname() + "(");
-                    if (!toolBar.getFunname().equals("doSubmit")) {
+                    sb.append("onclick=\"" + toolBar.getFunction() + "(");
+                    if (!toolBar.getFunction().equals("doSubmit")) {
                         sb.append("\'" + toolBar.getTitle() + "\',");
                     }
                     String width = toolBar.getWidth().contains("%") ? "'" + toolBar.getWidth() + "'" : toolBar.getWidth();
@@ -850,8 +850,8 @@ public class DataGridTag extends TagSupport {
                 sb.append("href+=\"[<a href=\'#\' onclick=delObj(\'" + url + "\',\'" + name + "\')>\";");
             }
             if (OptTypeDirection.Fun.equals(dataGridUrl.getType())) {
-                String name = TagUtil.getFunction(dataGridUrl.getFunname());
-                String parmars = TagUtil.getFunParams(dataGridUrl.getFunname());
+                String name = TagUtil.getFunction(dataGridUrl.getFunction());
+                String parmars = TagUtil.getFunParams(dataGridUrl.getFunction());
                 sb.append("href+=\"[<a href=\'#\' onclick=" + name + "(" + parmars + ")>\";");
             }
             if (OptTypeDirection.OpenWin.equals(dataGridUrl.getType())) {
@@ -1880,8 +1880,8 @@ public class DataGridTag extends TagSupport {
                 if (!StrUtils.isEmpty(toolBar.getOnclick())) {
                     sb.append("onclick=" + toolBar.getOnclick() + "");
                 } else {
-                    sb.append("onclick=\"" + toolBar.getFunname() + "(");
-                    if (!toolBar.getFunname().equals("doSubmit")) {
+                    sb.append("onclick=\"" + toolBar.getFunction() + "(");
+                    if (!toolBar.getFunction().equals("doSubmit")) {
                         sb.append("\'" + toolBar.getTitle() + "\',");
                     }
                     String width = toolBar.getWidth().contains("%") ? "'" + toolBar.getWidth() + "'" : toolBar.getWidth();

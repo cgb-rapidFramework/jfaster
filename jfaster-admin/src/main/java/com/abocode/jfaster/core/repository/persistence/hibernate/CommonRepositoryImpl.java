@@ -31,7 +31,7 @@ public class CommonRepositoryImpl implements CommonRepository {
      * @return
      */
     @Override
-    public List<T> findAllDbTableName() {
+    public  <T> List<T> findAllDbTableName() {
         return commonRepository.findAllDbTableName();
     }
 

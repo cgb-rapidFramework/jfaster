@@ -10,6 +10,7 @@ import com.abocode.jfaster.system.entity.Template;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 @Service
@@ -19,23 +20,22 @@ public class TemplateServiceImpl implements TemplateService {
     private TemplateRepository templateRepository;
     @Autowired
     private SystemRepository systemRepository;
+
     @Override
+    @Transactional
     public void save(Template template) {
         String message;
         if (!StringUtils.isEmpty(template.getId())) {
             message = "模版管理更新成功";
             Template t = templateRepository.find(Template.class, template.getId());
-            try {
-                BeanPropertyUtils.copyObjectToObject(template, t);
-                if(t.getStatus()== AvailableEnum.AVAILABLE.getValue()){
-                    templateRepository.setDefault(template.getId());
-                }
-                templateRepository.saveOrUpdate(t);
-                systemRepository.addLog(message, Globals.LOG_TYPE_UPDATE, Globals.LOG_LEVEL);
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                message = "模版管理更新失败";
+
+            BeanPropertyUtils.copyObjectToObject(template, t);
+            if (t.getStatus() == AvailableEnum.AVAILABLE.getValue()) {
+                templateRepository.setDefault(template.getId());
             }
+            templateRepository.saveOrUpdate(t);
+            systemRepository.addLog(message, Globals.LOG_TYPE_UPDATE, Globals.LOG_LEVEL);
+
         } else {
             message = "模版管理添加成功";
             template.setStatus(AvailableEnum.UNAVAILABLE.getValue());

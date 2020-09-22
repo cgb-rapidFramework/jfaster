@@ -18,6 +18,7 @@ import com.abocode.jfaster.core.platform.view.FunctionView;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.ComboTreeModel;
 import com.abocode.jfaster.core.platform.view.interactions.easyui.TreeGridModel;
 import com.abocode.jfaster.system.entity.*;
+import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import java.util.*;
 
 @Service
 public class RoleServiceImpl implements RoleService {
+    public static final String ROLE_ID = "role.id";
     @Autowired
     private ResourceRepository resourceRepository;
     @Autowired
@@ -65,7 +67,7 @@ public class RoleServiceImpl implements RoleService {
     public void updateOrgRole(String orgId, List<String> roleIdList) {
         systemRepository.executeSql("delete from t_s_role_org where org_id=?", orgId);
         if (!roleIdList.isEmpty()) {
-            List<RoleOrg> roleOrgList = new ArrayList<RoleOrg>();
+            List<RoleOrg> roleOrgList = new ArrayList<>();
             Org depart = new Org();
             depart.setId(orgId);
             for (String roleId : roleIdList) {
@@ -83,9 +85,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Criterion buildCriterion(String roleId) {
-        List<RoleUser> roleUser = systemRepository.findAllByProperty(RoleUser.class, "role.id", roleId);
+        List<RoleUser> roleUser = systemRepository.findAllByProperty(RoleUser.class, ROLE_ID, roleId);
         Criterion cc = null;
-        if (roleUser.size() > 0) {
+        if (!CollectionUtils.isEmpty(roleUser)) {
             for (int i = 0; i < roleUser.size(); i++) {
                 if (i == 0) {
                     cc = Restrictions.eq("id", roleUser.get(i).getUser().getId());
@@ -101,18 +103,15 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<ComboTree> findComboTree(String roleId, User user) {
-        List<User> loginActionlist = new ArrayList<User>();
+        List<User> loginActionlist = new ArrayList<>();
         if (user != null) {
-            List<RoleUser> roleUser = systemRepository.findAllByProperty(RoleUser.class, "role.id", roleId);
-            if (roleUser.size() > 0) {
-                for (RoleUser ru : roleUser) {
-                    loginActionlist.add(ru.getUser());
-                }
+            List<RoleUser> roleUser = systemRepository.findAllByProperty(RoleUser.class, ROLE_ID, roleId);
+            for (RoleUser ru : roleUser) {
+                loginActionlist.add(ru.getUser());
             }
         }
         ComboTreeModel comboTreeModel = new ComboTreeModel("id", "username", "user");
-        List<ComboTree> comboTrees = resourceRepository.ComboTree(loginActionlist, comboTreeModel, loginActionlist, false);
-        return comboTrees;
+        return resourceRepository.ComboTree(loginActionlist, comboTreeModel, loginActionlist, false);
     }
 
     @Override
@@ -142,18 +141,14 @@ public class RoleServiceImpl implements RoleService {
     public void updateAuthority(String roleId, String roleFunction) {
         Role role = this.systemRepository.find(Role.class, roleId);
         List<RoleFunction> roleFunctionList = systemRepository
-                .findAllByProperty(RoleFunction.class, "role.id",
+                .findAllByProperty(RoleFunction.class, ROLE_ID,
                         role.getId());
-        Map<String, RoleFunction> map = new HashMap<String, RoleFunction>();
+        Map<String, RoleFunction> map = new HashMap<>();
         for (RoleFunction functionOfRole : roleFunctionList) {
             map.put(functionOfRole.getFunction().getId(), functionOfRole);
         }
         String[] roleFunctions = roleFunction.split(",");
-        Set<String> set = new HashSet();
-        for (String s : roleFunctions) {
-            set.add(s);
-        }
-        updateCompare(set, role, map);
+        updateCompare(roleFunctions, role, map);
     }
 
     @Override
@@ -171,57 +166,59 @@ public class RoleServiceImpl implements RoleService {
         FunctionSortUtils.sort(functionList);
         TreeGridModel treeGridModel = new TreeGridModel();
         treeGridModel.setRoleId(roleId);
-        List<TreeGrid> treeGrids = resourceRepository.treegrid(functionList, treeGridModel);
-        return treeGrids;
+        return resourceRepository.treegrid(functionList, treeGridModel);
     }
 
     @Override
-    public void saveOperate(String roleId, String fop) {
+    public void saveOperate(String roleId, String functionOperate) {
         // 录入操作前清空上一次的操作数据
         clearp(roleId);
-        String[] fun_op = fop.split(",");
-        String aa = "";
-        String bb = "";
+        String[] operates = functionOperate.split(",");
         // 只有一个被选中
-        if (fun_op.length == 1) {
-            bb = fun_op[0].split("_")[1];
-            aa = fun_op[0].split("_")[0];
-            savep(roleId, bb, aa);
+        if (operates.length == 1) {
+            savep(roleId, operates[0].split("_")[1], operates[0].split("_")[0]);
         } else {
-            // 至少2个被选中
-            for (int i = 0; i < fun_op.length; i++) {
-                String cc = fun_op[i].split("_")[0]; // 操作id
-                if (i > 0 && bb.equals(fun_op[i].split("_")[1])) {
-                    aa += "," + cc;
-                    if (i == (fun_op.length - 1)) {
-                        savep(roleId, bb, aa);
-                    }
-                } else if (i > 0) {
-                    savep(roleId, bb, aa);
-                    aa = fun_op[i].split("_")[0]; // 操作ID
-                    if (i == (fun_op.length - 1)) {
-                        bb = fun_op[i].split("_")[1]; // 权限id
-                        savep(roleId, bb, aa);
-                    }
+            saveAll(operates, roleId);
+        }
+    }
 
-                } else {
-                    aa = fun_op[i].split("_")[0]; // 操作ID
+    private void saveAll(String[] funOps, String roleId) {
+        // 至少2个被选中
+        String bb = "";
+        for (int i = 0; i < funOps.length; i++) {
+            String cc = funOps[i].split("_")[0]; // 操作id
+            if (i > 0 && bb.equals(funOps[i].split("_")[1])) {
+                StringBuilder aa = new StringBuilder();
+                aa.append("," + cc);
+                if (i == (funOps.length - 1)) {
+                    savep(roleId, bb, aa.toString());
                 }
-                bb = fun_op[i].split("_")[1]; // 权限id
+            } else if (i > 0) {
+                StringBuilder aa = new StringBuilder();
+                savep(roleId, bb, aa.toString());
+                aa.append(funOps[i].split("_")[0]); // 操作ID
+                if (i == (funOps.length - 1)) {
+                    bb = funOps[i].split("_")[1]; // 权限id
+                    savep(roleId, bb, aa.toString());
+                }
 
+            } else {
+                StringBuilder aa = new StringBuilder();
+                aa.append(funOps[i].split("_")[0]); // 操作ID
             }
+            bb = funOps[i].split("_")[1]; // 权限id
         }
     }
 
     @Override
     public void updateOperation(String roleId, String functionId, String operationcodes) {
         CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
-        cq1.eq("role.id", roleId);
+        cq1.eq(ROLE_ID, roleId);
         cq1.eq("function.id", functionId);
         cq1.add();
         List<RoleFunction> rFunctions = systemRepository.findListByCq(
                 cq1, false);
-        if (null != rFunctions && rFunctions.size() > 0) {
+        if (!CollectionUtils.isEmpty(rFunctions)) {
             RoleFunction tsRoleFunction = rFunctions.get(0);
             tsRoleFunction.setOperation(operationcodes);
             systemRepository.saveOrUpdate(tsRoleFunction);
@@ -231,12 +228,12 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void updateDataRule(String roleId, String functionId, String dataRulecodes) {
         CriteriaQuery cq1 = new CriteriaQuery(RoleFunction.class);
-        cq1.eq("role.id", roleId);
+        cq1.eq(ROLE_ID, roleId);
         cq1.eq("function.id", functionId);
         cq1.add();
         List<RoleFunction> rFunctions = systemRepository.findListByCq(
                 cq1, false);
-        if (null != rFunctions && rFunctions.size() > 0) {
+        if (!CollectionUtils.isEmpty(rFunctions)) {
             RoleFunction tsRoleFunction = rFunctions.get(0);
             tsRoleFunction.setDataRule(dataRulecodes);
             systemRepository.saveOrUpdate(tsRoleFunction);
@@ -246,7 +243,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void doAddUserToOrg(String roleId, String userIds) {
         Role role = systemRepository.find(Role.class, roleId);
-        List<RoleUser> roleUserList = new ArrayList<RoleUser>();
+        List<RoleUser> roleUserList = new ArrayList<>();
         List<String> userIdList = IdUtils.extractIdListByComma(userIds);
         for (String userId : userIdList) {
             User user = new User();
@@ -273,7 +270,7 @@ public class RoleServiceImpl implements RoleService {
      * @param ids
      */
     private void savep(String roleId, String functionid, String ids) {
-        StringBuffer hql = new StringBuffer();
+        StringBuilder hql = new StringBuilder();
         hql.append(" from RoleFunction t where ");
         hql.append(" t.org.id=" + roleId);
         hql.append(" and t.function.function_id=" + functionid);
@@ -291,12 +288,10 @@ public class RoleServiceImpl implements RoleService {
      */
     private void clearp(String roleId) {
         List<RoleFunction> rFunctions = systemRepository.findAllByProperty(
-                RoleFunction.class, "role.id", roleId);
-        if (rFunctions.size() > 0) {
-            for (RoleFunction tRoleFunction : rFunctions) {
-                tRoleFunction.setOperation(null);
-                systemRepository.saveOrUpdate(tRoleFunction);
-            }
+                RoleFunction.class, ROLE_ID, roleId);
+        for (RoleFunction tRoleFunction : rFunctions) {
+            tRoleFunction.setOperation(null);
+            systemRepository.saveOrUpdate(tRoleFunction);
         }
     }
 
@@ -307,10 +302,10 @@ public class RoleServiceImpl implements RoleService {
      * @param role 当前角色
      * @param map  旧的权限列表
      */
-    private void updateCompare(Set<String> set, Role role,
+    private void updateCompare(String[] set, Role role,
                                Map<String, RoleFunction> map) {
-        List<RoleFunction> entitys = new ArrayList<RoleFunction>();
-        List<RoleFunction> deleteEntitys = new ArrayList<RoleFunction>();
+        List<RoleFunction> entitys = new ArrayList<>();
+        List<RoleFunction> deleteEntitys = new ArrayList<>();
         for (String s : set) {
             if (map.containsKey(s)) {
                 map.remove(s);
@@ -324,7 +319,7 @@ public class RoleServiceImpl implements RoleService {
         }
         Collection<RoleFunction> collection = map.values();
         Iterator<RoleFunction> it = collection.iterator();
-        for (; it.hasNext(); ) {
+        while (it.hasNext()) {
             deleteEntitys.add(it.next());
         }
         systemRepository.batchSave(entitys);
@@ -339,14 +334,12 @@ public class RoleServiceImpl implements RoleService {
      */
     private void delRoleFunction(Role role) {
         List<RoleFunction> roleFunctions = systemRepository.findAllByProperty(
-                RoleFunction.class, "role.id", role.getId());
-        if (roleFunctions.size() > 0) {
-            for (RoleFunction tsRoleFunction : roleFunctions) {
-                systemRepository.delete(tsRoleFunction);
-            }
+                RoleFunction.class, ROLE_ID, role.getId());
+        for (RoleFunction tsRoleFunction : roleFunctions) {
+            systemRepository.delete(tsRoleFunction);
         }
         List<RoleUser> roleUsers = systemRepository.findAllByProperty(
-                RoleUser.class, "role.id", role.getId());
+                RoleUser.class, ROLE_ID, role.getId());
         for (RoleUser tsRoleUser : roleUsers) {
             systemRepository.delete(tsRoleUser);
         }
@@ -354,14 +347,12 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleIdAndNameDto findByUserId(String id) {
-        List<RoleUser> roleUsers = userRepository.findAllByProperty(RoleUser.class, "user.id",id);
+        List<RoleUser> roleUsers = userRepository.findAllByProperty(RoleUser.class, "user.id", id);
         StringBuilder roleId = new StringBuilder();
         StringBuilder roleName = new StringBuilder();
-        if (roleUsers.size() > 0) {
-            for (RoleUser tRoleUser : roleUsers) {
-                roleId.append(tRoleUser.getRole().getId()).append(",");
-                roleName.append(tRoleUser.getRole().getRoleName()).append(",");
-            }
+        for (RoleUser tRoleUser : roleUsers) {
+            roleId.append(tRoleUser.getRole().getId()).append(",");
+            roleName.append(tRoleUser.getRole().getRoleName()).append(",");
         }
         return new RoleIdAndNameDto(roleId.toString(), roleName.toString());
     }

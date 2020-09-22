@@ -18,6 +18,7 @@ import com.abocode.jfaster.core.platform.view.interactions.easyui.TreeGridModel;
 import com.abocode.jfaster.system.entity.Org;
 import com.abocode.jfaster.system.entity.User;
 import com.abocode.jfaster.system.entity.UserOrg;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,13 +63,11 @@ public class OrgServiceImpl implements OrgService {
             cq.isNull("parentOrg");
         }
         cq.add();
-        List<Org> departsList = systemRepository.findListByCq(cq, false);
-        return departsList;
+        return systemRepository.findListByCq(cq, false);
     }
 
     @Override
     public List<TreeGrid> findTreeGrid(String isSearch,  OrgDto orgDto, TreeGrid treegrid) {
-
         CriteriaQuery cq = new CriteriaQuery(Org.class);
         if ("yes".equals(isSearch)) {
             treegrid.setId(null);
@@ -87,7 +86,7 @@ public class OrgServiceImpl implements OrgService {
 
 
         List<TreeGrid> departList = systemRepository.findListByCq(cq, false);
-        if (departList.size() == 0 && orgDto.getOrgName() != null) {
+        if (CollectionUtils.isEmpty(departList) && orgDto.getOrgName() != null) {
             cq = new CriteriaQuery(Org.class);
             HqlGenerateUtil.installHql(cq, orgDto);
             departList = systemRepository.findListByCq(cq, false);
@@ -100,12 +99,11 @@ public class OrgServiceImpl implements OrgService {
         treeGridModel.setSrc("description");
         treeGridModel.setIdField("id");
         treeGridModel.setChildList("Departs");
-        Map<String, Object> fieldMap = new HashMap<String, Object>();
+        Map<String, String> fieldMap = new HashMap<>();
         fieldMap.put("orgCode", "orgCode");
         fieldMap.put("orgType", "orgType");
         treeGridModel.setFieldMap(fieldMap);
-        List<TreeGrid> treeGrids = resourceService.treegrid(departList, treeGridModel);
-        return treeGrids;
+        return resourceService.treegrid(departList, treeGridModel);
     }
 
     @Override
@@ -122,7 +120,7 @@ public class OrgServiceImpl implements OrgService {
 
     @Override
     public void saveOrgUserList(Org depart, String orgIds) {
-        List<UserOrg> userOrgList = new ArrayList<UserOrg>();
+        List<UserOrg> userOrgList = new ArrayList<>();
         List<String> userIdList = IdUtils.extractIdListByComma(orgIds);
         for (String userId : userIdList) {
             User user = new User();
@@ -139,7 +137,7 @@ public class OrgServiceImpl implements OrgService {
 
     @Override
     public List<Org> find(String orgId) {
-        List<Org> departList = new ArrayList<Org>();
+        List<Org> departList = new ArrayList<>();
 
         if (!StrUtils.isEmpty(orgId)) {
             departList.add((userRepository.find(Org.class, orgId)));
@@ -156,7 +154,7 @@ public class OrgServiceImpl implements OrgService {
 
     @Override
     public List<Org> findOrgByUserId(String userId) {
-        List<Org> orgList = new ArrayList<Org>();
+        List<Org> orgList = new ArrayList<>();
         List<Object[]> orgArrList = userRepository.findByHql("from Org d,UserOrg uo where d.id=uo.parentOrg.id and uo.user.id=?0", new String[]{userId});
         for (Object[] departs : orgArrList) {
             orgList.add((Org) departs[0]);

@@ -18,6 +18,11 @@ import java.util.List;
 @Service
 @Slf4j
 public class InitServiceImpl implements InitService {
+    public static final String ADMIN = "admin";
+    public static final String ROLE_CODE = "roleCode";
+    public static final String MANAGER = "manager";
+    public static final String ICON_NAME = "iconName";
+    public static final String TYPE_GROUP_NAME = "typeGroupName";
     @Autowired
     private LanguageRepository languageRepository;
 
@@ -61,7 +66,7 @@ public class InitServiceImpl implements InitService {
          * 第二部分：自动加载新增菜单和菜单操作权限
          * 说明：只会添加，不会删除（添加在代码层配置，但是在数据库层未配置的）
          */
-        if ("true".equals(ConfigUtils.getConfigByName("auto.scan.menu.flag").toLowerCase())) {
+        if ("true".equalsIgnoreCase(ConfigUtils.getConfigByName("auto.scan.menu.flag"))) {
             functionService.initMenu();
         }
 
@@ -76,7 +81,7 @@ public class InitServiceImpl implements InitService {
      * @author tanghan 2013-7-19
      */
 
-    synchronized public void repair() {
+    public synchronized  void repair() {
         repaireIcon(); // 修复图标
         repairOrg();// 修复部门表
         repairRole();// 修复角色
@@ -90,7 +95,7 @@ public class InitServiceImpl implements InitService {
         repairRoleFunction();// 修复角色和权限的关系
         repairTemplate();// 修复模版
         repairLanguage();// 修复多国语言
-//        repairTerritory();// 修复地域
+        repairTerritory();// 修复地域
     }
 
     private void repairTerritory() {
@@ -164,7 +169,7 @@ public class InitServiceImpl implements InitService {
         admin.setSignatureFile("images/renfang/qm/licf.gif");
         admin.setStatus((short) 1);
         admin.setRealName("管理员");
-        admin.setUsername("admin");
+        admin.setUsername(ADMIN);
         admin.setPassword("c44b01947c9e6e3f");
         systemRepository.save(admin);
 
@@ -179,7 +184,6 @@ public class InitServiceImpl implements InitService {
         scott.setRealName("scott");
         scott.setUsername("scott");
         scott.setPassword("97c07a884bf272b5");
-        // scott.setOrg(RAndD);
         systemRepository.saveOrUpdate(scott);
         UserOrg scottUserOrg = new UserOrg();
         scottUserOrg.setUser(scott);
@@ -193,8 +197,8 @@ public class InitServiceImpl implements InitService {
      * @author tanghan 2013-7-23
      */
     private void repairUserRole() {
-        Role admin = systemRepository.findAllByProperty(Role.class, "roleCode", "admin").get(0);
-        Role manager = systemRepository.findAllByProperty(Role.class, "roleCode", "manager").get(0);
+        Role admin = systemRepository.findAllByProperty(Role.class, ROLE_CODE, ADMIN).get(0);
+        Role manager = systemRepository.findAllByProperty(Role.class, ROLE_CODE, MANAGER).get(0);
         List<User> user = systemRepository.findAll(User.class);
         for (int i = 0; i < user.size(); i++) {
             if (user.get(i).getEmail() != null) {
@@ -223,8 +227,8 @@ public class InitServiceImpl implements InitService {
      * @author tanghan 2013-7-23
      */
     private void repairRoleFunction() {
-        Role admin = systemRepository.findAllByProperty(Role.class, "roleCode", "admin").get(0);
-        Role manager = systemRepository.findAllByProperty(Role.class, "roleCode", "manager").get(0);
+        Role admin = systemRepository.findAllByProperty(Role.class, ROLE_CODE, ADMIN).get(0);
+        Role manager = systemRepository.findAllByProperty(Role.class, ROLE_CODE, MANAGER).get(0);
         List<Function> list = systemRepository.findAll(Function.class);
         for (int i = 0; i < list.size(); i++) {
             RoleFunction adminroleFunction = new RoleFunction();
@@ -243,7 +247,7 @@ public class InitServiceImpl implements InitService {
      * @author tanghan 2013-7-23
      */
     private void repairOperation() {
-        Icon back = systemRepository.findAllByProperty(Icon.class, "iconName", "返回").get(0);
+        Icon back = systemRepository.findAllByProperty(Icon.class, ICON_NAME, "返回").get(0);
         Function function = systemRepository.findAllByProperty(Function.class, "functionName", "系统管理").get(0);
 
         Operation add = new Operation();
@@ -336,16 +340,16 @@ public class InitServiceImpl implements InitService {
      * @author tanghan 2013-7-22
      */
     private void repairType() {
-        TypeGroup icontype = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "图标类型").get(0);
-        TypeGroup ordertype = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "订单类型").get(0);
-        TypeGroup custom = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "客户类型").get(0);
-        TypeGroup servicetype = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "服务项目类型").get(0);
-        TypeGroup datatable = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "数据表").get(0);
-        TypeGroup filetype = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "文档分类").get(0);
-        TypeGroup sex = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "性别类").get(0);
-        TypeGroup searchmode = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "查询模式").get(0);
-        TypeGroup yesorno = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "逻辑条件").get(0);
-        TypeGroup fieldtype = systemRepository.findAllByProperty(TypeGroup.class, "typeGroupName", "字段类型").get(0);
+        TypeGroup icontype = systemRepository.findAllByProperty(TypeGroup.class, TYPE_GROUP_NAME, "图标类型").get(0);
+        TypeGroup ordertype = systemRepository.findAllByProperty(TypeGroup.class, TYPE_GROUP_NAME, "订单类型").get(0);
+        TypeGroup custom = systemRepository.findAllByProperty(TypeGroup.class, TYPE_GROUP_NAME, "客户类型").get(0);
+        TypeGroup servicetype = systemRepository.findAllByProperty(TypeGroup.class, TYPE_GROUP_NAME, "服务项目类型").get(0);
+        TypeGroup datatable = systemRepository.findAllByProperty(TypeGroup.class, TYPE_GROUP_NAME, "数据表").get(0);
+        TypeGroup filetype = systemRepository.findAllByProperty(TypeGroup.class, TYPE_GROUP_NAME, "文档分类").get(0);
+        TypeGroup sex = systemRepository.findAllByProperty(TypeGroup.class, TYPE_GROUP_NAME, "性别类").get(0);
+        TypeGroup searchmode = systemRepository.findAllByProperty(TypeGroup.class, TYPE_GROUP_NAME, "查询模式").get(0);
+        TypeGroup yesorno = systemRepository.findAllByProperty(TypeGroup.class, TYPE_GROUP_NAME, "逻辑条件").get(0);
+        TypeGroup fieldtype = systemRepository.findAllByProperty(TypeGroup.class, TYPE_GROUP_NAME, "字段类型").get(0);
 
         Type menu = new Type();
         menu.setTypeName("菜单图标");
@@ -425,35 +429,35 @@ public class InitServiceImpl implements InitService {
         no.setTypeGroup(yesorno);
         systemRepository.saveOrUpdate(no);
 
-        Type type_integer = new Type();
-        type_integer.setTypeName("Integer");
-        type_integer.setTypeCode("Integer");
-        type_integer.setTypeGroup(fieldtype);
-        systemRepository.saveOrUpdate(type_integer);
+        Type type = new Type();
+        type.setTypeName("Integer");
+        type.setTypeCode("Integer");
+        type.setTypeGroup(fieldtype);
+        systemRepository.saveOrUpdate(type);
 
-        Type type_date = new Type();
-        type_date.setTypeName("Date");
-        type_date.setTypeCode("Date");
-        type_date.setTypeGroup(fieldtype);
-        systemRepository.saveOrUpdate(type_date);
+        Type typeDate = new Type();
+        typeDate.setTypeName("Date");
+        typeDate.setTypeCode("Date");
+        typeDate.setTypeGroup(fieldtype);
+        systemRepository.saveOrUpdate(typeDate);
 
-        Type type_string = new Type();
-        type_string.setTypeName("String");
-        type_string.setTypeCode("String");
-        type_string.setTypeGroup(fieldtype);
-        systemRepository.saveOrUpdate(type_string);
+        Type typeString = new Type();
+        typeString.setTypeName("String");
+        typeString.setTypeCode("String");
+        typeString.setTypeGroup(fieldtype);
+        systemRepository.saveOrUpdate(typeString);
 
-        Type type_long = new Type();
-        type_long.setTypeName("Long");
-        type_long.setTypeCode("Long");
-        type_long.setTypeGroup(fieldtype);
-        systemRepository.saveOrUpdate(type_long);
+        Type typeLong = new Type();
+        typeLong.setTypeName("Long");
+        typeLong.setTypeCode("Long");
+        typeLong.setTypeGroup(fieldtype);
+        systemRepository.saveOrUpdate(typeLong);
 
-        Type systable = new Type();
-        systable.setTypeName("系统基础表");
-        systable.setTypeCode("t_s");
-        systable.setTypeGroup(datatable);
-        systemRepository.saveOrUpdate(systable);
+        Type sys = new Type();
+        sys.setTypeName("系统基础表");
+        sys.setTypeCode("t_s");
+        sys.setTypeGroup(datatable);
+        systemRepository.saveOrUpdate(sys);
 
         Type business = new Type();
         business.setTypeName("业务表");
@@ -487,12 +491,12 @@ public class InitServiceImpl implements InitService {
     private void repairRole() {
         Role admin = new Role();
         admin.setRoleName("管理员");
-        admin.setRoleCode("admin");
+        admin.setRoleCode(ADMIN);
         systemRepository.saveOrUpdate(admin);
 
         Role manager = new Role();
         manager.setRoleName("普通用户");
-        manager.setRoleCode("manager");
+        manager.setRoleCode(MANAGER);
         systemRepository.saveOrUpdate(manager);
 
     }
@@ -553,13 +557,13 @@ public class InitServiceImpl implements InitService {
         map.setIconExtend("png");
         systemRepository.saveOrUpdate(map);
 
-        Icon group_add = new Icon();
-        group_add.setIconName("组");
-        group_add.setIconType((short) 1);
-        group_add.setIconPath("plug-in/accordion/images/group_add.png");
-        group_add.setIconClazz("group_add");
-        group_add.setIconExtend("png");
-        systemRepository.saveOrUpdate(group_add);
+        Icon icon = new Icon();
+        icon.setIconName("组");
+        icon.setIconType((short) 1);
+        icon.setIconPath("plug-in/accordion/images/group_add.png");
+        icon.setIconClazz("group_add");
+        icon.setIconExtend("png");
+        systemRepository.saveOrUpdate(icon);
 
         Icon calculator = new Icon();
         calculator.setIconName("计算器");
@@ -621,10 +625,10 @@ public class InitServiceImpl implements InitService {
      * @author tanghan 2013-7-19
      */
     private void repairMenu() {
-        Icon defaultIcon = systemRepository.findAllByProperty(Icon.class, "iconName", "默认图").get(0);
-        Icon group_add = systemRepository.findAllByProperty(Icon.class, "iconName", "组").get(0);
-        Icon pie = systemRepository.findAllByProperty(Icon.class, "iconName", "饼图").get(0);
-        Icon folder = systemRepository.findAllByProperty(Icon.class, "iconName", "文件夹").get(0);
+        Icon defaultIcon = systemRepository.findAllByProperty(Icon.class, ICON_NAME, "默认图").get(0);
+        Icon groupAdd = systemRepository.findAllByProperty(Icon.class, ICON_NAME, "组").get(0);
+        Icon pie = systemRepository.findAllByProperty(Icon.class, ICON_NAME, "饼图").get(0);
+        Icon folder = systemRepository.findAllByProperty(Icon.class, ICON_NAME, "文件夹").get(0);
 
         Function sys = new Function();
         sys.setFunctionName("系统管理");
@@ -632,7 +636,7 @@ public class InitServiceImpl implements InitService {
         sys.setFunctionLevel((short) 0);
         sys.setFunctionOrder("5");
         sys.setIconDesk(getDefaultInconForDesk());
-        sys.setIcon(group_add);
+        sys.setIcon(groupAdd);
         systemRepository.saveOrUpdate(sys);
 
         Function state = new Function();

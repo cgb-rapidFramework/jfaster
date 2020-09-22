@@ -467,8 +467,8 @@ public class ResourceRepositoryImpl extends CommonRepositoryImpl implements Reso
             }
             if (treeGridModel.getFieldMap() != null) {
                 tg.setFieldMap(new HashMap<>());
-                for (Map.Entry<String, Object> entry : treeGridModel.getFieldMap().entrySet()) {
-                    Object fieldValue = reflectHelper.getMethodValue(entry.getValue().toString());
+                for (Map.Entry<String, String> entry : treeGridModel.getFieldMap().entrySet()) {
+                    Object fieldValue = reflectHelper.getMethodValue(entry.getValue());
                     tg.getFieldMap().put(entry.getKey(), fieldValue.toString());
                 }
             }

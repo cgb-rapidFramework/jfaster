@@ -183,7 +183,7 @@ public class FunctionServiceImpl implements FunctionService {
 
     @Override
     public String search(String name) {
-        CriteriaQuery<Function> cq = new CriteriaQuery<>(Function.class);
+        CriteriaQuery cq = new CriteriaQuery(Function.class);
         cq.notEq("functionLevel", Short.valueOf("0"));
         if (name == null || "".equals(name)) {
             cq.isNull(PARENT_FUNCTION);
@@ -232,7 +232,7 @@ public class FunctionServiceImpl implements FunctionService {
 
     @Override
     public List<ComboTree> setParentFunction(String selfId, String comboTreeId) {
-        CriteriaQuery<Function> cq = new CriteriaQuery<>(Function.class);
+        CriteriaQuery cq = new CriteriaQuery(Function.class);
         if (null != selfId) {
             cq.notEq("id", selfId);
         }
@@ -255,7 +255,7 @@ public class FunctionServiceImpl implements FunctionService {
 
     @Override
     public List<TreeGrid> findTreeGrid(String selfId, String treeGridId) {
-        CriteriaQuery<Function> cq = new CriteriaQuery<>(Function.class);
+        CriteriaQuery cq = new CriteriaQuery(Function.class);
         if (selfId != null) {
             cq.notEq("id", selfId);
         }

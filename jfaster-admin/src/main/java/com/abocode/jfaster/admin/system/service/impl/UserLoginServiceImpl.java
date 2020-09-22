@@ -28,10 +28,10 @@ public class UserLoginServiceImpl implements UserLoginService {
     private LanguageRepository mutiLangService;
     @Override
     public Map<String, Object> getLoginMap(User u, String orgId, String ip) {
-        Map<String, Object> attrMap = new HashMap();
+        Map<String, Object> attrMap = new HashMap<>();
         if (ConvertUtils.isEmpty(orgId)) { // 没有传组织机构参数，则获取当前用户的组织机构
             //获取默认部门
-            Long orgNum = systemService.queryForCount("select count(1) from t_s_user_org where user_id =?", new Object[]{u.getId()});
+            Long orgNum = systemService.queryForCount("select count(1) from t_s_user_org where user_id =?", u.getId());
             if (orgNum > 1) {
                 User res = new User();
                 res.setId(u.getId());
@@ -52,7 +52,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 
     @Override
     public List<Role> cahModelMap(ModelMap modelMap, String id) {
-        List<Role> roleList = new ArrayList();
+        List<Role> roleList = new ArrayList<>();
         List<RoleUser> rUsers = systemService.findAllByProperty(RoleUser.class, "user.id",id);
         StringBuilder roleBuilder=new StringBuilder();
         for (RoleUser ru : rUsers) {

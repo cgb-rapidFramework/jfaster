@@ -4,6 +4,7 @@ import com.abocode.jfaster.core.persistence.hibernate.hql.HqlGenerateUtil;
 import com.abocode.jfaster.core.repository.DataGridParam;
 import com.abocode.jfaster.core.repository.SortDirection;
 import lombok.Data;
+import org.apache.poi.ss.formula.functions.T;
 import org.hibernate.criterion.*;
 import org.hibernate.type.Type;
 import org.springframework.util.StringUtils;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Data
-public class CriteriaQuery<T> {
+public class CriteriaQuery {
     /**
      * 当前页
      */
@@ -151,7 +152,7 @@ public class CriteriaQuery<T> {
      *               表示法cq.add(cq.or(cq.and(cq, 0, 1), cq, 2))
      * @return
      */
-    public Criterion and(CriteriaQuery<T> query, int source, int dest) {
+    public Criterion and(CriteriaQuery query, int source, int dest) {
         return Restrictions.and(query.getCriterionList().getParas(source),
                 query.getCriterionList().getParas(dest));
     }
@@ -165,25 +166,10 @@ public class CriteriaQuery<T> {
      *              1));
      * @return
      */
-    public Criterion and(Criterion c, CriteriaQuery<T> query, int souce) {
+    public Criterion and(Criterion c, CriteriaQuery query, int souce) {
         return Restrictions.and(c, query.getCriterionList().getParas(souce));
     }
 
-    /**
-     * 根据CriterionList组合嵌套条件
-     */
-    public Criterion getOrCriterion(CriterionList list) {
-        Criterion c1 = null;
-        Criterion c2 = null;
-        Criterion c3 = null;
-        c1 = list.getParas(0);
-        for (int i = 1; i < list.size(); i++) {
-            c2 = list.getParas(i);
-            c3 = or(c1, c2);
-            c1 = c3;
-        }
-        return c3;
-    }
 
     /**
      * 设置组合后的Criterion OR关系
@@ -216,7 +202,7 @@ public class CriteriaQuery<T> {
      * @param dest   条件2
      * @return
      */
-    public Criterion or(CriteriaQuery<T> query, int source, int dest) {
+    public Criterion or(CriteriaQuery query, int source, int dest) {
         return Restrictions.or(query.getCriterionList().getParas(source), query
                 .getCriterionList().getParas(dest));
     }
@@ -228,7 +214,7 @@ public class CriteriaQuery<T> {
      * @param query  1
      * @param source
      */
-    public Criterion or(Criterion c, CriteriaQuery<T> query, int source) {
+    public Criterion or(Criterion c, CriteriaQuery query, int source) {
         return Restrictions.or(c, query.getCriterionList().getParas(source));
     }
 
@@ -464,7 +450,7 @@ public class CriteriaQuery<T> {
         return map;
     }
 
-    public CriteriaQuery<T> buildParameters(Object query, Map<String, String[]> parameterMap, DataGridParam dataGridParam) {
+    public CriteriaQuery buildParameters(Object query, Map<String, String[]> parameterMap, DataGridParam dataGridParam) {
         this.page = dataGridParam.getPage();
         this.field = dataGridParam.getField();
         this.dataGridParam = dataGridParam;
@@ -473,7 +459,7 @@ public class CriteriaQuery<T> {
         return this;
     }
 
-    public CriteriaQuery<T> buildParameters(Object query, DataGridParam dataGridParam) {
+    public CriteriaQuery buildParameters(Object query, DataGridParam dataGridParam) {
         this.page = dataGridParam.getPage();
         this.field = dataGridParam.getField();
         this.dataGridParam = dataGridParam;
@@ -482,7 +468,7 @@ public class CriteriaQuery<T> {
         return this;
     }
 
-    public CriteriaQuery<T> buildDataGrid(DataGridParam dg) {
+    public CriteriaQuery buildDataGrid(DataGridParam dg) {
         this.page = dg.getPage();
         this.field = dg.getField();
         this.dataGridParam = dg;

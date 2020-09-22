@@ -21,6 +21,7 @@ import java.util.List;
  */
 @Service
 public class RuleServiceImpl implements RuleService {
+    public static final String COMMON_OPERATION = "common.operation";
     @Autowired
     private SystemRepository systemService;
     @Autowired
@@ -30,7 +31,7 @@ public class RuleServiceImpl implements RuleService {
     public void del(DataRule operation) {
         operation = systemService
                 .find(DataRule.class, operation.getId());
-        String message = LanguageUtils.paramDelSuccess("common.operation");
+        String message = LanguageUtils.paramDelSuccess(COMMON_OPERATION);
         userService.delete(operation);
         systemService.addLog(message, Globals.LOG_TYPE_DEL,
                 Globals.LOG_LEVEL);
@@ -40,13 +41,13 @@ public class RuleServiceImpl implements RuleService {
     public void save(DataRule operation) {
         String message;
         if (StrUtils.isNotEmpty(operation.getId())) {
-            message = LanguageUtils.paramUpdSuccess("common.operation");
+            message = LanguageUtils.paramUpdSuccess(COMMON_OPERATION);
             userService.saveOrUpdate(operation);
             systemService.addLog(message, Globals.LOG_TYPE_UPDATE,
                     Globals.LOG_LEVEL);
         } else {
             if (justHaveDataRule(operation) == 0) {
-                message = LanguageUtils.paramAddSuccess("common.operation");
+                message = LanguageUtils.paramAddSuccess(COMMON_OPERATION);
                 userService.save(operation);
                 systemService.addLog(message, Globals.LOG_TYPE_INSERT,
                         Globals.LOG_LEVEL);
