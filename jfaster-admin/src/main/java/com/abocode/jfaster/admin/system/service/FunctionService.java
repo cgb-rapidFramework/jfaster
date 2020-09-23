@@ -10,7 +10,6 @@ import com.abocode.jfaster.system.entity.User;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public interface FunctionService {
     void initMenu();
@@ -33,7 +32,7 @@ public interface FunctionService {
 
     List<Operation> findById(String functionId, String userId);
 
-    DataRuleDto installDataRule(Set<String> dataRuleCodes);
+    DataRuleDto installDataRule(String[] dataRuleCodes);
 
     boolean hasMenuAuth(String requestPath, String clickFunctionId);
 }

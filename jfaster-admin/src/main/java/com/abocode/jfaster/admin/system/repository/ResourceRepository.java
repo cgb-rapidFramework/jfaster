@@ -10,6 +10,7 @@ import com.abocode.jfaster.core.repository.CommonRepository;
 import com.abocode.jfaster.system.entity.Org;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public interface ResourceRepository extends CommonRepository {
@@ -25,7 +26,7 @@ public interface ResourceRepository extends CommonRepository {
      * @param uploadFile
      * @return
      */
-    HttpServletResponse viewOrDownloadFile(FileUploadDto uploadFile);
+    HttpServletResponse viewOrDownloadFile(FileUploadDto uploadFile) throws UnsupportedEncodingException;
 
     /**
      * 生成XML文件
@@ -58,8 +59,8 @@ public interface ResourceRepository extends CommonRepository {
      * @param recursive 是否递归加载所有子节点
      * @return List<ComboTree>
      */
-    List<ComboTree> ComboTree(List all, ComboTreeModel comboTreeModel,
-                              List in, boolean recursive);
+    List<ComboTree> buildComboTree(List<?> all, ComboTreeModel comboTreeModel,
+                                   List<?> in, boolean recursive);
 
 
     /**
@@ -69,15 +70,8 @@ public interface ResourceRepository extends CommonRepository {
      * @param treeGridModel
      * @return
      */
-    List<TreeGrid> treegrid(List all, TreeGridModel treeGridModel);
+    List<TreeGrid> getTreeGrid(List<?> all, TreeGridModel treeGridModel);
 
-    /**
-     * 读取上传文件的内容
-     *
-     * @param uploadFile
-     * @return
-     */
-    String getUploadFileContent(FileUploadDto uploadFile);
 
     void readAndParserXml(String ctxPath, FileUploadDto uploadFile);
 

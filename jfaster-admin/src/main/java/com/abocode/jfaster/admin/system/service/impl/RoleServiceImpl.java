@@ -111,7 +111,7 @@ public class RoleServiceImpl implements RoleService {
             }
         }
         ComboTreeModel comboTreeModel = new ComboTreeModel("id", "username", "user");
-        return resourceRepository.ComboTree(loginActionlist, comboTreeModel, loginActionlist, false);
+        return resourceRepository.buildComboTree(loginActionlist, comboTreeModel, loginActionlist, false);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class RoleServiceImpl implements RoleService {
         List<Function> loginActionList = this.systemRepository.getFucntionList(roleId);
         ComboTreeModel comboTreeModel = new ComboTreeModel("id",
                 "functionName", "Functions");
-        List<ComboTree> comboTrees = resourceRepository.ComboTree(functionBeanList, comboTreeModel,
+        List<ComboTree> comboTrees = resourceRepository.buildComboTree(functionBeanList, comboTreeModel,
                 BeanToTagConverter.convertFunctions(loginActionList), false);
         LanguageUtils.setLanguageTree(comboTrees);
         return comboTrees;
@@ -166,7 +166,7 @@ public class RoleServiceImpl implements RoleService {
         FunctionSortUtils.sort(functionList);
         TreeGridModel treeGridModel = new TreeGridModel();
         treeGridModel.setRoleId(roleId);
-        return resourceRepository.treegrid(functionList, treeGridModel);
+        return resourceRepository.getTreeGrid(functionList, treeGridModel);
     }
 
     @Override

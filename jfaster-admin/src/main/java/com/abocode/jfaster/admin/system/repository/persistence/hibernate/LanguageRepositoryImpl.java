@@ -64,41 +64,4 @@ public class LanguageRepositoryImpl extends CommonRepositoryImpl implements Lang
         LanguageContainer.getLanguageMap().clear();
         initLanguage();
     }
-
-
-    /**
-     * 启动执行 ---begin
-     */
-
-    /**
-     * 检查国际化内容或lang_key是否已经存在
-     *
-     * @param lang_key
-     * @return 如果存在则返回true，否则false
-     */
-    public boolean existLangKey(String lang_key) {
-        List<Language> langKeyList = findAllByProperty(Language.class, "langKey", lang_key);
-        if (!langKeyList.isEmpty()) {
-            return true;
-        }
-
-        return false;
-    }
-
-
-    /**
-     * 检查国际化内容或context是否已经存在
-     *
-     * @param lang_context
-     * @return 如果存在则返回true，否则false
-     */
-    public boolean existLangContext(String lang_context) {
-        List<Language> langContextList = findAllByProperty(Language.class, "langContext", lang_context);
-        if (!langContextList.isEmpty()) {
-            return true;
-        }
-
-        return false;
-    }
-
 }

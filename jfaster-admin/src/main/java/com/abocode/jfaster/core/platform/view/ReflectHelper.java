@@ -95,7 +95,6 @@ public class ReflectHelper {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-
         }
         return null;
     }

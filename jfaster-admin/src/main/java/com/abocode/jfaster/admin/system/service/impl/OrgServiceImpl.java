@@ -103,14 +103,14 @@ public class OrgServiceImpl implements OrgService {
         fieldMap.put("orgCode", "orgCode");
         fieldMap.put("orgType", "orgType");
         treeGridModel.setFieldMap(fieldMap);
-        return resourceService.treegrid(departList, treeGridModel);
+        return resourceService.getTreeGrid(departList, treeGridModel);
     }
 
     @Override
     public List<ComboTree> buildComboTree() {
         List<Org> departsList = systemRepository.findByHql("from Org where parentOrg.id is null");
         ComboTreeModel comboTreeModel = new ComboTreeModel("id", "departname", "orgs");
-        return resourceService.ComboTree(departsList, comboTreeModel, null, true);
+        return resourceService.buildComboTree(departsList, comboTreeModel, null, true);
     }
     /**
      * 保存 组织机构-用户 关系信息

@@ -6,8 +6,8 @@ import com.abocode.jfaster.system.entity.Type;
 import com.abocode.jfaster.system.entity.TypeGroup;
 
 import java.util.List;
-import java.util.Set;
- public  interface SystemRepository extends CommonRepository {
+
+public  interface SystemRepository extends CommonRepository {
 
 	/**
 	 * 日志添加
@@ -29,14 +29,14 @@ import java.util.Set;
 	 * @param functionId
 	 * @return
 	 */
-	  Set<String> getOperationCodesByUserIdAndFunctionId(String userId,String functionId);
+	  String[] getOperationCodesByUserIdAndFunctionId(String userId, String functionId);
 	/**
 	 * 根据角色ID 和 菜单Id 获取 具有操作权限的按钮Codes
 	 * @param roleId
 	 * @param functionId
 	 * @return
 	 */
-	  Set<String> getOperationCodesByRoleIdAndFunctionId(String roleId,String functionId);
+	  String[] getOperationCodesByRoleIdAndFunctionId(String roleId, String functionId);
 
 	/**
 	 * 对数据字典进行缓存
@@ -73,9 +73,9 @@ import java.util.Set;
 	  * @throws
 	 */
 	
-	  Set<String> getOperationCodesByRoleIdAndruleDataId(String roleId,String functionId);
+	  Object getOperationCodesByRoleIdAndruleDataId(String roleId, String functionId);
 	
-	  Set<String> getOperationCodesByUserIdAndDataId(String userId,String functionId);
+	  String[] getOperationCodesByUserIdAndDataId(String userId, String functionId);
 	
 	/**
 	 * 加载所有图标

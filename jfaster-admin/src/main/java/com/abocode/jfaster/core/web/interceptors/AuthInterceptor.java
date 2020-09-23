@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -84,7 +83,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             //Step.1 第一部分处理页面表单和列表的页面控件权限（页面表单字段+页面按钮等控件）
             if (!ConvertUtils.isEmpty(functionId)) {
                 //获取菜单对应的页面控制权限（包括表单字段和操作按钮）
-                Set<String> operationCodes = systemService.getOperationCodesByUserIdAndFunctionId(client.getUser().getId(), functionId);
+                String [] operationCodes = systemService.getOperationCodesByUserIdAndFunctionId(client.getUser().getId(), functionId);
                 request.setAttribute(Globals.OPERATION_CODES, operationCodes);
             }
             List<Operation> operations = functionService.findById(functionId, client.getUser().getId());
@@ -92,7 +91,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
             //数据权限规则的查询
             //查询所有的当前这个用户所对应的角色和菜单的datarule的数据规则id
-            Set<String> dataRuleCodes = systemService.getOperationCodesByUserIdAndDataId(client.getUser().getId(), functionId);
+            String[] dataRuleCodes = systemService.getOperationCodesByUserIdAndDataId(client.getUser().getId(), functionId);
             request.setAttribute("dataRulecodes", dataRuleCodes);
             DataRuleDto dataRuleDto = functionService.installDataRule(dataRuleCodes);
             request.setAttribute(Globals.MENU_DATA_AUTHOR_RULES, dataRuleDto.getHqlDataRules()); // 3.往list里面增量存指

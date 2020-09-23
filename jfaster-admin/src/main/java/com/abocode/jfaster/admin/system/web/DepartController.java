@@ -152,7 +152,7 @@ public class DepartController {
     public List<ComboTree> setPFunction(@RequestParam String  selfId, ComboTree comboTree,HttpServletRequest request) {
         List<Org> departsList = orgService.findAll(selfId, comboTree.getId());
         ComboTreeModel comboTreeModel = new ComboTreeModel("id", "departname", "Departs");
-        return resourceService.ComboTree(departsList, comboTreeModel, null, true);
+        return resourceService.buildComboTree(departsList, comboTreeModel, null, true);
 
     }
 

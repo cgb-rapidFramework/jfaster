@@ -47,7 +47,7 @@ public class TerritoryServiceImpl implements TerritoryService {
         treeGridModel.setIdField("id");
         treeGridModel.setChildList("Territorys");
         treeGridModel.setOrder("territorySort");
-        return resourceRepository.treegrid(territoryList, treeGridModel);
+        return resourceRepository.getTreeGrid(territoryList, treeGridModel);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class TerritoryServiceImpl implements TerritoryService {
         cq.add();
         List<Territory> territoryList = systemRepository.findListByCq(cq, false);
         ComboTreeModel comboTreeModel = new ComboTreeModel("id", "territoryName", "territories");
-        return resourceRepository.ComboTree(territoryList, comboTreeModel, null, false);
+        return resourceRepository.buildComboTree(territoryList, comboTreeModel, null, false);
     }
 
     @Override

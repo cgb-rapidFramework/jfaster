@@ -300,7 +300,7 @@ public class RoleController {
         cq.eq("status", Short.valueOf("0"));
         cq.add();
         List<Operation> operationList = this.systemRepository.findListByCq(cq, false);
-        Set<String> operationCodes = systemRepository.getOperationCodesByRoleIdAndFunctionId(roleId, functionId);
+        String[] operationCodes = systemRepository.getOperationCodesByRoleIdAndFunctionId(roleId, functionId);
         request.setAttribute("operationList", operationList);
         request.setAttribute("operationcodes", operationCodes);
         request.setAttribute("functionId", functionId);

@@ -247,7 +247,7 @@ public class FunctionServiceImpl implements FunctionService {
                 cq, false);
         ComboTreeModel comboTreeModel = new ComboTreeModel("id",
                 FUNCTION_NAME, "Functions");
-        List<ComboTree> comboTrees = resourceService.ComboTree(functionList, comboTreeModel,
+        List<ComboTree> comboTrees = resourceService.buildComboTree(functionList, comboTreeModel,
                 null, false);
         LanguageUtils.setLanguageTree(comboTrees);
         return comboTrees;
@@ -283,7 +283,7 @@ public class FunctionServiceImpl implements FunctionService {
         treeGridModel.setOrder("functionOrder");
         treeGridModel.setFunctionType("functionType");
 
-        List<TreeGrid> treeGrids = resourceService.treegrid(functionList, treeGridModel);
+        List<TreeGrid> treeGrids = resourceService.getTreeGrid(functionList, treeGridModel);
         LanguageUtils.setLanguageTree(treeGrids);
         return treeGrids;
     }
@@ -532,7 +532,7 @@ public class FunctionServiceImpl implements FunctionService {
     }
 
     @Override
-    public DataRuleDto installDataRule(Set<String> dataRuleCodes) {
+    public DataRuleDto installDataRule(String[] dataRuleCodes) {
         //Step.2  第二部分处理列表数据级权限
         //小川 -- 菜单数据规则集合(数据权限)
         List<HqlDataRule> menuHqlDataRules = new ArrayList<>();
