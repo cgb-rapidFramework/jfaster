@@ -19,7 +19,7 @@
         <docker.imageName>mrray/raybaas-peer</docker.imageName>
         <com.spotify.docker-maven-plugin.version>1.2.0</com.spotify.docker-maven-plugin.version>
         <grpc.version>1.23.0</grpc.version>
-        <spring-boot.version>2.0.7.RELEASE</spring-boot.version>
+        <spring-boot.version>2.5.12</spring-boot.version>
         <mrray-common.version>1.0-SNAPSHOT</mrray-common.version>
         <hk2.version>2.5.0</hk2.version>
         <mysql-connector.version>8.0.16</mysql-connector.version>
