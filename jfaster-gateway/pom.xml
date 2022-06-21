@@ -22,7 +22,7 @@
         <spring-boot.version>2.0.7.RELEASE</spring-boot.version>
         <mrray-common.version>1.0-SNAPSHOT</mrray-common.version>
         <hk2.version>2.5.0</hk2.version>
-        <mysql-connector.version>8.0.16</mysql-connector.version>
+        <mysql-connector.version>8.0.28</mysql-connector.version>
         <rocksdbjni.version>5.17.2</rocksdbjni.version>
         <bcprov-jdk15on.version>1.61</bcprov-jdk15on.version>
         <commons-pool2.version>2.6.1</commons-pool2.version>
